@@ -5,7 +5,12 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:lib": "ng build @ikilote/magma --configuration production && cp *.md dist/ikilote/magma",
+    "build:demo": "ng build magma-demo --configuration production",
+    "publish:lib": "cd dist/ikilote/magma && npm publish ",
     "watch": "ng build --watch --configuration development",
+    "lint": "ng lint @ikilote/magma",
+    "format": "npx prettier --write .",
     "test": "ng test"
   },
   "private": true,

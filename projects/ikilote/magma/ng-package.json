@@ -3,5 +3,12 @@
   "dest": "../../../dist/ikilote/magma",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    {
+      "glob": "**/*",
+      "input": "src/assets",
+      "output": "/assets/"
+    }
+  ]
 }

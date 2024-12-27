@@ -1,12 +1,32 @@
 {
   "name": "@ikilote/magma",
   "version": "0.0.1",
+  "description": "Personal components.",
+  "author": "Célian Veyssière",
+  "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^19.0.0",
-    "@angular/core": "^19.0.0"
+    "@angular/core": "^19.0.0",
+    "@angular/cdk": "^19.0.0"
   },
   "dependencies": {
     "tslib": "^2.3.0"
   },
-  "sideEffects": false
+  "repository": {
+    "type": "git",
+    "url": "git+https://git.ikilote.net/angular/magma.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://git.ikilote.net/angular/magma/-/issues"
+  },
+  "homepage": "https://git.ikilote.net/angular/magma#ikilotemagma",
+  "keywords": [
+    "typescript",
+    "angular",
+    "components"
+  ]
 }

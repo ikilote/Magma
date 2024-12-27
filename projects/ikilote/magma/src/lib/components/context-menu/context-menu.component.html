@@ -1,0 +1,15 @@
+@let context = items().contextMenu;
+<menu [style.--total]="context.length">
+  @for (item of context; track item; let index = $index) {
+    <li (click)="active(item)" [style.--position]="index" [attr.title]="item.label ? (item.label) : null">
+      @if (item.iconText) {
+        <span class="icon">{{ item.iconText }}</span>
+      } @else {
+        <span class="icon {{ item.icon }}"></span>
+      }
+      @if (item.label) {
+        <span class="label">{{ item.label }}</span>
+      }
+    </li>
+  }
+</menu>

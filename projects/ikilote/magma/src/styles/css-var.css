@@ -1,0 +1,134 @@
+@import '@angular/cdk/overlay-prebuilt.css';
+
+.cdk-overlay-container {
+  z-index: 10000;
+}
+
+.cdk-global-scrollblock {
+  overflow: hidden;
+}
+
+body,
+body.light-mode {
+  color-scheme: light;
+
+  /* palettes */
+  --primaryH: 190;
+  --L: 0%;
+  --L0: 10%;
+  --L1: 20%;
+  --L2: 30%;
+  --L3: 40%;
+  --L4: 50%;
+  --L5: 60%;
+  --L6: 70%;
+  --L7: 80%;
+  --L8: 85%;
+  --L9: 90%;
+  --LA: 95%;
+  --LB: 100%;
+}
+
+body.dark-mode {
+  color-scheme: dark;
+
+  /* palettes */
+  --primaryH: 210;
+  --L: 100%;
+  --L0: 95%;
+  --L1: 80%;
+  --L2: 70%;
+  --L3: 60%;
+  --L4: 50%;
+  --L5: 40%;
+  --L6: 35%;
+  --L7: 20%;
+  --L8: 10%;
+  --L9: 6%;
+  --LA: 5%;
+  --LB: 0%;
+
+}
+
+
+body {
+    /* palettes */
+    --primary0: hsl(var(--primaryH), 5%, var(--L0));
+    --primary1: hsl(var(--primaryH), 15%, var(--L1));
+    --primary2: hsl(var(--primaryH), 15%, var(--L2));
+    --primary3: hsl(var(--primaryH), 15%, var(--L3));
+    --primary4: hsl(var(--primaryH), 15%, var(--L4));
+    --primary5: hsl(var(--primaryH), 15%, var(--L5));
+    --primary6: hsl(var(--primaryH), 15%, var(--L6));
+    --primary7: hsl(var(--primaryH), 15%, var(--L7));
+    --primary8: hsl(var(--primaryH), 15%, var(--L8));
+    --primary9: hsl(var(--primaryH), 15%, var(--L9));
+    --primaryA: hsl(var(--primaryH), 5%, var(--LA));
+    --neutral: hsl(0, 0%, var(--L));
+    --neutral0: hsl(0, 0%, var(--L0));
+    --neutral1: hsl(0, 0%, var(--L1));
+    --neutral2: hsl(0, 0%, var(--L2));
+    --neutral3: hsl(0, 0%, var(--L3));
+    --neutral4: hsl(0, 0%, var(--L4));
+    --neutral5: hsl(0, 0%, var(--L5));
+    --neutral6: hsl(0, 0%, var(--L6));
+    --neutral7: hsl(0, 0%, var(--L7));
+    --neutral8: hsl(0, 0%, var(--L8));
+    --neutral9: hsl(0, 0%, var(--L9));
+    --neutralA: hsl(0, 0%, var(--LA));
+    --neutralB: hsl(0, 0%, var(--LB));
+    --alert0: hsl(0, 5%, var(--L0));
+    --alert1: hsl(0, 15%, var(--L1));
+    --alert2: hsl(0, 25%, var(--L2));
+    --alert3: hsl(0, 45%, var(--L3));
+    --alert4: hsl(0, 55%, var(--L4));
+    --alert5: hsl(0, 75%, var(--L5));
+    --alert6: hsl(0, 65%, var(--L6));
+    --alert7: hsl(0, 55%, var(--L7));
+    --alert8: hsl(0, 45%, var(--L8));
+    --alert9: hsl(0, 25%, var(--L9));
+    --alertA: hsl(0, 5%, var(--LA));
+    --success0: hsl(120, 5%, var(--L0));
+    --success1: hsl(120, 15%, var(--L1));
+    --success2: hsl(120, 25%, var(--L2));
+    --success3: hsl(120, 45%, var(--L3));
+    --success4: hsl(120, 55%, var(--L4));
+    --success5: hsl(120, 55%, var(--L5));
+    --success6: hsl(120, 65%, var(--L6));
+    --success7: hsl(120, 55%, var(--L7));
+    --success8: hsl(120, 45%, var(--L8));
+    --success9: hsl(120, 25%, var(--L9));
+    --successA: hsl(120, 5%, var(--LA));
+
+    /* dialog */
+    --dialog-backdrop-background: color-mix(in hsl, var(--primaryA) 60%, transparent);
+    --dialog-backdrop-background-no-filter: color-mix(in hsl, var(--primaryA) 70%, transparent);
+    --dialog-background: var(--neutral8);
+    --dialog-shadow-color: color-mix(in hsl, var(--neutralA) 30%, transparent);
+    --dialog-close-shadow-color: var(--neutral5);
+    --dialog-close-background: var(--neutral7);
+    --dialog-close-background-hover: var(--neutral5);
+
+    /* item content-box */
+    --content-title-text-color: var(--neutral);
+    --content-box-border: var(--neutral7);
+    --content-box-background: var(--neutral8);
+    --content-box-color: var(--neutral9);
+    --content-box-text-background: #000000bf;
+    --content-box-over-text: #fff;
+    --tile-add-file-background: var(--neutral8);
+    --tile-add-file-color: var(--neutral3);
+    --tile-info-text-color: #fff;
+    --tile-info-border-color: #fff;
+    --tile-info-border-color2: #000;
+    --tile-info-background: #fff5;
+
+    /* tabs */
+    --tabs-line-color: var(--neutral6);
+    --tab-border-color: var(--neutral6);
+    --tab-text-color: var(--neutral4);
+    --tab-select-border-color: var(--neutral4);
+    --tab-text-border-color: var(--neutral0);
+    --tab-hover-border-color: var(--neutral0);
+
+}

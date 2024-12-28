@@ -24,8 +24,8 @@ Add in `style.css`
 
 ```css
 @import '@angular/cdk/overlay-prebuilt.css';
-@import '@ikilote/magma/src/assets/styles/css-var.css';
-@import '@ikilote/magma/src/assets/styles/style.css';
+@import '../node_modules/@ikilote/magma/assets/styles/css-var.css';
+@import '../node_modules/@ikilote/magma/assets/styles/style.css';
 ```
 
 ## Development server

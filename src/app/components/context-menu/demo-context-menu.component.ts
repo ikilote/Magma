@@ -49,41 +49,7 @@ export class DemoContextMenuComponent {
                 action: data => {
                     this.test(data, 'hate');
                 },
-            },{
-              iconText: '🫵',
-              label: 'List',
-              action: data => {
-                  this.test(data, 'list');
-              },
-          },
-          {
-              iconText: '☝️',
-              label: 'Data',
-              action: data => {
-                  this.test(data, 'data');
-              },
-          },
-          {
-              iconText: '🫰',
-              label: 'Like',
-              action: data => {
-                  this.test(data, 'like');
-              },
-          },
-          {
-              iconText: '👐',
-              label: 'Love',
-              action: data => {
-                  this.test(data, 'love');
-              },
-          },
-          {
-              iconText: '👇',
-              label: 'Hate',
-              action: data => {
-                  this.test(data, 'hate');
-              },
-          }
+            }
         ],
         data: 'Data',
     };

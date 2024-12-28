@@ -1,5 +1,7 @@
 # @ikilote/magma
 
+[![npm version](https://badge.fury.io/js/@ikilote/magma.svg)](https://badge.fury.io/js/@ikilote/magma) [![Downloads](https://img.shields.io/npm/dm/@ikilote/magma.svg)](https://www.npmjs.com/package/@ikilote/magma) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md?ref_type=heads)
+
 Magma is a component library for my personal projects, because I don't want to copy/paste.
 
 It will evolve mainly according to my projects. But people want to use it and help, no worries.
@@ -11,6 +13,20 @@ It will evolve mainly according to my projects. But people want to use it and he
     - Circle in options
 - Dialog
 - Tabs
+
+# For start
+
+```sh
+npm i @ikilote/magma
+```
+
+Add in `style.css`
+
+```css
+@import '@angular/cdk/overlay-prebuilt.css';
+@import '@ikilote/magma/src/assets/styles/css-var.css';
+@import '@ikilote/magma/src/assets/styles/style.css';
+```
 
 ## Development server
 

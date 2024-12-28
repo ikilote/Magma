@@ -1,23 +1,22 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    HostBinding,
-    HostListener,
-    booleanAttribute,
-    inject,
-    input,
-    output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+  HostListener,
+  booleanAttribute,
+  inject,
+  input,
+  output,
 } from '@angular/core';
 
 @Component({
-    selector: 'dialog-cmp',
+    selector: 'mg-dialog',
     templateUrl: './dialog.component.html',
     styleUrls: ['./dialog.component.scss'],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DialogComponent {
+export class MagmaDialog {
     // inject
 
     private readonly cd = inject(ChangeDetectorRef);

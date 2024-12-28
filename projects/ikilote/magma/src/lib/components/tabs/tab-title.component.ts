@@ -1,32 +1,55 @@
-import { ChangeDetectionStrategy, Component, HostListener, inject, input, model } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostListener,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  inject,
+  input,
+  model,
+} from '@angular/core';
 
-import { TabsComponent } from './tabs.component';
+import { MagmaTabs } from './tabs.component';
 
 @Component({
-    selector: 'tab-title',
+    selector: 'mg-tab-title',
     templateUrl: './tab-title.component.html',
     styleUrls: ['./tab-title.component.scss'],
     host: {
         '[attr.id]': 'id()',
         '[class.selected]': 'selected()',
     },
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabTitleComponent {
+export class MagmaTabTitle implements OnInit, OnChanges {
     // inject
 
-    private readonly tabs = inject(TabsComponent, { host: true });
+    private readonly tabs = inject(MagmaTabs, { host: true });
 
     // input
 
-    readonly id = input<string>();
+    readonly id = input.required<string>();
     readonly selected = model<boolean>(false);
+
+    ngOnInit(): void {
+        if (this.selected()) {
+            this.onclick();
+        }
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['selected']?.currentValue) {
+            this.onclick();
+        }
+    }
 
     @HostListener('click')
     onclick() {
         if (this.tabs && this.id()) {
-            this.tabs.update(this.id()!);
+          setTimeout(() => {
+            this.tabs.update(this.id());
+          })
         }
     }
 }

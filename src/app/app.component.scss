@@ -1,0 +1,35 @@
+menu,
+ul {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    list-style: none;
+
+    li {
+        a {
+            display: block;
+            padding: 5px 10px;
+
+            &:hover,
+            &.active {
+                background: var(--neutral7);
+            }
+        }
+    }
+}
+
+:host {
+    display: flex;
+}
+
+menu {
+    background: var(--neutral9);
+    padding: 10px;
+}
+
+main {
+    flex: 1 1 0%;
+    padding: 0 20px 20px;
+    overflow: auto;
+    scrollbar-gutter: stable;
+}

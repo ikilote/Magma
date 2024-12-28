@@ -1,0 +1,12 @@
+pre {
+    padding: 5px;
+}
+
+pre,
+pre ::ng-deep * {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+tab-title {
+    text-transform: uppercase;
+}

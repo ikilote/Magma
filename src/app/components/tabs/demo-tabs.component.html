@@ -1,0 +1,28 @@
+<h1>Tabs</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form [formGroup]="ctrlForm">
+      <p>
+        <label><strong>id:</strong> <input formControlName="id" /></label>
+        <label><strong>title:</strong> <textarea formControlName="title"></textarea></label>
+        <label><strong>content:</strong> <textarea formControlName="content"></textarea></label>
+        <label><strong>selected:</strong> <input type="checkbox" formControlName="selected" /></label>
+      </p>
+      <button (click)="addTab()">Add</button>
+    </form>
+    <div>
+      <mg-tabs>
+        @for (item of tabs; track $index) {
+          <mg-tab-title [id]="item.id" [selected]="item.selected">{{ item.title }}</mg-tab-title>
+        }
+        @for (item of tabs; track $index) {
+          <mg-tab-content [id]="item.id">{{ item.content }}</mg-tab-content>
+        }
+      </mg-tabs>
+    </div>
+    <div>
+      <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    </div>
+  </section>
+}

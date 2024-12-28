@@ -64,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "@ikilote/magma-demo:build:production"
+              "buildTarget": "magma-demo:build:production"
             },
             "development": {
-              "buildTarget": "@ikilote/magma-demo:build:development"
+              "buildTarget": "magma-demo:build:development"
             }
           },
           "defaultConfiguration": "development"

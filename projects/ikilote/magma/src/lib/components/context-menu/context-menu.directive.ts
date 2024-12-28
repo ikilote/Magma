@@ -17,9 +17,8 @@ const connectedPosition: ConnectedPosition[] = [
 
 @Directive({
     selector: '[contextMenu]',
-    standalone: true,
 })
-export class ContextMenuDirective<T> {
+export class MagmaContextMenu<T> {
     private readonly overlay = inject(Overlay);
 
     static _overlayRef?: OverlayRef;
@@ -52,10 +51,10 @@ export class ContextMenuDirective<T> {
 
         overlayRef.backdropClick().subscribe(() => {
             overlayRef.dispose();
-            ContextMenuDirective._overlayRef = undefined;
+            MagmaContextMenu._overlayRef = undefined;
         });
 
-        ContextMenuDirective._overlayRef = overlayRef;
+        MagmaContextMenu._overlayRef = overlayRef;
 
         event.preventDefault();
         event.stopPropagation();
@@ -63,21 +62,21 @@ export class ContextMenuDirective<T> {
 
     @HostListener('window:contextmenu', ['$event'])
     onContextMenuContext(event: MouseEvent) {
-        if (ContextMenuDirective._overlayRef) {
+        if (MagmaContextMenu._overlayRef) {
             this.close(event);
         }
     }
 
     @HostListener('window:auxclick', ['$event'])
     onContextMenuAux(event: MouseEvent) {
-        if (event.button === 1 && ContextMenuDirective._overlayRef) {
+        if (event.button === 1 && MagmaContextMenu._overlayRef) {
             this.close(event);
         }
     }
 
     private close(event: MouseEvent) {
-        ContextMenuDirective._overlayRef!.dispose();
-        ContextMenuDirective._overlayRef = undefined;
+        MagmaContextMenu._overlayRef!.dispose();
+        MagmaContextMenu._overlayRef = undefined;
         event.preventDefault();
         event.stopPropagation();
     }

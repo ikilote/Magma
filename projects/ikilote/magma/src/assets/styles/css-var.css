@@ -1,55 +1,51 @@
-@import '@angular/cdk/overlay-prebuilt.css';
-
 .cdk-overlay-container {
-  z-index: 10000;
+    z-index: 10000;
 }
 
 .cdk-global-scrollblock {
-  overflow: hidden;
+    overflow: hidden;
 }
 
 body,
 body.light-mode {
-  color-scheme: light;
+    color-scheme: light;
 
-  /* palettes */
-  --primaryH: 190;
-  --L: 0%;
-  --L0: 10%;
-  --L1: 20%;
-  --L2: 30%;
-  --L3: 40%;
-  --L4: 50%;
-  --L5: 60%;
-  --L6: 70%;
-  --L7: 80%;
-  --L8: 85%;
-  --L9: 90%;
-  --LA: 95%;
-  --LB: 100%;
+    /* palettes */
+    --primaryH: 190;
+    --L: 0%;
+    --L0: 10%;
+    --L1: 20%;
+    --L2: 30%;
+    --L3: 40%;
+    --L4: 50%;
+    --L5: 60%;
+    --L6: 70%;
+    --L7: 80%;
+    --L8: 85%;
+    --L9: 90%;
+    --LA: 95%;
+    --LB: 100%;
 }
 
 body.dark-mode {
-  color-scheme: dark;
+    color-scheme: dark;
 
-  /* palettes */
-  --primaryH: 210;
-  --L: 100%;
-  --L0: 95%;
-  --L1: 80%;
-  --L2: 70%;
-  --L3: 60%;
-  --L4: 50%;
-  --L5: 40%;
-  --L6: 35%;
-  --L7: 20%;
-  --L8: 10%;
-  --L9: 6%;
-  --LA: 5%;
-  --LB: 0%;
-
+    /* palettes */
+    --primaryH: 210;
+    --L: 100%;
+    --L0: 95%;
+    --L1: 80%;
+    --L2: 70%;
+    --L3: 60%;
+    --L4: 50%;
+    --L5: 40%;
+    --L6: 35%;
+    --L7: 20%;
+    --L8: 10%;
+    --L9: 6%;
+    --LA: 5%;
+    --LB: 0%;
 }
-
 
 body {
     /* palettes */
@@ -100,6 +96,55 @@ body {
     --success9: hsl(120, 25%, var(--L9));
     --successA: hsl(120, 5%, var(--LA));
 
+    /* global */
+    --background: var(--primaryA);
+    --text-color: var(--primary0);
+    --menu-box-shadow-color: color-mix(in hsl, var(--box-shadow), transparent);
+    --header-background: var(--primary9);
+    --aside-background: var(--primary9);
+    --licence-color: var(--primary0);
+    --color-mode-border-color: var(--primary0);
+    --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
+
+    /* context-menu */
+    --context-menu-background: var(--primary8);
+    --context-menu-item: var(--primary7);
+    --context-menu-item-hover: var(--primary6);
+
+    /* default button */
+    --button-default-border-color: var(--neutral5);
+    --button-default-background: var(--neutral7);
+    --button-default-box-shadow: var(--neutral5);
+    --button-default-color: var(--neutral0);
+    --button-default-hover-border-color: var(--neutral9);
+    --button-default-hover-background: var(--neutral6);
+    --button-default-hover-box-shadow: var(--neutral7);
+    --button-default-focus-border-color: var(--primary2);
+
+    /* primary button */
+    --button-primary-border-color: var(--primary7);
+    --button-primary-background: var(--primary6);
+    --button-primary-box-shadow: var(--primaryA);
+    --button-primary-color: var(--primary0);
+    --button-primary-hover-border-color: var(--primary9);
+    --button-primary-hover-background: var(--primary6);
+    --button-primary-hover-box-shadow: var(--primary7);
+    --button-primary-focus-border-color: var(--primary3);
+
+    /* warn button */
+    --button-warn-border-color: var(--alert7);
+    --button-warn-background: var(--alert8);
+    --button-warn-box-shadow: var(--alertA);
+    --button-warn-color: var(--alert0);
+    --button-warn-hover-border-color: var(--alert9);
+    --button-warn-hover-background: var(--alert6);
+    --button-warn-hover-box-shadow: var(--alert7);
+    --button-warn-focus-border-color: var(--alert5);
+
+    /* link */
+    --link-color: var(--primary3);
+    --link-hover-color: var(--primary1);
+
     /* dialog */
     --dialog-backdrop-background: color-mix(in hsl, var(--primaryA) 60%, transparent);
     --dialog-backdrop-background-no-filter: color-mix(in hsl, var(--primaryA) 70%, transparent);
@@ -108,6 +153,15 @@ body {
     --dialog-close-shadow-color: var(--neutral5);
     --dialog-close-background: var(--neutral7);
     --dialog-close-background-hover: var(--neutral5);
+
+    /* input */
+    --input-border-color: var(--primary4);
+    --input-background: var(--primary8);
+    --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
+    --input-item-color: var(--neutral7);
+    --input-item-active-color: var(--neutral1);
+    --input-focus-border-color: var(--neutral5);
+    --input-color-shadow: var(--neutralA);
 
     /* item content-box */
     --content-title-text-color: var(--neutral);
@@ -131,4 +185,8 @@ body {
     --tab-text-border-color: var(--neutral0);
     --tab-hover-border-color: var(--neutral0);
 
+    /* scrollbar */
+    --scrollbar-color: var(--primary6);
+    --scrollbar-color-hover: var(--primary4);
+    --scrollbar-width: thin;
 }

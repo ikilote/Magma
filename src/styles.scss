@@ -1,1 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '@angular/cdk/overlay-prebuilt.css';
+@import 'highlight.js/styles/github.css';
+
+@import url('../projects/ikilote/magma/src/assets/styles/css-var.css');
+@import url('../projects/ikilote/magma/src/assets/styles/style.css');
+
+app-root {
+    display: block;
+    height: 100%;
+}

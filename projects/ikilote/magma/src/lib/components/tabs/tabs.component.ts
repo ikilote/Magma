@@ -1,20 +1,19 @@
 import { AfterContentInit, ChangeDetectionStrategy, Component, contentChildren, output } from '@angular/core';
 
-import { TabContentComponent } from './tab-content.component';
-import { TabTitleComponent } from './tab-title.component';
+import { MagmaTabContent } from './tab-content.component';
+import { MagmaTabTitle } from './tab-title.component';
 
 @Component({
-    selector: 'tabs',
+    selector: 'mg-tabs',
     templateUrl: './tabs.component.html',
     styleUrls: ['./tabs.component.scss'],
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabsComponent implements AfterContentInit {
+export class MagmaTabs implements AfterContentInit {
     // contentChildren
 
-    readonly titles = contentChildren(TabTitleComponent);
-    readonly content = contentChildren(TabContentComponent);
+    readonly titles = contentChildren(MagmaTabTitle);
+    readonly content = contentChildren(MagmaTabContent);
 
     // output
 
@@ -60,3 +59,6 @@ export class TabsComponent implements AfterContentInit {
         }
     }
 }
+
+
+export const MagmaTabsModule = [MagmaTabs, MagmaTabTitle, MagmaTabContent];

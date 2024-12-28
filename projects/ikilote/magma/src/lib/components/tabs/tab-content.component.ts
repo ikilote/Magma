@@ -1,16 +1,15 @@
 import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
 
 @Component({
-    selector: 'tab-content',
+    selector: 'mg-tab-content',
     templateUrl: './tab-content.component.html',
     styleUrls: ['./tab-content.component.scss'],
     host: {
         '[attr.id]': 'id()',
     },
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TabContentComponent {
+export class MagmaTabContent {
     // input
 
     readonly id = input<string>();

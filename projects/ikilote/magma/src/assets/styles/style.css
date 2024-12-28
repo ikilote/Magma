@@ -1,0 +1,210 @@
+body,
+html {
+    margin: 0;
+    background: var(--background);
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+}
+
+*,
+*:focus,
+*:hover {
+    transition-duration: 0.3s;
+    /* color not possible in Chromium (too slow) */
+    transition-property: background-color, opacity, border, box-shadow, text-shadow, outline;
+}
+
+* {
+    font-family: var(--font-family);
+}
+
+button,
+input::file-selector-button {
+    cursor: pointer;
+    margin: 0 5px;
+    outline: none;
+    box-shadow: 0 0 1px var(--button-default-box-shadow);
+    border: 2px solid var(--button-default-border-color);
+    border-radius: 5px;
+    background: var(--button-default-background);
+    padding: 10px;
+    color: var(--button-default-color);
+    caret-color: transparent;
+    font-size: 110%;
+}
+
+
+button,
+input::file-selector-button {
+    cursor: pointer;
+    margin: 0 5px;
+    outline: none;
+    box-shadow: 0 0 1px var(--button-default-box-shadow);
+    border: 2px solid var(--button-default-border-color);
+    border-radius: 5px;
+    background: var(--button-default-background);
+    padding: 10px;
+    color: var(--button-default-color);
+    caret-color: transparent;
+    font-size: 110%;
+
+    &:hover {
+        box-shadow: 0 0 6px var(--button-default-hover-box-shadow);
+        border: 2px solid var(--button-default-hover-border-color);
+        background: var(--button-default-hover-background);
+    }
+
+    &:focus {
+        border-color: var(--button-default-focus-border-color);
+    }
+}
+
+
+button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 100%;
+}
+
+button:disabled {
+  opacity: 0.25;
+
+  &:hover {
+      box-shadow: 0 0 1px var(--button-default-box-shadow);
+      border: 2px solid var(--button-default-border-color);
+      background: var(--button-default-background);
+  }
+}
+
+[type='file'] {
+  cursor: pointer;
+}
+
+[type='color'] {
+  min-width: 60px;
+  max-width: 200px;
+  height: 30px;
+}
+
+input:not(:focus-visible):invalid {
+  text-decoration: underline wavy var(--alert5);
+}
+
+button.primary {
+  --button-default-border-color: var(--button-primary-border-color);
+  --button-default-background: var(--button-primary-background);
+  --button-default-box-shadow: var(--button-primary-box-shadow);
+  --button-default-color: var(--button-primary-color);
+  --button-default-hover-border-color: var(--button-primary-hover-border-color);
+  --button-default-hover-background: var(--button-primary-hover-background);
+  --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
+  --button-default-focus-border-color: var(--button-primary-focus-border-color);
+}
+
+button.warn {
+  --button-default-border-color: var(--button-warn-border-color);
+  --button-default-background: var(--button-warn-background);
+  --button-default-box-shadow: var(--button-warn-box-shadow);
+  --button-default-color: var(--button-warn-color);
+  --button-default-hover-border-color: var(--button-warn-hover-border-color);
+  --button-default-hover-background: var(--button-warn-hover-background);
+  --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
+  --button-default-focus-border-color: var(--button-warn-focus-border-color);
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+
+  & > button {
+      margin: 0;
+  }
+
+  & > .line {
+      flex: 1 1 100%;
+  }
+}
+
+a {
+  cursor: pointer;
+  color: var(--link-color);
+  text-decoration: none;
+
+  &:hover {
+      color: var(--link-hover-color);
+  }
+
+  table & {
+      margin: auto 10px;
+  }
+}
+
+:where(label, .label):not(.name) {
+  font-weight: 700;
+  font-size: 90%;
+}
+
+:where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
+  box-sizing: border-box;
+  outline: 1px solid transparent;
+  border: 1px solid var(--input-border-color);
+  border-radius: 3px;
+  background: var(--input-background);
+  padding: 5px 3px;
+  width: 100%;
+  color: var(--text-color);
+  font-size: 14px;
+
+  &:disabled {
+      opacity: 0.5;
+  }
+
+  &:focus {
+      outline-color: var(--input-focus-border-color);
+  }
+}
+
+input:where([type='range'], [type='checkbox'], [type='radio']) {
+  accent-color: var(--primary5);
+}
+
+
+/* -------------------- scrollbar ------------------------------------------------------------ */
+
+body {
+  @supports selector(::-webkit-scrollbar) {
+      ::-webkit-scrollbar-button {
+          display: none;
+      }
+
+      ::-webkit-scrollbar {
+          width: 5px;
+      }
+
+      ::-webkit-scrollbar-thumb {
+          border-radius: 5px;
+          background: var(--scrollbar-color);
+
+          &:hover {
+              background: var(--scrollbar-color-hover);
+          }
+      }
+  }
+
+  @supports not selector(::-webkit-scrollbar-button) {
+      scrollbar-color: var(--scrollbar-color) transparent;
+      scrollbar-width: var(--scrollbar-width);
+  }
+}

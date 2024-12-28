@@ -1,0 +1,10 @@
+<mg-tabs>
+  @for (item of code(); track $index) {
+    <mg-tab-title [id]="item.type">{{ item.type }}</mg-tab-title>
+  }
+  @for (item of code(); track $index) {
+    <mg-tab-content [id]="item.type"
+      ><code><pre [highlight]="item.code" [language]="item.type"></pre></code
+    ></mg-tab-content>
+  }
+</mg-tabs>

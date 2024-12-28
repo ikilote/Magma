@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, HostListener, input } from '@angular/core';
 
-import { ContextMenuDirective } from './context-menu.directive';
+import { MagmaContextMenu } from './context-menu.directive';
 
 type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
     {
@@ -21,7 +21,7 @@ export interface ContextMenuData<T> {
     data: T;
 }
 
-export type ContextMenuMode = 'default' | 'bubble';
+export type ContextMenuMode = 'default' | 'bubble' | undefined;
 
 @Component({
     selector: 'context-menu',
@@ -41,8 +41,8 @@ export class ContextMenuComponent<T> {
 
     active(item: ContextMenuItem<T>) {
         item.action(this.items().data);
-        ContextMenuDirective._overlayRef!.dispose();
-        ContextMenuDirective._overlayRef = undefined;
+        MagmaContextMenu._overlayRef!.dispose();
+        MagmaContextMenu._overlayRef = undefined;
     }
 
     @HostListener('contextmenu', ['$event'])

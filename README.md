@@ -14,6 +14,10 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Dialog
 - Tabs
 
+# Demo
+
+See : [Demo](https://magma.ikilote.net/)
+
 # For start
 
 ```sh

@@ -29,7 +29,9 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/.htaccess",
+              "src/robots.txt"
             ],
             "styles": [
               "src/styles.scss"

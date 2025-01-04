@@ -1,13 +1,1 @@
-section {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-
-    & > :is(div, form) {
-        flex: 0 0 calc(100% / 3);
-    }
-}
-
-strong {
-    display: block;
-}
+@import url(../../demo/default.scss);

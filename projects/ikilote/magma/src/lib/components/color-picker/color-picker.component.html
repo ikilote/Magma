@@ -1,0 +1,34 @@
+<div class="value">
+  <div class="gradient">
+    <div class="cursor-zone" #cursorZone>
+      <div class="cursor" cdkDrag cdkDragBoundary=".cursor-zone" (cdkDragEnded)="dragEnd($event)"></div>
+    </div>
+  </div>
+</div>
+<div class="hue">
+  <input type="range" [(ngModel)]="rangeHue" min="0" max="360" orient="vertical" />
+</div>
+<div class="alpha">
+  <input type="range" [(ngModel)]="rangeAlpha" min="0" max="100" orient="vertical" />
+</div>
+<div
+  class="inputs"
+  [style.background]="
+    'hsla(' +
+    (360 - rangeHue) +
+    ' ' +
+    (100 - rangeSature) +
+    '% ' +
+    (50 + rangeSature / 2) * ((100 - rangeLight) / 100) +
+    '% / ' +
+    rangeAlpha +
+    '%)'
+  "
+>
+  hsla({{ 360 - rangeHue }} {{ 100 - rangeSature }}% {{ (50 + rangeSature / 2) * ((100 - rangeLight) / 100) }}% /
+  {{ rangeAlpha }}%)
+</div>
+<div>
+  hsla({{ 360 - rangeHue }} {{ 100 - rangeSature }}% {{ (50 + rangeSature / 2) * ((100 - rangeLight) / 100) }}% /
+  {{ rangeAlpha }}%)
+</div>

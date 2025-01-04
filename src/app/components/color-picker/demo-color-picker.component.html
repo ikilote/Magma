@@ -1,0 +1,33 @@
+<h1>Context menu</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form [formGroup]="ctrlForm">
+      <p>
+        <strong>contextMenuMode</strong>
+        <label><input formControlName="contextMenuMode" type="radio" value="default" />default (list)</label>
+        <label><input formControlName="contextMenuMode" type="radio" value="bubble" />bubble</label>
+      </p>
+      <p>
+        <strong>contextMenuDisabled</strong>
+        <label><input formControlName="contextMenuDisabled" type="radio" [value]="false" />enabled</label>
+        <label><input formControlName="contextMenuDisabled" type="radio" [value]="true" />disabled</label>
+      </p>
+    </form>
+    <div>
+      <div></div>
+
+      <div>
+        <color-picker></color-picker>
+      </div>
+    </div>
+    <div>
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+        ]"
+      ></code-tabs>
+    </div>
+  </section>
+}

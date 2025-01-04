@@ -1,0 +1,153 @@
+:host {
+    --thumb-height: 18px;
+    --thumb-width: 18px;
+
+    display: grid;
+    grid-template:
+        'value  hue    alpha'
+        'inputs inputs inputs' /
+        1fr auto auto;
+    gap: 10px 30px;
+}
+.value {
+    display: flex;
+    grid-area: value;
+}
+.hue {
+    display: flex;
+    grid-area: hue;
+    justify-content: center;
+    align-items: center;
+}
+.alpha {
+    display: flex;
+    grid-area: alpha;
+    justify-content: center;
+    align-items: center;
+}
+.inputs {
+    grid-area: inputs;
+}
+
+.gradient {
+    --margin: 10px;
+    margin: var(--margin);
+    background: linear-gradient(to left, black, transparent),
+        linear-gradient(hsl(calc(360 - var(--hue, 0)), 100%, 50%), hsl(calc(360 - var(--hue, 0)), 100%, 100%));
+    width: calc(100% - var(--margin) * 2);
+    height: calc(100% - var(--margin) * 2);
+}
+
+.cursor-zone {
+    position: relative;
+    --cursor-size: 10px;
+    margin: calc((var(--cursor-size) - 2px) / -2);
+    width: calc(100% + var(--cursor-size) - 2px);
+    height: calc(100% + var(--cursor-size) - 2px);
+}
+
+.cursor {
+    filter: invert(1);
+    cursor: pointer;
+    outline: 2px solid black;
+    border-radius: 50%;
+    width: var(--cursor-size);
+    height: var(--cursor-size);
+}
+
+// --------------------------------- RANGE ----------------------------------------------
+
+input[type='range'] {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+}
+/* Input Track */
+
+/* Chrome, Safari, Edge */
+input[type='range']::-webkit-slider-runnable-track {
+    border-radius: 0;
+    width: 20px;
+    height: 100%;
+}
+
+.alpha > ::-webkit-slider-runnable-track {
+    background:
+        conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left / 5px 5px
+            repeat,
+        linear-gradient(to bottom, black 0%, transparent 100%);
+}
+
+.hue > ::-webkit-slider-runnable-track {
+    background: linear-gradient(
+        to bottom in hsl,
+        hsl(0, 100%, 50%) 0%,
+        hsl(90, 100%, 50%) 25%,
+        hsl(180, 100%, 50%) 50%,
+        hsl(270, 100%, 50%) 75%,
+        hsl(360, 100%, 50%) 100%
+    );
+}
+
+/* Firefox */
+input[type='range']::-moz-range-track {
+    border: 1px solid black;
+    border-radius: 0;
+    width: 20px;
+    height: 100%;
+}
+
+.alpha > ::-moz-range-track {
+    background:
+        linear-gradient(to bottom, black 0%, transparent 100%),
+        conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left / 10px 10px
+            repeat;
+}
+
+.hue > ::-moz-range-track {
+    background: linear-gradient(
+        to bottom in hsl,
+        hsl(0, 100%, 50%) 0%,
+        hsl(90, 100%, 50%) 25%,
+        hsl(180, 100%, 50%) 50%,
+        hsl(270, 100%, 50%) 75%,
+        hsl(360, 100%, 50%) 100%
+    );
+}
+
+/* Input Thumb */
+
+/* Chrome, Safari, Edge*/
+input[type='range']::-webkit-slider-thumb {
+    appearance: none;
+    margin-top: calc((var(--track-height) / 2) - (var(--thumb-height) / 2));
+    border: 1px solid #000;
+    border-radius: 0;
+    width: var(--thumb-width);
+    height: var(--thumb-height);
+}
+
+.alpha > ::-webkit-slider-thumb {
+    background: hsl(0, 0%, calc(100% - var(--alpha, 0%)));
+}
+
+.hue > ::-webkit-slider-thumb {
+    background: hsl(calc(360 - var(--hue, 0)), 100%, 50%);
+}
+
+/* Firefox */
+input[type='range']::-moz-range-thumb {
+    appearance: none;
+    border: 1px solid #000;
+    border-radius: 0;
+    width: 30px;
+    height: 5px;
+}
+
+.alpha > ::-moz-range-thumb {
+    background: hsl(0, 0%, calc(100% - var(--alpha, 0%)));
+}
+
+.hue > ::-moz-range-thumb {
+    background: hsl(calc(360 - var(--hue, 0)), 100%, 50%);
+}

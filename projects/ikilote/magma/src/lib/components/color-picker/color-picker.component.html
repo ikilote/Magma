@@ -1,10 +1,11 @@
 <div class="value">
   <div class="gradient">
-    <div class="cursor-zone" #cursorZone>
+    <div class="cursor-zone" #cursorZone (click)="click($event)">
       <div
         class="cursor"
         cdkDrag
         cdkDragBoundary=".cursor-zone"
+        (cdkDragStarted)="dragStart()"
         (cdkDragEnded)="dragEnd($event)"
         [cdkDragFreeDragPosition]="pos"
         [class.negative]="rangeLight > 50"
@@ -27,14 +28,14 @@
   />
 </div>
 <div class="inputs">
-  <div class="color-view" [style.background]="hsla"></div>
-  <div>
+  <div class="color-view" [style.--background]="hsla"></div>
+  <div class="hsla">
     {{ hsla }}
   </div>
-  <div>
+  <div class="rgba">
     {{ rgba }}
   </div>
   <div>
-    {{ hexa }}
+    <input type="text" [ngModel]="hexa" (ngModelChange)="updateHex($event)" />
   </div>
 </div>

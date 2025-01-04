@@ -37,9 +37,19 @@
 }
 
 .color-view {
+    position: relative;
     grid-area: color-view;
     border: 1px solid #000;
+    background: conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left /
+        15px 15px repeat;
     width: 150px;
+
+    &::before {
+        display: block;
+        background: var(--background);
+        height: 100%;
+        content: '';
+    }
 }
 
 .gradient {
@@ -55,6 +65,8 @@
     position: relative;
     --cursor-size: 10px;
     margin: calc((var(--cursor-size) - 2px) / -2);
+    outline: 1px solid black;
+    outline-offset: -3px;
     width: calc(100% + var(--cursor-size) - 2px);
     height: calc(100% + var(--cursor-size) - 2px);
 }
@@ -69,6 +81,11 @@
     &.negative {
         outline: 2px solid white;
     }
+}
+
+.hsla,
+.rgba {
+    font-size: 13px;
 }
 
 // --------------------------------- RANGE ----------------------------------------------

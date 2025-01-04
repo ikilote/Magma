@@ -3,27 +3,28 @@ import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFo
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
- import { ColorPickerComponent } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaColorPicker, MagmaColorPickerComponent } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
     selector: 'demo-color-picker',
     templateUrl: './demo-color-picker.component.html',
     styleUrls: ['./demo-color-picker.component.scss'],
-    imports: [ColorPickerComponent, FormsModule, CodeTabsComponent, ReactiveFormsModule],
+    imports: [MagmaColorPickerComponent, MagmaColorPicker, FormsModule, CodeTabsComponent, ReactiveFormsModule],
 })
 export class DemoColorPickerComponent {
-
     ctrlForm: FormGroup<{
-         contextMenuDisabled: FormControl<boolean>;
+        contextMenuDisabled: FormControl<boolean>;
     }>;
 
     codeHtml = '';
     codeTs = ` `;
 
+    color = '';
+
     constructor(fb: NonNullableFormBuilder) {
         this.ctrlForm = fb.group({
-             contextMenuDisabled: new FormControl<boolean>(false, { nonNullable: true }),
+            contextMenuDisabled: new FormControl<boolean>(false, { nonNullable: true }),
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -54,5 +55,9 @@ export class DemoColorPickerComponent {
         }
 
         this.codeHtml = new Json2html(json).toString();
+    }
+
+    updateColor(color: string) {
+        this.color = color;
     }
 }

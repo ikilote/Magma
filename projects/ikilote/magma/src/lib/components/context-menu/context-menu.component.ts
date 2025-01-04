@@ -33,7 +33,7 @@ export type ContextMenuMode = 'default' | 'bubble' | undefined;
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContextMenuComponent<T> {
+export class MagmaContextMenuComponent<T> {
     // input
 
     readonly items = input.required<ContextMenuData<T>>();

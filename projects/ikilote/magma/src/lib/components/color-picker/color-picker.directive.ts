@@ -1,8 +1,18 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Directive, HostListener, booleanAttribute, inject, input } from '@angular/core';
+import {
+    Directive,
+    ElementRef,
+    HostListener,
+    OnDestroy,
+    OutputRefSubscription,
+    booleanAttribute,
+    inject,
+    input,
+    output,
+} from '@angular/core';
 
-import { ColorPickerComponent } from './color-picker.component';
+import { MagmaColorPickerComponent } from './color-picker.component';
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -14,16 +24,22 @@ const connectedPosition: ConnectedPosition[] = [
 @Directive({
     selector: '[colorPicker]',
 })
-export class MagmaColorPicker {
+export class MagmaColorPicker implements OnDestroy {
     private readonly overlay = inject(Overlay);
+    private readonly element = inject(ElementRef<HTMLElement>);
+
+    readonly colorPicker = input<string>();
+    readonly colorPickerDisabled = input(false, { transform: booleanAttribute });
 
     static _overlayRef?: OverlayRef;
 
-    contextMenuDisabled = input(false, { transform: booleanAttribute });
+    colorChange = output<string>();
 
-    @HostListener('contextmenu', ['$event'])
+    private updateEmit?: OutputRefSubscription;
+
+    @HostListener('click', ['$event'])
     async onContextMenu(event: MouseEvent) {
-        if (this.contextMenuDisabled()) {
+        if (this.colorPickerDisabled()) {
             return;
         }
 
@@ -34,14 +50,30 @@ export class MagmaColorPicker {
             scrollStrategy: this.overlay.scrollStrategies.block(),
             positionStrategy: this.overlay
                 .position()
-                .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
-                .withPositions(connectedPosition),
+                .flexibleConnectedTo(this.element)
+                .withPositions([
+                    {
+                        originX: 'start',
+                        originY: 'bottom',
+                        overlayX: 'start',
+                        overlayY: 'top',
+                    },
+                    {
+                        originX: 'start',
+                        originY: 'top',
+                        overlayX: 'start',
+                        overlayY: 'bottom',
+                    },
+                ]),
         });
-        const userProfilePortal = new ComponentPortal(ColorPickerComponent);
+        const userProfilePortal = new ComponentPortal(MagmaColorPickerComponent);
 
         const component = overlayRef.attach(userProfilePortal);
-        // component.setInput('items', this.contextMenu());
-        // component.setInput('mode', this.contextMenuMode());
+        component.setInput('color', this.colorPicker());
+        component.setInput('embedded', true);
+        this.updateEmit = component.instance.update.subscribe(value => {
+            this.colorChange.emit(value);
+        });
 
         overlayRef.backdropClick().subscribe(() => {
             overlayRef.dispose();
@@ -52,6 +84,10 @@ export class MagmaColorPicker {
 
         event.preventDefault();
         event.stopPropagation();
+    }
+
+    ngOnDestroy(): void {
+        this.updateEmit?.unsubscribe();
     }
 
     @HostListener('window:contextmenu', ['$event'])

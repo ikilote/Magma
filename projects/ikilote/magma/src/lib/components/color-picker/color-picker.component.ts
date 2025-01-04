@@ -6,6 +6,7 @@ import {
     OnChanges,
     OnInit,
     SimpleChanges,
+    booleanAttribute,
     input,
     output,
     viewChild,
@@ -22,13 +23,15 @@ import Color from 'colorjs.io';
     host: {
         '[style.--hue]': 'rangeHue',
         '[style.--alpha.%]': 'rangeAlpha',
+        '[class.embedded]': 'embedded()',
     },
 })
-export class ColorPickerComponent implements OnInit, OnChanges, AfterViewInit {
+export class MagmaColorPickerComponent implements OnInit, OnChanges, AfterViewInit {
     readonly zone = viewChild.required<ElementRef<HTMLDivElement>>('cursorZone');
     readonly drag = viewChild.required(CdkDrag);
 
-    readonly color = input('#d94040');
+    readonly color = input('red');
+    readonly embedded = input(false, { transform: booleanAttribute });
 
     readonly update = output<string>();
 
@@ -51,7 +54,7 @@ export class ColorPickerComponent implements OnInit, OnChanges, AfterViewInit {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['color']) {
-            console.log('ngOnChanges');
+            this.updateWithHLS(new Color(this.color()));
         }
     }
 
@@ -99,7 +102,7 @@ export class ColorPickerComponent implements OnInit, OnChanges, AfterViewInit {
         const hls = color.toGamut({ space: 'hsl' }).to('hsl');
 
         // value calculation
-        this.rangeHue = hls.h;
+        this.rangeHue = 360 - hls.h;
         this.rangeAlpha = hls.alpha;
         this.rangeSature = 100 - hls.s;
         this.rangeLight = 100 - (100 * hls.l) / (100 - hls.s / 2);

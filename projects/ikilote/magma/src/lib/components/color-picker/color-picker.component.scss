@@ -8,6 +8,12 @@
         'inputs inputs inputs' /
         340px auto auto;
     gap: 10px 30px;
+
+    &.embedded {
+        box-shadow: 2px 2px 5px;
+        background-color: #ddd;
+        padding: 10px;
+    }
 }
 .value {
     display: flex;

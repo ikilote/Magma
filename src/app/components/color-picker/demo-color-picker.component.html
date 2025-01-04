@@ -10,10 +10,33 @@
       </p>
     </form>
     <div>
-      <div></div>
+      <h4>Component</h4>
 
+      <color-picker></color-picker>
+    </div>
+    <div>
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+        ]"
+      ></code-tabs>
+    </div>
+  </section>
+
+  <hr />
+
+  <section>
+    <form [formGroup]="ctrlForm">
+      <p>
+        <strong>contextMenuDisabled</strong>
+        <label><input formControlName="contextMenuDisabled" type="radio" [value]="true" />disabled</label>
+      </p>
+    </form>
+    <div>
+      <h4>Directive</h4>
       <div>
-        <color-picker></color-picker>
+        <div [colorPicker]="color || 'red'" (colorChange)="updateColor($event)">Click me {{ color }}</div>
       </div>
     </div>
     <div>

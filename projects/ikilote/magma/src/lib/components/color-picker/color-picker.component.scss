@@ -6,7 +6,7 @@
     grid-template:
         'value  hue    alpha'
         'inputs inputs inputs' /
-        1fr auto auto;
+        340px auto auto;
     gap: 10px 30px;
 }
 .value {
@@ -26,7 +26,20 @@
     align-items: center;
 }
 .inputs {
+    display: grid;
     grid-area: inputs;
+    grid-template:
+        'color-view hsla'
+        'color-view rgba'
+        'color-view hexa' /
+        auto 1fr;
+    gap: 5px 30px;
+}
+
+.color-view {
+    grid-area: color-view;
+    border: 1px solid #000;
+    width: 150px;
 }
 
 .gradient {
@@ -47,12 +60,15 @@
 }
 
 .cursor {
-    filter: invert(1);
     cursor: pointer;
     outline: 2px solid black;
     border-radius: 50%;
     width: var(--cursor-size);
     height: var(--cursor-size);
+
+    &.negative {
+        outline: 2px solid white;
+    }
 }
 
 // --------------------------------- RANGE ----------------------------------------------

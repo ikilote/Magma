@@ -1,34 +1,40 @@
 <div class="value">
   <div class="gradient">
     <div class="cursor-zone" #cursorZone>
-      <div class="cursor" cdkDrag cdkDragBoundary=".cursor-zone" (cdkDragEnded)="dragEnd($event)"></div>
+      <div
+        class="cursor"
+        cdkDrag
+        cdkDragBoundary=".cursor-zone"
+        (cdkDragEnded)="dragEnd($event)"
+        [cdkDragFreeDragPosition]="pos"
+        [class.negative]="rangeLight > 50"
+      ></div>
     </div>
   </div>
 </div>
 <div class="hue">
-  <input type="range" [(ngModel)]="rangeHue" min="0" max="360" orient="vertical" />
+  <input type="range" [(ngModel)]="rangeHue" (ngModelChange)="updateColor()" min="0" max="360" orient="vertical" />
 </div>
 <div class="alpha">
-  <input type="range" [(ngModel)]="rangeAlpha" min="0" max="100" orient="vertical" />
+  <input
+    type="range"
+    [(ngModel)]="rangeAlpha"
+    (ngModelChange)="updateColor()"
+    min="0"
+    max="1"
+    step="0.001"
+    orient="vertical"
+  />
 </div>
-<div
-  class="inputs"
-  [style.background]="
-    'hsla(' +
-    (360 - rangeHue) +
-    ' ' +
-    (100 - rangeSature) +
-    '% ' +
-    (50 + rangeSature / 2) * ((100 - rangeLight) / 100) +
-    '% / ' +
-    rangeAlpha +
-    '%)'
-  "
->
-  hsla({{ 360 - rangeHue }} {{ 100 - rangeSature }}% {{ (50 + rangeSature / 2) * ((100 - rangeLight) / 100) }}% /
-  {{ rangeAlpha }}%)
-</div>
-<div>
-  hsla({{ 360 - rangeHue }} {{ 100 - rangeSature }}% {{ (50 + rangeSature / 2) * ((100 - rangeLight) / 100) }}% /
-  {{ rangeAlpha }}%)
+<div class="inputs">
+  <div class="color-view" [style.background]="hsla"></div>
+  <div>
+    {{ hsla }}
+  </div>
+  <div>
+    {{ rgba }}
+  </div>
+  <div>
+    {{ hexa }}
+  </div>
 </div>

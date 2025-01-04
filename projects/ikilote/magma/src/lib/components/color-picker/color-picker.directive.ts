@@ -19,7 +19,7 @@ export class MagmaColorPicker {
 
     static _overlayRef?: OverlayRef;
 
-     contextMenuDisabled = input(false, { transform: booleanAttribute });
+    contextMenuDisabled = input(false, { transform: booleanAttribute });
 
     @HostListener('contextmenu', ['$event'])
     async onContextMenu(event: MouseEvent) {
@@ -69,7 +69,7 @@ export class MagmaColorPicker {
     }
 
     private close(event: MouseEvent) {
-      MagmaColorPicker._overlayRef!.dispose();
+        MagmaColorPicker._overlayRef!.dispose();
         MagmaColorPicker._overlayRef = undefined;
         event.preventDefault();
         event.stopPropagation();

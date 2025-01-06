@@ -1,10 +1,10 @@
 import { CdkDrag, CdkDragEnd, Point } from '@angular/cdk/drag-drop';
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     OnChanges,
-    OnInit,
     SimpleChanges,
     booleanAttribute,
     input,
@@ -20,20 +20,22 @@ import Color from 'colorjs.io';
     templateUrl: './color-picker.component.html',
     styleUrls: ['./color-picker.component.scss'],
     imports: [FormsModule, CdkDrag],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--hue]': 'rangeHue',
         '[style.--alpha.%]': 'rangeAlpha',
         '[class.embedded]': 'embedded()',
+        '[class.on-drag]': 'startDrag',
     },
 })
-export class MagmaColorPickerComponent implements OnInit, OnChanges, AfterViewInit {
+export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     readonly zone = viewChild.required<ElementRef<HTMLDivElement>>('cursorZone');
     readonly drag = viewChild.required(CdkDrag);
 
-    readonly color = input('red');
+    readonly color = input<string | undefined>('');
     readonly embedded = input(false, { transform: booleanAttribute });
 
-    readonly update = output<string>();
+    readonly colorChange = output<string>();
 
     protected rangeHue = 0;
     protected rangeAlpha = 1;
@@ -46,29 +48,28 @@ export class MagmaColorPickerComponent implements OnInit, OnChanges, AfterViewIn
 
     protected pos: Point = { x: 0, y: 0 };
 
-    private startDrag = false;
-
-    ngOnInit(): void {
-        console.log('ngOnInit');
-    }
+    protected startDrag = false;
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes['color']) {
-            this.updateWithHLS(new Color(this.color()));
+        if (changes['color'] && changes['color'].currentValue) {
+            this.updateWithHLS(new Color(changes['color'].currentValue));
         }
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
-            this.updateWithHLS(new Color(this.color()));
+            const color = this.color();
+            if (color) {
+                this.updateWithHLS(new Color(color));
+            }
         }, 100);
     }
 
-    dragStart() {
+    protected dragStart() {
         this.startDrag = true;
     }
 
-    dragEnd(event: CdkDragEnd<any>) {
+    protected dragEnd(event: CdkDragEnd<any>) {
         const { x, y } = event.source._dragRef['_activeTransform'];
         const { clientWidth, clientHeight } = this.zone().nativeElement;
         this.rangeLight = Math.round((x / (clientWidth - 10)) * 100);
@@ -79,7 +80,7 @@ export class MagmaColorPickerComponent implements OnInit, OnChanges, AfterViewIn
         }, 10);
     }
 
-    updateHex(value: string) {
+    protected updateHex(value: string) {
         try {
             this.updateWithHLS(new Color(value));
         } catch (e) {
@@ -131,6 +132,6 @@ export class MagmaColorPickerComponent implements OnInit, OnChanges, AfterViewIn
         this.rgba = color.to('srgb').toString({ precision: 1 });
         this.hsla = color.to('hsl').toString();
 
-        this.update.emit(this.hexa);
+        this.colorChange.emit(this.hexa);
     }
 }

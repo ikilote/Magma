@@ -68,13 +68,19 @@
 }
 
 .cursor-zone {
-    position: relative;
     --cursor-size: 10px;
+
+    position: relative;
+    cursor: crosshair;
     margin: calc((var(--cursor-size) - 2px) / -2);
     outline: 1px solid black;
     outline-offset: -3px;
     width: calc(100% + var(--cursor-size) - 2px);
     height: calc(100% + var(--cursor-size) - 2px);
+}
+
+:host.on-drag .cursor-zone {
+    cursor: pointer;
 }
 
 .cursor {

@@ -5,47 +5,49 @@
     <form [formGroup]="ctrlForm">
       <p>
         <strong>contextMenuDisabled</strong>
-        <label><input formControlName="contextMenuDisabled" type="radio" [value]="false" />enabled</label>
-        <label><input formControlName="contextMenuDisabled" type="radio" [value]="true" />disabled</label>
+        <label><strong>value:</strong> <input formControlName="color" /></label>
       </p>
     </form>
     <div>
       <h4>Component</h4>
 
-      <color-picker></color-picker>
+      <color-picker [color]="ctrlForm.value.color" (colorChange)="colorChange($event)"></color-picker>
     </div>
     <div>
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      ></code-tabs>
+      <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
     </div>
   </section>
 
   <hr />
 
   <section>
-    <form [formGroup]="ctrlForm">
+    <form [formGroup]="ctrlFormPopup">
       <p>
-        <strong>contextMenuDisabled</strong>
-        <label><input formControlName="contextMenuDisabled" type="radio" [value]="true" />disabled</label>
+        <label><strong>colorPicker:</strong> <input formControlName="color" /></label>
+      </p>
+      <p>
+        <strong>colorPickerDisabled</strong>
+        <label><input formControlName="disabled" type="radio" [value]="false" />enabled</label>
+        <label><input formControlName="disabled" type="radio" [value]="true" />disabled</label>
       </p>
     </form>
     <div>
       <h4>Directive</h4>
       <div>
-        <div [colorPicker]="color || 'red'" (colorChange)="updateColor($event)">Click me {{ color }}</div>
+        <div>colorChange : {{ colorChangeValue }}</div>
+        <div>colorClose : {{ colorCloseValue }}</div>
+        <div
+          [colorPicker]="ctrlFormPopup.value.color"
+          [colorPickerDisabled]="ctrlFormPopup.value.disabled"
+          (colorChange)="colorChange($event)"
+          (colorClose)="colorClose($event)"
+        >
+          Click me
+        </div>
       </div>
     </div>
     <div>
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      ></code-tabs>
+      <code-tabs [code]="[{ type: 'html', code: codeHtmlPopup }]"></code-tabs>
     </div>
   </section>
 }

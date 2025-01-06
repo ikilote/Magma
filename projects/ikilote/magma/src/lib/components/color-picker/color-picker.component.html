@@ -9,6 +9,7 @@
         (cdkDragEnded)="dragEnd($event)"
         [cdkDragFreeDragPosition]="pos"
         [class.negative]="rangeLight > 50"
+        (click)="$event.stopPropagation()"
       ></div>
     </div>
   </div>
@@ -27,15 +28,17 @@
     orient="vertical"
   />
 </div>
-<div class="inputs">
-  <div class="color-view" [style.--background]="hsla"></div>
-  <div class="hsla">
-    {{ hsla }}
+@if (hexa) {
+  <div class="inputs">
+    <div class="color-view" [style.--background]="hsla"></div>
+    <div class="hsla">
+      {{ hsla }}
+    </div>
+    <div class="rgba">
+      {{ rgba }}
+    </div>
+    <div>
+      <input type="text" [ngModel]="hexa" (ngModelChange)="updateHex($event)" />
+    </div>
   </div>
-  <div class="rgba">
-    {{ rgba }}
-  </div>
-  <div>
-    <input type="text" [ngModel]="hexa" (ngModelChange)="updateHex($event)" />
-  </div>
-</div>
+}

@@ -23,6 +23,9 @@ const connectedPosition: ConnectedPosition[] = [
 
 @Directive({
     selector: '[colorPicker]',
+    host: {
+        '[class.color-picker]': 'true',
+    },
 })
 export class MagmaColorPicker implements OnDestroy {
     private readonly overlay = inject(Overlay);
@@ -34,6 +37,7 @@ export class MagmaColorPicker implements OnDestroy {
     static _overlayRef?: OverlayRef;
 
     colorChange = output<string>();
+    colorClose = output<string>();
 
     private updateEmit?: OutputRefSubscription;
 
@@ -68,16 +72,23 @@ export class MagmaColorPicker implements OnDestroy {
         });
         const userProfilePortal = new ComponentPortal(MagmaColorPickerComponent);
 
+        let color = this.colorPicker();
+        let initColor = color;
+
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('color', this.colorPicker());
         component.setInput('embedded', true);
-        this.updateEmit = component.instance.update.subscribe(value => {
+
+        this.updateEmit = component.instance.colorChange.subscribe(value => {
             this.colorChange.emit(value);
+            color = value;
         });
 
         overlayRef.backdropClick().subscribe(() => {
-            overlayRef.dispose();
-            MagmaColorPicker._overlayRef = undefined;
+            this.close();
+            if (color && color !== initColor) {
+                this.colorClose.emit(color);
+            }
         });
 
         MagmaColorPicker._overlayRef = overlayRef;
@@ -90,24 +101,13 @@ export class MagmaColorPicker implements OnDestroy {
         this.updateEmit?.unsubscribe();
     }
 
-    @HostListener('window:contextmenu', ['$event'])
-    onContextMenuContext(event: MouseEvent) {
-        if (MagmaColorPicker._overlayRef) {
-            this.close(event);
-        }
+    @HostListener('document:keydown.escape', ['$event'])
+    escape() {
+        this.close();
     }
 
-    @HostListener('window:auxclick', ['$event'])
-    onContextMenuAux(event: MouseEvent) {
-        if (event.button === 1 && MagmaColorPicker._overlayRef) {
-            this.close(event);
-        }
-    }
-
-    private close(event: MouseEvent) {
+    private close() {
         MagmaColorPicker._overlayRef!.dispose();
         MagmaColorPicker._overlayRef = undefined;
-        event.preventDefault();
-        event.stopPropagation();
     }
 }

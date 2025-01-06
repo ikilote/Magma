@@ -17,9 +17,11 @@ export class DemoColorPickerComponent {
 
     ctrlForm: FormGroup<{
         color: FormControl<string>;
+        alpha: FormControl<boolean>;
     }>;
     ctrlFormPopup: FormGroup<{
         color: FormControl<string>;
+        alpha: FormControl<boolean>;
         disabled: FormControl<boolean>;
     }>;
 
@@ -32,9 +34,11 @@ export class DemoColorPickerComponent {
     constructor() {
         this.ctrlForm = this.fb.group({
             color: new FormControl<string>('', { nonNullable: true }),
+            alpha: new FormControl<boolean>(true, { nonNullable: true }),
         });
         this.ctrlFormPopup = this.fb.group({
             color: new FormControl<string>('', { nonNullable: true }),
+            alpha: new FormControl<boolean>(true, { nonNullable: true }),
             disabled: new FormControl<boolean>(false, { nonNullable: true }),
         });
         this.codeGeneration();
@@ -66,6 +70,10 @@ export class DemoColorPickerComponent {
             attrs['color'] = this.ctrlForm.value.color;
         }
 
+        if (this.ctrlForm.value.alpha) {
+            attrs['alpha'] = null;
+        }
+
         attrs['(colorChange)'] = 'colorChange($event)';
 
         this.codeHtml = new Json2html(json).toString();
@@ -87,6 +95,10 @@ export class DemoColorPickerComponent {
             attrs['colorPicker'] = this.ctrlFormPopup.value.color;
         } else {
             attrs['colorPicker'] = null;
+        }
+
+        if (this.ctrlFormPopup.value.alpha) {
+            attrs['colorPickerAlpha'] = null;
         }
 
         if (this.ctrlFormPopup.value.disabled) {

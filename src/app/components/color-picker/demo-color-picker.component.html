@@ -4,14 +4,24 @@
   <section>
     <form [formGroup]="ctrlForm">
       <p>
-        <strong>contextMenuDisabled</strong>
+        <strong>color</strong>
         <label><strong>value:</strong> <input formControlName="color" /></label>
+      </p>
+      <p>
+        <strong>alpha</strong>
+        <label><input formControlName="alpha" type="radio" [value]="true" />enabled</label>
+        <label><input formControlName="alpha" type="radio" [value]="false" />disabled</label>
       </p>
     </form>
     <div>
       <h4>Component</h4>
 
-      <color-picker [color]="ctrlForm.value.color" (colorChange)="colorChange($event)"></color-picker>
+      <color-picker
+        [color]="ctrlForm.value.color"
+        [alpha]="ctrlForm.value.alpha"
+        (colorChange)="colorChange($event)"
+        (colorChange)="colorChange($event)"
+      ></color-picker>
     </div>
     <div>
       <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
@@ -26,7 +36,12 @@
         <label><strong>colorPicker:</strong> <input formControlName="color" /></label>
       </p>
       <p>
-        <strong>colorPickerDisabled</strong>
+        <strong>alpha</strong>
+        <label><input formControlName="alpha" type="radio" [value]="true" />enabled</label>
+        <label><input formControlName="alpha" type="radio" [value]="false" />disabled</label>
+      </p>
+      <p>
+        <strong>disabled</strong>
         <label><input formControlName="disabled" type="radio" [value]="false" />enabled</label>
         <label><input formControlName="disabled" type="radio" [value]="true" />disabled</label>
       </p>
@@ -34,8 +49,12 @@
     <div>
       <h4>Directive</h4>
       <div>
-        <div>colorChange : {{ colorChangeValue }}</div>
-        <div>colorClose : {{ colorCloseValue }}</div>
+        <div>
+          colorChange : <code>{{ colorChangeValue }}</code>
+        </div>
+        <div>
+          colorClose : <code>{{ colorCloseValue }}</code>
+        </div>
         <div
           [colorPicker]="ctrlFormPopup.value.color"
           [colorPickerDisabled]="ctrlFormPopup.value.disabled"

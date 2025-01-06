@@ -34,6 +34,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
 
     readonly color = input<string | undefined>('');
     readonly embedded = input(false, { transform: booleanAttribute });
+    readonly alpha = input(false, { transform: booleanAttribute });
 
     readonly colorChange = output<string>();
 
@@ -52,15 +53,24 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['color'] && changes['color'].currentValue) {
-            this.updateWithHLS(new Color(changes['color'].currentValue));
+            const colorObject = new Color(changes['color'].currentValue);
+            if (!this.alpha()) {
+                colorObject.alpha = 1;
+            }
+            this.updateWithHLS(colorObject);
         }
     }
 
     ngAfterViewInit(): void {
         setTimeout(() => {
             const color = this.color();
+
             if (color) {
-                this.updateWithHLS(new Color(color));
+                const colorObject = new Color(color);
+                if (!this.alpha()) {
+                    colorObject.alpha = 1;
+                }
+                this.updateWithHLS(colorObject);
             }
         }, 100);
     }
@@ -82,7 +92,11 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
 
     protected updateHex(value: string) {
         try {
-            this.updateWithHLS(new Color(value));
+            const colorObject = new Color(value);
+            if (!this.alpha()) {
+                colorObject.alpha = 1;
+            }
+            this.updateWithHLS(colorObject);
         } catch (e) {
             console.log('Invalid color');
         }

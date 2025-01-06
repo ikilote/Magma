@@ -17,17 +17,19 @@
 <div class="hue">
   <input type="range" [(ngModel)]="rangeHue" (ngModelChange)="updateColor()" min="0" max="360" orient="vertical" />
 </div>
-<div class="alpha">
-  <input
-    type="range"
-    [(ngModel)]="rangeAlpha"
-    (ngModelChange)="updateColor()"
-    min="0"
-    max="1"
-    step="0.001"
-    orient="vertical"
-  />
-</div>
+@if (alpha()) {
+  <div class="alpha">
+    <input
+      type="range"
+      [(ngModel)]="rangeAlpha"
+      (ngModelChange)="updateColor()"
+      min="0"
+      max="1"
+      step="0.001"
+      orient="vertical"
+    />
+  </div>
+}
 @if (hexa) {
   <div class="inputs">
     <div class="color-view" [style.--background]="hsla"></div>

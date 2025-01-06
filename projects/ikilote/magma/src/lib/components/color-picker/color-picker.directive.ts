@@ -32,6 +32,7 @@ export class MagmaColorPicker implements OnDestroy {
     private readonly element = inject(ElementRef<HTMLElement>);
 
     readonly colorPicker = input<string>();
+    readonly colorPickerAlpha = input(false, { transform: booleanAttribute });
     readonly colorPickerDisabled = input(false, { transform: booleanAttribute });
 
     static _overlayRef?: OverlayRef;
@@ -77,6 +78,7 @@ export class MagmaColorPicker implements OnDestroy {
 
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('color', this.colorPicker());
+        component.setInput('alpha', this.colorPickerAlpha());
         component.setInput('embedded', true);
 
         this.updateEmit = component.instance.colorChange.subscribe(value => {

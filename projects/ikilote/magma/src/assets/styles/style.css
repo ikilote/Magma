@@ -55,16 +55,17 @@ input::file-selector-button {
     color: var(--button-default-color);
     caret-color: transparent;
     font-size: 110%;
+}
+button:hover,
+input::file-selector-button:hover {
+    box-shadow: 0 0 6px var(--button-default-hover-box-shadow);
+    border: 2px solid var(--button-default-hover-border-color);
+    background: var(--button-default-hover-background);
+}
 
-    &:hover {
-        box-shadow: 0 0 6px var(--button-default-hover-box-shadow);
-        border: 2px solid var(--button-default-hover-border-color);
-        background: var(--button-default-hover-background);
-    }
-
-    &:focus {
-        border-color: var(--button-default-focus-border-color);
-    }
+button:focus,
+input::file-selector-button:focus {
+    border-color: var(--button-default-focus-border-color);
 }
 
 button {
@@ -76,12 +77,11 @@ button {
 
 button:disabled {
     opacity: 0.25;
-
-    &:hover {
-        box-shadow: 0 0 1px var(--button-default-box-shadow);
-        border: 2px solid var(--button-default-border-color);
-        background: var(--button-default-background);
-    }
+}
+button:disabled :hover {
+    box-shadow: 0 0 1px var(--button-default-box-shadow);
+    border: 2px solid var(--button-default-border-color);
+    background: var(--button-default-background);
 }
 
 [type='file'] {
@@ -125,28 +125,25 @@ button.warn {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+}
+.buttons > button {
+    margin: 0;
+}
 
-    & > button {
-        margin: 0;
-    }
-
-    & > .line {
-        flex: 1 1 100%;
-    }
+.buttons > .line {
+    flex: 1 1 100%;
 }
 
 a {
     cursor: pointer;
     color: var(--link-color);
     text-decoration: none;
-
-    &:hover {
-        color: var(--link-hover-color);
-    }
-
-    table & {
-        margin: auto 10px;
-    }
+}
+a:hover {
+    color: var(--link-hover-color);
+}
+table a {
+    margin: auto 10px;
 }
 
 :where(label, .label):not(.name) {
@@ -164,14 +161,13 @@ a {
     width: 100%;
     color: var(--text-color);
     font-size: 14px;
+}
+:where(input:not([type='checkbox'], [type='radio']), .input, textarea, select):disabled {
+    opacity: 0.5;
+}
 
-    &:disabled {
-        opacity: 0.5;
-    }
-
-    &:focus {
-        outline-color: var(--input-focus-border-color);
-    }
+:where(input:not([type='checkbox'], [type='radio']), .input, textarea, select):focus {
+    outline-color: var(--input-focus-border-color);
 }
 
 input:where([type='range'], [type='checkbox'], [type='radio']) {
@@ -180,27 +176,26 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
 
 /* -------------------- scrollbar ------------------------------------------------------------ */
 
-body {
-    @supports selector(::-webkit-scrollbar) {
-        ::-webkit-scrollbar-button {
-            display: none;
-        }
-
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            border-radius: 5px;
-            background: var(--scrollbar-color);
-
-            &:hover {
-                background: var(--scrollbar-color-hover);
-            }
-        }
+@supports selector(::-webkit-scrollbar) {
+    body ::-webkit-scrollbar-button {
+        display: none;
     }
 
-    @supports not selector(::-webkit-scrollbar-button) {
+    body ::-webkit-scrollbar {
+        width: 5px;
+    }
+
+    body ::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background: var(--scrollbar-color);
+    }
+    body ::-webkit-scrollbar-thumb:hover {
+        background: var(--scrollbar-color-hover);
+    }
+}
+
+@supports not selector(::-webkit-scrollbar-button) {
+    body {
         scrollbar-color: var(--scrollbar-color) transparent;
         scrollbar-width: var(--scrollbar-width);
     }

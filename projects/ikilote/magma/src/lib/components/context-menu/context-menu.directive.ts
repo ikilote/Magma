@@ -2,11 +2,7 @@ import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Directive, HostListener, booleanAttribute, inject, input } from '@angular/core';
 
-import {
-  ContextMenuComponent,
-  ContextMenuData,
-  ContextMenuMode,
-} from './context-menu.component';
+import { ContextMenuData, ContextMenuMode, MagmaContextMenuComponent } from './context-menu.component';
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -43,7 +39,7 @@ export class MagmaContextMenu<T> {
                 .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
                 .withPositions(connectedPosition),
         });
-        const userProfilePortal = new ComponentPortal(ContextMenuComponent);
+        const userProfilePortal = new ComponentPortal(MagmaContextMenuComponent);
 
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('items', this.contextMenu());

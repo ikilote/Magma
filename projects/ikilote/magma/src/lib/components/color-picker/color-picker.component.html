@@ -1,0 +1,44 @@
+<div class="value">
+  <div class="gradient">
+    <div class="cursor-zone" #cursorZone (click)="click($event)">
+      <div
+        class="cursor"
+        cdkDrag
+        cdkDragBoundary=".cursor-zone"
+        (cdkDragStarted)="dragStart()"
+        (cdkDragEnded)="dragEnd($event)"
+        [cdkDragFreeDragPosition]="pos"
+        [class.negative]="rangeLight > 50"
+        (click)="$event.stopPropagation()"
+      ></div>
+    </div>
+  </div>
+</div>
+<div class="hue">
+  <input type="range" [(ngModel)]="rangeHue" (ngModelChange)="updateColor()" min="0" max="360" orient="vertical" />
+</div>
+<div class="alpha">
+  <input
+    type="range"
+    [(ngModel)]="rangeAlpha"
+    (ngModelChange)="updateColor()"
+    min="0"
+    max="1"
+    step="0.001"
+    orient="vertical"
+  />
+</div>
+@if (hexa) {
+  <div class="inputs">
+    <div class="color-view" [style.--background]="hsla"></div>
+    <div class="hsla">
+      {{ hsla }}
+    </div>
+    <div class="rgba">
+      {{ rgba }}
+    </div>
+    <div>
+      <input type="text" [ngModel]="hexa" (ngModelChange)="updateHex($event)" />
+    </div>
+  </div>
+}

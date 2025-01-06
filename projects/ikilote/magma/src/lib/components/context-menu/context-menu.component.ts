@@ -27,13 +27,13 @@ export type ContextMenuMode = 'default' | 'bubble' | undefined;
     selector: 'context-menu',
     templateUrl: './context-menu.component.html',
     styleUrls: ['./context-menu.component.scss'],
-     host: {
+    host: {
         '[class.default]': 'mode() === "default"',
         '[class.bubble]': 'mode() === "bubble"',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContextMenuComponent<T> {
+export class MagmaContextMenuComponent<T> {
     // input
 
     readonly items = input.required<ContextMenuData<T>>();

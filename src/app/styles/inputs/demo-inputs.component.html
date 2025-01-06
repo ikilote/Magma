@@ -1,0 +1,75 @@
+<h1>Tabs</h1>
+
+<section>
+  <div>
+    <label id="text">Label</label>
+    <input for="text" type="text" name="text" />
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'html', code: text }]"></code-tabs>
+  </div>
+</section>
+<hr />
+<section>
+  <div>
+    <label id="password">Label</label>
+    <input for="password" type="password" name="password" />
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'html', code: password }]"></code-tabs>
+  </div>
+</section>
+<hr />
+<section>
+  <div>
+    <label id="radio1"><input for="radio1" type="radio" name="radio" />Label</label>
+    <label id="radio2"><input for="radio2" type="radio" name="radio" />Label</label>
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'html', code: radio }]"></code-tabs>
+  </div>
+</section>
+<hr />
+<section>
+  <div>
+    <label id="checkbox1"><input for="checkbox1" type="checkbox" name="checkbox" />Label</label>
+    <label id="checkbox2"><input for="checkbox2" type="checkbox" name="checkbox" />Label</label>
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'html', code: checkbox }]"></code-tabs>
+  </div>
+</section>
+<hr />
+<section>
+  <div>
+    <label id="file">Label</label>
+    <input for="file" type="file" />
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'html', code: file }]"></code-tabs>
+  </div>
+</section>
+<hr />
+<section>
+  <div>
+    <label id="textarea">Label</label>
+    <textarea for="textarea" name="textarea"></textarea>
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'html', code: textarea }]"></code-tabs>
+  </div>
+</section>
+<hr />
+<section>
+  <div>
+    <label id="select">Label</label>
+    <select for="select" name="select">
+      <option>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select>
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'html', code: select }]"></code-tabs>
+  </div>
+</section>

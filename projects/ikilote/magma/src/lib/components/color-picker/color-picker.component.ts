@@ -58,6 +58,15 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
                 colorObject.alpha = 1;
             }
             this.updateWithHLS(colorObject);
+        } else if (changes['alpha'] && !changes['alpha'].currentValue && this.rangeAlpha !== 1) {
+            const color = this.hexa || this.color();
+            if (color) {
+                const colorObject = new Color(color);
+                if (!this.alpha()) {
+                    colorObject.alpha = 1;
+                }
+                this.updateWithHLS(colorObject);
+            }
         }
     }
 
@@ -139,7 +148,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
                 100 - this.rangeSature,
                 (50 + this.rangeSature / 2) * ((100 - this.rangeLight) / 100),
             ],
-            this.rangeAlpha,
+            this.alpha() ? this.rangeAlpha : 1,
         );
 
         this.hexa = color.toGamut({ space: 'srgb' }).to('srgb').toString({ format: 'hex' });

@@ -1,5 +1,6 @@
 :host {
     &.default {
+        transition-duration: 0s;
         box-shadow: 2px 2px 5px #0005;
         border-radius: 6px;
         background: var(--context-menu-background);
@@ -38,6 +39,11 @@
         list-style: none;
 
         li {
+            --angle: calc(360deg / var(--total) * var(--position));
+            --shadow-distance: 4px;
+            --shadow-x: calc(var(--shadow-distance) * sin(var(--angle)));
+            --shadow-y: calc(var(--shadow-distance) * cos(var(--angle)));
+
             display: flex;
             position: absolute;
             justify-content: center;
@@ -49,7 +55,7 @@
             transition-duration: 0.5s;
             transition-property: opacity, transform, display;
             cursor: pointer;
-            box-shadow: 2px 2px 5px #0008;
+            box-shadow: var(--shadow-x) var(--shadow-y) 5px #0008;
             border: 2px solid var(--context-menu-background);
             border-radius: 50%;
             background: var(--context-menu-item);

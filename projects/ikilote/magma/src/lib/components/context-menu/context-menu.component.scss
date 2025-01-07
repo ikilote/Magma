@@ -39,7 +39,7 @@
         list-style: none;
 
         li {
-            --angle: calc(360deg / var(--total) * var(--position));
+            --angle: calc(360deg / var(--total, 1) * var(--position));
             --shadow-distance: 4px;
             --shadow-x: calc(var(--shadow-distance) * sin(var(--angle)));
             --shadow-y: calc(var(--shadow-distance) * cos(var(--angle)));
@@ -48,8 +48,7 @@
             position: absolute;
             justify-content: center;
             align-items: center;
-            transform: rotate(calc((360deg / var(--total, 1)) * var(--position)))
-                translate(0, calc(-1 * var(--step) * (var(--total) + 1)));
+            transform: rotate(var(--angle)) translate(0, calc(-1 * var(--step) * (var(--total) + 1)));
             opacity: 1;
             transition-delay: calc(7ms * var(--position));
             transition-duration: 0.5s;

@@ -98,6 +98,15 @@ input:not(:focus-visible):invalid {
     text-decoration: underline wavy var(--alert5);
 }
 
+/** Fix Chromium */
+input[type='range'][orient='vertical'] {
+    vertical-align: bottom;
+    appearance: slider-vertical;
+    width: 16px;
+    writing-mode: vertical-lr;
+    direction: rtl;
+}
+
 button.primary {
     --button-default-border-color: var(--button-primary-border-color);
     --button-default-background: var(--button-primary-background);
@@ -183,6 +192,7 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
 
     body ::-webkit-scrollbar {
         width: 5px;
+        height: 5px;
     }
 
     body ::-webkit-scrollbar-thumb {
@@ -199,4 +209,9 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
         scrollbar-color: var(--scrollbar-color) transparent;
         scrollbar-width: var(--scrollbar-width);
     }
+}
+
+/** fix chromium */
+.cdk-global-scrollblock {
+    height: 100%;
 }

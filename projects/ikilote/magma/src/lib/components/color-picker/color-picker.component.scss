@@ -12,7 +12,7 @@
     &.embedded {
         transition-duration: 0s;
         box-shadow: 2px 2px 5px;
-        background-color: #ddd;
+        background-color: var(--neutralA);
         padding: 10px;
     }
 }
@@ -46,7 +46,7 @@
 .color-view {
     position: relative;
     grid-area: color-view;
-    border: 1px solid #000;
+    border: 1px solid var(--neutral);
     background: conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left /
         15px 15px repeat;
     width: 150px;
@@ -74,7 +74,7 @@
     position: relative;
     cursor: crosshair;
     margin: calc((var(--cursor-size) - 2px) / -2);
-    outline: 1px solid black;
+    outline: 1px solid var(--neutral);
     outline-offset: -3px;
     width: calc(100% + var(--cursor-size) - 2px);
     height: calc(100% + var(--cursor-size) - 2px);
@@ -86,7 +86,7 @@
 
 .cursor {
     cursor: pointer;
-    outline: 2px solid black;
+    outline: 2px solid var(--neutral);
     border-radius: 50%;
     width: var(--cursor-size);
     height: var(--cursor-size);
@@ -105,95 +105,105 @@
 
 input[type='range'] {
     cursor: pointer;
+    outline: none;
     border: 0;
     background: transparent;
+
+    --hue-background: linear-gradient(
+        to bottom in hsl,
+        hsl(0, 100%, 50%) 0%,
+        hsl(90, 100%, 50%) 25%,
+        hsl(180, 100%, 50%) 50%,
+        hsl(270, 100%, 50%) 75%,
+        hsl(360, 100%, 50%) 100%
+    );
+    --alpha-background: linear-gradient(to bottom, black 0%, transparent 100%),
+        conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left / 5px 5px
+            repeat;
+
+    &:focus {
+        outline: none;
+    }
 }
-/* Input Track */
 
 /* Chrome, Safari, Edge */
-input[type='range']::-webkit-slider-runnable-track {
-    border-radius: 0;
-    width: 20px;
-    height: 100%;
-}
+@supports selector(::-webkit-slider-runnable-track) {
+    input[type='range'] {
+        -webkit-appearance: none;
+    }
 
-.alpha > ::-webkit-slider-runnable-track {
-    background:
-        conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left / 5px 5px
-            repeat,
-        linear-gradient(to bottom, black 0%, transparent 100%);
-}
+    /* Input Track */
 
-.hue > ::-webkit-slider-runnable-track {
-    background: linear-gradient(
-        to bottom in hsl,
-        hsl(0, 100%, 50%) 0%,
-        hsl(90, 100%, 50%) 25%,
-        hsl(180, 100%, 50%) 50%,
-        hsl(270, 100%, 50%) 75%,
-        hsl(360, 100%, 50%) 100%
-    );
-}
+    input[type='range']::-webkit-slider-runnable-track {
+        -webkit-appearance: none;
+        appearance: none;
+        border: 1px solid var(--neutral);
+        border-radius: 0;
+        background-color: transparent;
+        width: 20px;
+        height: 100%;
+    }
 
-/* Firefox */
-input[type='range']::-moz-range-track {
-    border: 1px solid black;
-    border-radius: 0;
-    width: 20px;
-    height: 100%;
-}
+    .alpha > ::-webkit-slider-runnable-track {
+        background: var(--alpha-background);
+        background-color: transparent;
+    }
 
-.alpha > ::-moz-range-track {
-    background:
-        linear-gradient(to bottom, black 0%, transparent 100%),
-        conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left / 10px 10px
-            repeat;
-}
+    .hue > input::-webkit-slider-runnable-track {
+        background-image: var(--hue-background);
+        background-color: transparent;
+    }
 
-.hue > ::-moz-range-track {
-    background: linear-gradient(
-        to bottom in hsl,
-        hsl(0, 100%, 50%) 0%,
-        hsl(90, 100%, 50%) 25%,
-        hsl(180, 100%, 50%) 50%,
-        hsl(270, 100%, 50%) 75%,
-        hsl(360, 100%, 50%) 100%
-    );
-}
+    /* Input Thumb */
 
-/* Input Thumb */
+    input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        margin-left: -6px;
+        border: 1px solid var(--neutral);
+        border-radius: 0;
+        width: 30px;
+        height: 5px;
+    }
 
-/* Chrome, Safari, Edge*/
-input[type='range']::-webkit-slider-thumb {
-    appearance: none;
-    margin-top: calc((var(--track-height) / 2) - (var(--thumb-height) / 2));
-    border: 1px solid #000;
-    border-radius: 0;
-    width: var(--thumb-width);
-    height: var(--thumb-height);
-}
+    .alpha > input::-webkit-slider-thumb {
+        background: hsl(0, 0%, calc(100% - var(--alpha, 0%)));
+    }
 
-.alpha > ::-webkit-slider-thumb {
-    background: hsl(0, 0%, calc(100% - var(--alpha, 0%)));
-}
-
-.hue > ::-webkit-slider-thumb {
-    background: hsl(calc(360 - var(--hue, 0)), 100%, 50%);
+    .hue > input::-webkit-slider-thumb {
+        background: hsl(calc(360 - var(--hue, 0)), 100%, 50%);
+    }
 }
 
 /* Firefox */
-input[type='range']::-moz-range-thumb {
-    appearance: none;
-    border: 1px solid #000;
-    border-radius: 0;
-    width: 30px;
-    height: 5px;
-}
+@supports selector(::-moz-range-track) {
+    input[type='range']::-moz-range-track {
+        border: 1px solid var(--neutral);
+        border-radius: 0;
+        width: 20px;
+        height: 100%;
+    }
 
-.alpha > ::-moz-range-thumb {
-    background: hsl(0, 0%, calc(100% - var(--alpha, 0%)));
-}
+    .alpha > ::-moz-range-track {
+        background: var(--alpha-background);
+    }
 
-.hue > ::-moz-range-thumb {
-    background: hsl(calc(360 - var(--hue, 0)), 100%, 50%);
+    .hue > ::-moz-range-track {
+        background: var(--hue-background);
+    }
+
+    input[type='range']::-moz-range-thumb {
+        appearance: none;
+        border: 1px solid var(--neutral);
+        border-radius: 0;
+        width: 30px;
+        height: 5px;
+    }
+
+    .alpha > ::-moz-range-thumb {
+        background: hsl(0, 0%, calc(100% - var(--alpha, 0%)));
+    }
+
+    .hue > ::-moz-range-thumb {
+        background: hsl(calc(360 - var(--hue, 0)), 100%, 50%);
+    }
 }

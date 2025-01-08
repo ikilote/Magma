@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
     {
+        path: 'home',
+        loadComponent: () => import('./doc/demo-doc.component').then(m => m.DemoDocComponent),
+    },
+    {
         path: 'color-picker',
         loadComponent: () =>
             import('./components/color-picker/demo-color-picker.component').then(m => m.DemoColorPickerComponent),
@@ -29,6 +33,6 @@ export const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'context-menu',
+        redirectTo: 'home',
     },
 ];

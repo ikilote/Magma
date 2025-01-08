@@ -212,6 +212,7 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
 }
 
 /** fix chromium */
-.cdk-global-scrollblock {
+.cdk-global-scrollblock[class] {
     height: 100%;
+    overflow-y: hidden;
 }

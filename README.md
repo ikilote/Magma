@@ -1,6 +1,6 @@
 # @ikilote/magma
 
-[![npm version](https://badge.fury.io/js/@ikilote/magma.svg)](https://badge.fury.io/js/@ikilote/magma) [![Downloads](https://img.shields.io/npm/dm/@ikilote/magma.svg)](https://www.npmjs.com/package/@ikilote/magma) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md?ref_type=heads)
+[![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma) [![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma) [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md)
 
 Magma is a component library for my personal projects, because I don't want to copy/paste.
 
@@ -8,6 +8,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 ## Component
 
+- Color picker
 - Context-menu
     - List in options
     - Circle in options

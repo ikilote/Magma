@@ -1,5 +1,20 @@
 # Changelog of @ikilote/magma
 
+## 0.0.4 (2025-01-08)
+
+### Fix
+
+- Color picker:
+    - Fix alpha in popup
+    - Fix with Chromium
+- Context menu:
+    - Fix shadow position for bubble context menu
+- Fix CDK overlay with Chromium
+
+### Demo
+
+- Add home page
+
 ## 0.0.3 (2025-01-06)
 
 ### New

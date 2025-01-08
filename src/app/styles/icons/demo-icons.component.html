@@ -1,0 +1,16 @@
+<h1>Icons form Classicone</h1>
+
+<section>
+  <div class="list">
+    @for (icon of listIcons; track $index) {
+      <button [class]="icon" (click)="select(icon)"></button>
+    }
+  </div>
+
+  @if (selectedIcon && selectedIconCode) {
+    <div class="preview">
+      <span [class]="selectedIcon"></span>
+      <code><pre [highlight]="selectedIconCode" language="html"></pre></code>
+    </div>
+  }
+</section>

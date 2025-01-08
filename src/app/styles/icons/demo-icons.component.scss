@@ -1,0 +1,21 @@
+@import url(../../demo/default.scss);
+
+:host {
+    --col: 2;
+}
+
+.preview {
+    text-align: center;
+
+    span {
+        border: 1px solid var(--neutral);
+        background-color: var(--neutral7);
+        font-size: 64px;
+    }
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 5px;
+}

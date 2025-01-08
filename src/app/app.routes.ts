@@ -37,6 +37,10 @@ export const routes: Routes = [
         loadComponent: () => import('./styles/inputs/demo-inputs.component').then(m => m.DemoInputsComponent),
     },
     {
+        path: 'style-icons',
+        loadComponent: () => import('./styles/icons/demo-icons.component').then(m => m.DemoIconsComponent),
+    },
+    {
         path: '**',
         redirectTo: 'home',
     },

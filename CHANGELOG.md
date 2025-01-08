@@ -1,5 +1,20 @@
 # Changelog of @ikilote/magma
 
+## 0.0.5 (2025-01-09)
+
+### New
+
+- Add light-dark component
+    - simple mode
+    - compact mode
+- Add Classicone font
+
+### Demo
+
+- Add light-dark page
+- Add icons page
+- Add light-dark mode in themenu
+
 ## 0.0.4 (2025-01-08)
 
 ### Fix

@@ -23,7 +23,7 @@ import Color from 'colorjs.io';
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--hue]': 'rangeHue',
-        '[style.--alpha.%]': 'rangeAlpha',
+        '[style.--alpha.%]': 'rangeAlpha * 100',
         '[class.embedded]': 'embedded()',
         '[class.on-drag]': 'startDrag',
     },

@@ -1,11 +1,14 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
+    ComponentRef,
     Directive,
     ElementRef,
     HostListener,
+    OnChanges,
     OnDestroy,
     OutputRefSubscription,
+    SimpleChanges,
     booleanAttribute,
     inject,
     input,
@@ -27,7 +30,7 @@ const connectedPosition: ConnectedPosition[] = [
         '[class.color-picker]': 'true',
     },
 })
-export class MagmaColorPicker implements OnDestroy {
+export class MagmaColorPicker implements OnDestroy, OnChanges {
     private readonly overlay = inject(Overlay);
     private readonly element = inject(ElementRef<HTMLElement>);
 
@@ -36,11 +39,18 @@ export class MagmaColorPicker implements OnDestroy {
     readonly colorPickerDisabled = input(false, { transform: booleanAttribute });
 
     static _overlayRef?: OverlayRef;
+    static _component?: ComponentRef<MagmaColorPickerComponent>;
 
     colorChange = output<string>();
     colorClose = output<string>();
 
     private updateEmit?: OutputRefSubscription;
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['colorPickerAlpha']) {
+            MagmaColorPicker._component?.setInput('alpha', changes['colorPickerAlpha'].currentValue);
+        }
+    }
 
     @HostListener('click', ['$event'])
     async onContextMenu(event: MouseEvent) {
@@ -94,6 +104,7 @@ export class MagmaColorPicker implements OnDestroy {
         });
 
         MagmaColorPicker._overlayRef = overlayRef;
+        MagmaColorPicker._component = component;
 
         event.preventDefault();
         event.stopPropagation();
@@ -111,5 +122,6 @@ export class MagmaColorPicker implements OnDestroy {
     private close() {
         MagmaColorPicker._overlayRef!.dispose();
         MagmaColorPicker._overlayRef = undefined;
+        MagmaColorPicker._component = undefined;
     }
 }

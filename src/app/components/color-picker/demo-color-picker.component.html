@@ -42,8 +42,8 @@
       </p>
       <p>
         <strong>disabled</strong>
-        <label><input formControlName="disabled" type="radio" [value]="false" />enabled</label>
-        <label><input formControlName="disabled" type="radio" [value]="true" />disabled</label>
+        <label><input formControlName="disabled" type="radio" [value]="false" />no</label>
+        <label><input formControlName="disabled" type="radio" [value]="true" />yes</label>
       </p>
     </form>
     <div>
@@ -57,6 +57,7 @@
         </div>
         <div
           [colorPicker]="ctrlFormPopup.value.color"
+          [colorPickerAlpha]="ctrlFormPopup.value.alpha"
           [colorPickerDisabled]="ctrlFormPopup.value.disabled"
           (colorChange)="colorChange($event)"
           (colorClose)="colorClose($event)"

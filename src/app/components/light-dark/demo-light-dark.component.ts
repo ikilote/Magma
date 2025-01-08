@@ -11,4 +11,5 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 })
 export class DemoLightDarkComponent {
     codeHtml = '<mg-light-dark></mg-light-dark>';
+    codeHtmlCompact = '<mg-light-dark compact></mg-light-dark>';
 }

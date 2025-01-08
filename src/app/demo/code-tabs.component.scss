@@ -10,3 +10,7 @@ pre ::ng-deep * {
 tab-title {
     text-transform: uppercase;
 }
+
+:host-context(.dark-mode) pre {
+    filter: invert(1);
+}

@@ -4,7 +4,9 @@ import {
     HostListener,
     Renderer2,
     RendererFactory2,
+    booleanAttribute,
     inject,
+    input,
     output,
 } from '@angular/core';
 
@@ -23,10 +25,13 @@ let userSchema: PreferenceInterfaceTheme | undefined;
         '[attr.tabindex]': 'true',
         '[class.dark]': '!isLight()',
         '[class.light]': 'isLight()',
+        '[class.compact]': 'compact()',
     },
 })
 export class MagmaLightDark {
     readonly rendererFactory = inject(RendererFactory2);
+
+    readonly compact = input(false, { transform: booleanAttribute });
 
     readonly change = output<PreferenceInterfaceTheme>();
 

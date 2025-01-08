@@ -1,22 +1,29 @@
 <menu>
-  <h2>Magma</h2>
-  <small>{{ version }}</small>
-
-  <ul>
-    <li><a routerLink="/home" routerLinkActive="selected">Install</a></li>
-  </ul>
-  <h3>Components</h3>
-  <ul>
-    <li><a routerLink="/color-picker" routerLinkActive="selected">Color Picker</a></li>
-    <li><a routerLink="/context-menu" routerLinkActive="selected">Context menu</a></li>
-    <li><a routerLink="/dialog" routerLinkActive="selected">Dialog</a></li>
-    <li><a routerLink="/tabs" routerLinkActive="selected">Tabs</a></li>
-  </ul>
-  <h3>Styles</h3>
-  <ul>
-    <li><a routerLink="/style-buttons" routerLinkActive="selected">Buttons</a></li>
-    <li><a routerLink="/style-inputs" routerLinkActive="selected">Inputs</a></li>
-  </ul>
+  <div class="title">
+    <h2>Magma</h2>
+    <small>{{ version }}</small>
+  </div>
+  <div class="content">
+    <ul>
+      <li><a routerLink="/home" routerLinkActive="selected">Install</a></li>
+    </ul>
+    <h3>Components</h3>
+    <ul>
+      <li><a routerLink="/color-picker" routerLinkActive="selected">Color picker</a></li>
+      <li><a routerLink="/context-menu" routerLinkActive="selected">Context menu</a></li>
+      <li><a routerLink="/dialog" routerLinkActive="selected">Dialog</a></li>
+      <li><a routerLink="/light-dark" routerLinkActive="selected">Light-dark</a></li>
+      <li><a routerLink="/tabs" routerLinkActive="selected">Tabs</a></li>
+    </ul>
+    <h3>Styles</h3>
+    <ul>
+      <li><a routerLink="/style-buttons" routerLinkActive="selected">Buttons</a></li>
+      <li><a routerLink="/style-inputs" routerLinkActive="selected">Inputs</a></li>
+    </ul>
+  </div>
+  <div class="light-dark">
+    <mg-light-dark></mg-light-dark>
+  </div>
 </menu>
 <main>
   <router-outlet></router-outlet>

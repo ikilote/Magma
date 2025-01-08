@@ -35,8 +35,17 @@ ul {
 }
 
 menu {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
     background: var(--neutral9);
     padding: 10px;
+    height: 100%;
+
+    .content {
+        flex: 1;
+        overflow: auto;
+    }
 }
 
 main {
@@ -44,4 +53,9 @@ main {
     padding: 0 20px 20px;
     overflow: auto;
     scrollbar-gutter: stable;
+}
+
+.light-dark {
+    margin-top: 10px;
+    text-align: center;
 }

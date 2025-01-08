@@ -49,7 +49,7 @@ export class DemoContextMenuComponent {
                 action: data => {
                     this.test(data, 'hate');
                 },
-            }
+            },
         ],
         data: 'Data',
     };

@@ -1,0 +1,11 @@
+@if (!onError) {
+  <input
+    #input
+    (change)="changeValue($event)"
+    (input)="inputValue($event)"
+    (focus)="focus(true)"
+    (blur)="focus(false)"
+  />
+} @else {
+  Error
+}

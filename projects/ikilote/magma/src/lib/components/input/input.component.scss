@@ -1,0 +1,63 @@
+// :host {
+//   all: unset;
+//   display: inline-flex;
+//   position: relative;
+//   flex-direction: column;
+// }
+// .top {
+//     position: absolute;
+//     top: -1.7em;
+//     height: 0;
+//     font-weight: 600;
+//     font-size: 90%;
+// }
+// .content {
+//     margin: -6px 0 0;
+//     & ::ng-deep input {
+//         font-size: 16px;
+//     }
+// }
+// .bottom {
+// }
+
+:host {
+    all: unset;
+    display: inline-grid;
+    grid-template-areas:
+        'r . top     '
+        'r t .       '
+        '. . content '
+        '. . bottom  ';
+    align-items: last baseline;
+    vertical-align: 5px;
+
+    &::before {
+        grid-area: r;
+        align-self: end;
+        height: 0;
+        content: '\200b';
+    }
+    &:after {
+        grid-area: t;
+        align-self: baseline;
+        height: 0;
+        content: '\200b';
+    }
+}
+.top {
+    grid-area: top;
+    font-weight: 600;
+    font-size: 90%;
+}
+.content {
+    grid-area: content;
+    align-self: baseline;
+
+    & ::ng-deep input {
+        font-size: 16px;
+    }
+}
+.bottom {
+    grid-area: bottom;
+    font-size: 90%;
+}

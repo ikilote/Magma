@@ -13,6 +13,7 @@ It will evolve mainly according to my projects. But people want to use it and he
     - List in options
     - Circle in options
 - Dialog
+- Light-dark
 - Tabs
 
 # Demo

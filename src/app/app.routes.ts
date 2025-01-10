@@ -25,6 +25,10 @@ export const routes: Routes = [
         loadComponent: () => import('./components/dialog/demo-dialog.component').then(m => m.DemoDialogComponent),
     },
     {
+        path: 'input',
+        loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),
+    },
+    {
         path: 'tabs',
         loadComponent: () => import('./components/tabs/demo-tabs.component').then(m => m.DemoTabsComponent),
     },

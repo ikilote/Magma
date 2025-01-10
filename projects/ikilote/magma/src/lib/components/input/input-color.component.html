@@ -1,0 +1,12 @@
+@if (!onError) {
+  <span
+    #span
+    [style.--color]="_value"
+    [colorPicker]="_value"
+    [colorPickerAlpha]="alpha()"
+    [colorPickerDisabled]="disabled()"
+    (colorClose)="colorClose($event)"
+  ></span>
+} @else {
+  Error
+}

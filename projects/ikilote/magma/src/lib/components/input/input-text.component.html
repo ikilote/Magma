@@ -1,6 +1,7 @@
 @if (!onError) {
   <input
     #input
+    [value]="_value"
     (change)="changeValue($event)"
     (input)="inputValue($event)"
     (focus)="focus(true)"

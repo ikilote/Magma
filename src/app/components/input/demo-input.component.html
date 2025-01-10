@@ -1,6 +1,8 @@
 <h1>Input</h1>
 
 <section>
+  <!-- Text -->
+  <h2>Text</h2>
   <div>
     Test
     <mg-input>
@@ -13,12 +15,12 @@
     </mg-input>
     Test
     <mg-input>
-      <mg-input-label>Label</mg-input-label>
-      <mg-input-text value="test"></mg-input-text>
+      <mg-input-label>Label ({{ value }})</mg-input-label>
+      <mg-input-text [(ngModel)]="value"></mg-input-text>
     </mg-input>
     Test
-    <mg-input>
-      <mg-input-text value="test"></mg-input-text>
+    <mg-input [formGroup]="formText">
+      <mg-input-text formControlName="test"></mg-input-text>
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc
@@ -27,6 +29,37 @@
     Test
     <mg-input>
       <mg-input-text value="test"></mg-input-text>
+    </mg-input>
+  </div>
+
+  <!-- Color -->
+  <h2>Color</h2>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-color value="red"></mg-input-color>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label ({{ color }})</mg-input-label>
+      <mg-input-color [(ngModel)]="color"></mg-input-color>
+    </mg-input>
+    Test
+    <mg-input [formGroup]="formColor">
+      <mg-input-color formControlName="test"></mg-input-color>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-color value="red"></mg-input-color>
     </mg-input>
   </div>
 </section>

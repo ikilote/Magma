@@ -1,59 +1,41 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    OnInit,
-    inject,
-    input,
-    output,
-    viewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, forwardRef, output, viewChild } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { MagmaInput } from './input.component';
+import { MagmaInputCommon } from './input-common';
 
 @Component({
     selector: 'mg-input-text',
     templateUrl: './input-text.component.html',
     styleUrls: ['./input-text.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [],
+    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputText), multi: true }],
 })
-export class MagmaInputText implements OnInit {
-    readonly host = inject(MagmaInput, { optional: false, host: true });
-
+export class MagmaInputText extends MagmaInputCommon implements OnInit {
     readonly input = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
-    readonly value = input();
-
     readonly update = output<string>();
-
-    protected onError = false;
 
     get inputElement(): HTMLInputElement {
         return this.input()?.nativeElement;
     }
 
-    ngOnInit(): void {
-        console.log(this.host);
-        if (!this.host) {
-            this.onError = true;
-        }
-
-        setTimeout(() => {
-            this.inputElement.value = `${this.value()}`;
-        });
-    }
-
-    changeValue(value: Event) {
+    changeValue(event: Event) {
+        const value = ((event as InputEvent).target as HTMLInputElement).value;
         console.log('change', value);
-        // this.update.emit(value);
+        this.onChange(value);
+        this.update.emit(value);
     }
-    inputValue(value: Event) {
+    inputValue(event: Event) {
+        const value = ((event as InputEvent).target as HTMLInputElement).value;
         console.log('input', value);
-        // this.update.emit(value);
+        this.onChange(value);
     }
 
     focus(value: boolean) {
         console.log('focus', value);
+
+        if (!value) {
+            this.onTouched();
+        }
     }
 }

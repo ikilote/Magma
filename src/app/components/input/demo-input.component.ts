@@ -1,12 +1,36 @@
 import { Component } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
-import { MagmaInput, MagmaInputElement, MagmaInputText } from '../../../../projects/ikilote/magma/src/public-api';
+import {
+    MagmaInput,
+    MagmaInputColor,
+    MagmaInputElement,
+    MagmaInputText,
+} from '../../../../projects/ikilote/magma/src/public-api';
 
 @Component({
     selector: 'demo-input',
     templateUrl: './demo-input.component.html',
     styleUrls: ['./demo-input.component.scss'],
-    imports: [MagmaInput, MagmaInputText, MagmaInputElement, FormsModule, ReactiveFormsModule],
+    imports: [MagmaInput, MagmaInputText, MagmaInputColor, MagmaInputElement, FormsModule, ReactiveFormsModule],
 })
-export class DemoInputComponent {}
+export class DemoInputComponent {
+    value = 'ngModel';
+    color = 'red';
+
+    formText: FormGroup<{
+        test: FormControl<string>;
+    }>;
+    formColor: FormGroup<{
+        test: FormControl<string>;
+    }>;
+
+    constructor(fb: NonNullableFormBuilder) {
+        this.formText = fb.group({
+            test: new FormControl<string>('form', { nonNullable: true }),
+        });
+        this.formColor = fb.group({
+            test: new FormControl<string>('#1f7b33', { nonNullable: true }),
+        });
+    }
+}

@@ -1,0 +1,15 @@
+span {
+    display: block;
+    cursor: pointer;
+    box-sizing: border-box;
+    outline: 1px solid transparent;
+    border: 1px solid var(--input-border-color);
+    border-radius: 3px;
+    background-color: var(--color);
+    width: 45px;
+    height: 33px;
+
+    &:focus {
+        outline-color: var(--input-focus-border-color);
+    }
+}

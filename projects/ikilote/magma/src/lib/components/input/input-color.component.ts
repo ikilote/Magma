@@ -15,6 +15,8 @@ import { MagmaInputCommon } from './input-common';
 
 import { MagmaColorPicker } from '../color-picker/color-picker.directive';
 
+let counter = 0;
+
 @Component({
     selector: 'mg-input-color',
     templateUrl: './input-color.component.html',
@@ -22,8 +24,14 @@ import { MagmaColorPicker } from '../color-picker/color-picker.directive';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaColorPicker],
     providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputColor), multi: true }],
+    host: {
+        '[id]': '_id()',
+    },
 })
 export class MagmaInputColor extends MagmaInputCommon implements OnInit {
+    protected override componentName = 'input-color';
+    protected override counter = counter++;
+
     readonly span = viewChild.required<ElementRef<HTMLSpanElement>>('span');
 
     readonly alpha = input(false, { transform: booleanAttribute });

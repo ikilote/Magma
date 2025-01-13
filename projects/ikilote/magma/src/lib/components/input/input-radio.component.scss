@@ -1,0 +1,42 @@
+input {
+    position: absolute;
+    transform: scale(0, 0.001);
+    outline: none;
+    width: 0.01px;
+    height: 1px;
+}
+
+input + label::before {
+    display: inline-block;
+    position: absolute;
+    top: -2px;
+    left: 0px;
+    margin-right: 5px;
+    outline: 1px solid transparent;
+    border: 1px solid var(--input-border-color);
+    border-radius: 50%;
+    background-color: var(--input-background);
+    width: 26px;
+    height: 26px;
+    content: '';
+}
+
+input:checked + label::before {
+    background-image: radial-gradient(var(--primary5) 50%, transparent 55%);
+}
+
+input:disabled + label::before {
+    opacity: 0.5;
+}
+
+input:focus + label::before {
+    outline-color: var(--input-focus-border-color);
+}
+
+label {
+    all: unset;
+    position: relative;
+    padding-right: 5px;
+    padding-left: 35px;
+    line-height: 32px;
+}

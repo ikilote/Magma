@@ -1,0 +1,6 @@
+@import url(./input-radio.component.scss);
+
+input + label::before {
+    border-radius: 5px;
+    font-size: 36px;
+}

@@ -1,6 +1,8 @@
 @if (!onError) {
   <input
     #input
+    [name]="_name()"
+    [id]="_id() + '-input'"
     [value]="_value"
     (change)="changeValue($event)"
     (input)="inputValue($event)"

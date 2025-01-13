@@ -3,14 +3,22 @@ import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
+let counter = 0;
+
 @Component({
     selector: 'mg-input-text',
     templateUrl: './input-text.component.html',
     styleUrls: ['./input-text.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputText), multi: true }],
+    host: {
+        '[id]': '_id()',
+    },
 })
 export class MagmaInputText extends MagmaInputCommon implements OnInit {
+    protected override componentName = 'input-text';
+    protected override counter = counter++;
+
     readonly input = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
     readonly update = output<string>();

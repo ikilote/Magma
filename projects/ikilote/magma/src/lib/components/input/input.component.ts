@@ -12,7 +12,7 @@ let counter = 0;
     },
 })
 export class MagmaInput {
-    id = input<string>();
+    readonly id = input<string>();
 
     protected counter = counter++;
     protected uid = computed<string>(() => `mg-input-${this.counter}`);

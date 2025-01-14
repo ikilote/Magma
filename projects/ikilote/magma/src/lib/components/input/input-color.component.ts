@@ -6,7 +6,6 @@ import {
     booleanAttribute,
     forwardRef,
     input,
-    output,
     viewChild,
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -36,8 +35,6 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
 
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly disabled = input(false, { transform: booleanAttribute });
-
-    readonly update = output<string>();
 
     get inputElement(): HTMLSpanElement {
         return this.span()?.nativeElement;

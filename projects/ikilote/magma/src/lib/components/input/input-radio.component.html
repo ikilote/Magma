@@ -1,5 +1,12 @@
 @if (!onError) {
-  <input type="radio" [name]="_name()" [id]="_id() + '-input'" /><label [for]="_id() + '-input'">
+  <input
+    type="radio"
+    [name]="_name()"
+    [id]="_id() + '-input'"
+    [value]="value()"
+    [checked]="testChecked"
+    (change)="_change($event)"
+  /><label [for]="_id() + '-input'">
     <ng-content></ng-content>
   </label>
 } @else {

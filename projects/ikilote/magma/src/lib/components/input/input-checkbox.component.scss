@@ -4,3 +4,10 @@ input + label::before {
     border-radius: 5px;
     font-size: 36px;
 }
+
+input:checked + label::before {
+    box-sizing: border-box;
+    background-image: linear-gradient(var(--primary5), var(--primary5));
+    background-clip: content-box;
+    padding: 3px;
+}

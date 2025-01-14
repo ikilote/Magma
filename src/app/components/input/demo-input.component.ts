@@ -28,6 +28,7 @@ import {
 export class DemoInputComponent {
     value = 'ngModel';
     color = 'red';
+    radio = 'blue';
 
     formText: FormGroup<{
         test: FormControl<string>;

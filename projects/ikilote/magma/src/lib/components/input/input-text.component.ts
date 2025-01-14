@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, forwardRef, output, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, forwardRef, viewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -21,8 +21,6 @@ export class MagmaInputText extends MagmaInputCommon implements OnInit {
 
     readonly input = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
-    readonly update = output<string>();
-
     get inputElement(): HTMLInputElement {
         return this.input()?.nativeElement;
     }
@@ -33,6 +31,7 @@ export class MagmaInputText extends MagmaInputCommon implements OnInit {
         this.onChange(value);
         this.update.emit(value);
     }
+
     inputValue(event: Event) {
         const value = ((event as InputEvent).target as HTMLInputElement).value;
         console.log('input', value);

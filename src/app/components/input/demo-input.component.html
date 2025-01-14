@@ -23,7 +23,7 @@
       <mg-input-text formControlName="test"></mg-input-text>
       <mg-input-desc
         >Desc<br />
-        test</mg-input-desc
+        {{ formText.get('test')?.value }}</mg-input-desc
       >
     </mg-input>
     Test
@@ -54,7 +54,7 @@
       <mg-input-color formControlName="test"></mg-input-color>
       <mg-input-desc
         >Desc<br />
-        test</mg-input-desc
+        {{ formColor.get('test')?.value }}</mg-input-desc
       >
     </mg-input>
     Test
@@ -80,6 +80,18 @@
       <mg-input-label>Label</mg-input-label>
       <mg-input-radio value="red">red</mg-input-radio>
       <mg-input-radio value="blue">blue</mg-input-radio>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+
+    Test
+
+    <mg-input>
+      <mg-input-label>Label ({{ radio }})</mg-input-label>
+      <mg-input-radio [(ngModel)]="radio" value="red">red</mg-input-radio>
+      <mg-input-radio [(ngModel)]="radio" value="blue">blue</mg-input-radio>
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc

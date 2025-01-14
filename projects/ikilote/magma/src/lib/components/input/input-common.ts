@@ -1,4 +1,4 @@
-import { Directive, OnChanges, OnInit, SimpleChanges, computed, inject, input } from '@angular/core';
+import { Directive, OnChanges, OnInit, SimpleChanges, computed, inject, input, output } from '@angular/core';
 import { ControlValueAccessor } from '@angular/forms';
 
 import { MagmaInput } from './input.component';
@@ -11,13 +11,17 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
 
     readonly value = input();
 
-    formControlName = input<string>();
-    name = input<string>();
-    id = input<string>();
+    protected _baseValue = 'value';
+
+    readonly formControlName = input<string>();
+    readonly name = input<string>();
+    readonly id = input<string>();
+
+    readonly update = output<string>();
 
     protected componentName = 'input-common';
     protected counter = 0;
-    protected uid = computed<string>(() => `${this.componentName}-${this.counter}`);
+    protected readonly uid = computed<string>(() => `${this.componentName}-${this.counter}`);
 
     _name = computed<string>(() => this.formControlName() || this.name() || this.id() || this.uid());
     _id = computed<string>(() => this.id() || this.uid());
@@ -33,8 +37,8 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['value']) {
-            this.writeValue(changes['value'].currentValue);
+        if (changes[this._baseValue]) {
+            this.writeValue(changes[this._baseValue].currentValue);
         }
     }
 

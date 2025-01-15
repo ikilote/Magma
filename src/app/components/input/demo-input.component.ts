@@ -29,6 +29,8 @@ export class DemoInputComponent {
     value = 'ngModel';
     color = 'red';
     radio = 'blue';
+    checkboxOne = true;
+    checkbox = ['blue'];
 
     formText: FormGroup<{
         test: FormControl<string>;

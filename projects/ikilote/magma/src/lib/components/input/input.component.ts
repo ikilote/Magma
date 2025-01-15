@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, computed, contentChildren, input } from '@angular/core';
+
+import { MagmaInputCommon } from './input-common';
 
 let counter = 0;
 
@@ -14,8 +16,13 @@ let counter = 0;
 export class MagmaInput {
     readonly id = input<string>();
 
+    /** for checkbox */
+    readonly arrayValue = input(false, { transform: booleanAttribute });
+
     protected counter = counter++;
     protected uid = computed<string>(() => `mg-input-${this.counter}`);
 
     _id = computed<string>(() => this.id() || this.uid());
+
+    readonly inputs = contentChildren(MagmaInputCommon);
 }

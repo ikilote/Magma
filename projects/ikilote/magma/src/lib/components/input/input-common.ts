@@ -17,9 +17,9 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     readonly name = input<string>();
     readonly id = input<string>();
 
-    readonly update = output<string>();
+    readonly update = output<any>();
 
-    protected componentName = 'input-common';
+    readonly componentName: string = 'input-common';
     protected counter = 0;
     protected readonly uid = computed<string>(() => `${this.componentName}-${this.counter}`);
 
@@ -42,7 +42,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
         }
     }
 
-    onChange: (value: string) => void = () => {};
+    onChange: (value: any) => void = () => {};
     onTouched: () => void = () => {};
 
     writeValue(value: any): void {

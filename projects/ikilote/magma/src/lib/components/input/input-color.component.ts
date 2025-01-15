@@ -22,13 +22,16 @@ let counter = 0;
     styleUrls: ['./input-color.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaColorPicker],
-    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputColor), multi: true }],
+    providers: [
+        { provide: MagmaInputCommon, useExisting: MagmaInputColor },
+        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputColor), multi: true },
+    ],
     host: {
         '[id]': '_id()',
     },
 })
 export class MagmaInputColor extends MagmaInputCommon implements OnInit {
-    protected override componentName = 'input-color';
+    override readonly componentName = 'input-color';
     protected override counter = counter++;
 
     readonly span = viewChild.required<ElementRef<HTMLSpanElement>>('span');

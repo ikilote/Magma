@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnInit,
+    SimpleChanges,
     booleanAttribute,
     computed,
     forwardRef,
@@ -18,26 +19,33 @@ let counter = 0;
     templateUrl: './input-radio.component.html',
     styleUrls: ['./input-radio.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputRadio), multi: true }],
+    providers: [
+        { provide: MagmaInputCommon, useExisting: MagmaInputRadio },
+        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputRadio), multi: true },
+    ],
     host: {
         '[id]': '_id()',
     },
 })
 export class MagmaInputRadio extends MagmaInputCommon implements OnInit {
-    protected override componentName = 'input-radio';
+    override readonly componentName = 'input-radio';
     protected override counter = counter++;
 
     override readonly value = input.required();
 
     readonly checked = input(false, { transform: booleanAttribute });
 
-    _checked = computed(() => this.testChecked ?? this.checked());
+    protected testChecked: boolean | undefined;
 
     protected override _baseValue = 'checked';
 
-    protected testChecked: boolean | undefined;
-
     override _name = computed<string>(() => this.formControlName() || this.name() || this.host._id() || this.uid());
+
+    override ngOnChanges(changes: SimpleChanges): void {
+        if (changes['checked']) {
+            this.testChecked = changes['checked'].currentValue;
+        }
+    }
 
     override writeValue(value: any): void {
         super.writeValue(value);

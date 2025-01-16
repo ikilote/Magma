@@ -1,0 +1,18 @@
+@if (!onError) {
+  <input
+    #input
+    type="number"
+    [step]="step()"
+    inputmode="decimal"
+    [name]="_name()"
+    [id]="_id() + '-input'"
+    [value]="_value"
+    (keydown)="keydown($event)"
+    (change)="changeValue($event)"
+    (input)="inputValue($event)"
+    (focus)="focus(true)"
+    (blur)="focus(false)"
+  />
+} @else {
+  Error
+}

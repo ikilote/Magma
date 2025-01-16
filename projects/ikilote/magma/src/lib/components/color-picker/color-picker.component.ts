@@ -7,6 +7,7 @@ import {
     OnChanges,
     SimpleChanges,
     booleanAttribute,
+    inject,
     input,
     output,
     viewChild,
@@ -14,6 +15,8 @@ import {
 import { FormsModule } from '@angular/forms';
 
 import Color from 'colorjs.io';
+
+import { Logger } from '../../services/logger';
 
 @Component({
     selector: 'color-picker',
@@ -29,6 +32,8 @@ import Color from 'colorjs.io';
     },
 })
 export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
+    readonly logger = inject(Logger);
+
     readonly zone = viewChild.required<ElementRef<HTMLDivElement>>('cursorZone');
     readonly drag = viewChild.required(CdkDrag);
 
@@ -107,7 +112,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
             }
             this.updateWithHLS(colorObject);
         } catch (e) {
-            console.log('Invalid color');
+            this.logger.log('[MagmaColorPickerComponent] Invalid color');
         }
     }
 

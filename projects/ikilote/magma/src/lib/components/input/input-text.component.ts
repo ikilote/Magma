@@ -30,20 +30,16 @@ export class MagmaInputText extends MagmaInputCommon implements OnInit {
 
     changeValue(event: Event) {
         const value = ((event as InputEvent).target as HTMLInputElement).value;
-        console.log('change', value);
         this.onChange(value);
         this.update.emit(value);
     }
 
     inputValue(event: Event) {
         const value = ((event as InputEvent).target as HTMLInputElement).value;
-        console.log('input', value);
         this.onChange(value);
     }
 
     focus(value: boolean) {
-        console.log('focus', value);
-
         if (!value) {
             this.onTouched();
         }

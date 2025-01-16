@@ -3,11 +3,14 @@ import { ControlValueAccessor } from '@angular/forms';
 
 import { MagmaInput } from './input.component';
 
+import { Logger } from '../../services/logger';
+
 @Directive({
     selector: 'mg-input-common',
 })
 export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges {
-    readonly host = inject(MagmaInput, { optional: false, host: true });
+    protected readonly host = inject(MagmaInput, { optional: false, host: true });
+    protected readonly logger = inject(Logger);
 
     readonly value = input();
 

@@ -138,4 +138,31 @@
       >
     </mg-input>
   </div>
+  <!-- Number -->
+  <h2>Number</h2>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-number value="153.15"></mg-input-number>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label ({{ number }})</mg-input-label>
+      <mg-input-number [(ngModel)]="number"></mg-input-number>
+    </mg-input>
+    Test
+    <mg-input [formGroup]="formNumber">
+      <mg-input-number formControlName="test"></mg-input-number>
+      <mg-input-desc
+        >Desc<br />
+        {{ formNumber.get('test')?.value }}</mg-input-desc
+      >
+    </mg-input>
+    Test
+  </div>
 </section>

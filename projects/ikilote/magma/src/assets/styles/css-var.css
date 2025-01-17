@@ -157,6 +157,7 @@ body {
     /* input */
     --input-border-color: var(--primary4);
     --input-background: var(--primary8);
+    --input-background-affix: var(--primary7);
     --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
     --input-item-color: var(--neutral7);
     --input-item-active-color: var(--neutral1);

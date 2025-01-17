@@ -2,11 +2,11 @@
   <label for="id"><ng-content select="mg-input-label"></ng-content></label>
 </div>
 <div class="content">
-  <div>
-    <ng-content
-      select="mg-input-text, mg-input-number, mg-input-color, mg-input-radio, mg-input-checkbox, mg-input-number"
-    ></ng-content>
-  </div>
+  <ng-content select="mg-input-prefix"></ng-content>
+  <ng-content
+    select="mg-input-text, mg-input-number, mg-input-color, mg-input-radio, mg-input-checkbox, mg-input-number, mg-input-select"
+  ></ng-content>
+  <ng-content select="mg-input-suffix"></ng-content>
 </div>
 <div class="bottom">
   <ng-content select="mg-input-desc"></ng-content>

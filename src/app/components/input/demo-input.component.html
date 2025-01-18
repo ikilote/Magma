@@ -167,4 +167,42 @@
     </mg-input>
     Test
   </div>
+
+  <!-- Select -->
+  <h2>Select</h2>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-select [data]="data" value="test2"></mg-input-select>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label ({{ select1 }})</mg-input-label>
+      <mg-input-select [data]="data" [(ngModel)]="select1"></mg-input-select>
+    </mg-input>
+    Test
+    <mg-input [formGroup]="formSelect">
+      <mg-input-select formControlName="test" [data]="data"></mg-input-select>
+      <mg-input-desc
+        >Desc<br />
+        {{ formSelect.get('test')?.value }}</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-select [data]="data" value="test2"></mg-input-select>
+      <mg-input-prefix>Au</mg-input-prefix>
+      <mg-input-suffix>mois</mg-input-suffix>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+  </div>
 </section>

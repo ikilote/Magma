@@ -1,0 +1,19 @@
+ng-select2 {
+    --select2-selection-focus-border-color: var(--input-focus-border-color);
+    --select2-selection-text-color: var(--text-color);
+    --select2-selection-background: var(--input-background);
+    --select2-selection-border-color: var(--input-border-color);
+    --select2-selection-disabled-background: var(--input-background);
+    --select2-selection-disabled-border-color: var(--input-border-color);
+    --select2-single-height: auto;
+    --select2-dropdown-background: var(--input-background);
+    --select2-dropdown-border-color: var(--input-border-color);
+    --select2-option-text-color: var(--text-color);
+    --select2-option-selected-text-color: var(--text-color);
+    --select2-option-selected-background: var(--primary5);
+    --select2-option-highlighted-text-color: var(--text-color);
+    --select2-option-highlighted-background: var(--primary6);
+    --select2-search-border-color: var(--input-border-color);
+    --select2-search-background: var(--text-color);
+    --select2-selection-line-height: 31px;
+}

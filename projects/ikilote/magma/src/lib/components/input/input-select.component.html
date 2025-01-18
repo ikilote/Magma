@@ -1,0 +1,13 @@
+@if (!onError) {
+  <ng-select2
+    [id]="_id() + '-select2'"
+    [data]="data()"
+    [value]="_value"
+    [multiple]="multiple()"
+    (update)="changeValue($event)"
+    (focus)="focus(false)"
+    (blur)="focus(false)"
+  ></ng-select2>
+} @else {
+  Error
+}

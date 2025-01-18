@@ -1,11 +1,13 @@
+// affix style
+
 :host:is(mg-input-prefix, mg-input-suffix) {
     position: relative;
 }
 
-:host:is(mg-input-prefix):has(+ ::ng-deep :is(mg-input-text, mg-input-number)),
-:is(mg-input-text, mg-input-number) + :host:is(mg-input-suffix) {
+:host:is(mg-input-prefix):has(+ ::ng-deep :is(mg-input-text, mg-input-number, mg-input-select)),
+:is(mg-input-text, mg-input-number, mg-input-select) + :host:is(mg-input-suffix) {
     box-sizing: border-box;
-    outline: 1px solid transparent;
+    outline: 2px solid transparent;
     border: 1px solid var(--input-border-color);
     border-right-width: 0;
     border-radius: 3px 0 0 3px;
@@ -14,11 +16,13 @@
     color: var(--text-color);
 }
 
-:is(mg-input-text, mg-input-number) + :host:is(mg-input-suffix) {
+:is(mg-input-text, mg-input-number, mg-input-select) + :host:is(mg-input-suffix) {
     border-right-width: 1px;
     border-left-width: 0;
     border-radius: 0 3px 3px 0;
 }
+
+// affix -> input style
 
 :host:is(mg-input-prefix) + ::ng-deep :is(mg-input-text, mg-input-number) input {
     position: relative; // for focus
@@ -32,6 +36,34 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+
+// affix -> select2 style
+
+:host:is(mg-input-prefix) + ::ng-deep :is(mg-input-select) {
+    position: relative; // for focus
+    top: -3px;
+    z-index: 1; // for focus
+    margin-bottom: -3px;
+
+    & .select2-container--default[class] .select2-selection--single[class] {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
+:is(mg-input-select):has(+ :host:is(mg-input-suffix)) {
+    position: relative; // for focus
+    top: -3px;
+    z-index: 1; // for focus
+    margin-bottom: -3px;
+
+    & ::ng-deep .select2-container--default[class] .select2-selection--single[class] {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+}
+
+// description
 
 :host:is(mg-input-desc) {
     font-size: 12px;

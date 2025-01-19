@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, booleanAttribute, computed, contentChildren, input } from '@angular/core';
+import { NgControl } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
@@ -23,6 +24,8 @@ export class MagmaInput {
     protected uid = computed<string>(() => `mg-input-${this.counter}`);
 
     _id = computed<string>(() => this.id() || this.uid());
+
+    ngControl: NgControl | null = null;
 
     readonly inputs = contentChildren(MagmaInputCommon);
 }

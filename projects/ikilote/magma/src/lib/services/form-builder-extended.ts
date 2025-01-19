@@ -8,7 +8,6 @@ declare type ɵNullableFormControls<T> = {
 export declare type ParamsMessages<T = any> = {
     default: T;
     controlType?: ɵNullableFormControls<T>;
-    nonNullable?: boolean;
     options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -43,7 +42,10 @@ declare type FormMapper<Type extends ControlWithError<any>> = {
 export abstract class FormBuilderExtended {
     fb = inject(FormBuilder);
 
-    groupWithError<T extends {}>(controlsWithError: ControlWithError<T>, options?: AbstractControlOptions | null) {
+    groupWithErrorNonNullable<T extends {}>(
+        controlsWithError: ControlWithError<T>,
+        options?: AbstractControlOptions | null,
+    ) {
         const controls: any = {};
 
         Object.entries<ParamsMessages>(controlsWithError).forEach(([key, value]) => {
@@ -51,7 +53,7 @@ export abstract class FormBuilderExtended {
                 default:
                     controls[key] = new FormControl(value.default, {
                         ...value.options,
-                        ...{ nonNullable: value.nonNullable ?? false },
+                        ...{ nonNullable: true },
                     }) as any;
             }
         });

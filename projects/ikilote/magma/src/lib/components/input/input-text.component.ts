@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit, forwardRef, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, viewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -18,7 +18,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInputText extends MagmaInputCommon implements OnInit {
+export class MagmaInputText extends MagmaInputCommon {
     override readonly componentName = 'input-text';
     protected override counter = counter++;
 

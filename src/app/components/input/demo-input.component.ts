@@ -61,7 +61,7 @@ export class DemoInputComponent {
 
     constructor(fbe: FormBuilderExtended, fb: FormBuilder) {
         console.log(fbe);
-        this.formText = fbe.groupWithError({
+        this.formText = fbe.groupWithErrorNonNullable({
             test: {
                 default: 'form',
                 control: {

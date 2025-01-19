@@ -1,13 +1,11 @@
-import { Directive, OnChanges, OnInit, SimpleChanges, computed, inject, input, output } from '@angular/core';
-import { ControlValueAccessor } from '@angular/forms';
+import { Directive, Injector, OnChanges, OnInit, SimpleChanges, computed, inject, input, output } from '@angular/core';
+import { ControlValueAccessor, NgControl } from '@angular/forms';
 
 import { MagmaInput } from './input.component';
 
 import { Logger } from '../../services/logger';
 
-@Directive({
-    selector: 'mg-input-common',
-})
+@Directive({})
 export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges {
     protected readonly host = inject(MagmaInput, { optional: false, host: true });
     protected readonly logger = inject(Logger);
@@ -33,10 +31,16 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
 
     protected onError = false;
 
+    private injector = inject(Injector);
+
+    ngControl: NgControl | null = null;
+
     ngOnInit(): void {
         if (!this.host) {
             this.onError = true;
         }
+        this.ngControl = this.injector.get(NgControl, null, { self: true, optional: true });
+        this.host.ngControl ??= this.ngControl;
     }
 
     ngOnChanges(changes: SimpleChanges): void {

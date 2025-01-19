@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Select2Data } from 'ng-select2-component';
 
 import {
+    FormBuilderExtended,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputColor,
@@ -58,9 +59,17 @@ export class DemoInputComponent {
         test: FormControl<string>;
     }>;
 
-    constructor(fb: NonNullableFormBuilder) {
-        this.formText = fb.group({
-            test: new FormControl<string>('form', { nonNullable: true }),
+    constructor(fbe: FormBuilderExtended, fb: FormBuilder) {
+        console.log(fbe);
+        this.formText = fbe.groupWithError({
+            test: {
+                default: 'form',
+                control: {
+                    required: { state: true, message: '' },
+                    minLength: { state: 5, message: '' },
+                    maxLength: { state: 50, message: '' },
+                },
+            },
         });
         this.formColor = fb.group({
             test: new FormControl<string>('#1f7b33', { nonNullable: true }),

@@ -20,4 +20,5 @@ export * from './lib/components/tabs/tab-content.component';
 export * from './lib/components/tabs/tab-title.component';
 export * from './lib/components/tabs/tabs.component';
 export * from './lib/pipes/num-format';
+export * from './lib/services/form-builder-extended';
 export * from './lib/services/logger';

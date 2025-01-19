@@ -16,4 +16,8 @@ ng-select2 {
     --select2-search-border-color: var(--input-border-color);
     --select2-search-background: var(--text-color);
     --select2-selection-line-height: 31px;
+
+    @supports selector(::-webkit-slider-runnable-track) {
+        --select2-selection-line-height: 29px;
+    }
 }

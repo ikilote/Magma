@@ -53,8 +53,8 @@ export class MagmaInputRadio extends MagmaInputCommon implements OnInit {
         this.testChecked = value === this.value();
     }
 
-    _change(event: Event) {
-        const value = (event.target as HTMLInputElement).value;
+    _change() {
+        const value = this.value();
         this.onChange(value);
         this.update.emit(value);
     }

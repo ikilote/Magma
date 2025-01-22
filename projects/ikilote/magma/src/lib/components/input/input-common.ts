@@ -28,7 +28,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     _name = computed<string>(() => this.formControlName() || this.name() || this.id() || this.uid());
     _id = computed<string>(() => this.id() || this.uid());
 
-    protected _value = '';
+    protected _value: any = '';
 
     protected onError = false;
 

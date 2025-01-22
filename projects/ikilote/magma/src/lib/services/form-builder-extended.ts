@@ -15,10 +15,15 @@ declare type ɵNullableFormControls<T> = {
     [K in keyof T]: ɵElement<T[K], null>;
 };
 
+export type ParamsMessagesControlMessage = { message?: string | ((params: any) => string); data?: any };
+export type ParamsMessagesControlRequired = { state?: boolean } & ParamsMessagesControlMessage;
+export type ParamsMessagesControlMinLength = { state?: number } & ParamsMessagesControlMessage;
+export type ParamsMessagesControlMaxLength = { state?: number } & ParamsMessagesControlMessage;
+
 export interface ParamsMessagesControl {
-    required?: { state?: boolean; message?: string | ((params: any) => string) };
-    minLength?: { state?: number; message?: string | ((params: any) => string) };
-    maxLength?: { state?: number; message?: string | ((params: any) => string) };
+    required?: ParamsMessagesControlRequired;
+    minlength?: ParamsMessagesControlMinLength;
+    maxlength?: ParamsMessagesControlMaxLength;
 }
 
 export declare type ParamsMessages<T = any> = {
@@ -67,9 +72,9 @@ export abstract class FormBuilderExtended {
                 Object.entries(value.control).forEach(([key, control]) => {
                     if (key === 'required' && control.state) {
                         validators.push(Validators.required);
-                    } else if (key === 'minLength' && control.state > 0) {
+                    } else if (key === 'minlength' && control.state > 0) {
                         validators.push(Validators.minLength(control.state));
-                    } else if (key === 'maxLength' && control.state > 0) {
+                    } else if (key === 'maxlength' && control.state > 0) {
                         validators.push(Validators.maxLength(control.state));
                     }
                 });

@@ -8,7 +8,7 @@ import {
     input,
     viewChild,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Select2, Select2Data, Select2UpdateEvent, Select2UpdateValue } from 'ng-select2-component';
 
@@ -24,6 +24,7 @@ let counter = 0;
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputSelect },
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputSelect), multi: true },
+        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputSelect), multi: true },
     ],
     host: {
         '[id]': '_id()',

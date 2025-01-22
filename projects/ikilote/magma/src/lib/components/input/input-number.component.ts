@@ -9,7 +9,7 @@ import {
     numberAttribute,
     viewChild,
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
@@ -23,6 +23,7 @@ let counter = 0;
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputNumber },
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputNumber), multi: true },
+        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputNumber), multi: true },
     ],
     host: {
         '[id]': '_id()',

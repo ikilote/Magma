@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, viewChild } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
@@ -10,9 +10,11 @@ let counter = 0;
     templateUrl: './input-text.component.html',
     styleUrls: ['./input-text.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ReactiveFormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputText },
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputText), multi: true },
+        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputText), multi: true },
     ],
     host: {
         '[id]': '_id()',
@@ -39,9 +41,13 @@ export class MagmaInputText extends MagmaInputCommon {
         this.onChange(value);
     }
 
-    focus(value: boolean) {
-        if (!value) {
+    focus(focus: boolean) {
+        console.log('focus', focus, this.ngControl);
+        if (!focus) {
             this.onTouched();
+            if (this.ngControl?.control) {
+                this.validate(this.ngControl.control);
+            }
         }
     }
 }

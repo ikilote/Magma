@@ -19,11 +19,19 @@ export type ParamsMessagesControlMessage = { message?: string | ((params: any) =
 export type ParamsMessagesControlRequired = { state?: boolean } & ParamsMessagesControlMessage;
 export type ParamsMessagesControlMinLength = { state?: number } & ParamsMessagesControlMessage;
 export type ParamsMessagesControlMaxLength = { state?: number } & ParamsMessagesControlMessage;
+export type ParamsMessagesControlMin = { state?: number } & ParamsMessagesControlMessage;
+export type ParamsMessagesControlMax = { state?: number } & ParamsMessagesControlMessage;
+export type ParamsMessagesControlPattern = { state?: string | RegExp } & ParamsMessagesControlMessage;
+export type ParamsMessagesControlEmail = { state?: boolean } & ParamsMessagesControlMessage;
 
 export interface ParamsMessagesControl {
     required?: ParamsMessagesControlRequired;
     minlength?: ParamsMessagesControlMinLength;
     maxlength?: ParamsMessagesControlMaxLength;
+    min?: ParamsMessagesControlMin;
+    max?: ParamsMessagesControlMax;
+    pattern?: ParamsMessagesControlPattern;
+    email?: ParamsMessagesControlEmail;
 }
 
 export declare type ParamsMessages<T = any> = {
@@ -76,6 +84,14 @@ export abstract class FormBuilderExtended {
                         validators.push(Validators.minLength(control.state));
                     } else if (key === 'maxlength' && control.state > 0) {
                         validators.push(Validators.maxLength(control.state));
+                    } else if (key === 'min' && control.state > 0) {
+                        validators.push(Validators.min(control.state));
+                    } else if (key === 'max' && control.state > 0) {
+                        validators.push(Validators.max(control.state));
+                    } else if (key === 'pattern' && control.state) {
+                        validators.push(Validators.pattern(control.state));
+                    } else if (key === 'email' && control.state) {
+                        validators.push(Validators.email);
                     }
                 });
             }

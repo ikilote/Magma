@@ -49,6 +49,9 @@ export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
     focus(value: boolean) {
         if (!value) {
             this.onTouched();
+            if (this.ngControl?.control) {
+                this.validate(this.ngControl.control);
+            }
         }
     }
 }

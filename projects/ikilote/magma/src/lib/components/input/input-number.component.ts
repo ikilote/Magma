@@ -80,6 +80,12 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
     focus(value: boolean) {
         if (!value) {
             this.onTouched();
+            if (!focus) {
+                this.onTouched();
+                if (this.ngControl?.control) {
+                    this.validate(this.ngControl.control);
+                }
+            }
         }
     }
 

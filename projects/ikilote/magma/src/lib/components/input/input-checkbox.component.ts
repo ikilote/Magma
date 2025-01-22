@@ -66,6 +66,11 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit {
         this.onChange(value);
         this.update.emit(value);
         this.itemUpdate.emit(this.testChecked!);
+
+        this.onTouched();
+        if (this.ngControl?.control) {
+            this.validate(this.ngControl.control);
+        }
     }
 
     getValue() {

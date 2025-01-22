@@ -47,5 +47,9 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
     colorClose(color: string) {
         this.onChange(color);
         this.writeValue(color);
+        this.onTouched();
+        if (this.ngControl?.control) {
+            this.validate(this.ngControl.control);
+        }
     }
 }

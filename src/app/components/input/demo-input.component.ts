@@ -71,14 +71,32 @@ export class DemoInputComponent {
                 },
             },
         });
-        this.formColor = fb.group({
-            test: new FormControl<string>('#1f7b33', { nonNullable: true }),
+        this.formColor = fbe.groupWithErrorNonNullable({
+            test: {
+                default: '#1f7b33',
+                control: {
+                    required: { state: true, message: 'error required' },
+                },
+            },
         });
-        this.formNumber = fb.group({
-            test: new FormControl<number>(153.15, { nonNullable: true }),
+        this.formNumber = fbe.groupWithErrorNonNullable({
+            test: {
+                default: 53.15,
+                control: {
+                    required: { state: true, message: 'error required' },
+                    min: { state: 5, message: 'error min' },
+                    max: { state: 50, message: 'error max' },
+                },
+            },
         });
-        this.formSelect = fb.group({
-            test: new FormControl<string>('test2', { nonNullable: true }),
+        this.formSelect = fbe.groupWithErrorNonNullable({
+            test: {
+                default: 'test2',
+                control: {
+                    required: { state: true, message: 'error required' },
+                    pattern: { state: /.*2$/, message: 'error patter' },
+                },
+            },
         });
     }
 }

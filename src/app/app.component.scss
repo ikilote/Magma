@@ -18,6 +18,7 @@ ul {
     list-style: none;
 
     li {
+        div,
         a {
             display: block;
             padding: 5px 10px;
@@ -27,6 +28,14 @@ ul {
                 background: var(--neutral7);
             }
         }
+    }
+
+    li li a {
+        padding: 5px 10px 5px 20px;
+    }
+
+    div {
+        font-weight: 600;
     }
 }
 

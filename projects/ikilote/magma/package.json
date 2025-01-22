@@ -25,13 +25,14 @@
   "bugs": {
     "url": "https://git.ikilote.net/angular/magma/-/issues"
   },
-  "homepage": "https://git.ikilote.net/angular/magma#ikilotemagma",
+  "homepage": "https://magma.ikilote.net/",
   "keywords": [
     "typescript",
     "angular",
     "components",
     "color picker",
     "context menu",
+    "input",
     "dialog",
     "tabs"
   ]

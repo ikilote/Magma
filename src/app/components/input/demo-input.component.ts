@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Select2Data } from 'ng-select2-component';
 
@@ -59,7 +59,7 @@ export class DemoInputComponent {
         test: FormControl<string>;
     }>;
 
-    constructor(fbe: FormBuilderExtended, fb: FormBuilder) {
+    constructor(fbe: FormBuilderExtended) {
         console.log(fbe);
         this.formText = fbe.groupWithErrorNonNullable({
             test: {
@@ -73,9 +73,10 @@ export class DemoInputComponent {
         });
         this.formColor = fbe.groupWithErrorNonNullable({
             test: {
-                default: '#1f7b33',
+                default: null,
                 control: {
                     required: { state: true, message: 'error required' },
+                    pattern: { state: /^\#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/, message: 'error pattern' },
                 },
             },
         });
@@ -93,8 +94,7 @@ export class DemoInputComponent {
             test: {
                 default: 'test2',
                 control: {
-                    required: { state: true, message: 'error required' },
-                    pattern: { state: /.*2$/, message: 'error patter' },
+                    pattern: { state: /.*2$/, message: 'error pattern' },
                 },
             },
         });

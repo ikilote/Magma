@@ -4,14 +4,18 @@
   <section>
     <form [formGroup]="ctrlForm">
       <p>
-        <strong>closeButton</strong>
-        <label><input formControlName="closeButton" type="radio" [value]="true" />enabled</label>
-        <label><input formControlName="closeButton" type="radio" [value]="false" />disabled</label>
+        <mg-input>
+          <mg-input-label>closeButton</mg-input-label>
+          <mg-input-radio formControlName="closeButton" [value]="true">enabled</mg-input-radio>
+          <mg-input-radio formControlName="closeButton" [value]="false">enabled</mg-input-radio>
+        </mg-input>
       </p>
       <p>
-        <strong>closeBackdrop</strong>
-        <label><input formControlName="closeBackdrop" type="radio" [value]="true" />enabled</label>
-        <label><input formControlName="closeBackdrop" type="radio" [value]="false" />disabled</label>
+        <mg-input>
+          <mg-input-label>closeBackdrop</mg-input-label>
+          <mg-input-radio formControlName="closeBackdrop" [value]="true">enabled</mg-input-radio>
+          <mg-input-radio formControlName="closeBackdrop" [value]="false">enabled</mg-input-radio>
+        </mg-input>
       </p>
     </form>
     <div>

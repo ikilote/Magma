@@ -1,18 +1,36 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
-import { ContextMenuData, ContextMenuMode, MagmaContextMenu } from '../../../../projects/ikilote/magma/src/public-api';
+import {
+    ContextMenuData,
+    ContextMenuMode,
+    FormBuilderExtended,
+    MagmaContextMenu,
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputRadio,
+} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
     selector: 'demo-context-menu',
     templateUrl: './demo-context-menu.component.html',
     styleUrls: ['./demo-context-menu.component.scss'],
-    imports: [MagmaContextMenu, FormsModule, CodeTabsComponent, ReactiveFormsModule],
+    imports: [
+        FormsModule,
+        CodeTabsComponent,
+        ReactiveFormsModule,
+        MagmaContextMenu,
+        MagmaInput,
+        MagmaInputElement,
+        MagmaInputRadio,
+    ],
 })
 export class DemoContextMenuComponent {
+    readonly fb = inject(FormBuilderExtended);
+
     contextMenu: ContextMenuData<any> = {
         contextMenu: [
             {
@@ -103,10 +121,10 @@ export class DemoContextMenuComponent {
     };
 }`;
 
-    constructor(fb: NonNullableFormBuilder) {
-        this.ctrlForm = fb.group({
-            contextMenuMode: new FormControl<ContextMenuMode>('default', { nonNullable: true }),
-            contextMenuDisabled: new FormControl<boolean>(false, { nonNullable: true }),
+    constructor() {
+        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+            contextMenuMode: { default: 'default' },
+            contextMenuDisabled: { default: false },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {

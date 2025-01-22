@@ -1,18 +1,34 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
-import { MagmaDialog } from '../../../../projects/ikilote/magma/src/public-api';
+import {
+    FormBuilderExtended,
+    MagmaDialog,
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputRadio,
+} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
     selector: 'demo-dialog',
     templateUrl: './demo-dialog.component.html',
     styleUrls: ['./demo-dialog.component.scss'],
-    imports: [MagmaDialog, FormsModule, CodeTabsComponent, ReactiveFormsModule],
+    imports: [
+        FormsModule,
+        CodeTabsComponent,
+        ReactiveFormsModule,
+        MagmaDialog,
+        MagmaInput,
+        MagmaInputElement,
+        MagmaInputRadio,
+    ],
 })
 export class DemoDialogComponent {
+    readonly fb = inject(FormBuilderExtended);
+
     ctrlForm: FormGroup<{
         closeButton: FormControl<boolean>;
         closeBackdrop: FormControl<boolean>;
@@ -20,10 +36,10 @@ export class DemoDialogComponent {
 
     codeHtml = '';
 
-    constructor(fb: NonNullableFormBuilder) {
-        this.ctrlForm = fb.group({
-            closeButton: new FormControl<boolean>(true, { nonNullable: true }),
-            closeBackdrop: new FormControl<boolean>(false, { nonNullable: true }),
+    constructor() {
+        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+            closeButton: { default: true },
+            closeBackdrop: { default: false },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {

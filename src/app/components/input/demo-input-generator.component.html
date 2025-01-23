@@ -37,10 +37,35 @@
         </mg-input>
       </div>
       @if (formGenerator.value.type === 'checkbox' || formGenerator.value.type === 'radio') {
+        <h3>Input detail</h3>
         <div>
           <mg-input>
             <mg-input-label>Input label</mg-input-label>
-            <mg-input-text formControlName="subLabel" value=""></mg-input-text>
+            <mg-input-text formControlName="subLabel1" value=""></mg-input-text>
+          </mg-input>
+          <mg-input>
+            <mg-input-label>Input label</mg-input-label>
+            <mg-input-text formControlName="subValue1" value=""></mg-input-text>
+          </mg-input>
+        </div>
+        <div>
+          <mg-input>
+            <mg-input-label>Input label</mg-input-label>
+            <mg-input-text formControlName="subLabel2" value=""></mg-input-text>
+          </mg-input>
+          <mg-input>
+            <mg-input-label>Input label</mg-input-label>
+            <mg-input-text formControlName="subValue2" value=""></mg-input-text>
+          </mg-input>
+        </div>
+        <div>
+          <mg-input>
+            <mg-input-label>Input label</mg-input-label>
+            <mg-input-text formControlName="subLabel3" value=""></mg-input-text>
+          </mg-input>
+          <mg-input>
+            <mg-input-label>Input label</mg-input-label>
+            <mg-input-text formControlName="subValue3" value=""></mg-input-text>
           </mg-input>
         </div>
       }
@@ -63,10 +88,12 @@
           <mg-input-number value="10"></mg-input-number>
         }
         @case ('checkbox') {
-          <mg-input-checkbox value="10">{{ formGenerator.value.subLabel }}</mg-input-checkbox>
+          <mg-input-checkbox [value]="formGenerator.value.subValue1">{{
+            formGenerator.value.subLabel1
+          }}</mg-input-checkbox>
         }
         @case ('radio') {
-          <mg-input-radio value="10">{{ formGenerator.value.subLabel }}</mg-input-radio>
+          <mg-input-radio [value]="formGenerator.value.subValue1">{{ formGenerator.value.subLabel1 }}</mg-input-radio>
         }
         @case ('select') {
           <mg-input-select value="test2" [data]="exampleData"></mg-input-select>
@@ -75,6 +102,23 @@
           <mg-input-color value="red"></mg-input-color>
         }
       }
+      @if (formGenerator.value.type === 'checkbox') {
+        <mg-input-checkbox [value]="formGenerator.value.subValue2">{{
+          formGenerator.value.subLabel2
+        }}</mg-input-checkbox>
+      }
+      @if (formGenerator.value.type === 'checkbox') {
+        <mg-input-checkbox [value]="formGenerator.value.subValue3">{{
+          formGenerator.value.subLabel3
+        }}</mg-input-checkbox>
+      }
+      @if (formGenerator.value.type === 'radio') {
+        <mg-input-radio [value]="formGenerator.value.subValue2">{{ formGenerator.value.subLabel2 }}</mg-input-radio>
+      }
+      @if (formGenerator.value.type === 'radio') {
+        <mg-input-radio [value]="formGenerator.value.subValue3">{{ formGenerator.value.subLabel3 }}</mg-input-radio>
+      }
+
       @if (formGenerator.value.suffix) {
         <mg-input-suffix>{{ formGenerator.value.suffix }}</mg-input-suffix>
       }

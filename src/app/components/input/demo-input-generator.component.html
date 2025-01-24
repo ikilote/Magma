@@ -48,24 +48,62 @@
             <mg-input-text formControlName="subValue1" value=""></mg-input-text>
           </mg-input>
         </div>
-        <div>
+        @if (formGenerator.value.type === 'radio' || formGenerator.value.multiple) {
+          <div>
+            <mg-input>
+              <mg-input-label>Input label</mg-input-label>
+              <mg-input-text formControlName="subLabel2" value=""></mg-input-text>
+            </mg-input>
+            <mg-input>
+              <mg-input-label>Input label</mg-input-label>
+              <mg-input-text formControlName="subValue2" value=""></mg-input-text>
+            </mg-input>
+          </div>
+          <div>
+            <mg-input>
+              <mg-input-label>Input label</mg-input-label>
+              <mg-input-text formControlName="subLabel3" value=""></mg-input-text>
+            </mg-input>
+            <mg-input>
+              <mg-input-label>Input label</mg-input-label>
+              <mg-input-text formControlName="subValue3" value=""></mg-input-text>
+            </mg-input>
+          </div>
+        }
+        @if (formGenerator.value.type === 'checkbox') {
           <mg-input>
-            <mg-input-label>Input label</mg-input-label>
-            <mg-input-text formControlName="subLabel2" value=""></mg-input-text>
+            <mg-input-label>Multiple</mg-input-label>
+            <mg-input-checkbox formControlName="multiple" mode="toggle"></mg-input-checkbox>
           </mg-input>
           <mg-input>
-            <mg-input-label>Input label</mg-input-label>
-            <mg-input-text formControlName="subValue2" value=""></mg-input-text>
+            <mg-input-label>Mode toggle</mg-input-label>
+            <mg-input-checkbox formControlName="toggle" mode="toggle"></mg-input-checkbox>
+          </mg-input>
+          @if (!formGenerator.value.multiple) {
+            <mg-input>
+              <mg-input-label>Force array value</mg-input-label>
+              <mg-input-checkbox formControlName="arrayValue" mode="toggle"></mg-input-checkbox>
+            </mg-input>
+          }
+        }
+      } @else if (formGenerator.value.type === 'number') {
+        <h3>Input detail</h3>
+        <div>
+          <mg-input>
+            <mg-input-label>Step</mg-input-label>
+            <mg-input-number formControlName="step" value=""></mg-input-number>
+          </mg-input>
+          <mg-input>
+            <mg-input-label>ShowArrows</mg-input-label>
+            <mg-input-checkbox formControlName="showArrows" value="" mode="toggle"></mg-input-checkbox>
           </mg-input>
         </div>
+      } @else if (formGenerator.value.type === 'color') {
+        <h3>Input detail</h3>
         <div>
           <mg-input>
-            <mg-input-label>Input label</mg-input-label>
-            <mg-input-text formControlName="subLabel3" value=""></mg-input-text>
-          </mg-input>
-          <mg-input>
-            <mg-input-label>Input label</mg-input-label>
-            <mg-input-text formControlName="subValue3" value=""></mg-input-text>
+            <mg-input-label>Show alpha</mg-input-label>
+            <mg-input-checkbox formControlName="alpha" value="" mode="toggle"></mg-input-checkbox>
           </mg-input>
         </div>
       }
@@ -73,7 +111,7 @@
   </div>
   <div>
     <h2>Rendu</h2>
-    <mg-input>
+    <mg-input [arrayValue]="formGenerator.value.arrayValue">
       @if (formGenerator.value.label) {
         <mg-input-label>{{ formGenerator.value.label }}</mg-input-label>
       }
@@ -82,41 +120,60 @@
       }
       @switch (formGenerator.value.type) {
         @case ('text') {
-          <mg-input-text value="text"></mg-input-text>
+          <mg-input-text value="text" [(ngModel)]="valueText"></mg-input-text>
         }
         @case ('number') {
-          <mg-input-number value="10"></mg-input-number>
+          <mg-input-number
+            [step]="formGenerator.value.step"
+            [showArrows]="formGenerator.value.showArrows"
+            [(ngModel)]="valueNumber"
+          ></mg-input-number>
         }
         @case ('checkbox') {
-          <mg-input-checkbox [value]="formGenerator.value.subValue1">{{
-            formGenerator.value.subLabel1
-          }}</mg-input-checkbox>
+          <mg-input-checkbox
+            [value]="formGenerator.value.subValue1"
+            [mode]="formGenerator.value.toggle ? 'toggle' : 'checkbox'"
+            [(ngModel)]="valueCheckbox"
+            >{{ formGenerator.value.subLabel1 }}</mg-input-checkbox
+          >
         }
         @case ('radio') {
-          <mg-input-radio [value]="formGenerator.value.subValue1">{{ formGenerator.value.subLabel1 }}</mg-input-radio>
+          <mg-input-radio [value]="formGenerator.value.subValue1" [(ngModel)]="valueRadio">{{
+            formGenerator.value.subLabel1
+          }}</mg-input-radio>
         }
         @case ('select') {
-          <mg-input-select value="test2" [data]="exampleData"></mg-input-select>
+          <mg-input-select [data]="exampleData" [(ngModel)]="valueSelect"></mg-input-select>
         }
         @case ('color') {
-          <mg-input-color value="red"></mg-input-color>
+          <mg-input-color [alpha]="formGenerator.value.alpha" [(ngModel)]="valueColor"></mg-input-color>
         }
       }
-      @if (formGenerator.value.type === 'checkbox') {
-        <mg-input-checkbox [value]="formGenerator.value.subValue2">{{
+      @if (formGenerator.value.multiple && formGenerator.value.type === 'checkbox') {
+        <mg-input-checkbox
+          [value]="formGenerator.value.subValue2"
+          [mode]="formGenerator.value.toggle ? 'toggle' : 'checkbox'"
+          [(ngModel)]="valueCheckbox"
+          >{{ formGenerator.value.subLabel2 }}</mg-input-checkbox
+        >
+      }
+      @if (formGenerator.value.multiple && formGenerator.value.type === 'checkbox') {
+        <mg-input-checkbox
+          [value]="formGenerator.value.subValue3"
+          [mode]="formGenerator.value.toggle ? 'toggle' : 'checkbox'"
+          [(ngModel)]="valueCheckbox"
+          >{{ formGenerator.value.subLabel3 }}</mg-input-checkbox
+        >
+      }
+      @if (formGenerator.value.type === 'radio') {
+        <mg-input-radio [value]="formGenerator.value.subValue2" [(ngModel)]="valueRadio">{{
           formGenerator.value.subLabel2
-        }}</mg-input-checkbox>
+        }}</mg-input-radio>
       }
-      @if (formGenerator.value.type === 'checkbox') {
-        <mg-input-checkbox [value]="formGenerator.value.subValue3">{{
+      @if (formGenerator.value.type === 'radio') {
+        <mg-input-radio [value]="formGenerator.value.subValue3" [(ngModel)]="valueRadio">{{
           formGenerator.value.subLabel3
-        }}</mg-input-checkbox>
-      }
-      @if (formGenerator.value.type === 'radio') {
-        <mg-input-radio [value]="formGenerator.value.subValue2">{{ formGenerator.value.subLabel2 }}</mg-input-radio>
-      }
-      @if (formGenerator.value.type === 'radio') {
-        <mg-input-radio [value]="formGenerator.value.subValue3">{{ formGenerator.value.subLabel3 }}</mg-input-radio>
+        }}</mg-input-radio>
       }
 
       @if (formGenerator.value.suffix) {
@@ -127,7 +184,31 @@
       }
     </mg-input>
 
+    <div>
+      Value:
+      <code>
+        @if (formGenerator.value.type === 'checkbox') {
+          {{ valueCheckbox | json }}
+        } @else if (formGenerator.value.type === 'number') {
+          {{ valueNumber | json }}
+        } @else if (formGenerator.value.type === 'radio') {
+          {{ valueRadio | json }}
+        } @else if (formGenerator.value.type === 'select') {
+          {{ valueSelect | json }}
+        } @else if (formGenerator.value.type === 'color') {
+          {{ valueColor | json }}
+        } @else if (formGenerator.value.type === 'text') {
+          {{ valueText | json }}
+        }
+      </code>
+    </div>
+
     <h2>Code</h2>
-    <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>

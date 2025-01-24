@@ -159,8 +159,8 @@ body {
     --input-background: var(--primary8);
     --input-background-affix: var(--primary7);
     --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
-    --input-item-color: var(--neutral7);
-    --input-item-active-color: var(--neutral1);
+    --input-item-color: var(--primary6);
+    --input-item-active-color: var(--primary3);
     --input-focus-border-color: var(--neutral5);
     --input-color-shadow: var(--neutralA);
 

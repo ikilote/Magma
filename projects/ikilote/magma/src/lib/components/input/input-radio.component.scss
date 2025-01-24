@@ -1,9 +1,12 @@
+:host {
+    --size: 26px;
+}
+
 input {
     position: absolute;
-    transform: scale(0, 0.001);
-    outline: none;
-    width: 0.01px;
-    height: 1px;
+    opacity: 0.01;
+    width: 0.1px;
+    height: 0.1px;
 }
 
 input + label::before {
@@ -11,13 +14,14 @@ input + label::before {
     position: absolute;
     top: -2px;
     left: 0px;
+    box-sizing: border-box;
     margin-right: 5px;
     outline: 2px solid transparent;
     border: 1px solid var(--input-border-color);
     border-radius: 50%;
     background-color: var(--input-background);
-    width: 26px;
-    height: 26px;
+    width: var(--size);
+    height: var(--size);
     content: '';
 }
 
@@ -37,6 +41,6 @@ label {
     all: unset;
     position: relative;
     padding-right: 5px;
-    padding-left: 35px;
+    padding-left: calc(var(--size) + 6px);
     line-height: 31px;
 }

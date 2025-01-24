@@ -27,6 +27,7 @@ let counter = 0;
     ],
     host: {
         '[id]': '_id()',
+        '[class.toggle-switch]': "mode() === 'toggle'",
     },
 })
 export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit {
@@ -36,6 +37,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit {
 
     override readonly value = input();
     readonly checked = input(false, { transform: booleanAttribute });
+    readonly mode = input<'checkbox' | 'toggle'>();
 
     protected testChecked: boolean | undefined;
 

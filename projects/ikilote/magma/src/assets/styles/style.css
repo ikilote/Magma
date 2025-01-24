@@ -162,7 +162,7 @@ table a {
 
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
     box-sizing: border-box;
-    outline: 1px solid transparent;
+    outline: 2px solid transparent;
     border: 1px solid var(--input-border-color);
     border-radius: 3px;
     background: var(--input-background);

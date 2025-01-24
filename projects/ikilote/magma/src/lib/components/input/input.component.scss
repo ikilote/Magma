@@ -1,0 +1,47 @@
+:host {
+    all: unset;
+    display: inline-grid;
+    grid-template-areas:
+        'r . top     '
+        'r t .       '
+        '. . content '
+        '. . bottom  ';
+    vertical-align: 5px;
+
+    &::before {
+        grid-area: r;
+        align-self: end;
+        height: 0;
+        content: '\200b';
+    }
+    &:after {
+        grid-area: t;
+        align-self: baseline;
+        height: 0;
+        content: '\200b';
+    }
+}
+.top {
+    grid-area: top;
+    font-weight: 600;
+    font-size: 90%;
+}
+.content {
+    display: flex;
+    grid-area: content;
+    align-items: baseline;
+    align-self: baseline;
+
+    & ::ng-deep input {
+        font-size: 16px;
+    }
+}
+
+.bottom {
+    grid-area: bottom;
+    font-size: 12px;
+
+    .error {
+        color: var(--alert5);
+    }
+}

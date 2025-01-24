@@ -1,0 +1,18 @@
+span {
+    display: block;
+    cursor: pointer;
+    box-sizing: border-box;
+    outline: 2px solid transparent;
+    border: 1px solid var(--input-border-color);
+    border-radius: 3px;
+    background:
+        linear-gradient(to bottom, var(--color) 0%, var(--color) 100%),
+        conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left / 10px 10px
+            repeat;
+    width: 45px;
+    height: 33px;
+
+    &:focus {
+        outline-color: var(--input-focus-border-color);
+    }
+}

@@ -28,6 +28,7 @@ const connectedPosition: ConnectedPosition[] = [
     selector: '[colorPicker]',
     host: {
         '[class.color-picker]': 'true',
+        '[tabIndex]': 'colorPickerDisabled() ? -1 : 0',
     },
 })
 export class MagmaColorPicker implements OnDestroy, OnChanges {
@@ -53,7 +54,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     }
 
     @HostListener('click', ['$event'])
-    async onContextMenu(event: MouseEvent) {
+    async open(event?: MouseEvent) {
         if (this.colorPickerDisabled()) {
             return;
         }
@@ -106,12 +107,17 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
         MagmaColorPicker._overlayRef = overlayRef;
         MagmaColorPicker._component = component;
 
-        event.preventDefault();
-        event.stopPropagation();
+        event?.preventDefault();
+        event?.stopPropagation();
     }
 
     ngOnDestroy(): void {
         this.updateEmit?.unsubscribe();
+    }
+
+    @HostListener('keydown.space', ['$event'])
+    openKeyboard() {
+        this.open();
     }
 
     @HostListener('document:keydown.escape', ['$event'])

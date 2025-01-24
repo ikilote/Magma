@@ -4,14 +4,18 @@
   <section>
     <form [formGroup]="ctrlForm">
       <p>
-        <strong>contextMenuMode</strong>
-        <label><input formControlName="contextMenuMode" type="radio" value="default" />default (list)</label>
-        <label><input formControlName="contextMenuMode" type="radio" value="bubble" />bubble</label>
+        <mg-input>
+          <mg-input-label>contextMenuMode</mg-input-label>
+          <mg-input-radio formControlName="contextMenuMode" value="default">default (list)</mg-input-radio>
+          <mg-input-radio formControlName="contextMenuMode" value="bubble">bubble</mg-input-radio>
+        </mg-input>
       </p>
       <p>
-        <strong>contextMenuDisabled</strong>
-        <label><input formControlName="contextMenuDisabled" type="radio" [value]="false" />enabled</label>
-        <label><input formControlName="contextMenuDisabled" type="radio" [value]="true" />disabled</label>
+        <mg-input>
+          <mg-input-label>contextMenuDisabled</mg-input-label>
+          <mg-input-radio formControlName="contextMenuDisabled" [value]="true">enabled</mg-input-radio>
+          <mg-input-radio formControlName="contextMenuDisabled" [value]="false">enabled</mg-input-radio>
+        </mg-input>
       </p>
     </form>
     <div

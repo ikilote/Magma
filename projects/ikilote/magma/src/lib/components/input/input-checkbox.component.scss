@@ -1,0 +1,57 @@
+@import url(./input-radio.component.scss);
+
+input + label::before {
+    border-radius: 5px;
+    font-size: 36px;
+}
+
+input:checked + label::before {
+    box-sizing: border-box;
+    background-image: linear-gradient(var(--primary5), var(--primary5));
+    background-clip: content-box;
+    padding: 3px;
+}
+
+:host.toggle-switch {
+    --height: 21px;
+    --width: 40px;
+    --size: var(--width);
+
+    input {
+        & + label {
+            &::before {
+                top: 0px;
+                border-radius: calc(var(--height) / 2);
+                background: var(--input-background);
+                width: var(--width);
+                height: var(--height);
+            }
+
+            &::after {
+                display: block;
+                position: absolute;
+                top: 2px;
+                left: 3px;
+                transition: left 0.2s;
+                border-radius: 50%;
+                background-color: var(--input-item-color);
+                width: calc(var(--height) - 4px);
+                height: calc(var(--height) - 4px);
+                content: '';
+            }
+        }
+
+        &:checked + ::after {
+            left: calc(var(--width) - var(--height) + 1px);
+            background-color: var(--input-item-active-color);
+        }
+
+        & + ::before {
+            outline: 1px solid transparent;
+        }
+
+        &:focus + ::before {
+            outline-color: var(--input-focus-border-color);
+        }
+    }
+}

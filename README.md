@@ -20,6 +20,7 @@ It will evolve mainly according to my projects. But people want to use it and he
     - Checkbox
     - Number
     - Radio
+    - Select
     - Text
 - Light-dark
 - Tabs

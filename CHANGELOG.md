@@ -1,15 +1,43 @@
 # Changelog of @ikilote/magma
 
+## 0.1.0 (2025-01-25)
+
+### ✅ New
+
+- Add `mg-input` component with:
+    - Color
+    - Checkbox
+    - Number
+    - Radio
+    - Select
+    - Text
+- Add pipe:
+    - numFormat
+- Add services:
+    - FormBuilderExtended: for show error message in `mg-input`
+    - Logger: for add logger
+
+### 🐞 Fix
+
+- Color picker : fix Webkit
+
+### 🎦 Demo
+
+- Add input pages
+    - generator
+    - alignment
+- Improuve page with new input component
+
 ## 0.0.5 (2025-01-09)
 
-### New
+### ✅ New
 
 - Add light-dark component
     - simple mode
     - compact mode
 - Add Classicone font
 
-### Demo
+### 🎦 Demo
 
 - Add light-dark page
 - Add icons page
@@ -17,7 +45,7 @@
 
 ## 0.0.4 (2025-01-08)
 
-### Fix
+### 🐞 Fix
 
 - Color picker:
     - Fix alpha in popup
@@ -26,38 +54,38 @@
     - Fix shadow position for bubble context menu
 - Fix CDK overlay with Chromium
 
-### Demo
+### 🎦 Demo
 
 - Add home page
 
 ## 0.0.3 (2025-01-06)
 
-### New
+### ✅ New
 
 - Add color picker
     - component mode
     - popup mode
 
-### Demo
+### 🎦 Demo
 
 - Add color picker page
 - Add styles pages
 
 ## 0.0.2 (2024-12-28)
 
-### Fix
+### 🐞 Fix
 
 - fix tab selection
 - rename tags/classes
 - more CSS include
 
-### Demo
+### 🎦 Demo
 
 - Add demo with code generator
 
 ## 0.0.1 (2024-12-27)
 
-### New
+### ✅ New
 
 - Add components form Classement project
     - Context-menu

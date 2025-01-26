@@ -3,8 +3,21 @@
     <mg-tab-title [id]="item.type">{{ item.type }}</mg-tab-title>
   }
   @for (item of code(); track $index) {
-    <mg-tab-content [id]="item.type"
-      ><code><pre [highlight]="item.code" [language]="item.type"></pre></code
-    ></mg-tab-content>
+    <mg-tab-content [id]="item.type">
+      @if (typeof item.code === 'string') {
+        <code><pre [highlight]="$any(item.code)" [language]="item.type"></pre></code>
+      } @else {
+        @for (block of item.code; track $index) {
+          @if (typeof block === 'string') {
+            <code><pre [highlight]="$any(block)" [language]="item.type"></pre></code>
+          } @else {
+            @if ($any(block).title) {
+              <h3>{{ $any(block).title }}</h3>
+            }
+            <code><pre [highlight]="$any(block).code" [language]="item.type"></pre></code>
+          }
+        }
+      }
+    </mg-tab-content>
   }
 </mg-tabs>

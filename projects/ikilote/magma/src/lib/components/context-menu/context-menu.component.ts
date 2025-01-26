@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, HostListener, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, HostListener, Type, input } from '@angular/core';
 
 import { MagmaContextMenu } from './context-menu.directive';
 
@@ -14,7 +15,16 @@ type ContextMenuItemBase<T> = {
     action: (arg: T) => void;
 };
 
-export type ContextMenuItem<T> = RequireOnlyOne<ContextMenuItemBase<T>, 'iconText' | 'icon'>;
+type ContextMenuItemInputs<T> = { context?: MagmaContextMenu<T> } & Record<string, any>;
+
+type ContextMenuItemComponentBase<T> = {
+    component: Type<any>;
+    inputs?: ContextMenuItemInputs<T>;
+};
+
+export type ContextMenuItem<T> =
+    | RequireOnlyOne<ContextMenuItemBase<T>, 'iconText' | 'icon'>
+    | ContextMenuItemComponentBase<T>;
 
 export interface ContextMenuData<T> {
     contextMenu: ContextMenuItem<T>[];
@@ -32,14 +42,16 @@ export type ContextMenuMode = 'default' | 'bubble' | undefined;
         '[class.bubble]': 'mode() === "bubble"',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [CommonModule],
 })
 export class MagmaContextMenuComponent<T> {
     // input
 
     readonly items = input.required<ContextMenuData<T>>();
     readonly mode = input<ContextMenuMode>('default');
+    readonly context = input<MagmaContextMenu<T>>();
 
-    active(item: ContextMenuItem<T>) {
+    active(item: RequireOnlyOne<ContextMenuItemBase<T>, 'iconText' | 'icon'>) {
         item.action(this.items().data);
         MagmaContextMenu._overlayRef!.dispose();
         MagmaContextMenu._overlayRef = undefined;
@@ -50,5 +62,17 @@ export class MagmaContextMenuComponent<T> {
     onContextMenuContext(event: MouseEvent) {
         event.preventDefault();
         event.stopPropagation();
+    }
+
+    protected withContext(inputs?: ContextMenuItemInputs<T>) {
+        return { ...inputs, ...{ context: this.context() } };
+    }
+
+    protected typeItem(context: ContextMenuItem<T>): RequireOnlyOne<ContextMenuItemBase<T>, 'iconText' | 'icon'> {
+        return context as RequireOnlyOne<ContextMenuItemBase<T>, 'iconText' | 'icon'>;
+    }
+
+    protected typeComponent(context: ContextMenuItem<T>): ContextMenuItemComponentBase<T> {
+        return context as ContextMenuItemComponentBase<T>;
     }
 }

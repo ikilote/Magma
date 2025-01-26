@@ -44,6 +44,7 @@ export class MagmaContextMenu<T> {
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('items', this.contextMenu());
         component.setInput('mode', this.contextMenuMode());
+        component.setInput('context', this);
 
         overlayRef.backdropClick().subscribe(() => {
             overlayRef.dispose();
@@ -70,10 +71,12 @@ export class MagmaContextMenu<T> {
         }
     }
 
-    private close(event: MouseEvent) {
+    close(event?: MouseEvent) {
         MagmaContextMenu._overlayRef!.dispose();
         MagmaContextMenu._overlayRef = undefined;
-        event.preventDefault();
-        event.stopPropagation();
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
     }
 }

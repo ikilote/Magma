@@ -11,6 +11,10 @@
             padding: 0;
             list-style: none;
 
+            ul {
+                display: contents;
+            }
+
             li {
                 display: flex;
                 gap: 10px;
@@ -22,6 +26,12 @@
 
                 &:hover {
                     --context-menu-item: var(--context-menu-item-hover);
+                }
+
+                &.item-content {
+                    cursor: unset;
+                    margin: 0;
+                    padding: 0;
                 }
             }
         }
@@ -60,6 +70,7 @@
             background: var(--context-menu-item);
             width: var(--size);
             height: var(--size);
+            overflow: hidden;
             font-size: 28px;
 
             @starting-style {
@@ -68,7 +79,8 @@
                 opacity: 0;
             }
 
-            .icon {
+            .icon,
+            .content {
                 transform: rotate(calc((-360deg / var(--total, 1)) * var(--position)));
             }
             .label {
@@ -77,6 +89,12 @@
 
             &:hover {
                 --context-menu-item: var(--context-menu-item-hover);
+            }
+
+            &.item-content {
+                cursor: unset;
+                margin: 0;
+                padding: 0;
             }
         }
     }

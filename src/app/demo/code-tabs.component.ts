@@ -11,5 +11,5 @@ import { MagmaTabContent, MagmaTabTitle, MagmaTabs } from '../../../projects/iki
     imports: [MagmaTabs, MagmaTabContent, MagmaTabTitle, Highlight],
 })
 export class CodeTabsComponent {
-    code = input.required<{ type: 'html' | 'ts'; code: string }[]>();
+    code = input.required<{ type: 'html' | 'ts'; code: string | string[] | { title?: string; code: string }[] }[]>();
 }

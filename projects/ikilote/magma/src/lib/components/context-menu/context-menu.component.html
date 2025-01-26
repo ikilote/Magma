@@ -1,15 +1,30 @@
 @let context = items().contextMenu;
 <menu [style.--total]="context.length">
-  @for (item of context; track item; let index = $index) {
-    <li (click)="active(item)" [style.--position]="index" [attr.title]="item.label ? (item.label) : null">
-      @if (item.iconText) {
-        <span class="icon">{{ item.iconText }}</span>
+  <ul>
+    @for (item of context; track item; let index = $index) {
+      @let itc = typeComponent(item);
+      @let iti = typeItem(item);
+      @if (itc.component) {
+        <li [style.--position]="index" class="item-content">
+          <span class="content">
+            <ng-container
+              [ngComponentOutlet]="itc.component"
+              [ngComponentOutletInputs]="withContext(itc.inputs)"
+            ></ng-container
+          ></span>
+        </li>
       } @else {
-        <span class="icon {{ item.icon }}"></span>
+        <li (click)="active(iti)" [style.--position]="index" [attr.title]="iti.label ? iti.label : null">
+          @if (iti.iconText) {
+            <span class="icon">{{ iti.iconText }}</span>
+          } @else {
+            <span class="icon {{ iti.icon }}"></span>
+          }
+          @if (iti.label) {
+            <span class="label">{{ iti.label }}</span>
+          }
+        </li>
       }
-      @if (item.label) {
-        <span class="label">{{ item.label }}</span>
-      }
-    </li>
-  }
+    }
+  </ul>
 </menu>

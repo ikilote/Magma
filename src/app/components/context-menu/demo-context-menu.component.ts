@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -13,6 +13,28 @@ import {
     MagmaInputRadio,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
+
+@Component({
+    selector: 'context-test',
+    templateUrl: './demo-context-test.component.html',
+    styles: [
+        `
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        `,
+    ],
+})
+export class ContextTestComponent {
+    context = input<MagmaContextMenu<any>>();
+    component = input<DemoContextMenuComponent>();
+
+    action() {
+        this.context()?.close();
+        this.component()?.testComponent('Test component');
+    }
+}
 
 @Component({
     selector: 'demo-context-menu',
@@ -68,6 +90,12 @@ export class DemoContextMenuComponent {
                     this.test(data, 'hate');
                 },
             },
+            {
+                component: ContextTestComponent,
+                inputs: {
+                    component: this,
+                },
+            },
         ],
         data: 'Data',
     };
@@ -116,9 +144,39 @@ export class DemoContextMenuComponent {
                     this.test(data, 'hate');
                 },
             },
+              {
+                component: ContextTestComponent,
+                inputs: {
+                    component: this,
+                },
+            },
         ],
         data: 'Data',
     };
+}`;
+
+    codeTsComponent = `@Component({
+    selector: 'context-test',
+    templateUrl: './demo-context-test.component.html',
+    styles: [
+        \`
+            :host {
+                display: block;
+                padding: 10px;
+            }
+        \`,
+    ],
+})
+export class ContextTestComponent {
+    // context of directive
+    context = input<MagmaContextMenu<any>>();
+    // other input
+    component = input<DemoContextMenuComponent>();
+
+    action() {
+        this.context()?.close();
+        this.component()?.testComponent('Test component');
+    }
 }`;
 
     constructor() {
@@ -134,6 +192,10 @@ export class DemoContextMenuComponent {
 
     test(data: string, action: string) {
         console.log(data, action);
+    }
+
+    testComponent(data: string) {
+        console.log(data);
     }
 
     codeGeneration() {

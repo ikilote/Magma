@@ -12,8 +12,7 @@
       <p>
         <mg-input>
           <mg-input-label>Alpha</mg-input-label>
-          <mg-input-radio formControlName="alpha" [value]="true">enabled</mg-input-radio>
-          <mg-input-radio formControlName="alpha" [value]="false">enabled</mg-input-radio>
+          <mg-input-checkbox formControlName="alpha" mode="toggle">enabled</mg-input-checkbox>
         </mg-input>
       </p>
     </form>
@@ -23,7 +22,6 @@
       <color-picker
         [color]="ctrlForm.value.color"
         [alpha]="ctrlForm.value.alpha"
-        (colorChange)="colorChange($event)"
         (colorChange)="colorChange($event)"
       ></color-picker>
     </div>
@@ -45,15 +43,13 @@
       <p>
         <mg-input>
           <mg-input-label>Alpha</mg-input-label>
-          <mg-input-radio formControlName="alpha" [value]="true">enabled</mg-input-radio>
-          <mg-input-radio formControlName="alpha" [value]="false">enabled</mg-input-radio>
+          <mg-input-checkbox formControlName="alpha" mode="toggle">enabled</mg-input-checkbox>
         </mg-input>
       </p>
       <p>
         <mg-input>
           <mg-input-label>Disabled</mg-input-label>
-          <mg-input-radio formControlName="disabled" [value]="false">no</mg-input-radio>
-          <mg-input-radio formControlName="disabled" [value]="true">yes</mg-input-radio>
+          <mg-input-checkbox formControlName="disabled" mode="toggle">no</mg-input-checkbox>
         </mg-input>
       </p>
     </form>

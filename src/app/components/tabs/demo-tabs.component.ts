@@ -3,14 +3,31 @@ import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFo
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
 
-import { MagmaTabsModule } from '../../../../projects/ikilote/magma/src/public-api';
+import {
+    MagmaInput,
+    MagmaInputCheckbox,
+    MagmaInputElement,
+    MagmaInputText,
+    MagmaInputTextarea,
+    MagmaTabsModule,
+} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
     selector: 'demo-tabs',
     templateUrl: './demo-tabs.component.html',
     styleUrls: ['./demo-tabs.component.scss'],
-    imports: [MagmaTabsModule, FormsModule, CodeTabsComponent, ReactiveFormsModule],
+    imports: [
+        MagmaTabsModule,
+        FormsModule,
+        CodeTabsComponent,
+        ReactiveFormsModule,
+        MagmaInput,
+        MagmaInputText,
+        MagmaInputTextarea,
+        MagmaInputElement,
+        MagmaInputCheckbox,
+    ],
 })
 export class DemoTabsComponent {
     tabs: {

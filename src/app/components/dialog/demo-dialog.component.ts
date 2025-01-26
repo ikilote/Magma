@@ -7,8 +7,8 @@ import {
     FormBuilderExtended,
     MagmaDialog,
     MagmaInput,
+    MagmaInputCheckbox,
     MagmaInputElement,
-    MagmaInputRadio,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -23,7 +23,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaDialog,
         MagmaInput,
         MagmaInputElement,
-        MagmaInputRadio,
+        MagmaInputCheckbox,
     ],
 })
 export class DemoDialogComponent {

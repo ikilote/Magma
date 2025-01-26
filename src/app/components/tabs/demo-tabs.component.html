@@ -3,12 +3,30 @@
 @if (ctrlForm) {
   <section>
     <form [formGroup]="ctrlForm">
-      <p>
-        <label><strong>id:</strong> <input formControlName="id" /></label>
-        <label><strong>title:</strong> <textarea formControlName="title"></textarea></label>
-        <label><strong>content:</strong> <textarea formControlName="content"></textarea></label>
-        <label><strong>selected:</strong> <input type="checkbox" formControlName="selected" /></label>
-      </p>
+      <div>
+        <mg-input>
+          <mg-input-label>id</mg-input-label>
+          <mg-input-text formControlName="id"></mg-input-text>
+        </mg-input>
+      </div>
+      <div>
+        <mg-input>
+          <mg-input-label>title</mg-input-label>
+          <mg-input-textarea formControlName="title"></mg-input-textarea>
+        </mg-input>
+      </div>
+      <div>
+        <mg-input>
+          <mg-input-label>content</mg-input-label>
+          <mg-input-textarea formControlName="content"></mg-input-textarea>
+        </mg-input>
+      </div>
+      <div>
+        <mg-input>
+          <mg-input-label>selected</mg-input-label>
+          <mg-input-checkbox formControlName="selected" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+      </div>
       <button (click)="addTab()">Add</button>
     </form>
     <div>

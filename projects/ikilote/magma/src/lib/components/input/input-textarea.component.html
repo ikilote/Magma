@@ -1,0 +1,14 @@
+@if (!onError) {
+  <textarea
+    #input
+    [name]="_name()"
+    [id]="_id() + '-input'"
+    [value]="_value"
+    (change)="changeValue($event)"
+    (input)="inputValue($event)"
+    (focus)="focus(true)"
+    (blur)="focus(false)"
+  ></textarea>
+} @else {
+  Error
+}

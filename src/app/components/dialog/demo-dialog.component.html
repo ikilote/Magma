@@ -6,15 +6,13 @@
       <p>
         <mg-input>
           <mg-input-label>closeButton</mg-input-label>
-          <mg-input-radio formControlName="closeButton" [value]="true">enabled</mg-input-radio>
-          <mg-input-radio formControlName="closeButton" [value]="false">enabled</mg-input-radio>
+          <mg-input-checkbox formControlName="closeButton" mode="toggle">enabled</mg-input-checkbox>
         </mg-input>
       </p>
       <p>
         <mg-input>
           <mg-input-label>closeBackdrop</mg-input-label>
-          <mg-input-radio formControlName="closeBackdrop" [value]="true">enabled</mg-input-radio>
-          <mg-input-radio formControlName="closeBackdrop" [value]="false">enabled</mg-input-radio>
+          <mg-input-checkbox formControlName="closeBackdrop" mode="toggle">enabled</mg-input-checkbox>
         </mg-input>
       </p>
     </form>

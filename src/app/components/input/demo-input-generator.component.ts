@@ -16,6 +16,7 @@ import {
     MagmaInputRadio,
     MagmaInputSelect,
     MagmaInputText,
+    MagmaInputTextarea,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -26,6 +27,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [
         MagmaInput,
         MagmaInputText,
+        MagmaInputTextarea,
         MagmaInputColor,
         MagmaInputRadio,
         MagmaInputElement,
@@ -47,7 +49,7 @@ export class DemoInputGeneratorComponent {
     formGenerator: FormGroup<{
         label: FormControl<string>;
         desc: FormControl<string>;
-        type: FormControl<'text' | 'color' | 'checkbox' | 'radio' | 'number' | 'select'>;
+        type: FormControl<'text' | 'textarea' | 'color' | 'checkbox' | 'radio' | 'number' | 'select'>;
         prefix: FormControl<string>;
         suffix: FormControl<string>;
 
@@ -73,6 +75,7 @@ export class DemoInputGeneratorComponent {
     }>;
 
     valueText = 'Test';
+    valueTextarea = 'Test';
     valueNumber = 20;
     valueCheckbox = ['value2'];
     valueRadio = 'value2';

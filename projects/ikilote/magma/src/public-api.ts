@@ -14,6 +14,7 @@ export * from './lib/components/input/input-number.component';
 export * from './lib/components/input/input-radio.component';
 export * from './lib/components/input/input-select.component';
 export * from './lib/components/input/input-text.component';
+export * from './lib/components/input/input-textarea.component';
 export * from './lib/components/input/input.component';
 export * from './lib/components/light-dark/light-dark.component';
 export * from './lib/components/tabs/tab-content.component';

@@ -22,6 +22,7 @@ It will evolve mainly according to my projects. But people want to use it and he
     - Radio
     - Select
     - Text
+    - Textarea
 - Light-dark
 - Tabs
 

@@ -3,13 +3,13 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
+import { MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/lib/components/input/input-checkbox.component';
 import {
     FormBuilderExtended,
     MagmaColorPicker,
     MagmaColorPickerComponent,
     MagmaInput,
     MagmaInputElement,
-    MagmaInputRadio,
     MagmaInputText,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -27,7 +27,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInput,
         MagmaInputElement,
         MagmaInputText,
-        MagmaInputRadio,
+        MagmaInputCheckbox,
     ],
 })
 export class DemoColorPickerComponent {

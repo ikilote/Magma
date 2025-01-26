@@ -13,6 +13,7 @@ import {
     MagmaInputRadio,
     MagmaInputSelect,
     MagmaInputText,
+    MagmaInputTextarea,
 } from '../../../../projects/ikilote/magma/src/public-api';
 
 @Component({
@@ -30,6 +31,7 @@ import {
         MagmaInputSelect,
         FormsModule,
         ReactiveFormsModule,
+        MagmaInputTextarea,
     ],
 })
 export class DemoInputComponent {

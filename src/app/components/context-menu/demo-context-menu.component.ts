@@ -3,6 +3,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
+import { MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/lib/components/input/input-checkbox.component';
 import {
     ContextMenuData,
     ContextMenuMode,
@@ -48,6 +49,7 @@ export class ContextTestComponent {
         MagmaInput,
         MagmaInputElement,
         MagmaInputRadio,
+        MagmaInputCheckbox,
     ],
 })
 export class DemoContextMenuComponent {

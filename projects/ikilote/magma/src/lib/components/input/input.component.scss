@@ -31,10 +31,6 @@
     grid-area: content;
     align-items: baseline;
     align-self: baseline;
-
-    & ::ng-deep input {
-        font-size: 16px;
-    }
 }
 
 .bottom {

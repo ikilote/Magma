@@ -29,6 +29,7 @@
         <mg-input>
           <mg-input-label>Input type</mg-input-label>
           <mg-input-radio formControlName="type" value="text">text</mg-input-radio>
+          <mg-input-radio formControlName="type" value="textarea">textarea</mg-input-radio>
           <mg-input-radio formControlName="type" value="number">number</mg-input-radio>
           <mg-input-radio formControlName="type" value="checkbox">checkbox</mg-input-radio>
           <mg-input-radio formControlName="type" value="radio">radio</mg-input-radio>
@@ -120,7 +121,10 @@
       }
       @switch (formGenerator.value.type) {
         @case ('text') {
-          <mg-input-text value="text" [(ngModel)]="valueText"></mg-input-text>
+          <mg-input-text [(ngModel)]="valueText"></mg-input-text>
+        }
+        @case ('textarea') {
+          <mg-input-textarea [(ngModel)]="valueTextarea"></mg-input-textarea>
         }
         @case ('number') {
           <mg-input-number
@@ -199,6 +203,8 @@
           {{ valueColor | json }}
         } @else if (formGenerator.value.type === 'text') {
           {{ valueText | json }}
+        } @else if (formGenerator.value.type === 'textarea') {
+          {{ valueTextarea | json }}
         }
       </code>
     </div>

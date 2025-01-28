@@ -1,0 +1,12 @@
+@import url(../../demo/default.scss);
+
+:host {
+    --col: 2;
+}
+
+section > :first-child {
+    flex: 1 1 0%;
+}
+section > :last-child {
+    flex: 2 2 0%;
+}

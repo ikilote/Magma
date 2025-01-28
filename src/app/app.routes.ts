@@ -41,6 +41,12 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'error',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/input/demo-input-error.component').then(m => m.DemoInputErrorComponent),
+            },
+            {
                 path: 'alignment',
                 pathMatch: 'full',
                 loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),

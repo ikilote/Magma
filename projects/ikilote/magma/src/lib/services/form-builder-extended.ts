@@ -15,14 +15,62 @@ declare type ɵNullableFormControls<T> = {
     [K in keyof T]: ɵElement<T[K], null>;
 };
 
-export type ParamsMessagesControlMessage = { message?: string | ((params: any) => string); data?: any };
-export type ParamsMessagesControlRequired = { state?: boolean } & ParamsMessagesControlMessage;
-export type ParamsMessagesControlMinLength = { state?: number } & ParamsMessagesControlMessage;
-export type ParamsMessagesControlMaxLength = { state?: number } & ParamsMessagesControlMessage;
-export type ParamsMessagesControlMin = { state?: number } & ParamsMessagesControlMessage;
-export type ParamsMessagesControlMax = { state?: number } & ParamsMessagesControlMessage;
-export type ParamsMessagesControlPattern = { state?: string | RegExp } & ParamsMessagesControlMessage;
-export type ParamsMessagesControlEmail = { state?: boolean } & ParamsMessagesControlMessage;
+export type ParamsMessageRequired = {
+    type: 'required';
+    errorData: boolean;
+    state: boolean;
+    data: any;
+};
+export type ParamsMessageMinlength = {
+    type: 'minlength';
+    errorData: { requiredLength: number; actualLength: number };
+    state: number;
+    data: any;
+};
+export type ParamsMessageMaxlength = {
+    type: 'maxlength';
+    errorData: { requiredLength: number; actualLength: number };
+    state: number;
+    data: any;
+};
+export type ParamsMessageMin = {
+    type: 'min';
+    errorData: { min: number; actual: number | string };
+    state: number;
+    data: any;
+};
+export type ParamsMessageMax = {
+    type: 'max';
+    errorData: { max: number; actual: number | string };
+    state: number;
+    data: any;
+};
+export type ParamsMessagePattern = {
+    type: 'pattern';
+    errorData: { requiredPattern: string; actualValue: string };
+    state: string | RegExp;
+    data: any;
+};
+export type ParamsMessageEmail = {
+    type: 'email';
+    errorData: boolean;
+    state: undefined;
+    data: any;
+};
+export type ParamsMessagesControlMessage<T> = {
+    message?: string | ((params: T) => string);
+    data?: any;
+};
+
+export type ParamsMessagesControlRequired = { state?: boolean } & ParamsMessagesControlMessage<ParamsMessageRequired>;
+export type ParamsMessagesControlMinLength = { state?: number } & ParamsMessagesControlMessage<ParamsMessageMinlength>;
+export type ParamsMessagesControlMaxLength = { state?: number } & ParamsMessagesControlMessage<ParamsMessageMaxlength>;
+export type ParamsMessagesControlMin = { state?: number } & ParamsMessagesControlMessage<ParamsMessageMin>;
+export type ParamsMessagesControlMax = { state?: number } & ParamsMessagesControlMessage<ParamsMessageMax>;
+export type ParamsMessagesControlPattern = {
+    state?: string | RegExp;
+} & ParamsMessagesControlMessage<ParamsMessagePattern>;
+export type ParamsMessagesControlEmail = { state?: boolean } & ParamsMessagesControlMessage<ParamsMessageEmail>;
 
 export interface ParamsMessagesControl {
     required?: ParamsMessagesControlRequired;
@@ -84,13 +132,13 @@ export abstract class FormBuilderExtended {
                         validators.push(Validators.minLength(control.state));
                     } else if (key === 'maxlength' && control.state > 0) {
                         validators.push(Validators.maxLength(control.state));
-                    } else if (key === 'min' && control.state > 0) {
+                    } else if (key === 'min') {
                         validators.push(Validators.min(control.state));
-                    } else if (key === 'max' && control.state > 0) {
+                    } else if (key === 'max') {
                         validators.push(Validators.max(control.state));
                     } else if (key === 'pattern' && control.state) {
                         validators.push(Validators.pattern(control.state));
-                    } else if (key === 'email' && control.state) {
+                    } else if (key === 'email') {
                         validators.push(Validators.email);
                     }
                 });

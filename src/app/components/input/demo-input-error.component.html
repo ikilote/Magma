@@ -1,0 +1,84 @@
+<h1>Input</h1>
+
+<!-- Text -->
+<h2>Text</h2>
+<section>
+  <div>
+    <mg-input [formGroup]="formText">
+      <mg-input-text formControlName="test"></mg-input-text>
+    </mg-input>
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'ts', code: codeHtmlText }]"></code-tabs>
+  </div>
+</section>
+
+<!-- Textarea -->
+<h2>Textarea</h2>
+<section>
+  <div>
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-textarea value="test"></mg-input-textarea>
+    </mg-input>
+  </div>
+</section>
+
+<!-- Color -->
+<h2>Color</h2>
+<section>
+  <div>
+    <mg-input [formGroup]="formColor">
+      <mg-input-color formControlName="test"></mg-input-color>
+    </mg-input>
+  </div>
+</section>
+
+<!-- Radio / Checkbox -->
+<h2>Radio / Checkbox</h2>
+<section>
+  <div>
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-radio value="red">red</mg-input-radio>
+      <mg-input-radio value="blue" checked>blue</mg-input-radio>
+    </mg-input>
+  </div>
+</section>
+<section>
+  <div>
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-checkbox value="red">red</mg-input-checkbox>
+      <mg-input-checkbox value="blue" checked>blue</mg-input-checkbox>
+    </mg-input>
+  </div>
+</section>
+<section>
+  <div>
+    <mg-input>
+      <mg-input-label>Toggle</mg-input-label>
+      <mg-input-checkbox value="red" mode="toggle">red</mg-input-checkbox>
+    </mg-input>
+  </div>
+</section>
+
+<!-- Number -->
+<h2>Number</h2>
+<section>
+  <div>
+    <mg-input [formGroup]="formNumber">
+      <mg-input-number formControlName="test"></mg-input-number>
+    </mg-input>
+  </div>
+</section>
+
+<!-- Select -->
+<h2>Select</h2>
+<section>
+  <div>
+    <mg-input [formGroup]="formSelect">
+      <mg-input-select formControlName="test" [data]="data"></mg-input-select>
+    </mg-input>
+  </div>
+</section>

@@ -13,7 +13,6 @@ import {
     MagmaInputRadio,
     MagmaInputSelect,
     MagmaInputText,
-    MagmaInputTextarea,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -32,14 +31,13 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputSelect,
         FormsModule,
         ReactiveFormsModule,
-        MagmaInputTextarea,
         CodeTabsComponent,
     ],
 })
 export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
-    readonly codeHtmlText = `export class DemoInputErrorComponent {
+    readonly codeTsText = `export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
     readonly formText: FormGroup<{
@@ -55,6 +53,7 @@ export class DemoInputErrorComponent {
                     minlength: {
                         state: 5,
                         message: params => 'Minimal length: ' + params.errorData.requiredLength,
+                        // or 'Minimal length: {requiredLength}'
                     },
                     maxlength: {
                         state: 50,
@@ -63,6 +62,27 @@ export class DemoInputErrorComponent {
                     },
                     pattern: { state: /.*a.*/, message: 'Do include the “a” letter' },
                     email: { message: 'This email is not valid' },
+                },
+            },
+        });
+    }
+}`;
+
+    readonly codeTsNumber = `export class DemoInputErrorComponent {
+    private readonly fbe = inject(FormBuilderExtended);
+
+    readonly formNumber: FormGroup<{
+        test: FormControl<number>;
+    }>;
+
+    constructor() {
+        this.formNumber = this.fbe.groupWithErrorNonNullable({
+            test: {
+                default: 53.15,
+                control: {
+                    required: { state: true, message: 'Field is required' },
+                    min: { state: 5, message: 'min value is {min}, currently {actual}' },
+                    max: { state: 50, message: 'max value is {max}, currently {actual}' },
                 },
             },
         });
@@ -111,7 +131,7 @@ export class DemoInputErrorComponent {
             test: {
                 default: null,
                 control: {
-                    required: { state: true, message: 'error required' },
+                    required: { state: true, message: 'Field is required' },
                     pattern: { state: /^\#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/, message: 'error pattern' },
                 },
             },
@@ -120,9 +140,9 @@ export class DemoInputErrorComponent {
             test: {
                 default: 53.15,
                 control: {
-                    required: { state: true, message: 'error required' },
-                    min: { state: 5, message: 'error min' },
-                    max: { state: 50, message: 'error max' },
+                    required: { state: true, message: 'Field is required' },
+                    min: { state: 5, message: 'min value is {min}, currently {actual}' },
+                    max: { state: 50, message: 'max value is {max}, currently {actual}' },
                 },
             },
         });

@@ -1,7 +1,7 @@
 <h1>Input</h1>
 
 <!-- Text -->
-<h2>Text</h2>
+<h2>Text / Textarea</h2>
 <section>
   <div>
     <mg-input [formGroup]="formText">
@@ -9,18 +9,7 @@
     </mg-input>
   </div>
   <div>
-    <code-tabs [code]="[{ type: 'ts', code: codeHtmlText }]"></code-tabs>
-  </div>
-</section>
-
-<!-- Textarea -->
-<h2>Textarea</h2>
-<section>
-  <div>
-    <mg-input>
-      <mg-input-label>Label</mg-input-label>
-      <mg-input-textarea value="test"></mg-input-textarea>
-    </mg-input>
+    <code-tabs [code]="[{ type: 'ts', code: codeTsText }]"></code-tabs>
   </div>
 </section>
 
@@ -70,6 +59,9 @@
     <mg-input [formGroup]="formNumber">
       <mg-input-number formControlName="test"></mg-input-number>
     </mg-input>
+  </div>
+  <div>
+    <code-tabs [code]="[{ type: 'ts', code: codeTsNumber }]"></code-tabs>
   </div>
 </section>
 

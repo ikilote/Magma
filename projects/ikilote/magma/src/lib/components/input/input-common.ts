@@ -84,6 +84,16 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
                                       data: data.data,
                                   })
                                 : message;
+
+                        if (errorMessage?.includes('{')) {
+                            [...errorMessage.matchAll(/\{([^}]+)\}/g)].forEach(([tag, keyName]) => {
+                                console.log('>', errorMessage, tag, keyName);
+                                errorMessage = errorMessage!.replace(
+                                    tag,
+                                    data.state[keyName] ?? control.errors?.[key]?.[keyName],
+                                );
+                            });
+                        }
                     }
                 }
                 this.host._errorMessage.set(errorMessage ?? null);

@@ -28,6 +28,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 ### Services
 
+- FormBuilderExtended
 - Logger
 
 ### Pipes

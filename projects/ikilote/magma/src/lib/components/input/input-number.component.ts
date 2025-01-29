@@ -77,8 +77,8 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
         this.onChange(value);
     }
 
-    focus(value: boolean) {
-        if (!value) {
+    focus(focus: boolean) {
+        if (!focus) {
             this.onTouched();
             if (!focus) {
                 this.onTouched();

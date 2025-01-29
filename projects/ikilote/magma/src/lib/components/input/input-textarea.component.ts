@@ -42,7 +42,6 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     }
 
     focus(focus: boolean) {
-        console.log('focus', focus, this.ngControl);
         if (!focus) {
             this.onTouched();
             if (this.ngControl?.control) {

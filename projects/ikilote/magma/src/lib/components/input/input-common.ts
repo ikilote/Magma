@@ -72,20 +72,21 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
                 if (control.errors !== null) {
                     const key = Object.keys(control.errors)[0];
                     const data = (control as any).controlData?.[key];
+                    const defaultMessage = (control as any).controlData?.message;
 
-                    if (data) {
-                        const message = (data as ParamsMessagesControlMessage<any>)?.message;
+                    if (data || defaultMessage) {
+                        const message = (data as ParamsMessagesControlMessage<any>)?.message ?? defaultMessage;
                         errorMessage =
                             typeof message === 'function'
                                 ? message({
                                       type: key as any,
                                       errorData: control.errors[key],
-                                      state: data.state,
-                                      data: data.data,
+                                      state: data?.state,
+                                      data: data?.data,
                                   })
                                 : message;
 
-                        if (errorMessage?.includes('{')) {
+                        if (data && errorMessage?.includes('{')) {
                             [...errorMessage.matchAll(/\{([^}]+)\}/g)].forEach(([tag, keyName]) => {
                                 console.log('>', errorMessage, tag, keyName);
                                 errorMessage = errorMessage!.replace(

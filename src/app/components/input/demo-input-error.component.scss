@@ -5,8 +5,8 @@
 }
 
 section > :first-child {
-    flex: 1 1 0%;
+    flex: 0 0 33%;
 }
 section > :last-child {
-    flex: 2 2 0%;
+    flex: 0 0 66%;
 }

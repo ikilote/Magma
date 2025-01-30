@@ -56,6 +56,7 @@ export class MagmaInputRadio extends MagmaInputCommon implements OnInit {
     _change() {
         const value = this.value();
         this.onChange(value);
+        this.onTouched();
         this.update.emit(value);
     }
 }

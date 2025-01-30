@@ -68,6 +68,55 @@ export class DemoInputErrorComponent {
     }
 }`;
 
+    readonly codeTsList = `export class DemoInputErrorComponent {
+    private readonly fbe = inject(FormBuilderExtended);
+
+    readonly data: Select2Data = [
+        { label: 'test1', value: 'test1' },
+        { label: 'test2', value: 'test2' },
+    ];
+
+    readonly formList: FormGroup<{
+        oneValue: FormControl<string>;
+        listValue: FormControl<string[]>;
+        boolean: FormControl<boolean>;
+        select: FormControl<string>;
+    }>;
+
+    constructor() {
+        this.formList = this.fbe.groupWithErrorNonNullable({
+            oneValue: {
+                default: 'blue',
+                control: {
+                    required: { state: true, message: 'Field is required' },
+                    inlist: { state: ['red'], message: 'Only {list}' },
+                },
+            },
+            listValue: {
+                default: ['blue'],
+                control: {
+                    required: { state: true },
+                    inlist: { state: ['blue', 'red', 'yellow'], message: 'Accept value: {list}' },
+                    minlength: { state: 2, message: 'Minimal list {requiredLength}' },
+                    message: 'Field is required',
+                },
+            },
+            boolean: {
+                default: false,
+                control: {
+                    inlist: { state: [true], message: 'This field must be checked' },
+                },
+            },
+            select: {
+                default: 'blue',
+                control: {
+                    inlist: { state: ['blue', 'red'], message: 'Only {list}' },
+                },
+            },
+        });
+    }
+}`;
+
     readonly codeTsNumber = `export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
@@ -90,8 +139,9 @@ export class DemoInputErrorComponent {
 }`;
 
     readonly data: Select2Data = [
-        { label: 'test1', value: 'test1' },
-        { label: 'test2', value: 'test2' },
+        { label: 'red', value: 'red' },
+        { label: 'blue', value: 'blue' },
+        { label: 'yellow', value: 'yellow' },
     ];
 
     readonly formText: FormGroup<{
@@ -99,6 +149,12 @@ export class DemoInputErrorComponent {
     }>;
     readonly formColor: FormGroup<{
         test: FormControl<string>;
+    }>;
+    readonly formList: FormGroup<{
+        oneValue: FormControl<string>;
+        listValue: FormControl<string[]>;
+        boolean: FormControl<boolean>;
+        select: FormControl<string>;
     }>;
     readonly formNumber: FormGroup<{
         test: FormControl<number>;
@@ -129,10 +185,40 @@ export class DemoInputErrorComponent {
         });
         this.formColor = this.fbe.groupWithErrorNonNullable({
             test: {
-                default: null,
+                default: 'null',
                 control: {
                     required: { state: true, message: 'Field is required' },
                     pattern: { state: /^\#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/, message: 'error pattern' },
+                },
+            },
+        });
+        this.formList = this.fbe.groupWithErrorNonNullable({
+            oneValue: {
+                default: 'blue',
+                control: {
+                    required: { state: true, message: 'Field is required' },
+                    inlist: { state: ['red'], message: 'Only {list}' },
+                },
+            },
+            listValue: {
+                default: ['blue'],
+                control: {
+                    required: { state: true },
+                    inlist: { state: ['blue', 'red', 'yellow'], message: 'Accept value: {list}' },
+                    minlength: { state: 2, message: 'Minimal list {requiredLength}' },
+                    message: 'Field is required',
+                },
+            },
+            boolean: {
+                default: false,
+                control: {
+                    inlist: { state: [true], message: 'This field must be checked' },
+                },
+            },
+            select: {
+                default: 'blue',
+                control: {
+                    inlist: { state: ['blue', 'red'], message: 'Only {list}' },
                 },
             },
         });

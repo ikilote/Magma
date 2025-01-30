@@ -11,6 +11,8 @@ import {
     ɵElement,
 } from '@angular/forms';
 
+import { MagmaValidators } from '../utils/validators';
+
 declare type ɵNullableFormControls<T> = {
     [K in keyof T]: ɵElement<T[K], null>;
 };
@@ -57,6 +59,19 @@ export type ParamsMessageEmail = {
     state: undefined;
     data: any;
 };
+export type ParamsMessageInList = {
+    type: 'inList';
+    errorData: { list: (string | number | boolean)[]; actualValue: any; strict: boolean };
+    state: (string | number | boolean)[];
+    data: any;
+};
+export type ParamsMessageCustom = {
+    type: 'custom';
+    errorData: any;
+    state: any;
+    validator: (control: any) => ValidatorFn;
+    data: any;
+};
 export type ParamsMessagesControlMessage<T> = {
     message?: string | ((params: T) => string);
     data?: any;
@@ -71,15 +86,32 @@ export type ParamsMessagesControlPattern = {
     state?: string | RegExp;
 } & ParamsMessagesControlMessage<ParamsMessagePattern>;
 export type ParamsMessagesControlEmail = { state?: boolean } & ParamsMessagesControlMessage<ParamsMessageEmail>;
+export type ParamsMessagesControlInList = {
+    state?: (string | number | boolean)[];
+} & ParamsMessagesControlMessage<ParamsMessageInList>;
+export type ParamsMessagesControlCustom = { state?: any } & ParamsMessagesControlMessage<ParamsMessageCustom>;
 
 export interface ParamsMessagesControl {
+    /** required */
     required?: ParamsMessagesControlRequired;
+    /** min length for string or array */
     minlength?: ParamsMessagesControlMinLength;
+    /** max length for string or array */
     maxlength?: ParamsMessagesControlMaxLength;
+    /** min value */
     min?: ParamsMessagesControlMin;
+    /** max value */
     max?: ParamsMessagesControlMax;
+    /** test pattern on string */
     pattern?: ParamsMessagesControlPattern;
+    /** test an email */
     email?: ParamsMessagesControlEmail;
+    /** test value(s) present in a list */
+    inlist?: ParamsMessagesControlInList;
+    /** custom validator */
+    custom?: ParamsMessagesControlCustom | ParamsMessagesControlCustom[];
+    /** message if not defined in other control */
+    message?: string | string | ((params: any) => string);
 }
 
 export declare type ParamsMessages<T = any> = {
@@ -140,6 +172,14 @@ export abstract class FormBuilderExtended {
                         validators.push(Validators.pattern(control.state));
                     } else if (key === 'email') {
                         validators.push(Validators.email);
+                    } else if (key === 'inlist') {
+                        validators.push(MagmaValidators.inList(control.state));
+                    } else if (key === 'custom') {
+                        for (const validator of Array.isArray(control) ? control : [control]) {
+                            if (typeof validator === 'function') {
+                                validators.push(validator(control.state));
+                            }
+                        }
                     }
                 });
             }

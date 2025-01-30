@@ -1,5 +1,28 @@
 # Changelog of @ikilote/magma
 
+## 0.1.1 (2025-01-30)
+
+### ✅ New
+
+- **mg-input**:
+    - Add Textarea component
+    - Better interface for error messages
+    - Add error message with {tag}
+    - Improve validation
+    - Add in-list and custom validation
+- **context menu** :
+    - add component item
+
+### 🐞 Fix
+
+- fix focus for input:number
+- fix validation for input:radio
+
+### 🎦 Demo
+
+- Use `mg-input` for all components pages
+- Page for examples for validators
+
 ## 0.1.0 (2025-01-25)
 
 ### ✅ New

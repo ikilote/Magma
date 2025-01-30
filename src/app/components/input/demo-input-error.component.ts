@@ -7,7 +7,6 @@ import {
     FormBuilderExtended,
     MagmaInput,
     MagmaInputCheckbox,
-    MagmaInputColor,
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputRadio,
@@ -23,7 +22,6 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [
         MagmaInput,
         MagmaInputText,
-        MagmaInputColor,
         MagmaInputRadio,
         MagmaInputElement,
         MagmaInputCheckbox,

@@ -8,13 +8,6 @@ html {
     color: var(--text-color);
 }
 
-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    max-width: 100%;
-}
-
 *,
 *:focus,
 *:hover {
@@ -26,6 +19,78 @@ button {
 * {
     font-family: var(--font-family);
 }
+
+/* -------------------- links ------------------------------------------------------------ */
+
+a {
+    cursor: pointer;
+    color: var(--link-color);
+    text-decoration: none;
+}
+a:hover {
+    color: var(--link-hover-color);
+}
+table a {
+    margin: auto 10px;
+}
+
+/* -------------------- buttons ------------------------------------------------------------ */
+
+button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: 100%;
+}
+
+button:disabled {
+    opacity: 0.25;
+}
+
+button:disabled :hover {
+    box-shadow: 0 0 1px var(--button-default-box-shadow);
+    border: 2px solid var(--button-default-border-color);
+    background: var(--button-default-background);
+}
+
+button.primary {
+    --button-default-border-color: var(--button-primary-border-color);
+    --button-default-background: var(--button-primary-background);
+    --button-default-box-shadow: var(--button-primary-box-shadow);
+    --button-default-color: var(--button-primary-color);
+    --button-default-hover-border-color: var(--button-primary-hover-border-color);
+    --button-default-hover-background: var(--button-primary-hover-background);
+    --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
+    --button-default-focus-border-color: var(--button-primary-focus-border-color);
+}
+
+button.warn {
+    --button-default-border-color: var(--button-warn-border-color);
+    --button-default-background: var(--button-warn-background);
+    --button-default-box-shadow: var(--button-warn-box-shadow);
+    --button-default-color: var(--button-warn-color);
+    --button-default-hover-border-color: var(--button-warn-hover-border-color);
+    --button-default-hover-background: var(--button-warn-hover-background);
+    --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
+    --button-default-focus-border-color: var(--button-warn-focus-border-color);
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.buttons > button {
+    margin: 0;
+}
+
+.buttons > .line {
+    flex: 1 1 100%;
+}
+
+/* -------------------- input / button------------------------------------------------------------ */
 
 button,
 input::file-selector-button {
@@ -68,22 +133,6 @@ input::file-selector-button:focus {
     border-color: var(--button-default-focus-border-color);
 }
 
-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    max-width: 100%;
-}
-
-button:disabled {
-    opacity: 0.25;
-}
-button:disabled :hover {
-    box-shadow: 0 0 1px var(--button-default-box-shadow);
-    border: 2px solid var(--button-default-border-color);
-    background: var(--button-default-background);
-}
-
 [type='file'] {
     cursor: pointer;
 }
@@ -105,54 +154,6 @@ input[type='range'][orient='vertical'] {
     width: 16px;
     writing-mode: vertical-lr;
     direction: rtl;
-}
-
-button.primary {
-    --button-default-border-color: var(--button-primary-border-color);
-    --button-default-background: var(--button-primary-background);
-    --button-default-box-shadow: var(--button-primary-box-shadow);
-    --button-default-color: var(--button-primary-color);
-    --button-default-hover-border-color: var(--button-primary-hover-border-color);
-    --button-default-hover-background: var(--button-primary-hover-background);
-    --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
-    --button-default-focus-border-color: var(--button-primary-focus-border-color);
-}
-
-button.warn {
-    --button-default-border-color: var(--button-warn-border-color);
-    --button-default-background: var(--button-warn-background);
-    --button-default-box-shadow: var(--button-warn-box-shadow);
-    --button-default-color: var(--button-warn-color);
-    --button-default-hover-border-color: var(--button-warn-hover-border-color);
-    --button-default-hover-background: var(--button-warn-hover-background);
-    --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
-    --button-default-focus-border-color: var(--button-warn-focus-border-color);
-}
-
-.buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-}
-.buttons > button {
-    margin: 0;
-}
-
-.buttons > .line {
-    flex: 1 1 100%;
-}
-
-a {
-    cursor: pointer;
-    color: var(--link-color);
-    text-decoration: none;
-}
-a:hover {
-    color: var(--link-hover-color);
-}
-table a {
-    margin: auto 10px;
 }
 
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
@@ -183,6 +184,115 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
     accent-color: var(--primary5);
 }
 
+/* -------------------- grid ------------------------------------------------------------ */
+
+/* container : (0, 2, 0)*/
+:has(
+    > .s-12,
+    > .s-11,
+    > .s-10,
+    > .s-9,
+    > .s-8,
+    > .s-7,
+    > .s-6,
+    > .s-5,
+    > .s-4,
+    > .s-3,
+    > .s-2,
+    > .s-1,
+    > .s-f,
+    > .break
+) {
+    display: flex;
+    flex-wrap: wrap;
+
+    /* (0, 4, 1) */
+    & > div:not(.break, .sub) {
+        box-sizing: border-box;
+        padding: var(--grid-cell-padding);
+    }
+}
+
+/** [class][class] => (0, 5, 0) */
+:is(.s-12, .s-11, .s-10, .s-9, .s-8, .s-7, .s-6, .s-5, .s-4, .s-3, .s-2, .s-1, .s-f):has(
+        > .s-12,
+        > .s-11,
+        > .s-10,
+        > .s-9,
+        > .s-8,
+        > .s-7,
+        > .s-6,
+        > .s-5,
+        > .s-4,
+        > .s-3,
+        > .s-2,
+        > .s-1,
+        > .s-f,
+        > .break,
+        > .sub
+    )[class][class] {
+    padding: 0;
+}
+
+/* size 12 / 12 */
+.s-12 {
+    flex: 0 0 100%;
+}
+/* size 11 / 12 */
+.s-11 {
+    flex: 0 0 calc(100% / 12 * 11);
+}
+/* size 10 / 12 */
+.s-10 {
+    flex: 0 0 calc(100% / 6 * 5);
+}
+/* size 9 / 12 */
+.s-9 {
+    flex: 0 0 75%;
+}
+/* size 8 / 12 */
+.s-8 {
+    flex: 0 0 calc(100% / 3 * 2);
+}
+/* size 7 / 12 */
+.s-7 {
+    flex: 0 0 calc(100% / 12 * 7);
+}
+/* size 6 / 12 */
+.s-6 {
+    flex: 0 0 50%;
+}
+/* size 5 / 12 */
+.s-5 {
+    flex: 0 0 calc(100% / 12 * 5);
+}
+/* size 4 / 12 */
+.s-4 {
+    flex: 0 0 calc(100% / 3);
+}
+/* size 3 / 12 */
+.s-3 {
+    flex: 0 0 25%;
+}
+/* size 2 / 12 */
+.s-2 {
+    flex: 0 0 calc(100% / 6);
+}
+/* size 1 / 12 */
+.s-1 {
+    flex: 0 0 calc(100% / 12);
+}
+/* size flex */
+.s-f {
+    flex: 1;
+}
+/* breaker */
+.break,
+/* sub-grid */
+.sub {
+    width: 100%;
+}
+
 /* -------------------- scrollbar ------------------------------------------------------------ */
 
 @supports selector(::-webkit-scrollbar) {
@@ -210,6 +320,8 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
         scrollbar-width: var(--scrollbar-width);
     }
 }
+
+/* -------------------- fixes ------------------------------------------------------------ */
 
 /* fix chromium */
 .cdk-global-scrollblock[class] {

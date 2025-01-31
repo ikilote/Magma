@@ -78,6 +78,11 @@ export const routes: Routes = [
         loadComponent: () => import('./styles/icons/demo-icons.component').then(m => m.DemoIconsComponent),
     },
     {
+        path: 'style-grid',
+        pathMatch: 'full',
+        loadComponent: () => import('./styles/grid/demo-grid.component').then(m => m.DemoGridComponent),
+    },
+    {
         path: '**',
         redirectTo: '/home',
     },

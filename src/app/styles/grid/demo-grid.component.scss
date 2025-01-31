@@ -1,0 +1,15 @@
+@import url(../../demo/default.scss);
+
+:host {
+    --col: 2;
+}
+
+:host.show-border {
+    div:has(> .s-6, > .s-4, > .s-3, > .s-2, > .s-1, > .s-f, > .break) {
+        border: 1px dotted red;
+
+        & > div:not(.break, .sub) {
+            border: 1px dashed black;
+        }
+    }
+}

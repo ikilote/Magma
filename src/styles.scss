@@ -11,3 +11,9 @@ app-root {
     display: block;
     height: 100%;
 }
+
+code {
+    border-radius: 3px;
+    background-color: var(--neutral9);
+    padding: 2px;
+}

@@ -186,4 +186,7 @@ body {
     --scrollbar-color: var(--primary6);
     --scrollbar-color-hover: var(--primary4);
     --scrollbar-width: thin;
+
+    /* grid */
+    --grid-cell-padding: 6px;
 }

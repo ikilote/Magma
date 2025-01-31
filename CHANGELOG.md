@@ -1,5 +1,20 @@
 # Changelog of @ikilote/magma
 
+## 0.1.2 (2025-02-01)
+
+### ✅ New
+
+- Add minimal grid system with flexbox
+
+### 🐞 Fix
+
+- Fix with of input
+- Remove unnecessary CSS
+
+### 🎦 Demo
+
+- Add page for the grid system
+
 ## 0.1.1 (2025-01-30)
 
 ### ✅ New

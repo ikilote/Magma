@@ -1,3 +1,7 @@
+:host {
+    width: 100%;
+}
+
 ng-select2 {
     --select2-selection-focus-border-color: var(--input-focus-border-color);
     --select2-selection-text-color: var(--text-color);

@@ -1,11 +1,12 @@
 :host {
     all: unset;
     display: inline-grid;
-    grid-template-areas:
+    grid-template:
         'r . top     '
         'r t .       '
         '. . content '
-        '. . bottom  ';
+        '. . bottom  ' /
+        auto auto 1fr;
     vertical-align: 5px;
 
     &::before {

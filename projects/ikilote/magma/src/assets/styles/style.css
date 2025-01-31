@@ -155,11 +155,6 @@ table a {
     margin: auto 10px;
 }
 
-:where(label, .label):not(.name) {
-    font-weight: 700;
-    font-size: 90%;
-}
-
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
     box-sizing: border-box;
     outline: 2px solid transparent;
@@ -216,7 +211,7 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
     }
 }
 
-/** fix chromium */
+/* fix chromium */
 .cdk-global-scrollblock[class] {
     height: 100%;
     overflow-y: hidden;

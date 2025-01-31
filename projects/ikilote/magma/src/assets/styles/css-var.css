@@ -99,10 +99,6 @@ body {
     /* global */
     --background: var(--primaryA);
     --text-color: var(--primary0);
-    --menu-box-shadow-color: color-mix(in hsl, var(--box-shadow), transparent);
-    --header-background: var(--primary9);
-    --aside-background: var(--primary9);
-    --licence-color: var(--primary0);
     --color-mode-border-color: var(--primary0);
     --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
 

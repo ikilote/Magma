@@ -63,6 +63,13 @@
     }
 }
 
+@supports selector(::-moz-range-track) {
+    :host:is(mg-input-prefix) + ::ng-deep :is(mg-input-select),
+    :is(mg-input-select):has(+ :host:is(mg-input-suffix)) {
+        top: -3px;
+    }
+}
+
 // description
 
 :host:is(mg-input-desc) {

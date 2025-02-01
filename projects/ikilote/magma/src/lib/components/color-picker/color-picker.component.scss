@@ -4,9 +4,9 @@
 
     display: grid;
     grid-template:
-        'value  hue    alpha'
-        'inputs inputs inputs' /
-        340px auto auto;
+        'value  hue    alpha  . '
+        'inputs inputs inputs inputs' /
+        340px 1fr 1fr 0;
     gap: 10px 30px;
 
     &.embedded {

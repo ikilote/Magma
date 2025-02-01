@@ -4,11 +4,15 @@
     [name]="_name()"
     [id]="_id() + '-input'"
     [value]="_value"
+    [attr.maxlength]="maxlength()"
     (change)="changeValue($event)"
     (input)="inputValue($event)"
     (focus)="focus(true)"
     (blur)="focus(false)"
   />
+  @if (clearCross() && input.value) {
+    <span class="icon-remove" (click)="clearField()"></span>
+  }
 } @else {
   Error
 }

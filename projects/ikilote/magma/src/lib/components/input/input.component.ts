@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     booleanAttribute,
     computed,
     contentChildren,
+    inject,
     input,
     signal,
 } from '@angular/core';
@@ -18,12 +21,17 @@ let counter = 0;
     templateUrl: './input.component.html',
     styleUrls: ['./input.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [CommonModule],
     host: {
         '[id]': '_id()',
     },
 })
 export class MagmaInput {
+    readonly cd = inject(ChangeDetectorRef);
+
     readonly id = input<string>();
+
+    forId: string | undefined;
 
     /** for checkbox */
     readonly arrayValue = input(false, { transform: booleanAttribute });

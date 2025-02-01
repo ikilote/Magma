@@ -13,6 +13,7 @@ import {
     MagmaInputColor,
     MagmaInputElement,
     MagmaInputNumber,
+    MagmaInputPassword,
     MagmaInputRadio,
     MagmaInputSelect,
     MagmaInputText,
@@ -32,6 +33,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputRadio,
         MagmaInputElement,
         MagmaInputCheckbox,
+        MagmaInputPassword,
         MagmaInputNumber,
         MagmaInputSelect,
         FormsModule,
@@ -49,9 +51,19 @@ export class DemoInputGeneratorComponent {
     formGenerator: FormGroup<{
         label: FormControl<string>;
         desc: FormControl<string>;
-        type: FormControl<'text' | 'textarea' | 'color' | 'checkbox' | 'radio' | 'number' | 'select'>;
+        type: FormControl<'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select'>;
         prefix: FormControl<string>;
         suffix: FormControl<string>;
+
+        // text
+        maxLength: FormControl<number>;
+        clearCross: FormControl<boolean>;
+
+        // textarea
+        autosize: FormControl<boolean>;
+
+        // textarea
+        eye: FormControl<boolean>;
 
         // radio / checkbox
         subLabel1: FormControl<string>;
@@ -76,6 +88,7 @@ export class DemoInputGeneratorComponent {
 
     valueText = 'Test';
     valueTextarea = 'Test';
+    valuePassword = '';
     valueNumber = 20;
     valueCheckbox = ['value2'];
     valueRadio = 'value2';
@@ -92,6 +105,13 @@ export class DemoInputGeneratorComponent {
             desc: { default: '' },
             prefix: { default: '' },
             suffix: { default: '' },
+            // text
+            maxLength: { default: undefined },
+            clearCross: { default: false },
+            // textarea
+            autosize: { default: false },
+            // text
+            eye: { default: false },
             // radio / checkbox
             subLabel1: { default: 'input label 1' },
             subValue1: { default: 'value1' },
@@ -191,6 +211,12 @@ export class DemoInputGeneratorComponent {
             case 'text':
                 imports.push(`MagmaInputText`);
                 break;
+            case 'textarea':
+                imports.push(`MagmaInputTextarea`);
+                break;
+            case 'password':
+                imports.push(`MagmaInputPassword`);
+                break;
             case 'color':
                 imports.push(`MagmaInputColor`);
                 break;
@@ -248,18 +274,36 @@ export class DemoInputGeneratorComponent {
             if (type === 'checkbox' && fgValue.toggle) {
                 attrInput['mode'] = 'toggle';
             }
-        } else if (type === 'select') {
+        }
+        if (type === 'select') {
             attrInput['[data]'] = 'data';
-        } else if (type === 'number') {
+        }
+        if (type === 'number') {
             if ((fgValue.step || 0) > 0) {
                 attrInput['[step]'] = fgValue.step;
             }
             if (fgValue.showArrows) {
                 attrInput['showArrows'] = null;
             }
-        } else if (type === 'color') {
+        }
+        if (type === 'color') {
             if (fgValue.alpha) {
                 attrInput['alpha'] = null;
+            }
+        }
+        if (type === 'textarea') {
+            if (fgValue.autosize) {
+                attrInput['autosize'] = null;
+            }
+        }
+        if (type === 'textarea' || type === 'text') {
+            if (fgValue.maxLength !== undefined) {
+                attrInput['maxlength'] = fgValue.maxLength;
+            }
+        }
+        if (type === 'text') {
+            if (fgValue.clearCross !== undefined) {
+                attrInput['clearCross'] = null;
             }
         }
         body.push(jsonInput);

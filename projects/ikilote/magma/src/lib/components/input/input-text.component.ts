@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, viewChild } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    booleanAttribute,
+    forwardRef,
+    input,
+    viewChild,
+} from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
+
+import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 let counter = 0;
 
@@ -21,12 +31,15 @@ let counter = 0;
     },
 })
 export class MagmaInputText extends MagmaInputCommon {
-    override readonly componentName = 'input-text';
+    override readonly componentName: string = 'input-text';
     protected override counter = counter++;
+
+    readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
+    readonly clearCross = input(null, { transform: booleanAttribute });
 
     readonly input = viewChild.required<ElementRef<HTMLInputElement>>('input');
 
-    get inputElement(): HTMLInputElement {
+    get inputElement(): HTMLInputElement | undefined {
         return this.input()?.nativeElement;
     }
 
@@ -48,5 +61,9 @@ export class MagmaInputText extends MagmaInputCommon {
                 this.validate(this.ngControl.control);
             }
         }
+    }
+
+    clearField() {
+        this.inputElement!.value = '';
     }
 }

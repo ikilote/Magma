@@ -1,6 +1,8 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    DoCheck,
+    ElementRef,
     OnInit,
     SimpleChanges,
     booleanAttribute,
@@ -8,6 +10,7 @@ import {
     forwardRef,
     input,
     output,
+    viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -30,7 +33,7 @@ let counter = 0;
         '[class.toggle-switch]': "mode() === 'toggle'",
     },
 })
-export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit {
+export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit, DoCheck {
     override readonly componentName = 'input-checkbox';
     protected override counter = counter++;
     protected override _baseValue = 'checked';
@@ -43,11 +46,37 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit {
 
     override _name = computed<string>(() => this.formControlName() || this.name() || this.host._id() || this.uid());
 
+    readonly label = viewChildren<ElementRef<HTMLLabelElement>>('ref');
+
     readonly itemUpdate = output<boolean>();
+
+    override ngOnInit(): void {
+        super.ngOnInit();
+    }
 
     override ngOnChanges(changes: SimpleChanges): void {
         if (changes['checked']) {
             this.testChecked = changes['checked'].currentValue;
+        }
+    }
+
+    ngDoCheck() {
+        if (
+            this.host.forId !== `${this._id()}-input` &&
+            this.host.inputs().filter(item => item.componentName === this.componentName).length === 1 &&
+            this.label() &&
+            !this.label()[0]?.nativeElement.innerHTML.trim()
+        ) {
+            // For single checkboxes without label
+            this.host.forId = `${this._id()}-input`;
+            this.host.cd.detectChanges();
+        } else if (
+            (this.host.inputs().filter(item => item.componentName === this.componentName).length > 1 ||
+                this.label()?.[0]?.nativeElement.innerHTML.trim()) &&
+            this.host.forId
+        ) {
+            this.host.forId = undefined;
+            this.host.cd.detectChanges();
         }
     }
 
@@ -79,7 +108,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit {
         if (this.host.arrayValue() || this.host.inputs().length > 1) {
             const value = this.host
                 .inputs()
-                .filter(item => item.componentName === 'input-checkbox' && (item as MagmaInputCheckbox).testChecked)
+                .filter(item => item.componentName === this.componentName && (item as MagmaInputCheckbox).testChecked)
                 .map(item => item.value());
             return value;
         } else {

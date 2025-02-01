@@ -1,10 +1,14 @@
 <div class="top label">
-  <label for="id"><ng-content select="mg-input-label"></ng-content></label>
+  @if (forId) {
+    <label [for]="forId"><ng-container [ngTemplateOutlet]="label"></ng-container></label>
+  } @else {
+    <ng-container [ngTemplateOutlet]="label"></ng-container>
+  }
 </div>
 <div class="content">
   <ng-content select="mg-input-prefix"></ng-content>
   <ng-content
-    select="mg-input-text,mg-input-textarea, mg-input-number, mg-input-color, mg-input-radio, mg-input-checkbox, mg-input-number, mg-input-select"
+    select="mg-input-text,mg-input-textarea,mg-input-password, mg-input-number, mg-input-color, mg-input-radio, mg-input-checkbox, mg-input-number, mg-input-select"
   ></ng-content>
   <ng-content select="mg-input-suffix"></ng-content>
 </div>
@@ -14,3 +18,7 @@
   }
   <ng-content select="mg-input-desc"></ng-content>
 </div>
+
+<ng-template #label>
+  <ng-content select="mg-input-label"></ng-content>
+</ng-template>

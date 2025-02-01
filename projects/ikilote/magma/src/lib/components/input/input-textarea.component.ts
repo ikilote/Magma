@@ -1,7 +1,18 @@
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, viewChild } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    booleanAttribute,
+    forwardRef,
+    input,
+    viewChild,
+} from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
+
+import { MagmaTextareaAutosizeDirective } from '../../directives/textarea-autosize.directive';
+import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 let counter = 0;
 
@@ -10,7 +21,7 @@ let counter = 0;
     templateUrl: './input-textarea.component.html',
     styleUrls: ['./input-textarea.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, MagmaTextareaAutosizeDirective],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputTextarea },
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputTextarea), multi: true },
@@ -25,6 +36,9 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     protected override counter = counter++;
 
     readonly input = viewChild.required<ElementRef<HTMLTextAreaElement>>('input');
+
+    readonly autosize = input(false, { transform: booleanAttribute });
+    readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
 
     get inputElement(): HTMLTextAreaElement {
         return this.input()?.nativeElement;

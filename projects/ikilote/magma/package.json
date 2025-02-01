@@ -12,7 +12,8 @@
     "ng-select2-component": "^17.1.0"
   },
   "dependencies": {
-    "tslib": "^2.3.0"
+    "tslib": "^2.3.0",
+    "@github/textarea-autosize": "0.3.3"
   },
   "repository": {
     "type": "git",

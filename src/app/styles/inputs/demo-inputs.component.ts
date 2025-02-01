@@ -9,26 +9,27 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoInputsComponent {
-    text = `<label id="text">Label</label>
-<input for="text" type="text" name="text" />`;
+    text = `<label for="text">Label</label>
+<input id="text" type="text" name="text" />`;
 
-    password = `<label id="password">Label</label>
-<input for="password" type="password" name="password" />`;
+    password = `<label for="password">Label</label>
+<input id="password" type="password" name="password" />`;
 
-    radio = `<label id="radio1"><input for="radio1" type="radio" name="radio" /> Label</label>
-<label id="radio2"><input for="radio2" type="radio" name="radio" /> Label</label>`;
+    radio = `<label for="radio1"><input id="radio1" type="radio" name="radio" /> Label</label>
+<label for="radio2"><input id="radio2" type="radio" name="radio" /> Label</label>`;
 
-    checkbox = `<label id="checkbox1"><input for="checkbox1" type="checkbox" name="checkbox" /> Label</label>
-<label id="checkbox2"><input for="checkbox2" type="checkbox" name="checkbox" /> Label</label>`;
+    checkbox = `<label for="checkbox1"><input id="checkbox1" type="checkbox" name="checkbox" /> Label</label>
+<label for="checkbox2"><input id="checkbox2" type="checkbox" name="checkbox" /> Label</label>`;
 
-    file = `<label id="file">Label</label>
-<input for="file" type="file" />`;
+    file = `<label for="file">Label</label>
+<input id="file" type="file" />`;
 
-    textarea = `<label id="textarea">Label</label>
-<textarea for="textarea" name="textarea"></textarea>
+    textarea = `<label for="textarea">Label</label>
+<textarea id="textarea" name="textarea"></textarea>
 `;
 
-    select = `<select for="select" name="select">
+    select = `<label for="select">Label</label>
+<select id="select" name="select">
   <option>1</option>
   <option>2</option>
   <option>3</option>

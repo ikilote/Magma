@@ -207,7 +207,7 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
     flex-wrap: wrap;
 
     /* (0, 4, 1) */
-    & > div:not(.break, .sub) {
+    & > :not(.break, .sub) {
         box-sizing: border-box;
         padding: var(--grid-cell-padding);
     }

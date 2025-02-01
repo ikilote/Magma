@@ -2,8 +2,8 @@
 
 <section>
   <div>
-    <label id="text">Label</label>
-    <input for="text" type="text" name="text" />
+    <label for="text">Label</label>
+    <input id="text" type="text" name="text" />
   </div>
   <div>
     <code-tabs [code]="[{ type: 'html', code: text }]"></code-tabs>
@@ -12,8 +12,8 @@
 <hr />
 <section>
   <div>
-    <label id="password">Label</label>
-    <input for="password" type="password" name="password" />
+    <label for="password">Label</label>
+    <input id="password" type="password" name="password" />
   </div>
   <div>
     <code-tabs [code]="[{ type: 'html', code: password }]"></code-tabs>
@@ -22,8 +22,8 @@
 <hr />
 <section>
   <div>
-    <label id="radio1"><input for="radio1" type="radio" name="radio" />Label</label>
-    <label id="radio2"><input for="radio2" type="radio" name="radio" />Label</label>
+    <label for="radio1"><input id="radio1" type="radio" name="radio" />Label</label>
+    <label for="radio2"><input id="radio2" type="radio" name="radio" />Label</label>
   </div>
   <div>
     <code-tabs [code]="[{ type: 'html', code: radio }]"></code-tabs>
@@ -32,8 +32,8 @@
 <hr />
 <section>
   <div>
-    <label id="checkbox1"><input for="checkbox1" type="checkbox" name="checkbox" />Label</label>
-    <label id="checkbox2"><input for="checkbox2" type="checkbox" name="checkbox" />Label</label>
+    <label for="checkbox1"><input id="checkbox1" type="checkbox" name="checkbox" />Label</label>
+    <label for="checkbox2"><input id="checkbox2" type="checkbox" name="checkbox" />Label</label>
   </div>
   <div>
     <code-tabs [code]="[{ type: 'html', code: checkbox }]"></code-tabs>
@@ -42,8 +42,8 @@
 <hr />
 <section>
   <div>
-    <label id="file">Label</label>
-    <input for="file" type="file" />
+    <label for="file">Label</label>
+    <input id="file" type="file" />
   </div>
   <div>
     <code-tabs [code]="[{ type: 'html', code: file }]"></code-tabs>
@@ -52,8 +52,10 @@
 <hr />
 <section>
   <div>
-    <label id="textarea">Label</label>
-    <textarea for="textarea" name="textarea"></textarea>
+    <label for="textarea">Label</label>
+    <textarea id="textarea" name="textarea"></textarea>
+    <label for="textarea">Label</label>
+    <textarea id="textarea" name="autosize"></textarea>
   </div>
   <div>
     <code-tabs [code]="[{ type: 'html', code: textarea }]"></code-tabs>
@@ -62,8 +64,8 @@
 <hr />
 <section>
   <div>
-    <label id="select">Label</label>
-    <select for="select" name="select">
+    <label for="select">Label</label>
+    <select id="select" name="select">
       <option>1</option>
       <option>2</option>
       <option>3</option>

@@ -1,3 +1,8 @@
 :host {
     width: 100%;
 }
+
+textarea {
+    max-height: var(--input-textarea-max-height, 500px);
+    resize: var(--input-textarea-vertical, vertical);
+}

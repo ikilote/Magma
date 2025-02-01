@@ -6,9 +6,7 @@
     [value]="value()"
     [checked]="testChecked"
     (change)="_change()"
-  /><label [for]="_id() + '-input'">
-    <ng-content></ng-content>
-  </label>
+  /><label #ref [for]="_id() + '-input'"><ng-content></ng-content></label>
 } @else {
   Error
 }

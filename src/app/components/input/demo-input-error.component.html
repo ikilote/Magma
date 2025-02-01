@@ -1,19 +1,19 @@
 <h1>Input</h1>
 
 <section>
-  <div>
+  <div class="s-5">
     <h2>Text / Textarea</h2>
     <mg-input [formGroup]="formText">
       <mg-input-text formControlName="test"></mg-input-text>
     </mg-input>
   </div>
-  <div>
+  <div class="s-7">
     <code-tabs [code]="[{ type: 'ts', code: codeTsText }]"></code-tabs>
   </div>
 </section>
 
 <section [formGroup]="formList">
-  <div>
+  <div class="s-5">
     <h2>Radio / Checkbox / Select</h2>
     <div>
       <mg-input>
@@ -44,19 +44,19 @@
       </mg-input>
     </div>
   </div>
-  <div>
+  <div class="s-7">
     <code-tabs [code]="[{ type: 'ts', code: codeTsList }]"></code-tabs>
   </div>
 </section>
 
 <section>
-  <div>
+  <div class="s-5">
     <h2>Number</h2>
     <mg-input [formGroup]="formNumber">
       <mg-input-number formControlName="test"></mg-input-number>
     </mg-input>
   </div>
-  <div>
+  <div class="s-7">
     <code-tabs [code]="[{ type: 'ts', code: codeTsNumber }]"></code-tabs>
   </div>
 </section>

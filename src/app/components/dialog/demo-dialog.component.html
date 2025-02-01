@@ -2,7 +2,7 @@
 
 @if (ctrlForm) {
   <section>
-    <form [formGroup]="ctrlForm">
+    <form class="s-4" [formGroup]="ctrlForm">
       <p>
         <mg-input>
           <mg-input-label>closeButton</mg-input-label>
@@ -16,14 +16,14 @@
         </mg-input>
       </p>
     </form>
-    <div>
+    <div class="s-4">
       <button (click)="dialog.open()">Open dialog</button>
 
       <mg-dialog #dialog [closeButton]="ctrlForm.value.closeButton" [closeBackdrop]="ctrlForm.value.closeBackdrop">
         Content dialog
       </mg-dialog>
     </div>
-    <div>
+    <div class="s-4">
       <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
     </div>
   </section>

@@ -2,7 +2,7 @@
 
 @if (ctrlForm) {
   <section>
-    <form [formGroup]="ctrlForm">
+    <form class="s-4" [formGroup]="ctrlForm">
       <p>
         <mg-input>
           <mg-input-label>contextMenuMode</mg-input-label>
@@ -17,14 +17,16 @@
         </mg-input>
       </p>
     </form>
-    <div
-      [contextMenu]="contextMenu"
-      [contextMenuMode]="ctrlForm.value.contextMenuMode"
-      [contextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
-    >
-      Right-click here to display the context menu.
+    <div class="s-4">
+      <div
+        [contextMenu]="contextMenu"
+        [contextMenuMode]="ctrlForm.value.contextMenuMode"
+        [contextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
+      >
+        Right-click here to display the context menu.
+      </div>
     </div>
-    <div>
+    <div class="s-4">
       <code-tabs
         [code]="[
           { type: 'html', code: codeHtml },

@@ -12,8 +12,12 @@ app-root {
     height: 100%;
 }
 
-code {
+code:has(> :not(pre)) {
     border-radius: 3px;
     background-color: var(--neutral9);
     padding: 2px;
+}
+
+code > pre {
+    overflow: auto;
 }

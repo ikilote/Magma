@@ -102,7 +102,7 @@ export class DemoColorPickerComponent {
         // tag root
 
         const json: Json2htmlRef = {
-            tag: 'div',
+            tag: 'button',
             attrs: {},
             body: ['Click me'],
         };

@@ -2,7 +2,7 @@
 
 @if (ctrlForm) {
   <section>
-    <form [formGroup]="ctrlForm">
+    <form class="s-3" [formGroup]="ctrlForm">
       <div>
         <mg-input>
           <mg-input-label>id</mg-input-label>
@@ -12,13 +12,13 @@
       <div>
         <mg-input>
           <mg-input-label>title</mg-input-label>
-          <mg-input-textarea formControlName="title"></mg-input-textarea>
+          <mg-input-textarea formControlName="title" autosize></mg-input-textarea>
         </mg-input>
       </div>
       <div>
         <mg-input>
           <mg-input-label>content</mg-input-label>
-          <mg-input-textarea formControlName="content"></mg-input-textarea>
+          <mg-input-textarea formControlName="content" autosize></mg-input-textarea>
         </mg-input>
       </div>
       <div>
@@ -29,7 +29,7 @@
       </div>
       <button (click)="addTab()">Add</button>
     </form>
-    <div>
+    <div class="s-5">
       <mg-tabs>
         @for (item of tabs; track $index) {
           <mg-tab-title [id]="item.id" [selected]="item.selected">{{ item.title }}</mg-tab-title>
@@ -39,7 +39,7 @@
         }
       </mg-tabs>
     </div>
-    <div>
+    <div class="s-4">
       <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
     </div>
   </section>

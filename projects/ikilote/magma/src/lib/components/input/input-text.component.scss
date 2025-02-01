@@ -1,6 +1,6 @@
 :host {
     position: relative;
-    width: 100%;
+    width: fit-content;
 }
 
 input:has(+ span) {
@@ -12,12 +12,14 @@ input:has(+ span) {
 span {
     display: inline-block;
     width: 0;
-}
-span::before {
-    display: block;
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    padding: 4px;
-    font-size: 16px;
+
+    &::before {
+        display: block;
+        position: absolute;
+        top: 4px;
+        right: 4px;
+        z-index: 1;
+        padding: 4px;
+        font-size: 16px;
+    }
 }

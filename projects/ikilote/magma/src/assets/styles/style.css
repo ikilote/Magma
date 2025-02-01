@@ -234,53 +234,58 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
     padding: 0;
 }
 
+:is(.s-12, .s-11, .s-10, .s-9, .s-8, .s-7, .s-6, .s-5, .s-4, .s-3, .s-2, .s-1, .s-f) {
+    flex: 0 0 var(--size);
+    max-width: var(--size);
+}
+
 /* size 12 / 12 */
 .s-12 {
-    flex: 0 0 100%;
+    --size: 100%;
 }
 /* size 11 / 12 */
 .s-11 {
-    flex: 0 0 calc(100% / 12 * 11);
+    --size: calc(100% / 12 * 11);
 }
 /* size 10 / 12 */
 .s-10 {
-    flex: 0 0 calc(100% / 6 * 5);
+    --size: calc(100% / 6 * 5);
 }
 /* size 9 / 12 */
 .s-9 {
-    flex: 0 0 75%;
+    --size: 75%;
 }
 /* size 8 / 12 */
 .s-8 {
-    flex: 0 0 calc(100% / 3 * 2);
+    --size: calc(100% / 3 * 2);
 }
 /* size 7 / 12 */
 .s-7 {
-    flex: 0 0 calc(100% / 12 * 7);
+    --size: calc(100% / 12 * 7);
 }
 /* size 6 / 12 */
 .s-6 {
-    flex: 0 0 50%;
+    --size: 50%;
 }
 /* size 5 / 12 */
 .s-5 {
-    flex: 0 0 calc(100% / 12 * 5);
+    --size: calc(100% / 12 * 5);
 }
 /* size 4 / 12 */
 .s-4 {
-    flex: 0 0 calc(100% / 3);
+    --size: calc(100% / 3);
 }
 /* size 3 / 12 */
 .s-3 {
-    flex: 0 0 25%;
+    --size: 25%;
 }
 /* size 2 / 12 */
 .s-2 {
-    flex: 0 0 calc(100% / 6);
+    --size: calc(100% / 6);
 }
 /* size 1 / 12 */
 .s-1 {
-    flex: 0 0 calc(100% / 12);
+    --size: calc(100% / 12);
 }
 /* size flex */
 .s-f {

@@ -55,3 +55,8 @@ input:checked + label::before {
         }
     }
 }
+
+.content:has(> :host:is(mg-input-checkbox)) {
+    flex-wrap: wrap;
+    gap: 5px 10px;
+}

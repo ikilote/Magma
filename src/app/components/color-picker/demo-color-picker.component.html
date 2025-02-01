@@ -2,7 +2,7 @@
 
 @if (ctrlForm) {
   <section>
-    <form [formGroup]="ctrlForm">
+    <form class="s-3" [formGroup]="ctrlForm">
       <p>
         <mg-input>
           <mg-input-label>Color value</mg-input-label>
@@ -16,7 +16,7 @@
         </mg-input>
       </p>
     </form>
-    <div>
+    <div class="s-5">
       <h4>Component</h4>
 
       <color-picker
@@ -25,7 +25,7 @@
         (colorChange)="colorChange($event)"
       ></color-picker>
     </div>
-    <div>
+    <div class="s-4">
       <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
     </div>
   </section>
@@ -33,7 +33,7 @@
   <hr />
 
   <section>
-    <form [formGroup]="ctrlFormPopup">
+    <form class="s-4" [formGroup]="ctrlFormPopup">
       <p>
         <mg-input>
           <mg-input-label>colorPicker</mg-input-label>
@@ -53,27 +53,29 @@
         </mg-input>
       </p>
     </form>
-    <div>
+    <div class="s-4">
       <h4>Directive</h4>
       <div>
+        <p>
+          <button
+            [colorPicker]="ctrlFormPopup.value.color"
+            [colorPickerAlpha]="ctrlFormPopup.value.alpha"
+            [colorPickerDisabled]="ctrlFormPopup.value.disabled"
+            (colorChange)="colorChange($event)"
+            (colorClose)="colorClose($event)"
+          >
+            Click me
+          </button>
+        </p>
         <div>
           colorChange : <code>{{ colorChangeValue }}</code>
         </div>
         <div>
           colorClose : <code>{{ colorCloseValue }}</code>
         </div>
-        <div
-          [colorPicker]="ctrlFormPopup.value.color"
-          [colorPickerAlpha]="ctrlFormPopup.value.alpha"
-          [colorPickerDisabled]="ctrlFormPopup.value.disabled"
-          (colorChange)="colorChange($event)"
-          (colorClose)="colorClose($event)"
-        >
-          Click me
-        </div>
       </div>
     </div>
-    <div>
+    <div class="s-4">
       <code-tabs [code]="[{ type: 'html', code: codeHtmlPopup }]"></code-tabs>
     </div>
   </section>

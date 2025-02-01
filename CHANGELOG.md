@@ -16,6 +16,8 @@
 - **mg-input**:
     - Fix color grid
     - Fix select align
+- Fix grid with flexbox
+- Fix radio/checkbox wrap
 
 ### 🎦 Demo
 

@@ -33,7 +33,6 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes);
         if (changes['autosizeDisabled']) {
             if (
                 changes['autosizeDisabled'].previousValue === true &&

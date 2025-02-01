@@ -88,7 +88,6 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
 
                         if (data && errorMessage?.includes('{')) {
                             [...errorMessage.matchAll(/\{([^}]+)\}/g)].forEach(([tag, keyName]) => {
-                                console.log('>', errorMessage, tag, keyName);
                                 errorMessage = errorMessage!.replace(
                                     tag,
                                     data.state[keyName] ?? control.errors?.[key]?.[keyName],

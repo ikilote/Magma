@@ -90,7 +90,6 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
     }
 
     keydown(event: KeyboardEvent) {
-        console.log('key', event.key, this.inputElement.value, this.inputElement.value.includes(event.key));
         if (MagmaInputNumber.acceptKeys.includes(event.key)) {
             if (this.inputElement.value.includes('.') && (event.key === '.' || event.key === ',')) {
                 event.preventDefault();

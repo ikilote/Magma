@@ -1,5 +1,27 @@
 # Changelog of @ikilote/magma
 
+## 0.1.3 (2025-02-01)
+
+### ✅ New
+
+- **mg-input**:
+    - Add `clearCross` to delete for `text`
+    - Add of `password` component with `eye` to see
+    - Add of `maxlength` for `text` and `textarea`
+    - Add of `autosize` for `textarea`
+    - Improve labels for checkboxes only
+
+### 🐞 Fix
+
+- **mg-input**:
+    - Fix color grid
+    - Fix select align
+
+### 🎦 Demo
+
+- Update of input code generator
+- All pages with the grid system
+
 ## 0.1.2 (2025-02-01)
 
 ### ✅ New

@@ -1,11 +1,3 @@
-.cdk-overlay-container {
-    z-index: 10000;
-}
-
-.cdk-global-scrollblock {
-    overflow: hidden;
-}
-
 body,
 body.light-mode {
     color-scheme: light;

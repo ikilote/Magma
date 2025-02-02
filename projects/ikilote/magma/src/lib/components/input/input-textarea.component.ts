@@ -5,7 +5,7 @@ import {
     booleanAttribute,
     forwardRef,
     input,
-    viewChild,
+    viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -35,13 +35,18 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     override readonly componentName = 'input-textarea';
     protected override counter = counter++;
 
-    readonly input = viewChild.required<ElementRef<HTMLTextAreaElement>>('input');
+    readonly input = viewChildren<ElementRef<HTMLTextAreaElement>>('input');
 
     readonly autosize = input(false, { transform: booleanAttribute });
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
 
     get inputElement(): HTMLTextAreaElement {
-        return this.input()?.nativeElement;
+        return this.input()?.[0]?.nativeElement;
+    }
+
+    override writeValue(value: any): void {
+        super.writeValue(value);
+        this.inputElement!.value = value;
     }
 
     changeValue(event: Event) {

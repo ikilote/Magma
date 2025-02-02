@@ -1,4 +1,15 @@
-import { Directive, Injector, OnChanges, OnInit, SimpleChanges, computed, inject, input, output } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Directive,
+    Injector,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+    computed,
+    inject,
+    input,
+    output,
+} from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
 
 import { MagmaInput } from './input.component';
@@ -10,6 +21,7 @@ import { Logger } from '../../services/logger';
 export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
     protected readonly host = inject(MagmaInput, { optional: false, host: true });
     protected readonly logger = inject(Logger);
+    readonly cd = inject(ChangeDetectorRef);
 
     readonly value = input();
 
@@ -55,6 +67,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
 
     writeValue(value: any): void {
         this._value = value;
+        this.cd.detectChanges();
     }
 
     registerOnChange(fn: any): void {

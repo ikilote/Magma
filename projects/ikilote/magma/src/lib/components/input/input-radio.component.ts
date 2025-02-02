@@ -51,6 +51,7 @@ export class MagmaInputRadio extends MagmaInputCommon implements OnInit {
     override writeValue(value: any): void {
         super.writeValue(value);
         this.testChecked = value === this.value();
+        this.cd.detectChanges();
     }
 
     _change() {

@@ -6,7 +6,7 @@ import {
     booleanAttribute,
     forwardRef,
     input,
-    viewChild,
+    viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -35,13 +35,13 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
     override readonly componentName = 'input-color';
     protected override counter = counter++;
 
-    readonly span = viewChild.required<ElementRef<HTMLSpanElement>>('span');
+    readonly span = viewChildren<ElementRef<HTMLSpanElement>>('span');
 
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly disabled = input(false, { transform: booleanAttribute });
 
     get inputElement(): HTMLSpanElement {
-        return this.span()?.nativeElement;
+        return this.span()?.[0]?.nativeElement;
     }
 
     colorClose(color: string) {

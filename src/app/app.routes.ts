@@ -47,7 +47,7 @@ export const routes: Routes = [
                     import('./components/input/demo-input-error.component').then(m => m.DemoInputErrorComponent),
             },
             {
-                path: 'alignment',
+                path: 'test',
                 pathMatch: 'full',
                 loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),
             },

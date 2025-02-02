@@ -1,8 +1,12 @@
 <h1>Input</h1>
 
+<p>This page is here to test the alignment of group behaviors.</p>
+
 <section>
+  <h2>Alignment test</h2>
+
   <!-- Text / Textarea-->
-  <h2>Text / Textarea</h2>
+  <h3>Text / Textarea</h3>
   <div>
     Test
     <mg-input>
@@ -23,7 +27,7 @@
       <mg-input-text formControlName="test"></mg-input-text>
       <mg-input-desc
         >Desc<br />
-        {{ formText.get('test')?.value }}</mg-input-desc
+        {{ formText.value.test }}</mg-input-desc
       >
     </mg-input>
     Test
@@ -45,7 +49,7 @@
   </div>
 
   <!-- Color -->
-  <h2>Color</h2>
+  <h3>Color</h3>
   <div>
     Test
     <mg-input>
@@ -66,7 +70,7 @@
       <mg-input-color formControlName="test"></mg-input-color>
       <mg-input-desc
         >Desc<br />
-        {{ formColor.get('test')?.value }}</mg-input-desc
+        {{ formColor.value.test }}</mg-input-desc
       >
     </mg-input>
     Test
@@ -80,7 +84,7 @@
     </mg-input>
   </div>
   <!-- Radio / Checkbox -->
-  <h2>Radio / Checkbox</h2>
+  <h3>Radio / Checkbox</h3>
   <div>
     Test
     <mg-input>
@@ -161,7 +165,7 @@
     </mg-input>
   </div>
   <!-- Number -->
-  <h2>Number</h2>
+  <h3>Number</h3>
   <div>
     Test
     <mg-input>
@@ -182,14 +186,14 @@
       <mg-input-number formControlName="test"></mg-input-number>
       <mg-input-desc
         >Desc<br />
-        {{ formNumber.get('test')?.value }}</mg-input-desc
+        {{ formNumber.value.test }}</mg-input-desc
       >
     </mg-input>
     Test
   </div>
 
   <!-- Select -->
-  <h2>Select</h2>
+  <h3>Select</h3>
   <div>
     Test
     <mg-input>
@@ -210,7 +214,7 @@
       <mg-input-select formControlName="test" [data]="data"></mg-input-select>
       <mg-input-desc
         >Desc<br />
-        {{ formSelect.get('test')?.value }}</mg-input-desc
+        {{ formSelect.value.test }}</mg-input-desc
       >
     </mg-input>
     Test
@@ -224,5 +228,49 @@
         test</mg-input-desc
       >
     </mg-input>
+  </div>
+
+  <!-- Form -->
+  <h2>Form test</h2>
+  <form [formGroup]="formTest">
+    <mg-input class="s-3">
+      <mg-input-text formControlName="text"></mg-input-text>
+      <mg-input-desc> {{ formTest.value.text }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-password formControlName="password"></mg-input-password>
+      <mg-input-desc> {{ formTest.value.password }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-textarea formControlName="textarea"></mg-input-textarea>
+      <mg-input-desc> {{ formTest.value.textarea }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-radio formControlName="radio" value="value1"></mg-input-radio>
+      <mg-input-radio formControlName="radio" value="value2"></mg-input-radio>
+      <mg-input-radio formControlName="radio" value="value3"></mg-input-radio>
+      <mg-input-desc> {{ formTest.value.radio }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-checkbox formControlName="checkbox"></mg-input-checkbox>
+      <mg-input-desc> {{ formTest.value.checkbox }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-checkbox formControlName="checkboxMultiple" value="value1"></mg-input-checkbox>
+      <mg-input-checkbox formControlName="checkboxMultiple" value="value2"></mg-input-checkbox>
+      <mg-input-checkbox formControlName="checkboxMultiple" value="value3"></mg-input-checkbox>
+      <mg-input-desc> {{ formTest.value.checkboxMultiple }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-select formControlName="select" [data]="data2"></mg-input-select>
+      <mg-input-desc> {{ formTest.value.select }}</mg-input-desc> </mg-input
+    ><mg-input class="s-3">
+      <mg-input-color formControlName="color"></mg-input-color>
+      <mg-input-desc> {{ formTest.value.color }}</mg-input-desc>
+    </mg-input>
+  </form>
+  <div>
+    <button (click)="clear()">clear</button>
+    <button (click)="set()">setVlue</button>
   </div>
 </section>

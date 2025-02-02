@@ -5,9 +5,9 @@ import {
     booleanAttribute,
     forwardRef,
     input,
-    viewChild,
+    viewChildren,
 } from '@angular/core';
-import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
@@ -20,7 +20,7 @@ let counter = 0;
     templateUrl: './input-text.component.html',
     styleUrls: ['./input-text.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, FormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputText },
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputText), multi: true },
@@ -37,10 +37,15 @@ export class MagmaInputText extends MagmaInputCommon {
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
     readonly clearCross = input(null, { transform: booleanAttribute });
 
-    readonly input = viewChild.required<ElementRef<HTMLInputElement>>('input');
+    readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 
     get inputElement(): HTMLInputElement | undefined {
-        return this.input()?.nativeElement;
+        return this.input()?.[0]?.nativeElement;
+    }
+
+    override writeValue(value: any): void {
+        super.writeValue(value);
+        this.inputElement!.value = value;
     }
 
     changeValue(event: Event) {

@@ -7,7 +7,7 @@ import {
     forwardRef,
     input,
     numberAttribute,
-    viewChild,
+    viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -60,10 +60,15 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
     readonly step = input(1, { transform: numberAttribute });
     readonly showArrows = input(false, { transform: booleanAttribute });
 
-    readonly input = viewChild.required<ElementRef<HTMLInputElement>>('input');
+    readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 
     get inputElement(): HTMLInputElement {
-        return this.input()?.nativeElement;
+        return this.input()?.[0]?.nativeElement;
+    }
+
+    override writeValue(value: any): void {
+        super.writeValue(value);
+        this.inputElement!.value = value;
     }
 
     changeValue(event: Event) {

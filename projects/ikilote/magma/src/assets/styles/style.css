@@ -333,3 +333,7 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
     height: 100%;
     overflow-y: hidden;
 }
+
+.cdk-overlay-container {
+    z-index: 10000;
+}

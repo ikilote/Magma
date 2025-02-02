@@ -1,5 +1,20 @@
 # Changelog of @ikilote/magma
 
+## 0.1.4 (2025-02-02)
+
+### ✅ New
+
+- **light-dark**: detect browser prefers-color-scheme
+
+### 🐞 Fix
+
+- Fix affix for password
+- Fix width for text/password/textarea
+
+### 🎦 Demo
+
+- Add favicon
+
 ## 0.1.3 (2025-02-01)
 
 ### ✅ New

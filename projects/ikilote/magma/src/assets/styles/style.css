@@ -205,6 +205,7 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
 ) {
     display: flex;
     flex-wrap: wrap;
+    align-items: baseline;
 
     /* (0, 4, 1) */
     & > :not(.break, .sub) {

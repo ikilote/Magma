@@ -41,6 +41,14 @@ export class MagmaLightDark {
 
         // fix `NullInjectorError: No provider for Renderer2!`
         this.renderer = rendererFactory.createRenderer(null, null);
+
+        browserSchema = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        this.changeThemeClass();
+
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            browserSchema = event.matches ? 'dark' : 'light';
+            this.changeThemeClass();
+        });
     }
 
     @HostListener('click')

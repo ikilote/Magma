@@ -29,6 +29,9 @@ let counter = 0;
     ],
     host: {
         '[id]': '_id()',
+        '[style.--min]': 'minHeight()',
+        '[style.--max]': 'maxHeight()',
+        '[style.--default]': 'height()',
     },
 })
 export class MagmaInputTextarea extends MagmaInputCommon {
@@ -39,6 +42,9 @@ export class MagmaInputTextarea extends MagmaInputCommon {
 
     readonly autosize = input(false, { transform: booleanAttribute });
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
+    readonly height = input<string>();
+    readonly maxHeight = input<string>();
+    readonly minHeight = input<string>();
 
     get inputElement(): HTMLTextAreaElement {
         return this.input()?.[0]?.nativeElement;

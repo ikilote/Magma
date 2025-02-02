@@ -67,6 +67,22 @@
             <mg-input-label>maxlength</mg-input-label>
             <mg-input-number formControlName="maxLength"></mg-input-number>
           </mg-input>
+          <div class="break"></div>
+          <mg-input class="s-4">
+            <mg-input-label>default height</mg-input-label>
+            <mg-input-text formControlName="height"></mg-input-text>
+            <mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>minHeight</mg-input-label>
+            <mg-input-text formControlName="minHeight"></mg-input-text
+            ><mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>maxHeight</mg-input-label>
+            <mg-input-text formControlName="maxHeight"></mg-input-text
+            ><mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
+          </mg-input>
         }
         @if (formGenerator.value.type === 'text') {
           <mg-input class="s-4">
@@ -157,6 +173,9 @@
               [(ngModel)]="valueTextarea"
               [autosize]="formGenerator.value.autosize"
               [maxlength]="formGenerator.value.maxLength ?? null"
+              [height]="formGenerator.value.height"
+              [maxHeight]="formGenerator.value.maxHeight"
+              [minHeight]="formGenerator.value.minHeight"
             ></mg-input-textarea>
           }
           @case ('password') {

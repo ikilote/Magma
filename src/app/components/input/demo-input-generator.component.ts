@@ -61,6 +61,9 @@ export class DemoInputGeneratorComponent {
 
         // textarea
         autosize: FormControl<boolean>;
+        height: FormControl<string>;
+        minHeight: FormControl<string>;
+        maxHeight: FormControl<string>;
 
         // textarea
         eye: FormControl<boolean>;
@@ -110,6 +113,9 @@ export class DemoInputGeneratorComponent {
             clearCross: { default: false },
             // textarea
             autosize: { default: false },
+            height: { default: undefined },
+            minHeight: { default: undefined },
+            maxHeight: { default: undefined },
             // text
             eye: { default: false },
             // radio / checkbox

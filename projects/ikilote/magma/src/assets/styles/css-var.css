@@ -151,8 +151,10 @@ body {
     --input-item-active-color: var(--primary3);
     --input-focus-border-color: var(--neutral5);
     --input-color-shadow: var(--neutralA);
+    --input-checked-color: var(--primary5);
     --input-textarea-min-height: 33px;
     --input-textarea-max-height: 500px;
+    --input-error-color: var(--alert4);
 
     /* item content-box */
     --content-title-text-color: var(--neutral);

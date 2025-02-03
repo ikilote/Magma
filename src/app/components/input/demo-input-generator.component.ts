@@ -320,7 +320,7 @@ export class DemoInputGeneratorComponent {
             }
         }
         if (type === 'text') {
-            if (fgValue.clearCross !== undefined) {
+            if (fgValue.clearCross) {
                 attrInput['clearCross'] = null;
             }
         }

@@ -159,6 +159,13 @@
             }
           </div>
         }
+
+        @if (formGenerator.value.type === 'select') {
+          <mg-input class="s-3">
+            <mg-input-label>Multiple</mg-input-label>
+            <mg-input-checkbox formControlName="multiple" mode="toggle"></mg-input-checkbox>
+          </mg-input>
+        }
       </div>
     </div>
   </div>
@@ -224,6 +231,7 @@
             <mg-input-select
               [data]="exampleData"
               [placeholder]="formGenerator.value.placeholder"
+              [multiple]="formGenerator.value.multiple"
               [(ngModel)]="valueSelect"
             ></mg-input-select>
           }

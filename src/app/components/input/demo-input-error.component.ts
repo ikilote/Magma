@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Select2Data } from 'ng-select2-component';
 
@@ -27,15 +27,22 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputCheckbox,
         MagmaInputNumber,
         MagmaInputSelect,
-        FormsModule,
-        ReactiveFormsModule,
         CodeTabsComponent,
+        ReactiveFormsModule,
     ],
 })
 export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
-    readonly codeTsText = `export class DemoInputErrorComponent {
+    readonly codeTsText = `@Component({
+    ...
+    imports: [
+        MagmaInput,
+        MagmaInputText,
+        ReactiveFormsModule, // required
+    ],
+})
+export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
     readonly formText: FormGroup<{
@@ -66,7 +73,21 @@ export class DemoInputErrorComponent {
     }
 }`;
 
-    readonly codeTsList = `export class DemoInputErrorComponent {
+    readonly codeHtmlText = `<mg-input [formGroup]="formText">
+<mg-input-text formControlName="test"></mg-input-text>
+</mg-input>`;
+
+    readonly codeTsList = `@Component({
+    ...
+    imports: [
+        MagmaInput,
+        MagmaInputRadio,
+        MagmaInputCheckbox,
+        MagmaInputSelect,
+        ReactiveFormsModule, // required
+    ],
+})
+export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
     readonly data: Select2Data = [
@@ -115,7 +136,46 @@ export class DemoInputErrorComponent {
     }
 }`;
 
-    readonly codeTsNumber = `export class DemoInputErrorComponent {
+    readonly codeHtmlList = `<section [formGroup]="formList">
+<div>
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-radio formControlName="oneValue" value="red">red</mg-input-radio>
+      <mg-input-radio formControlName="oneValue" value="blue" checked>blue</mg-input-radio>
+    </mg-input>
+  </div>
+  <div>
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-checkbox formControlName="listValue" value="red">red</mg-input-checkbox>
+      <mg-input-checkbox formControlName="listValue" value="blue" checked>blue</mg-input-checkbox>
+      <mg-input-checkbox formControlName="listValue" value="yellow" checked>yellow</mg-input-checkbox>
+      <mg-input-checkbox formControlName="listValue" value="orange" checked>orange</mg-input-checkbox>
+    </mg-input>
+  </div>
+  <div>
+    <mg-input>
+      <mg-input-label>Toggle</mg-input-label>
+      <mg-input-checkbox formControlName="boolean" value="red" mode="toggle">red</mg-input-checkbox>
+    </mg-input>
+  </div>
+  <div>
+    <mg-input>
+      <mg-input-label>Select</mg-input-label>
+      <mg-input-select formControlName="select" [data]="data"></mg-input-select>
+    </mg-input>
+  </div>
+</section>`;
+
+    readonly codeTsNumber = `@Component({
+    ...
+    imports: [
+        MagmaInput,
+        MagmaInputNumber,
+        ReactiveFormsModule, // required
+    ],
+})
+export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
     readonly formNumber: FormGroup<{
@@ -135,6 +195,10 @@ export class DemoInputErrorComponent {
         });
     }
 }`;
+
+    readonly codeHtmlNumber = `<mg-input [formGroup]="formNumber">
+  <mg-input-number formControlName="test"></mg-input-number>
+</mg-input>`;
 
     readonly data: Select2Data = [
         { label: 'red', value: 'red' },

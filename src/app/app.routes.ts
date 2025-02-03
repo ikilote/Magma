@@ -41,7 +41,7 @@ export const routes: Routes = [
                     ),
             },
             {
-                path: 'error',
+                path: 'validators',
                 pathMatch: 'full',
                 loadComponent: () =>
                     import('./components/input/demo-input-error.component').then(m => m.DemoInputErrorComponent),

@@ -1,4 +1,4 @@
-<h1>Input</h1>
+<h1>Input validation</h1>
 
 <section>
   <div class="s-5">
@@ -8,7 +8,12 @@
     </mg-input>
   </div>
   <div class="s-7">
-    <code-tabs [code]="[{ type: 'ts', code: codeTsText }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'ts', code: codeTsText },
+        { type: 'html', code: codeHtmlText },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -45,7 +50,12 @@
     </div>
   </div>
   <div class="s-7">
-    <code-tabs [code]="[{ type: 'ts', code: codeTsList }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'ts', code: codeTsList },
+        { type: 'html', code: codeHtmlList },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -57,6 +67,11 @@
     </mg-input>
   </div>
   <div class="s-7">
-    <code-tabs [code]="[{ type: 'ts', code: codeTsNumber }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'ts', code: codeTsNumber },
+        { type: 'html', code: codeHtmlNumber },
+      ]"
+    ></code-tabs>
   </div>
 </section>

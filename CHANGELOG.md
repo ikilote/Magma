@@ -1,5 +1,22 @@
 # Changelog of @ikilote/magma
 
+## 0.1.5 (2025-02-03)
+
+### ✅ New
+
+- **mg-input**:
+    - Add `height` definitions for `textarea`
+    - Add `placeholder` for `text`, `textarea`, `password`, `number` & `select`
+
+### 🐞 Fix
+
+- Fix form value change
+- Align grid on baseline
+
+### 🎦 Demo
+
+- Improve demo for inputs
+
 ## 0.1.4 (2025-02-02)
 
 ### ✅ New

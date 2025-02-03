@@ -40,6 +40,18 @@
       </div>
       <h3>Input detail</h3>
       <div>
+        @if (
+          formGenerator.value.type === 'number' ||
+          formGenerator.value.type === 'textarea' ||
+          formGenerator.value.type === 'text' ||
+          formGenerator.value.type === 'password' ||
+          formGenerator.value.type === 'select'
+        ) {
+          <mg-input class="s-4">
+            <mg-input-label>Placeholder</mg-input-label>
+            <mg-input-text formControlName="placeholder"></mg-input-text>
+          </mg-input>
+        }
         @if (formGenerator.value.type === 'number') {
           <mg-input class="s-4">
             <mg-input-label>Step</mg-input-label>
@@ -56,16 +68,16 @@
             <mg-input-checkbox formControlName="alpha" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
-        @if (formGenerator.value.type === 'textarea') {
-          <mg-input class="s-4">
-            <mg-input-label>autosize</mg-input-label>
-            <mg-input-checkbox formControlName="autosize" mode="toggle"></mg-input-checkbox>
-          </mg-input>
-        }
         @if (formGenerator.value.type === 'textarea' || formGenerator.value.type === 'text') {
           <mg-input class="s-4">
             <mg-input-label>maxlength</mg-input-label>
             <mg-input-number formControlName="maxLength"></mg-input-number>
+          </mg-input>
+        }
+        @if (formGenerator.value.type === 'textarea') {
+          <mg-input class="s-4">
+            <mg-input-label>autosize</mg-input-label>
+            <mg-input-checkbox formControlName="autosize" mode="toggle"></mg-input-checkbox>
           </mg-input>
           <div class="break"></div>
           <mg-input class="s-4">
@@ -166,6 +178,7 @@
               [(ngModel)]="valueText"
               [maxlength]="formGenerator.value.maxLength ?? null"
               [clearCross]="formGenerator.value.clearCross"
+              [placeholder]="formGenerator.value.placeholder"
             ></mg-input-text>
           }
           @case ('textarea') {
@@ -176,15 +189,21 @@
               [height]="formGenerator.value.height"
               [maxHeight]="formGenerator.value.maxHeight"
               [minHeight]="formGenerator.value.minHeight"
+              [placeholder]="formGenerator.value.placeholder"
             ></mg-input-textarea>
           }
           @case ('password') {
-            <mg-input-password [(ngModel)]="valuePassword" [eye]="formGenerator.value.eye ?? null"></mg-input-password>
+            <mg-input-password
+              [(ngModel)]="valuePassword"
+              [eye]="formGenerator.value.eye ?? null"
+              [placeholder]="formGenerator.value.placeholder"
+            ></mg-input-password>
           }
           @case ('number') {
             <mg-input-number
               [step]="formGenerator.value.step"
               [showArrows]="formGenerator.value.showArrows"
+              [placeholder]="formGenerator.value.placeholder"
               [(ngModel)]="valueNumber"
             ></mg-input-number>
           }
@@ -202,7 +221,11 @@
             }}</mg-input-radio>
           }
           @case ('select') {
-            <mg-input-select [data]="exampleData" [(ngModel)]="valueSelect"></mg-input-select>
+            <mg-input-select
+              [data]="exampleData"
+              [placeholder]="formGenerator.value.placeholder"
+              [(ngModel)]="valueSelect"
+            ></mg-input-select>
           }
           @case ('color') {
             <mg-input-color [alpha]="formGenerator.value.alpha" [(ngModel)]="valueColor"></mg-input-color>

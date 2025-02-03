@@ -43,6 +43,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit, DoCh
     readonly mode = input<'checkbox' | 'toggle'>();
 
     protected testChecked: boolean | undefined;
+    override readonly placeholder: any = undefined; // not for checkbox
 
     override _name = computed<string>(() => this.formControlName() || this.name() || this.host._id() || this.uid());
 

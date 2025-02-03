@@ -4,6 +4,7 @@
     [name]="_name()"
     [id]="_id() + '-input'"
     [value]="_value"
+    [attr.placeholder]="placeholder()"
     [attr.maxlength]="maxlength()"
     (change)="changeValue($event)"
     (input)="inputValue($event)"

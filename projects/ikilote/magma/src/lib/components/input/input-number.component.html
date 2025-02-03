@@ -2,6 +2,7 @@
   <input
     #input
     type="number"
+    [attr.placeholder]="placeholder()"
     [step]="step()"
     inputmode="decimal"
     [name]="_name()"

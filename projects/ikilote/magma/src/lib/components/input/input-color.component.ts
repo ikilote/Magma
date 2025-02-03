@@ -39,6 +39,7 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
 
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly disabled = input(false, { transform: booleanAttribute });
+    override readonly placeholder: any = undefined; // not for color
 
     get inputElement(): HTMLSpanElement {
         return this.span()?.[0]?.nativeElement;

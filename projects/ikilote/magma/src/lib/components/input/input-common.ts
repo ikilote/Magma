@@ -30,6 +30,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     readonly formControlName = input<string>();
     readonly name = input<string>();
     readonly id = input<string>();
+    readonly placeholder = input<string>();
 
     readonly update = output<any>();
 

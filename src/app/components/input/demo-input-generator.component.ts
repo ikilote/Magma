@@ -55,6 +55,8 @@ export class DemoInputGeneratorComponent {
         prefix: FormControl<string>;
         suffix: FormControl<string>;
 
+        placeholder: FormControl<string>;
+
         // text
         maxLength: FormControl<number>;
         clearCross: FormControl<boolean>;
@@ -108,6 +110,7 @@ export class DemoInputGeneratorComponent {
             desc: { default: '' },
             prefix: { default: '' },
             suffix: { default: '' },
+            placeholder: { default: '' },
             // text
             maxLength: { default: undefined },
             clearCross: { default: false },
@@ -301,6 +304,15 @@ export class DemoInputGeneratorComponent {
             if (fgValue.autosize) {
                 attrInput['autosize'] = null;
             }
+            if (fgValue.height) {
+                attrInput['height'] = fgValue.height;
+            }
+            if (fgValue.minHeight) {
+                attrInput['minHeight'] = fgValue.minHeight;
+            }
+            if (fgValue.maxHeight) {
+                attrInput['maxHeight'] = fgValue.maxHeight;
+            }
         }
         if (type === 'textarea' || type === 'text') {
             if (fgValue.maxLength !== undefined) {
@@ -312,6 +324,12 @@ export class DemoInputGeneratorComponent {
                 attrInput['clearCross'] = null;
             }
         }
+        if (type === 'number' || type === 'textarea' || type === 'text' || type === 'password' || type === 'select') {
+            if (fgValue.placeholder !== '') {
+                attrInput['placeholder'] = fgValue.placeholder;
+            }
+        }
+
         body.push(jsonInput);
     }
 }

@@ -6,10 +6,10 @@
 
 :host.show-border {
     div:has(> .s-6, > .s-4, > .s-3, > .s-2, > .s-1, > .s-f, > .break) {
-        border: 1px dotted red;
+        border: 1px dotted var(--alert4);
 
         & > div:not(.break, .sub) {
-            border: 1px dashed black;
+            border: 1px dashed var(--neutral2);
         }
     }
 }

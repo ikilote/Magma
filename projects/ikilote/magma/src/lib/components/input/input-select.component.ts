@@ -1,7 +1,6 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    ElementRef,
     OnInit,
     TemplateRef,
     booleanAttribute,
@@ -9,7 +8,7 @@ import {
     input,
     numberAttribute,
     output,
-    viewChild,
+    viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -195,7 +194,11 @@ export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
 
     // ----------------------- internal
 
-    readonly input = viewChild.required<ElementRef<HTMLInputElement>>('input');
+    readonly input = viewChildren(Select2);
+
+    get inputElement(): Select2 | undefined {
+        return this.input()?.[0];
+    }
 
     changeValue(event: Select2UpdateEvent<Select2UpdateValue>) {
         const value = event.value;

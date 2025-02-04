@@ -1,5 +1,19 @@
 # Changelog of @ikilote/magma
 
+## 0.1.6 (2025-02-04)
+
+### ✅ New
+
+- **mg-input**: add all Select2 attributes
+
+### 🐞 Fix
+
+- Improve color for inputs
+
+### 🎦 Demo
+
+- Fix color in demo dark theme
+
 ## 0.1.5 (2025-02-03)
 
 ### ✅ New

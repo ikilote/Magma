@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Select2Data } from 'ng-select2-component';
@@ -37,6 +37,8 @@ import {
     ],
 })
 export class DemoInputComponent {
+    readonly fbe = inject(FormBuilderExtended);
+
     value = 'ngModel';
     color = 'red';
     radio = 'blue';
@@ -78,9 +80,8 @@ export class DemoInputComponent {
         color: FormControl<string>;
     }>;
 
-    constructor(fbe: FormBuilderExtended) {
-        console.log(fbe);
-        this.formText = fbe.groupWithErrorNonNullable({
+    constructor() {
+        this.formText = this.fbe.groupWithErrorNonNullable({
             test: {
                 default: 'form',
                 control: {
@@ -90,7 +91,7 @@ export class DemoInputComponent {
                 },
             },
         });
-        this.formColor = fbe.groupWithErrorNonNullable({
+        this.formColor = this.fbe.groupWithErrorNonNullable({
             test: {
                 default: null,
                 control: {
@@ -99,7 +100,7 @@ export class DemoInputComponent {
                 },
             },
         });
-        this.formNumber = fbe.groupWithErrorNonNullable({
+        this.formNumber = this.fbe.groupWithErrorNonNullable({
             test: {
                 default: 53.15,
                 control: {
@@ -109,7 +110,7 @@ export class DemoInputComponent {
                 },
             },
         });
-        this.formSelect = fbe.groupWithErrorNonNullable({
+        this.formSelect = this.fbe.groupWithErrorNonNullable({
             test: {
                 default: 'test2',
                 control: {
@@ -118,16 +119,26 @@ export class DemoInputComponent {
             },
         });
 
-        this.formTest = fbe.groupWithErrorNonNullable({
-            text: { default: 'text' },
-            password: { default: 'password' },
-            textarea: { default: 'textarea' },
-            radio: { default: 'value2' },
-            checkbox: { default: true },
-            checkboxMultiple: { default: ['value2', 'value3'] },
-            select: { default: 'value2' },
-            color: { default: 'blue' },
+        this.formTest = this.fbe.groupWithErrorNonNullable({
+            text: {
+                default: 'text',
+                control: { required: { state: true, message: 'Required field' } },
+            },
+            password: { default: 'password', control: { required: { state: true, message: 'Required field' } } },
+            textarea: { default: 'textarea', control: { required: { state: true, message: 'Required field' } } },
+            radio: { default: 'value2', control: { required: { state: true, message: 'Required field' } } },
+            checkbox: { default: true, control: { inlist: { state: [true], message: 'Required field' } } },
+            checkboxMultiple: {
+                default: ['value2', 'value3'],
+                control: { required: { state: true, message: 'Required field' } },
+            },
+            select: { default: 'value2', control: { required: { state: true, message: 'Required field' } } },
+            color: { default: 'blue', control: { required: { state: true, message: 'Required field' } } },
         });
+    }
+
+    validate() {
+        this.fbe.validateForm(this.formTest);
     }
 
     clear() {

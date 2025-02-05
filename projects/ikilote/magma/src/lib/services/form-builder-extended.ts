@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import {
+    AbstractControl,
     AbstractControlOptions,
     FormArray,
     FormBuilder,
@@ -139,7 +140,9 @@ declare type FormMapper<Type extends ControlWithError<any>> = {
 };
 
 /**
- * For persistence during the session of use
+ * For persistence during the session of use.
+ *
+ * Extension for Angular `FormBuilder`
  */
 @Injectable({
     providedIn: 'root',
@@ -147,6 +150,12 @@ declare type FormMapper<Type extends ControlWithError<any>> = {
 export abstract class FormBuilderExtended {
     fb = inject(FormBuilder);
 
+    /**
+     * create group validation for `mg-input` form
+     * @param controlsWithError control schemas with validators and error messages
+     * @param options validation options
+     * @returns
+     */
     groupWithErrorNonNullable<T extends {}>(
         controlsWithError: ControlWithError<T>,
         options?: AbstractControlOptions | null,
@@ -200,5 +209,34 @@ export abstract class FormBuilderExtended {
         });
 
         return this.fb.group<FormMapper<ControlWithError<T>>>(controls, options);
+    }
+
+    /**
+     * Mark form touched and display errors
+     * @param form form to update error message
+     */
+    validateForm(form: FormGroup | FormArray) {
+        form.markAllAsTouched({ emitEvent: true });
+        this.recursiveValidateForm(form.controls);
+    }
+
+    private recursiveValidateForm(
+        controls: { [key: string]: AbstractControl<any, any> } | AbstractControl<any, any>[],
+    ) {
+        if (Array.isArray(controls)) {
+            controls.forEach(ctrl => {
+                if (ctrl instanceof FormGroup || ctrl instanceof FormArray) {
+                    this.recursiveValidateForm(ctrl.controls);
+                }
+                ctrl.updateValueAndValidity();
+            });
+        } else {
+            Object.values(controls).forEach(ctrl => {
+                if (ctrl instanceof FormGroup || ctrl instanceof FormArray) {
+                    this.recursiveValidateForm(ctrl.controls);
+                }
+                ctrl.updateValueAndValidity();
+            });
+        }
     }
 }

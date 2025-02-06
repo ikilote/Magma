@@ -25,5 +25,6 @@ export * from './lib/directives/textarea-autosize.directive';
 export * from './lib/pipes/num-format';
 export * from './lib/services/form-builder-extended';
 export * from './lib/services/logger';
+export * from './lib/services/message';
 export * from './lib/utils/coercion';
 export * from './lib/utils/validators';

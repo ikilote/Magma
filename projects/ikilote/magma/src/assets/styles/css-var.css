@@ -183,6 +183,17 @@ body {
     --scrollbar-color-hover: var(--primary4);
     --scrollbar-width: thin;
 
+    /* message */
+    --info-message-top: 50px;
+    --info-message-border-color: var(--neutral1);
+    --info-message-background: var(--neutral5);
+    --info-message-box-shadow-color: var(--neutralB);
+    --info-message-progress-background: var(--neutral1);
+    --error-message-border-color: var(-alert3);
+    --error-message-background: var(--alert7);
+    --error-message-box-shadow-color: var(--neutralB);
+    --error-message-progress-background: var(--alert5);
+
     /* grid */
     --grid-cell-padding: 6px;
 }

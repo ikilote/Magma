@@ -5,6 +5,8 @@
     [id]="_id() + '-input'"
     [value]="value()"
     [checked]="testChecked"
+    [disabled]="disabled()"
+    [readonly]="readonly()"
     (change)="_change()"
   /><label #ref [for]="_id() + '-input'"><ng-content></ng-content></label>
 } @else {

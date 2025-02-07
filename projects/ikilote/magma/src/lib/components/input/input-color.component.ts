@@ -38,7 +38,6 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
     readonly span = viewChildren<ElementRef<HTMLSpanElement>>('span');
 
     readonly alpha = input(false, { transform: booleanAttribute });
-    readonly disabled = input(false, { transform: booleanAttribute });
     override readonly placeholder: any = undefined; // not for color
 
     get inputElement(): HTMLSpanElement {

@@ -40,6 +40,14 @@
       </div>
       <h3>Input detail</h3>
       <div>
+        <mg-input class="s-4">
+          <mg-input-label>Disabled</mg-input-label>
+          <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Readonly</mg-input-label>
+          <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+        </mg-input>
         @if (
           formGenerator.value.type === 'number' ||
           formGenerator.value.type === 'textarea' ||
@@ -108,7 +116,6 @@
             <mg-input-checkbox formControlName="eye" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
-
         @if (formGenerator.value.type === 'checkbox') {
           <mg-input class="s-3">
             <mg-input-label>Multiple</mg-input-label>
@@ -125,7 +132,6 @@
             </mg-input>
           }
         }
-
         @if (formGenerator.value.type === 'checkbox' || formGenerator.value.type === 'radio') {
           <div class="s-12">
             <mg-input class="s-4">
@@ -159,7 +165,6 @@
             }
           </div>
         }
-
         @if (formGenerator.value.type === 'select') {
           <mg-input class="s-3">
             <mg-input-label>Multiple</mg-input-label>
@@ -192,6 +197,8 @@
               [maxlength]="formGenerator.value.maxLength ?? null"
               [clearCross]="formGenerator.value.clearCross"
               [placeholder]="formGenerator.value.placeholder"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
             ></mg-input-text>
           }
           @case ('textarea') {
@@ -203,6 +210,8 @@
               [maxHeight]="formGenerator.value.maxHeight"
               [minHeight]="formGenerator.value.minHeight"
               [placeholder]="formGenerator.value.placeholder"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
             ></mg-input-textarea>
           }
           @case ('password') {
@@ -210,6 +219,8 @@
               [(ngModel)]="valuePassword"
               [eye]="formGenerator.value.eye ?? null"
               [placeholder]="formGenerator.value.placeholder"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
             ></mg-input-password>
           }
           @case ('number') {
@@ -217,6 +228,8 @@
               [step]="formGenerator.value.step"
               [showArrows]="formGenerator.value.showArrows"
               [placeholder]="formGenerator.value.placeholder"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueNumber"
             ></mg-input-number>
           }
@@ -224,31 +237,46 @@
             <mg-input-checkbox
               [value]="formGenerator.value.subValue1"
               [mode]="formGenerator.value.toggle ? 'toggle' : 'checkbox'"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueCheckbox"
               >{{ formGenerator.value.subLabel1 }}</mg-input-checkbox
             >
           }
           @case ('radio') {
-            <mg-input-radio [value]="formGenerator.value.subValue1" [(ngModel)]="valueRadio">{{
-              formGenerator.value.subLabel1
-            }}</mg-input-radio>
+            <mg-input-radio
+              [value]="formGenerator.value.subValue1"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
+              [(ngModel)]="valueRadio"
+              >{{ formGenerator.value.subLabel1 }}</mg-input-radio
+            >
           }
           @case ('select') {
             <mg-input-select
               [data]="exampleData"
               [placeholder]="formGenerator.value.placeholder"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
               [multiple]="formGenerator.value.multiple"
               [(ngModel)]="valueSelect"
             ></mg-input-select>
           }
           @case ('color') {
-            <mg-input-color [alpha]="formGenerator.value.alpha" [(ngModel)]="valueColor"></mg-input-color>
+            <mg-input-color
+              [alpha]="formGenerator.value.alpha"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
+              [(ngModel)]="valueColor"
+            ></mg-input-color>
           }
         }
         @if (formGenerator.value.multiple && formGenerator.value.type === 'checkbox') {
           <mg-input-checkbox
             [value]="formGenerator.value.subValue2"
             [mode]="formGenerator.value.toggle ? 'toggle' : 'checkbox'"
+            [readonly]="formGenerator.value.readonly"
+            [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueCheckbox"
             >{{ formGenerator.value.subLabel2 }}</mg-input-checkbox
           >
@@ -257,19 +285,29 @@
           <mg-input-checkbox
             [value]="formGenerator.value.subValue3"
             [mode]="formGenerator.value.toggle ? 'toggle' : 'checkbox'"
+            [readonly]="formGenerator.value.readonly"
+            [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueCheckbox"
             >{{ formGenerator.value.subLabel3 }}</mg-input-checkbox
           >
         }
         @if (formGenerator.value.type === 'radio') {
-          <mg-input-radio [value]="formGenerator.value.subValue2" [(ngModel)]="valueRadio">{{
-            formGenerator.value.subLabel2
-          }}</mg-input-radio>
+          <mg-input-radio
+            [value]="formGenerator.value.subValue2"
+            [readonly]="formGenerator.value.readonly"
+            [disabled]="formGenerator.value.disabled ?? false"
+            [(ngModel)]="valueRadio"
+            >{{ formGenerator.value.subLabel2 }}</mg-input-radio
+          >
         }
         @if (formGenerator.value.type === 'radio') {
-          <mg-input-radio [value]="formGenerator.value.subValue3" [(ngModel)]="valueRadio">{{
-            formGenerator.value.subLabel3
-          }}</mg-input-radio>
+          <mg-input-radio
+            [value]="formGenerator.value.subValue3"
+            [readonly]="formGenerator.value.readonly"
+            [disabled]="formGenerator.value.disabled ?? false"
+            [(ngModel)]="valueRadio"
+            >{{ formGenerator.value.subLabel3 }}</mg-input-radio
+          >
         }
 
         @if (formGenerator.value.suffix) {

@@ -29,6 +29,7 @@ import { Logger } from '../../services/logger';
         '[style.--alpha.%]': 'rangeAlpha * 100',
         '[class.embedded]': 'embedded()',
         '[class.on-drag]': 'startDrag',
+        '[class.readonly]': 'readonly()',
     },
 })
 export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
@@ -40,6 +41,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     readonly color = input<string | undefined>('');
     readonly embedded = input(false, { transform: booleanAttribute });
     readonly alpha = input(false, { transform: booleanAttribute });
+    readonly readonly = input(false, { transform: booleanAttribute });
 
     readonly colorChange = output<string>();
 
@@ -121,7 +123,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     }
 
     protected click(event: MouseEvent) {
-        if (!this.startDrag) {
+        if (!this.startDrag && !this.readonly()) {
             const { layerX, layerY } = event;
             const { clientWidth, clientHeight } = this.zone().nativeElement;
             this.rangeLight = Math.round((layerX / (clientWidth - 10)) * 100);

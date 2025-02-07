@@ -29,7 +29,7 @@ input:checked + label::before {
     background-image: radial-gradient(var(--input-checked-color) 50%, transparent 55%);
 }
 
-input:disabled + label::before {
+input:not([readonly]):disabled + label::before {
     opacity: 0.5;
 }
 

@@ -15,6 +15,13 @@
         background-color: var(--neutralA);
         padding: 10px;
     }
+
+    &.readonly {
+        .cursor-zone,
+        .cursor {
+            cursor: default;
+        }
+    }
 }
 .value {
     display: flex;

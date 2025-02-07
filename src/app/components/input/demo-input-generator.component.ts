@@ -56,6 +56,8 @@ export class DemoInputGeneratorComponent {
         suffix: FormControl<string>;
 
         placeholder: FormControl<string>;
+        disabled: FormControl<boolean>;
+        readonly: FormControl<boolean>;
 
         // text
         maxLength: FormControl<number>;
@@ -111,6 +113,8 @@ export class DemoInputGeneratorComponent {
             prefix: { default: '' },
             suffix: { default: '' },
             placeholder: { default: '' },
+            disabled: { default: false },
+            readonly: { default: false },
             // text
             maxLength: { default: undefined },
             clearCross: { default: false },
@@ -283,6 +287,12 @@ export class DemoInputGeneratorComponent {
             if (type === 'checkbox' && fgValue.toggle) {
                 attrInput['mode'] = 'toggle';
             }
+        }
+        if (fgValue.disabled) {
+            attrInput['disabled'] = null;
+        }
+        if (fgValue.readonly) {
+            attrInput['readonly'] = null;
         }
         if (type === 'select') {
             attrInput['[data]'] = 'data';

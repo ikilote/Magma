@@ -117,17 +117,8 @@ export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
     /** minimal data of show the search field */
     readonly minCountForSearch = input(undefined, { transform: numberAttribute });
 
-    /** Whether the element is required. */
-    readonly required = input(false, { transform: booleanAttribute });
-
-    /** Whether selected items should be hidden. */
-    readonly disabled = input(false, { transform: booleanAttribute });
-
     /** Whether items are hidden when has. */
     readonly hideSelectedItems = input(false, { transform: booleanAttribute });
-
-    /** Whether the element is readonly. */
-    readonly readonly = input(false, { transform: booleanAttribute });
 
     /** Tab index for the select2 element. */
     readonly tabIndex = input(0, { transform: numberAttribute });

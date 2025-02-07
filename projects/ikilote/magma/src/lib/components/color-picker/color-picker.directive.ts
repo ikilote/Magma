@@ -38,6 +38,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     readonly colorPicker = input<string>();
     readonly colorPickerAlpha = input(false, { transform: booleanAttribute });
     readonly colorPickerDisabled = input(false, { transform: booleanAttribute });
+    readonly colorPickerReadonly = input(false, { transform: booleanAttribute });
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaColorPickerComponent>;
@@ -67,20 +68,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
             positionStrategy: this.overlay
                 .position()
                 .flexibleConnectedTo(this.element)
-                .withPositions([
-                    {
-                        originX: 'start',
-                        originY: 'bottom',
-                        overlayX: 'start',
-                        overlayY: 'top',
-                    },
-                    {
-                        originX: 'start',
-                        originY: 'top',
-                        overlayX: 'start',
-                        overlayY: 'bottom',
-                    },
-                ]),
+                .withPositions(connectedPosition),
         });
         const userProfilePortal = new ComponentPortal(MagmaColorPickerComponent);
 
@@ -90,6 +78,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('color', this.colorPicker());
         component.setInput('alpha', this.colorPickerAlpha());
+        component.setInput('readonly', this.colorPickerReadonly());
         component.setInput('embedded', true);
 
         this.updateEmit = component.instance.colorChange.subscribe(value => {

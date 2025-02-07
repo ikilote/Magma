@@ -5,6 +5,7 @@ import {
     OnChanges,
     OnInit,
     SimpleChanges,
+    booleanAttribute,
     computed,
     inject,
     input,
@@ -31,6 +32,12 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     readonly name = input<string>();
     readonly id = input<string>();
     readonly placeholder = input<string>();
+
+    /** Whether the element is disabled. */
+    readonly disabled = input(false, { transform: booleanAttribute });
+
+    /** Whether the element is readonly. */
+    readonly readonly = input(false, { transform: booleanAttribute });
 
     readonly update = output<any>();
 

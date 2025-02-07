@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
@@ -42,7 +42,6 @@ export class ContextTestComponent {
     templateUrl: './demo-context-menu.component.html',
     styleUrls: ['./demo-context-menu.component.scss'],
     imports: [
-        FormsModule,
         CodeTabsComponent,
         ReactiveFormsModule,
         MagmaContextMenu,

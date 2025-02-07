@@ -61,7 +61,7 @@ export const routes: Routes = [
         path: 'info-messages',
         pathMatch: 'full',
         loadComponent: () =>
-            import('./components/info-messages/info-messages.component').then(m => m.DemoInfoMessageComponent),
+            import('./components/info-messages/demo-info-messages.component').then(m => m.DemoInfoMessageComponent),
     },
     {
         path: 'tabs',

@@ -1,0 +1,23 @@
+<h1>Info-messages</h1>
+
+<button (click)="sendMessage()">Add Message</button>
+
+@if (formGroup) {
+  <div [formGroup]="formGroup">
+    <mg-input class="s-3">
+      <mg-input-label>Text</mg-input-label>
+      <mg-input-textarea formControlName="text" autosize></mg-input-textarea>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-label>time</mg-input-label>
+      <mg-input-text formControlName="time"></mg-input-text>
+      <mg-input-desc>Example : <code>3s</code> or <code>3000ms</code></mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-label>type</mg-input-label>
+      <mg-input-select formControlName="type" [data]="data"></mg-input-select>
+    </mg-input>
+  </div>
+}
+
+<code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>

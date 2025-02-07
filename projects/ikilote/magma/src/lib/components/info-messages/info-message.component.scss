@@ -26,6 +26,12 @@
     }
 }
 
+.message {
+    box-sizing: border-box;
+    max-width: var(--info-message-max-width);
+    white-space: pre-wrap;
+}
+
 .progress {
     position: absolute;
     right: 0;

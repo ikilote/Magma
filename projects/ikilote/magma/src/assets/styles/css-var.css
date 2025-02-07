@@ -185,6 +185,7 @@ body {
 
     /* message */
     --info-message-top: 50px;
+    --info-message-max-width: 300px;
     --info-message-border-color: var(--neutral1);
     --info-message-background: var(--neutral5);
     --info-message-box-shadow-color: var(--neutralB);

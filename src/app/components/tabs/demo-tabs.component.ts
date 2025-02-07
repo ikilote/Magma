@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
 
@@ -19,7 +19,6 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     styleUrls: ['./demo-tabs.component.scss'],
     imports: [
         MagmaTabsModule,
-        FormsModule,
         CodeTabsComponent,
         ReactiveFormsModule,
         MagmaInput,

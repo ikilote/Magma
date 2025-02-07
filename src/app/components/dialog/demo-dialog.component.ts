@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
@@ -16,15 +16,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-dialog',
     templateUrl: './demo-dialog.component.html',
     styleUrls: ['./demo-dialog.component.scss'],
-    imports: [
-        FormsModule,
-        CodeTabsComponent,
-        ReactiveFormsModule,
-        MagmaDialog,
-        MagmaInput,
-        MagmaInputElement,
-        MagmaInputCheckbox,
-    ],
+    imports: [CodeTabsComponent, ReactiveFormsModule, MagmaDialog, MagmaInput, MagmaInputElement, MagmaInputCheckbox],
 })
 export class DemoDialogComponent {
     readonly fb = inject(FormBuilderExtended);

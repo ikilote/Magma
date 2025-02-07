@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
@@ -19,7 +19,6 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-color-picker.component.html',
     styleUrls: ['./demo-color-picker.component.scss'],
     imports: [
-        FormsModule,
         CodeTabsComponent,
         ReactiveFormsModule,
         MagmaColorPickerComponent,

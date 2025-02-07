@@ -75,3 +75,13 @@
 :host:is(mg-input-desc) {
     font-size: 12px;
 }
+
+// error
+
+:host:is(mg-input-error) {
+    color: var(--input-error-color);
+}
+:has(> .bottom > :host:is(mg-input-error)) {
+    --input-border-color: var(--input-error-color);
+    --input-focus-border-color: var(--input-error-color);
+}

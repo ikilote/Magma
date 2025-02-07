@@ -57,6 +57,7 @@ export class DemoInputGeneratorComponent {
         access: FormControl<'none' | 'value' | 'ngModel' | 'formControlName'>;
         prefix: FormControl<string>;
         suffix: FormControl<string>;
+        error: FormControl<string>;
 
         placeholder: FormControl<string>;
         disabled: FormControl<boolean>;
@@ -114,6 +115,7 @@ export class DemoInputGeneratorComponent {
             access: { default: 'none' },
             label: { default: '' },
             desc: { default: '' },
+            error: { default: '' },
             prefix: { default: '' },
             suffix: { default: '' },
             placeholder: { default: '' },
@@ -208,7 +210,14 @@ export class DemoInputGeneratorComponent {
             };
             body.push(jsonLabel);
         }
-
+        if (value.error) {
+            const jsonLabel: Json2htmlRef = {
+                tag: 'mg-input-error',
+                body: value.error,
+                inline: true,
+            };
+            body.push(jsonLabel);
+        }
         if (value.desc) {
             const jsonDesc: Json2htmlRef = {
                 tag: 'mg-input-desc',

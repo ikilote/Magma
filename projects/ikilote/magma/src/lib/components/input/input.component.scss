@@ -41,3 +41,8 @@
         color: var(--input-error-color);
     }
 }
+
+:host:has(> .bottom > .error) {
+    --input-border-color: var(--input-error-color);
+    --input-focus-border-color: var(--input-error-color);
+}

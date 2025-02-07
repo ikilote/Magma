@@ -16,6 +16,7 @@
   @if (_errorMessage()) {
     <div class="error" [innerHTML]="_errorMessage()"></div>
   }
+  <ng-content select="mg-input-error"></ng-content>
   <ng-content select="mg-input-desc"></ng-content>
 </div>
 

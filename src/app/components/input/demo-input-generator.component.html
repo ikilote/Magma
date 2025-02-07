@@ -14,6 +14,10 @@
           <mg-input-label>Desc</mg-input-label>
           <mg-input-text formControlName="desc" value=""></mg-input-text>
         </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Error</mg-input-label>
+          <mg-input-text formControlName="error" value=""></mg-input-text>
+        </mg-input>
       </div>
       <div>
         <mg-input class="s-4">
@@ -335,6 +339,9 @@
         }
         @if (formGenerator.value.desc) {
           <mg-input-desc>{{ formGenerator.value.desc }}</mg-input-desc>
+        }
+        @if (formGenerator.value.error) {
+          <mg-input-error>{{ formGenerator.value.error }}</mg-input-error>
         }
       </mg-input>
     </div>

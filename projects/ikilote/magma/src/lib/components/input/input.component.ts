@@ -3,6 +3,8 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    OnChanges,
+    SimpleChanges,
     booleanAttribute,
     computed,
     contentChildren,
@@ -26,7 +28,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInput {
+export class MagmaInput implements OnChanges {
     readonly cd = inject(ChangeDetectorRef);
 
     readonly id = input<string>();
@@ -46,4 +48,10 @@ export class MagmaInput {
     _errorMessage = signal<string | null>(null);
 
     readonly inputs = contentChildren(MagmaInputCommon);
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['arrayValue'] && this.inputs()[0]?.componentName === 'input-checkbox') {
+            this.inputs()[0].onChange(this.inputs()[0].getValue());
+        }
+    }
 }

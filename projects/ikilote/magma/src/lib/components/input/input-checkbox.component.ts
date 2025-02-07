@@ -105,7 +105,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit, DoCh
         }
     }
 
-    getValue() {
+    override getValue() {
         if (this.host.arrayValue() || this.host.inputs().length > 1) {
             const value = this.host
                 .inputs()

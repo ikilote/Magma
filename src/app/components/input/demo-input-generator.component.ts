@@ -43,6 +43,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     ],
 })
 export class DemoInputGeneratorComponent {
+    readonly jsonPipe = new JsonPipe();
+
     exampleData: Select2Data = [
         { label: 'test1', value: 'test1' },
         { label: 'test2', value: 'test2' },
@@ -52,6 +54,7 @@ export class DemoInputGeneratorComponent {
         label: FormControl<string>;
         desc: FormControl<string>;
         type: FormControl<'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select'>;
+        access: FormControl<'none' | 'value' | 'ngModel' | 'formControlName'>;
         prefix: FormControl<string>;
         suffix: FormControl<string>;
 
@@ -108,6 +111,7 @@ export class DemoInputGeneratorComponent {
     constructor(fbe: FormBuilderExtended, fb: FormBuilder) {
         this.formGenerator = fbe.groupWithErrorNonNullable({
             type: { default: 'text' },
+            access: { default: 'none' },
             label: { default: '' },
             desc: { default: '' },
             prefix: { default: '' },
@@ -247,11 +251,50 @@ export class DemoInputGeneratorComponent {
                 data += `data: Select2Data = [
         { label: 'test1', value: 'test1' },
         { label: 'test2', value: 'test2' },
-    ];`;
+    ];
+    `;
                 break;
         }
         if (value.label || value.desc) {
             imports.push(`MagmaInputElement`);
+        }
+
+        if (value.access === 'ngModel' && value.type) {
+            imports.push('FormsModule');
+            data +=
+                `value = ` +
+                this.jsonPipe.transform(
+                    (this as any)['value' + value.type[0].toUpperCase() + value.type.substring(1)],
+                ) +
+                ';';
+        } else if (value.access === 'formControlName' && value.type) {
+            let type = 'string';
+            if (value.type == 'number') {
+                type = value.type;
+            } else if (value.type === 'checkbox') {
+                if (value.multiple || value.arrayValue) {
+                    type = 'string[]';
+                } else {
+                    type = 'boolean';
+                }
+            }
+
+            imports.push('ReactiveFormsModule');
+            data +=
+                `formGenerator: FormGroup<{
+        field: FormControl<${type}>;
+    }>
+
+    constructor() {
+        this.formGenerator = fbe.groupWithErrorNonNullable({
+            field: { default: ` +
+                this.jsonPipe.transform(
+                    (this as any)['value' + value.type[0].toUpperCase() + value.type.substring(1)],
+                ) +
+                ` },
+        });
+    }
+    `;
         }
 
         this.codeTs = `@Component({
@@ -278,6 +321,20 @@ export class DemoInputGeneratorComponent {
             attrs: attrInput,
             body: bodyInput,
         };
+
+        switch (fgValue.access) {
+            case 'none':
+                break;
+            case 'value':
+                attrInput['[value]'] = 'value';
+                break;
+            case 'ngModel':
+                attrInput['[(ngModel)]'] = 'value';
+                break;
+            case 'formControlName':
+                attrInput['formControlName'] = 'field';
+                break;
+        }
 
         if ((type === 'radio' || type === 'checkbox') && (value || label)) {
             if (label) {

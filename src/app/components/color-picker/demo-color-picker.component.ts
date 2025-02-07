@@ -35,11 +35,13 @@ export class DemoColorPickerComponent {
     ctrlForm: FormGroup<{
         color: FormControl<string>;
         alpha: FormControl<boolean>;
+        readonly: FormControl<boolean>;
     }>;
     ctrlFormPopup: FormGroup<{
         color: FormControl<string>;
         alpha: FormControl<boolean>;
         disabled: FormControl<boolean>;
+        readonly: FormControl<boolean>;
     }>;
 
     codeHtml = '';
@@ -52,11 +54,13 @@ export class DemoColorPickerComponent {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
             color: { default: '' },
             alpha: { default: true },
+            readonly: { default: false },
         });
         this.ctrlFormPopup = this.fb.groupWithErrorNonNullable({
             color: { default: '' },
             alpha: { default: true },
             disabled: { default: false },
+            readonly: { default: false },
         });
         this.codeGeneration();
         this.codeGenerationPopup();
@@ -87,9 +91,11 @@ export class DemoColorPickerComponent {
         if (this.ctrlForm.value.color) {
             attrs['color'] = this.ctrlForm.value.color;
         }
-
         if (this.ctrlForm.value.alpha) {
             attrs['alpha'] = null;
+        }
+        if (this.ctrlForm.value.readonly) {
+            attrs['readonly'] = null;
         }
 
         attrs['(colorChange)'] = 'colorChange($event)';
@@ -109,18 +115,16 @@ export class DemoColorPickerComponent {
 
         // tag attr
 
-        if (this.ctrlFormPopup.value.color) {
-            attrs['colorPicker'] = this.ctrlFormPopup.value.color;
-        } else {
-            attrs['colorPicker'] = null;
-        }
+        attrs['colorPicker'] = this.ctrlFormPopup.value.color ? this.ctrlFormPopup.value.color : null;
 
         if (this.ctrlFormPopup.value.alpha) {
             attrs['colorPickerAlpha'] = null;
         }
-
         if (this.ctrlFormPopup.value.disabled) {
             attrs['colorPickerDisabled'] = null;
+        }
+        if (this.ctrlFormPopup.value.readonly) {
+            attrs['colorPickerReadonly'] = null;
         }
 
         attrs['(colorChange)'] = 'colorChange($event)';

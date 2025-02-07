@@ -37,14 +37,22 @@
           <mg-input-radio formControlName="type" value="select">select</mg-input-radio>
           <mg-input-radio formControlName="type" value="color">color</mg-input-radio>
         </mg-input>
+        <mg-input class="s-12">
+          <mg-input-label>Type of access value</mg-input-label>
+          <mg-input-radio formControlName="access" value="none">none</mg-input-radio>
+          <mg-input-radio formControlName="access" value="value">value</mg-input-radio>
+          <mg-input-radio formControlName="access" value="ngModel">ngModel</mg-input-radio>
+          <mg-input-radio formControlName="access" value="formControlName">formControlName</mg-input-radio>
+        </mg-input>
       </div>
+
       <h3>Input detail</h3>
       <div>
-        <mg-input class="s-4">
+        <mg-input class="s-3">
           <mg-input-label>Disabled</mg-input-label>
           <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
         </mg-input>
-        <mg-input class="s-4">
+        <mg-input class="s-3">
           <mg-input-label>Readonly</mg-input-label>
           <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
         </mg-input>
@@ -194,6 +202,7 @@
           @case ('text') {
             <mg-input-text
               [(ngModel)]="valueText"
+              (ngModelChange)="codeGeneration()"
               [maxlength]="formGenerator.value.maxLength ?? null"
               [clearCross]="formGenerator.value.clearCross"
               [placeholder]="formGenerator.value.placeholder"
@@ -204,6 +213,7 @@
           @case ('textarea') {
             <mg-input-textarea
               [(ngModel)]="valueTextarea"
+              (ngModelChange)="codeGeneration()"
               [autosize]="formGenerator.value.autosize"
               [maxlength]="formGenerator.value.maxLength ?? null"
               [height]="formGenerator.value.height"
@@ -217,6 +227,7 @@
           @case ('password') {
             <mg-input-password
               [(ngModel)]="valuePassword"
+              (ngModelChange)="codeGeneration()"
               [eye]="formGenerator.value.eye ?? null"
               [placeholder]="formGenerator.value.placeholder"
               [readonly]="formGenerator.value.readonly"
@@ -231,6 +242,7 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueNumber"
+              (ngModelChange)="codeGeneration()"
             ></mg-input-number>
           }
           @case ('checkbox') {
@@ -240,6 +252,7 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueCheckbox"
+              (ngModelChange)="codeGeneration()"
               >{{ formGenerator.value.subLabel1 }}</mg-input-checkbox
             >
           }
@@ -249,6 +262,7 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueRadio"
+              (ngModelChange)="codeGeneration()"
               >{{ formGenerator.value.subLabel1 }}</mg-input-radio
             >
           }
@@ -260,6 +274,7 @@
               [disabled]="formGenerator.value.disabled ?? false"
               [multiple]="formGenerator.value.multiple"
               [(ngModel)]="valueSelect"
+              (ngModelChange)="codeGeneration()"
             ></mg-input-select>
           }
           @case ('color') {
@@ -268,6 +283,7 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueColor"
+              (ngModelChange)="codeGeneration()"
             ></mg-input-color>
           }
         }
@@ -278,6 +294,7 @@
             [readonly]="formGenerator.value.readonly"
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueCheckbox"
+            (ngModelChange)="codeGeneration()"
             >{{ formGenerator.value.subLabel2 }}</mg-input-checkbox
           >
         }
@@ -288,6 +305,7 @@
             [readonly]="formGenerator.value.readonly"
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueCheckbox"
+            (ngModelChange)="codeGeneration()"
             >{{ formGenerator.value.subLabel3 }}</mg-input-checkbox
           >
         }
@@ -297,6 +315,7 @@
             [readonly]="formGenerator.value.readonly"
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueRadio"
+            (ngModelChange)="codeGeneration()"
             >{{ formGenerator.value.subLabel2 }}</mg-input-radio
           >
         }
@@ -306,6 +325,7 @@
             [readonly]="formGenerator.value.readonly"
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueRadio"
+            (ngModelChange)="codeGeneration()"
             >{{ formGenerator.value.subLabel3 }}</mg-input-radio
           >
         }

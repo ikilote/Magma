@@ -10,9 +10,13 @@
         </mg-input>
       </p>
       <p>
-        <mg-input>
+        <mg-input class="s-4">
           <mg-input-label>Alpha</mg-input-label>
-          <mg-input-checkbox formControlName="alpha" mode="toggle">enabled</mg-input-checkbox>
+          <mg-input-checkbox formControlName="alpha" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Readonly</mg-input-label>
+          <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
         </mg-input>
       </p>
     </form>
@@ -22,6 +26,7 @@
       <color-picker
         [color]="ctrlForm.value.color"
         [alpha]="ctrlForm.value.alpha"
+        [readonly]="ctrlForm.value.readonly"
         (colorChange)="colorChange($event)"
       ></color-picker>
     </div>
@@ -41,15 +46,17 @@
         </mg-input>
       </p>
       <p>
-        <mg-input>
+        <mg-input class="s-3">
           <mg-input-label>Alpha</mg-input-label>
-          <mg-input-checkbox formControlName="alpha" mode="toggle">enabled</mg-input-checkbox>
+          <mg-input-checkbox formControlName="alpha" mode="toggle"></mg-input-checkbox>
         </mg-input>
-      </p>
-      <p>
-        <mg-input>
+        <mg-input class="s-3">
           <mg-input-label>Disabled</mg-input-label>
-          <mg-input-checkbox formControlName="disabled" mode="toggle">no</mg-input-checkbox>
+          <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-3">
+          <mg-input-label>Readonly</mg-input-label>
+          <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
         </mg-input>
       </p>
     </form>
@@ -61,6 +68,7 @@
             [colorPicker]="ctrlFormPopup.value.color"
             [colorPickerAlpha]="ctrlFormPopup.value.alpha"
             [colorPickerDisabled]="ctrlFormPopup.value.disabled"
+            [colorPickerReadonly]="ctrlFormPopup.value.readonly"
             (colorChange)="colorChange($event)"
             (colorClose)="colorClose($event)"
           >

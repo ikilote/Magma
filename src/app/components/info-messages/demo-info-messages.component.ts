@@ -78,7 +78,7 @@ export class SendMessageComponent {
   readonly mgMessage = inject(MagmaMessage);
 
   sendMessage() {
-    this.mgMessage.addMessage("${this.formGroup.value.text}"${
+    this.mgMessage.addMessage(\`${this.formGroup.value.text?.replaceAll('`', '\\`')}\`${
         this.formGroup.value.time || this.formGroup.value.type
             ? `{${
                   this.formGroup.value.time

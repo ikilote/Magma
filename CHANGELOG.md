@@ -1,5 +1,16 @@
 # Changelog of @ikilote/magma
 
+## 0.1.7 (2025-02-07)
+
+### ✅ New
+
+- **mg-input**: Add validateForm to update and show form error messages
+- **info-message** : Add component
+
+### 🎦 Demo
+
+- **info-message** : Add demo & code generator
+
 ## 0.1.6 (2025-02-04)
 
 ### ✅ New

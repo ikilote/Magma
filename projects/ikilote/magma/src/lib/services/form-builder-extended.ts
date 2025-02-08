@@ -23,55 +23,63 @@ export type ParamsMessageRequired = {
     errorData: boolean;
     state: boolean;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessageMinlength = {
     type: 'minlength';
     errorData: { requiredLength: number; actualLength: number };
     state: number;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessageMaxlength = {
     type: 'maxlength';
     errorData: { requiredLength: number; actualLength: number };
     state: number;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessageMin = {
     type: 'min';
     errorData: { min: number; actual: number | string };
     state: number;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessageMax = {
     type: 'max';
     errorData: { max: number; actual: number | string };
     state: number;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessagePattern = {
     type: 'pattern';
     errorData: { requiredPattern: string; actualValue: string };
     state: string | RegExp;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessageEmail = {
     type: 'email';
     errorData: boolean;
     state: undefined;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessageInList = {
     type: 'inList';
     errorData: { list: (string | number | boolean)[]; actualValue: any; strict: boolean };
     state: (string | number | boolean)[];
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessageCustom = {
     type: 'custom';
     errorData: any;
     state: any;
-    validator: (control: any) => ValidatorFn;
     data: any;
+    params: Record<string, any>;
 };
 export type ParamsMessagesControlMessage<T> = {
     message?: string | ((params: T) => string);
@@ -154,7 +162,7 @@ export abstract class FormBuilderExtended {
      * create group validation for `mg-input` form
      * @param controlsWithError control schemas with validators and error messages
      * @param options validation options
-     * @returns
+     * @returns FormGroup
      */
     groupWithErrorNonNullable<T extends {}>(
         controlsWithError: ControlWithError<T>,
@@ -164,31 +172,35 @@ export abstract class FormBuilderExtended {
 
         Object.entries<ParamsMessages>(controlsWithError).forEach(([key, value]) => {
             const validators: ValidatorFn[] = [];
+            const paramsData: Record<string, any> = {};
 
             if (value.control && Object.keys(value.control).length) {
-                Object.entries(value.control).forEach(([key, control]) => {
-                    if (key === 'required' && control.state) {
+                Object.entries(value.control).forEach(([subKey, control]) => {
+                    if (subKey === 'required' && control.state) {
                         validators.push(Validators.required);
-                    } else if (key === 'minlength' && control.state > 0) {
+                    } else if (subKey === 'minlength' && control.state > 0) {
                         validators.push(Validators.minLength(control.state));
-                    } else if (key === 'maxlength' && control.state > 0) {
+                    } else if (subKey === 'maxlength' && control.state > 0) {
                         validators.push(Validators.maxLength(control.state));
-                    } else if (key === 'min') {
+                    } else if (subKey === 'min') {
                         validators.push(Validators.min(control.state));
-                    } else if (key === 'max') {
+                    } else if (subKey === 'max') {
                         validators.push(Validators.max(control.state));
-                    } else if (key === 'pattern' && control.state) {
+                    } else if (subKey === 'pattern' && control.state) {
                         validators.push(Validators.pattern(control.state));
-                    } else if (key === 'email') {
+                    } else if (subKey === 'email') {
                         validators.push(Validators.email);
-                    } else if (key === 'inlist') {
+                    } else if (subKey === 'inlist') {
                         validators.push(MagmaValidators.inList(control.state));
-                    } else if (key === 'custom') {
+                    } else if (subKey === 'custom') {
                         for (const validator of Array.isArray(control) ? control : [control]) {
                             if (typeof validator === 'function') {
                                 validators.push(validator(control.state));
                             }
                         }
+                    }
+                    if (control.state !== undefined) {
+                        paramsData[subKey] = control.state;
                     }
                 });
             }
@@ -206,6 +218,7 @@ export abstract class FormBuilderExtended {
                 }) as any;
             }
             controls[key].controlData = value.control;
+            controls[key].controlParamsData = paramsData;
         });
 
         return this.fb.group<FormMapper<ControlWithError<T>>>(controls, options);

@@ -188,8 +188,8 @@ export class DemoInputErrorComponent {
                 default: 53.15,
                 control: {
                     required: { state: true, message: 'Field is required' },
-                    min: { state: 5, message: 'min value is {min}, currently {actual}' },
-                    max: { state: 50, message: 'max value is {max}, currently {actual}' },
+                    min: { state: 5, message: 'min value is {min}, max is {max}, currently {actual}' },
+                    max: { state: 50, message: 'min value is {min}, max is {max}, currently {actual}' },
                 },
             },
         });
@@ -289,8 +289,8 @@ export class DemoInputErrorComponent {
                 default: 53.15,
                 control: {
                     required: { state: true, message: 'Field is required' },
-                    min: { state: 5, message: 'min value is {min}, currently {actual}' },
-                    max: { state: 50, message: 'max value is {max}, currently {actual}' },
+                    min: { state: 5, message: 'min value is {min}, max is {max}, currently {actual}' },
+                    max: { state: 50, message: 'min value is {min}, max is {max}, currently {actual}' },
                 },
             },
         });

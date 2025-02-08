@@ -95,6 +95,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
                 if (control.errors !== null) {
                     const key = Object.keys(control.errors)[0];
                     const data = (control as any).controlData?.[key];
+                    const paramsData = (control as any).controlParamsData;
                     const defaultMessage = (control as any).controlData?.message;
 
                     if (data || defaultMessage) {
@@ -106,6 +107,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
                                       errorData: control.errors[key],
                                       state: data?.state,
                                       data: data?.data,
+                                      params: paramsData,
                                   })
                                 : message;
 
@@ -113,7 +115,9 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
                             [...errorMessage.matchAll(/\{([^}]+)\}/g)].forEach(([tag, keyName]) => {
                                 errorMessage = errorMessage!.replace(
                                     tag,
-                                    data.state[keyName] ?? control.errors?.[key]?.[keyName],
+                                    (control as any)[keyName]?.state ??
+                                        control.errors?.[key]?.[keyName] ??
+                                        paramsData[keyName],
                                 );
                             });
                         }

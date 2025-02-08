@@ -86,8 +86,8 @@ export class DemoInputComponent {
                 default: 'form',
                 control: {
                     required: { state: true, message: 'error required' },
-                    minlength: { state: 5, message: 'error minLength' },
-                    maxlength: { state: 50, message: 'error maxLength' },
+                    minlength: { state: 5, message: 'error minLength : [{minlength}, {maxlength}]' },
+                    maxlength: { state: 50, message: 'error maxLength : [{minlength}, {maxlength}]' },
                 },
             },
         });

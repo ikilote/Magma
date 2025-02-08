@@ -1,5 +1,20 @@
 # Changelog of @ikilote/magma
 
+## 0.1.8 (2025-02-08)
+
+### ✅ New
+
+- **mg-input**:
+    - Add disabled & readonly attributs #2
+    - Add error by tag
+    - Improve error border #2
+    - Improve checkbox & radio
+    - Add access to all parameters for error messages keyword
+
+### 🐞 Fix
+
+- **mg-input**: pixel alignment
+
 ## 0.1.7 (2025-02-07)
 
 ### ✅ New

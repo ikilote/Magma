@@ -6,6 +6,7 @@
 }
 
 textarea {
+    margin: 0;
     height: var(--default);
     min-height: var(--min, var(--input-textarea-min-height));
     max-height: var(--max, var(--input-textarea-max-height));

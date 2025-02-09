@@ -184,6 +184,20 @@ input:where([type='range'], [type='checkbox'], [type='radio']) {
     accent-color: var(--primary5);
 }
 
+.select2-container-dropdown {
+    transition: none;
+}
+
+select2 {
+    &[ng-reflect-disabled='true'] {
+        opacity: 0.5;
+    }
+
+    [tabindex] {
+        outline: none;
+    }
+}
+
 /* -------------------- grid ------------------------------------------------------------ */
 
 /* container : (0, 2, 0)*/

@@ -267,15 +267,16 @@ export class DemoInputGeneratorComponent {
         if (value.label || value.desc) {
             imports.push(`MagmaInputElement`);
         }
-
-        if (value.access === 'ngModel' && value.type) {
-            imports.push('FormsModule');
+        if ((value.access === 'ngModel' || value.access === 'value') && value.type) {
             data +=
                 `value = ` +
                 this.jsonPipe.transform(
                     (this as any)['value' + value.type[0].toUpperCase() + value.type.substring(1)],
                 ) +
                 ';';
+        }
+        if (value.access === 'ngModel' && value.type) {
+            imports.push('FormsModule');
         } else if (value.access === 'formControlName' && value.type) {
             let type = 'string';
             if (value.type == 'number') {
@@ -289,13 +290,16 @@ export class DemoInputGeneratorComponent {
             }
 
             imports.push('ReactiveFormsModule');
+            imports.push('FormBuilderExtended');
             data +=
-                `formGenerator: FormGroup<{
+                `private readonly fbe = inject(FormBuilderExtended);
+
+    readonly form: FormGroup<{
         field: FormControl<${type}>;
     }>
 
     constructor() {
-        this.formGenerator = fbe.groupWithErrorNonNullable({
+        this.form = this.fbe.groupWithErrorNonNullable({
             field: { default: ` +
                 this.jsonPipe.transform(
                     (this as any)['value' + value.type[0].toUpperCase() + value.type.substring(1)],
@@ -391,7 +395,7 @@ export class DemoInputGeneratorComponent {
             }
         }
         if (type === 'textarea' || type === 'text') {
-            if (fgValue.maxLength !== undefined) {
+            if (fgValue.maxLength || fgValue.maxLength === 0) {
                 attrInput['maxlength'] = fgValue.maxLength;
             }
         }

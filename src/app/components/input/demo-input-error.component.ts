@@ -137,7 +137,7 @@ export class DemoInputErrorComponent {
 }`;
 
     readonly codeHtmlList = `<section [formGroup]="formList">
-<div>
+  <div>
     <mg-input>
       <mg-input-label>Label</mg-input-label>
       <mg-input-radio formControlName="oneValue" value="red">red</mg-input-radio>

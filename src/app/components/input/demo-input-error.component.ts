@@ -53,7 +53,7 @@ export class DemoInputErrorComponent {
         this.formText = this.fbe.groupWithErrorNonNullable({
             test: {
                 default: 'form',
-                  control: {
+                control: {
                     required: { state: true, message: 'Field is required' },
                     minlength: {
                         state: 5,
@@ -74,7 +74,7 @@ export class DemoInputErrorComponent {
 }`;
 
     readonly codeHtmlText = `<mg-input [formGroup]="formText">
-<mg-input-text formControlName="test"></mg-input-text>
+  <mg-input-text formControlName="test"></mg-input-text>
 </mg-input>`;
 
     readonly codeTsList = `@Component({

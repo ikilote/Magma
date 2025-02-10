@@ -6,12 +6,14 @@ import {
     booleanAttribute,
     forwardRef,
     input,
-    numberAttribute,
     viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
+
+import { NumFormatPipe } from '../../pipes/num-format';
+import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 let counter = 0;
 
@@ -28,11 +30,13 @@ let counter = 0;
     host: {
         '[id]': '_id()',
         '[class.show-arrows]': 'showArrows()',
+        '[attr.data-number]': 'numberFormat.transform(_value, formater())',
     },
 })
 export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
     override readonly componentName = 'input-number';
     protected override counter = counter++;
+    protected numberFormat = new NumFormatPipe();
 
     static readonly acceptKeys = [
         '0',
@@ -57,8 +61,13 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
         'Tab',
     ];
 
-    readonly step = input(1, { transform: numberAttribute });
+    readonly step = input(1, { transform: numberAttributeOrUndefined });
+    readonly min = input(undefined, { transform: numberAttributeOrUndefined });
+    readonly max = input(undefined, { transform: numberAttributeOrUndefined });
     readonly showArrows = input(false, { transform: booleanAttribute });
+    readonly formater = input<string | Intl.NumberFormatOptions>();
+    readonly noDecimal = input(false, { transform: booleanAttribute });
+    readonly noNegative = input(false, { transform: booleanAttribute });
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 
@@ -79,6 +88,7 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
 
     inputValue(event: Event) {
         const value = ((event as InputEvent).target as HTMLInputElement).value;
+        this._value = value;
         this.onChange(value);
     }
 
@@ -96,6 +106,14 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
 
     keydown(event: KeyboardEvent) {
         if (MagmaInputNumber.acceptKeys.includes(event.key)) {
+            if (
+                (this.noDecimal() && (event.key === '.' || event.key === ',')) ||
+                (this.noNegative() && event.key === '-')
+            ) {
+                event.preventDefault();
+                return;
+            }
+
             if (this.inputElement.value.includes('.') && (event.key === '.' || event.key === ',')) {
                 event.preventDefault();
             } else if (event.key === '-') {

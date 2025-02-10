@@ -92,6 +92,11 @@ export class DemoInputGeneratorComponent {
         // number
         showArrows: FormControl<boolean>;
         step: FormControl<number>;
+        min: FormControl<number>;
+        max: FormControl<number>;
+        formater: FormControl<string>;
+        noDecimal: FormControl<boolean>;
+        noNegative: FormControl<boolean>;
 
         // color
         alpha: FormControl<boolean>;
@@ -145,6 +150,11 @@ export class DemoInputGeneratorComponent {
             // number
             showArrows: { default: false },
             step: { default: undefined },
+            min: { default: undefined },
+            max: { default: undefined },
+            formater: { default: '#,##0' },
+            noDecimal: { default: false },
+            noNegative: { default: false },
             // color
             alpha: { default: false },
         });
@@ -369,10 +379,25 @@ export class DemoInputGeneratorComponent {
         }
         if (type === 'number') {
             if ((fgValue.step || 0) > 0) {
-                attrInput['[step]'] = fgValue.step;
+                attrInput['step'] = fgValue.step;
+            }
+            if (fgValue.min || fgValue.min === 0) {
+                attrInput['min'] = fgValue.min;
+            }
+            if (fgValue.max || fgValue.max === 0) {
+                attrInput['max'] = fgValue.max;
+            }
+            if (fgValue.formater) {
+                attrInput['formater'] = fgValue.formater;
             }
             if (fgValue.showArrows) {
                 attrInput['showArrows'] = null;
+            }
+            if (fgValue.noDecimal) {
+                attrInput['noDecimal'] = null;
+            }
+            if (fgValue.noNegative) {
+                attrInput['noNegative'] = null;
             }
         }
         if (type === 'color') {

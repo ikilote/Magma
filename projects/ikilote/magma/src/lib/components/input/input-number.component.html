@@ -2,8 +2,11 @@
   <input
     #input
     type="number"
+    spellcheck="false"
     [attr.placeholder]="placeholder()"
-    [step]="step()"
+    [attr.step]="step()"
+    [attr.min]="min()"
+    [attr.max]="max()"
     inputmode="decimal"
     [name]="_name()"
     [id]="_id() + '-input'"

@@ -8,6 +8,7 @@
     "@angular/common": "^19.0.0",
     "@angular/core": "^19.0.0",
     "@angular/cdk": "^19.0.0",
+    "@ikilote/num-formatter": "^1.0.0",
     "colorjs.io": "^0.5.2",
     "ng-select2-component": "^17.1.1"
   },

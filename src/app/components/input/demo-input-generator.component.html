@@ -73,13 +73,34 @@
           </mg-input>
         }
         @if (formGenerator.value.type === 'number') {
-          <mg-input class="s-4">
+          <mg-input class="s-3">
             <mg-input-label>Step</mg-input-label>
             <mg-input-number formControlName="step"></mg-input-number>
           </mg-input>
-          <mg-input class="s-4">
+          <mg-input class="s-3">
+            <mg-input-label>Min</mg-input-label>
+            <mg-input-number formControlName="min"></mg-input-number>
+          </mg-input>
+          <mg-input class="s-3">
+            <mg-input-label>Max</mg-input-label>
+            <mg-input-number formControlName="max"></mg-input-number>
+          </mg-input>
+          <mg-input class="s-3">
+            <mg-input-label>Formater</mg-input-label>
+            <mg-input-text formControlName="formater"></mg-input-text>
+            <mg-input-desc>Example: <code>#,##0.00</code> or <code>#,##0</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-3">
             <mg-input-label>ShowArrows</mg-input-label>
             <mg-input-checkbox formControlName="showArrows" mode="toggle"></mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-3">
+            <mg-input-label>noDecimal</mg-input-label>
+            <mg-input-checkbox formControlName="noDecimal" mode="toggle"></mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-3">
+            <mg-input-label>noNegative</mg-input-label>
+            <mg-input-checkbox formControlName="noNegative" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
         @if (formGenerator.value.type === 'color') {
@@ -241,10 +262,15 @@
           @case ('number') {
             <mg-input-number
               [step]="formGenerator.value.step"
+              [min]="formGenerator.value.min"
+              [max]="formGenerator.value.max"
+              [formater]="formGenerator.value.formater"
               [showArrows]="formGenerator.value.showArrows"
               [placeholder]="formGenerator.value.placeholder"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
+              [noDecimal]="formGenerator.value.noDecimal"
+              [noNegative]="formGenerator.value.noNegative"
               [(ngModel)]="valueNumber"
               (ngModelChange)="codeGeneration()"
             ></mg-input-number>

@@ -1,9 +1,29 @@
 :host {
+    position: relative;
     width: 100%;
+
+    &::before {
+        display: block;
+        position: absolute;
+        top: 6px;
+        right: 4px;
+        pointer-events: none;
+        content: attr(data-number);
+        color: var(--text-color);
+    }
 }
 
 input {
+    color: transparent;
     text-align: right;
+
+    &:focus {
+        color: var(--text-color);
+    }
+}
+
+:host:has(> input:focus)::before {
+    color: transparent;
 }
 
 :host(:not(.show-arrows)) {

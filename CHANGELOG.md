@@ -1,5 +1,24 @@
 # Changelog of @ikilote/magma
 
+## 0.1.9 (2025-02-12)
+
+### ✅ New
+
+- **mg-input**:
+    - Add of for `input-number`: `min`, `max`, `formater`, `noDecimal`, `noNegative`
+
+### 🐞 Fix
+
+- **mg-input**:
+    - Fix select2 CSS
+    - No spellcheck on password
+    - Fix label click for all elements except radio&checkbox #3
+
+### 🎦 Demo
+
+- **mg-input**: Improve demo for inputs
+- **palette**: Add demo page #6
+
 ## 0.1.8 (2025-02-08)
 
 ### ✅ New

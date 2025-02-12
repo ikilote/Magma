@@ -62,11 +62,15 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
         }
         this.ngControl = this.injector.get(NgControl, null, { self: true, optional: true });
         this.host.ngControl ??= this.ngControl;
+        this.setHostLabelId();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
         if (changes[this._baseValue]) {
             this.writeValue(changes[this._baseValue].currentValue);
+        }
+        if (changes['id']) {
+            this.setHostLabelId();
         }
     }
 
@@ -127,5 +131,10 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
             });
         }
         return null;
+    }
+
+    protected setHostLabelId() {
+        this.host.forId = `${this._id()}-input`;
+        this.host.cd.detectChanges();
     }
 }

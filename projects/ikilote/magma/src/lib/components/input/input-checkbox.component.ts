@@ -69,8 +69,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit, DoCh
             !this.label()[0]?.nativeElement.innerHTML.trim()
         ) {
             // For single checkboxes without label
-            this.host.forId = `${this._id()}-input`;
-            this.host.cd.detectChanges();
+            this.setHostLabelId();
         } else if (
             (this.host.inputs().filter(item => item.componentName === this.componentName).length > 1 ||
                 this.label()?.[0]?.nativeElement.innerHTML.trim()) &&

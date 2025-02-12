@@ -46,3 +46,7 @@
     --input-border-color: var(--input-error-color);
     --input-focus-border-color: var(--input-error-color);
 }
+
+label {
+    cursor: pointer;
+}

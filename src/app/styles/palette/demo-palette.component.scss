@@ -1,0 +1,28 @@
+h3 {
+    text-transform: capitalize;
+}
+
+.list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+figure {
+    position: relative;
+    margin: 0;
+    margin-bottom: 2em;
+    border: 1px solid var(--neutral);
+    border-radius: 5px;
+    background: var(--color);
+    width: 120px;
+    height: 120px;
+
+    figcaption {
+        position: absolute;
+        bottom: -1.7em;
+        width: 100%;
+        font-family: 'Courier New', Courier, monospace;
+        text-align: center;
+    }
+}

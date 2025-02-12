@@ -300,7 +300,6 @@ export class DemoInputGeneratorComponent {
             }
 
             imports.push('ReactiveFormsModule');
-            imports.push('FormBuilderExtended');
             data +=
                 `private readonly fbe = inject(FormBuilderExtended);
 

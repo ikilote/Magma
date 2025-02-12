@@ -1,0 +1,22 @@
+<h1>Palette</h1>
+
+<div [formGroup]="form">
+  <mg-input>
+    <mg-input-label>Primary Hue [0,360]</mg-input-label>
+    <mg-input-number formControlName="hue"></mg-input-number>
+  </mg-input>
+</div>
+
+@for (list of palette; track $index) {
+  <section>
+    <h3>{{ list.group }}</h3>
+
+    <div class="list">
+      @for (color of list.list; track $index) {
+        <figure style="--color: var(--{{ list.group + color }})">
+          <figcaption>--{{ list.group + color }}</figcaption>
+        </figure>
+      }
+    </div>
+  </section>
+}

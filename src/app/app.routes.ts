@@ -89,6 +89,11 @@ export const routes: Routes = [
         loadComponent: () => import('./styles/grid/demo-grid.component').then(m => m.DemoGridComponent),
     },
     {
+        path: 'style-palette',
+        pathMatch: 'full',
+        loadComponent: () => import('./styles/palette/demo-palette.component').then(m => m.DemoPaletteComponent),
+    },
+    {
         path: '**',
         redirectTo: '/home',
     },

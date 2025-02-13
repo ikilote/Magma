@@ -9,8 +9,16 @@ import { environment } from '../environments/environment';
     imports: [RouterOutlet, RouterLink, MagmaLightDark],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
+    host: {
+        '[class.mobile-menu-open]': 'menu',
+    },
 })
 export class AppComponent {
     title = '@ikilote/magma';
     version = environment.version;
+    menu = false;
+
+    toggleMenu() {
+        this.menu = !this.menu;
+    }
 }

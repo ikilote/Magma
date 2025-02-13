@@ -1,3 +1,7 @@
+:host {
+    display: flex;
+}
+
 menu {
     display: flex;
     flex-direction: column;
@@ -13,6 +17,48 @@ menu {
         flex: 1;
         overflow: auto;
     }
+}
+
+.mobile-menu {
+    display: none;
+}
+
+@media (width < 768px) {
+    menu {
+        position: relative;
+        position: fixed;
+        left: -90%;
+        z-index: 1;
+        transition: left 0.5s;
+        box-shadow: 0 0 0 0 #0000;
+        width: 90%;
+    }
+
+    :host.mobile-menu-open menu {
+        left: 0;
+        box-shadow: 0 0 10vw 10vw #0008;
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    main .mobile-menu {
+        position: absolute;
+        top: 15px;
+    }
+
+    main ::ng-deep > router-outlet + * > :not(markdown):first-child,
+    main ::ng-deep > router-outlet + * > markdown > :first-child {
+        text-indent: 50px;
+    }
+}
+
+.title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 
 h2 {
@@ -58,10 +104,6 @@ ul {
     div {
         font-weight: 600;
     }
-}
-
-:host {
-    display: flex;
 }
 
 main {

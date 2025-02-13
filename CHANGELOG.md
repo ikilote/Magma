@@ -1,5 +1,22 @@
 # Changelog of @ikilote/magma
 
+## 0.1.10 (2025-02-14)
+
+### ✅ New
+
+- **mg-input**:
+    - `input-number`: add forceMinMax parameter #5
+- Add `s`mall, `m`edium, `l`arge & e`x`tra-large in grid #8
+
+### 🐞 Fix
+
+- **mg-input**:
+    - Fix `input-number` arrows for Chromium & Webkit #10
+
+### 🎦 Demo
+
+- Add mobile menu #8
+
 ## 0.1.9 (2025-02-12)
 
 ### ✅ New

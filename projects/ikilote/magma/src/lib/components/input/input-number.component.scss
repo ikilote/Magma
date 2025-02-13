@@ -11,6 +11,25 @@
         content: attr(data-number);
         color: var(--text-color);
     }
+
+    &.show-arrows::before {
+        right: 22px;
+    }
+}
+/*  Chrome, Edge, Opera */
+
+@supports selector(::-webkit-scrollbar) {
+    :host.show-arrows::before {
+        right: 19px;
+    }
+}
+
+/*  Safari, Web */
+
+@supports (background: -webkit-named-image(i)) {
+    :host.show-arrows::before {
+        right: 20px;
+    }
 }
 
 input {

@@ -16,8 +16,8 @@
     (keydown)="keydown($event)"
     (change)="changeValue($event)"
     (input)="inputValue($event)"
-    (focus)="focus(true)"
-    (blur)="focus(false)"
+    (focus)="focus($event, true)"
+    (blur)="focus($event, false)"
   />
 } @else {
   Error

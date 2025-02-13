@@ -64,6 +64,7 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
     readonly step = input(1, { transform: numberAttributeOrUndefined });
     readonly min = input(undefined, { transform: numberAttributeOrUndefined });
     readonly max = input(undefined, { transform: numberAttributeOrUndefined });
+    readonly forceMinMax = input(false, { transform: booleanAttribute });
     readonly showArrows = input(false, { transform: booleanAttribute });
     readonly formater = input<string | Intl.NumberFormatOptions>();
     readonly noDecimal = input(false, { transform: booleanAttribute });
@@ -81,19 +82,23 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
     }
 
     changeValue(event: Event) {
-        const value = ((event as InputEvent).target as HTMLInputElement).value;
+        const value = this.forceValue(+this.getInput(event).value);
+        this._value = value;
         this.onChange(value);
         this.update.emit(value);
     }
 
     inputValue(event: Event) {
-        const value = ((event as InputEvent).target as HTMLInputElement).value;
+        const value = this.forceValue(+this.getInput(event).value);
         this._value = value;
         this.onChange(value);
     }
 
-    focus(focus: boolean) {
+    focus(event: Event, focus: boolean) {
         if (!focus) {
+            if (this.getInput(event).value !== this._value) {
+                this.getInput(event).value = this._value;
+            }
             this.onTouched();
             if (!focus) {
                 this.onTouched();
@@ -128,5 +133,27 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
         } else {
             event.preventDefault();
         }
+    }
+
+    private forceValue(value: number) {
+        if (this.forceMinMax()) {
+            const min = this.min();
+            if (min !== undefined && !Number.isNaN(min)) {
+                if (value < min) {
+                    value = min;
+                }
+            }
+            const max = this.max();
+            if (max !== undefined && !Number.isNaN(max)) {
+                if (value > max) {
+                    value = max;
+                }
+            }
+        }
+        return value;
+    }
+
+    private getInput(event: Event): HTMLInputElement {
+        return (event as InputEvent).target as HTMLInputElement;
     }
 }

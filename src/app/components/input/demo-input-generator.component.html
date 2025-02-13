@@ -76,14 +76,22 @@
           <mg-input class="s-3">
             <mg-input-label>Step</mg-input-label>
             <mg-input-number formControlName="step"></mg-input-number>
+            <mg-input-desc>Step for <kbd>↑</kbd>, <kbd>↓</kbd> and arrows</mg-input-desc>
           </mg-input>
           <mg-input class="s-3">
             <mg-input-label>Min</mg-input-label>
             <mg-input-number formControlName="min"></mg-input-number>
+            <mg-input-desc>Step min value</mg-input-desc>
           </mg-input>
           <mg-input class="s-3">
             <mg-input-label>Max</mg-input-label>
             <mg-input-number formControlName="max"></mg-input-number>
+            <mg-input-desc>Step max value</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-3">
+            <mg-input-label>ForceMinMax</mg-input-label>
+            <mg-input-checkbox formControlName="forceMinMax" mode="toggle"></mg-input-checkbox>
+            <mg-input-desc>Force min-max value on type</mg-input-desc>
           </mg-input>
           <mg-input class="s-3">
             <mg-input-label>Formater</mg-input-label>
@@ -264,6 +272,7 @@
               [step]="formGenerator.value.step"
               [min]="formGenerator.value.min"
               [max]="formGenerator.value.max"
+              [forceMinMax]="formGenerator.value.forceMinMax"
               [formater]="formGenerator.value.formater"
               [showArrows]="formGenerator.value.showArrows"
               [placeholder]="formGenerator.value.placeholder"

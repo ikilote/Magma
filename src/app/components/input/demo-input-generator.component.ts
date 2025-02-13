@@ -94,6 +94,7 @@ export class DemoInputGeneratorComponent {
         step: FormControl<number>;
         min: FormControl<number>;
         max: FormControl<number>;
+        forceMinMax: FormControl<boolean>;
         formater: FormControl<string>;
         noDecimal: FormControl<boolean>;
         noNegative: FormControl<boolean>;
@@ -152,6 +153,7 @@ export class DemoInputGeneratorComponent {
             step: { default: undefined },
             min: { default: undefined },
             max: { default: undefined },
+            forceMinMax: { default: false },
             formater: { default: '#,##0' },
             noDecimal: { default: false },
             noNegative: { default: false },
@@ -385,6 +387,9 @@ export class DemoInputGeneratorComponent {
             }
             if (fgValue.max || fgValue.max === 0) {
                 attrInput['max'] = fgValue.max;
+            }
+            if (fgValue.forceMinMax) {
+                attrInput['forceMinMax'] = null;
             }
             if (fgValue.formater) {
                 attrInput['formater'] = fgValue.formater;

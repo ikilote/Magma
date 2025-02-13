@@ -21,4 +21,8 @@ export class AppComponent {
     toggleMenu() {
         this.menu = !this.menu;
     }
+
+    closeMenu() {
+        this.menu = false;
+    }
 }

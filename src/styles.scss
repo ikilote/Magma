@@ -12,10 +12,11 @@ app-root {
     height: 100%;
 }
 
-code:has(> :not(pre)) {
+code:not(:has(> pre)) {
     border-radius: 3px;
-    background-color: var(--neutral9);
+    background-color: var(--neutral8);
     padding: 2px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 code > pre {

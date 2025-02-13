@@ -2,7 +2,7 @@
 
 @if (ctrlForm) {
   <section>
-    <form class="s-3" [formGroup]="ctrlForm">
+    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
       <p>
         <mg-input>
           <mg-input-label>Color value</mg-input-label>
@@ -20,7 +20,7 @@
         </mg-input>
       </p>
     </form>
-    <div class="s-5">
+    <div class="s-5 s-6-x s-12-m">
       <h4>Component</h4>
 
       <color-picker
@@ -30,7 +30,7 @@
         (colorChange)="colorChange($event)"
       ></color-picker>
     </div>
-    <div class="s-4">
+    <div class="s-4 s-12-x">
       <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
     </div>
   </section>
@@ -38,7 +38,7 @@
   <hr />
 
   <section>
-    <form class="s-4" [formGroup]="ctrlFormPopup">
+    <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlFormPopup">
       <p>
         <mg-input>
           <mg-input-label>colorPicker</mg-input-label>
@@ -60,7 +60,7 @@
         </mg-input>
       </p>
     </form>
-    <div class="s-4">
+    <div class="s-4 s-6-x s-12-m">
       <h4>Directive</h4>
       <div>
         <p>
@@ -83,7 +83,7 @@
         </div>
       </div>
     </div>
-    <div class="s-4">
+    <div class="s-4 s-12-x">
       <code-tabs [code]="[{ type: 'html', code: codeHtmlPopup }]"></code-tabs>
     </div>
   </section>

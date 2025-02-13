@@ -2,29 +2,29 @@
 
 <section>
   <!-- Text -->
-  <div class="s-6">
+  <div class="s-6 s-12-m">
     <h2>Options</h2>
     <div [formGroup]="formGenerator">
       <div>
-        <mg-input class="s-4">
+        <mg-input class="s-4 s-6-m">
           <mg-input-label>Label</mg-input-label>
           <mg-input-text formControlName="label" value=""></mg-input-text>
         </mg-input>
-        <mg-input class="s-4">
+        <mg-input class="s-4 s-6-m">
           <mg-input-label>Desc</mg-input-label>
           <mg-input-text formControlName="desc" value=""></mg-input-text>
         </mg-input>
-        <mg-input class="s-4">
+        <mg-input class="s-4 s-6-m">
           <mg-input-label>Error</mg-input-label>
           <mg-input-text formControlName="error" value=""></mg-input-text>
         </mg-input>
       </div>
       <div>
-        <mg-input class="s-4">
+        <mg-input class="s-4 s-6-m">
           <mg-input-label>Prefix</mg-input-label>
           <mg-input-text formControlName="prefix" value=""></mg-input-text>
         </mg-input>
-        <mg-input class="s-4">
+        <mg-input class="s-4 s-6-m">
           <mg-input-label>Suffix</mg-input-label>
           <mg-input-text formControlName="suffix" value=""></mg-input-text>
         </mg-input>
@@ -52,11 +52,11 @@
 
       <h3>Input detail</h3>
       <div>
-        <mg-input class="s-3">
+        <mg-input class="s-3 s-6-m">
           <mg-input-label>Disabled</mg-input-label>
           <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
         </mg-input>
-        <mg-input class="s-3">
+        <mg-input class="s-3 s-6-m">
           <mg-input-label>Readonly</mg-input-label>
           <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
         </mg-input>
@@ -67,107 +67,107 @@
           formGenerator.value.type === 'password' ||
           formGenerator.value.type === 'select'
         ) {
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>Placeholder</mg-input-label>
             <mg-input-text formControlName="placeholder"></mg-input-text>
           </mg-input>
         }
         @if (formGenerator.value.type === 'number') {
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Step</mg-input-label>
             <mg-input-number formControlName="step"></mg-input-number>
             <mg-input-desc>Step for <kbd>↑</kbd>, <kbd>↓</kbd> and arrows</mg-input-desc>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Min</mg-input-label>
             <mg-input-number formControlName="min"></mg-input-number>
             <mg-input-desc>Step min value</mg-input-desc>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Max</mg-input-label>
             <mg-input-number formControlName="max"></mg-input-number>
             <mg-input-desc>Step max value</mg-input-desc>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>ForceMinMax</mg-input-label>
             <mg-input-checkbox formControlName="forceMinMax" mode="toggle"></mg-input-checkbox>
             <mg-input-desc>Force min-max value on type</mg-input-desc>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Formater</mg-input-label>
             <mg-input-text formControlName="formater"></mg-input-text>
             <mg-input-desc>Example: <code>#,##0.00</code> or <code>#,##0</code></mg-input-desc>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>ShowArrows</mg-input-label>
             <mg-input-checkbox formControlName="showArrows" mode="toggle"></mg-input-checkbox>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>noDecimal</mg-input-label>
             <mg-input-checkbox formControlName="noDecimal" mode="toggle"></mg-input-checkbox>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>noNegative</mg-input-label>
             <mg-input-checkbox formControlName="noNegative" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
         @if (formGenerator.value.type === 'color') {
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>Show alpha</mg-input-label>
             <mg-input-checkbox formControlName="alpha" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
         @if (formGenerator.value.type === 'textarea' || formGenerator.value.type === 'text') {
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>maxlength</mg-input-label>
             <mg-input-number formControlName="maxLength"></mg-input-number>
           </mg-input>
         }
         @if (formGenerator.value.type === 'textarea') {
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>autosize</mg-input-label>
             <mg-input-checkbox formControlName="autosize" mode="toggle"></mg-input-checkbox>
           </mg-input>
           <div class="break"></div>
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>default height</mg-input-label>
             <mg-input-text formControlName="height"></mg-input-text>
             <mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
           </mg-input>
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>minHeight</mg-input-label>
             <mg-input-text formControlName="minHeight"></mg-input-text
             ><mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
           </mg-input>
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>maxHeight</mg-input-label>
             <mg-input-text formControlName="maxHeight"></mg-input-text
             ><mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
           </mg-input>
         }
         @if (formGenerator.value.type === 'text') {
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>clearCross</mg-input-label>
             <mg-input-checkbox formControlName="clearCross" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
         @if (formGenerator.value.type === 'password') {
-          <mg-input class="s-4">
+          <mg-input class="s-4 s-6-m">
             <mg-input-label>eye</mg-input-label>
             <mg-input-checkbox formControlName="eye" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
         @if (formGenerator.value.type === 'checkbox') {
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Multiple</mg-input-label>
             <mg-input-checkbox formControlName="multiple" mode="toggle"></mg-input-checkbox>
           </mg-input>
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Mode toggle</mg-input-label>
             <mg-input-checkbox formControlName="toggle" mode="toggle"></mg-input-checkbox>
           </mg-input>
           @if (!formGenerator.value.multiple) {
-            <mg-input class="s-3">
+            <mg-input class="s-3 s-6-m">
               <mg-input-label>Force array value</mg-input-label>
               <mg-input-checkbox formControlName="arrayValue" mode="toggle"></mg-input-checkbox>
             </mg-input>
@@ -175,31 +175,31 @@
         }
         @if (formGenerator.value.type === 'checkbox' || formGenerator.value.type === 'radio') {
           <div class="s-12">
-            <mg-input class="s-4">
+            <mg-input class="s-4 s-6-m">
               <mg-input-label>Input label</mg-input-label>
               <mg-input-text formControlName="subLabel1" value=""></mg-input-text>
             </mg-input>
-            <mg-input class="s-4">
+            <mg-input class="s-4 s-6-m">
               <mg-input-label>Input label</mg-input-label>
               <mg-input-text formControlName="subValue1" value=""></mg-input-text>
             </mg-input>
 
             @if (formGenerator.value.type === 'radio' || formGenerator.value.multiple) {
               <div class="break"></div>
-              <mg-input class="s-4">
+              <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input label</mg-input-label>
                 <mg-input-text formControlName="subLabel2" value=""></mg-input-text>
               </mg-input>
-              <mg-input class="s-4">
+              <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input label</mg-input-label>
                 <mg-input-text formControlName="subValue2" value=""></mg-input-text>
               </mg-input>
               <div class="break"></div>
-              <mg-input class="s-4">
+              <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input label</mg-input-label>
                 <mg-input-text formControlName="subLabel3" value=""></mg-input-text>
               </mg-input>
-              <mg-input class="s-4">
+              <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input label</mg-input-label>
                 <mg-input-text formControlName="subValue3" value=""></mg-input-text>
               </mg-input>
@@ -207,7 +207,7 @@
           </div>
         }
         @if (formGenerator.value.type === 'select') {
-          <mg-input class="s-3">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Multiple</mg-input-label>
             <mg-input-checkbox formControlName="multiple" mode="toggle"></mg-input-checkbox>
           </mg-input>
@@ -221,7 +221,7 @@
       </div>
     </div>
   </div>
-  <div class="s-6">
+  <div class="s-6 s-12-m">
     <h2>Rendu</h2>
     <div>
       <mg-input class="s-12" [arrayValue]="formGenerator.value.arrayValue">

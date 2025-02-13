@@ -1,7 +1,7 @@
 <h1>Grid</h1>
 
 <section>
-  <div class="s-6">
+  <div class="s-6 s-12-l">
     <p>
       <mg-input>
         <mg-input-checkbox [(ngModel)]="show">Show border</mg-input-checkbox>
@@ -48,8 +48,19 @@
         <div class="s-6"><code>.s-6</code></div>
       </div>
     </div>
+
+    <div>
+      <p>If possible to use:</p>
+      <ul>
+        <li><code>-x</code>: width &lt; 1280px</li>
+        <li><code>-l</code>: width &lt; 1024px</li>
+        <li><code>-m</code>: width &lt; 768px</li>
+        <li><code>-s</code>: width &lt; 478px</li>
+      </ul>
+      <p>exemple : <code>s-4 s-6-x s-12-l</code></p>
+    </div>
   </div>
-  <div class="s-6">
+  <div class="s-6 s-12-l">
     <code-tabs [code]="[{ type: 'html', code: code }]"></code-tabs>
   </div>
 </section>

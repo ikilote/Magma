@@ -2,7 +2,7 @@
 
 @if (ctrlForm) {
   <section>
-    <form class="s-3" [formGroup]="ctrlForm">
+    <form class="s-3 s-12-l" [formGroup]="ctrlForm">
       <div>
         <mg-input>
           <mg-input-label>id</mg-input-label>
@@ -29,7 +29,7 @@
       </div>
       <button (click)="addTab()">Add</button>
     </form>
-    <div class="s-5">
+    <div class="s-5 s-12-l">
       <mg-tabs>
         @for (item of tabs; track $index) {
           <mg-tab-title [id]="item.id" [selected]="item.selected">{{ item.title }}</mg-tab-title>
@@ -39,7 +39,7 @@
         }
       </mg-tabs>
     </div>
-    <div class="s-4">
+    <div class="s-4 s-12-l">
       <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
     </div>
   </section>

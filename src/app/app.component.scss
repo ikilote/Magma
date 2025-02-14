@@ -44,13 +44,9 @@ menu {
     }
 
     main .mobile-menu {
-        position: absolute;
+        position: relative;
         top: 15px;
-    }
-
-    main ::ng-deep > router-outlet + * > :not(markdown):first-child,
-    main ::ng-deep > router-outlet + * > markdown > :first-child {
-        text-indent: 50px;
+        float: right;
     }
 }
 

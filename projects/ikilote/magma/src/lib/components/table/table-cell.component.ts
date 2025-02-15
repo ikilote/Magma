@@ -1,16 +1,32 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    booleanAttribute,
+    inject,
+    input,
+} from '@angular/core';
 
 import { MagmaTableRow } from './table-row.component';
 
 @Component({
-    selector: 'td[mg], th[mg]',
+    selector: 'table[mg] > * > * > td[mg], table[mg] > * > * > th[mg]',
     templateUrl: './table-cell.component.html',
     styleUrls: ['./table-cell.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        '[class.baseline]': 'baseline()',
+    },
 })
 export class MagmaTableCell implements AfterViewInit {
     protected readonly host = inject(MagmaTableRow, { optional: false, host: true });
     readonly cd = inject(ChangeDetectorRef);
+    readonly el = inject(ElementRef<HTMLTableSectionElement>);
+
+    readonly baseline = input(null, { transform: booleanAttribute });
+
     row = 0;
     index = 0;
 

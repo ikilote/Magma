@@ -25,6 +25,7 @@ export class DemoTableComponent {
         hoverRow: FormControl<boolean>;
         hoverCol: FormControl<boolean>;
         sticky: FormControl<boolean>;
+        baseline: FormControl<boolean>;
     }>;
     codeHtml = '';
 
@@ -37,6 +38,7 @@ export class DemoTableComponent {
             hoverRow: { default: false },
             hoverCol: { default: false },
             sticky: { default: false },
+            baseline: { default: false },
         });
 
         this.form.valueChanges.subscribe(() => {
@@ -107,7 +109,7 @@ export class DemoTableComponent {
                     body: [
                         {
                             tag: 'tr',
-                            attrs: { mg: null },
+                            attrs: { mg: null, baseline: this.form.value.baseline ? null : undefined },
                             body: [
                                 ...[
                                     {

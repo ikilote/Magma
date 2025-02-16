@@ -26,6 +26,10 @@
     <mg-input>
       <mg-input-checkbox formControlName="sticky">sticky header</mg-input-checkbox>
     </mg-input>
+    <h3 class="s-12">Row</h3>
+    <mg-input>
+      <mg-input-checkbox formControlName="baseline">baseline</mg-input-checkbox>
+    </mg-input>
   </div>
 
   <table
@@ -38,26 +42,17 @@
   >
     <thead mg [sticky]="form.value.sticky">
       <tr mg>
-        <th mg>Test</th>
-        <th mg>Test</th>
-        <th mg>Test</th>
+        <th mg>Test 1</th>
+        <th mg>Test 2</th>
+        <th mg>Test 3</th>
         @if (form.value.col) {
-          <th mg>Test</th>
+          <th mg>Test 4</th>
         }
-        <th mg>Test</th>
+        <th mg>Test 5</th>
       </tr>
     </thead>
     <tbody mg>
-      <tr mg>
-        <td mg>Test 1</td>
-        <td mg>Test 2</td>
-        <td mg>Test 3</td>
-        @if (form.value.col) {
-          <td mg>Test 4</td>
-        }
-        <td mg>Test 5</td>
-      </tr>
-      <tr mg baseline>
+      <tr mg [baseline]="form.value.baseline">
         <td mg>Test La test<br />dede</td>
         <td mg>Test</td>
         <td mg>Test</td>

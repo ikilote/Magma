@@ -32,6 +32,14 @@
     }
 }
 
+/*  Android, iOs */
+
+@media only screen and (hover: none) and (pointer: coarse) {
+    :host.show-arrows::before {
+        right: 4px;
+    }
+}
+
 input {
     color: transparent;
     text-align: right;

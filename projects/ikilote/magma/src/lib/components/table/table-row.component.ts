@@ -1,4 +1,6 @@
 import {
+    AfterViewChecked,
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -20,8 +22,9 @@ import { MagmaTableGroup } from './table-group.component';
         '[class.baseline]': 'baseline()',
     },
 })
-export class MagmaTableRow {
+export class MagmaTableRow implements AfterViewInit, AfterViewChecked {
     readonly host = inject(MagmaTableGroup, { optional: false, host: true });
+    readonly table = this.host.table;
     readonly cd = inject(ChangeDetectorRef);
 
     readonly baseline = input(false, { transform: booleanAttribute });
@@ -45,5 +48,9 @@ export class MagmaTableRow {
             e.cd.detectChanges();
         });
         this.cd.detectChanges();
+    }
+
+    ngAfterViewChecked(): void {
+        this.ngAfterViewInit();
     }
 }

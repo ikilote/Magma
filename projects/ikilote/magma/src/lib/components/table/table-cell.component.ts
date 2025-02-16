@@ -1,4 +1,5 @@
 import {
+    AfterViewChecked,
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -24,8 +25,9 @@ import { MagmaTableRow } from './table-row.component';
         '[class.hoverLink]': 'hoverLink()',
     },
 })
-export class MagmaTableCell implements AfterViewInit {
+export class MagmaTableCell implements AfterViewInit, AfterViewChecked {
     protected readonly host = inject(MagmaTableRow, { optional: false, host: true });
+    readonly table = this.host.table;
     readonly cd = inject(ChangeDetectorRef);
     readonly el = inject(ElementRef<HTMLTableSectionElement>);
 
@@ -38,12 +40,16 @@ export class MagmaTableCell implements AfterViewInit {
     index = 0;
 
     ngAfterViewInit(): void {
+        this.ngAfterViewChecked();
+    }
+
+    ngAfterViewChecked(): void {
         this.index = this.host.inputs().indexOf(this);
         this.cd.detectChanges();
     }
 
     @HostListener('mouseover')
     mouseOver() {
-        this.host.host.host.over(this.row, this.index);
+        this.table.over(this.row, this.index);
     }
 }

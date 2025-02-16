@@ -1,12 +1,23 @@
 <h1>Table</h1>
 
+<p>
+  <mg-input>
+    <mg-input-checkbox [(ngModel)]="row">Row</mg-input-checkbox>
+  </mg-input>
+  <mg-input>
+    <mg-input-checkbox [(ngModel)]="col">Col</mg-input-checkbox>
+  </mg-input>
+</p>
+
 <table mg hover>
   <thead mg sticky>
     <tr mg>
       <th mg>Test</th>
       <th mg>Test</th>
       <th mg>Test</th>
-      <th mg>Test</th>
+      @if (col) {
+        <th mg>Test</th>
+      }
       <th mg>Test</th>
     </tr>
   </thead>
@@ -15,287 +26,371 @@
       <td mg>Test 1</td>
       <td mg>Test 2</td>
       <td mg>Test 3</td>
-      <td mg>Test 4</td>
+      @if (col) {
+        <td mg>Test 4</td>
+      }
       <td mg>Test 5</td>
     </tr>
     <tr mg baseline>
       <td mg>Test La test<br />dede</td>
       <td mg>Test</td>
       <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
+    </tr>
+    @if (row) {
+      <tr mg>
+        <td mg>Test 1</td>
+        <td mg>Test 2</td>
+        <td mg>Test 3</td>
+        @if (col) {
+          <td mg>Test 4</td>
+        }
+        <td mg>Test 5</td>
+      </tr>
+    }
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-    </tr>
-    <tr mg>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
-      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
     <tr mg>
       <td mg>Test</td>
       <td mg>Test</td>
       <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
+      <td mg>Test</td>
+    </tr>
+    <tr mg>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      <td mg>Test</td>
+      @if (col) {
+        <td mg>Test</td>
+      }
       <td mg>Test</td>
     </tr>
   </tbody>

@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
+    HostListener,
     booleanAttribute,
     contentChildren,
     inject,
@@ -23,6 +24,7 @@ import { MagmaTable } from './table.component';
 })
 export class MagmaTableGroup {
     readonly host = inject(MagmaTable, { optional: false, host: true });
+    readonly table = this.host;
     protected readonly el = inject(ElementRef<HTMLTableSectionElement>);
 
     readonly sticky = input(false, { transform: booleanAttribute });
@@ -31,4 +33,11 @@ export class MagmaTableGroup {
     _data = this.host._data[this.el.nativeElement.tagName.toLowerCase() as 'thead' | 'tbody' | 'tfoot'];
 
     readonly inputs = contentChildren(MagmaTableRow);
+
+    @HostListener('mouseout')
+    mouseOver() {
+        if (this.el.nativeElement.tagName.toLowerCase() === 'tbody') {
+            this.table.clearOver();
+        }
+    }
 }

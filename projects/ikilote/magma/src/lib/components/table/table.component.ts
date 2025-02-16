@@ -68,6 +68,17 @@ export class MagmaTable {
             });
         }
     }
+
+    clearOver() {
+        [this._data.thead, this._data.tbody, this._data.tfoot].forEach(e =>
+            e.forEach((row, _indexR) =>
+                row.forEach(cell => {
+                    cell.cell.hover.set(false);
+                    cell.cell.hoverLink.set(false);
+                }),
+            ),
+        );
+    }
 }
 
 export const MagmaTableComponent = [MagmaTable, MagmaTableGroup, MagmaTableRow, MagmaTableCell];

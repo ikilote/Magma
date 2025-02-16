@@ -4,9 +4,11 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
+    HostListener,
     booleanAttribute,
     inject,
     input,
+    signal,
 } from '@angular/core';
 
 import { MagmaTableRow } from './table-row.component';
@@ -18,6 +20,8 @@ import { MagmaTableRow } from './table-row.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.baseline]': 'baseline()',
+        '[class.hover]': 'hover()',
+        '[class.hoverLink]': 'hoverLink()',
     },
 })
 export class MagmaTableCell implements AfterViewInit {
@@ -27,11 +31,19 @@ export class MagmaTableCell implements AfterViewInit {
 
     readonly baseline = input(null, { transform: booleanAttribute });
 
+    hover = signal(false);
+    hoverLink = signal(false);
+
     row = 0;
     index = 0;
 
     ngAfterViewInit(): void {
         this.index = this.host.inputs().indexOf(this);
         this.cd.detectChanges();
+    }
+
+    @HostListener('mouseover')
+    mouseOver() {
+        this.host.host.host.over(this.row, this.index);
     }
 }

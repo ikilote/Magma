@@ -22,7 +22,7 @@ import { MagmaTable } from './table.component';
     },
 })
 export class MagmaTableGroup {
-    protected readonly host = inject(MagmaTable, { optional: false, host: true });
+    readonly host = inject(MagmaTable, { optional: false, host: true });
     protected readonly el = inject(ElementRef<HTMLTableSectionElement>);
 
     readonly sticky = input(null, { transform: booleanAttribute });

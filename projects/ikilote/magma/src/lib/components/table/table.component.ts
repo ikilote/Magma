@@ -4,6 +4,12 @@ import { MagmaTableCell } from './table-cell.component';
 import { MagmaTableGroup } from './table-group.component';
 import { MagmaTableRow } from './table-row.component';
 
+export type MagmaTableData = {
+    cell: MagmaTableCell;
+    row: MagmaTableRow;
+    textContent: string;
+};
+
 @Component({
     selector: 'table[mg]',
     templateUrl: './table.component.html',
@@ -16,12 +22,25 @@ import { MagmaTableRow } from './table-row.component';
 export class MagmaTable {
     readonly baseline = input(null, { transform: booleanAttribute });
 
-    _data: { thead: any[][]; tbody: any[][]; tfoot: any[][] } = { thead: [], tbody: [], tfoot: [] };
+    _data: { thead: MagmaTableData[][]; tbody: MagmaTableData[][]; tfoot: MagmaTableData[][] } = {
+        thead: [],
+        tbody: [],
+        tfoot: [],
+    };
 
     constructor() {
         setTimeout(() => {
             console.log('data', this._data);
         }, 10);
+    }
+
+    over(line: number, col: number) {
+        this._data.tbody.forEach((row, indexR) => {
+            row.forEach((cell, indexC) => {
+                cell.cell.hover.set(indexR === line && indexC === col);
+                cell.cell.hoverLink.set(indexR === line || indexC === col);
+            });
+        });
     }
 }
 

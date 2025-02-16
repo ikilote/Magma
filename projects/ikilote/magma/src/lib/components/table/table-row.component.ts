@@ -21,7 +21,7 @@ import { MagmaTableGroup } from './table-group.component';
     },
 })
 export class MagmaTableRow {
-    protected readonly host = inject(MagmaTableGroup, { optional: false, host: true });
+    readonly host = inject(MagmaTableGroup, { optional: false, host: true });
     readonly cd = inject(ChangeDetectorRef);
 
     readonly baseline = input(null, { transform: booleanAttribute });
@@ -37,7 +37,11 @@ export class MagmaTableRow {
 
         this.inputs().forEach(e => {
             e.row = this.index;
-            this._data = this.host._data[this.index][e.index] = e.el.nativeElement.textContent;
+            this.host._data[this.index][e.index] = {
+                cell: e,
+                row: this,
+                textContent: e.el.nativeElement.textContent,
+            };
             e.cd.detectChanges();
         });
         this.cd.detectChanges();

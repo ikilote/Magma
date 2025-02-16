@@ -1,5 +1,29 @@
 # Changelog of @ikilote/magma
 
+## 0.2.0 (2025-02-16)
+
+### ✅ New
+
+- **table mg**:
+    - new component (directive) with:
+        - grid hover,
+        - sticky header,
+        - baseline
+- **mg-input**:
+    - Add `placeholderAnimated` attribute:
+        - timers for character
+        - delay
+        - repeat time
+        - multiple placeholder
+    - `input-number`:
+        - try to fix mobile #12
+
+### 🎦 Demo
+
+- Fix float mobile menu #11
+- Fix strange break scrolling on demo #11
+- Add `Table` page
+
 ## 0.1.10 (2025-02-14)
 
 ### ✅ New

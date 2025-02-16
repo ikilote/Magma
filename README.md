@@ -25,6 +25,7 @@ It will evolve mainly according to my projects. But people want to use it and he
     - Text
     - Textarea
 - Light-dark
+- Table
 - Tabs
 
 ### Services

@@ -20,7 +20,11 @@ export type MagmaTableData = {
     },
 })
 export class MagmaTable {
-    readonly baseline = input(null, { transform: booleanAttribute });
+    readonly baseline = input(false, { transform: booleanAttribute });
+    readonly hover = input(false, { transform: booleanAttribute });
+    readonly hoverCol = input(false, { transform: booleanAttribute });
+    readonly hoverRow = input(false, { transform: booleanAttribute });
+    readonly hoverCell = input(false, { transform: booleanAttribute });
 
     _data: { thead: MagmaTableData[][]; tbody: MagmaTableData[][]; tfoot: MagmaTableData[][] } = {
         thead: [],
@@ -35,12 +39,34 @@ export class MagmaTable {
     }
 
     over(line: number, col: number) {
-        this._data.tbody.forEach((row, indexR) => {
-            row.forEach((cell, indexC) => {
-                cell.cell.hover.set(indexR === line && indexC === col);
-                cell.cell.hoverLink.set(indexR === line || indexC === col);
+        if (this.hover() || this.hoverCol()) {
+            this._data.thead.forEach((row, _indexR) => {
+                row.forEach((cell, indexC) => {
+                    cell.cell.hoverLink.set(indexC === col);
+                });
             });
-        });
+            this._data.tfoot.forEach((row, _indexR) => {
+                row.forEach((cell, indexC) => {
+                    cell.cell.hoverLink.set(indexC === col);
+                });
+            });
+        }
+        if (this.hover() || this.hoverCol() || this.hoverRow() || this.hoverCell()) {
+            this._data.tbody.forEach((row, indexR) => {
+                row.forEach((cell, indexC) => {
+                    if (this.hover() || this.hoverCell()) {
+                        cell.cell.hover.set(indexR === line && indexC === col);
+                    }
+                    if (this.hover() || (this.hoverCol() && this.hoverRow())) {
+                        cell.cell.hoverLink.set(indexR === line || indexC === col);
+                    } else if (this.hoverRow()) {
+                        cell.cell.hoverLink.set(indexR === line);
+                    } else if (this.hoverCol()) {
+                        cell.cell.hoverLink.set(indexC === col);
+                    }
+                });
+            });
+        }
     }
 }
 

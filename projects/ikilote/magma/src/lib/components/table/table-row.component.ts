@@ -24,7 +24,7 @@ export class MagmaTableRow {
     readonly host = inject(MagmaTableGroup, { optional: false, host: true });
     readonly cd = inject(ChangeDetectorRef);
 
-    readonly baseline = input(null, { transform: booleanAttribute });
+    readonly baseline = input(false, { transform: booleanAttribute });
 
     readonly inputs = contentChildren(MagmaTableCell);
 

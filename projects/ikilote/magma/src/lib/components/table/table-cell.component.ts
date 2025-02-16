@@ -29,7 +29,7 @@ export class MagmaTableCell implements AfterViewInit {
     readonly cd = inject(ChangeDetectorRef);
     readonly el = inject(ElementRef<HTMLTableSectionElement>);
 
-    readonly baseline = input(null, { transform: booleanAttribute });
+    readonly baseline = input(false, { transform: booleanAttribute });
 
     hover = signal(false);
     hoverLink = signal(false);

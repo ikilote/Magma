@@ -1,7 +1,7 @@
 <h1>Table</h1>
 
 <div>
-  <div [formGroup]="form" class="s-4">
+  <div [formGroup]="form" class="s-4 s-12-l">
     <h3 class="s-12">Dynamics test</h3>
     <mg-input>
       <mg-input-checkbox formControlName="row">Row</mg-input-checkbox>
@@ -33,7 +33,7 @@
   </div>
 
   <table
-    class="s-4"
+    class="s-4 s-12-l"
     mg
     [hover]="form.value.hover"
     [hoverCell]="form.value.hoverCell"
@@ -417,7 +417,7 @@
     </tbody>
   </table>
 
-  <div [formGroup]="form" class="s-4">
+  <div [formGroup]="form" class="s-4 s-12-l">
     <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
   </div>
 </div>

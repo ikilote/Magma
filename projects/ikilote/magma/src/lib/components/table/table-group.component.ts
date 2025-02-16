@@ -35,9 +35,7 @@ export class MagmaTableGroup {
     readonly inputs = contentChildren(MagmaTableRow);
 
     @HostListener('mouseout')
-    mouseOver() {
-        if (this.el.nativeElement.tagName.toLowerCase() === 'tbody') {
-            this.table.clearOver();
-        }
+    mouseOut() {
+        this.table.clearOver();
     }
 }

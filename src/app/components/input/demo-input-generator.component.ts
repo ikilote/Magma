@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
@@ -60,6 +60,7 @@ export class DemoInputGeneratorComponent {
         error: FormControl<string>;
 
         placeholder: FormControl<string>;
+        placeholderAnimated: FormControl<string>;
         disabled: FormControl<boolean>;
         readonly: FormControl<boolean>;
 
@@ -115,7 +116,7 @@ export class DemoInputGeneratorComponent {
     codeHtml = '';
     codeTs = '';
 
-    constructor(fbe: FormBuilderExtended, fb: FormBuilder) {
+    constructor(fbe: FormBuilderExtended) {
         this.formGenerator = fbe.groupWithErrorNonNullable({
             type: { default: 'text' },
             access: { default: 'none' },
@@ -125,6 +126,7 @@ export class DemoInputGeneratorComponent {
             prefix: { default: '' },
             suffix: { default: '' },
             placeholder: { default: '' },
+            placeholderAnimated: { default: '' },
             disabled: { default: false },
             readonly: { default: false },
             // text
@@ -436,6 +438,10 @@ export class DemoInputGeneratorComponent {
         if (type === 'number' || type === 'textarea' || type === 'text' || type === 'password' || type === 'select') {
             if (fgValue.placeholder !== '') {
                 attrInput['placeholder'] = fgValue.placeholder;
+
+                if (fgValue.placeholderAnimated !== '') {
+                    attrInput['placeholderAnimated'] = fgValue.placeholderAnimated;
+                }
             }
         }
 

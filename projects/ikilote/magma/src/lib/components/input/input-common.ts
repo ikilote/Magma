@@ -10,6 +10,7 @@ import {
     inject,
     input,
     output,
+    signal,
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
 
@@ -17,12 +18,14 @@ import { MagmaInput } from './input.component';
 
 import { ParamsMessagesControlMessage } from '../../services/form-builder-extended';
 import { Logger } from '../../services/logger';
+import { Timing } from '../../utils/timing';
 
 @Directive({})
 export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
     protected readonly host = inject(MagmaInput, { optional: false, host: true });
     protected readonly logger = inject(Logger);
     readonly cd = inject(ChangeDetectorRef);
+    private injector = inject(Injector);
 
     readonly value = input();
 
@@ -32,6 +35,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     readonly name = input<string>();
     readonly id = input<string>();
     readonly placeholder = input<string>();
+    readonly placeholderAnimated = input<string>();
 
     /** Whether the element is disabled. */
     readonly disabled = input(false, { transform: booleanAttribute });
@@ -52,7 +56,9 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
 
     protected onError = false;
 
-    private injector = inject(Injector);
+    protected placeholderTimer: undefined | number = undefined;
+
+    placeholderDisplay = signal<string>('');
 
     ngControl: NgControl | null = null;
 
@@ -71,6 +77,25 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
         }
         if (changes['id']) {
             this.setHostLabelId();
+        }
+        if (changes['placeholder']) {
+            if (!this.placeholderAnimated()) {
+                this.stopPlaceholderAnimation();
+            } else {
+                this.stopPlaceholderAnimation();
+                this.startPlaceholderAnimation(this.placeholderAnimated()!);
+            }
+        }
+        if (
+            changes['placeholderAnimated'] &&
+            changes['placeholderAnimated'].currentValue !== changes['placeholderAnimated'].previousValue
+        ) {
+            if (changes['placeholderAnimated'].currentValue) {
+                this.stopPlaceholderAnimation();
+                this.startPlaceholderAnimation(changes['placeholderAnimated'].currentValue);
+            } else {
+                this.stopPlaceholderAnimation();
+            }
         }
     }
 
@@ -136,5 +161,58 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     protected setHostLabelId() {
         this.host.forId = `${this._id()}-input`;
         this.host.cd.detectChanges();
+    }
+
+    protected startPlaceholderAnimation(info: string) {
+        const [baseDelayValue, repeatValue, intervaleValue] = info.split(/\s+/);
+        const baseDelay = Math.max(+baseDelayValue || 30, 1);
+        const repeat = Math.max(+repeatValue || 1, 1);
+        const intervale = Math.max(+intervaleValue || baseDelay, 1);
+        this.inPlaceholderAnimation(baseDelay, repeat, intervale);
+    }
+
+    protected inPlaceholderAnimation(baseDelay: number, repeat: number, intervale: number, separator: string = '|') {
+        const text = this.placeholder()!.split('');
+        let i = 0;
+        this.placeholderDisplay.set('');
+        this.placeholderTimer = Timing.start(() => {
+            Timing.change(this.placeholderTimer!, baseDelay);
+            let value = text[i++];
+            if (value === undefined) {
+                if (repeat === 1) {
+                    this.stopPlaceholderAnimation(separator);
+                } else {
+                    Timing.stop(this.placeholderTimer!);
+                    setTimeout(() => {
+                        this.inPlaceholderAnimation(baseDelay, repeat - 1, intervale);
+                    }, intervale);
+                }
+                return;
+            }
+            if (value === separator) {
+                Timing.change(this.placeholderTimer!, intervale);
+                setTimeout(
+                    () => {
+                        this.placeholderDisplay.set('');
+                    },
+                    Math.max(intervale - baseDelay, 0),
+                );
+            } else {
+                this.placeholderDisplay.update(e => e + value);
+
+                while (value === ' ') {
+                    value = text[i++];
+                    this.placeholderDisplay.update(e => e + value);
+                }
+            }
+        }, baseDelay);
+    }
+
+    protected stopPlaceholderAnimation(separator: string = '') {
+        Timing.stop(this.placeholderTimer!);
+        this.placeholderTimer = undefined;
+        this.placeholderDisplay.set(
+            (separator ? this.placeholder()?.split(separator).pop() : this.placeholder()) ?? '',
+        );
     }
 }

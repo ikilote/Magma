@@ -67,10 +67,25 @@
           formGenerator.value.type === 'password' ||
           formGenerator.value.type === 'select'
         ) {
-          <mg-input class="s-4 s-6-m">
+          <mg-input class="s-3 s-6-m">
             <mg-input-label>Placeholder</mg-input-label>
             <mg-input-text formControlName="placeholder"></mg-input-text>
           </mg-input>
+          @if (formGenerator.value.placeholder) {
+            <mg-input class="s-3 s-6-m">
+              <mg-input-label>placeholderAnimated</mg-input-label>
+              <mg-input-text formControlName="placeholderAnimated"></mg-input-text>
+              <mg-input-desc
+                >Example: <code>30 3 1500 |</code> for
+                <ul>
+                  <li>30ms by character,</li>
+                  <li>repeat 3 times (default <code>1</code> no repeat),</li>
+                  <li>intervale of 1500ms (default is character time),</li>
+                  <li><code>|</code> separator character for multi sentences (default <code>|</code>).</li>
+                </ul>
+              </mg-input-desc>
+            </mg-input>
+          }
         }
         @if (formGenerator.value.type === 'number') {
           <mg-input class="s-3 s-6-m">
@@ -239,6 +254,7 @@
               [maxlength]="formGenerator.value.maxLength ?? null"
               [clearCross]="formGenerator.value.clearCross"
               [placeholder]="formGenerator.value.placeholder"
+              [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
             ></mg-input-text>
@@ -253,6 +269,7 @@
               [maxHeight]="formGenerator.value.maxHeight"
               [minHeight]="formGenerator.value.minHeight"
               [placeholder]="formGenerator.value.placeholder"
+              [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
             ></mg-input-textarea>
@@ -263,6 +280,7 @@
               (ngModelChange)="codeGeneration()"
               [eye]="formGenerator.value.eye ?? null"
               [placeholder]="formGenerator.value.placeholder"
+              [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
             ></mg-input-password>
@@ -276,6 +294,7 @@
               [formater]="formGenerator.value.formater"
               [showArrows]="formGenerator.value.showArrows"
               [placeholder]="formGenerator.value.placeholder"
+              [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [noDecimal]="formGenerator.value.noDecimal"
@@ -309,6 +328,7 @@
             <mg-input-select
               [data]="exampleData"
               [placeholder]="formGenerator.value.placeholder"
+              [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [multiple]="formGenerator.value.multiple"

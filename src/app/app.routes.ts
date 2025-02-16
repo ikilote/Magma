@@ -64,6 +64,11 @@ export const routes: Routes = [
             import('./components/info-messages/demo-info-messages.component').then(m => m.DemoInfoMessageComponent),
     },
     {
+        path: 'table',
+        pathMatch: 'full',
+        loadComponent: () => import('./components/table/demo-table.component').then(m => m.DemoTableComponent),
+    },
+    {
         path: 'tabs',
         pathMatch: 'full',
         loadComponent: () => import('./components/tabs/demo-tabs.component').then(m => m.DemoTabsComponent),

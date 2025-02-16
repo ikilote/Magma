@@ -1,0 +1,14 @@
+:host {
+    padding: 5px;
+}
+:host.baseline,
+.baseline :host {
+    vertical-align: baseline;
+}
+
+:host.hoverLink {
+    background-color: var(--primary8);
+}
+:host.hover {
+    background-color: var(--primary6);
+}

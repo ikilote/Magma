@@ -1,0 +1,8 @@
+:host(thead) {
+    background: var(--table-header-background);
+
+    &.sticky {
+        position: sticky;
+        top: 0;
+    }
+}

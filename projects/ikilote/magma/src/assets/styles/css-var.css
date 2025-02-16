@@ -197,4 +197,11 @@ body {
 
     /* grid */
     --grid-cell-padding: 6px;
+
+    /* table */
+    --table-header-background: var(--neutral9);
+    --table-header-background-hover: var(--neutral8);
+    --table-header-sortable-cell: var(--neutral7);
+    --table-line-hover-background: var(--neutral7);
+    --table-selected-text: var(--alert2);
 }

@@ -1,0 +1,423 @@
+<h1>Table</h1>
+
+<div>
+  <div [formGroup]="form" class="s-4">
+    <h3 class="s-12">Dynamics test</h3>
+    <mg-input>
+      <mg-input-checkbox formControlName="row">Row</mg-input-checkbox>
+    </mg-input>
+    <mg-input>
+      <mg-input-checkbox formControlName="col">Col</mg-input-checkbox>
+    </mg-input>
+    <h3 class="s-12">Mouse over</h3>
+    <mg-input>
+      <mg-input-checkbox formControlName="hover">hover</mg-input-checkbox>
+    </mg-input>
+    <mg-input>
+      <mg-input-checkbox formControlName="hoverCell">hoverCell</mg-input-checkbox>
+    </mg-input>
+    <mg-input>
+      <mg-input-checkbox formControlName="hoverRow">hoverRow</mg-input-checkbox>
+    </mg-input>
+    <mg-input>
+      <mg-input-checkbox formControlName="hoverCol">hoverCol</mg-input-checkbox>
+    </mg-input>
+    <h3 class="s-12">Header</h3>
+    <mg-input>
+      <mg-input-checkbox formControlName="sticky">sticky header</mg-input-checkbox>
+    </mg-input>
+    <h3 class="s-12">Row</h3>
+    <mg-input>
+      <mg-input-checkbox formControlName="baseline">baseline</mg-input-checkbox>
+    </mg-input>
+  </div>
+
+  <table
+    class="s-4"
+    mg
+    [hover]="form.value.hover"
+    [hoverCell]="form.value.hoverCell"
+    [hoverRow]="form.value.hoverRow"
+    [hoverCol]="form.value.hoverCol"
+  >
+    <thead mg [sticky]="form.value.sticky">
+      <tr mg>
+        <th mg>Test 1</th>
+        <th mg>Test 2</th>
+        <th mg>Test 3</th>
+        @if (form.value.col) {
+          <th mg>Test 4</th>
+        }
+        <th mg>Test 5</th>
+      </tr>
+    </thead>
+    <tbody mg>
+      <tr mg [baseline]="form.value.baseline">
+        <td mg>Test La test<br />dede</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      @if (form.value.row) {
+        <tr mg>
+          <td mg>Test 1</td>
+          <td mg>Test 2</td>
+          <td mg>Test 3</td>
+          @if (form.value.col) {
+            <td mg>Test 4</td>
+          }
+          <td mg>Test 5</td>
+        </tr>
+      }
+      <tr mg>
+        <td mg>Test A</td>
+        <td mg>Test B</td>
+        <td mg>Test C</td>
+        @if (form.value.col) {
+          <td mg>Test D</td>
+        }
+        <td mg>Test E</td>
+      </tr>
+      <tr mg>
+        <td mg>Test F</td>
+        <td mg>Test G</td>
+        <td mg>Test H</td>
+        @if (form.value.col) {
+          <td mg>Test I</td>
+        }
+        <td mg>Test J</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+      <tr mg>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        <td mg>Test</td>
+        @if (form.value.col) {
+          <td mg>Test</td>
+        }
+        <td mg>Test</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div [formGroup]="form" class="s-4">
+    <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+  </div>
+</div>

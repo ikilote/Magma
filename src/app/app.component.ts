@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 
+import { LightDark } from '../../projects/ikilote/magma/src/lib/services/light-dark';
 import { MagmaLightDark } from '../../projects/ikilote/magma/src/public-api';
 import { environment } from '../environments/environment';
 
@@ -14,9 +15,15 @@ import { environment } from '../environments/environment';
     },
 })
 export class AppComponent {
+    private readonly lightDark = inject(LightDark);
+
     title = '@ikilote/magma';
     version = environment.version;
     menu = false;
+
+    constructor() {
+        this.lightDark.init();
+    }
 
     toggleMenu() {
         this.menu = !this.menu;

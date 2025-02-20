@@ -51,6 +51,10 @@ label {
     padding-right: 5px;
     padding-left: calc(var(--size) + 6px);
     line-height: 31px;
+
+    &:not(:has(:first-child)) {
+        padding-left: calc(var(--size) - 6px);
+    }
 }
 
 .content:has(> :host:is(mg-input-radio)) {

@@ -1,4 +1,5 @@
 import {
+    AfterContentChecked,
     ChangeDetectionStrategy,
     Component,
     OnInit,
@@ -28,7 +29,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInputRadio extends MagmaInputCommon implements OnInit {
+export class MagmaInputRadio extends MagmaInputCommon implements OnInit, AfterContentChecked {
     override readonly componentName = 'input-radio';
     protected override counter = counter++;
 
@@ -52,6 +53,10 @@ export class MagmaInputRadio extends MagmaInputCommon implements OnInit {
     override writeValue(value: any): void {
         super.writeValue(value);
         this.testChecked = value === this.value();
+        this.cd.detectChanges();
+    }
+
+    ngAfterContentChecked(): void {
         this.cd.detectChanges();
     }
 

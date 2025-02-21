@@ -8,7 +8,7 @@
     [disabled]="disabled() || readonly()"
     [readonly]="readonly()"
     (change)="_change()"
-  /><label [for]="_id() + '-input'">
+  /><label #ref [for]="_id() + '-input'" [class.empty]="!ref.textContent">
     <ng-content></ng-content>
   </label>
 } @else {

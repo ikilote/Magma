@@ -3,12 +3,12 @@
     type="checkbox"
     [name]="_name()"
     [id]="_id() + '-input'"
-    [value]="value()"
+    [attr.value]="value()"
     [checked]="testChecked"
     [disabled]="disabled()"
     [readonly]="readonly()"
     (change)="_change()"
-  /><label #ref [for]="_id() + '-input'"><ng-content></ng-content></label>
+  /><label #ref [for]="_id() + '-input'" [class.empty]="!ref.textContent"><ng-content></ng-content></label>
 } @else {
   Error
 }

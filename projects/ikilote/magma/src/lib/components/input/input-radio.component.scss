@@ -52,7 +52,7 @@ label {
     padding-left: calc(var(--size) + 6px);
     line-height: 31px;
 
-    &:not(:has(:first-child)) {
+    &.empty {
         padding-left: calc(var(--size) - 6px);
     }
 }

@@ -1,4 +1,5 @@
 import {
+    AfterContentChecked,
     ChangeDetectionStrategy,
     Component,
     DoCheck,
@@ -33,7 +34,7 @@ let counter = 0;
         '[class.toggle-switch]': "mode() === 'toggle'",
     },
 })
-export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit, DoCheck {
+export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit, DoCheck, AfterContentChecked {
     override readonly componentName = 'input-checkbox';
     protected override counter = counter++;
     protected override _baseValue = 'checked';
@@ -78,6 +79,10 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements OnInit, DoCh
             this.host.forId = undefined;
             this.host.cd.detectChanges();
         }
+    }
+
+    ngAfterContentChecked(): void {
+        this.cd.detectChanges();
     }
 
     override writeValue(value: any): void {

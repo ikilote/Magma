@@ -1,5 +1,15 @@
 # Changelog of @ikilote/magma
 
+## 0.2.1 (2025-02-21)
+
+### ✅ New
+
+- Move light-dark actions into a service
+
+### 🐞 Fix
+
+- Fix checkbox & radio padding without label
+
 ## 0.2.0 (2025-02-16)
 
 ### ✅ New

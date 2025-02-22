@@ -1,0 +1,24 @@
+<h1>ngInit</h1>
+
+<div>
+  <div class="s-2 s-12-m">
+    <button (click)="add()">Add</button>
+
+    @for (item of items; track $index) {
+      <div (ngInit)="ngInit(item)">item {{ item }}</div>
+    }
+  </div>
+
+  <div class="s-2 s-12-m">
+    <pre><code>{{ events }}</code></pre>
+  </div>
+
+  <div class="s-8 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

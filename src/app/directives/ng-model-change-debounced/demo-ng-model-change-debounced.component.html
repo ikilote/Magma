@@ -1,0 +1,37 @@
+<h1>ngModelChange debounced</h1>
+
+<div>
+  <div class="s-2 s-12-m">
+    <mg-input>
+      <mg-input-label>ngModel debounced</mg-input-label>
+      <mg-input-text
+        [(ngModel)]="binding"
+        (ngModelChangeDebounced)="change($event)"
+        [ngModelChangeDebounceTime]="time"
+      ></mg-input-text>
+    </mg-input>
+
+    <p>
+      <mg-input>
+        <mg-input-label>Timer</mg-input-label>
+        <mg-input-number [(ngModel)]="time"></mg-input-number>
+        <mg-input-suffix>ms</mg-input-suffix>
+      </mg-input>
+    </p>
+  </div>
+
+  <div class="s-3 s-12-m">
+    <code>binding: {{ binding }}</code>
+    <hr />
+    <code>value: {{ value }}</code>
+  </div>
+
+  <div class="s-7 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml() },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

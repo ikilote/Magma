@@ -13,29 +13,55 @@
     </ul>
     <h3>Components</h3>
     <ul>
-      <li><a routerLink="/color-picker" routerLinkActive="selected" (click)="closeMenu()">Color picker</a></li>
-      <li><a routerLink="/context-menu" routerLinkActive="selected" (click)="closeMenu()">Context menu</a></li>
-      <li><a routerLink="/dialog" routerLinkActive="selected" (click)="closeMenu()">Dialog</a></li>
-      <li><a routerLink="/info-messages" routerLinkActive="selected" (click)="closeMenu()">Info-messages</a></li>
+      <li>
+        <a routerLink="/component/color-picker" routerLinkActive="selected" (click)="closeMenu()">Color picker</a>
+      </li>
+      <li>
+        <a routerLink="/component/context-menu" routerLinkActive="selected" (click)="closeMenu()">Context menu</a>
+      </li>
+      <li><a routerLink="/component/dialog" routerLinkActive="selected" (click)="closeMenu()">Dialog</a></li>
+      <li>
+        <a routerLink="/component/info-messages" routerLinkActive="selected" (click)="closeMenu()">Info-messages</a>
+      </li>
       <li>
         <div>Input</div>
         <ul>
-          <li><a routerLink="/input/generator" routerLinkActive="selected" (click)="closeMenu()">Generator</a></li>
-          <li><a routerLink="/input/validators" routerLinkActive="selected" (click)="closeMenu()">Validators</a></li>
-          <li><a routerLink="/input/test" routerLinkActive="selected" (click)="closeMenu()">Tests</a></li>
+          <li>
+            <a routerLink="/component/input/generator" routerLinkActive="selected" (click)="closeMenu()">Generator</a>
+          </li>
+          <li>
+            <a routerLink="/component/input/validators" routerLinkActive="selected" (click)="closeMenu()">Validators</a>
+          </li>
+          <li><a routerLink="/component/input/test" routerLinkActive="selected" (click)="closeMenu()">Tests</a></li>
         </ul>
       </li>
-      <li><a routerLink="/light-dark" routerLinkActive="selected" (click)="closeMenu()">Light-dark</a></li>
-      <li><a routerLink="/table" routerLinkActive="selected" (click)="closeMenu()">Table</a></li>
-      <li><a routerLink="/tabs" routerLinkActive="selected" (click)="closeMenu()">Tabs</a></li>
+      <li><a routerLink="/component/light-dark" routerLinkActive="selected" (click)="closeMenu()">Light-dark</a></li>
+      <li><a routerLink="/component/table" routerLinkActive="selected" (click)="closeMenu()">Table</a></li>
+      <li><a routerLink="/component/tabs" routerLinkActive="selected" (click)="closeMenu()">Tabs</a></li>
     </ul>
+    <h3>Directives</h3>
+    <ul>
+      <li>
+        <a routerLink="/directive/click-outside" routerLinkActive="selected" (click)="closeMenu()">Click Outside</a>
+      </li>
+      <li>
+        <a routerLink="/directive/ng-init" routerLinkActive="selected" (click)="closeMenu()">ngInit</a>
+      </li>
+      <li>
+        <a routerLink="/directive/ng-model-change-debounced" routerLinkActive="selected" (click)="closeMenu()"
+          >ngModelChange<br />debounced</a
+        >
+      </li>
+    </ul>
+
+    <h3>Utils</h3>
     <h3>Styles</h3>
     <ul>
-      <li><a routerLink="/style-buttons" routerLinkActive="selected" (click)="closeMenu()">Buttons</a></li>
-      <li><a routerLink="/style-icons" routerLinkActive="selected" (click)="closeMenu()">Icons</a></li>
-      <li><a routerLink="/style-inputs" routerLinkActive="selected" (click)="closeMenu()">Inputs</a></li>
-      <li><a routerLink="/style-grid" routerLinkActive="selected" (click)="closeMenu()">Grid</a></li>
-      <li><a routerLink="/style-palette" routerLinkActive="selected" (click)="closeMenu()">Palette</a></li>
+      <li><a routerLink="/style/buttons" routerLinkActive="selected" (click)="closeMenu()">Buttons</a></li>
+      <li><a routerLink="/style/icons" routerLinkActive="selected" (click)="closeMenu()">Icons</a></li>
+      <li><a routerLink="/style/inputs" routerLinkActive="selected" (click)="closeMenu()">Inputs</a></li>
+      <li><a routerLink="/style/grid" routerLinkActive="selected" (click)="closeMenu()">Grid</a></li>
+      <li><a routerLink="/style/palette" routerLinkActive="selected" (click)="closeMenu()">Palette</a></li>
     </ul>
   </div>
   <div class="light-dark">

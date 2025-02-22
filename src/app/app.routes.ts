@@ -7,96 +7,145 @@ export const routes: Routes = [
         loadComponent: () => import('./doc/demo-doc.component').then(m => m.DemoDocComponent),
     },
     {
-        path: 'color-picker',
-        pathMatch: 'full',
-        loadComponent: () =>
-            import('./components/color-picker/demo-color-picker.component').then(m => m.DemoColorPickerComponent),
-    },
-    {
-        path: 'light-dark',
-        pathMatch: 'full',
-        loadComponent: () =>
-            import('./components/light-dark/demo-light-dark.component').then(m => m.DemoLightDarkComponent),
-    },
-    {
-        path: 'context-menu',
-        pathMatch: 'full',
-        loadComponent: () =>
-            import('./components/context-menu/demo-context-menu.component').then(m => m.DemoContextMenuComponent),
-    },
-    {
-        path: 'dialog',
-        pathMatch: 'full',
-        loadComponent: () => import('./components/dialog/demo-dialog.component').then(m => m.DemoDialogComponent),
-    },
-    {
-        path: 'input',
+        path: 'component',
         children: [
             {
-                path: 'generator',
+                path: 'color-picker',
                 pathMatch: 'full',
                 loadComponent: () =>
-                    import('./components/input/demo-input-generator.component').then(
-                        m => m.DemoInputGeneratorComponent,
+                    import('./components/color-picker/demo-color-picker.component').then(
+                        m => m.DemoColorPickerComponent,
                     ),
             },
             {
-                path: 'validators',
+                path: 'light-dark',
                 pathMatch: 'full',
                 loadComponent: () =>
-                    import('./components/input/demo-input-error.component').then(m => m.DemoInputErrorComponent),
+                    import('./components/light-dark/demo-light-dark.component').then(m => m.DemoLightDarkComponent),
             },
             {
-                path: 'test',
+                path: 'context-menu',
                 pathMatch: 'full',
-                loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),
+                loadComponent: () =>
+                    import('./components/context-menu/demo-context-menu.component').then(
+                        m => m.DemoContextMenuComponent,
+                    ),
             },
             {
-                path: '**',
-                redirectTo: 'generator',
+                path: 'dialog',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/dialog/demo-dialog.component').then(m => m.DemoDialogComponent),
+            },
+            {
+                path: 'input',
+                children: [
+                    {
+                        path: 'generator',
+                        pathMatch: 'full',
+                        loadComponent: () =>
+                            import('./components/input/demo-input-generator.component').then(
+                                m => m.DemoInputGeneratorComponent,
+                            ),
+                    },
+                    {
+                        path: 'validators',
+                        pathMatch: 'full',
+                        loadComponent: () =>
+                            import('./components/input/demo-input-error.component').then(
+                                m => m.DemoInputErrorComponent,
+                            ),
+                    },
+                    {
+                        path: 'test',
+                        pathMatch: 'full',
+                        loadComponent: () =>
+                            import('./components/input/demo-input.component').then(m => m.DemoInputComponent),
+                    },
+                    {
+                        path: '**',
+                        redirectTo: 'generator',
+                    },
+                ],
+            },
+            {
+                path: 'info-messages',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/info-messages/demo-info-messages.component').then(
+                        m => m.DemoInfoMessageComponent,
+                    ),
+            },
+            {
+                path: 'table',
+                pathMatch: 'full',
+                loadComponent: () => import('./components/table/demo-table.component').then(m => m.DemoTableComponent),
+            },
+            {
+                path: 'tabs',
+                pathMatch: 'full',
+                loadComponent: () => import('./components/tabs/demo-tabs.component').then(m => m.DemoTabsComponent),
             },
         ],
     },
     {
-        path: 'info-messages',
-        pathMatch: 'full',
-        loadComponent: () =>
-            import('./components/info-messages/demo-info-messages.component').then(m => m.DemoInfoMessageComponent),
+        path: 'directive',
+        children: [
+            {
+                path: 'click-outside',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/click-outside/demo-click-outside.component').then(
+                        m => m.DemoClickOutsideComponent,
+                    ),
+            },
+            {
+                path: 'ng-init',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/ng-init/demo-ng-init.component').then(m => m.DemoNgInitComponent),
+            },
+            {
+                path: 'ng-model-change-debounced',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/ng-model-change-debounced/demo-ng-model-change-debounced.component').then(
+                        m => m.DemoNgModelChangeDebouncedComponent,
+                    ),
+            },
+        ],
     },
     {
-        path: 'table',
-        pathMatch: 'full',
-        loadComponent: () => import('./components/table/demo-table.component').then(m => m.DemoTableComponent),
-    },
-    {
-        path: 'tabs',
-        pathMatch: 'full',
-        loadComponent: () => import('./components/tabs/demo-tabs.component').then(m => m.DemoTabsComponent),
-    },
-    {
-        path: 'style-buttons',
-        pathMatch: 'full',
-        loadComponent: () => import('./styles/buttons/demo-buttons.component').then(m => m.DemoButtonsComponent),
-    },
-    {
-        path: 'style-inputs',
-        pathMatch: 'full',
-        loadComponent: () => import('./styles/inputs/demo-inputs.component').then(m => m.DemoInputsComponent),
-    },
-    {
-        path: 'style-icons',
-        pathMatch: 'full',
-        loadComponent: () => import('./styles/icons/demo-icons.component').then(m => m.DemoIconsComponent),
-    },
-    {
-        path: 'style-grid',
-        pathMatch: 'full',
-        loadComponent: () => import('./styles/grid/demo-grid.component').then(m => m.DemoGridComponent),
-    },
-    {
-        path: 'style-palette',
-        pathMatch: 'full',
-        loadComponent: () => import('./styles/palette/demo-palette.component').then(m => m.DemoPaletteComponent),
+        path: 'style',
+        children: [
+            {
+                path: 'buttons',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./styles/buttons/demo-buttons.component').then(m => m.DemoButtonsComponent),
+            },
+            {
+                path: 'inputs',
+                pathMatch: 'full',
+                loadComponent: () => import('./styles/inputs/demo-inputs.component').then(m => m.DemoInputsComponent),
+            },
+            {
+                path: 'icons',
+                pathMatch: 'full',
+                loadComponent: () => import('./styles/icons/demo-icons.component').then(m => m.DemoIconsComponent),
+            },
+            {
+                path: 'grid',
+                pathMatch: 'full',
+                loadComponent: () => import('./styles/grid/demo-grid.component').then(m => m.DemoGridComponent),
+            },
+            {
+                path: 'palette',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./styles/palette/demo-palette.component').then(m => m.DemoPaletteComponent),
+            },
+        ],
     },
     {
         path: '**',

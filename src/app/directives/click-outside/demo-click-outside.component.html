@@ -1,0 +1,20 @@
+<h1>Click Outside</h1>
+
+<div>
+  <div class="s-2 s-12-m">
+    <button (clickOutside)="clickOutside()" (click)="clickInside()">Click</button>
+  </div>
+
+  <div class="s-2 s-12-m">
+    <pre><code>{{ events }}</code></pre>
+  </div>
+
+  <div class="s-8 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

@@ -19,6 +19,7 @@ export * from './lib/components/input/input-text.component';
 export * from './lib/components/input/input-textarea.component';
 export * from './lib/components/input/input.component';
 export * from './lib/components/light-dark/light-dark.component';
+export * from './lib/components/paginate/paginate.component';
 export * from './lib/components/table/table-cell.component';
 export * from './lib/components/table/table-group.component';
 export * from './lib/components/table/table-row.component';
@@ -28,16 +29,33 @@ export * from './lib/components/tabs/tab-title.component';
 export * from './lib/components/tabs/tabs.component';
 
 // directives
+export * from './lib/directives/click-outside.directive';
+export * from './lib/directives/ng-model-change-debounced.directive';
+export * from './lib/directives/ngInit.directive';
+export * from './lib/directives/sortable.directive';
 export * from './lib/directives/textarea-autosize.directive';
+export * from './lib/directives/tooltip.directive';
 
 // pipe
 export * from './lib/pipes/num-format';
 
 // services
 export * from './lib/services/form-builder-extended';
+export * from './lib/services/light-dark';
 export * from './lib/services/logger';
 export * from './lib/services/message';
 
 // utils
+export * from './lib/utils/clipboard';
 export * from './lib/utils/coercion';
+export * from './lib/utils/cookies';
+export * from './lib/utils/date';
+export * from './lib/utils/dom';
+export * from './lib/utils/email';
+export * from './lib/utils/file';
+export * from './lib/utils/json';
+export * from './lib/utils/object';
+export * from './lib/utils/subscriptions';
+export * from './lib/utils/text';
+export * from './lib/utils/timing';
 export * from './lib/utils/validators';

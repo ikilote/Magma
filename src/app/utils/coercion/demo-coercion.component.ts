@@ -9,12 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoCoercionComponent {
-    codeTs = `@Component({
-    selector: 'demo-test',
-    templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
-    imports: [],
-})
+    codeTs = `@Component({ ... })
 export class TestComponent {
     // number or undefined if input is empty
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });

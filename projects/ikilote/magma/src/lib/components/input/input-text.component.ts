@@ -50,6 +50,7 @@ export class MagmaInputText extends MagmaInputCommon {
 
     changeValue(event: Event) {
         const value = ((event as InputEvent).target as HTMLInputElement).value;
+        super.writeValue(value);
         this.onChange(value);
         this.update.emit(value);
     }

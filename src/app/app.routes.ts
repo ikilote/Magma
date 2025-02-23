@@ -154,6 +154,11 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/date/demo-date.component').then(m => m.DemoDateComponent),
             },
+            {
+                path: 'dom',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/dom/demo-dom.component').then(m => m.DemoDomComponent),
+            },
         ],
     },
     {

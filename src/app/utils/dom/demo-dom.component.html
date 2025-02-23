@@ -1,0 +1,77 @@
+<h1>DOM</h1>
+
+<h2>getParentElementByClass</h2>
+<div>
+  <div class="s-2 s-12-m">
+    <mg-input>
+      <mg-input-label>class</mg-input-label>
+      <mg-input-text value="test-3" #input></mg-input-text>
+    </mg-input>
+  </div>
+
+  <div class="s-5 s-12-m">
+    Click in this zone
+    <div (click)="getParentElementByClass($event.target, input.getValue() ?? '')" class="test-zone">
+      .test-zone
+      <div class="test-a zone">
+        .test-a .zone
+        <span class="test-1 foo bar">.test-1 .foo .bar</span><code class="test-2 abc azerry">.test-2 .abc .azerry</code
+        ><span class="test-3 foo bar">.test-3 .foo .bar</span><code class="test-4 def qwerty">.test-4 .def .qwerty</code
+        ><span class="test-5 ght xyz">.test-5 .ght .xyz</span><code class="test-6 tree water">.test-6 .tree .water</code
+        ><span class="test-7 rock land">.test-7 .rock .land</span>
+      </div>
+      <div class="test-b">
+        .test-b .area
+        <span class="item-1 foo bar">.item-1 .foo .bar</span><code class="item-2 abc azerry">.item-2 .abc .azerry</code
+        ><span class="item-3 foo bar">.item-3 .foo .bar</span><code class="item-4 def qwerty">.item-4 .def .qwerty</code
+        ><span class="item-5 ght xyz">.item-5 .ght .xyz</span><code class="item-6 tree water">.item-6 .tree .water</code
+        ><span class="item-7 rock land">.item-7 .rock .land</span>
+      </div>
+    </div>
+    <p>
+      List of classes of the selected element if the searched class is included: <code>{{ classList || 'empty' }}</code>
+    </p>
+  </div>
+
+  <div class="s-5 s-12-m">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsGetParentElementByClass }]"></code-tabs>
+  </div>
+</div>
+
+<h2>containClasses</h2>
+<div>
+  <div class="s-2 s-12-m">
+    <mg-input>
+      <mg-input-label>classes (separator <code>,</code>)</mg-input-label>
+      <mg-input-text value="foo,bar" #input2></mg-input-text>
+    </mg-input>
+  </div>
+
+  <div class="s-5 s-12-m">
+    Click in this zone
+    <div (click)="containClasses($event.target, input2.getValue()?.split(',') ?? '')" class="test-zone">
+      .test-zone
+      <div class="test-a zone">
+        .test-a .zone
+        <span class="test-1 foo bar">.test-1 .foo .bar</span><code class="test-2 abc azerry">.test-2 .abc .azerry</code
+        ><span class="test-3 foo bar">.test-3 .foo .bar</span><code class="test-4 def qwerty">.test-4 .def .qwerty</code
+        ><span class="test-5 ght xyz">.test-5 .ght .xyz</span><code class="test-6 tree water">.test-6 .tree .water</code
+        ><span class="test-7 rock land">.test-7 .rock .land</span>
+      </div>
+      <div class="test-b">
+        .test-b .area
+        <span class="item-1 foo bar">.item-1 .foo .bar</span><code class="item-2 abc azerry">.item-2 .abc .azerry</code
+        ><span class="item-3 foo bar">.item-3 .foo .bar</span><code class="item-4 def qwerty">.item-4 .def .qwerty</code
+        ><span class="item-5 ght xyz">.item-5 .ght .xyz</span><code class="item-6 tree water">.item-6 .tree .water</code
+        ><span class="item-7 rock land">.item-7 .rock .land</span>
+      </div>
+    </div>
+    <p>
+      Select element contents all classes in list: <code>{{ valid ? true : false }}</code>
+    </p>
+  </div>
+
+  <div class="s-5 s-12-m">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsContainClasses }]"></code-tabs>
+  </div>
+</div>

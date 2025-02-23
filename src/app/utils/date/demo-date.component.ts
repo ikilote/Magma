@@ -27,12 +27,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoDateComponent {
     readonly fb = inject(FormBuilderExtended);
 
-    codeTs = `@Component({
-    selector: 'demo-test',
-    templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
-    imports: [],
-})
+    codeTs = `@Component({ ... })
 export class TestComponent {
     getDate(value: string | undefined, newDate: boolean): string | undefined {
         return toISODate(value ? new Date(value) : undefined, newDate);

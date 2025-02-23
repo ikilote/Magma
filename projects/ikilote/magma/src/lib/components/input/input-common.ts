@@ -99,7 +99,9 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
         }
     }
 
-    getValue() {}
+    getValue() {
+        return this._value;
+    }
 
     onChange: (value: any) => void = () => {};
     onTouched: () => void = () => {};

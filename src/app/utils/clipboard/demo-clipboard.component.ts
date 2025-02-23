@@ -16,12 +16,7 @@ export class DemoClipboardComponent {
 
 <button (click)="copy(ref)">Copy</button>`;
 
-    codeTs = `@Component({
-    selector: 'demo-test',
-    templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
-    imports: [],
-})
+    codeTs = `@Component({ ... })
 export class TestComponent {
     readonly mgMessage = inject(MagmaMessage);
 

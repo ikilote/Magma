@@ -12,20 +12,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoCookiesComponent {
     readonly mgMessage = inject(MagmaMessage);
 
-    codeHtml = `<p>
-  <input #value />
-</p>
-
-<button (click)="addCookie(value.value)">addCookie()</button>
-<button (click)="readCookie()">readCookie()</button>
-<button (click)="removeCookie()">removeCookie()</button>`;
-
-    codeTs = `@Component({
-    selector: 'demo-test',
-    templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
-    imports: [],
-})
+    codeTs = `@Component({ ... })
 export class TestComponent {
     readonly mgMessage = inject(MagmaMessage);
 

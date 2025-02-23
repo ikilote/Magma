@@ -144,6 +144,11 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./utils/coercion/demo-coercion.component').then(m => m.DemoCoercionComponent),
             },
+            {
+                path: 'cookies',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/cookies/demo-cookies.component').then(m => m.DemoCookiesComponent),
+            },
         ],
     },
     {

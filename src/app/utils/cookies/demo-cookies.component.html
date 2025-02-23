@@ -1,0 +1,22 @@
+<h1>numberAttributeOrUndefined</h1>
+
+<div>
+  <div class="s-3 s-12-m">
+    <p>
+      <input #value />
+    </p>
+
+    <button (click)="addCookie(value.value)">addCookie()</button>
+    <button (click)="readCookie()">readCookie()</button>
+    <button (click)="removeCookie()">removeCookie()</button>
+  </div>
+
+  <div class="s-9 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'ts', code: codeTs },
+        { type: 'html', code: codeHtml },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

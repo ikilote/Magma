@@ -119,6 +119,14 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./directives/tooltip/demo-tooltip.component').then(m => m.DemoTooltipComponent),
             },
+            {
+                path: 'textarea-autosize',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/textarea-autosize/demo-textarea-autosize.component').then(
+                        m => m.DemoTextareaAutosizeComponent,
+                    ),
+            },
         ],
     },
     {

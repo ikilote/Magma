@@ -252,31 +252,6 @@ select2 {
     content: '⮝';
 }
 
-@supports not selector(::-webkit-search-cancel-button) {
-    input[type='search']:not(.empty) + span {
-        display: flex;
-        position: relative;
-        top: -25px;
-        left: calc(100% - 24px);
-        justify-content: center;
-        align-items: center;
-        z-index: 1;
-        margin-bottom: -20px;
-        width: 20px;
-        height: 20px;
-        font-weight: bold;
-
-        &::after {
-            content: '×';
-        }
-
-        &:hover {
-            opacity: 0.7;
-            cursor: pointer;
-        }
-    }
-}
-
 /* -------------------- grid ------------------------------------------------------------ */
 
 /* container : (0, 2, 0)*/

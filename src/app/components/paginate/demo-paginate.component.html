@@ -1,0 +1,78 @@
+<h1>Paginate</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+      <p>
+        <mg-input>
+          <mg-input-label>linkId</mg-input-label>
+          <mg-input-text formControlName="linkId"></mg-input-text>
+        </mg-input>
+        <mg-input>
+          <mg-input-label>page</mg-input-label>
+          <mg-input-number formControlName="page"></mg-input-number>
+        </mg-input>
+        <mg-input>
+          <mg-input-label>total</mg-input-label>
+          <mg-input-number formControlName="total"></mg-input-number>
+        </mg-input>
+        <mg-input>
+          <mg-input-label>base</mg-input-label>
+          <mg-input-text formControlName="base"></mg-input-text>
+        </mg-input>
+        <mg-input>
+          <mg-input-label>size</mg-input-label>
+          <mg-input-number formControlName="size"></mg-input-number>
+        </mg-input>
+        <!-- <mg-input>
+          <mg-input-label>queryParams</mg-input-label>
+          <mg-input-text formControlName="queryParams"></mg-input-text>
+        </mg-input> -->
+        <mg-input>
+          <mg-input-label>start</mg-input-label>
+          <mg-input-number formControlName="start"></mg-input-number>
+        </mg-input>
+        <mg-input>
+          <mg-input-label>middleStart</mg-input-label>
+          <mg-input-number formControlName="middleStart"></mg-input-number>
+        </mg-input>
+        <mg-input>
+          <mg-input-label>middleEnd</mg-input-label>
+          <mg-input-number formControlName="middleEnd"></mg-input-number>
+        </mg-input>
+        <mg-input>
+          <mg-input-label>end</mg-input-label>
+          <mg-input-number formControlName="end"></mg-input-number>
+        </mg-input>
+      </p>
+    </form>
+    <div class="s-5 s-6-l s-12-s">
+      <mg-paginate
+        [linkId]="ctrlForm.value.linkId"
+        [page]="ctrlForm.value.page"
+        [total]="ctrlForm.value.total"
+        [base]="ctrlForm.value.base"
+        [size]="ctrlForm.value.size"
+        [start]="ctrlForm.value.start"
+        [middleStart]="ctrlForm.value.middleStart"
+        [middleEnd]="ctrlForm.value.middleEnd"
+        [end]="ctrlForm.value.end"
+      ></mg-paginate>
+      <p>...</p>
+      <mg-paginate
+        [linkId]="ctrlForm.value.linkId"
+        [page]="ctrlForm.value.page"
+        [total]="ctrlForm.value.total"
+        [base]="ctrlForm.value.base"
+        [size]="ctrlForm.value.size"
+        [start]="ctrlForm.value.start"
+        [middleStart]="ctrlForm.value.middleStart"
+        [middleEnd]="ctrlForm.value.middleEnd"
+        [end]="ctrlForm.value.end"
+      ></mg-paginate>
+    </div>
+    <div class="s-4 s-12-l">
+      <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    </div>
+  </section>
+}

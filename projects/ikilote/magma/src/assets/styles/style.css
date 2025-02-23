@@ -792,6 +792,12 @@ select2 {
     }
 }
 
+.gap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--grid-cell-padding);
+}
+
 /* -------------------- scrollbar ------------------------------------------------------------ */
 
 @supports selector(::-webkit-scrollbar) {

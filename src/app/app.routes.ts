@@ -86,6 +86,12 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () => import('./components/tabs/demo-tabs.component').then(m => m.DemoTabsComponent),
             },
+            {
+                path: 'paginate',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/paginate/demo-paginate.component').then(m => m.DemoPaginateComponent),
+            },
         ],
     },
     {

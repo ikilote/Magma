@@ -1,10 +1,12 @@
 import {
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     DoCheck,
     OnDestroy,
     OnInit,
     computed,
+    inject,
     input,
     numberAttribute,
 } from '@angular/core';
@@ -29,8 +31,14 @@ let counter = 0;
     imports: [RouterLink],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaginationComponent implements OnInit, DoCheck, OnDestroy {
-    private static readonly onPageUpdate = new Subject<{ id: string; page: number }>();
+export class MagmaPaginationComponent implements OnInit, DoCheck, OnDestroy {
+    private static readonly onPageUpdate = new Subject<{
+        id: string;
+        page: number;
+        component: MagmaPaginationComponent;
+    }>();
+
+    readonly cd = inject(ChangeDetectorRef);
 
     // input
 
@@ -61,9 +69,12 @@ export class PaginationComponent implements OnInit, DoCheck, OnDestroy {
 
     constructor() {
         this.subs.push(
-            PaginationComponent.onPageUpdate.subscribe(page => {
-                if (this.linkId() === page.id) {
-                    this.update(page.page);
+            MagmaPaginationComponent.onPageUpdate.subscribe(page => {
+                console.log(page, this, this.linkId() === page.id, page.component !== this);
+                if (this.linkId() === page.id && page.component !== this) {
+                    this.update(page.page, false);
+                    this.ngDoCheck();
+                    this.cd.detectChanges();
                 }
             }),
         );
@@ -127,12 +138,12 @@ export class PaginationComponent implements OnInit, DoCheck, OnDestroy {
         this.subs.clear();
     }
 
-    update(page: number, event: boolean = true): void {
+    update(page: number, event: boolean): void {
         if (this.currentPage !== page) {
             this.currentPage = page;
             this.pages.forEach(e => (e.current = e.page === page));
             if (event && this.linkId()) {
-                PaginationComponent.onPageUpdate.next({ page, id: this.linkId()! });
+                MagmaPaginationComponent.onPageUpdate.next({ page, id: this.linkId()!, component: this });
             }
         }
     }

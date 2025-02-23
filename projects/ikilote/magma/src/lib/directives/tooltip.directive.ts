@@ -1,15 +1,14 @@
 import { Directive, ElementRef, HostListener, OnDestroy, inject, input, numberAttribute } from '@angular/core';
 
 @Directive({
-    selector: '[tooltip]',
-    standalone: true,
+    selector: '[mgTooltip]',
 })
-export class TooltipDirective implements OnDestroy {
+export class MagmaTooltipDirective implements OnDestroy {
     private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
-    tooltip = input('');
-    delayEnter = input(200, { transform: numberAttribute });
-    delayLeave = input(0, { transform: numberAttribute }); // 0 to infini
+    mgTooltip = input('');
+    mgTooltipEntryDelay = input(200, { transform: numberAttribute });
+    mgTooltipDisplayDelay = input(0, { transform: numberAttribute }); // 0 to infini
 
     private tooltipElement?: HTMLDivElement;
     private timer?: NodeJS.Timeout;
@@ -25,7 +24,7 @@ export class TooltipDirective implements OnDestroy {
         this.timer = setTimeout(() => {
             const { x, y } = this.position();
             this.createTooltip(x, y);
-        }, this.delayEnter());
+        }, this.mgTooltipEntryDelay());
     }
 
     @HostListener('mouseleave')
@@ -51,7 +50,7 @@ export class TooltipDirective implements OnDestroy {
         }
 
         const tooltipElement = document.createElement('div');
-        tooltipElement.innerHTML = this.tooltip();
+        tooltipElement.innerHTML = this.mgTooltip();
         document.body.appendChild(tooltipElement);
         tooltipElement.setAttribute('class', 'tooltip-container');
         tooltipElement.style.top = y.toString() + 'px';
@@ -61,10 +60,10 @@ export class TooltipDirective implements OnDestroy {
 
         this.tooltipElement = tooltipElement;
 
-        if (this.delayLeave()) {
+        if (this.mgTooltipDisplayDelay()) {
             setTimeout(() => {
                 this.ngOnDestroy();
-            }, this.delayLeave());
+            }, this.mgTooltipDisplayDelay());
         }
     }
 }

@@ -1,0 +1,41 @@
+<h1>mgTooltip</h1>
+
+<div>
+  <div class="s-2 s-12-m" [formGroup]="ctrlForm">
+    <mg-input class="s-12">
+      <mg-input-label>Text</mg-input-label>
+      <mg-input-text formControlName="text"></mg-input-text>
+    </mg-input>
+    <mg-input class="s-12">
+      <mg-input-label>mgTooltipEntryDelay</mg-input-label>
+      <mg-input-number formControlName="mgTooltipEntryDelay"></mg-input-number>
+      <mg-input-suffix>ms</mg-input-suffix>
+      <mg-input-desc>default: <code>200</code></mg-input-desc>
+    </mg-input>
+    <mg-input class="s-12">
+      <mg-input-label>mgTooltipDisplayDelay</mg-input-label>
+      <mg-input-number formControlName="mgTooltipDisplayDelay"></mg-input-number>
+      <mg-input-suffix>ms</mg-input-suffix>
+      <mg-input-desc>default: <code>0</code> = infinity </mg-input-desc>
+    </mg-input>
+  </div>
+
+  <div class="s-2 s-12-m">
+    <button
+      [mgTooltip]="ctrlForm.value.text!"
+      [mgTooltipEntryDelay]="ctrlForm.value.mgTooltipEntryDelay"
+      [mgTooltipDisplayDelay]="ctrlForm.value.mgTooltipDisplayDelay"
+    >
+      Example
+    </button>
+  </div>
+
+  <div class="s-8 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

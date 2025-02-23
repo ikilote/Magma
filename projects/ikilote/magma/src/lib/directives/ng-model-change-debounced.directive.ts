@@ -7,7 +7,6 @@ import { Subscriptions } from '../utils/subscriptions';
 
 @Directive({
     selector: '[ngModelChangeDebounced]',
-    standalone: true,
 })
 export class MagmaNgModelChangeDebouncedDirective implements OnDestroy {
     private readonly ngModel = inject(NgModel);

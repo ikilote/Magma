@@ -204,4 +204,17 @@ body {
     --table-header-sortable-cell: var(--neutral7);
     --table-line-hover-background: var(--neutral7);
     --table-selected-text: var(--alert2);
+
+    /* tooltip */
+    --tooltip-text-color: var(--neutral0);
+    --tooltip-background: color-mix(in hsl, var(--primary8) 93%, transparent);
+    --tooltip-shadow-color: var(--neutralB);
+    --tooltip-border-color: var(--primary8);
+
+    /* page */
+    --page-item-text-color: var(--neutral1);
+    --page-item-border-color: var(--neutral5);
+    --page-item-current-test-color: var(--primary3);
+    --page-item-current-background: var(--primary8);
+    --page-item-hover-background: var(--neutral7);
 }

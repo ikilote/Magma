@@ -113,6 +113,12 @@ export const routes: Routes = [
                         m => m.DemoNgModelChangeDebouncedComponent,
                     ),
             },
+            {
+                path: 'tooltip',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/tooltip/demo-tooltip.component').then(m => m.DemoTooltipComponent),
+            },
         ],
     },
     {

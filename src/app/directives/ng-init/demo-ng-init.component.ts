@@ -18,9 +18,9 @@ export class DemoNgInitComponent {
   <div (ngInit)="ngInit(item)">item {{ item }}</div>
 }`;
     codeTs = `@Component({
-    selector: 'demo-ng-init',
-    templateUrl: './demo-ng-init.component.html',
-    styleUrls: ['./demo-ng-init.component.scss'],
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
     imports: [MagmaNgInitDirective],
 })
 export class TestComponent {

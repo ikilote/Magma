@@ -27,7 +27,6 @@ export type SortRule =
 
 @Directive({
     selector: '[sort-rule]',
-    standalone: true,
 })
 export class SortRuleDirective implements OnInit {
     private sortable = inject(SortableDirective, { host: true });

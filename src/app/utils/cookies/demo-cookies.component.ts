@@ -1,8 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { MagmaMessage } from '@ikilote/magma';
-
-import { getCookie, removeCookie, setCookie } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaMessage, getCookie, removeCookie, setCookie } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

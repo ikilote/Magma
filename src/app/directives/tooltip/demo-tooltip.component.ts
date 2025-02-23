@@ -2,9 +2,9 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-import { FormBuilderExtended } from '@ikilote/magma';
 
 import {
+    FormBuilderExtended,
     MagmaInput,
     MagmaInputElement,
     MagmaInputNumber,

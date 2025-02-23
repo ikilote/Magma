@@ -1,9 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { FormBuilderExtended, MagmaInput, MagmaInputCheckbox, MagmaInputElement, MagmaInputText } from '@ikilote/magma';
-
-import { toISODate } from '../../../../projects/ikilote/magma/src/public-api';
+import {
+    FormBuilderExtended,
+    MagmaInput,
+    MagmaInputCheckbox,
+    MagmaInputElement,
+    MagmaInputText,
+    toISODate,
+} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

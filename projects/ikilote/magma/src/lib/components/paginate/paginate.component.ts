@@ -3,8 +3,10 @@ import {
     ChangeDetectorRef,
     Component,
     DoCheck,
+    OnChanges,
     OnDestroy,
     OnInit,
+    SimpleChanges,
     computed,
     inject,
     input,
@@ -31,7 +33,7 @@ let counter = 0;
     imports: [RouterLink],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MagmaPaginationComponent implements OnInit, DoCheck, OnDestroy {
+export class MagmaPaginationComponent implements OnInit, DoCheck, OnChanges, OnDestroy {
     private static readonly onPageUpdate = new Subject<{
         id: string;
         page: number;
@@ -82,6 +84,12 @@ export class MagmaPaginationComponent implements OnInit, DoCheck, OnDestroy {
 
     ngOnInit(): void {
         this.currentPage = this.page();
+    }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['page']) {
+            this.currentPage = changes['page'].currentValue;
+        }
     }
 
     ngDoCheck(): void {

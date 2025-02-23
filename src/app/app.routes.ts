@@ -149,6 +149,11 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/cookies/demo-cookies.component').then(m => m.DemoCookiesComponent),
             },
+            {
+                path: 'date',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/date/demo-date.component').then(m => m.DemoDateComponent),
+            },
         ],
     },
     {

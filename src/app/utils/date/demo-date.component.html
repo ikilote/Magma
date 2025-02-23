@@ -1,0 +1,22 @@
+<h1>numberAttributeOrUndefined</h1>
+
+<div>
+  <div class="s-3 s-12-m" [formGroup]="ctrlForm">
+    <mg-input class="s-12">
+      <mg-input-label>Date</mg-input-label>
+      <mg-input-text formControlName="date"></mg-input-text>
+    </mg-input>
+    <mg-input class="s-12">
+      <mg-input-label>New date (if date is empty)</mg-input-label>
+      <mg-input-checkbox formControlName="newDate" mode="toggle"></mg-input-checkbox>
+    </mg-input>
+
+    <div class="s-12">
+      toISODate: <code>{{ getDate(ctrlForm.value.date, ctrlForm.value.newDate!) }}</code>
+    </div>
+  </div>
+
+  <div class="s-9 s-12-m">
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+  </div>
+</div>

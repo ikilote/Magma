@@ -1,0 +1,18 @@
+<h1>clipboardWrite</h1>
+
+<div>
+  <div class="s-3 s-12-m">
+    <p #ref contenteditable>Editable text</p>
+
+    <button (click)="copy(ref)">Copy</button>
+  </div>
+
+  <div class="s-9 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

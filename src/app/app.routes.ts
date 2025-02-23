@@ -130,6 +130,23 @@ export const routes: Routes = [
         ],
     },
     {
+        path: 'utils',
+        children: [
+            {
+                path: 'clipboard',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./utils/clipboard/demo-clipboard.component').then(m => m.DemoClipboardComponent),
+            },
+            {
+                path: 'coercion',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./utils/coercion/demo-coercion.component').then(m => m.DemoCoercionComponent),
+            },
+        ],
+    },
+    {
         path: 'style',
         children: [
             {

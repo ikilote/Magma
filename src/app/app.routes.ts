@@ -165,6 +165,11 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/dom/demo-dom.component').then(m => m.DemoDomComponent),
             },
+            {
+                path: 'number',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/number/demo-number.component').then(m => m.DemoNumberComponent),
+            },
         ],
     },
     {

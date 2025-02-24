@@ -1,3 +1,3 @@
-export function randomNumber() {
-    return `${Math.round(Math.random() * 999_999_999)}`.padStart(9, '0');
+export function randomNumber(size: number = 9) {
+    return `${Math.round(Math.random() * Math.pow(10, size))}`.padStart(size, '0');
 }

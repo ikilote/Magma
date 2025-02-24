@@ -54,6 +54,7 @@ export * from './lib/utils/dom';
 export * from './lib/utils/email';
 export * from './lib/utils/file';
 export * from './lib/utils/json';
+export * from './lib/utils/number';
 export * from './lib/utils/object';
 export * from './lib/utils/subscriptions';
 export * from './lib/utils/text';

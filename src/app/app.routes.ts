@@ -170,6 +170,11 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/number/demo-number.component').then(m => m.DemoNumberComponent),
             },
+            {
+                path: 'object',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/object/demo-object.component').then(m => m.DemoObjectComponent),
+            },
         ],
     },
     {

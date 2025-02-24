@@ -1,0 +1,31 @@
+<h1>Object</h1>
+
+<div>
+  <div class="s-6" [formGroup]="formCompare">
+    <h2 class="s-12">objectsAreSame</h2>
+    <mg-input class="s-6">
+      <mg-input-label>Object A</mg-input-label>
+      <mg-input-textarea formControlName="valueA" autosize></mg-input-textarea>
+      @if (errorA) {
+        <mg-input-error>{{ errorA }}</mg-input-error>
+      }
+    </mg-input>
+
+    <mg-input class="s-6">
+      <mg-input-label>Object B</mg-input-label>
+      <mg-input-textarea formControlName="valueB" autosize></mg-input-textarea>
+      @if (errorB) {
+        <mg-input-error>{{ errorB }}</mg-input-error>
+      }
+    </mg-input>
+
+    <div class="s-12">
+      <button (click)="objectsAreSame()">Compare</button>
+
+      {{ state ? 'Same' : 'Not same' }}
+    </div>
+  </div>
+  <div class="s-6">
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+  </div>
+</div>

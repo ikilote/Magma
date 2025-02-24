@@ -1,6 +1,3 @@
-export const isObject = (a: Record<string, any>, b: Record<string, any>) =>
-    typeof a === 'object' && !Array.isArray(a) && !!a && !!b;
-
 export function objectsAreSame(
     objA?: Record<string, any>,
     objB?: Record<string, any>,
@@ -13,6 +10,9 @@ export function objectsAreSame(
     }
 
     let areTheSame = true;
+
+    const isObject = (a: Record<string, any>, b: Record<string, any>) =>
+        typeof a === 'object' && !Array.isArray(a) && !!a && !!b;
 
     const compareValues = (a: Record<string, any>, b: Record<string, any>) => {
         if (Array.isArray(a)) {
@@ -29,9 +29,7 @@ export function objectsAreSame(
             } else {
                 areTheSame = false;
             }
-        } else if (!isObject(a, b) && a !== b) {
-            areTheSame = false;
-        } else if (isObject(a, b) && !objectsAreSame(a, b, ignoreKeys)) {
+        } else if ((!isObject(a, b) && a !== b) || (isObject(a, b) && !objectsAreSame(a, b, ignoreKeys))) {
             areTheSame = false;
         }
     };

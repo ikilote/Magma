@@ -1,0 +1,45 @@
+<h1>File</h1>
+
+<h2>downloadFile</h2>
+<div>
+  <div class="s-2 s-12-m">
+    <button (click)="downloadFile()">Download</button>
+  </div>
+
+  <div class="s-10 s-12-m">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsDownloadFile }]"></code-tabs>
+  </div>
+</div>
+
+<h2>blobToBase64</h2>
+<div>
+  <div class="s-12">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsBlobToBase64 }]"></code-tabs>
+  </div>
+</div>
+
+<h2>ulrToBase64</h2>
+<div>
+  <div class="s-12">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsUlrToBase64 }]"></code-tabs>
+  </div>
+</div>
+
+<h2>normalizeFileName</h2>
+<div>
+  <div class="s-3 s-12-m">
+    <mg-input>
+      <mg-input-label>Email</mg-input-label>
+      <mg-input-text value="Un œuf pour noël ?" #input></mg-input-text>
+    </mg-input>
+
+    <p><button (click)="format(input.getValue())">Format</button></p>
+    <p>
+      <code>{{ file }}</code>
+    </p>
+  </div>
+
+  <div class="s-9 s-12-m">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsNormalizeFileName }]"></code-tabs>
+  </div>
+</div>

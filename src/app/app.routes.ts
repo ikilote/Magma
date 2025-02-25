@@ -166,6 +166,16 @@ export const routes: Routes = [
                 loadComponent: () => import('./utils/dom/demo-dom.component').then(m => m.DemoDomComponent),
             },
             {
+                path: 'email',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/email/demo-email.component').then(m => m.DemoEmailComponent),
+            },
+            {
+                path: 'file',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/file/demo-file.component').then(m => m.DemoFileComponent),
+            },
+            {
                 path: 'number',
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/number/demo-number.component').then(m => m.DemoNumberComponent),

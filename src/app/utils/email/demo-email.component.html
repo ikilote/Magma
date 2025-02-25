@@ -1,0 +1,18 @@
+<h1>Email</h1>
+
+<h2>testEmail</h2>
+<div>
+  <div class="s-4 s-12-l">
+    <mg-input>
+      <mg-input-label>Email</mg-input-label>
+      <mg-input-text value="test@example.com" #input></mg-input-text>
+    </mg-input>
+    <button (click)="testEmail(input.getValue())">Test</button>
+
+    <p>[ {{ emailValid }} ]</p>
+  </div>
+
+  <div class="s-8 s-12-l">
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+  </div>
+</div>

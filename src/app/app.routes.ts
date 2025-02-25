@@ -176,6 +176,11 @@ export const routes: Routes = [
                 loadComponent: () => import('./utils/file/demo-file.component').then(m => m.DemoFileComponent),
             },
             {
+                path: 'json',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/json/demo-json.component').then(m => m.DemoJsonComponent),
+            },
+            {
                 path: 'number',
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/number/demo-number.component').then(m => m.DemoNumberComponent),
@@ -184,6 +189,14 @@ export const routes: Routes = [
                 path: 'object',
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/object/demo-object.component').then(m => m.DemoObjectComponent),
+            },
+            {
+                path: 'subscriptions',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./utils/subscriptions/demo-subscriptions.component').then(
+                        m => m.DemoSubscriptionsComponent,
+                    ),
             },
         ],
     },

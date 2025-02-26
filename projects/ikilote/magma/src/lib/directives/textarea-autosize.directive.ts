@@ -10,7 +10,7 @@ import {
     input,
 } from '@angular/core';
 
-import autosize from '@github/textarea-autosize';
+import autosize from 'autosize';
 
 @Directive({
     selector: 'textarea[autosize]',
@@ -18,15 +18,14 @@ import autosize from '@github/textarea-autosize';
 export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDestroy {
     private readonly elementRef = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
 
-    private autosize?: { unsubscribe(): void };
-
     readonly autosizeDisabled = input(false, { transform: booleanAttribute });
 
     ngOnInit() {
         if (!this.autosizeDisabled()) {
             setTimeout(() => {
                 if (this.elementRef.nativeElement.nodeName === 'TEXTAREA') {
-                    this.autosize = autosize(this.elementRef.nativeElement);
+                    console.log(this.elementRef.nativeElement);
+                    autosize(this.elementRef.nativeElement);
                 }
             });
         }
@@ -49,6 +48,6 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
     }
 
     ngOnDestroy(): void {
-        this.autosize?.unsubscribe();
+        autosize.destroy(this.elementRef.nativeElement);
     }
 }

@@ -94,6 +94,27 @@ export class TestComponent {
     errorB = ``;
     state = false;
 
+    codeTsGet = `@Component({ ... })
+export class TestComponent {
+    errorC = '';
+    value: any;
+
+    objectNestedValue(value : any, path: (string | number)[] | string) {
+        let value = {};
+        this.errorC = '';
+
+        try {
+            value = JSON.parse(value);
+        } catch (e) {
+            const error = e as any;
+            this.value = error.message;
+            this.state = false;
+        }
+
+        this.value = objectNestedValue(value, path);
+    }
+}`;
+
     valueC = `{
     "a" : 10,
     "c": [1, 10, 569, 5],

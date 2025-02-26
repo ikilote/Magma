@@ -23,7 +23,8 @@ export type SortRule =
           init?: 'asc' | 'desc';
           default?: string;
       }
-    | { type: 'none' };
+    | { type: 'none' }
+    | undefined;
 
 @Directive({
     selector: '[sort-rule]',
@@ -31,7 +32,7 @@ export type SortRule =
 export class SortRuleDirective implements OnInit {
     private sortable = inject(SortableDirective, { host: true });
 
-    sortRule = input<SortRule | undefined>(undefined, { alias: 'sort-rule' });
+    sortRule = input<SortRule>(undefined, { alias: 'sort-rule' });
 
     @HostBinding('class.sort-asc')
     get classSortAsc() {
@@ -48,7 +49,7 @@ export class SortRuleDirective implements OnInit {
         return this.sortRule()?.type !== 'none';
     }
 
-    sortOrder?: { order: boolean; rule?: SortRule };
+    sortOrder?: { order: boolean; rule: SortRule };
 
     ngOnInit(): void {
         const sortRule = this.sortRule();

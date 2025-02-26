@@ -1,0 +1,99 @@
+<h1>Sortable</h1>
+
+<h1>Basic usage</h1>
+
+<div>
+  <div class="s-6 s-12-m">
+    <table mg hover [sortable]="items" class="s-12">
+      <thead mg>
+        <tr mg>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col1' }">Col 1</th>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col2' }">Col 2</th>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col3' }">Col 3</th>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col4' }">Col 4</th>
+          <th mg [sort-rule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
+          <th mg [sort-rule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
+        </tr>
+      </thead>
+      <tbody mg>
+        @for (item of items; track $index) {
+          <tr mg>
+            <td mg>{{ item.col1 }}</td>
+            <td mg>{{ item.col2 }}</td>
+            <td mg>{{ item.col3 }}</td>
+            <td mg>{{ item.col4 }}</td>
+            <td mg>{{ item.col5.value | numFormat }}</td>
+            <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="s-6 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</div>
+
+<h1>With filter</h1>
+
+<div>
+  <div class="s-6 s-12-m">
+    <mg-input class="s-6">
+      <mg-input-label>Filter</mg-input-label>
+      <mg-input-text
+        id="browser-list-filter"
+        type="search"
+        maxlength="150"
+        [(ngModel)]="filter"
+        #inputFilter
+      ></mg-input-text>
+    </mg-input>
+
+    <table
+      mg
+      hover
+      [sortable]="items"
+      [sortable-filter-input]="inputFilter.inputElement"
+      [sortable-filter]="sortableFilter"
+      class="s-12"
+    >
+      <thead mg>
+        <tr mg>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col1' }">Col 1</th>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col2' }">Col 2</th>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col3' }">Col 3</th>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col4' }">Col 4</th>
+          <th mg [sort-rule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
+          <th mg [sort-rule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
+        </tr>
+      </thead>
+      <tbody mg>
+        @for (item of items; track $index) {
+          <tr mg>
+            <td mg>{{ item.col1 }}</td>
+            <td mg>{{ item.col2 }}</td>
+            <td mg>{{ item.col3 }}</td>
+            <td mg>{{ item.col4 }}</td>
+            <td mg>{{ item.col5.value | numFormat }}</td>
+            <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="s-6 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlFilter },
+        { type: 'ts', code: codeTsFilter },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

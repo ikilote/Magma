@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
@@ -23,6 +24,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputText,
         MagmaInputTextarea,
         MagmaInputElement,
+        JsonPipe,
     ],
 })
 export class DemoObjectComponent {

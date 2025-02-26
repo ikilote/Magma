@@ -2,7 +2,7 @@ body,
 body.light-mode {
     color-scheme: light;
 
-    /* palettes */
+    /* MARK: palettes light */
     --primaryH: 190;
     --L: 0%;
     --L0: 10%;
@@ -22,7 +22,7 @@ body.light-mode {
 body.dark-mode {
     color-scheme: dark;
 
-    /* palettes */
+    /* MARK: palettes dark */
     --primaryH: 210;
     --L: 100%;
     --L0: 95%;
@@ -40,7 +40,7 @@ body.dark-mode {
 }
 
 body {
-    /* palettes */
+    /* MARK: palettes */
     --primary0: hsl(var(--primaryH), 5%, var(--L0));
     --primary1: hsl(var(--primaryH), 15%, var(--L1));
     --primary2: hsl(var(--primaryH), 15%, var(--L2));
@@ -88,18 +88,18 @@ body {
     --success9: hsl(120, 25%, var(--L9));
     --successA: hsl(120, 5%, var(--LA));
 
-    /* global */
+    /* MARK: global */
     --background: var(--primaryA);
     --text-color: var(--primary0);
     --color-mode-border-color: var(--primary0);
     --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
 
-    /* context-menu */
+    /* MARK: context-menu */
     --context-menu-background: var(--primary8);
     --context-menu-item: var(--primary7);
     --context-menu-item-hover: var(--primary6);
 
-    /* default button */
+    /* MARK: default button */
     --button-default-border-color: var(--neutral5);
     --button-default-background: var(--neutral7);
     --button-default-box-shadow: var(--neutral5);
@@ -109,7 +109,7 @@ body {
     --button-default-hover-box-shadow: var(--neutral7);
     --button-default-focus-border-color: var(--primary2);
 
-    /* primary button */
+    /* MARK: primary button */
     --button-primary-border-color: var(--primary7);
     --button-primary-background: var(--primary6);
     --button-primary-box-shadow: var(--primaryA);
@@ -119,7 +119,7 @@ body {
     --button-primary-hover-box-shadow: var(--primary7);
     --button-primary-focus-border-color: var(--primary3);
 
-    /* warn button */
+    /* MARK: warn button */
     --button-warn-border-color: var(--alert7);
     --button-warn-background: var(--alert8);
     --button-warn-box-shadow: var(--alertA);
@@ -129,11 +129,11 @@ body {
     --button-warn-hover-box-shadow: var(--alert7);
     --button-warn-focus-border-color: var(--alert5);
 
-    /* link */
+    /* MARK: link */
     --link-color: var(--primary3);
     --link-hover-color: var(--primary1);
 
-    /* dialog */
+    /* MARK: dialog */
     --dialog-backdrop-background: color-mix(in hsl, var(--primaryA) 60%, transparent);
     --dialog-backdrop-background-no-filter: color-mix(in hsl, var(--primaryA) 70%, transparent);
     --dialog-background: var(--neutral8);
@@ -142,7 +142,7 @@ body {
     --dialog-close-background: var(--neutral7);
     --dialog-close-background-hover: var(--neutral5);
 
-    /* input */
+    /* MARK: input */
     --input-border-color: var(--primary4);
     --input-background: var(--primary8);
     --input-background-affix: var(--primary7);
@@ -156,7 +156,7 @@ body {
     --input-textarea-max-height: 500px;
     --input-error-color: var(--alert4);
 
-    /* item content-box */
+    /* MARK: item content-box */
     --content-title-text-color: var(--neutral);
     --content-box-border: var(--neutral7);
     --content-box-background: var(--neutral8);
@@ -170,7 +170,7 @@ body {
     --tile-info-border-color2: #000;
     --tile-info-background: #fff5;
 
-    /* tabs */
+    /* MARK: tabs */
     --tabs-line-color: var(--neutral6);
     --tab-border-color: var(--neutral6);
     --tab-text-color: var(--neutral4);
@@ -178,12 +178,12 @@ body {
     --tab-text-border-color: var(--neutral0);
     --tab-hover-border-color: var(--neutral0);
 
-    /* scrollbar */
+    /* MARK: scrollbar */
     --scrollbar-color: var(--primary6);
     --scrollbar-color-hover: var(--primary4);
     --scrollbar-width: thin;
 
-    /* message */
+    /* MARK: message */
     --info-message-top: 50px;
     --info-message-max-width: 300px;
     --info-message-border-color: var(--neutral1);
@@ -195,23 +195,23 @@ body {
     --error-message-box-shadow-color: var(--neutralB);
     --error-message-progress-background: var(--alert5);
 
-    /* grid */
+    /* MARK: grid */
     --grid-cell-padding: 6px;
 
-    /* table */
+    /* MARK: table */
     --table-header-background: var(--neutral9);
     --table-header-background-hover: var(--neutral8);
     --table-header-sortable-cell: var(--neutral7);
     --table-line-hover-background: var(--neutral7);
     --table-selected-text: var(--alert2);
 
-    /* tooltip */
+    /* MARK: tooltip */
     --tooltip-text-color: var(--neutral0);
     --tooltip-background: color-mix(in hsl, var(--primary8) 93%, transparent);
     --tooltip-shadow-color: var(--neutralB);
     --tooltip-border-color: var(--primary8);
 
-    /* page */
+    /* MARK: page */
     --page-item-text-color: var(--neutral1);
     --page-item-border-color: var(--neutral5);
     --page-item-current-test-color: var(--primary3);

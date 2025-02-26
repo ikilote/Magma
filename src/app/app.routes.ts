@@ -120,6 +120,12 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'sortable',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/sortable/demo-sortable.component').then(m => m.DemoSortableComponent),
+            },
+            {
                 path: 'tooltip',
                 pathMatch: 'full',
                 loadComponent: () =>

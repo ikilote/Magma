@@ -1,11 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { FormBuilderExtended } from '@ikilote/magma';
-
 import { Select2Data } from 'ng-select2-component';
 
 import {
+    FormBuilderExtended,
     MagmaInput,
     MagmaInputElement,
     MagmaInputSelect,

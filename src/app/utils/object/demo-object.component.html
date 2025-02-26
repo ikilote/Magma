@@ -47,9 +47,9 @@
     </mg-input>
 
     <div class="s-12">
-      <button (click)="objectNestedValue()">Compare</button>
+      <button (click)="objectNestedValue()">Get Value</button>
 
-      Value: <code>{{ value }}</code>
+      Value: <code>{{ value | json }}</code>
     </div>
   </div>
   <div class="s-6">

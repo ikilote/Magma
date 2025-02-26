@@ -29,3 +29,30 @@
     <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
   </div>
 </div>
+
+<div>
+  <div class="s-6" [formGroup]="formGet">
+    <h2 class="s-12">objectNestedValue</h2>
+    <mg-input class="s-6">
+      <mg-input-label>Object</mg-input-label>
+      <mg-input-textarea formControlName="valueC" autosize></mg-input-textarea>
+      @if (errorC) {
+        <mg-input-error>{{ errorC }}</mg-input-error>
+      }
+    </mg-input>
+
+    <mg-input class="s-6">
+      <mg-input-label>Get value</mg-input-label>
+      <mg-input-text formControlName="valuePath"></mg-input-text>
+    </mg-input>
+
+    <div class="s-12">
+      <button (click)="objectNestedValue()">Compare</button>
+
+      Value: <code>{{ value }}</code>
+    </div>
+  </div>
+  <div class="s-6">
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+  </div>
+</div>

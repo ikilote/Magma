@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { FormBuilderExtended } from '@ikilote/magma';
-
 import {
+    FormBuilderExtended,
     MagmaInput,
     MagmaInputElement,
+    MagmaInputText,
     MagmaInputTextarea,
     objectNestedValue,
     objectsAreSame,
@@ -16,7 +16,14 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-object',
     templateUrl: './demo-object.component.html',
     styleUrls: ['./demo-object.component.scss'],
-    imports: [CodeTabsComponent, ReactiveFormsModule, MagmaInput, MagmaInputTextarea, MagmaInputElement],
+    imports: [
+        CodeTabsComponent,
+        ReactiveFormsModule,
+        MagmaInput,
+        MagmaInputText,
+        MagmaInputTextarea,
+        MagmaInputElement,
+    ],
 })
 export class DemoObjectComponent {
     private readonly fbe = inject(FormBuilderExtended);
@@ -26,7 +33,7 @@ export class DemoObjectComponent {
         valueB: FormControl<string>;
     }>;
 
-    readonly form: FormGroup<{
+    readonly formGet: FormGroup<{
         valueC: FormControl<string>;
         valuePath: FormControl<string>;
     }>;
@@ -82,24 +89,38 @@ export class TestComponent {
         "B": { "A" : 100}
     }
 }`;
+
     errorA = ``;
     errorB = ``;
     state = false;
 
-    valueC = ``;
-    valuePath = ``;
+    valueC = `{
+    "a" : 10,
+    "c": [1, 10, 569, 5],
+    "b": "a",
+    "d": {
+        "a": 150,
+        "b": { "a" : 150},
+        "A": [10, 5, 12],
+        "B": { "A" : 100}
+    }
+}`;
+    valuePath = `d.A.1`;
+    errorC = ``;
+    value: any;
 
     constructor() {
         this.formCompare = this.fbe.groupWithErrorNonNullable({
             valueA: { default: this.valueA },
             valueB: { default: this.valueB },
         });
-        this.form = this.fbe.groupWithErrorNonNullable({
-            valueC: { default: 'Test' },
-            valuePath: { default: 'Test' },
+        this.formGet = this.fbe.groupWithErrorNonNullable({
+            valueC: { default: this.valueC },
+            valuePath: { default: this.valuePath },
         });
 
         this.objectsAreSame();
+        this.objectNestedValue();
     }
 
     objectsAreSame() {
@@ -129,7 +150,18 @@ export class TestComponent {
         this.state = objectsAreSame(valueA, valueB);
     }
 
-    objectNestedValue(a: string, path: string) {
-        return objectNestedValue(JSON.parse(a), path);
+    objectNestedValue() {
+        let valueC = {};
+        this.errorC = ``;
+
+        try {
+            valueC = JSON.parse(this.formGet.value.valueC!);
+        } catch (e) {
+            const error = e as any;
+            this.valueC = error.message;
+            this.state = false;
+        }
+
+        this.value = objectNestedValue(valueC, this.formGet.value.valuePath || '');
     }
 }

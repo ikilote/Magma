@@ -1,5 +1,40 @@
 # Changelog of @ikilote/magma
 
+## 0.3.0 (2025-02-26)
+
+### ✅ New
+
+- Add Component
+    - `mg-paginate`
+- Add Directives
+    - `clickOutside`
+    - `ngModelChangeDebounced`
+    - `ngInit`
+    - `sort-rule` (beta)
+    - `tooltip`
+- Add Utils
+    - `clipboard`
+    - `cookies`
+    - `date`
+    - `dom`
+    - `email`
+    - `file`
+    - `json`
+    - `number`
+    - `object`
+    - `subscriptions`
+    - `text`
+
+### 🐞 Fix
+
+- `input`
+    - Fix number blur value
+    - Fix `getValue()`
+
+### 🎦 Demo
+
+- Added most of the corresponding demo pages
+
 ## 0.2.1 (2025-02-21)
 
 ### ✅ New

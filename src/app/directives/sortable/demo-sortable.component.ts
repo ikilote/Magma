@@ -70,19 +70,28 @@ export class TestComponent {
 </table>`;
 
     codeTsFilter = `@Component({
-  selector: 'demo-test',
-  templateUrl: './demo-test.component.html',
-  styleUrls: ['./demo-test.component.scss'],
-  imports: [Sortable, MagmaTableComponent, NumFormatPipe, DatePipe],
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [
+        Sortable, // like [SortableDirective, SortRuleDirective]
+        FormsModule,
+        NumFormatPipe,
+        DatePipe,
+        MagmaTableComponent,
+        MagmaInput,
+        MagmaInputText,
+        MagmaInputElement,
+    ],
 })
 export class TestComponent {
-  items = [
-      { col1: 'X', col2: 'Y', col3: 'B', col4: 'A', col5: { date: new Date('2025-10-03'), value: 1 } },
-      { col1: 'A', col2: 'B', col3: 'K', col4: 'D', col5: { date: new Date('2022-09-09'), value: 12 } },
-      { col1: 'M', col2: 'F', col3: 'G', col4: 'P', col5: { date: new Date('2030-10-03'), value: 5 } },
-      { col1: 'E', col2: 'N', col3: 'O', col4: 'H', col5: { date: new Date('1980-06-15'), value: 1000 } },
-      { col1: 'I', col2: 'J', col3: 'C', col4: 'L', col5: { date: new Date('1999-01-29'), value: 4 } },
-  ];
+    items = [
+        { col1: 'X', col2: 'Y', col3: 'B', col4: 'A', col5: { date: new Date('2025-10-03'), value: 1 } },
+        { col1: 'A', col2: 'B', col3: 'K', col4: 'D', col5: { date: new Date('2022-09-09'), value: 12 } },
+        { col1: 'M', col2: 'F', col3: 'G', col4: 'P', col5: { date: new Date('2030-10-03'), value: 5 } },
+        { col1: 'E', col2: 'N', col3: 'O', col4: 'H', col5: { date: new Date('1980-06-15'), value: 1000 } },
+        { col1: 'I', col2: 'J', col3: 'C', col4: 'L', col5: { date: new Date('1999-01-29'), value: 4 } },
+    ];
 
     filter = '';
 
@@ -101,7 +110,7 @@ export class TestComponent {
         );
     };
 }`;
-    codeHtmlFilter = `    <mg-input class="s-6">
+    codeHtmlFilter = `<mg-input class="s-6">
   <mg-input-label>Filter</mg-input-label>
   <mg-input-text
     id="browser-list-filter"

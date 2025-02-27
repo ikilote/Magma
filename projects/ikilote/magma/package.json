@@ -1,6 +1,6 @@
 {
   "name": "@ikilote/magma",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Personal components.",
   "author": "Célian Veyssière",
   "license": "MIT",
@@ -39,6 +39,9 @@
     "dialog",
     "tabs",
     "light-dark",
-    "grid"
+    "grid",
+    "table",
+    "sort",
+    "filter"
   ]
 }

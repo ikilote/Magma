@@ -25,6 +25,7 @@ It will evolve mainly according to my projects. But people want to use it and he
     - Text
     - Textarea
 - Light-dark
+- Paginate
 - Table
 - Tabs
 
@@ -36,6 +37,30 @@ It will evolve mainly according to my projects. But people want to use it and he
 ### Pipes
 
 - NumFormat
+
+### Directive
+
+- Click Outside
+- ngInit
+- ngModelChange
+- debounced
+- Sortable
+- Tooltip
+- Textarea autosize
+
+### Utils
+
+- Clipboard
+- Coercion
+- Cookies
+- Date
+- DOM
+- Email
+- File
+- Json
+- Number
+- Object
+- Subscriptions
 
 ### Styles
 

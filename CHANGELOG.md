@@ -1,5 +1,16 @@
 # Changelog of @ikilote/magma
 
+## 0.3.1 (2025-02-27)
+
+### 🐞 Fix
+
+- Replace `@github/textarea-autosize` by `autosize` because github package doesn't work with textarea outside the
+  viewport.
+
+### 🎦 Demo
+
+- Added demo pages for: `sortable`, `objectNestedValue`
+
 ## 0.3.0 (2025-02-26)
 
 ### ✅ New
@@ -10,7 +21,7 @@
     - `clickOutside`
     - `ngModelChangeDebounced`
     - `ngInit`
-    - `sort-rule` (beta)
+    - `sort-rule`
     - `tooltip`
 - Add Utils
     - `clipboard`

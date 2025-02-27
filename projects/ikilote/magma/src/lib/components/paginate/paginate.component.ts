@@ -33,11 +33,11 @@ let counter = 0;
     imports: [RouterLink],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MagmaPaginationComponent implements OnInit, DoCheck, OnChanges, OnDestroy {
+export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
     private static readonly onPageUpdate = new Subject<{
         id: string;
         page: number;
-        component: MagmaPaginationComponent;
+        component: MagmaPagination;
     }>();
 
     readonly cd = inject(ChangeDetectorRef);
@@ -71,7 +71,7 @@ export class MagmaPaginationComponent implements OnInit, DoCheck, OnChanges, OnD
 
     constructor() {
         this.subs.push(
-            MagmaPaginationComponent.onPageUpdate.subscribe(page => {
+            MagmaPagination.onPageUpdate.subscribe(page => {
                 console.log(page, this, this.linkId() === page.id, page.component !== this);
                 if (this.linkId() === page.id && page.component !== this) {
                     this.update(page.page, false);
@@ -151,7 +151,7 @@ export class MagmaPaginationComponent implements OnInit, DoCheck, OnChanges, OnD
             this.currentPage = page;
             this.pages.forEach(e => (e.current = e.page === page));
             if (event && this.linkId()) {
-                MagmaPaginationComponent.onPageUpdate.next({ page, id: this.linkId()!, component: this });
+                MagmaPagination.onPageUpdate.next({ page, id: this.linkId()!, component: this });
             }
         }
     }

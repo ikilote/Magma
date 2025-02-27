@@ -9,7 +9,7 @@ import {
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputText,
-    MagmaPaginationComponent,
+    MagmaPagination,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -20,7 +20,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,
-        MagmaPaginationComponent,
+        MagmaPagination,
         MagmaInput,
         MagmaInputElement,
         MagmaInputText,

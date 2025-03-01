@@ -36,12 +36,14 @@ export class DemoColorPickerComponent {
         color: FormControl<string>;
         alpha: FormControl<boolean>;
         readonly: FormControl<boolean>;
+        clearButton: FormControl<boolean>;
     }>;
     ctrlFormPopup: FormGroup<{
         color: FormControl<string>;
         alpha: FormControl<boolean>;
         disabled: FormControl<boolean>;
         readonly: FormControl<boolean>;
+        clearButton: FormControl<boolean>;
     }>;
 
     codeHtml = '';
@@ -55,12 +57,14 @@ export class DemoColorPickerComponent {
             color: { default: '' },
             alpha: { default: true },
             readonly: { default: false },
+            clearButton: { default: false },
         });
         this.ctrlFormPopup = this.fb.groupWithErrorNonNullable({
             color: { default: '' },
             alpha: { default: true },
             disabled: { default: false },
             readonly: { default: false },
+            clearButton: { default: false },
         });
         this.codeGeneration();
         this.codeGenerationPopup();

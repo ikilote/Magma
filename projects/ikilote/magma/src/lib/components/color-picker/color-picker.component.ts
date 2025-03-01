@@ -42,6 +42,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     readonly embedded = input(false, { transform: booleanAttribute });
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly readonly = input(false, { transform: booleanAttribute });
+    readonly clearButton = input(false, { transform: booleanAttribute });
 
     readonly colorChange = output<string>();
 
@@ -93,6 +94,22 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
                 this.updateWithHLS(colorObject);
             }
         }, 100);
+    }
+
+    clear() {
+        console.log('clear');
+        this.rangeHue = 0;
+        this.rangeAlpha = 1;
+        this.rangeLight = 0;
+        this.rangeSature = 0;
+
+        this.hsla = '';
+        this.rgba = '';
+        this.hexa = '';
+
+        this.pos = { x: 0, y: 0 };
+
+        this.colorChange.emit(this.hexa);
     }
 
     protected dragStart() {
@@ -152,6 +169,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     }
 
     protected updateColor() {
+        console.log('updateColor');
         const color = new Color(
             'hsl',
             [

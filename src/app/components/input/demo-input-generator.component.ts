@@ -103,6 +103,7 @@ export class DemoInputGeneratorComponent {
 
         // color
         alpha: FormControl<boolean>;
+        clearButton: FormControl<boolean>;
     }>;
 
     valueText = 'Test';
@@ -163,6 +164,7 @@ export class DemoInputGeneratorComponent {
             noNegative: { default: false },
             // color
             alpha: { default: false },
+            clearButton: { default: false },
         });
         this.codeGeneration();
         this.formGenerator.valueChanges.subscribe(() => {
@@ -412,6 +414,9 @@ export class DemoInputGeneratorComponent {
         if (type === 'color') {
             if (fgValue.alpha) {
                 attrInput['alpha'] = null;
+            }
+            if (fgValue.clearButton) {
+                attrInput['clearButton'] = null;
             }
         }
         if (type === 'textarea') {

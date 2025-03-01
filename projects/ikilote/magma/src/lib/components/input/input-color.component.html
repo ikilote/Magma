@@ -3,10 +3,12 @@
     #span
     [id]="_id() + '-input'"
     [style.--color]="_value"
+    [class.empty]="!_value"
     [colorPicker]="_value"
     [colorPickerAlpha]="alpha()"
     [colorPickerDisabled]="disabled()"
     [colorPickerReadonly]="readonly()"
+    [colorPickerClearButton]="clearButton()"
     (colorClose)="colorClose($event)"
   ></span>
 } @else {

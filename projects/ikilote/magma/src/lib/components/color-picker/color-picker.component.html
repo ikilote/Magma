@@ -41,7 +41,7 @@
   </div>
 }
 @if (hexa) {
-  <div class="inputs">
+  <div class="values">
     <div class="color-view" [style.--background]="hsla"></div>
     <div class="hsla">
       {{ hsla }}
@@ -49,8 +49,11 @@
     <div class="rgba">
       {{ rgba }}
     </div>
-    <div>
+    <div class="input-zone">
       <input type="text" [ngModel]="hexa" (ngModelChange)="updateHex($event)" [disabled]="readonly()" />
+      @if (clearButton()) {
+        <button (click)="clear()">×</button>
+      }
     </div>
   </div>
 }

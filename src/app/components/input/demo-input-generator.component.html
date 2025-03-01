@@ -131,6 +131,10 @@
             <mg-input-label>Show alpha</mg-input-label>
             <mg-input-checkbox formControlName="alpha" mode="toggle"></mg-input-checkbox>
           </mg-input>
+          <mg-input class="s-4 s-6-m">
+            <mg-input-label>Show clear button</mg-input-label>
+            <mg-input-checkbox formControlName="clearButton" mode="toggle"></mg-input-checkbox>
+          </mg-input>
         }
         @if (formGenerator.value.type === 'textarea' || formGenerator.value.type === 'text') {
           <mg-input class="s-4 s-6-m">
@@ -347,6 +351,7 @@
           @case ('color') {
             <mg-input-color
               [alpha]="formGenerator.value.alpha"
+              [clearButton]="formGenerator.value.clearButton"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueColor"

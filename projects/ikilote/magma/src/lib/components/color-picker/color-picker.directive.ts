@@ -39,6 +39,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     readonly colorPickerAlpha = input(false, { transform: booleanAttribute });
     readonly colorPickerDisabled = input(false, { transform: booleanAttribute });
     readonly colorPickerReadonly = input(false, { transform: booleanAttribute });
+    readonly colorPickerClearButton = input(false, { transform: booleanAttribute });
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaColorPickerComponent>;
@@ -79,16 +80,17 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
         component.setInput('color', this.colorPicker());
         component.setInput('alpha', this.colorPickerAlpha());
         component.setInput('readonly', this.colorPickerReadonly());
+        component.setInput('clearButton', this.colorPickerClearButton());
         component.setInput('embedded', true);
 
         this.updateEmit = component.instance.colorChange.subscribe(value => {
-            this.colorChange.emit(value);
             color = value;
+            this.colorChange.emit(value);
         });
 
         overlayRef.backdropClick().subscribe(() => {
             this.close();
-            if (color && color !== initColor) {
+            if (color !== undefined && color !== initColor) {
                 this.colorClose.emit(color);
             }
         });

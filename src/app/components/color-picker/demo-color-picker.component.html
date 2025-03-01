@@ -9,7 +9,7 @@
           <mg-input-text formControlName="color"></mg-input-text>
         </mg-input>
       </p>
-      <p>
+      <div>
         <mg-input class="s-4">
           <mg-input-label>Alpha</mg-input-label>
           <mg-input-checkbox formControlName="alpha" mode="toggle"></mg-input-checkbox>
@@ -18,7 +18,11 @@
           <mg-input-label>Readonly</mg-input-label>
           <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
         </mg-input>
-      </p>
+        <mg-input class="s-4">
+          <mg-input-label>Clear button</mg-input-label>
+          <mg-input-checkbox formControlName="clearButton" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+      </div>
     </form>
     <div class="s-5 s-6-x s-12-m">
       <h4>Component</h4>
@@ -26,6 +30,7 @@
       <color-picker
         [color]="ctrlForm.value.color"
         [alpha]="ctrlForm.value.alpha"
+        [clearButton]="ctrlForm.value.clearButton"
         [readonly]="ctrlForm.value.readonly"
         (colorChange)="colorChange($event)"
       ></color-picker>
@@ -58,6 +63,10 @@
           <mg-input-label>Readonly</mg-input-label>
           <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
         </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Clear button</mg-input-label>
+          <mg-input-checkbox formControlName="clearButton" mode="toggle"></mg-input-checkbox>
+        </mg-input>
       </p>
     </form>
     <div class="s-4 s-6-x s-12-m">
@@ -69,6 +78,7 @@
             [colorPickerAlpha]="ctrlFormPopup.value.alpha"
             [colorPickerDisabled]="ctrlFormPopup.value.disabled"
             [colorPickerReadonly]="ctrlFormPopup.value.readonly"
+            [colorPickerClearButton]="ctrlForm.value.clearButton"
             (colorChange)="colorChange($event)"
             (colorClose)="colorClose($event)"
           >

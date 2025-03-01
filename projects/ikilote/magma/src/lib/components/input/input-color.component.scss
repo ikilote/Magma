@@ -15,4 +15,22 @@ span {
     &:focus {
         outline-color: var(--input-focus-border-color);
     }
+
+    &.empty {
+        background: linear-gradient(
+            45deg,
+            var(--neutralA) 10px,
+            var(--alert5) 10px,
+            var(--alert5) 11px,
+            var(--neutralA) 11px,
+            var(--neutralA) 25px,
+            var(--alert5) 25px,
+            var(--alert5) 26px,
+            var(--neutralA) 26px,
+            var(--neutralA) 40px,
+            var(--alert5) 40px,
+            var(--alert5) 41px,
+            var(--neutralA) 41px
+        );
+    }
 }

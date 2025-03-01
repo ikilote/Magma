@@ -1,5 +1,22 @@
 # Changelog of @ikilote/magma
 
+> The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
+
+## 0.3.2 (2025-02-27)
+
+### 🫢 breaking
+
+- Rename `MagmaPaginationComponent` to `MagmaPagination`
+
+### ✅ New
+
+- Add `mg-input-textarea-desc` component
+- Add clear button for color picker (component, directive & input)
+
+### 🐞 Fix
+
+- Fix `writeValue` for `input-select`
+
 ## 0.3.1 (2025-02-27)
 
 ### 🐞 Fix

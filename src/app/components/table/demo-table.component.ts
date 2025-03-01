@@ -3,8 +3,12 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
 
-import { MagmaTableComponent } from '../../../../projects/ikilote/magma/src/lib/components/table/table.component';
-import { FormBuilderExtended, MagmaInput, MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/public-api';
+import {
+    FormBuilderExtended,
+    MagmaInput,
+    MagmaInputCheckbox,
+    MagmaTableComponent,
+} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

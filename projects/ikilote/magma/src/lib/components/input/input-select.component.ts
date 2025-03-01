@@ -191,6 +191,11 @@ export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
         return this.input()?.[0];
     }
 
+    override writeValue(value: any): void {
+        super.writeValue(value);
+        this.inputElement?.writeValue(value);
+    }
+
     changeValue(event: Select2UpdateEvent<Select2UpdateValue>) {
         const value = event.value;
         this.onChange(value);

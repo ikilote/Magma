@@ -159,6 +159,10 @@
             <mg-input-text formControlName="maxHeight"></mg-input-text
             ><mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
           </mg-input>
+          <mg-input class="s-4 s-6-m">
+            <mg-input-label>textarea-desc</mg-input-label>
+            <mg-input-text formControlName="textareaDesc"></mg-input-text>
+          </mg-input>
         }
         @if (formGenerator.value.type === 'text') {
           <mg-input class="s-4 s-6-m">
@@ -272,7 +276,11 @@
               [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
-            ></mg-input-textarea>
+            >
+              @if (formGenerator.value.textareaDesc) {
+                <mg-input-textarea-desc>{{ formGenerator.value.textareaDesc }}</mg-input-textarea-desc>
+              }
+            </mg-input-textarea>
           }
           @case ('password') {
             <mg-input-password

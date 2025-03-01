@@ -2,7 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
+import { Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
 
 import { Select2Data } from 'ng-select2-component';
 
@@ -73,6 +73,7 @@ export class DemoInputGeneratorComponent {
         height: FormControl<string>;
         minHeight: FormControl<string>;
         maxHeight: FormControl<string>;
+        textareaDesc: FormControl<string>;
 
         // textarea
         eye: FormControl<boolean>;
@@ -137,6 +138,7 @@ export class DemoInputGeneratorComponent {
             height: { default: undefined },
             minHeight: { default: undefined },
             maxHeight: { default: undefined },
+            textareaDesc: { default: '' },
             // text
             eye: { default: false },
             // radio / checkbox
@@ -278,7 +280,7 @@ export class DemoInputGeneratorComponent {
     `;
                 break;
         }
-        if (value.label || value.desc) {
+        if (value.label || value.desc || value.error || value.prefix || value.suffix || value.textareaDesc) {
             imports.push(`MagmaInputElement`);
         }
         if ((value.access === 'ngModel' || value.access === 'value') && value.type) {
@@ -340,7 +342,7 @@ export class DemoInputGeneratorComponent {
 
     addType(body: Json2htmlRef[], type: string, label?: string, value?: string) {
         const fgValue = this.formGenerator.value;
-        const bodyInput: string[] = [];
+        const bodyInput: Json2htmlBody = [];
         const attrInput: Json2htmlAttr = {};
         const jsonInput: Json2htmlRef = {
             tag: 'mg-input-' + type,
@@ -371,6 +373,7 @@ export class DemoInputGeneratorComponent {
                 attrInput['mode'] = 'toggle';
             }
         }
+
         if (fgValue.disabled) {
             attrInput['disabled'] = null;
         }
@@ -423,6 +426,12 @@ export class DemoInputGeneratorComponent {
             }
             if (fgValue.maxHeight) {
                 attrInput['maxHeight'] = fgValue.maxHeight;
+            }
+            if (fgValue.textareaDesc) {
+                bodyInput.push({
+                    tag: 'mg-input-textarea-desc',
+                    body: fgValue.textareaDesc,
+                });
             }
         }
         if (type === 'textarea' || type === 'text') {

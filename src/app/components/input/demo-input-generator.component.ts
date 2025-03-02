@@ -91,7 +91,9 @@ export class DemoInputGeneratorComponent {
         subValue2: FormControl<string>;
         subLabel3: FormControl<string>;
         subValue3: FormControl<string>;
+        // radio / checkbox / select
         multiple: FormControl<boolean>;
+        overlay: FormControl<boolean>;
 
         // checkbox
         toggle: FormControl<boolean>;
@@ -158,7 +160,9 @@ export class DemoInputGeneratorComponent {
             subValue2: { default: 'value2' },
             subLabel3: { default: 'input label 3' },
             subValue3: { default: 'value3' },
+            // radio / checkbox / select
             multiple: { default: false },
+            overlay: { default: false },
             // checkbox
             toggle: { default: false },
             arrayValue: { default: false },

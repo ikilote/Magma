@@ -2,6 +2,17 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.3.3 (2025-03-02)
+
+### ✅ New
+
+- Add `input-before` & `input-after` for **input** component
+- Add `input-range` component
+
+### 🐞 Fix
+
+- Fix `input-select` with **overlay** mode
+
 ## 0.3.2 (2025-03-01)
 
 ### 🫢 Breaking
@@ -11,7 +22,7 @@
 ### ✅ New
 
 - Add `mg-input-textarea-desc` component
-- Add clear button for color picker (component, directive & input)
+- Add **clear** button for **color picker** (component, directive & input)
 
 ### 🐞 Fix
 

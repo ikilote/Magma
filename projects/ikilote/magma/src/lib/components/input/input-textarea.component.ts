@@ -46,6 +46,8 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     readonly maxHeight = input<string>();
     readonly minHeight = input<string>();
 
+    override readonly datalist: any = undefined; // not for textarea
+
     get inputElement(): HTMLTextAreaElement {
         return this.input()?.[0]?.nativeElement;
     }

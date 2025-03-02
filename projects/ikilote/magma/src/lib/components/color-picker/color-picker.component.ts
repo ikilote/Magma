@@ -103,6 +103,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     readonly clearButton = input(false, { transform: booleanAttribute });
     readonly texts = input<MagmaColorPickerTexts | undefined>({});
     readonly palette = input<string[]>(magmaColorPickerPalette);
+    readonly datalist = input<string[]>();
 
     readonly colorChange = output<string>();
 

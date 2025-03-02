@@ -36,6 +36,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     readonly id = input<string>();
     readonly placeholder = input<string>();
     readonly placeholderAnimated = input<string>();
+    readonly datalist = input<string[]>();
 
     /** Whether the element is disabled. */
     readonly disabled = input(false, { transform: booleanAttribute });

@@ -37,6 +37,7 @@ export class MagmaInputRadio extends MagmaInputCommon implements OnInit, AfterCo
 
     readonly checked = input(false, { transform: booleanAttribute });
     override readonly placeholder: any = undefined; // not for radio
+    override readonly datalist: any = undefined; // not for radio
 
     protected testChecked: boolean | undefined;
 

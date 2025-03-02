@@ -6,6 +6,7 @@
     [value]="_value ?? ''"
     [disabled]="disabled()"
     [readonly]="readonly()"
+    [attr.list]="datalist()?.length ? _id() + '-datalist' : undefined"
     [attr.placeholder]="placeholderDisplay()"
     [attr.maxlength]="maxlength()"
     (change)="changeValue($event)"
@@ -15,6 +16,13 @@
   />
   @if (clearCross() && input.value) {
     <span class="icon-remove" (click)="clearField()"></span>
+  }
+  @if (datalist()?.length) {
+    <datalist [id]="_id() + '-datalist'">
+      @for (item of datalist(); track $index) {
+        <option [value]="item"></option>
+      }
+    </datalist>
   }
 } @else {
   Error

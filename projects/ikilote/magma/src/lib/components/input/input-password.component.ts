@@ -26,6 +26,7 @@ export class MagmaInputPassword extends MagmaInputText {
     protected override counter = counter++;
 
     override readonly clearCross: any = undefined; // not for password
+    override readonly datalist: any = undefined; // not for password
 
     readonly eye = input(null, { transform: booleanAttribute });
 

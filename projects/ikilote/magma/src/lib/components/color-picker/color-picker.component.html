@@ -51,7 +51,13 @@
         <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
       }
     </div>
-    <div></div>
+    @if (datalist()?.length) {
+      <div class="palette">
+        @for (color of datalist(); track $index) {
+          <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
+        }
+      </div>
+    }
   </mg-tab-content>
 </mg-tabs>
 @if (hexa) {

@@ -4,6 +4,7 @@
     type="number"
     spellcheck="false"
     [attr.placeholder]="placeholderDisplay()"
+    [attr.list]="datalist()?.length ? _id() + '-datalist' : undefined"
     [attr.step]="step()"
     [attr.min]="min()"
     [attr.max]="max()"
@@ -19,6 +20,13 @@
     (focus)="focus($event, true)"
     (blur)="focus($event, false)"
   />
+  @if (datalist()?.length) {
+    <datalist [id]="_id() + '-datalist'">
+      @for (item of datalist(); track $index) {
+        <option [value]="item"></option>
+      }
+    </datalist>
+  }
 } @else {
   Error
 }

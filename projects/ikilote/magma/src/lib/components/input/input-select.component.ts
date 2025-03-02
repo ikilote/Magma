@@ -48,6 +48,8 @@ export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
     override readonly componentName = 'input-select';
     protected override counter = counter++;
 
+    override readonly datalist: any = undefined; // not for select
+
     // ----------------------- input
     readonly data = input.required<Select2Data>();
 

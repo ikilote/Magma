@@ -161,6 +161,10 @@ input[type='range'][orient='vertical'] {
     writing-mode: vertical-lr;
     direction: rtl;
 }
+input[type='range'][orient='horizontal'] {
+    margin: 0 2px;
+    padding: 4px;
+}
 
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
     box-sizing: border-box;

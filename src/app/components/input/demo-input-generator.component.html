@@ -21,16 +21,16 @@
       </div>
       <div>
         <mg-input class="s-3 s-6-m">
+          <mg-input-label>Before</mg-input-label>
+          <mg-input-text formControlName="before"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-3 s-6-m">
           <mg-input-label>Prefix</mg-input-label>
           <mg-input-text formControlName="prefix"></mg-input-text>
         </mg-input>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>Suffix</mg-input-label>
           <mg-input-text formControlName="suffix"></mg-input-text>
-        </mg-input>
-        <mg-input class="s-3 s-6-m">
-          <mg-input-label>Before</mg-input-label>
-          <mg-input-text formControlName="before"></mg-input-text>
         </mg-input>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>After</mg-input-label>
@@ -44,6 +44,7 @@
           <mg-input-radio formControlName="type" value="textarea">textarea</mg-input-radio>
           <mg-input-radio formControlName="type" value="password">password</mg-input-radio>
           <mg-input-radio formControlName="type" value="number">number</mg-input-radio>
+          <mg-input-radio formControlName="type" value="range">range</mg-input-radio>
           <mg-input-radio formControlName="type" value="checkbox">checkbox</mg-input-radio>
           <mg-input-radio formControlName="type" value="radio">radio</mg-input-radio>
           <mg-input-radio formControlName="type" value="select">select</mg-input-radio>
@@ -95,7 +96,7 @@
             </mg-input>
           }
         }
-        @if (formGenerator.value.type === 'number') {
+        @if (formGenerator.value.type === 'number' || formGenerator.value.type === 'range') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Step</mg-input-label>
             <mg-input-number formControlName="step"></mg-input-number>
@@ -111,6 +112,8 @@
             <mg-input-number formControlName="max"></mg-input-number>
             <mg-input-desc>Step max value</mg-input-desc>
           </mg-input>
+        }
+        @if (formGenerator.value.type === 'number') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>ForceMinMax</mg-input-label>
             <mg-input-checkbox formControlName="forceMinMax" mode="toggle"></mg-input-checkbox>
@@ -326,6 +329,17 @@
               (ngModelChange)="codeGeneration()"
             ></mg-input-number>
           }
+          @case ('range') {
+            <mg-input-range
+              [step]="formGenerator.value.step"
+              [min]="formGenerator.value.min"
+              [max]="formGenerator.value.max"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
+              [(ngModel)]="valueRange"
+              (ngModelChange)="codeGeneration()"
+            ></mg-input-range>
+          }
           @case ('checkbox') {
             <mg-input-checkbox
               [value]="formGenerator.value.subValue1"
@@ -447,6 +461,8 @@
           {{ valueTextarea | json }}
         } @else if (formGenerator.value.type === 'password') {
           {{ valuePassword | json }}
+        } @else if (formGenerator.value.type === 'range') {
+          {{ valueRange | json }}
         }
       </code>
     </p>

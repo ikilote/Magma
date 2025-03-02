@@ -15,6 +15,7 @@ import {
     MagmaInputNumber,
     MagmaInputPassword,
     MagmaInputRadio,
+    MagmaInputRange,
     MagmaInputSelect,
     MagmaInputText,
     MagmaInputTextarea,
@@ -35,6 +36,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputCheckbox,
         MagmaInputPassword,
         MagmaInputNumber,
+        MagmaInputRange,
         MagmaInputSelect,
         FormsModule,
         ReactiveFormsModule,
@@ -53,7 +55,9 @@ export class DemoInputGeneratorComponent {
     formGenerator: FormGroup<{
         label: FormControl<string>;
         desc: FormControl<string>;
-        type: FormControl<'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select'>;
+        type: FormControl<
+            'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select' | 'range'
+        >;
         access: FormControl<'none' | 'value' | 'ngModel' | 'formControlName'>;
         prefix: FormControl<string>;
         suffix: FormControl<string>;
@@ -112,6 +116,7 @@ export class DemoInputGeneratorComponent {
     valueTextarea = 'Test';
     valuePassword = '';
     valueNumber = 20;
+    valueRange = 20;
     valueCheckbox = ['value2'];
     valueRadio = 'value2';
     valueSelect = 'test2';
@@ -293,6 +298,9 @@ export class DemoInputGeneratorComponent {
             case 'number':
                 imports.push(`MagmaInputNumber`);
                 break;
+            case 'range':
+                imports.push(`MagmaInputRange`);
+                break;
             case 'select':
                 imports.push(`MagmaInputSelect`);
                 data += `data: Select2Data = [
@@ -405,7 +413,7 @@ export class DemoInputGeneratorComponent {
         if (type === 'select') {
             attrInput['[data]'] = 'data';
         }
-        if (type === 'number') {
+        if (type === 'number' || type === 'range') {
             if ((fgValue.step || 0) > 0) {
                 attrInput['step'] = fgValue.step;
             }
@@ -415,6 +423,8 @@ export class DemoInputGeneratorComponent {
             if (fgValue.max || fgValue.max === 0) {
                 attrInput['max'] = fgValue.max;
             }
+        }
+        if (type === 'number') {
             if (fgValue.forceMinMax) {
                 attrInput['forceMinMax'] = null;
             }

@@ -1,0 +1,18 @@
+@if (!onError) {
+  <input
+    #input
+    type="range"
+    orient="horizontal"
+    [attr.step]="step()"
+    [attr.min]="min()"
+    [attr.max]="max()"
+    [name]="_name()"
+    [id]="_id() + '-input'"
+    [value]="_value"
+    [disabled]="disabled() || readonly()"
+    (change)="changeValue($event)"
+    (input)="inputValue($event)"
+  />
+} @else {
+  Error
+}

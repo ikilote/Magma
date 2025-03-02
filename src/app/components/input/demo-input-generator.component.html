@@ -8,25 +8,33 @@
       <div>
         <mg-input class="s-4 s-6-m">
           <mg-input-label>Label</mg-input-label>
-          <mg-input-text formControlName="label" value=""></mg-input-text>
+          <mg-input-text formControlName="label"></mg-input-text>
         </mg-input>
         <mg-input class="s-4 s-6-m">
           <mg-input-label>Desc</mg-input-label>
-          <mg-input-text formControlName="desc" value=""></mg-input-text>
+          <mg-input-text formControlName="desc"></mg-input-text>
         </mg-input>
         <mg-input class="s-4 s-6-m">
           <mg-input-label>Error</mg-input-label>
-          <mg-input-text formControlName="error" value=""></mg-input-text>
+          <mg-input-text formControlName="error"></mg-input-text>
         </mg-input>
       </div>
       <div>
-        <mg-input class="s-4 s-6-m">
+        <mg-input class="s-3 s-6-m">
           <mg-input-label>Prefix</mg-input-label>
-          <mg-input-text formControlName="prefix" value=""></mg-input-text>
+          <mg-input-text formControlName="prefix"></mg-input-text>
         </mg-input>
-        <mg-input class="s-4 s-6-m">
+        <mg-input class="s-3 s-6-m">
           <mg-input-label>Suffix</mg-input-label>
-          <mg-input-text formControlName="suffix" value=""></mg-input-text>
+          <mg-input-text formControlName="suffix"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-3 s-6-m">
+          <mg-input-label>Before</mg-input-label>
+          <mg-input-text formControlName="before"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-3 s-6-m">
+          <mg-input-label>After</mg-input-label>
+          <mg-input-text formControlName="after"></mg-input-text>
         </mg-input>
       </div>
       <div>
@@ -251,6 +259,9 @@
         @if (formGenerator.value.label) {
           <mg-input-label>{{ formGenerator.value.label }}</mg-input-label>
         }
+        @if (formGenerator.value.before) {
+          <mg-input-before>{{ formGenerator.value.before }}</mg-input-before>
+        }
         @if (formGenerator.value.prefix) {
           <mg-input-prefix>{{ formGenerator.value.prefix }}</mg-input-prefix>
         }
@@ -404,6 +415,9 @@
 
         @if (formGenerator.value.suffix) {
           <mg-input-suffix>{{ formGenerator.value.suffix }}</mg-input-suffix>
+        }
+        @if (formGenerator.value.after) {
+          <mg-input-after>{{ formGenerator.value.after }}</mg-input-after>
         }
         @if (formGenerator.value.desc) {
           <mg-input-desc>{{ formGenerator.value.desc }}</mg-input-desc>

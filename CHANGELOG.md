@@ -2,9 +2,9 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
-## 0.3.2 (2025-02-27)
+## 0.3.2 (2025-03-01)
 
-### 🫢 breaking
+### 🫢 Breaking
 
 - Rename `MagmaPaginationComponent` to `MagmaPagination`
 

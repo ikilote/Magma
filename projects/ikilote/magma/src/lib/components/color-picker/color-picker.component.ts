@@ -52,7 +52,7 @@ export const magmaColorPickerPalette = [
     '#e01b24',
     '#9141ac',
     '#986a44',
-    '#ded',
+    '#ddd',
     '#3d3d3d',
     // line 4
     '#1c71d8',
@@ -187,7 +187,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     }
 
     tabChange(id: string) {
-        if (id === 'hue') {
+        if (id === 'hsl') {
             setTimeout(() => {
                 this.updateHex(this.hexa);
             });
@@ -221,6 +221,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         const hls = color.toGamut({ space: 'hsl' }).to('hsl');
 
         // value calculation
+        console.log(hls);
         this.rangeHue = 360 - (hls.h || 0);
         this.rangeAlpha = hls.alpha;
         this.rangeSature = 100 - hls.s;

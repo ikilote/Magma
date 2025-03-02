@@ -12,6 +12,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
+import { MagmaColorPickerTexts, magmaColorPickerPalette } from '../color-picker/color-picker.component';
 import { MagmaColorPicker } from '../color-picker/color-picker.directive';
 
 let counter = 0;
@@ -39,6 +40,8 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
 
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly clearButton = input(false, { transform: booleanAttribute });
+    readonly texts = input<MagmaColorPickerTexts>({});
+    readonly palette = input<string[]>(magmaColorPickerPalette);
 
     override readonly placeholder: any = undefined; // not for color
 

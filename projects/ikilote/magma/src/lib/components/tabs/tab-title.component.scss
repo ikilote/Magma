@@ -19,3 +19,10 @@
         color: var(--tab-text-border-color);
     }
 }
+
+.compact > .tabs > :host {
+    border-bottom: 3px solid var(--tab-border-color);
+    padding: 3px 10px;
+    font-weight: 500;
+    font-size: 14px;
+}

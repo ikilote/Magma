@@ -36,6 +36,10 @@ export class DemoTabsComponent {
         selected: boolean;
     }[] = [];
 
+    form: FormGroup<{
+        compact: FormControl<boolean>;
+    }>;
+
     ctrlForm: FormGroup<{
         id: FormControl<string>;
         title: FormControl<string>;
@@ -46,6 +50,9 @@ export class DemoTabsComponent {
     codeHtml = '';
 
     constructor(fb: NonNullableFormBuilder) {
+        this.form = fb.group({
+            compact: new FormControl<boolean>(false, { nonNullable: true }),
+        });
         this.ctrlForm = fb.group({
             id: new FormControl<string>('', { nonNullable: true }),
             title: new FormControl<string>('', { nonNullable: true }),
@@ -53,6 +60,10 @@ export class DemoTabsComponent {
             selected: new FormControl<boolean>(false, { nonNullable: true }),
         });
         this.codeGeneration();
+
+        this.form.valueChanges.subscribe(() => {
+            this.codeGeneration();
+        });
     }
 
     addTab() {
@@ -71,7 +82,7 @@ export class DemoTabsComponent {
 
         const json: Json2htmlRef = {
             tag: 'mg-tabs',
-            attrs: {},
+            attrs: { class: this.form.value.compact ? 'compact' : undefined },
             body: [],
         };
         const body = json.body as Json2htmlRef[];

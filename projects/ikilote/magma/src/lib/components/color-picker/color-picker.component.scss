@@ -2,12 +2,14 @@
     --thumb-height: 18px;
     --thumb-width: 18px;
 
-    display: grid;
-    grid-template:
-        'value  hue    alpha  . '
-        'values values values values' /
-        340px 1fr 1fr 0;
-    gap: 10px 30px;
+    .tab-hsl {
+        display: grid;
+        grid-template:
+            'value  hue    alpha  . '
+            'values values values values' /
+            340px 1fr 1fr 0;
+        gap: 10px 30px;
+    }
 
     &.embedded {
         transition-duration: 0s;
@@ -228,5 +230,34 @@ input[type='range'] {
 
     .hue > ::-moz-range-thumb {
         background: hsl(calc(360 - var(--hue, 0)), 100%, 50%);
+    }
+}
+
+// --------------------------------- PALETTE ----------------------------------------------
+
+.palette {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    gap: 1px;
+    margin-bottom: 10px;
+
+    button {
+        all: revert;
+        cursor: pointer;
+        margin: 0;
+        border: 1px solid var(--neutral);
+        background-color: var(--color);
+        padding: 0;
+        height: 30px;
+
+        &:hover {
+            border: 1px solid var(--neutral5);
+        }
+
+        &.selected {
+            z-index: 1;
+            outline: 3px solid #040404;
+            outline-offset: -1px;
+        }
     }
 }

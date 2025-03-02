@@ -1,45 +1,59 @@
-<div class="value">
-  <div class="gradient">
-    <div class="cursor-zone" #cursorZone (click)="click($event)">
-      <div
-        class="cursor"
-        cdkDrag
-        cdkDragBoundary=".cursor-zone"
-        (cdkDragStarted)="dragStart()"
-        (cdkDragEnded)="dragEnd($event)"
-        [cdkDragFreeDragPosition]="pos"
-        [cdkDragDisabled]="readonly()"
-        [class.negative]="rangeLight > 50"
-        (click)="$event.stopPropagation()"
-      ></div>
+<mg-tabs (tabChange)="tabChange($event)" class="compact">
+  <mg-tab-title id="hsl">{{ texts()?.hsl ?? 'HSL' }}</mg-tab-title>
+  <mg-tab-content id="hsl" class="tab-hsl">
+    <div class="value">
+      <div class="gradient">
+        <div class="cursor-zone" #cursorZone (click)="click($event)">
+          <div
+            class="cursor"
+            cdkDrag
+            cdkDragBoundary=".cursor-zone"
+            (cdkDragStarted)="dragStart()"
+            (cdkDragEnded)="dragEnd($event)"
+            [cdkDragFreeDragPosition]="pos"
+            [cdkDragDisabled]="readonly()"
+            [class.negative]="rangeLight > 50"
+            (click)="$event.stopPropagation()"
+          ></div>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
-<div class="hue">
-  <input
-    type="range"
-    [(ngModel)]="rangeHue"
-    (ngModelChange)="updateColor()"
-    [disabled]="readonly()"
-    min="0"
-    max="360"
-    orient="vertical"
-  />
-</div>
-@if (alpha()) {
-  <div class="alpha">
-    <input
-      type="range"
-      [(ngModel)]="rangeAlpha"
-      (ngModelChange)="updateColor()"
-      [disabled]="readonly()"
-      min="0"
-      max="1"
-      step="0.001"
-      orient="vertical"
-    />
-  </div>
-}
+    <div class="hue">
+      <input
+        type="range"
+        [(ngModel)]="rangeHue"
+        (ngModelChange)="updateColor()"
+        [disabled]="readonly()"
+        min="0"
+        max="360"
+        orient="vertical"
+      />
+    </div>
+    @if (alpha()) {
+      <div class="alpha">
+        <input
+          type="range"
+          [(ngModel)]="rangeAlpha"
+          (ngModelChange)="updateColor()"
+          [disabled]="readonly()"
+          min="0"
+          max="1"
+          step="0.001"
+          orient="vertical"
+        />
+      </div>
+    }
+  </mg-tab-content>
+  <mg-tab-title id="palette">{{ texts()?.hsl ?? 'Palette' }}</mg-tab-title>
+  <mg-tab-content id="palette">
+    <div class="palette">
+      @for (color of palette(); track $index) {
+        <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
+      }
+    </div>
+    <div></div>
+  </mg-tab-content>
+</mg-tabs>
 @if (hexa) {
   <div class="values">
     <div class="color-view" [style.--background]="hsla"></div>

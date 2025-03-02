@@ -15,7 +15,7 @@ import {
     output,
 } from '@angular/core';
 
-import { MagmaColorPickerComponent } from './color-picker.component';
+import { MagmaColorPickerComponent, MagmaColorPickerTexts, magmaColorPickerPalette } from './color-picker.component';
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -40,6 +40,8 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     readonly colorPickerDisabled = input(false, { transform: booleanAttribute });
     readonly colorPickerReadonly = input(false, { transform: booleanAttribute });
     readonly colorPickerClearButton = input(false, { transform: booleanAttribute });
+    readonly colorPickerTexts = input<MagmaColorPickerTexts>();
+    readonly colorPickerPalette = input<string[]>(magmaColorPickerPalette);
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaColorPickerComponent>;
@@ -81,6 +83,8 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
         component.setInput('alpha', this.colorPickerAlpha());
         component.setInput('readonly', this.colorPickerReadonly());
         component.setInput('clearButton', this.colorPickerClearButton());
+        component.setInput('palette', this.colorPickerPalette());
+        component.setInput('texts', this.colorPickerTexts());
         component.setInput('embedded', true);
 
         this.updateEmit = component.instance.colorChange.subscribe(value => {

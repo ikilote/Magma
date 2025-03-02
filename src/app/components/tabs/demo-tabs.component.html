@@ -2,35 +2,44 @@
 
 @if (ctrlForm) {
   <section>
-    <form class="s-3 s-12-l" [formGroup]="ctrlForm">
-      <div>
+    <div class="s-3 s-12-l">
+      <h3>Style</h3>
+      <form [formGroup]="form">
         <mg-input>
-          <mg-input-label>id</mg-input-label>
-          <mg-input-text formControlName="id"></mg-input-text>
+          <mg-input-checkbox formControlName="compact" mode="toggle">Compact</mg-input-checkbox>
         </mg-input>
-      </div>
-      <div>
-        <mg-input>
-          <mg-input-label>title</mg-input-label>
-          <mg-input-textarea formControlName="title" autosize></mg-input-textarea>
-        </mg-input>
-      </div>
-      <div>
-        <mg-input>
-          <mg-input-label>content</mg-input-label>
-          <mg-input-textarea formControlName="content" autosize></mg-input-textarea>
-        </mg-input>
-      </div>
-      <div>
-        <mg-input>
-          <mg-input-label>selected</mg-input-label>
-          <mg-input-checkbox formControlName="selected" mode="toggle"></mg-input-checkbox>
-        </mg-input>
-      </div>
-      <button (click)="addTab()">Add</button>
-    </form>
+      </form>
+
+      <h3>Add tab</h3>
+      <form [formGroup]="ctrlForm">
+        <div>
+          <mg-input>
+            <mg-input-label>id</mg-input-label>
+            <mg-input-text formControlName="id"></mg-input-text>
+          </mg-input>
+        </div>
+        <div>
+          <mg-input>
+            <mg-input-label>title</mg-input-label>
+            <mg-input-textarea formControlName="title" autosize></mg-input-textarea>
+          </mg-input>
+        </div>
+        <div>
+          <mg-input>
+            <mg-input-label>content</mg-input-label>
+            <mg-input-textarea formControlName="content" autosize></mg-input-textarea>
+          </mg-input>
+        </div>
+        <div>
+          <mg-input>
+            <mg-input-checkbox formControlName="selected" mode="toggle">Selected</mg-input-checkbox>
+          </mg-input>
+        </div>
+        <button (click)="addTab()">Add</button>
+      </form>
+    </div>
     <div class="s-5 s-12-l">
-      <mg-tabs>
+      <mg-tabs [class.compact]="form.value.compact">
         @for (item of tabs; track $index) {
           <mg-tab-title [id]="item.id" [selected]="item.selected">{{ item.title }}</mg-tab-title>
         }

@@ -7,7 +7,7 @@
 ### ✅ New
 
 - Add `input-before` & `input-after` for **input** component
-- Add `input-range` component
+- Add `input-range` component #9
 
 ### 🐞 Fix
 
@@ -94,7 +94,7 @@
         - sticky header,
         - baseline
 - **mg-input**:
-    - Add `placeholderAnimated` attribute:
+    - Add `placeholderAnimated` attribute: #1
         - timers for character
         - delay
         - repeat time

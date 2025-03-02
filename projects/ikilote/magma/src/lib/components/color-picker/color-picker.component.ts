@@ -17,12 +17,70 @@ import { FormsModule } from '@angular/forms';
 import Color from 'colorjs.io';
 
 import { Logger } from '../../services/logger';
+import { MagmaTabContent } from '../tabs/tab-content.component';
+import { MagmaTabTitle } from '../tabs/tab-title.component';
+import { MagmaTabs } from '../tabs/tabs.component';
+
+export type MagmaColorPickerTexts = { hsl?: string; palette?: string };
+
+export const magmaColorPickerPalette = [
+    // line 1
+    '#99c1f1',
+    '#8ff0a4',
+    '#f9f06b',
+    '#ffbe6f',
+    '#f66151',
+    '#dc8add',
+    '#cdab8f',
+    '#fff',
+    '#777',
+    // line 2
+    '#62a0ea',
+    '#57e389',
+    '#f8e45c',
+    '#ffa348',
+    '#ed333b',
+    '#c061cb',
+    '#b5835a',
+    '#f6f6f6',
+    '#5e5e5e',
+    // line 3
+    '#3584e4',
+    '#33d17a',
+    '#f6d32d',
+    '#ff7800',
+    '#e01b24',
+    '#9141ac',
+    '#986a44',
+    '#ded',
+    '#3d3d3d',
+    // line 4
+    '#1c71d8',
+    '#2ec27e',
+    '#f5c211',
+    '#e66100',
+    '#c01c28',
+    '#813d9c',
+    '#865e3c',
+    '#c0c0c0',
+    '#313131',
+    // line 5
+    '#1a5fb4',
+    '#26a269',
+    '#e5a50a',
+    '#c64600',
+    '#a51d2d',
+    '#613583',
+    '#63452c',
+    '#9a9a9a',
+    '#000',
+];
 
 @Component({
     selector: 'color-picker',
     templateUrl: './color-picker.component.html',
     styleUrls: ['./color-picker.component.scss'],
-    imports: [FormsModule, CdkDrag],
+    imports: [FormsModule, CdkDrag, MagmaTabs, MagmaTabTitle, MagmaTabContent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--hue]': 'rangeHue',
@@ -43,6 +101,8 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly readonly = input(false, { transform: booleanAttribute });
     readonly clearButton = input(false, { transform: booleanAttribute });
+    readonly texts = input<MagmaColorPickerTexts | undefined>({});
+    readonly palette = input<string[]>(magmaColorPickerPalette);
 
     readonly colorChange = output<string>();
 
@@ -97,7 +157,6 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     }
 
     clear() {
-        console.log('clear');
         this.rangeHue = 0;
         this.rangeAlpha = 1;
         this.rangeLight = 0;
@@ -127,6 +186,14 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         }, 10);
     }
 
+    tabChange(id: string) {
+        if (id === 'hue') {
+            setTimeout(() => {
+                this.updateHex(this.hexa);
+            });
+        }
+    }
+
     protected updateHex(value: string) {
         try {
             const colorObject = new Color(value);
@@ -154,7 +221,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         const hls = color.toGamut({ space: 'hsl' }).to('hsl');
 
         // value calculation
-        this.rangeHue = 360 - hls.h;
+        this.rangeHue = 360 - (hls.h || 0);
         this.rangeAlpha = hls.alpha;
         this.rangeSature = 100 - hls.s;
         this.rangeLight = 100 - (100 * hls.l) / (100 - hls.s / 2);

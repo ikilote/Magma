@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, forwardRef, input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
-import { numberAttributeOrUndefined } from '@ikilote/magma';
-
 import { MagmaInputCommon } from './input-common';
+
+import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 let counter = 0;
 
@@ -26,7 +26,7 @@ export class MagmaInputRange extends MagmaInputCommon {
     override readonly componentName = 'input-range';
     protected override counter = counter++;
 
-    readonly step = input(1, { transform: numberAttributeOrUndefined });
+    readonly step = input(undefined, { transform: numberAttributeOrUndefined });
     readonly min = input(undefined, { transform: numberAttributeOrUndefined });
     readonly max = input(undefined, { transform: numberAttributeOrUndefined });
 

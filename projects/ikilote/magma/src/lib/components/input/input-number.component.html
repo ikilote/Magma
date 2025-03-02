@@ -10,7 +10,7 @@
     inputmode="decimal"
     [name]="_name()"
     [id]="_id() + '-input'"
-    [value]="_value"
+    [value]="_value ?? ''"
     [disabled]="disabled()"
     [readonly]="readonly()"
     (keydown)="keydown($event)"

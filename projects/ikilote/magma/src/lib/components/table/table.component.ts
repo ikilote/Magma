@@ -32,12 +32,6 @@ export class MagmaTable {
         tfoot: [],
     };
 
-    constructor() {
-        setTimeout(() => {
-            console.log('data', this._data);
-        }, 10);
-    }
-
     over(line: number, col: number) {
         if (this.hover() || this.hoverCol()) {
             this._data.thead.forEach((row, _indexR) => {

@@ -24,7 +24,6 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
         if (!this.autosizeDisabled()) {
             setTimeout(() => {
                 if (this.elementRef.nativeElement.nodeName === 'TEXTAREA') {
-                    console.log(this.elementRef.nativeElement);
                     autosize(this.elementRef.nativeElement);
                 }
             });

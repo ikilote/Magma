@@ -226,7 +226,6 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         const hls = color.toGamut({ space: 'hsl' }).to('hsl');
 
         // value calculation
-        console.log(hls);
         this.rangeHue = 360 - (hls.h || 0);
         this.rangeAlpha = hls.alpha;
         this.rangeSature = 100 - hls.s;
@@ -242,7 +241,6 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     }
 
     protected updateColor() {
-        console.log('updateColor');
         const color = new Color(
             'hsl',
             [

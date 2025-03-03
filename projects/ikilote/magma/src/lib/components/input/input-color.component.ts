@@ -50,7 +50,6 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
     }
 
     colorClose(color: string) {
-        console.log('colorClose', color);
         this.onChange(color);
         this.writeValue(color);
         this.onTouched();

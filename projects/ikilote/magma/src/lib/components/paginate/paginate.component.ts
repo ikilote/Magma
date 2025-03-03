@@ -72,7 +72,6 @@ export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
     constructor() {
         this.subs.push(
             MagmaPagination.onPageUpdate.subscribe(page => {
-                console.log(page, this, this.linkId() === page.id, page.component !== this);
                 if (this.linkId() === page.id && page.component !== this) {
                     this.update(page.page, false);
                     this.ngDoCheck();

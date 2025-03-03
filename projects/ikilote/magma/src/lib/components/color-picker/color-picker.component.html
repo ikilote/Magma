@@ -44,10 +44,10 @@
       </div>
     }
   </mg-tab-content>
-  <mg-tab-title id="palette">{{ texts()?.hsl ?? 'Palette' }}</mg-tab-title>
+  <mg-tab-title id="palette">{{ texts()?.palette ?? 'Palette' }}</mg-tab-title>
   <mg-tab-content id="palette">
     <div class="palette">
-      @for (color of palette(); track $index) {
+      @for (color of _palette(); track $index) {
         <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
       }
     </div>

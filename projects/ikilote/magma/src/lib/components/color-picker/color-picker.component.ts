@@ -2,11 +2,13 @@ import { CdkDrag, CdkDragEnd, Point } from '@angular/cdk/drag-drop';
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     ElementRef,
     OnChanges,
     SimpleChanges,
     booleanAttribute,
+    computed,
     inject,
     input,
     output,
@@ -92,6 +94,7 @@ export const magmaColorPickerPalette = [
 })
 export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     readonly logger = inject(Logger);
+    readonly cd = inject(ChangeDetectorRef);
 
     readonly zone = viewChild.required<ElementRef<HTMLDivElement>>('cursorZone');
     readonly drag = viewChild.required(CdkDrag);
@@ -102,7 +105,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     readonly readonly = input(false, { transform: booleanAttribute });
     readonly clearButton = input(false, { transform: booleanAttribute });
     readonly texts = input<MagmaColorPickerTexts | undefined>({});
-    readonly palette = input<string[]>(magmaColorPickerPalette);
+    readonly palette = input<string[] | undefined>();
     readonly datalist = input<string[]>();
 
     readonly colorChange = output<string>();
@@ -117,6 +120,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     protected hexa = '';
 
     protected pos: Point = { x: 0, y: 0 };
+    protected _palette = computed(() => (this.palette()?.length ? this.palette() : magmaColorPickerPalette));
 
     protected startDrag = false;
 

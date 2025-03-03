@@ -15,7 +15,7 @@ import {
     output,
 } from '@angular/core';
 
-import { MagmaColorPickerComponent, MagmaColorPickerTexts, magmaColorPickerPalette } from './color-picker.component';
+import { MagmaColorPickerComponent, MagmaColorPickerTexts } from './color-picker.component';
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -41,8 +41,8 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     readonly colorPickerReadonly = input(false, { transform: booleanAttribute });
     readonly colorPickerClearButton = input(false, { transform: booleanAttribute });
     readonly colorPickerTexts = input<MagmaColorPickerTexts>();
-    readonly colorPickerPalette = input<string[]>(magmaColorPickerPalette);
-    readonly colorPickerDatalist = input<string[]>();
+    readonly colorPickerPalette = input<string[] | undefined>();
+    readonly colorPickerDatalist = input<string[] | undefined>();
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaColorPickerComponent>;
@@ -78,6 +78,8 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
 
         let color = this.colorPicker();
         let initColor = color;
+
+        console.log('>>>>>', this.colorPickerPalette());
 
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('color', this.colorPicker());

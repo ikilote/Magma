@@ -146,6 +146,14 @@
             <mg-input-label>Show clear button</mg-input-label>
             <mg-input-checkbox formControlName="clearButton" mode="toggle"></mg-input-checkbox>
           </mg-input>
+          <mg-input class="s-4 s-6-m">
+            <mg-input-label>Palette</mg-input-label>
+            <mg-input-checkbox formControlName="palette" mode="toggle"></mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4 s-6-m">
+            <mg-input-label>Texts</mg-input-label>
+            <mg-input-checkbox formControlName="texts" mode="toggle"></mg-input-checkbox>
+          </mg-input>
         }
         @if (formGenerator.value.type === 'textarea' || formGenerator.value.type === 'text') {
           <mg-input class="s-4 s-6-m">
@@ -382,6 +390,8 @@
             <mg-input-color
               [alpha]="formGenerator.value.alpha"
               [clearButton]="formGenerator.value.clearButton"
+              [palette]="formGenerator.value.palette ? palette : undefined"
+              [texts]="formGenerator.value.texts ? texts : undefined"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueColor"

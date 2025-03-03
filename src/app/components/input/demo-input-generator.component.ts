@@ -2,7 +2,7 @@ import { JsonPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
+import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
 
 import { Select2Data } from 'ng-select2-component';
 
@@ -21,6 +21,7 @@ import {
     MagmaInputTextarea,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
+import { palette, texts } from '../color-picker/demo-color-picker.component';
 
 @Component({
     selector: 'demo-input-generator',
@@ -112,6 +113,8 @@ export class DemoInputGeneratorComponent {
         // color
         alpha: FormControl<boolean>;
         clearButton: FormControl<boolean>;
+        palette: FormControl<boolean>;
+        texts: FormControl<boolean>;
     }>;
 
     valueText = 'Test';
@@ -126,6 +129,9 @@ export class DemoInputGeneratorComponent {
 
     codeHtml = '';
     codeTs = '';
+
+    palette = palette;
+    texts = texts;
 
     constructor(fbe: FormBuilderExtended) {
         this.formGenerator = fbe.groupWithErrorNonNullable({
@@ -178,6 +184,8 @@ export class DemoInputGeneratorComponent {
             // color
             alpha: { default: false },
             clearButton: { default: false },
+            palette: { default: false },
+            texts: { default: false },
         });
         this.codeGeneration();
         this.formGenerator.valueChanges.subscribe(() => {
@@ -451,6 +459,12 @@ export class DemoInputGeneratorComponent {
             }
             if (fgValue.clearButton) {
                 attrInput['clearButton'] = null;
+            }
+            if (fgValue.palette) {
+                attrInput['[palette]'] = `['${this.palette}']`.replaceAll(',#', "', '#");
+            }
+            if (fgValue.texts) {
+                attrInput['[texts]'] = new Json2Js(this.texts).toString();
             }
         }
         if (type === 'textarea') {

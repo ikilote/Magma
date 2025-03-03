@@ -22,6 +22,14 @@
           <mg-input-label>Clear button</mg-input-label>
           <mg-input-checkbox formControlName="clearButton" mode="toggle"></mg-input-checkbox>
         </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Palette</mg-input-label>
+          <mg-input-checkbox formControlName="palette" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Texts</mg-input-label>
+          <mg-input-checkbox formControlName="texts" mode="toggle"></mg-input-checkbox>
+        </mg-input>
       </div>
     </form>
     <div class="s-5 s-6-x s-12-m">
@@ -32,6 +40,8 @@
         [alpha]="ctrlForm.value.alpha"
         [clearButton]="ctrlForm.value.clearButton"
         [readonly]="ctrlForm.value.readonly"
+        [palette]="ctrlForm.value.palette ? palette : undefined"
+        [texts]="ctrlForm.value.texts ? texts : undefined"
         (colorChange)="colorChange($event)"
       ></color-picker>
     </div>
@@ -67,6 +77,14 @@
           <mg-input-label>Clear button</mg-input-label>
           <mg-input-checkbox formControlName="clearButton" mode="toggle"></mg-input-checkbox>
         </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Palette</mg-input-label>
+          <mg-input-checkbox formControlName="palette" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Texts</mg-input-label>
+          <mg-input-checkbox formControlName="texts" mode="toggle"></mg-input-checkbox>
+        </mg-input>
       </p>
     </form>
     <div class="s-4 s-6-x s-12-m">
@@ -78,7 +96,9 @@
             [colorPickerAlpha]="ctrlFormPopup.value.alpha"
             [colorPickerDisabled]="ctrlFormPopup.value.disabled"
             [colorPickerReadonly]="ctrlFormPopup.value.readonly"
-            [colorPickerClearButton]="ctrlForm.value.clearButton"
+            [colorPickerClearButton]="ctrlFormPopup.value.clearButton"
+            [colorPickerPalette]="ctrlFormPopup.value.palette ? palette : undefined"
+            [colorPickerTexts]="ctrlFormPopup.value.texts ? texts : undefined"
             (colorChange)="colorChange($event)"
             (colorClose)="colorClose($event)"
           >

@@ -2,6 +2,18 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.3.4 (2025-03-03)
+
+### ✅ New
+
+- Add `palette` and `texts` attributes for **color picker** (component, directive & input)
+- `compact`class for **tabs**
+- Add `datalist` for: `color`, `number`, `text` & `range`
+
+### 🐞 Fix
+
+- Fix `undefined` display value for inputs
+
 ## 0.3.3 (2025-03-02)
 
 ### ✅ New

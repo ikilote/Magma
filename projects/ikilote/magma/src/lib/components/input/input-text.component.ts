@@ -45,7 +45,7 @@ export class MagmaInputText extends MagmaInputCommon {
 
     override writeValue(value: any): void {
         super.writeValue(value);
-        this.inputElement!.value = value;
+        this.inputElement!.value = value ?? '';
     }
 
     changeValue(event: Event) {

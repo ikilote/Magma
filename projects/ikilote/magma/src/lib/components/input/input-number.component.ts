@@ -78,7 +78,7 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
 
     override writeValue(value: any): void {
         super.writeValue(value);
-        this.inputElement!.value = value;
+        this.inputElement!.value = value ?? '';
     }
 
     changeValue(event: Event) {

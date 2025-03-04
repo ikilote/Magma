@@ -2,6 +2,8 @@
 
 :host:is(mg-input-prefix, mg-input-suffix) {
     position: relative;
+    line-height: 21px;
+    white-space: nowrap;
 }
 
 :host:is(mg-input-prefix):has(+ ::ng-deep :is(mg-input-text, mg-input-number, mg-input-password, mg-input-select)),

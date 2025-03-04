@@ -86,12 +86,14 @@
 // description
 
 :host:is(mg-input-desc) {
+    display: block;
     font-size: 12px;
 }
 
 // error
 
 :host:is(mg-input-error) {
+    display: block;
     color: var(--input-error-color);
 }
 :has(> .bottom > :host:is(mg-input-error)) {

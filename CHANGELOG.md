@@ -2,6 +2,19 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.3.5 (2025-03-05)
+
+### 🐞 Fix
+
+- Fix `undefined` display value for inputs
+- Fix `input-error` & `input-desc` in block
+- Fix `input-prefix` & `input-suffix` has nowrap
+- Fix color picker in {x,y} space with negative position
+
+### 🎦 Demo
+
+- Add `datalist` in generator for: `color`, `number`, `text` & `range`
+
 ## 0.3.4 (2025-03-03)
 
 ### ✅ New

@@ -42,7 +42,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     readonly colorPickerClearButton = input(false, { transform: booleanAttribute });
     readonly colorPickerTexts = input<MagmaColorPickerTexts>();
     readonly colorPickerPalette = input<string[] | undefined>();
-    readonly colorPickerDatalist = input<string[] | undefined>();
+    readonly colorPickerDatalist = input<(string | number)[] | undefined>();
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaColorPickerComponent>;

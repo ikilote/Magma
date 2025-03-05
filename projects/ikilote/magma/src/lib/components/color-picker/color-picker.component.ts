@@ -195,7 +195,8 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         if (id === 'hsl') {
             setTimeout(() => {
                 this.updateHex(this.hexa);
-            });
+                this.cd.detectChanges();
+            }, 10);
         }
     }
 
@@ -226,6 +227,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         const hls = color.toGamut({ space: 'hsl' }).to('hsl');
 
         // value calculation
+        console.log(hls);
         this.rangeHue = 360 - (hls.h || 0);
         this.rangeAlpha = hls.alpha;
         this.rangeSature = 100 - hls.s;
@@ -234,9 +236,12 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         // position calculation
         const { clientWidth, clientHeight } = this.zone().nativeElement;
         this.pos = {
-            x: ((clientWidth - 10) * this.rangeLight) / 100,
-            y: ((clientHeight - 10) * this.rangeSature) / 100,
+            x: ((clientWidth - 10) * (this.rangeLight > 0 ? this.rangeLight : 0)) / 100,
+            y:
+                ((clientHeight - 10) * (this.rangeLight > 0 ? this.rangeSature : this.rangeSature - this.rangeLight)) /
+                100,
         };
+        console.log('>>>', this.rangeSature, this.rangeLight);
         this.updateColor();
     }
 

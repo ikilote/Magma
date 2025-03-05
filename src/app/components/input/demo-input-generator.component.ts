@@ -70,6 +70,7 @@ export class DemoInputGeneratorComponent {
         placeholderAnimated: FormControl<string>;
         disabled: FormControl<boolean>;
         readonly: FormControl<boolean>;
+        datalist: FormControl<boolean>;
 
         // text
         maxLength: FormControl<number>;
@@ -133,6 +134,26 @@ export class DemoInputGeneratorComponent {
     palette = palette;
     texts = texts;
 
+    datalistText = ['foo', 'bar', 'baz', 'qux', 'quux'];
+    datalistNumber = [150, 500, 1500, 25000];
+    datalistRange = [0, 20, 40, 60, 80, 100];
+    datalistColor = [
+        '#1b0e04',
+        '#271d46',
+        '#db9e77',
+        '#d4a373',
+        '#4e4039',
+        '#d4a5a5',
+        '#fdf5e6',
+        '#e0b188',
+        '#fda671',
+        '#2e1e1b',
+        '#040002',
+        '#07708a',
+        '#d45ec8',
+        '#a3c197',
+    ];
+
     constructor(fbe: FormBuilderExtended) {
         this.formGenerator = fbe.groupWithErrorNonNullable({
             type: { default: 'text' },
@@ -148,6 +169,7 @@ export class DemoInputGeneratorComponent {
             placeholderAnimated: { default: '' },
             disabled: { default: false },
             readonly: { default: false },
+            datalist: { default: false },
             // text
             maxLength: { default: undefined },
             clearCross: { default: false },
@@ -436,6 +458,12 @@ export class DemoInputGeneratorComponent {
                 attrInput['max'] = fgValue.max;
             }
         }
+        if (type === 'range') {
+            if (fgValue.datalist) {
+                attrInput['[datalist]'] = `[${this.datalistRange}]`.replaceAll(',', ', ');
+            }
+        }
+
         if (type === 'number') {
             if (fgValue.forceMinMax) {
                 attrInput['forceMinMax'] = null;
@@ -452,6 +480,9 @@ export class DemoInputGeneratorComponent {
             if (fgValue.noNegative) {
                 attrInput['noNegative'] = null;
             }
+            if (fgValue.datalist) {
+                attrInput['[datalist]'] = `[${this.datalistNumber}]`.replaceAll(',', ', ');
+            }
         }
         if (type === 'color') {
             if (fgValue.alpha) {
@@ -465,6 +496,9 @@ export class DemoInputGeneratorComponent {
             }
             if (fgValue.texts) {
                 attrInput['[texts]'] = new Json2Js(this.texts).toString();
+            }
+            if (fgValue.datalist) {
+                attrInput['[datalist]'] = `['${this.datalistColor}']`.replaceAll(',#', "', '#");
             }
         }
         if (type === 'textarea') {
@@ -495,6 +529,9 @@ export class DemoInputGeneratorComponent {
         if (type === 'text') {
             if (fgValue.clearCross) {
                 attrInput['clearCross'] = null;
+            }
+            if (fgValue.datalist) {
+                attrInput['[datalist]'] = `['${this.datalistText}']`.replaceAll(',', "', '");
             }
         }
         if (type === 'number' || type === 'textarea' || type === 'text' || type === 'password' || type === 'select') {

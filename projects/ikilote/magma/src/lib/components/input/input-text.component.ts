@@ -36,6 +36,7 @@ export class MagmaInputText extends MagmaInputCommon {
 
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
     readonly clearCross = input(null, { transform: booleanAttribute });
+    readonly type = input<'text' | 'email' | 'url' | 'tel'>('text');
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 

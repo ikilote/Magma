@@ -1,6 +1,7 @@
 @if (!onError) {
   <input
     #input
+    [type]="type()"
     [name]="_name()"
     [id]="_id() + '-input'"
     [value]="_value ?? ''"

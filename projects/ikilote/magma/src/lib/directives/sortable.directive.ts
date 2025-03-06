@@ -11,9 +11,11 @@ import {
     input,
 } from '@angular/core';
 
+import { MagmaInputText } from '../../public-api';
+import { MagmaInputCommon } from '../components/input/input-common';
 import { objectNestedValue } from '../utils/object';
 
-export type SortRule =
+export type MagmaSortRule =
     | { type: 'string' | 'number' | 'date'; attr: string; init?: 'asc' | 'desc' }
     | {
           type: 'translate';
@@ -29,10 +31,10 @@ export type SortRule =
 @Directive({
     selector: '[sort-rule]',
 })
-export class SortRuleDirective implements OnInit {
-    private sortable = inject(SortableDirective, { host: true });
+export class MagmaSortRuleDirective implements OnInit {
+    private sortable = inject(MagmaSortableDirective, { host: true });
 
-    sortRule = input<SortRule>(undefined, { alias: 'sort-rule' });
+    sortRule = input<MagmaSortRule>(undefined, { alias: 'sort-rule' });
 
     @HostBinding('class.sort-asc')
     get classSortAsc() {
@@ -49,7 +51,7 @@ export class SortRuleDirective implements OnInit {
         return this.sortRule()?.type !== 'none';
     }
 
-    sortOrder?: { order: boolean; rule: SortRule };
+    sortOrder?: { order: boolean; rule: MagmaSortRule };
 
     ngOnInit(): void {
         const sortRule = this.sortRule();
@@ -68,18 +70,20 @@ export class SortRuleDirective implements OnInit {
     selector: '[sortable]',
     standalone: true,
 })
-export class SortableDirective implements OnInit, OnChanges, OnDestroy {
+export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     private readonly renderer = inject(Renderer2);
 
     sortable = input<any[] | undefined>([]);
 
-    sortableFilterInput = input<HTMLInputElement | undefined>(undefined, { alias: 'sortable-filter-input' });
+    sortableFilterInput = input<HTMLInputElement | MagmaInputCommon | undefined>(undefined, {
+        alias: 'sortable-filter-input',
+    });
 
     sortableFilter = input<((key: string, item: any, index: number) => boolean) | undefined>(undefined, {
         alias: 'sortable-filter',
     });
 
-    currentRule?: SortRule;
+    currentRule?: MagmaSortRule;
     currentRuleOrder = false;
 
     private sortableComplete: any[] = [];
@@ -103,14 +107,15 @@ export class SortableDirective implements OnInit, OnChanges, OnDestroy {
     }
 
     update() {
-        this.filter(this.sortableFilterInput()?.value || '');
+        const input = this.sortableFilterInput();
+        this.filter(input instanceof MagmaInputText ? input.getValue() : input?.value || '');
     }
 
     ngOnDestroy(): void {
         this.inputListener?.();
     }
 
-    sortWithRule(rule?: SortRule, order: 'asc' | 'desc' = 'asc') {
+    sortWithRule(rule?: MagmaSortRule, order: 'asc' | 'desc' = 'asc') {
         if (this.currentRule === rule) {
             this.currentRuleOrder = !this.currentRuleOrder;
         } else {
@@ -165,4 +170,4 @@ export class SortableDirective implements OnInit, OnChanges, OnDestroy {
     }
 }
 
-export const Sortable = [SortableDirective, SortRuleDirective];
+export const MagmaSortable = [MagmaSortableDirective, MagmaSortRuleDirective];

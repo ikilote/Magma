@@ -6,9 +6,9 @@ import {
     MagmaInput,
     MagmaInputElement,
     MagmaInputText,
+    MagmaSortable,
     MagmaTableComponent,
     NumFormatPipe,
-    Sortable,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -17,7 +17,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-sortable.component.html',
     styleUrls: ['./demo-sortable.component.scss'],
     imports: [
-        Sortable,
+        MagmaSortable,
         MagmaTableComponent,
         FormsModule,
         NumFormatPipe,
@@ -33,7 +33,12 @@ export class DemoSortableComponent {
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],
-    imports: [Sortable, MagmaTableComponent, NumFormatPipe, DatePipe],
+    imports: [
+        MagmaSortable, // like [MagmaSortableDirective, MagmaSortRuleDirective]
+        MagmaTableComponent,
+        NumFormatPipe,
+        DatePipe
+    ],
 })
 export class TestComponent {
     items = [
@@ -74,7 +79,7 @@ export class TestComponent {
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],
     imports: [
-        Sortable, // like [SortableDirective, SortRuleDirective]
+        MagmaSortable, // like [MagmaSortableDirective, MagmaSortRuleDirective]
         FormsModule,
         NumFormatPipe,
         DatePipe,
@@ -101,10 +106,10 @@ export class TestComponent {
         _index: number,
     ): boolean => {
         return (
-            key === item.col1 ||
-            key === item.col2 ||
-            key === item.col3 ||
-            key === item.col4 ||
+            key.toLocaleLowerCase() === item.col1.toLocaleLowerCase() ||
+            key.toLocaleLowerCase() === item.col2.toLocaleLowerCase() ||
+            key.toLocaleLowerCase() === item.col3.toLocaleLowerCase() ||
+            key.toLocaleLowerCase() === item.col4.toLocaleLowerCase() ||
             +key === item.col5.value ||
             new Date(key).getTime() === item.col5.date.getTime()
         );
@@ -169,10 +174,10 @@ export class TestComponent {
         _index: number,
     ): boolean => {
         return (
-            key === item.col1 ||
-            key === item.col2 ||
-            key === item.col3 ||
-            key === item.col4 ||
+            key.toLocaleLowerCase() === item.col1.toLocaleLowerCase() ||
+            key.toLocaleLowerCase() === item.col2.toLocaleLowerCase() ||
+            key.toLocaleLowerCase() === item.col3.toLocaleLowerCase() ||
+            key.toLocaleLowerCase() === item.col4.toLocaleLowerCase() ||
             +key === item.col5.value ||
             new Date(key).getTime() === item.col5.date.getTime()
         );

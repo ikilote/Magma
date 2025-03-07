@@ -47,8 +47,8 @@
     <mg-input class="s-6">
       <mg-input-label>Filter</mg-input-label>
       <mg-input-text
+        clearCross
         id="browser-list-filter"
-        type="search"
         maxlength="150"
         [(ngModel)]="filter"
         #inputFilter
@@ -59,7 +59,7 @@
       mg
       hover
       [sortable]="items"
-      [sortable-filter-input]="inputFilter.inputElement"
+      [sortable-filter-input]="inputFilter"
       [sortable-filter]="sortableFilter"
       class="s-12"
     >

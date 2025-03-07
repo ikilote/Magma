@@ -48,7 +48,7 @@ export class MagmaInputTextarea extends MagmaInputCommon {
 
     override readonly datalist: any = undefined; // not for textarea
 
-    get inputElement(): HTMLTextAreaElement {
+    override get inputElement(): HTMLTextAreaElement {
         return this.input()?.[0]?.nativeElement;
     }
 

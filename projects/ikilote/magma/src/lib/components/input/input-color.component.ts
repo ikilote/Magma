@@ -36,7 +36,7 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
     override readonly componentName = 'input-color';
     protected override counter = counter++;
 
-    readonly span = viewChildren<ElementRef<HTMLSpanElement>>('span');
+    readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly clearButton = input(false, { transform: booleanAttribute });
@@ -45,8 +45,8 @@ export class MagmaInputColor extends MagmaInputCommon implements OnInit {
 
     override readonly placeholder: any = undefined; // not for color
 
-    get inputElement(): HTMLSpanElement {
-        return this.span()?.[0]?.nativeElement;
+    override get inputElement(): HTMLInputElement {
+        return this.input()?.[0]?.nativeElement;
     }
 
     colorClose(color: string) {

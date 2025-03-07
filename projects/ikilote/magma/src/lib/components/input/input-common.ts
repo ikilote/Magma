@@ -14,6 +14,8 @@ import {
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NgControl, ValidationErrors } from '@angular/forms';
 
+import { Select2 } from 'ng-select2-component';
+
 import { MagmaInput } from './input.component';
 
 import { ParamsMessagesControlMessage } from '../../services/form-builder-extended';
@@ -52,6 +54,10 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
 
     _name = computed<string>(() => this.formControlName() || this.name() || this.id() || this.uid());
     _id = computed<string>(() => this.id() || this.uid());
+
+    get inputElement(): HTMLInputElement | HTMLTextAreaElement | Select2 | undefined {
+        return undefined;
+    }
 
     protected _value: any = '';
 

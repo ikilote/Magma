@@ -40,7 +40,7 @@ export class MagmaInputText extends MagmaInputCommon {
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 
-    get inputElement(): HTMLInputElement | undefined {
+    override get inputElement(): HTMLInputElement | undefined {
         return this.input()?.[0]?.nativeElement;
     }
 

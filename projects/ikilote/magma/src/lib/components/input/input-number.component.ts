@@ -72,7 +72,7 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 
-    get inputElement(): HTMLInputElement {
+    override get inputElement(): HTMLInputElement {
         return this.input()?.[0]?.nativeElement;
     }
 

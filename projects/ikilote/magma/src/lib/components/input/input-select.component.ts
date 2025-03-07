@@ -189,7 +189,7 @@ export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
 
     readonly input = viewChildren(Select2);
 
-    get inputElement(): Select2 | undefined {
+    override get inputElement(): Select2 | undefined {
         return this.input()?.[0];
     }
 

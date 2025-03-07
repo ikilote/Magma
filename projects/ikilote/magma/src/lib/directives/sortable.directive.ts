@@ -11,7 +11,6 @@ import {
     input,
 } from '@angular/core';
 
-import { MagmaInputText } from '../../public-api';
 import { MagmaInputCommon } from '../components/input/input-common';
 import { objectNestedValue } from '../utils/object';
 
@@ -91,10 +90,15 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     private input = '';
 
     ngOnInit(): void {
-        if (this.sortableFilterInput()) {
-            this.inputListener = this.renderer.listen(this.sortableFilterInput(), 'input', (inputEvent: InputEvent) => {
-                this.filter((inputEvent.target as HTMLInputElement).value);
-            });
+        const input = this.sortableFilterInput();
+        if (input) {
+            this.inputListener = this.renderer.listen(
+                input instanceof MagmaInputCommon ? input.inputElement : input,
+                'input',
+                (inputEvent: InputEvent) => {
+                    this.filter((inputEvent.target as HTMLInputElement).value);
+                },
+            );
         }
     }
 
@@ -108,7 +112,7 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
 
     update() {
         const input = this.sortableFilterInput();
-        this.filter(input instanceof MagmaInputText ? input.getValue() : input?.value || '');
+        this.filter(input instanceof MagmaInputCommon ? input.getValue() : input?.value || '');
     }
 
     ngOnDestroy(): void {

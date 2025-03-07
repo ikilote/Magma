@@ -1,6 +1,6 @@
 @if (!onError) {
+  <input type="hidden" [value]="_value ?? ''" #input />
   <span
-    #span
     [id]="_id() + '-input'"
     [style.--color]="_value"
     [class.empty]="!_value"

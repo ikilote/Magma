@@ -2,6 +2,22 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.3.6 (2025-03-08)
+
+### 🫢 Breaking
+
+- Rename sort class
+
+### ✅ New
+
+- Add type for `input-text`
+- Support mg-input for sort directive
+- Get inputElement for all mg-input components
+
+### 🐞 Fix
+
+- Fix input line-height
+
 ## 0.3.5 (2025-03-05)
 
 ### 🐞 Fix

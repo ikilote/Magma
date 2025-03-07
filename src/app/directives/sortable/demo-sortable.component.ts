@@ -130,7 +130,7 @@ export class TestComponent {
   mg
   hover
   [sortable]="items"
-  [sortable-filter-input]="inputFilter.inputElement"
+  [sortable-filter-input]="inputFilter"
   [sortable-filter]="sortableFilter"
   class="s-12"
 >

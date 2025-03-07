@@ -2,7 +2,7 @@
 
 :host:is(mg-input-prefix, mg-input-suffix) {
     position: relative;
-    line-height: 21px;
+    line-height: var(--input-line-height);
     white-space: nowrap;
 }
 

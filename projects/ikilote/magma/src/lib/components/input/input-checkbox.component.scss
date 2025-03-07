@@ -13,7 +13,7 @@ input:checked + label::before {
 }
 
 :host.toggle-switch {
-    --height: 21px;
+    --height: var(--input-line-height);
     --width: 40px;
     --top: 1px;
     --size: var(--width);

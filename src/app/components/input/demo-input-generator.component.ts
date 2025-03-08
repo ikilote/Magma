@@ -93,6 +93,7 @@ export class DemoInputGeneratorComponent {
         subValue2: FormControl<string>;
         subLabel3: FormControl<string>;
         subValue3: FormControl<string>;
+        alignMode: FormControl<'row' | 'column'>;
         // radio / checkbox / select
         multiple: FormControl<boolean>;
         overlay: FormControl<boolean>;
@@ -154,6 +155,11 @@ export class DemoInputGeneratorComponent {
         '#a3c197',
     ];
 
+    alignMode: Select2Data = [
+        { value: 'row', label: 'row' },
+        { value: 'column', label: 'column' },
+    ];
+
     constructor(fbe: FormBuilderExtended) {
         this.formGenerator = fbe.groupWithErrorNonNullable({
             type: { default: 'text' },
@@ -188,6 +194,7 @@ export class DemoInputGeneratorComponent {
             subValue2: { default: 'value2' },
             subLabel3: { default: 'input label 3' },
             subValue3: { default: 'value3' },
+            alignMode: { default: 'row' },
             // radio / checkbox / select
             multiple: { default: false },
             overlay: { default: false },
@@ -256,6 +263,11 @@ export class DemoInputGeneratorComponent {
                 inline: true,
             };
             body.push(jsonLabel);
+        }
+        if (value.type === 'radio' || value.type === 'checkbox') {
+            if (value.alignMode === 'column') {
+                attrInput['alignMode'] = value.alignMode;
+            }
         }
         if (value.type) {
             this.addType(body, value.type, value.subLabel1, value.subValue1);

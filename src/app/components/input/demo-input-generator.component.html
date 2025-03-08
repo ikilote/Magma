@@ -227,6 +227,11 @@
           }
         }
         @if (formGenerator.value.type === 'checkbox' || formGenerator.value.type === 'radio') {
+          <mg-input class="s-3 s-6-m">
+            <mg-input-label>alignMode</mg-input-label>
+            <mg-input-select formControlName="alignMode" [data]="alignMode"></mg-input-select>
+          </mg-input>
+
           <div class="s-12">
             <mg-input class="s-4 s-6-m">
               <mg-input-label>Input label</mg-input-label>
@@ -282,7 +287,7 @@
   <div class="s-6 s-12-m">
     <h2>Rendu</h2>
     <div>
-      <mg-input class="s-12" [arrayValue]="formGenerator.value.arrayValue">
+      <mg-input class="s-12" [arrayValue]="formGenerator.value.arrayValue" [alignMode]="formGenerator.value.alignMode!">
         @if (formGenerator.value.label) {
           <mg-input-label>{{ formGenerator.value.label }}</mg-input-label>
         }

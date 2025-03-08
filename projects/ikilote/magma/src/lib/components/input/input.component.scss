@@ -29,6 +29,7 @@
 .content {
     display: flex;
     grid-area: content;
+    flex-direction: var(--align);
     align-items: baseline;
     align-self: baseline;
 }

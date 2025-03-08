@@ -37,6 +37,8 @@ export class MagmaInput implements OnChanges {
 
     /** for checkbox */
     readonly arrayValue = input(false, { transform: booleanAttribute });
+    /** for checkbox & radio */
+    readonly alignMode = input<'row' | 'column'>('row');
 
     protected counter = counter++;
     protected uid = computed<string>(() => `mg-input-${this.counter}`);

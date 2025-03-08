@@ -5,7 +5,7 @@
     <ng-container [ngTemplateOutlet]="label"></ng-container>
   }
 </div>
-<div class="content">
+<div class="content" [style.--align]="alignMode()">
   <ng-content select="mg-input-before"></ng-content>
   <ng-content select="mg-input-prefix"></ng-content>
   <ng-content

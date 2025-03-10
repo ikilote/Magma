@@ -7,6 +7,7 @@ import {
     OnInit,
     Renderer2,
     SimpleChanges,
+    Type,
     inject,
     input,
 } from '@angular/core';
@@ -174,4 +175,4 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     }
 }
 
-export const MagmaSortable = [MagmaSortableDirective, MagmaSortRuleDirective];
+export const MagmaSortable: Type<any>[] = [MagmaSortableDirective, MagmaSortRuleDirective];

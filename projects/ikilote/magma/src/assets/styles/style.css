@@ -153,6 +153,10 @@ input:not(:focus-visible):invalid {
     text-decoration: underline wavy var(--alert5);
 }
 
+input::placeholder {
+    color: var(--input-placeholder-color);
+}
+
 /** Fix Chromium */
 input[type='range'][orient='vertical'] {
     vertical-align: bottom;

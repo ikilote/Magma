@@ -82,22 +82,22 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
     }
 
     changeValue(event: Event) {
-        const value = this.forceValue(+this.getInput(event).value);
-        this._value = value;
-        this.onChange(value);
-        this.update.emit(value);
+        this.update.emit(this.inputValue(event));
     }
 
     inputValue(event: Event) {
-        const value = this.forceValue(+this.getInput(event).value);
+        const input = this.getInput(event);
+        const value = this.forceValue(input.value !== '' ? +input.value : undefined);
         this._value = value;
         this.onChange(value);
+        return value;
     }
 
     focus(event: Event, focus: boolean) {
         if (!focus) {
-            if (this.getInput(event).value !== this._value) {
-                this.getInput(event).value = this._value;
+            const input = this.getInput(event);
+            if (input.value !== this._value) {
+                input.value = this._value;
             }
             this.onTouched();
             if (!focus) {
@@ -135,17 +135,17 @@ export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
         }
     }
 
-    private forceValue(value: number) {
+    private forceValue(value: number | undefined) {
         if (this.forceMinMax()) {
             const min = this.min();
             if (min !== undefined && !Number.isNaN(min)) {
-                if (value < min) {
+                if ((value || 0) < min) {
                     value = min;
                 }
             }
             const max = this.max();
             if (max !== undefined && !Number.isNaN(max)) {
-                if (value > max) {
+                if ((value || 0) > max) {
                     value = max;
                 }
             }

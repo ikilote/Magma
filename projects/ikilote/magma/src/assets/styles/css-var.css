@@ -157,6 +157,7 @@ body {
     --input-error-color: var(--alert4);
     --input-line-height: 21px;
     --input-mark-top: -2px;
+    --input-placeholder-color: var(--primary4);
 
     /* MARK: item content-box */
     --content-title-text-color: var(--neutral);

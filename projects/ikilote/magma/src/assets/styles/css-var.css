@@ -156,6 +156,7 @@ body {
     --input-textarea-max-height: 500px;
     --input-error-color: var(--alert4);
     --input-line-height: 21px;
+    --input-mark-top: -2px;
 
     /* MARK: item content-box */
     --content-title-text-color: var(--neutral);

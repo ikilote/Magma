@@ -13,7 +13,7 @@ input {
         &::before {
             display: inline-block;
             position: absolute;
-            top: -2px;
+            top: var(--input-mark-top);
             left: 0px;
             box-sizing: border-box;
             margin-right: 5px;

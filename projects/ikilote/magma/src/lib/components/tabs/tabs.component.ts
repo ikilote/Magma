@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, contentChildren, output } from '@angular/core';
+import { AfterContentInit, ChangeDetectionStrategy, Component, Type, contentChildren, output } from '@angular/core';
 
 import { MagmaTabContent } from './tab-content.component';
 import { MagmaTabTitle } from './tab-title.component';
@@ -60,5 +60,4 @@ export class MagmaTabs implements AfterContentInit {
     }
 }
 
-
-export const MagmaTabsModule = [MagmaTabs, MagmaTabTitle, MagmaTabContent];
+export const MagmaTabsModule: Type<any>[] = [MagmaTabs, MagmaTabTitle, MagmaTabContent];

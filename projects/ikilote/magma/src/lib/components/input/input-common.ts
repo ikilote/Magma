@@ -86,22 +86,17 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
             this.setHostLabelId();
         }
         if (changes['placeholder']) {
-            if (!this.placeholderAnimated()) {
-                this.stopPlaceholderAnimation();
-            } else {
-                this.stopPlaceholderAnimation();
-                this.startPlaceholderAnimation(this.placeholderAnimated()!);
-            }
+            this.initAnimation();
         }
         if (
             changes['placeholderAnimated'] &&
             changes['placeholderAnimated'].currentValue !== changes['placeholderAnimated'].previousValue
         ) {
             if (changes['placeholderAnimated'].currentValue) {
-                this.stopPlaceholderAnimation();
-                this.startPlaceholderAnimation(changes['placeholderAnimated'].currentValue);
+                this.initAnimation();
             } else {
-                this.stopPlaceholderAnimation();
+                const [, , , separator] = this.infoPlaceholderAnimation(this.placeholderAnimated()!);
+                this.stopPlaceholderAnimation(separator);
             }
         }
     }
@@ -116,6 +111,9 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     writeValue(value: any): void {
         this._value = value;
         this.cd.detectChanges();
+        setTimeout(() => {
+            this.initAnimation();
+        });
     }
 
     registerOnChange(fn: any): void {
@@ -172,12 +170,29 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
         this.host.cd.detectChanges();
     }
 
-    protected startPlaceholderAnimation(info: string) {
-        const [baseDelayValue, repeatValue, intervaleValue] = info.split(/\s+/);
+    protected initAnimation() {
+        const [, , , separator] = this.infoPlaceholderAnimation(this.placeholderAnimated()!);
+        if (this.getValue() === null || this.getValue() === undefined || this.getValue() === '') {
+            this.stopPlaceholderAnimation(separator);
+            if (this.placeholderAnimated()) {
+                this.startPlaceholderAnimation(this.placeholderAnimated()!);
+            }
+        } else {
+            this.stopPlaceholderAnimation(separator);
+        }
+    }
+
+    protected infoPlaceholderAnimation(info: string) {
+        const [baseDelayValue, repeatValue, intervaleValue, separator] = (info ?? '').split(/\s+/);
         const baseDelay = Math.max(+baseDelayValue || 30, 1);
         const repeat = Math.max(+repeatValue || 1, 1);
         const intervale = Math.max(+intervaleValue || baseDelay, 1);
-        this.inPlaceholderAnimation(baseDelay, repeat, intervale);
+        return [baseDelay, repeat, intervale, separator] as [number, number, number, string];
+    }
+
+    protected startPlaceholderAnimation(info: string) {
+        const [baseDelay, repeat, intervale, separator] = this.infoPlaceholderAnimation(info);
+        this.inPlaceholderAnimation(baseDelay, repeat, intervale, separator);
     }
 
     protected inPlaceholderAnimation(baseDelay: number, repeat: number, intervale: number, separator: string = '|') {
@@ -221,7 +236,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
         Timing.stop(this.placeholderTimer!);
         this.placeholderTimer = undefined;
         this.placeholderDisplay.set(
-            (separator ? this.placeholder()?.split(separator).pop() : this.placeholder()) ?? '',
+            (separator ? this.placeholder?.()?.split(separator).pop() : (this.placeholder?.() ?? '')) ?? '',
         );
     }
 }

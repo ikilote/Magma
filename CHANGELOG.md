@@ -2,6 +2,19 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.3.7 (2025-03-11)
+
+### ✅ New
+
+- Add `alignMode` for radio & checkbox
+- Add CSS var for checkbox & radio top position
+
+### 🐞 Fix
+
+- Placeholder: start animation when field is empty
+- `input-number`: fix empty value & placeholder
+- Color piker: fix color cursor position on init
+
 ## 0.3.6 (2025-03-08)
 
 ### 🫢 Breaking

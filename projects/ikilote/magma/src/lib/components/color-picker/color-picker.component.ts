@@ -150,15 +150,15 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     ngAfterViewInit(): void {
         setTimeout(() => {
             const color = this.color();
-
             if (color) {
                 const colorObject = new Color(color);
                 if (!this.alpha()) {
                     colorObject.alpha = 1;
                 }
                 this.updateWithHLS(colorObject);
+                this.cd.detectChanges();
             }
-        }, 100);
+        }, 0);
     }
 
     clear() {

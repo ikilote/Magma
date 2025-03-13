@@ -1,4 +1,5 @@
 :host {
     position: relative;
     top: var(--info-message-top);
+    pointer-events: visiblePainted;
 }

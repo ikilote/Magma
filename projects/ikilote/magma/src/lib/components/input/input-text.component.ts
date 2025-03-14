@@ -73,5 +73,8 @@ export class MagmaInputText extends MagmaInputCommon {
 
     clearField() {
         this.inputElement!.value = '';
+        super.writeValue('');
+        this.onChange('');
+        this.update.emit('');
     }
 }

@@ -2,6 +2,13 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.3.8 (2025-03-14)
+
+### 🐞 Fix
+
+- Fix `pointer-event` on `info-messages` panel
+- Fix `clearField` update value
+
 ## 0.3.7 (2025-03-11)
 
 ### ✅ New

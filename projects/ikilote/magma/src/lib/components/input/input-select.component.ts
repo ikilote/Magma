@@ -174,6 +174,9 @@ export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
     /** description of the reset button when using 'resettable'. Default value : 'Reset' */
     readonly ariaResetButtonDescription = input<string>('Reset');
 
+    /** like native select keyboard navigation (only single mode) */
+    readonly nativeKeyboard = input<boolean, unknown>(false, { transform: booleanAttribute });
+
     // ----------------------- output
 
     readonly autoCreateItem = output<Select2AutoCreateEvent<Select2UpdateValue>>();

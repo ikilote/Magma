@@ -2,6 +2,22 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.4.0 (2025-03-22)
+
+### ✅ New
+
+- Add focus tabulation in **dialog** #18
+- Improve datalist for **input**: #17
+    - color: `string[]`
+    - text: `string[], {label?: string, value: string}[]`
+    - range: `number[]`
+    - number: `number, {label?: string, value: number}[]`
+- **input-select**: mapping for `nativeKeyboard` form **select2** #16
+
+### 📦 Packages
+
+- Update to **ng-select2-component** to `17.2.1`
+
 ## 0.3.8 (2025-03-14)
 
 ### 🐞 Fix

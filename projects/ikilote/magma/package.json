@@ -10,7 +10,7 @@
     "@angular/cdk": "^19.0.0",
     "@ikilote/num-formatter": "^1.0.0",
     "colorjs.io": "^0.5.2",
-    "ng-select2-component": "^17.1.1"
+    "ng-select2-component": "^17.2.1"
   },
   "dependencies": {
     "tslib": "^2.3.0",

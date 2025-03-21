@@ -1,22 +1,31 @@
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  HostBinding,
-  HostListener,
-  booleanAttribute,
-  inject,
-  input,
-  output,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    HostListener,
+    OnDestroy,
+    booleanAttribute,
+    inject,
+    input,
+    output,
+    signal,
+    viewChild,
 } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
+
+import { Subscriptions } from '../../utils/subscriptions';
 
 @Component({
     selector: 'mg-dialog',
     templateUrl: './dialog.component.html',
     styleUrls: ['./dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        '[class.open]': 'isOpen()',
+    },
 })
-export class MagmaDialog {
+export class MagmaDialog implements OnDestroy {
     // inject
 
     private readonly cd = inject(ChangeDetectorRef);
@@ -30,9 +39,31 @@ export class MagmaDialog {
 
     readonly onClose = output();
 
+    // viewChild
+
+    focusElement = viewChild<ElementRef<HTMLDivElement>>('focus');
+
     // host
 
-    @HostBinding('class.open') _open = false;
+    isOpen = signal(false);
+
+    private sub = Subscriptions.instance();
+    private focusOrigin: HTMLElement | null = null;
+
+    constructor() {
+        this.sub.push(
+            toObservable(this.focusElement).subscribe(element => {
+                if (element) {
+                    this.focusOrigin = document.activeElement as HTMLElement | null;
+                    this.limitFocus(element);
+                }
+            }),
+        );
+    }
+
+    ngOnDestroy(): void {
+        this.sub.clear();
+    }
 
     @HostListener('click')
     onClick() {
@@ -42,18 +73,55 @@ export class MagmaDialog {
     }
 
     open() {
-        this._open = true;
-        this.cd.detectChanges();
+        console.log('open');
+        this.isOpen.set(true);
     }
 
     close() {
-        this._open = false;
-        this.cd.detectChanges();
+        this.isOpen.set(false);
         this.onClose.emit();
+        if (this.focusOrigin) {
+            this.focusOrigin.focus();
+        }
     }
 
     _propagationStop(event: Event) {
         event.stopPropagation();
         window.dispatchEvent(new CustomEvent('dialog-click', { detail: event }));
+    }
+
+    limitFocus(element: ElementRef<HTMLDivElement>) {
+        const div = element?.nativeElement;
+        if (div) {
+            div.focus();
+
+            const firstFocusableElement = div;
+            let lastFocusableElement = this.lastFocusableElement(div);
+
+            div.addEventListener('keydown', e => {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstFocusableElement) {
+                            e.preventDefault();
+                            lastFocusableElement.focus();
+                        }
+                    } else if (document.activeElement === lastFocusableElement) {
+                        e.preventDefault();
+                        firstFocusableElement.focus();
+                    }
+                }
+            });
+
+            div.addEventListener('DOMSubtreeModified', () => {
+                lastFocusableElement = this.lastFocusableElement(div);
+            });
+        }
+    }
+
+    private lastFocusableElement(div: HTMLDivElement) {
+        const focusableElements = div.querySelectorAll<HTMLElement>(
+            'a[href], button:not(:disabled), input:not(:disabled), [tabindex="0"]',
+        );
+        return focusableElements[focusableElements.length - 1];
     }
 }

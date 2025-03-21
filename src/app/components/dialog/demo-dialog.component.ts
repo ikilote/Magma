@@ -44,8 +44,21 @@ export class DemoDialogComponent {
 
         const json: Json2htmlRef = {
             tag: 'mg-dialog',
-            attrs: {},
-            body: ['Content dialog'],
+            attrs: { '#dialog': null },
+            body: [
+                {
+                    tag: 'p',
+                    body: 'Content dialog',
+                },
+                {
+                    tag: 'p',
+                    body: {
+                        tag: 'button',
+                        attrs: { '(click)': 'dialog.close()' },
+                        body: 'Close',
+                    },
+                },
+            ],
         };
         const attrs: Json2htmlAttr = json.attrs!;
 

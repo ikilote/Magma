@@ -1,5 +1,5 @@
-@if (_open) {
-  <div class="content" (click)="_propagationStop($event)">
+@if (isOpen()) {
+  <div class="content" (click)="_propagationStop($event)" tabindex="0" #focus>
     @if (closeButton()) {
       <button class="close" (click)="close()">×</button>
     }

@@ -20,7 +20,10 @@
       <button (click)="dialog.open()">Open dialog</button>
 
       <mg-dialog #dialog [closeButton]="ctrlForm.value.closeButton" [closeBackdrop]="ctrlForm.value.closeBackdrop">
-        Content dialog
+        <p>Content dialog</p>
+        <p>
+          <button (click)="dialog.close()">Close</button>
+        </p>
       </mg-dialog>
     </div>
     <div class="s-4 s-12-l">

@@ -58,6 +58,10 @@
     &:hover {
         background: var(--dialog-close-background-hover);
     }
+
+    &:focus {
+        outline: 2px solid var(--button-default-focus-border-color);
+    }
 }
 
 .main {

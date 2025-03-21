@@ -112,9 +112,14 @@ export class MagmaDialog implements OnDestroy {
                 }
             });
 
-            div.addEventListener('DOMSubtreeModified', () => {
-                lastFocusableElement = this.lastFocusableElement(div);
-            });
+            new MutationObserver(mutationsList => {
+                for (const mutation of mutationsList) {
+                    if (mutation.type == 'childList' || mutation.type == 'attributes') {
+                        lastFocusableElement = this.lastFocusableElement(div);
+                        return;
+                    }
+                }
+            }).observe(div, { attributes: true, childList: true, subtree: true });
         }
     }
 

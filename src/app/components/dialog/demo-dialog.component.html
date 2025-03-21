@@ -24,6 +24,12 @@
         <p>
           <button (click)="dialog.close()">Close</button>
         </p>
+        <p>
+          @let l = [0];
+          @for (b of l; track $index) {
+            <button (click)="l.push(0)">Add</button>
+          }
+        </p>
       </mg-dialog>
     </div>
     <div class="s-4 s-12-l">

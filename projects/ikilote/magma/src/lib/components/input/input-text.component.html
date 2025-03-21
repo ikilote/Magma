@@ -21,7 +21,11 @@
   @if (datalist()?.length) {
     <datalist [id]="_id() + '-datalist'">
       @for (item of datalist(); track $index) {
-        <option [value]="item"></option>
+        @if (typeof item === 'object') {
+          <option [value]="$any(item).value">{{ $any(item).label ?? $any(item).value }}</option>
+        } @else {
+          <option [value]="item"></option>
+        }
       }
     </datalist>
   }

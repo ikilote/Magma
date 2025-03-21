@@ -23,7 +23,7 @@ import { Logger } from '../../services/logger';
 import { Timing } from '../../utils/timing';
 
 @Directive({})
-export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
+export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
     protected readonly host = inject(MagmaInput, { optional: false, host: true });
     protected readonly logger = inject(Logger);
     readonly cd = inject(ChangeDetectorRef);
@@ -38,7 +38,7 @@ export class MagmaInputCommon implements ControlValueAccessor, OnInit, OnChanges
     readonly id = input<string>();
     readonly placeholder = input<string>();
     readonly placeholderAnimated = input<string>();
-    readonly datalist = input<(string | number)[]>();
+    readonly datalist = input<T>();
 
     /** Whether the element is disabled. */
     readonly disabled = input(false, { transform: booleanAttribute });

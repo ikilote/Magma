@@ -49,6 +49,7 @@ export class MagmaDialog implements OnDestroy {
 
     private sub = Subscriptions.instance();
     private focusOrigin: HTMLElement | null = null;
+    private observer: MutationObserver | undefined;
 
     constructor() {
         this.sub.push(
@@ -63,6 +64,7 @@ export class MagmaDialog implements OnDestroy {
 
     ngOnDestroy(): void {
         this.sub.clear();
+        this.observer?.disconnect();
     }
 
     @HostListener('click')
@@ -80,6 +82,7 @@ export class MagmaDialog implements OnDestroy {
     close() {
         this.isOpen.set(false);
         this.onClose.emit();
+        this.observer?.disconnect();
         if (this.focusOrigin) {
             this.focusOrigin.focus();
         }
@@ -112,14 +115,15 @@ export class MagmaDialog implements OnDestroy {
                 }
             });
 
-            new MutationObserver(mutationsList => {
+            this.observer = new MutationObserver(mutationsList => {
                 for (const mutation of mutationsList) {
                     if (mutation.type == 'childList' || mutation.type == 'attributes') {
                         lastFocusableElement = this.lastFocusableElement(div);
                         return;
                     }
                 }
-            }).observe(div, { attributes: true, childList: true, subtree: true });
+            });
+            this.observer.observe(div, { attributes: true, childList: true, subtree: true });
         }
     }
 

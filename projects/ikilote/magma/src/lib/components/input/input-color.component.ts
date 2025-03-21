@@ -32,7 +32,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInputColor extends MagmaInputCommon implements OnInit {
+export class MagmaInputColor extends MagmaInputCommon<string[]> implements OnInit {
     override readonly componentName = 'input-color';
     protected override counter = counter++;
 

@@ -33,7 +33,10 @@ let counter = 0;
         '[attr.data-number]': 'numberFormat.transform(_value, formater())',
     },
 })
-export class MagmaInputNumber extends MagmaInputCommon implements OnInit {
+export class MagmaInputNumber
+    extends MagmaInputCommon<(number | { label?: string; value: number })[]>
+    implements OnInit
+{
     override readonly componentName = 'input-number';
     protected override counter = counter++;
     protected numberFormat = new NumFormatPipe();

@@ -30,7 +30,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInputText extends MagmaInputCommon {
+export class MagmaInputText extends MagmaInputCommon<(string | { label?: string; value: string })[]> {
     override readonly componentName: string = 'input-text';
     protected override counter = counter++;
 

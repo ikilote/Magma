@@ -2,6 +2,16 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.4.1 (2025-03-23)
+
+### ✅ New
+
+- Add keyboard selection for tabs
+
+### 🐞 Fix
+
+- Fix info-message action zone
+
 ## 0.4.0 (2025-03-22)
 
 ### ✅ New
@@ -11,7 +21,7 @@
     - color: `string[]`
     - text: `string[], {label?: string, value: string}[]`
     - range: `number[]`
-    - number: `number, {label?: string, value: number}[]`
+    - number: `number[], {label?: string, value: number}[]`
 - **input-select**: mapping for `nativeKeyboard` form **select2** #16
 
 ### 📦 Packages

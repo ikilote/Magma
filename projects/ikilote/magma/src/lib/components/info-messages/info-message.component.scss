@@ -1,7 +1,7 @@
 :host {
     display: block;
     position: relative;
-    top: 10px;
+    top: 0px;
     cursor: pointer;
     box-sizing: border-box;
     margin-bottom: 2px;
@@ -11,6 +11,7 @@
     border-radius: 4px 0 0 4px;
     background: var(--info-message-background);
     padding: 10px;
+    width: max-content;
     min-width: 100px;
 
     &.close {
@@ -53,7 +54,7 @@
 
 @keyframes moveTop {
     from {
-        top: 10px;
+        top: 0px;
         opacity: 1;
         padding: 5px 10px;
         max-height: var(--current-height);

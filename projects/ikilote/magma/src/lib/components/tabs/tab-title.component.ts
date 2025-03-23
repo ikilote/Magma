@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  inject,
-  input,
-  model,
+    ChangeDetectionStrategy,
+    Component,
+    HostListener,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
+    inject,
+    input,
+    model,
 } from '@angular/core';
 
 import { MagmaTabs } from './tabs.component';
@@ -19,6 +19,7 @@ import { MagmaTabs } from './tabs.component';
     host: {
         '[attr.id]': 'id()',
         '[class.selected]': 'selected()',
+        tabindex: '0',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -45,11 +46,12 @@ export class MagmaTabTitle implements OnInit, OnChanges {
     }
 
     @HostListener('click')
+    @HostListener('keydown.enter')
     onclick() {
         if (this.tabs && this.id()) {
-          setTimeout(() => {
-            this.tabs.update(this.id());
-          })
+            setTimeout(() => {
+                this.tabs.update(this.id());
+            });
         }
     }
 }

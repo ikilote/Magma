@@ -32,6 +32,7 @@ let counter = 0;
         '[style.--min]': 'minHeight()',
         '[style.--max]': 'maxHeight()',
         '[style.--default]': 'height()',
+        '[class.monospace]': 'monospace()',
     },
 })
 export class MagmaInputTextarea extends MagmaInputCommon {
@@ -41,6 +42,7 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     readonly input = viewChildren<ElementRef<HTMLTextAreaElement>>('input');
 
     readonly autosize = input(false, { transform: booleanAttribute });
+    readonly monospace = input(false, { transform: booleanAttribute });
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
     readonly height = input<string>();
     readonly maxHeight = input<string>();

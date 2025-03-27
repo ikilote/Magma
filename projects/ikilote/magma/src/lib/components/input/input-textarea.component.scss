@@ -4,6 +4,10 @@
     width: -moz-available;
     width: -webkit-fill-available;
     width: fill-available;
+
+    &.monospace {
+        --font-family: var(--font-mono);
+    }
 }
 
 textarea {

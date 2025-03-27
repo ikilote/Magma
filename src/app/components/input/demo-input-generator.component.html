@@ -166,6 +166,10 @@
             <mg-input-label>autosize</mg-input-label>
             <mg-input-checkbox formControlName="autosize" mode="toggle"></mg-input-checkbox>
           </mg-input>
+          <mg-input class="s-4 s-6-m">
+            <mg-input-label>monospace</mg-input-label>
+            <mg-input-checkbox formControlName="monospace" mode="toggle"></mg-input-checkbox>
+          </mg-input>
           <div class="break"></div>
           <mg-input class="s-4 s-6-m">
             <mg-input-label>default height</mg-input-label>
@@ -316,6 +320,7 @@
               [(ngModel)]="valueTextarea"
               (ngModelChange)="codeGeneration()"
               [autosize]="formGenerator.value.autosize"
+              [monospace]="formGenerator.value.monospace"
               [maxlength]="formGenerator.value.maxLength ?? null"
               [height]="formGenerator.value.height"
               [maxHeight]="formGenerator.value.maxHeight"

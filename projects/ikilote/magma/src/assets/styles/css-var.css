@@ -93,6 +93,7 @@ body {
     --text-color: var(--primary0);
     --color-mode-border-color: var(--primary0);
     --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
+    --font-mono: 'Courier New', Courier, monospace;
 
     /* MARK: context-menu */
     --context-menu-background: var(--primary8);

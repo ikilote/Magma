@@ -2,6 +2,17 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.4.2 (2025-03-27)
+
+### ✅ New
+
+- **input-textarea**: add monospace mode
+- Util: add `jsonParse` function to parse json with `ExceptionJsonParse`
+
+### 📦 Packages
+
+- Add **bowser**
+
 ## 0.4.1 (2025-03-23)
 
 ### ✅ New

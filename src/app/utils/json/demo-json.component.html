@@ -3,6 +3,32 @@
 <h2>jsonCopy</h2>
 <div>
   <div class="s-12">
-    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+    <code-tabs [code]="[{ type: 'ts', code: codeTsCopy }]"></code-tabs>
+  </div>
+</div>
+
+<h2>jsonParse with ExceptionJsonParse</h2>
+
+<div>
+  <div class="s-6">
+    <mg-input class="s-12">
+      <mg-input-label>Json</mg-input-label>
+      <mg-input-textarea [(ngModel)]="json" (ngModelChange)="update($event)" autosize monospace></mg-input-textarea>
+      @if (error) {
+        <mg-input-error>
+          <pre class="mono">{{ error }}</pre>
+        </mg-input-error>
+      }
+    </mg-input>
+
+    <p><small>Note: with WebKit unable to determine position of Json parsing error.</small></p>
+  </div>
+  <div class="s-6">
+    <code-tabs
+      [code]="[
+        { type: 'ts', code: codeTsParse },
+        { type: 'html', code: codeTsParseHtml },
+      ]"
+    ></code-tabs>
   </div>
 </div>

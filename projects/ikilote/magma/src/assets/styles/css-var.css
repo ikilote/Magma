@@ -93,7 +93,9 @@ body {
     --text-color: var(--primary0);
     --color-mode-border-color: var(--primary0);
     --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
-    --font-mono: 'Courier New', Courier, monospace;
+    --font-mono:
+        'Roboto Mono', 'FreeMono', 'Liberation Mono', 'Ubuntu Mono', 'Courier New', 'Droid Sans Mono', Courier,
+        monospace;
 
     /* MARK: context-menu */
     --context-menu-background: var(--primary8);
@@ -155,7 +157,7 @@ body {
     --input-checked-color: var(--primary5);
     --input-textarea-min-height: 33px;
     --input-textarea-max-height: 500px;
-    --input-error-color: var(--alert4);
+    --input-error-color: var(--alert3);
     --input-line-height: 21px;
     --input-mark-top: -2px;
     --input-placeholder-color: var(--primary4);

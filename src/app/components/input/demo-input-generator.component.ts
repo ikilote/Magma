@@ -51,6 +51,12 @@ export class DemoInputGeneratorComponent {
     exampleData: Select2Data = [
         { label: 'test1', value: 'test1' },
         { label: 'test2', value: 'test2' },
+        {
+            label:
+                'example of long value of selection text test for labels in this component to see what happens ' +
+                'if it is too long',
+            value: 'test3',
+        },
     ];
 
     formGenerator: FormGroup<{
@@ -354,6 +360,13 @@ export class DemoInputGeneratorComponent {
                 data += `data: Select2Data = [
         { label: 'test1', value: 'test1' },
         { label: 'test2', value: 'test2' },
+        {
+            label:
+                'example of long value of selection text test for ' +
+                'labels in this component to see what happens ' +
+                'if it is too long',
+            value: 'test3',
+        },
     ];
     `;
                 break;

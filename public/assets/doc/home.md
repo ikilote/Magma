@@ -4,7 +4,11 @@
 
 # Presentation
 
-Mini component library for Ikilote galaxy projects.
+Mini Angular component library for Ikilote galaxy projects:
+
+- [classement.org](https://classement.org)
+- [twitch-poll](https://test.ikilote.net/twitch-poll)
+- [json2html](https://test.ikilote.net/json2html-demo/)
 
 # Installation
 
@@ -34,4 +38,5 @@ Add in `style.css`
 
 # Source code
 
-Git: https://git.ikilote.net/angular/magma
+- [GitLab](https://git.ikilote.net/angular/magma)
+- [Changelog](https://git.ikilote.net/angular/magma/-/blob/main/CHANGELOG.md)

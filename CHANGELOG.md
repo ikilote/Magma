@@ -2,6 +2,12 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.4.3 (2025-03-28)
+
+### 🐞 Fix
+
+- Fix overflow issues for mg-input (select)
+
 ## 0.4.2 (2025-03-27)
 
 ### ✅ New

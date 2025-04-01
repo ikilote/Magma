@@ -75,4 +75,9 @@ export class MagmaTable {
     }
 }
 
-export const MagmaTableComponent: Type<any>[] = [MagmaTable, MagmaTableGroup, MagmaTableRow, MagmaTableCell];
+export const MagmaTableComponent: Type<MagmaTable | MagmaTableGroup | MagmaTableRow | MagmaTableCell>[] = [
+    MagmaTable,
+    MagmaTableGroup,
+    MagmaTableRow,
+    MagmaTableCell,
+];

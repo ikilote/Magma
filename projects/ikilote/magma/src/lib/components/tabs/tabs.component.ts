@@ -60,4 +60,8 @@ export class MagmaTabs implements AfterContentInit {
     }
 }
 
-export const MagmaTabsModule: Type<any>[] = [MagmaTabs, MagmaTabTitle, MagmaTabContent];
+export const MagmaTabsModule: Type<MagmaTabs | MagmaTabTitle | MagmaTabContent>[] = [
+    MagmaTabs,
+    MagmaTabTitle,
+    MagmaTabContent,
+];

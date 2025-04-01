@@ -175,4 +175,7 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     }
 }
 
-export const MagmaSortable: Type<any>[] = [MagmaSortableDirective, MagmaSortRuleDirective];
+export const MagmaSortable: Type<MagmaSortableDirective | MagmaSortRuleDirective>[] = [
+    MagmaSortableDirective,
+    MagmaSortRuleDirective,
+];

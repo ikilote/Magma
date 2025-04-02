@@ -545,7 +545,8 @@ select2 {
     .s-1,
     .s-f
 ) {
-    flex: 0 0 var(--size);
+    flex: 0 0 calc(var(--size) - var(--grid-gap, 0px));
+    margin-left: calc(var(--grid-gap, 0px));
     max-width: var(--size);
 }
 
@@ -813,9 +814,12 @@ select2 {
 }
 
 .gap {
+    --grid-gap: var(--grid-cell-padding);
     display: flex;
     flex-wrap: wrap;
-    gap: var(--grid-cell-padding);
+    align-items: stretch;
+    gap: var(--grid-cell-padding) 0;
+    margin-left: calc(-1 * var(--grid-cell-padding));
 }
 
 /* -------------------- scrollbar ------------------------------------------------------------

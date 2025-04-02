@@ -1,0 +1,10 @@
+:host {
+    display: block;
+    box-shadow: var(--block-shadow);
+    border: var(--block-border);
+    border-radius: var(--block-border);
+
+    & > div {
+        margin: var(--block-margin);
+    }
+}

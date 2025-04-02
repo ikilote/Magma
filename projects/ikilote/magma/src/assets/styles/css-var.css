@@ -204,6 +204,12 @@ body {
     /* MARK: grid */
     --grid-cell-padding: 6px;
 
+    /* MARK: block */
+    --block-radius: 3px;
+    --block-border: 1px solid var(--primary5);
+    --block-shadow: 0 0 24px 2px var(--primary8);
+    --block-margin: 12px;
+
     /* MARK: table */
     --table-header-background: var(--neutral9);
     --table-header-background-hover: var(--neutral8);

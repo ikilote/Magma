@@ -10,6 +10,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 ### Components
 
+- Block
 - Color picker
 - Context-menu
     - List in options
@@ -17,10 +18,12 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Dialog
 - Info-message
 - Input
-    - Color
     - Checkbox
+    - Color
     - Number
+    - Password
     - Radio
+    - Range
     - Select
     - Text
     - Textarea

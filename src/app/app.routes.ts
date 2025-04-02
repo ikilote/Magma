@@ -10,6 +10,11 @@ export const routes: Routes = [
         path: 'component',
         children: [
             {
+                path: 'block',
+                pathMatch: 'full',
+                loadComponent: () => import('./components/block/demo-block.component').then(m => m.DemoBlockComponent),
+            },
+            {
                 path: 'color-picker',
                 pathMatch: 'full',
                 loadComponent: () =>

@@ -2,7 +2,7 @@
     display: block;
     box-shadow: var(--block-shadow);
     border: var(--block-border);
-    border-radius: var(--block-border);
+    border-radius: var(--block-radius);
 
     & > div {
         margin: var(--block-margin);

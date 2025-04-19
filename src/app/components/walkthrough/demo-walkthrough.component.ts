@@ -1,0 +1,11 @@
+import { Component } from '@angular/core';
+
+import { MagmaWalkthrough, MagmaWalkthroughStep } from '../../../../projects/ikilote/magma/src/public-api';
+
+@Component({
+    selector: 'demo-walkthrough',
+    templateUrl: './demo-walkthrough.component.html',
+    styleUrls: ['./demo-walkthrough.component.scss'],
+    imports: [MagmaWalkthrough, MagmaWalkthroughStep],
+})
+export class DemoWalkthroughComponent {}

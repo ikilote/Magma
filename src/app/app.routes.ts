@@ -97,6 +97,12 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./components/paginate/demo-paginate.component').then(m => m.DemoPaginateComponent),
             },
+            {
+                path: 'walkthrough',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/walkthrough/demo-walkthrough.component').then(m => m.DemoWalkthroughComponent),
+            },
         ],
     },
     {

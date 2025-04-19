@@ -1,10 +1,17 @@
 <div class="content">
-  content:
   <div>
     <ng-template [cdkPortalOutlet]="portal()" />
   </div>
 
-  @if (portal().nextStep()) {
-    <button (click)="next()">News</button>
-  }
+  <div>
+    @if (portal().previousStep()) {
+      <button (click)="previous()">Previous</button>
+    }
+    @if (portal().nextStep()) {
+      <button (click)="next()">Next</button>
+    }
+    @if (portal().close()) {
+      <button (click)="close()">Close</button>
+    }
+  </div>
 </div>

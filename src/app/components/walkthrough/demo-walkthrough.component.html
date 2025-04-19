@@ -13,5 +13,13 @@
 
 <mg-walkthrough #walk="walkthrough">
   <ng-template mg-walkthrough-step selector="#btn-1" name="first" nextStep="second"><p>TEST 1</p></ng-template>
-  <ng-template mg-walkthrough-step selector="#btn-2" name="second"><p>TEST 2</p></ng-template>
+  <ng-template mg-walkthrough-step selector="#btn-2" name="second" previousStep="first" nextStep="third">
+    <p>TEST 2</p>
+  </ng-template>
+  <ng-template mg-walkthrough-step selector="#btn-3" name="third" previousStep="second" nextStep="fourth">
+    <p>TEST 3</p>
+  </ng-template>
+  <ng-template mg-walkthrough-step selector="#btn-4" name="fourth" previousStep="third" close>
+    <p>TEST 4</p>
+  </ng-template>
 </mg-walkthrough>

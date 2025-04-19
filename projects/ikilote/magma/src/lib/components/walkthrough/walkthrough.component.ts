@@ -51,7 +51,7 @@ export class MagmaWalkthrough {
         }
     }
 
-    next(stepName: string) {
+    changeStep(stepName: string) {
         const firstIndex = this.stepsDirective().findIndex(step => step.name() === stepName);
         if (this.content && firstIndex !== -1) {
             this.content.setInput('portal', this.stepsDirective()[firstIndex]);
@@ -62,5 +62,11 @@ export class MagmaWalkthrough {
                 );
             }
         }
+    }
+
+    close() {
+        this.overlayRef?.detach();
+        this.content = undefined;
+        this.overlayRef = undefined;
     }
 }

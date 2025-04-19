@@ -21,6 +21,14 @@ export class MagmaWalkthroughContent {
     readonly portal = input.required<MagmaWalkthroughStep>();
 
     next() {
-        this.host().next(this.portal().nextStep()!);
+        this.host().changeStep(this.portal().nextStep()!);
+    }
+
+    previous() {
+        this.host().changeStep(this.portal().previousStep()!);
+    }
+
+    close() {
+        this.host().close();
     }
 }

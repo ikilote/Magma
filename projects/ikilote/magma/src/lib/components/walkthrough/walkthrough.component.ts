@@ -6,10 +6,10 @@ import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 
 const connectedPosition: ConnectedPosition[] = [
-    { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
-    { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
-    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top' },
-    { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom' },
+    { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 10 },
+    { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetX: 10 },
+    { originX: 'end', originY: 'bottom', overlayX: 'end', overlayY: 'top', offsetY: 10 },
+    { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom', offsetX: 10 },
 ];
 
 @Component({
@@ -32,7 +32,7 @@ export class MagmaWalkthrough {
             if (element) {
                 const overlayRef = this.overlay.create({
                     hasBackdrop: true,
-                    backdropClass: 'overlay-backdrop',
+                    backdropClass: 'walkthrough-backdrop',
                     panelClass: 'overlay-panel',
                     scrollStrategy: this.overlay.scrollStrategies.block(),
                     positionStrategy: this.overlay
@@ -44,6 +44,7 @@ export class MagmaWalkthrough {
                 const component = overlayRef.attach(userProfilePortal);
                 component.setInput('host', this);
                 component.setInput('portal', this.stepsDirective()[firstIndex]);
+                component.setInput('element', element as HTMLElement);
 
                 this.content = component;
                 this.overlayRef = overlayRef;
@@ -55,12 +56,14 @@ export class MagmaWalkthrough {
         const firstIndex = this.stepsDirective().findIndex(step => step.name() === stepName);
         if (this.content && firstIndex !== -1) {
             this.content.setInput('portal', this.stepsDirective()[firstIndex]);
+
             const element = document.querySelector(this.stepsDirective()[firstIndex].selector());
             if (element) {
                 this.overlayRef?.updatePositionStrategy(
                     this.overlay.position().flexibleConnectedTo(element).withPositions(connectedPosition),
                 );
             }
+            this.content.setInput('element', element as HTMLElement | null);
         }
     }
 

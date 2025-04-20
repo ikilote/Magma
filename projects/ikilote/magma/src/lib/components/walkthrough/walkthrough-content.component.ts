@@ -1,6 +1,14 @@
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    OnChanges,
+    SimpleChanges,
+    input,
+    viewChild,
+} from '@angular/core';
 
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
@@ -16,9 +24,44 @@ export function throwWalkthroughContentAlreadyAttachedError() {
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CommonModule, PortalModule],
 })
-export class MagmaWalkthroughContent {
+export class MagmaWalkthroughContent implements OnChanges {
     readonly host = input.required<MagmaWalkthrough>();
     readonly portal = input.required<MagmaWalkthroughStep>();
+    readonly element = input.required<HTMLElement | null>();
+
+    elementContent = viewChild.required<ElementRef<HTMLDialogElement>>('element');
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['element']) {
+            const target = this.elementContent().nativeElement;
+            if (this.portal().showElement()) {
+                while (target.lastElementChild) {
+                    target.removeChild(target.lastElementChild);
+                }
+                const element = this.element();
+                if (element) {
+                    const clone = element.cloneNode(true);
+
+                    // click on original element
+                    const actionOrigin = this.portal().clickElementOrigin();
+                    if (target && actionOrigin) {
+                        clone.addEventListener('click', () => element.click());
+                    }
+
+                    // click on copy element
+                    const action = this.portal().clickElementActive();
+                    console.log(action);
+                    if (action) {
+                        clone.addEventListener('click', () => this.portal().clickElement.emit());
+                    }
+
+                    target.appendChild(clone);
+                }
+            } else {
+                target.textContent = '';
+            }
+        }
+    }
 
     next() {
         this.host().changeStep(this.portal().nextStep()!);

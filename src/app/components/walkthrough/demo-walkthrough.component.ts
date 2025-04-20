@@ -8,4 +8,8 @@ import { MagmaWalkthrough, MagmaWalkthroughStep } from '../../../../projects/iki
     styleUrls: ['./demo-walkthrough.component.scss'],
     imports: [MagmaWalkthrough, MagmaWalkthroughStep],
 })
-export class DemoWalkthroughComponent {}
+export class DemoWalkthroughComponent {
+    alert(e: string) {
+        alert(e);
+    }
+}

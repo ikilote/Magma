@@ -1,5 +1,5 @@
 import { CdkPortal } from '@angular/cdk/portal';
-import { Directive, booleanAttribute, inject, input } from '@angular/core';
+import { Directive, booleanAttribute, inject, input, output } from '@angular/core';
 
 @Directive({
     selector: 'ng-template[mg-walkthrough-step]',
@@ -13,4 +13,9 @@ export class MagmaWalkthroughStep extends CdkPortal {
     previousStep = input<string>();
     nextStep = input<string>();
     close = input(false, { transform: booleanAttribute });
+    showElement = input(false, { transform: booleanAttribute });
+    clickElementOrigin = input(false, { transform: booleanAttribute });
+    clickElementActive = input(false, { transform: booleanAttribute });
+
+    clickElement = output<void>();
 }

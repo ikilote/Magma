@@ -1,10 +1,10 @@
 <h1>Walkthrough</h1>
 
 <p>
-  <button id="btn-1">1</button>
-  <button id="btn-2">2</button>
-  <button id="btn-3">3</button>
-  <button id="btn-4">4</button>
+  <button id="btn-1" (click)="alert('1')"><span>1</span></button>
+  <button id="btn-2" (click)="alert('2')"><span>2</span></button>
+  <button id="btn-3" (click)="alert('3')"><span>3</span></button>
+  <button id="btn-4" (click)="alert('4')"><span>4</span></button>
 </p>
 
 <p>
@@ -12,14 +12,33 @@
 </p>
 
 <mg-walkthrough #walk="walkthrough">
-  <ng-template mg-walkthrough-step selector="#btn-1" name="first" nextStep="second"><p>TEST 1</p></ng-template>
+  <ng-template mg-walkthrough-step selector="#btn-1" name="first" nextStep="second" showElement>
+    <p>TEST 1</p>
+  </ng-template>
   <ng-template mg-walkthrough-step selector="#btn-2" name="second" previousStep="first" nextStep="third">
-    <p>TEST 2</p>
+    <p>TEST 2 ?</p>
   </ng-template>
-  <ng-template mg-walkthrough-step selector="#btn-3" name="third" previousStep="second" nextStep="fourth">
-    <p>TEST 3</p>
+  <ng-template
+    mg-walkthrough-step
+    selector="#btn-3"
+    name="third"
+    previousStep="second"
+    nextStep="fourth"
+    showElement
+    clickElementOrigin
+  >
+    <p>↑ click / TEST 3</p>
   </ng-template>
-  <ng-template mg-walkthrough-step selector="#btn-4" name="fourth" previousStep="third" close>
-    <p>TEST 4</p>
+  <ng-template
+    mg-walkthrough-step
+    selector="#btn-4"
+    name="fourth"
+    previousStep="third"
+    showElement
+    clickElementActive
+    (clickElement)="alert('4'); walk.close()"
+    close
+  >
+    <p>↑ click / TEST 4</p>
   </ng-template>
 </mg-walkthrough>

@@ -1,6 +1,17 @@
-:host {
+.component {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: -5px;
+
+    & > * {
+        margin: 0;
+    }
+}
+
+.content {
     z-index: 1;
     border: 1px solid var(--neutral5);
+    border-radius: 5px;
     background-color: var(--neutralA);
     padding: 10px;
 }

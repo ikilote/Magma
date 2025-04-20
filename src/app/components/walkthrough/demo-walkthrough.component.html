@@ -42,3 +42,32 @@
     <p>↑ click / TEST 4</p>
   </ng-template>
 </mg-walkthrough>
+
+<mg-block id="block">
+  <p>Block test</p>
+  <div class="align">
+    <button id="button">TEST</button>
+  </div>
+</mg-block>
+
+<p>
+  <button (click)="walk2.start()">start</button>
+</p>
+
+<mg-walkthrough #walk2="walkthrough">
+  <ng-template mg-walkthrough-step selector="#block" name="first" nextStep="second" showElement clickElementOrigin>
+    <p>↑ click / TEST 3</p>
+  </ng-template>
+  <ng-template
+    mg-walkthrough-step
+    selector="#button"
+    name="second"
+    close
+    showElement
+    clickElementActive
+    (clickElement)="alert('4'); walk.close()"
+    close
+  >
+    <p>↑ click / TEST 4</p>
+  </ng-template>
+</mg-walkthrough>

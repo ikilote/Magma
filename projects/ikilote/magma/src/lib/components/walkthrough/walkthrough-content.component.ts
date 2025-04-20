@@ -40,7 +40,9 @@ export class MagmaWalkthroughContent implements OnChanges {
                 }
                 const element = this.element();
                 if (element) {
-                    const clone = element.cloneNode(true);
+                    const clone = element.cloneNode(true) as HTMLElement;
+                    clone.style.width = element.offsetWidth + 'px';
+                    clone.style.margin = '0px';
 
                     // click on original element
                     const actionOrigin = this.portal().clickElementOrigin();

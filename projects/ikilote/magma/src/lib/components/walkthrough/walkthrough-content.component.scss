@@ -1,6 +1,20 @@
-.component {
-    position: absolute;
-    bottom: calc(100% + 10px);
+:host {
+    display: flex;
+    flex-direction: column;
+
+    .component {
+        position: absolute;
+
+        &:not(.top) {
+            bottom: calc(100% + 10px);
+        }
+        &.top {
+            top: calc(100% + 10px);
+        }
+        &.right {
+            right: 0;
+        }
+    }
 }
 
 .content {

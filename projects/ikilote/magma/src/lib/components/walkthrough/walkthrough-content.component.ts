@@ -1,3 +1,4 @@
+import { ConnectedOverlayPositionChange, ConnectionPositionPair } from '@angular/cdk/overlay-module.d-CSrPj90C';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import {
@@ -5,13 +6,19 @@ import {
     Component,
     ElementRef,
     OnChanges,
+    OnDestroy,
     SimpleChanges,
     input,
+    signal,
     viewChild,
 } from '@angular/core';
 
+import { Subscriptions } from '@ikilote/magma';
+
+import { debounceTime, fromEvent } from 'rxjs';
+
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
-import { MagmaWalkthrough } from './walkthrough.component';
+import { MagmaWalkthrough, magmaWalkthroughConnectedPosition } from './walkthrough.component';
 
 export function throwWalkthroughContentAlreadyAttachedError() {
     throw Error('Attempting to attach walkthrough content after content is already attached');
@@ -24,14 +31,44 @@ export function throwWalkthroughContentAlreadyAttachedError() {
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CommonModule, PortalModule],
 })
-export class MagmaWalkthroughContent implements OnChanges {
+export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
     readonly host = input.required<MagmaWalkthrough>();
     readonly portal = input.required<MagmaWalkthroughStep>();
     readonly element = input.required<HTMLElement | null>();
+    readonly position = input.required<ConnectedOverlayPositionChange>();
 
-    elementContent = viewChild.required<ElementRef<HTMLDialogElement>>('element');
+    private elementContent = viewChild.required<ElementRef<HTMLDialogElement>>('element');
+
+    private subs = Subscriptions.instance();
+    private clone: HTMLElement | undefined;
+
+    protected top = signal(false);
+    protected right = signal(false);
+
+    constructor() {
+        this.subs.push(
+            fromEvent(window, 'resize')
+                .pipe(debounceTime(100))
+                .subscribe(() => {
+                    const element = this.element();
+                    if (this.clone && element) {
+                        const clone = element.cloneNode(true) as HTMLElement;
+                        this.clone.style.width = element.offsetWidth + 'px';
+                        this.clone.style.margin = '0px';
+                    }
+
+                    if (this.position()) {
+                        this.testPosition(this.position().connectionPair);
+                    }
+                }),
+        );
+    }
 
     ngOnChanges(changes: SimpleChanges): void {
+        if (changes['position']) {
+            this.testPosition(changes['position'].currentValue.connectionPair);
+        }
+
         if (changes['element']) {
             const target = this.elementContent().nativeElement;
             if (this.portal().showElement()) {
@@ -43,6 +80,7 @@ export class MagmaWalkthroughContent implements OnChanges {
                     const clone = element.cloneNode(true) as HTMLElement;
                     clone.style.width = element.offsetWidth + 'px';
                     clone.style.margin = '0px';
+                    this.clone = clone;
 
                     // click on original element
                     const actionOrigin = this.portal().clickElementOrigin();
@@ -52,7 +90,7 @@ export class MagmaWalkthroughContent implements OnChanges {
 
                     // click on copy element
                     const action = this.portal().clickElementActive();
-                    console.log(action);
+                    console.log('action:', action);
                     if (action) {
                         clone.addEventListener('click', () => this.portal().clickElement.emit());
                     }
@@ -66,14 +104,42 @@ export class MagmaWalkthroughContent implements OnChanges {
     }
 
     next() {
-        this.host().changeStep(this.portal().nextStep()!);
+        this.host().changeStep(this.portal().nextStep(), this.portal().group());
     }
 
     previous() {
-        this.host().changeStep(this.portal().previousStep()!);
+        this.host().changeStep(this.portal().previousStep(), this.portal().group());
     }
 
     close() {
         this.host().close();
+    }
+
+    ngOnDestroy(): void {
+        this.subs.clear();
+    }
+
+    protected testPosition(connectionPair: ConnectionPositionPair) {
+        const index = magmaWalkthroughConnectedPosition.indexOf(connectionPair);
+        switch (index) {
+            case 1:
+                this.right.set(false);
+                this.top.set(true);
+                break;
+            case 2:
+                this.right.set(true);
+                this.top.set(false);
+                break;
+            case 3:
+                this.right.set(true);
+                this.top.set(true);
+                break;
+            default:
+                this.right.set(false);
+                this.top.set(false);
+                break;
+        }
+
+        console.log(index, this.right(), this.top());
     }
 }

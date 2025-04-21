@@ -1,6 +1,6 @@
 <h1>Walkthrough</h1>
 
-<p>
+<p class="button-list">
   <button id="btn-1" (click)="alert('1')"><span>1</span></button>
   <button id="btn-2" (click)="alert('2')"><span>2</span></button>
   <button id="btn-3" (click)="alert('3')"><span>3</span></button>
@@ -51,23 +51,68 @@
 </mg-block>
 
 <p>
-  <button (click)="walk2.start()">start</button>
+  <button (click)="walk2.start({ group: 'a' })">start A</button>
+  <button (click)="walk2.start({ group: 'b' })">start B</button>
 </p>
 
 <mg-walkthrough #walk2="walkthrough">
-  <ng-template mg-walkthrough-step selector="#block" name="first" nextStep="second" showElement clickElementOrigin>
+  <ng-template
+    mg-walkthrough-step
+    selector="#block"
+    group="a"
+    name="first"
+    nextStep="second"
+    showElement
+    clickElementOrigin
+  >
     <p>↑ click / TEST 3</p>
   </ng-template>
   <ng-template
     mg-walkthrough-step
     selector="#button"
+    group="a"
     name="second"
     close
     showElement
     clickElementActive
-    (clickElement)="alert('4'); walk.close()"
+    (clickElement)="alert('4'); walk2.close()"
+    close
+  >
+    <p>↑ click / TEST 4</p>
+  </ng-template>
+  <ng-template
+    mg-walkthrough-step
+    selector="#block-2"
+    group="b"
+    name="first"
+    nextStep="second"
+    showElement
+    clickElementOrigin
+  >
+    <p>↑ click / TEST 3</p>
+  </ng-template>
+
+  <ng-template
+    mg-walkthrough-step
+    selector="#button-2"
+    group="b"
+    name="second"
+    close
+    showElement
+    clickElementActive
+    (clickElement)="walk2.close()"
     close
   >
     <p>↑ click / TEST 4</p>
   </ng-template>
 </mg-walkthrough>
+
+<mg-block id="block-2">
+  <p>
+    Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block
+    test
+  </p>
+  <div class="align">
+    <button id="button-2">TEST</button>
+  </div>
+</mg-block>

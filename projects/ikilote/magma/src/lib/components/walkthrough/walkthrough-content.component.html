@@ -1,4 +1,4 @@
-<div class="component" #element></div>
+<div class="component" #element [class.top]="top()" [class.right]="right()"></div>
 <div class="content">
   <div>
     <ng-template [cdkPortalOutlet]="portal()" />

@@ -9,10 +9,10 @@
       <button (click)="previous()">Previous</button>
     }
     @if (portal().nextStep()) {
-      <button (click)="next()">Next</button>
+      <button (click)="next()" limitFocusFirst>Next</button>
     }
     @if (portal().close()) {
-      <button (click)="close()">Close</button>
+      <button (click)="close()" limitFocusFirst>Close</button>
     }
   </div>
 </div>

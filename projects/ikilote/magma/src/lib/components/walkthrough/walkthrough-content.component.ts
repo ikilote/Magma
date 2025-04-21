@@ -20,6 +20,8 @@ import { debounceTime, fromEvent } from 'rxjs';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough, magmaWalkthroughConnectedPosition } from './walkthrough.component';
 
+import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective } from '../../directives/limit-focus.directive';
+
 export function throwWalkthroughContentAlreadyAttachedError() {
     throw Error('Attempting to attach walkthrough content after content is already attached');
 }
@@ -29,7 +31,8 @@ export function throwWalkthroughContentAlreadyAttachedError() {
     templateUrl: './walkthrough-content.component.html',
     styleUrls: ['./walkthrough-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, PortalModule],
+    imports: [CommonModule, PortalModule, MagmaLimitFocusFirstDirective],
+    hostDirectives: [MagmaLimitFocusDirective],
 })
 export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
     readonly host = input.required<MagmaWalkthrough>();
@@ -139,7 +142,5 @@ export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
                 this.top.set(false);
                 break;
         }
-
-        console.log(index, this.right(), this.top());
     }
 }

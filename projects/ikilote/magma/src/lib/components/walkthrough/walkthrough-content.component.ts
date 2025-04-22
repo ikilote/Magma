@@ -7,6 +7,7 @@ import {
     ElementRef,
     OnChanges,
     OnDestroy,
+    OnInit,
     SimpleChanges,
     inject,
     input,
@@ -19,7 +20,7 @@ import { Subscriptions } from '@ikilote/magma';
 import { debounceTime, fromEvent } from 'rxjs';
 
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
-import { MagmaWalkthrough, magmaWalkthroughConnectedPosition } from './walkthrough.component';
+import { MagmaWalkthrough } from './walkthrough.component';
 
 import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective } from '../../directives/limit-focus.directive';
 
@@ -31,13 +32,13 @@ import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective } from '../../d
     imports: [CommonModule, PortalModule, MagmaLimitFocusFirstDirective],
     hostDirectives: [MagmaLimitFocusDirective],
 })
-export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
+export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     private readonly focusElement = inject(MagmaLimitFocusDirective);
 
     readonly host = input.required<MagmaWalkthrough>();
     readonly portal = input.required<MagmaWalkthroughStep>();
     readonly element = input.required<HTMLElement | null>();
-    readonly position = input.required<ConnectedOverlayPositionChange>();
+    readonly position = input<ConnectedOverlayPositionChange>();
 
     private elementContent = viewChild.required<ElementRef<HTMLDialogElement>>('element');
 
@@ -47,23 +48,27 @@ export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
     protected top = signal(false);
     protected right = signal(false);
 
-    constructor() {
+    ngOnInit() {
         this.subs.push(
             fromEvent(window, 'resize')
                 .pipe(debounceTime(100))
                 .subscribe(() => {
-                    const element = this.element();
-                    if (this.clone && element) {
-                        const clone = element.cloneNode(true) as HTMLElement;
-                        this.clone.style.width = element.offsetWidth + 'px';
-                        this.clone.style.margin = '0px';
-                    }
-
-                    if (this.position()) {
-                        this.testPosition(this.position().connectionPair);
-                    }
+                    this.resize();
                 }),
         );
+    }
+
+    resize() {
+        const element = this.element();
+        if (this.clone && element) {
+            const clone = element.cloneNode(true) as HTMLElement;
+            this.clone.style.width = element.offsetWidth + 'px';
+            this.clone.style.margin = '0px';
+        }
+
+        if (this.position()) {
+            this.testPosition(this.position()!.connectionPair);
+        }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -92,7 +97,6 @@ export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
 
                     // click on copy element
                     const action = this.portal().clickElementActive();
-                    console.log('action:', action);
                     if (action) {
                         clone.addEventListener('click', () => this.portal().clickElement.emit());
                     }
@@ -127,25 +131,23 @@ export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
         this.subs.clear();
     }
 
-    protected testPosition(connectionPair: ConnectionPositionPair) {
-        const index = magmaWalkthroughConnectedPosition.indexOf(connectionPair);
-        switch (index) {
-            case 1:
-                this.right.set(false);
-                this.top.set(true);
-                break;
-            case 2:
-                this.right.set(true);
-                this.top.set(false);
-                break;
-            case 3:
-                this.right.set(true);
-                this.top.set(true);
-                break;
-            default:
+    testPosition(connectionPair: ConnectionPositionPair) {
+        if (connectionPair.originX === 'start') {
+            if (connectionPair.originY === 'bottom') {
                 this.right.set(false);
                 this.top.set(false);
-                break;
+            } else {
+                this.right.set(false);
+                this.top.set(true);
+            }
+        } else {
+            if (connectionPair.originY === 'bottom') {
+                this.right.set(true);
+                this.top.set(false);
+            } else {
+                this.right.set(true);
+                this.top.set(true);
+            }
         }
     }
 }

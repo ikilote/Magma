@@ -42,7 +42,6 @@ export class MagmaDialog {
     }
 
     open() {
-        console.log('open');
         this.isOpen.set(true);
     }
 

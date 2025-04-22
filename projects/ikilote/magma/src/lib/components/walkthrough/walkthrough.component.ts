@@ -5,8 +5,6 @@ import { Component, ComponentRef, contentChildren, inject } from '@angular/core'
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 
-import { Subscriptions } from '../../utils/subscriptions';
-
 export const magmaWalkthroughConnectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 10 },
     { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -10 },
@@ -26,8 +24,6 @@ export class MagmaWalkthrough {
 
     private readonly overlay = inject(Overlay);
     stepsDirective = contentChildren(MagmaWalkthroughStep);
-
-    private subs = Subscriptions.instance();
 
     start(params?: { group?: string }) {
         const firstIndex = this.stepsDirective().findIndex(
@@ -55,11 +51,9 @@ export class MagmaWalkthrough {
 
                 this.positionStrategy = overlayRef.getConfig().positionStrategy as FlexibleConnectedPositionStrategy;
 
-                this.subs.push(
-                    this.positionStrategy.positionChanges.subscribe(position => {
-                        component.setInput('position', position);
-                    }),
-                );
+                this.positionStrategy.positionChanges.subscribe(position => {
+                    component.setInput('position', position);
+                });
 
                 this.content = component;
                 this.overlayRef = overlayRef;
@@ -89,9 +83,8 @@ export class MagmaWalkthrough {
     }
 
     close() {
-        this.overlayRef?.detach();
+        this.overlayRef?.dispose();
         this.content = undefined;
         this.overlayRef = undefined;
-        this.subs.clear();
     }
 }

@@ -51,7 +51,7 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     ngOnInit() {
         this.subs.push(
             fromEvent(window, 'resize')
-                .pipe(debounceTime(100))
+                .pipe(debounceTime(10))
                 .subscribe(() => {
                     this.resize();
                 }),
@@ -61,13 +61,12 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     resize() {
         const element = this.element();
         if (this.clone && element) {
-            const clone = element.cloneNode(true) as HTMLElement;
-            this.clone.style.width = element.offsetWidth + 'px';
-            this.clone.style.margin = '0px';
-        }
-
-        if (this.position()) {
-            this.testPosition(this.position()!.connectionPair);
+            if (this.clone.style.width !== element.offsetWidth + 'px') {
+                this.clone.style.width = element.offsetWidth + 'px';
+            }
+            if (this.clone.style.margin !== '0px') {
+                this.clone.style.margin = '0px';
+            }
         }
     }
 

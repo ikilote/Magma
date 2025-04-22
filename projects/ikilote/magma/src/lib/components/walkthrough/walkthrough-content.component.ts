@@ -8,6 +8,7 @@ import {
     OnChanges,
     OnDestroy,
     SimpleChanges,
+    inject,
     input,
     signal,
     viewChild,
@@ -22,10 +23,6 @@ import { MagmaWalkthrough, magmaWalkthroughConnectedPosition } from './walkthrou
 
 import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective } from '../../directives/limit-focus.directive';
 
-export function throwWalkthroughContentAlreadyAttachedError() {
-    throw Error('Attempting to attach walkthrough content after content is already attached');
-}
-
 @Component({
     selector: 'mg-walkthrough-content',
     templateUrl: './walkthrough-content.component.html',
@@ -35,6 +32,8 @@ export function throwWalkthroughContentAlreadyAttachedError() {
     hostDirectives: [MagmaLimitFocusDirective],
 })
 export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
+    private readonly focusElement = inject(MagmaLimitFocusDirective);
+
     readonly host = input.required<MagmaWalkthrough>();
     readonly portal = input.required<MagmaWalkthroughStep>();
     readonly element = input.required<HTMLElement | null>();
@@ -116,6 +115,12 @@ export class MagmaWalkthroughContent implements OnChanges, OnDestroy {
 
     close() {
         this.host().close();
+    }
+
+    update() {
+        setTimeout(() => {
+            this.focusElement.focus();
+        });
     }
 
     ngOnDestroy(): void {

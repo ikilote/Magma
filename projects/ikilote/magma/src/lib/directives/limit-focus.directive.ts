@@ -1,13 +1,23 @@
-import { AfterContentInit, Directive, ElementRef, OnDestroy, contentChildren, inject } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Directive, ElementRef, OnDestroy, OnInit, inject, input, numberAttribute } from '@angular/core';
 
 import { Subscriptions } from '../utils/subscriptions';
 
 @Directive({
     selector: '[limitFocusFirst]',
 })
-export class MagmaLimitFocusFirstDirective {
-    focusElement = inject<ElementRef<HTMLDivElement>>(ElementRef);
+export class MagmaLimitFocusFirstDirective implements OnInit, OnDestroy {
+    private readonly host = inject(MagmaLimitFocusDirective);
+    readonly focusElement = inject<ElementRef<HTMLDivElement>>(ElementRef);
+
+    readonly limitFocusFirst = input.required({ transform: numberAttribute });
+
+    ngOnInit(): void {
+        this.host.add(this);
+    }
+
+    ngOnDestroy(): void {
+        this.host.remove(this);
+    }
 }
 
 @Directive({
@@ -16,10 +26,10 @@ export class MagmaLimitFocusFirstDirective {
         tabindex: '0',
     },
 })
-export class MagmaLimitFocusDirective implements OnDestroy, AfterContentInit {
+export class MagmaLimitFocusDirective implements OnDestroy {
     readonly focusElement = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    readonly focusFirstElement = contentChildren(MagmaLimitFocusFirstDirective);
+    private items: MagmaLimitFocusFirstDirective[] = [];
 
     private sub = Subscriptions.instance();
     private focusOrigin: HTMLElement | null = null;
@@ -30,25 +40,29 @@ export class MagmaLimitFocusDirective implements OnDestroy, AfterContentInit {
             this.focusOrigin = document.activeElement as HTMLElement | null;
             this.limitFocus(this.focusElement);
         });
-
-        this.sub.push(
-            toObservable(this.focusFirstElement).subscribe(element => {
-                console.log('element >>b>', element);
-                element?.[0]?.focusElement?.nativeElement?.focus();
-            }),
-        );
     }
 
-    ngAfterContentInit() {
-        setTimeout(() => {
-            console.log('element >>a>', this.focusFirstElement());
-        });
+    focus() {
+        this.items
+            ?.reduce(
+                (minItem, item) => (item.limitFocusFirst() < minItem.limitFocusFirst() ? item : minItem),
+                this.items[0],
+            )
+            ?.focusElement.nativeElement.focus();
     }
 
     ngOnDestroy(): void {
         this.observer?.disconnect();
         this.focusOrigin?.focus();
         this.sub.clear();
+    }
+
+    add(item: MagmaLimitFocusFirstDirective) {
+        this.items.push(item);
+    }
+
+    remove(item: MagmaLimitFocusFirstDirective) {
+        this.items.splice(this.items.indexOf(item), 1);
     }
 
     limitFocus(element: ElementRef<HTMLDivElement>) {

@@ -132,22 +132,7 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     }
 
     testPosition(connectionPair: ConnectionPositionPair) {
-        if (connectionPair.originX === 'start') {
-            if (connectionPair.originY === 'bottom') {
-                this.right.set(false);
-                this.top.set(false);
-            } else {
-                this.right.set(false);
-                this.top.set(true);
-            }
-        } else {
-            if (connectionPair.originY === 'bottom') {
-                this.right.set(true);
-                this.top.set(false);
-            } else {
-                this.right.set(true);
-                this.top.set(true);
-            }
-        }
+        this.right.set(connectionPair.originX === 'end');
+        this.top.set(connectionPair.originY === 'top');
     }
 }

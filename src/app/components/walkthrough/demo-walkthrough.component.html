@@ -1,118 +1,166 @@
 <h1>Walkthrough</h1>
 
-<p class="button-list">
-  <button id="btn-1" (click)="alert('1')"><span>1</span></button>
-  <button id="btn-2" (click)="alert('2')"><span>2</span></button>
-  <button id="btn-3" (click)="alert('3')"><span>3</span></button>
-  <button id="btn-4" (click)="alert('4')"><span>4</span></button>
-</p>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator </mg-tab-title>
+  <mg-tab-content id="generator">
+    <div class="s-6" [formGroup]="ctrlForm">
+      <mg-input class="s-4">
+        <mg-input-label>Selector</mg-input-label>
+        <mg-input-text formControlName="selector"></mg-input-text>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>Name</mg-input-label>
+        <mg-input-text formControlName="name"></mg-input-text>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>PreviousStep</mg-input-label>
+        <mg-input-text formControlName="previousStep"></mg-input-text>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>NextStep</mg-input-label>
+        <mg-input-text formControlName="nextStep"></mg-input-text>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-checkbox formControlName="close">close</mg-input-checkbox>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-checkbox formControlName="clickElementActive">clickElementActive</mg-input-checkbox>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
+      </mg-input>
+    </div>
+    <div class="s-6">
+      <h3>Test</h3>
 
-<p>
-  <button (click)="walk.start()">start</button>
-</p>
+      <p>
+        <button (click)="(null)">Start</button>
+      </p>
 
-<mg-walkthrough #walk="walkthrough">
-  <ng-template mg-walkthrough-step selector="#btn-1" name="first" nextStep="second" showElement>
-    <p>TEST 1</p>
-  </ng-template>
-  <ng-template mg-walkthrough-step selector="#btn-2" name="second" previousStep="first" nextStep="third">
-    <p>TEST 2 ?</p>
-  </ng-template>
-  <ng-template
-    mg-walkthrough-step
-    selector="#btn-3"
-    name="third"
-    previousStep="second"
-    nextStep="fourth"
-    showElement
-    clickElementOrigin
-  >
-    <p>↑ click / TEST 3</p>
-  </ng-template>
-  <ng-template
-    mg-walkthrough-step
-    selector="#btn-4"
-    name="fourth"
-    previousStep="third"
-    showElement
-    clickElementActive
-    (clickElement)="alert('4'); walk.close()"
-    close
-  >
-    <p>↑ click / TEST 4</p>
-  </ng-template>
-</mg-walkthrough>
+      <h3>Code</h3>
 
-<mg-block id="block">
-  <p>Block test</p>
-  <div class="align">
-    <button id="button">TEST</button>
-  </div>
-</mg-block>
+      <code-tabs [code]="[{ type: 'html', code: html }]"></code-tabs>
+    </div>
+  </mg-tab-content>
+  <mg-tab-title id="example">Example </mg-tab-title>
+  <mg-tab-content id="example">
+    <p class="button-list">
+      <button id="btn-1" (click)="alert('1')"><span>1</span></button>
+      <button id="btn-2" (click)="alert('2')"><span>2</span></button>
+      <button id="btn-3" (click)="alert('3')"><span>3</span></button>
+      <button id="btn-4" (click)="alert('4')"><span>4</span></button>
+    </p>
 
-<p>
-  <button (click)="walk2.start({ group: 'a' })">start A</button>
-  <button (click)="walk2.start({ group: 'b' })">start B</button>
-</p>
+    <p>
+      <button (click)="walk.start()">start</button>
+    </p>
 
-<mg-walkthrough #walk2="walkthrough">
-  <ng-template
-    mg-walkthrough-step
-    selector="#block"
-    group="a"
-    name="first"
-    nextStep="second"
-    showElement
-    clickElementOrigin
-  >
-    <p>↑ click / TEST 3</p>
-  </ng-template>
-  <ng-template
-    mg-walkthrough-step
-    selector="#button"
-    group="a"
-    name="second"
-    close
-    showElement
-    clickElementActive
-    (clickElement)="alert('4'); walk2.close()"
-    close
-  >
-    <p>↑ click / TEST 4</p>
-  </ng-template>
-  <ng-template
-    mg-walkthrough-step
-    selector="#block-2"
-    group="b"
-    name="first"
-    nextStep="second"
-    showElement
-    clickElementOrigin
-  >
-    <p>↑ click / TEST 3</p>
-  </ng-template>
+    <mg-walkthrough #walk="walkthrough">
+      <ng-template mg-walkthrough-step selector="#btn-1" name="first" nextStep="second" showElement>
+        <p>TEST 1</p>
+      </ng-template>
+      <ng-template mg-walkthrough-step selector="#btn-2" name="second" previousStep="first" nextStep="third">
+        <p>TEST 2 ?</p>
+      </ng-template>
+      <ng-template
+        mg-walkthrough-step
+        selector="#btn-3"
+        name="third"
+        previousStep="second"
+        nextStep="fourth"
+        showElement
+        clickElementOrigin
+      >
+        <p>↑ click / TEST 3</p>
+      </ng-template>
+      <ng-template
+        mg-walkthrough-step
+        selector="#btn-4"
+        name="fourth"
+        previousStep="third"
+        showElement
+        clickElementActive
+        (clickElement)="alert('4'); walk.close()"
+        close
+      >
+        <p>↑ click / TEST 4</p>
+      </ng-template>
+    </mg-walkthrough>
 
-  <ng-template
-    mg-walkthrough-step
-    selector="#button-2"
-    group="b"
-    name="second"
-    close
-    showElement
-    clickElementActive
-    (clickElement)="walk2.close()"
-    close
-  >
-    <p>↑ click / TEST 4</p>
-  </ng-template>
-</mg-walkthrough>
+    <mg-block id="block">
+      <p>Block test</p>
+      <div class="align">
+        <button id="button">TEST</button>
+      </div>
+    </mg-block>
 
-<mg-block id="block-2">
-  <p>
-    Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block
-    test
-  </p>
-  <div class="align">
-    <button id="button-2">TEST</button>
-  </div>
-</mg-block>
+    <p>
+      <button (click)="walk2.start({ group: 'a' })">start A</button>
+      <button (click)="walk2.start({ group: 'b' })">start B</button>
+    </p>
+
+    <mg-walkthrough #walk2="walkthrough">
+      <ng-template
+        mg-walkthrough-step
+        selector="#block"
+        group="a"
+        name="first"
+        nextStep="second"
+        showElement
+        clickElementOrigin
+      >
+        <p>↑ click / TEST 3</p>
+      </ng-template>
+      <ng-template
+        mg-walkthrough-step
+        selector="#button"
+        group="a"
+        name="second"
+        close
+        showElement
+        clickElementActive
+        (clickElement)="alert('4'); walk2.close()"
+      >
+        <p>↑ click / TEST 4</p>
+      </ng-template>
+      <ng-template
+        mg-walkthrough-step
+        selector="#block-2"
+        group="b"
+        name="first"
+        nextStep="second"
+        showElement
+        clickElementOrigin
+      >
+        <p>↑ click / TEST 3</p>
+      </ng-template>
+
+      <ng-template
+        mg-walkthrough-step
+        selector="#button-2"
+        group="b"
+        name="second"
+        close
+        showElement
+        clickElementActive
+        (clickElement)="walk2.close()"
+        close
+      >
+        <p>↑ click / TEST 4</p>
+      </ng-template>
+    </mg-walkthrough>
+
+    <mg-block id="block-2">
+      <p>
+        Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block
+        test
+      </p>
+      <div class="align">
+        <button id="button-2">TEST</button>
+      </div>
+    </mg-block>
+  </mg-tab-content>
+</mg-tabs>

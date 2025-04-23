@@ -3,46 +3,204 @@
 <mg-tabs>
   <mg-tab-title id="generator">Generator </mg-tab-title>
   <mg-tab-content id="generator">
-    <div class="s-6" [formGroup]="ctrlForm">
-      <mg-input class="s-4">
-        <mg-input-label>Selector</mg-input-label>
-        <mg-input-text formControlName="selector"></mg-input-text>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>Name</mg-input-label>
-        <mg-input-text formControlName="name"></mg-input-text>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>PreviousStep</mg-input-label>
-        <mg-input-text formControlName="previousStep"></mg-input-text>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>NextStep</mg-input-label>
-        <mg-input-text formControlName="nextStep"></mg-input-text>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-checkbox formControlName="close">close</mg-input-checkbox>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-checkbox formControlName="clickElementActive">clickElementActive</mg-input-checkbox>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
-      </mg-input>
+    <div class="s-6">
+      <p>Example with 3 steps. One or more steps are possible.</p>
+
+      <!-- step 1 -->
+
+      <h1>step 1</h1>
+      <div [formGroup]="ctrlForm">
+        <mg-input class="s-4">
+          <mg-input-label>Selector</mg-input-label>
+          <mg-input-text formControlName="selector"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Group</mg-input-label>
+          <mg-input-text formControlName="group"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Name</mg-input-label>
+          <mg-input-text formControlName="name"></mg-input-text>
+          <mg-input-desc>The first step should be called "first"</mg-input-desc>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Previous step button</mg-input-label>
+          <mg-input-text formControlName="previousStep"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Next step button</mg-input-label>
+          <mg-input-text formControlName="nextStep"></mg-input-text>
+        </mg-input>
+        <div class="s-6">
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="close">close button</mg-input-checkbox>
+          </mg-input>
+        </div>
+        <div class="s-6">
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="clickElementActive">clickElementActive</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
+          </mg-input>
+        </div>
+      </div>
+
+      <!-- step 2 -->
+
+      <h1>step 2</h1>
+      <div [formGroup]="ctrlForm2">
+        <mg-input class="s-4">
+          <mg-input-label>Selector</mg-input-label>
+          <mg-input-text formControlName="selector"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Group</mg-input-label>
+          <mg-input-text formControlName="group"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Name</mg-input-label>
+          <mg-input-text formControlName="name"></mg-input-text>
+          <mg-input-desc>The first step should be called "first"</mg-input-desc>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Previous step button</mg-input-label>
+          <mg-input-text formControlName="previousStep"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Next step button</mg-input-label>
+          <mg-input-text formControlName="nextStep"></mg-input-text>
+        </mg-input>
+        <div class="s-6">
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="close">close button</mg-input-checkbox>
+          </mg-input>
+        </div>
+        <div class="s-6">
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="clickElementActive">clickElementActive</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
+          </mg-input>
+        </div>
+      </div>
+
+      <!-- step "" -->
+
+      <h1>step 3</h1>
+      <div [formGroup]="ctrlForm3">
+        <mg-input class="s-4">
+          <mg-input-label>Selector</mg-input-label>
+          <mg-input-text formControlName="selector"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Group</mg-input-label>
+          <mg-input-text formControlName="group"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Name</mg-input-label>
+          <mg-input-text formControlName="name"></mg-input-text>
+          <mg-input-desc>The first step should be called "first"</mg-input-desc>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Previous step button</mg-input-label>
+          <mg-input-text formControlName="previousStep"></mg-input-text>
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Next step button</mg-input-label>
+          <mg-input-text formControlName="nextStep"></mg-input-text>
+        </mg-input>
+        <div class="s-6">
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="close">close button</mg-input-checkbox>
+          </mg-input>
+        </div>
+        <div class="s-6">
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="clickElementActive">clickElementActive</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
+          </mg-input>
+        </div>
+      </div>
     </div>
     <div class="s-6">
       <h3>Test</h3>
 
-      <p>
-        <button (click)="(null)">Start</button>
-      </p>
+      <div>
+        <p class="s-6">
+          <button (click)="walkExample.start({ group: ctrlForm.value.group })">Start</button>
+        </p>
+
+        <p class="s-6">
+          <button (click)="alert('test A')" id="btn-a">Test 1</button>
+          <button (click)="alert('test B')" id="btn-b">Test 2</button>
+          <button (click)="alert('test C')" id="btn-c">Test 3</button>
+        </p>
+      </div>
 
       <h3>Code</h3>
 
       <code-tabs [code]="[{ type: 'html', code: html }]"></code-tabs>
+
+      <mg-walkthrough #walkExample="walkthrough">
+        <ng-template
+          mg-walkthrough-step
+          [selector]="ctrlForm.value.selector || '#btn-a'"
+          [group]="ctrlForm.value.group"
+          [name]="ctrlForm.value.name || 'first'"
+          [nextStep]="ctrlForm.value.nextStep"
+          [previousStep]="ctrlForm.value.previousStep"
+          [close]="ctrlForm.value.close"
+          [showElement]="ctrlForm.value.showElement"
+          [clickElementActive]="ctrlForm.value.clickElementActive"
+          (clickElement)="alert('Click'); walkExample.close()"
+          [clickElementOrigin]="ctrlForm.value.clickElementOrigin"
+        >
+          <p>TEST 1</p>
+        </ng-template>
+        <ng-template
+          mg-walkthrough-step
+          [selector]="ctrlForm2.value.selector || '#btn-b'"
+          [group]="ctrlForm2.value.group"
+          [name]="ctrlForm2.value.name || 'second'"
+          [nextStep]="ctrlForm2.value.nextStep"
+          [previousStep]="ctrlForm2.value.previousStep"
+          [close]="ctrlForm2.value.close"
+          [showElement]="ctrlForm2.value.showElement"
+          [clickElementActive]="ctrlForm2.value.clickElementActive"
+          (clickElement)="alert('Click'); walkExample.close()"
+          [clickElementOrigin]="ctrlForm2.value.clickElementOrigin"
+        >
+          <p>TEST 2</p>
+        </ng-template>
+        <ng-template
+          mg-walkthrough-step
+          [selector]="ctrlForm3.value.selector || '#btn-c'"
+          [group]="ctrlForm3.value.group"
+          [name]="ctrlForm3.value.name || 'end'"
+          [nextStep]="ctrlForm3.value.nextStep"
+          [previousStep]="ctrlForm3.value.previousStep"
+          [close]="ctrlForm3.value.close"
+          [showElement]="ctrlForm3.value.showElement"
+          [clickElementActive]="ctrlForm3.value.clickElementActive"
+          (clickElement)="alert('Click'); walkExample.close()"
+          [clickElementOrigin]="ctrlForm3.value.clickElementOrigin"
+        >
+          <p>TEST 3</p>
+        </ng-template>
+      </mg-walkthrough>
     </div>
   </mg-tab-content>
   <mg-tab-title id="example">Example </mg-tab-title>

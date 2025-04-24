@@ -2,13 +2,16 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
-import { FormBuilderExtended } from '@ikilote/magma';
+
+import { Select2Data } from 'ng-select2-component';
 
 import {
+    FormBuilderExtended,
     MagmaBlock,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputElement,
+    MagmaInputSelect,
     MagmaInputText,
     MagmaTabsModule,
     MagmaWalkthrough,
@@ -31,6 +34,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputText,
         MagmaInputElement,
         MagmaInputCheckbox,
+        MagmaInputSelect,
     ],
 })
 export class DemoWalkthroughComponent {
@@ -42,11 +46,15 @@ export class DemoWalkthroughComponent {
         group: FormControl<string>;
         name: FormControl<string>;
         previousStep: FormControl<string>;
+        previousButtonName: FormControl<string>;
         nextStep: FormControl<string>;
+        nextButtonName: FormControl<string>;
         showElement: FormControl<boolean>;
         close: FormControl<boolean>;
+        closeButtonName: FormControl<string>;
         clickElementActive: FormControl<boolean>;
         clickElementOrigin: FormControl<boolean>;
+        backdropAction: FormControl<'none' | 'close' | 'next' | 'clickElement'>;
     }>;
 
     ctrlForm2: FormGroup<{
@@ -54,11 +62,15 @@ export class DemoWalkthroughComponent {
         group: FormControl<string>;
         name: FormControl<string>;
         previousStep: FormControl<string>;
+        previousButtonName: FormControl<string>;
         nextStep: FormControl<string>;
+        nextButtonName: FormControl<string>;
         showElement: FormControl<boolean>;
         close: FormControl<boolean>;
+        closeButtonName: FormControl<string>;
         clickElementActive: FormControl<boolean>;
         clickElementOrigin: FormControl<boolean>;
+        backdropAction: FormControl<'none' | 'close' | 'next' | 'clickElement'>;
     }>;
 
     ctrlForm3: FormGroup<{
@@ -66,18 +78,29 @@ export class DemoWalkthroughComponent {
         group: FormControl<string>;
         name: FormControl<string>;
         previousStep: FormControl<string>;
+        previousButtonName: FormControl<string>;
         nextStep: FormControl<string>;
+        nextButtonName: FormControl<string>;
         showElement: FormControl<boolean>;
         close: FormControl<boolean>;
+        closeButtonName: FormControl<string>;
         clickElementActive: FormControl<boolean>;
         clickElementOrigin: FormControl<boolean>;
+        backdropAction: FormControl<'none' | 'close' | 'next' | 'clickElement'>;
     }>;
+
+    backdropActionData: Select2Data = [
+        { label: 'none', value: 'none' },
+        { label: 'close', value: 'close' },
+        { label: 'next', value: 'next' },
+        { label: 'clickElement', value: 'clickElement' },
+    ];
+
+    codeHtml = '';
 
     alert(e: string) {
         alert(e);
     }
-
-    codeHtml = '';
 
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
@@ -85,33 +108,45 @@ export class DemoWalkthroughComponent {
             group: { default: '' },
             name: { default: 'first' },
             previousStep: { default: '' },
+            previousButtonName: { default: 'Previous' },
             nextStep: { default: 'second' },
+            nextButtonName: { default: 'Next' },
             showElement: { default: true },
             close: { default: false },
+            closeButtonName: { default: 'Close' },
             clickElementActive: { default: false },
             clickElementOrigin: { default: false },
+            backdropAction: { default: 'none' },
         });
         this.ctrlForm2 = this.fb.groupWithErrorNonNullable({
             selector: { default: '#btn-b' },
             group: { default: '' },
             name: { default: 'second' },
             previousStep: { default: 'first' },
+            previousButtonName: { default: 'Previous' },
             nextStep: { default: 'end' },
+            nextButtonName: { default: 'Next' },
             showElement: { default: true },
             close: { default: false },
+            closeButtonName: { default: 'Close' },
             clickElementActive: { default: false },
             clickElementOrigin: { default: false },
+            backdropAction: { default: 'none' },
         });
         this.ctrlForm3 = this.fb.groupWithErrorNonNullable({
             selector: { default: '#btn-c' },
             group: { default: '' },
             name: { default: 'end' },
             previousStep: { default: 'second' },
+            previousButtonName: { default: 'Previous' },
             nextStep: { default: '' },
+            nextButtonName: { default: 'Next' },
             showElement: { default: true },
             close: { default: true },
+            closeButtonName: { default: 'Close' },
             clickElementActive: { default: false },
             clickElementOrigin: { default: false },
+            backdropAction: { default: 'none' },
         });
         this.generator();
 

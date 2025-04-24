@@ -25,13 +25,16 @@ export class MagmaWalkthrough {
     private readonly overlay = inject(Overlay);
     stepsDirective = contentChildren(MagmaWalkthroughStep);
 
+    private portal: MagmaWalkthroughStep | undefined = undefined;
+
     start(params?: { group?: string }) {
         const firstIndex = this.stepsDirective().findIndex(
             step => step.group() === params?.group && step.name() === 'first',
         );
 
         if (firstIndex !== -1) {
-            const element = document.querySelector(this.stepsDirective()[firstIndex].selector());
+            this.portal = this.stepsDirective()[firstIndex];
+            const element = document.querySelector(this.portal.selector());
             if (element) {
                 const overlayRef = this.overlay.create({
                     hasBackdrop: true,
@@ -43,10 +46,28 @@ export class MagmaWalkthrough {
                         .flexibleConnectedTo(element)
                         .withPositions(magmaWalkthroughConnectedPosition),
                 });
+                overlayRef.backdropClick().subscribe(() => {
+                    switch (this.portal?.backdropAction()) {
+                        case 'close':
+                            this.close();
+                            break;
+                        case 'next':
+                            if (this.portal.nextStep()) {
+                                this.changeStep(this.portal.nextStep(), this.portal.group());
+                            }
+                            break;
+                        case 'clickElement':
+                            if (this.portal.clickElementActive() || this.portal.clickElementOrigin()) {
+                                this.content?.instance.clone?.click();
+                            }
+                            break;
+                        default:
+                    }
+                });
                 const userProfilePortal = new ComponentPortal(MagmaWalkthroughContent);
                 const component = overlayRef.attach(userProfilePortal);
                 component.setInput('host', this);
-                component.setInput('portal', this.stepsDirective()[firstIndex]);
+                component.setInput('portal', this.portal);
                 component.setInput('element', element as HTMLElement);
 
                 this.positionStrategy = overlayRef.getConfig().positionStrategy as FlexibleConnectedPositionStrategy;
@@ -69,9 +90,10 @@ export class MagmaWalkthrough {
 
         const firstIndex = this.stepsDirective().findIndex(step => group === step.group() && stepName === step.name());
         if (this.content && firstIndex !== -1) {
-            this.content.setInput('portal', this.stepsDirective()[firstIndex]);
+            this.portal = this.stepsDirective()[firstIndex];
+            this.content.setInput('portal', this.portal);
 
-            const element = document.querySelector(this.stepsDirective()[firstIndex].selector());
+            const element = document.querySelector(this.portal.selector());
             if (element && this.positionStrategy) {
                 this.positionStrategy.setOrigin(element);
                 this.positionStrategy.apply();

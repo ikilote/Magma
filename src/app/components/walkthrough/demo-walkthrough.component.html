@@ -20,17 +20,31 @@
         </mg-input>
         <mg-input class="s-4">
           <mg-input-label>Name</mg-input-label>
-          <mg-input-text formControlName="name"></mg-input-text>
+          <mg-input-text formControlName="name" readonly></mg-input-text>
           <mg-input-desc>The first step should be called "first"</mg-input-desc>
         </mg-input>
         <mg-input class="s-4">
-          <mg-input-label>Previous step button</mg-input-label>
+          <mg-input-label>Previous step target</mg-input-label>
           <mg-input-text formControlName="previousStep"></mg-input-text>
         </mg-input>
         <mg-input class="s-4">
-          <mg-input-label>Next step button</mg-input-label>
+          <mg-input-label>Next step target</mg-input-label>
           <mg-input-text formControlName="nextStep"></mg-input-text>
         </mg-input>
+        <div class="s-12">
+          <mg-input class="s-4">
+            <mg-input-label>Previous step button name</mg-input-label>
+            <mg-input-text formControlName="previousButtonName"></mg-input-text>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>Next step button name</mg-input-label>
+            <mg-input-text formControlName="nextButtonName"></mg-input-text>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>Close button name</mg-input-label>
+            <mg-input-text formControlName="closeButtonName"></mg-input-text>
+          </mg-input>
+        </div>
         <div class="s-6">
           <mg-input class="s-12">
             <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
@@ -47,6 +61,14 @@
             <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
           </mg-input>
         </div>
+        <mg-input class="s-4">
+          <mg-input-label>Backdrop action</mg-input-label>
+          <mg-input-select
+            formControlName="backdropAction"
+            [data]="backdropActionData"
+            nativeKeyboard
+          ></mg-input-select>
+        </mg-input>
       </div>
 
       <!-- step 2 -->
@@ -64,16 +86,29 @@
         <mg-input class="s-4">
           <mg-input-label>Name</mg-input-label>
           <mg-input-text formControlName="name"></mg-input-text>
-          <mg-input-desc>The first step should be called "first"</mg-input-desc>
         </mg-input>
         <mg-input class="s-4">
-          <mg-input-label>Previous step button</mg-input-label>
+          <mg-input-label>Previous step target</mg-input-label>
           <mg-input-text formControlName="previousStep"></mg-input-text>
         </mg-input>
         <mg-input class="s-4">
-          <mg-input-label>Next step button</mg-input-label>
+          <mg-input-label>Next step target</mg-input-label>
           <mg-input-text formControlName="nextStep"></mg-input-text>
         </mg-input>
+        <div class="s-12">
+          <mg-input class="s-4">
+            <mg-input-label>Previous step button name</mg-input-label>
+            <mg-input-text formControlName="previousButtonName"></mg-input-text>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>Next step button name</mg-input-label>
+            <mg-input-text formControlName="nextButtonName"></mg-input-text>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>Close button name</mg-input-label>
+            <mg-input-text formControlName="closeButtonName"></mg-input-text>
+          </mg-input>
+        </div>
         <div class="s-6">
           <mg-input class="s-12">
             <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
@@ -90,6 +125,14 @@
             <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
           </mg-input>
         </div>
+        <mg-input class="s-4">
+          <mg-input-label>Backdrop action</mg-input-label>
+          <mg-input-select
+            formControlName="backdropAction"
+            [data]="backdropActionData"
+            nativeKeyboard
+          ></mg-input-select>
+        </mg-input>
       </div>
 
       <!-- step "" -->
@@ -107,16 +150,29 @@
         <mg-input class="s-4">
           <mg-input-label>Name</mg-input-label>
           <mg-input-text formControlName="name"></mg-input-text>
-          <mg-input-desc>The first step should be called "first"</mg-input-desc>
         </mg-input>
         <mg-input class="s-4">
-          <mg-input-label>Previous step button</mg-input-label>
+          <mg-input-label>Previous step target</mg-input-label>
           <mg-input-text formControlName="previousStep"></mg-input-text>
         </mg-input>
         <mg-input class="s-4">
-          <mg-input-label>Next step button</mg-input-label>
+          <mg-input-label>Next step target</mg-input-label>
           <mg-input-text formControlName="nextStep"></mg-input-text>
         </mg-input>
+        <div class="s-12">
+          <mg-input class="s-4">
+            <mg-input-label>Previous step button name</mg-input-label>
+            <mg-input-text formControlName="previousButtonName"></mg-input-text>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>Next step button name</mg-input-label>
+            <mg-input-text formControlName="nextButtonName"></mg-input-text>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>Close button name</mg-input-label>
+            <mg-input-text formControlName="closeButtonName"></mg-input-text>
+          </mg-input>
+        </div>
         <div class="s-6">
           <mg-input class="s-12">
             <mg-input-checkbox formControlName="showElement">showElement</mg-input-checkbox>
@@ -133,6 +189,14 @@
             <mg-input-checkbox formControlName="clickElementOrigin">clickElementOrigin</mg-input-checkbox>
           </mg-input>
         </div>
+        <mg-input class="s-4">
+          <mg-input-label>Backdrop action</mg-input-label>
+          <mg-input-select
+            formControlName="backdropAction"
+            [data]="backdropActionData"
+            nativeKeyboard
+          ></mg-input-select>
+        </mg-input>
       </div>
     </div>
     <div class="s-6">
@@ -161,12 +225,16 @@
           [group]="ctrlForm.value.group"
           [name]="ctrlForm.value.name || 'first'"
           [nextStep]="ctrlForm.value.nextStep"
+          [nextButtonName]="ctrlForm.value.nextButtonName || 'Next'"
           [previousStep]="ctrlForm.value.previousStep"
+          [previousButtonName]="ctrlForm.value.previousButtonName || 'Previous'"
           [close]="ctrlForm.value.close"
+          [closeButtonName]="ctrlForm.value.closeButtonName || 'Close'"
           [showElement]="ctrlForm.value.showElement"
           [clickElementActive]="ctrlForm.value.clickElementActive"
           (clickElement)="alert('Click'); walkExample.close()"
           [clickElementOrigin]="ctrlForm.value.clickElementOrigin"
+          [backdropAction]="ctrlForm.value.backdropAction"
         >
           <p>TEST 1</p>
         </ng-template>
@@ -176,12 +244,16 @@
           [group]="ctrlForm2.value.group"
           [name]="ctrlForm2.value.name || 'second'"
           [nextStep]="ctrlForm2.value.nextStep"
+          [nextButtonName]="ctrlForm2.value.nextButtonName || 'Next'"
           [previousStep]="ctrlForm2.value.previousStep"
+          [previousButtonName]="ctrlForm2.value.previousButtonName || 'Previous'"
           [close]="ctrlForm2.value.close"
+          [closeButtonName]="ctrlForm2.value.closeButtonName || 'Close'"
           [showElement]="ctrlForm2.value.showElement"
           [clickElementActive]="ctrlForm2.value.clickElementActive"
           (clickElement)="alert('Click'); walkExample.close()"
           [clickElementOrigin]="ctrlForm2.value.clickElementOrigin"
+          [backdropAction]="ctrlForm2.value.backdropAction"
         >
           <p>TEST 2</p>
         </ng-template>
@@ -191,12 +263,16 @@
           [group]="ctrlForm3.value.group"
           [name]="ctrlForm3.value.name || 'end'"
           [nextStep]="ctrlForm3.value.nextStep"
+          [nextButtonName]="ctrlForm3.value.nextButtonName || 'Next'"
           [previousStep]="ctrlForm3.value.previousStep"
+          [previousButtonName]="ctrlForm3.value.previousButtonName || 'Previous'"
           [close]="ctrlForm3.value.close"
+          [closeButtonName]="ctrlForm3.value.closeButtonName || 'Close'"
           [showElement]="ctrlForm3.value.showElement"
           [clickElementActive]="ctrlForm3.value.clickElementActive"
           (clickElement)="alert('Click'); walkExample.close()"
           [clickElementOrigin]="ctrlForm3.value.clickElementOrigin"
+          [backdropAction]="ctrlForm3.value.backdropAction"
         >
           <p>TEST 3</p>
         </ng-template>

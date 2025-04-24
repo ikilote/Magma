@@ -43,7 +43,7 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     private elementContent = viewChild.required<ElementRef<HTMLDialogElement>>('element');
 
     private subs = Subscriptions.instance();
-    private clone: HTMLElement | undefined;
+    clone: HTMLElement | undefined;
 
     protected top = signal(false);
     protected right = signal(false);

@@ -12,11 +12,15 @@ export class MagmaWalkthroughStep extends CdkPortal {
     group = input<string>();
     selector = input.required<string>();
     previousStep = input<string>();
+    previousButtonName = input<string>('Previous');
     nextStep = input<string>();
+    nextButtonName = input<string>('Next');
     close = input(false, { transform: booleanAttribute });
+    closeButtonName = input<string>('Close');
     showElement = input(false, { transform: booleanAttribute });
     clickElementOrigin = input(false, { transform: booleanAttribute });
     clickElementActive = input(false, { transform: booleanAttribute });
+    backdropAction = input<'none' | 'close' | 'next' | 'clickElement'>();
 
     clickElement = output<void>();
 }

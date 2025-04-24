@@ -25,6 +25,7 @@ export class MagmaLimitFocusFirstDirective implements OnInit, OnDestroy {
     host: {
         tabindex: '0',
     },
+    exportAs: 'limitFocus',
 })
 export class MagmaLimitFocusDirective implements OnDestroy {
     readonly focusElement = inject<ElementRef<HTMLDivElement>>(ElementRef);

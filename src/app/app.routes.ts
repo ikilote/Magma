@@ -117,6 +117,12 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'limit-focus',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/limit-focus/demo-limit-focus.component').then(m => m.DemoLimitFocusComponent),
+            },
+            {
                 path: 'ng-init',
                 pathMatch: 'full',
                 loadComponent: () =>

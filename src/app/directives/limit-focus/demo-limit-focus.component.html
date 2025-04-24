@@ -1,0 +1,19 @@
+<h1>limitFocus & limitFocusFirst</h1>
+
+<div>
+  <div class="s-4 s-12-m">
+    <p limitFocus #limit="limitFocus">
+      <button>Test 1</button>
+      <button limitFocusFirst="1">Test 2</button>
+      <button>Test 3</button>
+    </p>
+
+    <p>
+      <button (click)="limit.focus()">Focus</button>
+    </p>
+  </div>
+
+  <div class="s-8 s-12-m">
+    <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+  </div>
+</div>

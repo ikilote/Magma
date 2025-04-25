@@ -26,9 +26,11 @@ export * from './lib/components/table/table-cell.component';
 export * from './lib/components/table/table-group.component';
 export * from './lib/components/table/table-row.component';
 export * from './lib/components/table/table.component';
+export * from './lib/components/table/table.module';
 export * from './lib/components/tabs/tab-content.component';
 export * from './lib/components/tabs/tab-title.component';
 export * from './lib/components/tabs/tabs.component';
+export * from './lib/components/tabs/tabs.module';
 export * from './lib/components/walkthrough/walkthrough-step.directive';
 export * from './lib/components/walkthrough/walkthrough.component';
 

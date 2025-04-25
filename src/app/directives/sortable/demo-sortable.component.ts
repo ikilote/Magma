@@ -6,8 +6,8 @@ import {
     MagmaInput,
     MagmaInputElement,
     MagmaInputText,
-    MagmaSortable,
-    MagmaTableComponent,
+    MagmaSortableModule,
+    MagmaTableModule,
     NumFormatPipe,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -17,8 +17,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-sortable.component.html',
     styleUrls: ['./demo-sortable.component.scss'],
     imports: [
-        MagmaSortable,
-        MagmaTableComponent,
+        MagmaSortableModule,
+        MagmaTableModule,
         FormsModule,
         NumFormatPipe,
         DatePipe,

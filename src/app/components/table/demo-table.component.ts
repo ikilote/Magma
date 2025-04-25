@@ -7,7 +7,7 @@ import {
     FormBuilderExtended,
     MagmaInput,
     MagmaInputCheckbox,
-    MagmaTableComponent,
+    MagmaTableModule,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -15,7 +15,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-table',
     templateUrl: './demo-table.component.html',
     styleUrls: ['./demo-table.component.scss'],
-    imports: [MagmaTableComponent, ReactiveFormsModule, MagmaInput, MagmaInputCheckbox, CodeTabsComponent],
+    imports: [MagmaTableModule, ReactiveFormsModule, MagmaInput, MagmaInputCheckbox, CodeTabsComponent],
 })
 export class DemoTableComponent {
     readonly fbe = inject(FormBuilderExtended);

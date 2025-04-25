@@ -1,7 +1,6 @@
-import { ChangeDetectionStrategy, Component, Type, booleanAttribute, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
 
 import { MagmaTableCell } from './table-cell.component';
-import { MagmaTableGroup } from './table-group.component';
 import { MagmaTableRow } from './table-row.component';
 
 export type MagmaTableData = {
@@ -74,10 +73,3 @@ export class MagmaTable {
         );
     }
 }
-
-export const MagmaTableComponent: Type<MagmaTable | MagmaTableGroup | MagmaTableRow | MagmaTableCell>[] = [
-    MagmaTable,
-    MagmaTableGroup,
-    MagmaTableRow,
-    MagmaTableCell,
-];

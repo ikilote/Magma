@@ -1,4 +1,4 @@
-import { ConnectedOverlayPositionChange, ConnectionPositionPair } from '@angular/cdk/overlay-module.d-CSrPj90C';
+import { ConnectedOverlayPositionChange, ConnectionPositionPair } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import { CommonModule } from '@angular/common';
 import {

@@ -2,12 +2,12 @@ import {
     Directive,
     HostBinding,
     HostListener,
+    NgModule,
     OnChanges,
     OnDestroy,
     OnInit,
     Renderer2,
     SimpleChanges,
-    Type,
     inject,
     input,
 } from '@angular/core';
@@ -175,7 +175,10 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     }
 }
 
-export const MagmaSortable: Type<MagmaSortableDirective | MagmaSortRuleDirective>[] = [
-    MagmaSortableDirective,
-    MagmaSortRuleDirective,
-];
+const MagmaSortable = [MagmaSortableDirective, MagmaSortRuleDirective];
+
+@NgModule({
+    imports: [MagmaSortable],
+    exports: [MagmaSortable],
+})
+export class MagmaSortableModule {}

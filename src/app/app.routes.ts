@@ -97,6 +97,12 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./components/paginate/demo-paginate.component').then(m => m.DemoPaginateComponent),
             },
+            {
+                path: 'walkthrough',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/walkthrough/demo-walkthrough.component').then(m => m.DemoWalkthroughComponent),
+            },
         ],
     },
     {
@@ -109,6 +115,12 @@ export const routes: Routes = [
                     import('./directives/click-outside/demo-click-outside.component').then(
                         m => m.DemoClickOutsideComponent,
                     ),
+            },
+            {
+                path: 'limit-focus',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/limit-focus/demo-limit-focus.component').then(m => m.DemoLimitFocusComponent),
             },
             {
                 path: 'ng-init',

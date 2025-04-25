@@ -3,6 +3,7 @@
  */
 
 // components
+export * from './lib/components/block/block.component';
 export * from './lib/components/color-picker/color-picker.component';
 export * from './lib/components/color-picker/color-picker.directive';
 export * from './lib/components/context-menu/context-menu.component';
@@ -28,9 +29,12 @@ export * from './lib/components/table/table.component';
 export * from './lib/components/tabs/tab-content.component';
 export * from './lib/components/tabs/tab-title.component';
 export * from './lib/components/tabs/tabs.component';
+export * from './lib/components/walkthrough/walkthrough-step.directive';
+export * from './lib/components/walkthrough/walkthrough.component';
 
 // directives
 export * from './lib/directives/click-outside.directive';
+export * from './lib/directives/limit-focus.directive';
 export * from './lib/directives/ng-model-change-debounced.directive';
 export * from './lib/directives/ngInit.directive';
 export * from './lib/directives/sortable.directive';

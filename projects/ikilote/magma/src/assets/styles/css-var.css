@@ -230,6 +230,9 @@ body {
     --page-item-current-background: var(--primary8);
     --page-item-hover-background: var(--neutral7);
 
+    /* MARK: walkthrough */
+    --walkthrough-backdrop: rgba(0, 0, 0, 0.7);
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--input-focus-border-color);

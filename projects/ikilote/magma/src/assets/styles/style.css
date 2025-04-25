@@ -857,11 +857,11 @@ pre.mono {
 }
 
 /* -------------------- walkthrough -------------------------------------------------------
-    MARK: walkthrough
+    MARK: Walkthrough
 */
 
 .walkthrough-backdrop {
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: var(--walkthrough-backdrop);
 }
 
 /* -------------------- fixes ------------------------------------------------------------

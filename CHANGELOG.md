@@ -2,6 +2,25 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.5.0 (2025-04-26)
+
+### ✅ New
+
+- **block**: new component #19
+- **walkthrough**: new component #21
+- **limitFocus** & **limitFocusFirst**: new directive #21
+
+### 🐞 Fix
+
+- Fix export component with module for :
+    - `MagmaTableModule`
+    - `MagmaTabsModule`
+    - `MagmaSortableModule`
+
+### 📦 Packages
+
+- Update to **ng-select2-component** to `17.2.5`
+
 ## 0.4.3 (2025-03-28)
 
 ### 🐞 Fix

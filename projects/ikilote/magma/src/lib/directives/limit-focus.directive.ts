@@ -1,7 +1,6 @@
 import { Directive, ElementRef, OnDestroy, OnInit, inject, input } from '@angular/core';
 
-import { numberAttributeOrUndefined } from '@ikilote/magma';
-
+import { numberAttributeOrUndefined } from '../utils/coercion';
 import { Subscriptions } from '../utils/subscriptions';
 
 @Directive({

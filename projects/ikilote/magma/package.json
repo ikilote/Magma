@@ -1,6 +1,6 @@
 {
   "name": "@ikilote/magma",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Magma: personal components for Angular.",
   "author": "Célian Veyssière",
   "license": "MIT",
@@ -9,7 +9,7 @@
     "@angular/core": "^19.0.0",
     "@angular/cdk": "^19.0.0",
     "colorjs.io": "^0.5.2",
-    "ng-select2-component": "^17.2.4"
+    "ng-select2-component": "^17.2.5"
   },
   "dependencies": {
     "tslib": "^2.3.0",

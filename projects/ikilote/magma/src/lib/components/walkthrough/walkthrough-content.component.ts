@@ -16,14 +16,13 @@ import {
     viewChild,
 } from '@angular/core';
 
-import { Subscriptions } from '@ikilote/magma';
-
 import { debounceTime, fromEvent } from 'rxjs';
 
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
 
 import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective } from '../../directives/limit-focus.directive';
+import { Subscriptions } from '../../utils/subscriptions';
 
 @Component({
     selector: 'mg-walkthrough-content',

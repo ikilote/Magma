@@ -23,4 +23,7 @@ export class MagmaWalkthroughStep extends CdkPortal {
     backdropAction = input<'none' | 'close' | 'next' | 'clickElement'>();
 
     clickElement = output<void>();
+    clickNext = output<void>();
+    clickPrevious = output<void>();
+    clickClose = output<void>();
 }

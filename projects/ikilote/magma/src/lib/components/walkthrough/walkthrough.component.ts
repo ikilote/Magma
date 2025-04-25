@@ -34,8 +34,10 @@ export class MagmaWalkthrough {
 
         if (firstIndex !== -1) {
             this.portal = this.stepsDirective()[firstIndex];
+
             const element = document.querySelector(this.portal.selector());
             if (element) {
+                element.scrollIntoView();
                 const overlayRef = this.overlay.create({
                     hasBackdrop: true,
                     backdropClass: 'walkthrough-backdrop',
@@ -78,6 +80,10 @@ export class MagmaWalkthrough {
 
                 this.content = component;
                 this.overlayRef = overlayRef;
+
+                setTimeout(() => {
+                    this.overlayRef?.updatePosition();
+                }, 10);
             }
         }
     }
@@ -95,12 +101,17 @@ export class MagmaWalkthrough {
 
             const element = document.querySelector(this.portal.selector());
             if (element && this.positionStrategy) {
+                element.scrollIntoView();
                 this.positionStrategy.setOrigin(element);
                 this.positionStrategy.apply();
                 this.positionStrategy.reapplyLastPosition();
             }
 
             this.content.setInput('element', element as HTMLElement | null);
+
+            setTimeout(() => {
+                this.overlayRef?.updatePosition();
+            }, 10);
         }
     }
 

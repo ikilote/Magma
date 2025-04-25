@@ -8,7 +8,7 @@
 
       <!-- step 1 -->
 
-      <h1>step 1</h1>
+      <h2>step 1</h2>
       <div [formGroup]="ctrlForm">
         <mg-input class="s-4">
           <mg-input-label>Selector</mg-input-label>
@@ -69,11 +69,23 @@
             nativeKeyboard
           ></mg-input-select>
         </mg-input>
+        <div class="s-12">
+          <div class="s-12"><strong>Actions</strong></div>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickNext">clickNext</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickPrevious">clickPrevious</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickClose">clickClose</mg-input-checkbox>
+          </mg-input>
+        </div>
       </div>
 
       <!-- step 2 -->
 
-      <h1>step 2</h1>
+      <h2>step 2</h2>
       <div [formGroup]="ctrlForm2">
         <mg-input class="s-4">
           <mg-input-label>Selector</mg-input-label>
@@ -133,11 +145,23 @@
             nativeKeyboard
           ></mg-input-select>
         </mg-input>
+        <div class="s-12">
+          <div class="s-12"><strong>Actions</strong></div>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickNext">clickNext</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickPrevious">clickPrevious</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickClose">clickClose</mg-input-checkbox>
+          </mg-input>
+        </div>
       </div>
 
       <!-- step "" -->
 
-      <h1>step 3</h1>
+      <h2>step 3</h2>
       <div [formGroup]="ctrlForm3">
         <mg-input class="s-4">
           <mg-input-label>Selector</mg-input-label>
@@ -197,6 +221,18 @@
             nativeKeyboard
           ></mg-input-select>
         </mg-input>
+        <div class="s-12">
+          <div class="s-12"><strong>Actions</strong></div>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickNext">clickNext</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickPrevious">clickPrevious</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="clickClose">clickClose</mg-input-checkbox>
+          </mg-input>
+        </div>
       </div>
     </div>
     <div class="s-6">
@@ -368,6 +404,7 @@
         nextStep="second"
         showElement
         clickElementOrigin
+        (clickNext)="tabs.update('example2')"
       >
         <p>↑ click / TEST 3</p>
       </ng-template>
@@ -377,9 +414,11 @@
         selector="#button-2"
         group="b"
         name="second"
+        previousStep="first"
         close
         showElement
         clickElementActive
+        (clickPrevious)="tabs.update('example1')"
         (clickElement)="walk2.close()"
         close
       >
@@ -388,13 +427,23 @@
     </mg-walkthrough>
 
     <mg-block id="block-2">
-      <p>
-        Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block
-        test
-      </p>
-      <div class="align">
-        <button id="button-2">TEST</button>
-      </div>
+      <mg-tabs #tabs>
+        <mg-tab-title id="example1"> example1 </mg-tab-title>
+        <mg-tab-content id="example1">
+          <button id="button-1">TEST</button>
+        </mg-tab-content>
+        <mg-tab-title id="example2"> example2 </mg-tab-title>
+        <mg-tab-content id="example2">
+          <p>
+            Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block
+            test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block test<br /><br /><br /><br /><br />Block
+            test
+          </p>
+          <div class="align">
+            <button id="button-2">TEST</button>
+          </div>
+        </mg-tab-content>
+      </mg-tabs>
     </mg-block>
   </mg-tab-content>
 </mg-tabs>

@@ -5,6 +5,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
+    HostListener,
     OnChanges,
     OnDestroy,
     OnInit,
@@ -109,15 +110,24 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     }
 
     next() {
-        this.host().changeStep(this.portal().nextStep(), this.portal().group());
+        this.portal().clickNext.emit();
+        setTimeout(() => {
+            this.host().changeStep(this.portal().nextStep(), this.portal().group());
+        }, 10);
     }
 
     previous() {
-        this.host().changeStep(this.portal().previousStep(), this.portal().group());
+        this.portal().clickPrevious.emit();
+        setTimeout(() => {
+            this.host().changeStep(this.portal().previousStep(), this.portal().group());
+        }, 10);
     }
 
     close() {
-        this.host().close();
+        this.portal().clickClose.emit();
+        setTimeout(() => {
+            this.host().close();
+        }, 10);
     }
 
     update() {
@@ -133,5 +143,16 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     testPosition(connectionPair: ConnectionPositionPair) {
         this.right.set(connectionPair.originX === 'end');
         this.top.set(connectionPair.originY === 'top');
+    }
+
+    @HostListener('document:keydown.escape', ['$event'])
+    escape() {
+        if (this.portal().close()) {
+            this.close();
+        } else {
+            if (this.portal().nextStep()) {
+                this.next();
+            }
+        }
     }
 }

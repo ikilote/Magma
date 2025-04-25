@@ -55,6 +55,9 @@ export class DemoWalkthroughComponent {
         clickElementActive: FormControl<boolean>;
         clickElementOrigin: FormControl<boolean>;
         backdropAction: FormControl<'none' | 'close' | 'next' | 'clickElement'>;
+        clickNext: FormControl<boolean>;
+        clickPrevious: FormControl<boolean>;
+        clickClose: FormControl<boolean>;
     }>;
 
     ctrlForm2: FormGroup<{
@@ -71,6 +74,9 @@ export class DemoWalkthroughComponent {
         clickElementActive: FormControl<boolean>;
         clickElementOrigin: FormControl<boolean>;
         backdropAction: FormControl<'none' | 'close' | 'next' | 'clickElement'>;
+        clickNext: FormControl<boolean>;
+        clickPrevious: FormControl<boolean>;
+        clickClose: FormControl<boolean>;
     }>;
 
     ctrlForm3: FormGroup<{
@@ -87,6 +93,9 @@ export class DemoWalkthroughComponent {
         clickElementActive: FormControl<boolean>;
         clickElementOrigin: FormControl<boolean>;
         backdropAction: FormControl<'none' | 'close' | 'next' | 'clickElement'>;
+        clickNext: FormControl<boolean>;
+        clickPrevious: FormControl<boolean>;
+        clickClose: FormControl<boolean>;
     }>;
 
     backdropActionData: Select2Data = [
@@ -117,6 +126,9 @@ export class DemoWalkthroughComponent {
             clickElementActive: { default: false },
             clickElementOrigin: { default: false },
             backdropAction: { default: 'none' },
+            clickNext: { default: false },
+            clickPrevious: { default: false },
+            clickClose: { default: false },
         });
         this.ctrlForm2 = this.fb.groupWithErrorNonNullable({
             selector: { default: '#btn-b' },
@@ -132,6 +144,9 @@ export class DemoWalkthroughComponent {
             clickElementActive: { default: false },
             clickElementOrigin: { default: false },
             backdropAction: { default: 'none' },
+            clickNext: { default: false },
+            clickPrevious: { default: false },
+            clickClose: { default: false },
         });
         this.ctrlForm3 = this.fb.groupWithErrorNonNullable({
             selector: { default: '#btn-c' },
@@ -147,6 +162,9 @@ export class DemoWalkthroughComponent {
             clickElementActive: { default: false },
             clickElementOrigin: { default: false },
             backdropAction: { default: 'none' },
+            clickNext: { default: false },
+            clickPrevious: { default: false },
+            clickClose: { default: false },
         });
         this.generator();
 
@@ -187,6 +205,9 @@ export class DemoWalkthroughComponent {
                             '(clickElement)': this.ctrlForm.value.clickElementActive
                                 ? "alert('Click'); walk.close()"
                                 : undefined,
+                            '(clickNext)': this.ctrlForm.value.clickNext ? 'nextAction()' : undefined,
+                            '(clickPrevious)': this.ctrlForm.value.clickPrevious ? 'previousAction()' : undefined,
+                            '(clickClose)': this.ctrlForm.value.clickClose ? 'closeAction()' : undefined,
                         },
                         body: [
                             {
@@ -211,6 +232,9 @@ export class DemoWalkthroughComponent {
                             '(clickElement)': this.ctrlForm2.value.clickElementActive
                                 ? "alert('Click'); walk.close()"
                                 : undefined,
+                            '(clickNext)': this.ctrlForm2.value.clickNext ? 'nextAction()' : undefined,
+                            '(clickPrevious)': this.ctrlForm2.value.clickPrevious ? 'previousAction()' : undefined,
+                            '(clickClose)': this.ctrlForm2.value.clickClose ? 'closeAction()' : undefined,
                         },
                         body: [
                             {
@@ -235,6 +259,9 @@ export class DemoWalkthroughComponent {
                             '(clickElement)': this.ctrlForm3.value.clickElementActive
                                 ? "alert('Click'); walk.close()"
                                 : undefined,
+                            '(clickNext)': this.ctrlForm3.value.clickNext ? 'nextAction()' : undefined,
+                            '(clickPrevious)': this.ctrlForm3.value.clickPrevious ? 'previousAction()' : undefined,
+                            '(clickClose)': this.ctrlForm3.value.clickClose ? 'closeAction()' : undefined,
                         },
                         body: [
                             {

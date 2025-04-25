@@ -1,4 +1,6 @@
-import { Directive, ElementRef, OnDestroy, OnInit, inject, input, numberAttribute } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, OnInit, inject, input } from '@angular/core';
+
+import { numberAttributeOrUndefined } from '@ikilote/magma';
 
 import { Subscriptions } from '../utils/subscriptions';
 
@@ -9,7 +11,7 @@ export class MagmaLimitFocusFirstDirective implements OnInit, OnDestroy {
     private readonly host = inject(MagmaLimitFocusDirective);
     readonly focusElement = inject<ElementRef<HTMLDivElement>>(ElementRef);
 
-    readonly limitFocusFirst = input.required({ transform: numberAttribute });
+    readonly limitFocusFirst = input.required({ transform: numberAttributeOrUndefined });
 
     ngOnInit(): void {
         this.host.add(this);
@@ -45,8 +47,9 @@ export class MagmaLimitFocusDirective implements OnDestroy {
 
     focus() {
         this.items
+            ?.filter(item => item.limitFocusFirst() !== undefined)
             ?.reduce(
-                (minItem, item) => (item.limitFocusFirst() < minItem.limitFocusFirst() ? item : minItem),
+                (minItem, item) => (item.limitFocusFirst()! < minItem.limitFocusFirst()! ? item : minItem),
                 this.items[0],
             )
             ?.focusElement.nativeElement.focus();

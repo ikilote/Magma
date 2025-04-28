@@ -856,6 +856,24 @@ pre.mono {
     font-family: var(--font-mono);
 }
 
+/* -------------------- click-enter -------------------------------------------------------
+    MARK: Click-enter
+*/
+
+.click-enter[tabindex] {
+    outline: 2px solid transparent;
+    outline-offset: -1px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: var(--click-enter-hover-background);
+    }
+
+    &:focus {
+        outline-color: var(--input-focus-border-color);
+    }
+}
+
 /* -------------------- walkthrough -------------------------------------------------------
     MARK: Walkthrough
 */

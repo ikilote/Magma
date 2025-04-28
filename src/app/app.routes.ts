@@ -109,6 +109,12 @@ export const routes: Routes = [
         path: 'directive',
         children: [
             {
+                path: 'click-enter',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/click-enter/demo-click-enter.component').then(m => m.DemoClickEnterComponent),
+            },
+            {
                 path: 'click-outside',
                 pathMatch: 'full',
                 loadComponent: () =>

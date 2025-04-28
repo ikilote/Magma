@@ -35,6 +35,7 @@ export * from './lib/components/walkthrough/walkthrough-step.directive';
 export * from './lib/components/walkthrough/walkthrough.component';
 
 // directives
+export * from './lib/directives/click-enter.directive';
 export * from './lib/directives/click-outside.directive';
 export * from './lib/directives/limit-focus.directive';
 export * from './lib/directives/ng-model-change-debounced.directive';

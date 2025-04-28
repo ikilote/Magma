@@ -1,0 +1,50 @@
+<h1>Click Enter</h1>
+
+<div>
+  <div class="s-2 s-12-m">
+    <div>Test <span (clickEnter)="click1()" [disabled]="ctrlForm1.value.disabled">Click zone</span> Test</div>
+    <p [formGroup]="ctrlForm1">
+      <mg-input>
+        <mg-input-checkbox mode="toggle" formControlName="disabled">Disabled</mg-input-checkbox>
+      </mg-input>
+    </p>
+  </div>
+
+  <div class="s-2 s-12-m">
+    <pre><code>{{ events1 }}</code></pre>
+  </div>
+
+  <div class="s-8 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</div>
+
+<div>
+  <div class="s-2 s-12-m">
+    <mg-block (clickEnter)="click2()" [disabled]="ctrlForm2.value.disabled">Click</mg-block>
+
+    <p [formGroup]="ctrlForm2">
+      <mg-input>
+        <mg-input-checkbox mode="toggle" formControlName="disabled">Disabled</mg-input-checkbox>
+      </mg-input>
+    </p>
+  </div>
+
+  <div class="s-2 s-12-m">
+    <pre><code>{{ events2 }}</code></pre>
+  </div>
+
+  <div class="s-8 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeBlockHtml },
+        { type: 'ts', code: codeTsBlock },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

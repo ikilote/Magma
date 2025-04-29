@@ -1,7 +1,6 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    HostListener,
     OnChanges,
     OnInit,
     SimpleChanges,
@@ -12,6 +11,8 @@ import {
 
 import { MagmaTabs } from './tabs.component';
 
+import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
+
 @Component({
     selector: 'mg-tab-title',
     templateUrl: './tab-title.component.html',
@@ -21,17 +22,25 @@ import { MagmaTabs } from './tabs.component';
         '[class.selected]': 'selected()',
         tabindex: '0',
     },
+    hostDirectives: [MagmaClickEnterDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaTabTitle implements OnInit, OnChanges {
     // inject
 
     private readonly tabs = inject(MagmaTabs, { host: true });
+    private readonly click = inject(MagmaClickEnterDirective);
 
     // input
 
     readonly id = input.required<string>();
     readonly selected = model<boolean>(false);
+
+    constructor() {
+        this.click.clickEnter.subscribe(() => {
+            this.onclick();
+        });
+    }
 
     ngOnInit(): void {
         if (this.selected()) {
@@ -45,8 +54,6 @@ export class MagmaTabTitle implements OnInit, OnChanges {
         }
     }
 
-    @HostListener('click')
-    @HostListener('keydown.enter')
     onclick() {
         if (this.tabs && this.id()) {
             setTimeout(() => {

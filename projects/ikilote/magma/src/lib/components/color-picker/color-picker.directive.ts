@@ -17,6 +17,8 @@ import {
 
 import { MagmaColorPickerComponent, MagmaColorPickerTexts } from './color-picker.component';
 
+import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
+
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
     { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
@@ -30,10 +32,12 @@ const connectedPosition: ConnectedPosition[] = [
         '[class.color-picker]': 'true',
         '[tabIndex]': 'colorPickerDisabled() ? -1 : 0',
     },
+    hostDirectives: [MagmaClickEnterDirective],
 })
 export class MagmaColorPicker implements OnDestroy, OnChanges {
     private readonly overlay = inject(Overlay);
     private readonly element = inject(ElementRef<HTMLElement>);
+    private readonly click = inject(MagmaClickEnterDirective);
 
     readonly colorPicker = input<string>();
     readonly colorPickerAlpha = input(false, { transform: booleanAttribute });
@@ -52,14 +56,19 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
 
     private updateEmit?: OutputRefSubscription;
 
+    constructor() {
+        this.click.clickEnter.subscribe(event => {
+            this.open(event);
+        });
+    }
+
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['colorPickerAlpha']) {
             MagmaColorPicker._component?.setInput('alpha', changes['colorPickerAlpha'].currentValue);
         }
     }
 
-    @HostListener('click', ['$event'])
-    async open(event?: MouseEvent) {
+    async open(event?: Event) {
         if (this.colorPickerDisabled()) {
             return;
         }

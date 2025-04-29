@@ -1,13 +1,6 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    HostListener,
-    booleanAttribute,
-    inject,
-    input,
-    output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, inject, input, output } from '@angular/core';
 
+import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 import { LightDark, PreferenceInterfaceTheme } from '../../services/light-dark';
 
 @Component({
@@ -15,6 +8,7 @@ import { LightDark, PreferenceInterfaceTheme } from '../../services/light-dark';
     templateUrl: './light-dark.component.html',
     styleUrls: ['./light-dark.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MagmaClickEnterDirective],
     host: {
         '[attr.tabindex]': 'true',
         '[class.dark]': '!lightDarkService.isLight()',
@@ -29,7 +23,6 @@ export class MagmaLightDark {
 
     readonly change = output<PreferenceInterfaceTheme>();
 
-    @HostListener('click')
     click() {
         this.lightDarkService.toggleTheme();
         this.lightDarkService.changeThemeClass();

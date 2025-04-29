@@ -860,7 +860,7 @@ pre.mono {
     MARK: Click-enter
 */
 
-.click-enter[tabindex] {
+.click-enter[tabindex]:not(button, a[href]) {
     outline: 2px solid transparent;
     outline-offset: -1px;
 

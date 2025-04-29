@@ -4,8 +4,6 @@
     vertical-align: middle;
     gap: 5px;
 
-    cursor: pointer;
-
     &.dark .toggle::before {
         left: calc(100% - 16px - 4px);
     }

@@ -1,7 +1,6 @@
 import {
     Directive,
     HostBinding,
-    HostListener,
     NgModule,
     OnChanges,
     OnDestroy,
@@ -11,6 +10,8 @@ import {
     inject,
     input,
 } from '@angular/core';
+
+import { MagmaClickEnterDirective } from './click-enter.directive';
 
 import { MagmaInputCommon } from '../components/input/input-common';
 import { objectNestedValue } from '../utils/object';
@@ -30,11 +31,19 @@ export type MagmaSortRule =
 
 @Directive({
     selector: '[sort-rule]',
+    hostDirectives: [MagmaClickEnterDirective],
 })
 export class MagmaSortRuleDirective implements OnInit {
     private sortable = inject(MagmaSortableDirective, { host: true });
+    private click = inject(MagmaClickEnterDirective);
 
     sortRule = input<MagmaSortRule>(undefined, { alias: 'sort-rule' });
+
+    constructor() {
+        this.click.clickEnter.subscribe(() => {
+            this.onClick();
+        });
+    }
 
     @HostBinding('class.sort-asc')
     get classSortAsc() {
@@ -60,7 +69,6 @@ export class MagmaSortRuleDirective implements OnInit {
         }
     }
 
-    @HostListener('click')
     onClick() {
         this.sortable.sortWithRule(this.sortRule());
     }

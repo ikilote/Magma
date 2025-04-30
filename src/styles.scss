@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import '@angular/cdk/overlay-prebuilt.css';
-@import 'highlight.js/styles/github.css';
+
+@import url('highlight.js/styles/a11y-dark.css');
 
 @import url('../projects/ikilote/magma/src/assets/styles/font-icon.css');
 @import url('../projects/ikilote/magma/src/assets/styles/css-var.css');
@@ -22,5 +23,6 @@ code:not(:has(> pre)) {
 }
 
 code > pre {
+    border-radius: 6px;
     overflow: auto;
 }

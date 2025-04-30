@@ -75,6 +75,12 @@ h2 {
     }
 }
 
+.lvl1 {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
 ul {
     margin: 0;
     padding: 0;
@@ -107,6 +113,10 @@ main {
     padding: 0 20px 20px;
     overflow: hidden auto;
     scrollbar-gutter: stable;
+}
+
+.selected {
+    background: var(--neutral6);
 }
 
 .light-dark {

@@ -1,0 +1,67 @@
+export const menu = [
+    {
+        items: [{ routerLink: '/home', label: 'Install' }],
+    },
+    {
+        groupName: 'Components',
+        items: [
+            { routerLink: '/component/block', label: 'Block' },
+            { routerLink: '/component/color-picker', label: 'Color picker' },
+            { routerLink: '/component/context-menu', label: 'Context menu' },
+            { routerLink: '/component/dialog', label: 'Dialog' },
+            { routerLink: '/component/info-messages', label: 'Info-messages' },
+            {
+                groupName: 'Components',
+                items: [
+                    { routerLink: '/component/input/generator', label: 'Generator' },
+                    { routerLink: '/component/input/validators', label: 'Validators' },
+                    { routerLink: '/component/input/test', label: 'Tests' },
+                ],
+            },
+            { routerLink: '/component/light-dark', label: 'Light-dark' },
+            { routerLink: '/component/paginate', label: 'Paginate' },
+            { routerLink: '/component/table', label: 'Table' },
+            { routerLink: '/component/tabs', label: 'Tabs' },
+            { routerLink: '/component/walkthrough', label: 'Walkthrough' },
+        ],
+    },
+    {
+        groupName: 'Directives',
+        items: [
+            { routerLink: '/directive/click-enter', label: 'Click Enter' },
+            { routerLink: '/directive/click-outside', label: 'Click Outside' },
+            { routerLink: '/directive/limit-focus', label: 'Limit-focus' },
+            { routerLink: '/directive/ng-init', label: 'ngInit' },
+            { routerLink: '/directive/ng-model-change-debounced', label: 'ngModelChange<br />debounced' },
+            { routerLink: '/directive/sortable', label: 'Sortable ' },
+            { routerLink: '/directive/tooltip', label: 'Tooltip ' },
+            { routerLink: '/directive/textarea-autosize', label: 'Textarea autosize' },
+        ],
+    },
+    {
+        groupName: 'Utils',
+        items: [
+            { routerLink: '/utils/clipboard', label: 'Clipboard' },
+            { routerLink: '/utils/coercion', label: 'Coercion' },
+            { routerLink: '/utils/cookies', label: 'Cookies' },
+            { routerLink: '/utils/date', label: 'Date' },
+            { routerLink: '/utils/dom', label: 'DOM' },
+            { routerLink: '/utils/email', label: 'Email' },
+            { routerLink: '/utils/file', label: 'File' },
+            { routerLink: '/utils/json', label: 'Json' },
+            { routerLink: '/utils/number', label: 'Number' },
+            { routerLink: '/utils/object', label: 'Object' },
+            { routerLink: '/utils/subscriptions', label: 'Subscriptions' },
+        ],
+    },
+    {
+        groupName: 'Styles',
+        items: [
+            { routerLink: '/style/buttons', label: 'Buttons' },
+            { routerLink: '/style/icons', label: 'Icons' },
+            { routerLink: '/style/inputs', label: 'Inputs' },
+            { routerLink: '/style/grid', label: 'Grid' },
+            { routerLink: '/style/palette', label: 'Palette' },
+        ],
+    },
+];

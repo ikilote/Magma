@@ -8,97 +8,12 @@
     <button class="mobile-menu" (click)="toggleMenu()">×</button>
   </div>
   <div class="content">
-    <ul>
-      <li><a routerLink="/home" routerLinkActive="selected">Install</a></li>
-    </ul>
-    <h3>Components</h3>
-    <ul>
-      <li>
-        <a routerLink="/component/block" routerLinkActive="selected" (click)="closeMenu()">Block</a>
-      </li>
-      <li>
-        <a routerLink="/component/color-picker" routerLinkActive="selected" (click)="closeMenu()">Color picker</a>
-      </li>
-      <li>
-        <a routerLink="/component/context-menu" routerLinkActive="selected" (click)="closeMenu()">Context menu</a>
-      </li>
-      <li><a routerLink="/component/dialog" routerLinkActive="selected" (click)="closeMenu()">Dialog</a></li>
-      <li>
-        <a routerLink="/component/info-messages" routerLinkActive="selected" (click)="closeMenu()">Info-messages</a>
-      </li>
-      <li>
-        <div>Input</div>
-        <ul>
-          <li>
-            <a routerLink="/component/input/generator" routerLinkActive="selected" (click)="closeMenu()">Generator</a>
-          </li>
-          <li>
-            <a routerLink="/component/input/validators" routerLinkActive="selected" (click)="closeMenu()">Validators</a>
-          </li>
-          <li><a routerLink="/component/input/test" routerLinkActive="selected" (click)="closeMenu()">Tests</a></li>
-        </ul>
-      </li>
-      <li><a routerLink="/component/light-dark" routerLinkActive="selected" (click)="closeMenu()">Light-dark</a></li>
-      <li><a routerLink="/component/paginate" routerLinkActive="selected" (click)="closeMenu()">Paginate</a></li>
-      <li><a routerLink="/component/table" routerLinkActiKsve="selected" (click)="closeMenu()">Table</a></li>
-      <li><a routerLink="/component/tabs" routerLinkActive="selected" (click)="closeMenu()">Tabs</a></li>
-      <li><a routerLink="/component/walkthrough" routerLinkActive="selected" (click)="closeMenu()">Walkthrough</a></li>
-    </ul>
-    <h3>Directives</h3>
-    <ul>
-      <li>
-        <a routerLink="/directive/click-enter" routerLinkActive="selected" (click)="closeMenu()">Click Enter</a>
-      </li>
-      <li>
-        <a routerLink="/directive/click-outside" routerLinkActive="selected" (click)="closeMenu()">Click Outside</a>
-      </li>
-      <li>
-        <a routerLink="/directive/limit-focus" routerLinkActive="selected" (click)="closeMenu()">Limit-focus</a>
-      </li>
-      <li>
-        <a routerLink="/directive/ng-init" routerLinkActive="selected" (click)="closeMenu()">ngInit</a>
-      </li>
-      <li>
-        <a routerLink="/directive/ng-model-change-debounced" routerLinkActive="selected" (click)="closeMenu()"
-          >ngModelChange<br />debounced</a
-        >
-      </li>
-      <li>
-        <a routerLink="/directive/sortable" routerLinkActive="selected" (click)="closeMenu()">Sortable </a>
-      </li>
-      <li>
-        <a routerLink="/directive/tooltip" routerLinkActive="selected" (click)="closeMenu()">Tooltip </a>
-      </li>
-      <li>
-        <a routerLink="/directive/textarea-autosize" routerLinkActive="selected" (click)="closeMenu()"
-          >Textarea autosize</a
-        >
-      </li>
-    </ul>
-
-    <h3>Utils</h3>
-    <ul>
-      <li><a routerLink="/utils/clipboard" routerLinkActive="selected" (click)="closeMenu()">Clipboard</a></li>
-      <li><a routerLink="/utils/coercion" routerLinkActive="selected" (click)="closeMenu()">Coercion</a></li>
-      <li><a routerLink="/utils/cookies" routerLinkActive="selected" (click)="closeMenu()">Cookies</a></li>
-      <li><a routerLink="/utils/date" routerLinkActive="selected" (click)="closeMenu()">Date</a></li>
-      <li><a routerLink="/utils/dom" routerLinkActive="selected" (click)="closeMenu()">DOM</a></li>
-      <li><a routerLink="/utils/email" routerLinkActive="selected" (click)="closeMenu()">Email</a></li>
-      <li><a routerLink="/utils/file" routerLinkActive="selected" (click)="closeMenu()">File</a></li>
-      <li><a routerLink="/utils/json" routerLinkActive="selected" (click)="closeMenu()">Json</a></li>
-      <li><a routerLink="/utils/number" routerLinkActive="selected" (click)="closeMenu()">Number</a></li>
-      <li><a routerLink="/utils/object" routerLinkActive="selected" (click)="closeMenu()">Object</a></li>
-      <li><a routerLink="/utils/subscriptions" routerLinkActive="selected" (click)="closeMenu()">Subscriptions</a></li>
-    </ul>
-
-    <h3>Styles</h3>
-    <ul>
-      <li><a routerLink="/style/buttons" routerLinkActive="selected" (click)="closeMenu()">Buttons</a></li>
-      <li><a routerLink="/style/icons" routerLinkActive="selected" (click)="closeMenu()">Icons</a></li>
-      <li><a routerLink="/style/inputs" routerLinkActive="selected" (click)="closeMenu()">Inputs</a></li>
-      <li><a routerLink="/style/grid" routerLinkActive="selected" (click)="closeMenu()">Grid</a></li>
-      <li><a routerLink="/style/palette" routerLinkActive="selected" (click)="closeMenu()">Palette</a></li>
-    </ul>
+    @for (group of contentMenu; track $index) {
+      <ng-container
+        [ngTemplateOutlet]="groupTemplate"
+        [ngTemplateOutletContext]="{ lvl: 1, groupItem: group }"
+      ></ng-container>
+    }
   </div>
   <div class="light-dark">
     <mg-light-dark></mg-light-dark>
@@ -108,3 +23,23 @@
   <button class="mobile-menu" (click)="toggleMenu()">☰</button>
   <router-outlet></router-outlet>
 </main>
+
+<ng-template #groupTemplate let-groupItem="groupItem" let-lvl="lvl">
+  @if (groupItem.groupName) {
+    <div class="lvl{{ lvl }}">{{ groupItem.groupName }}</div>
+  }
+  <ul>
+    @for (item of groupItem.items; track $index) {
+      <li>
+        @if (item.label) {
+          <a [routerLink]="item.routerLink" routerLinkActive="selected" [innerHTML]="item.label"></a>
+        } @else {
+          <ng-container
+            [ngTemplateOutlet]="groupTemplate"
+            [ngTemplateOutletContext]="{ lvl: lvl + 1, groupItem: item }"
+          ></ng-container>
+        }
+      </li>
+    }
+  </ul>
+</ng-template>

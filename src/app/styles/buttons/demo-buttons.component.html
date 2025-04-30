@@ -3,6 +3,7 @@
 <section>
   <div class="s-2 s-12-m">
     <button>Boutons</button>
+    <button disabled>Boutons</button>
   </div>
   <div class="s-f">
     <code-tabs [code]="[{ type: 'html', code: default }]"></code-tabs>
@@ -12,6 +13,7 @@
 <section>
   <div class="s-2 s-12-m">
     <button class="primary">Boutons</button>
+    <button class="primary" disabled>Boutons</button>
   </div>
   <div class="s-f">
     <code-tabs [code]="[{ type: 'html', code: primary }]"></code-tabs>
@@ -21,8 +23,20 @@
 <section>
   <div class="s-2 s-12-m">
     <button class="warn">Boutons</button>
+    <button class="warn" disabled>Boutons</button>
   </div>
   <div class="s-f">
     <code-tabs [code]="[{ type: 'html', code: warn }]"></code-tabs>
+  </div>
+</section>
+
+<h1>Links</h1>
+
+<section>
+  <div class="s-2 s-12-m">
+    <a href="/style/buttons">Link</a>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: link }]"></code-tabs>
   </div>
 </section>

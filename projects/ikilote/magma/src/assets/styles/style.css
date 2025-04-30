@@ -49,12 +49,10 @@ button {
 
 button:disabled {
     opacity: 0.25;
-}
 
-button:disabled :hover {
-    box-shadow: 0 0 1px var(--button-default-box-shadow);
-    border: 2px solid var(--button-default-border-color);
-    background: var(--button-default-background);
+    --button-default-hover-border-color: var(--button-default-border-color);
+    --button-default-hover-background: var(--button-default-background);
+    --button-default-hover-box-shadow: var(--button-default-box-shadow);
 }
 
 button.primary {
@@ -62,10 +60,16 @@ button.primary {
     --button-default-background: var(--button-primary-background);
     --button-default-box-shadow: var(--button-primary-box-shadow);
     --button-default-color: var(--button-primary-color);
+    --button-default-focus-border-color: var(--button-primary-focus-border-color);
     --button-default-hover-border-color: var(--button-primary-hover-border-color);
     --button-default-hover-background: var(--button-primary-hover-background);
     --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
-    --button-default-focus-border-color: var(--button-primary-focus-border-color);
+
+    &:disabled {
+        --button-default-hover-border-color: var(--button-primary-border-color);
+        --button-default-hover-background: var(--button-primary-background);
+        --button-default-hover-box-shadow: var(--button-primary-box-shadow);
+    }
 }
 
 button.warn {
@@ -73,10 +77,16 @@ button.warn {
     --button-default-background: var(--button-warn-background);
     --button-default-box-shadow: var(--button-warn-box-shadow);
     --button-default-color: var(--button-warn-color);
+    --button-default-focus-border-color: var(--button-warn-focus-border-color);
     --button-default-hover-border-color: var(--button-warn-hover-border-color);
     --button-default-hover-background: var(--button-warn-hover-background);
     --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
-    --button-default-focus-border-color: var(--button-warn-focus-border-color);
+
+    &:disabled {
+        --button-default-hover-border-color: var(--button-warn-border-color);
+        --button-default-hover-background: var(--button-warn-background);
+        --button-default-hover-box-shadow: var(--button-warn-box-shadow);
+    }
 }
 
 .buttons {

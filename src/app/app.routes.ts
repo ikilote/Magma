@@ -233,7 +233,7 @@ export const routes: Routes = [
         path: 'style',
         children: [
             {
-                path: 'buttons',
+                path: 'buttons-links',
                 pathMatch: 'full',
                 loadComponent: () =>
                     import('./styles/buttons/demo-buttons.component').then(m => m.DemoButtonsComponent),

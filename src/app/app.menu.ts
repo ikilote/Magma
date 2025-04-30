@@ -57,7 +57,7 @@ export const menu = [
     {
         groupName: 'Styles',
         items: [
-            { routerLink: '/style/buttons', label: 'Buttons' },
+            { routerLink: '/style/buttons-links', label: 'Buttons & Links' },
             { routerLink: '/style/icons', label: 'Icons' },
             { routerLink: '/style/inputs', label: 'Inputs' },
             { routerLink: '/style/grid', label: 'Grid' },

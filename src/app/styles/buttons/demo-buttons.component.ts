@@ -12,4 +12,6 @@ export class DemoButtonsComponent {
     default = '<button>Boutons</button>';
     primary = '<button class="primary">Boutons</button>';
     warn = '<button class="warn">Boutons</button>';
+
+    link = '<a href="/style/buttons">Link</a>';
 }

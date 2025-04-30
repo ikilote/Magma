@@ -42,7 +42,7 @@
               "node_modules/prismjs/components/prism-css.min.js",
               "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
             ],
-            "allowedCommonJsDependencies": ["highlight.js"]
+            "allowedCommonJsDependencies": ["highlight.js", "bowser"]
           },
           "configurations": {
             "production": {

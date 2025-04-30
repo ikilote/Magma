@@ -17,7 +17,3 @@
     flex-wrap: wrap;
     gap: 15px 5px;
 }
-
-:host-context(.dark-mode) pre {
-    filter: invert(1);
-}

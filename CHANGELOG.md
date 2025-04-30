@@ -2,6 +2,22 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.5.1 (2025-05-01)
+
+### ✅ New
+
+- Add **click-enter** directive and use MagmaClickEnterDirective
+
+### 🐞 Fix
+
+- Fix **button** disabled & add links in demo
+
+### 🎦 Demo
+
+- Simplification of the menu template
+- Use `click-enter`
+- Change theme for code
+
 ## 0.5.0 (2025-04-26)
 
 ### ✅ New

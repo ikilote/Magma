@@ -23,8 +23,6 @@
 .content {
     display: flex;
     position: relative;
-    transform: scale(1);
-    opacity: 1;
     transition-duration: 0.3s;
     transition-property: opacity, transform;
     box-sizing: border-box;
@@ -39,6 +37,22 @@
     @starting-style {
         transform: scale(0.9);
         opacity: 0;
+        animation: fadeInScale 0.3s forwards;
+    }
+}
+
+@keyframes fadeInScale {
+    0% {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    99% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: none; /* fix position for fixed */
+        opacity: 1;
     }
 }
 

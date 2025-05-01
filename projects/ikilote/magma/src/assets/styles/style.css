@@ -16,6 +16,10 @@ html {
     transition-property: background-color, opacity, border, box-shadow, text-shadow, outline;
 }
 
+:focus {
+    outline: 2px solid var(--link-focus-border-color);
+}
+
 * {
     font-family: var(--font-family);
 }
@@ -32,6 +36,7 @@ a {
 a:hover {
     color: var(--link-hover-color);
 }
+
 table a {
     margin: auto 10px;
 }

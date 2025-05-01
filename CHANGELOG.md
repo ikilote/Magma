@@ -2,6 +2,21 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.5.2 (2025-05-02)
+
+### ✅ New
+
+- Add focus color var
+
+### 🐞 Fix
+
+- Disabled button: cursor default
+- Dialog: fix starting-style for position fixed
+
+### 🎦 Demo
+
+- fix menu
+
 ## 0.5.1 (2025-05-01)
 
 ### ✅ New

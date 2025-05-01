@@ -49,6 +49,7 @@ button {
 
 button:disabled {
     opacity: 0.25;
+    cursor: default;
 
     --button-default-hover-border-color: var(--button-default-border-color);
     --button-default-hover-background: var(--button-default-background);

@@ -1,6 +1,6 @@
 import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { menu } from './app.menu';
 
@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, RouterLink, MagmaLightDark, NgTemplateOutlet, CommonModule],
+    imports: [RouterOutlet, RouterLink, RouterLinkActive, MagmaLightDark, NgTemplateOutlet, CommonModule],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     host: {

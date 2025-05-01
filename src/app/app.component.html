@@ -32,7 +32,12 @@
     @for (item of groupItem.items; track $index) {
       <li>
         @if (item.label) {
-          <a [routerLink]="item.routerLink" routerLinkActive="selected" [innerHTML]="item.label"></a>
+          <a
+            [routerLink]="item.routerLink"
+            routerLinkActive="selected"
+            ariaCurrentWhenActive="page"
+            [innerHTML]="item.label"
+          ></a>
         } @else {
           <ng-container
             [ngTemplateOutlet]="groupTemplate"

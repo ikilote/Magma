@@ -11,7 +11,7 @@ export const menu = [
             { routerLink: '/component/dialog', label: 'Dialog' },
             { routerLink: '/component/info-messages', label: 'Info-messages' },
             {
-                groupName: 'Components',
+                groupName: 'Inputs',
                 items: [
                     { routerLink: '/component/input/generator', label: 'Generator' },
                     { routerLink: '/component/input/validators', label: 'Validators' },

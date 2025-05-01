@@ -134,7 +134,7 @@ body {
 
     /* MARK: link */
     --link-color: var(--primary3);
-    --link-hover-color: var(--primary1);
+    --link-hover-color: var(--primary0);
 
     /* MARK: dialog */
     --dialog-backdrop-background: color-mix(in hsl, var(--primaryA) 60%, transparent);

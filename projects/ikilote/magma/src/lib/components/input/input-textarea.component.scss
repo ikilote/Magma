@@ -4,6 +4,9 @@
     width: -moz-available;
     width: -webkit-fill-available;
     width: fill-available;
+    height: var(--default, 100%);
+    min-height: var(--min, var(--input-textarea-min-height));
+    max-height: var(--max, var(--input-textarea-max-height));
 
     &.monospace {
         --font-family: var(--font-mono);
@@ -12,7 +15,7 @@
 
 textarea {
     margin: 0;
-    height: var(--default);
+    height: var(--default, 100%);
     min-height: var(--min, var(--input-textarea-min-height));
     max-height: var(--max, var(--input-textarea-max-height));
     resize: var(--input-textarea-vertical, vertical);

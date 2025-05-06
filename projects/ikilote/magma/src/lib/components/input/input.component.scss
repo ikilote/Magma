@@ -3,7 +3,7 @@
     grid-template:
         'r . top     '
         'r t .       '
-        '. . content '
+        '. . content ' 1fr
         '. . bottom  ' /
         auto auto minmax(100%, 1fr);
     vertical-align: 5px;

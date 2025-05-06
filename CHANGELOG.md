@@ -2,6 +2,20 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.5.3 (2025-05-06)
+
+### ✅ New
+
+- Add `classList`, `math` & `repeatFor` pipes
+
+### 🐞 Fix
+
+- Fix input:textarea for CSS grid
+
+### 🎦 Demo
+
+- add pipes pages
+
 ## 0.5.2 (2025-05-02)
 
 ### ✅ New

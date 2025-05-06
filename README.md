@@ -40,7 +40,10 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 ### Pipes
 
-- NumFormat
+- classList
+- math
+- numFormat
+- repeatFor
 
 ### Directive
 

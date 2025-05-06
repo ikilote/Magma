@@ -1,0 +1,15 @@
+<h1>repeatFor</h1>
+
+<section>
+  <div class="s-4 s-12-m">
+    <p>List of 15 elements:</p>
+    <ul>
+      @for (i of 15 | repeatFor; track $index) {
+        <li>{{ $index }}</li>
+      }
+    </ul>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: default }]"></code-tabs>
+  </div>
+</section>

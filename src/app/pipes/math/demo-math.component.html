@@ -1,0 +1,65 @@
+<h1>math</h1>
+
+<p>All Math method: <code>Math.xxxx()</code></p>
+
+<h2>Examples</h2>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>Abs</h3>
+    <code>{{ -150.5 | math: 'abs' | json }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: abs }]"></code-tabs>
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>Trunc</h3>
+    <code>{{ -159.5599 | math: 'trunc' | json }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: trunc }]"></code-tabs>
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>Round</h3>
+    <code>{{ -159.5599 | math: 'round' | json }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: round }]"></code-tabs>
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>Random</h3>
+    <code>{{ '' | math: 'random' | json }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: random }]"></code-tabs>
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>Min</h3>
+    <code>{{ 150 | math: 'min' : 10 : -5 : 155 | json }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: min }]"></code-tabs>
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>Max</h3>
+    <code>{{ 150 | math: 'max' : 10 : -5 : 155 | json }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'html', code: max }]"></code-tabs>
+  </div>
+</section>

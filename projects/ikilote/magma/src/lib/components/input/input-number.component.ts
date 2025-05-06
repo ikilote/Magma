@@ -12,7 +12,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
-import { NumFormatPipe } from '../../pipes/num-format';
+import { NumFormatPipe } from '../../pipes/num-format.pipe';
 import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 let counter = 0;

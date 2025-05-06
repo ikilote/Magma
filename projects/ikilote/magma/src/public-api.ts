@@ -44,8 +44,11 @@ export * from './lib/directives/sortable.directive';
 export * from './lib/directives/textarea-autosize.directive';
 export * from './lib/directives/tooltip.directive';
 
-// pipe
-export * from './lib/pipes/num-format';
+// pipes
+export * from './lib/pipes/class-list.pipe';
+export * from './lib/pipes/math.pipe';
+export * from './lib/pipes/num-format.pipe';
+export * from './lib/pipes/repeat-for.pipe';
 
 // services
 export * from './lib/services/form-builder-extended';

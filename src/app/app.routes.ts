@@ -165,6 +165,34 @@ export const routes: Routes = [
         ],
     },
     {
+        path: 'pipe',
+        children: [
+            {
+                path: 'class-list',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./pipes/class-list/demo-class-list.component').then(m => m.DemoClassListComponent),
+            },
+            {
+                path: 'math',
+                pathMatch: 'full',
+                loadComponent: () => import('./pipes/math/demo-math.component').then(m => m.DemoMathComponent),
+            },
+            {
+                path: 'num-format',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./pipes/num-format/demo-num-format.component').then(m => m.DemoNumFormatComponent),
+            },
+            {
+                path: 'repeat-for',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./pipes/repeat-for/demo-repeat-for.component').then(m => m.DemoeRepeatForComponent),
+            },
+        ],
+    },
+    {
         path: 'utils',
         children: [
             {

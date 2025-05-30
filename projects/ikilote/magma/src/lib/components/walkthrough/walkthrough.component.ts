@@ -37,7 +37,7 @@ export class MagmaWalkthrough {
 
             const element = document.querySelector(this.portal.selector());
             if (element) {
-                element.scrollIntoView();
+                element.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' });
                 const overlayRef = this.overlay.create({
                     hasBackdrop: true,
                     backdropClass: 'walkthrough-backdrop',
@@ -101,7 +101,7 @@ export class MagmaWalkthrough {
 
             const element = document.querySelector(this.portal.selector());
             if (element && this.positionStrategy) {
-                element.scrollIntoView();
+                element.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' });
                 this.positionStrategy.setOrigin(element);
                 this.positionStrategy.apply();
                 this.positionStrategy.reapplyLastPosition();

@@ -1,6 +1,5 @@
 import { ConnectedOverlayPositionChange, ConnectionPositionPair } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
-
 import {
     ChangeDetectionStrategy,
     Component,
@@ -77,30 +76,35 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
 
         if (changes['element']) {
             const target = this.elementContent().nativeElement;
+
+            this.portal().start.emit();
+
             if (this.portal().showElement()) {
                 while (target.lastElementChild) {
                     target.removeChild(target.lastElementChild);
                 }
                 const element = this.element();
                 if (element) {
-                    const clone = element.cloneNode(true) as HTMLElement;
-                    clone.style.width = element.offsetWidth + 'px';
-                    clone.style.margin = '0px';
-                    this.clone = clone;
+                    setTimeout(() => {
+                        const clone = element.cloneNode(true) as HTMLElement;
+                        clone.style.width = element.offsetWidth + 'px';
+                        clone.style.margin = '0px';
+                        this.clone = clone;
 
-                    // click on original element
-                    const actionOrigin = this.portal().clickElementOrigin();
-                    if (target && actionOrigin) {
-                        clone.addEventListener('click', () => element.click());
-                    }
+                        // click on original element
+                        const actionOrigin = this.portal().clickElementOrigin();
+                        if (target && actionOrigin) {
+                            clone.addEventListener('click', () => element.click());
+                        }
 
-                    // click on copy element
-                    const action = this.portal().clickElementActive();
-                    if (action) {
-                        clone.addEventListener('click', () => this.portal().clickElement.emit());
-                    }
+                        // click on copy element
+                        const action = this.portal().clickElementActive();
+                        if (action) {
+                            clone.addEventListener('click', () => this.portal().clickElement.emit());
+                        }
 
-                    target.appendChild(clone);
+                        target.appendChild(clone);
+                    });
                 }
             } else {
                 target.textContent = '';

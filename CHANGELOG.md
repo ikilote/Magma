@@ -2,6 +2,16 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.6.0 (2025-05-30)
+
+### ✅ New
+
+- **Walkthrough**: add action on `start` et change scroll rules
+
+### 📦 Packages
+
+- Update to Angular `20.0`
+
 ## 0.5.3 (2025-05-06)
 
 ### ✅ New

@@ -69,7 +69,7 @@ export class DemoDialogComponent {
         }
 
         if (this.ctrlForm.value.closeBackdrop) {
-            attrs['contextMenuDisabled'] = null;
+            attrs['closeBackdrop'] = null;
         }
 
         this.codeHtml = new Json2html(json).toString();

@@ -1,6 +1,6 @@
 import { ConnectedOverlayPositionChange, ConnectionPositionPair } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
-import { CommonModule } from '@angular/common';
+
 import {
     ChangeDetectionStrategy,
     Component,
@@ -29,7 +29,7 @@ import { Subscriptions } from '../../utils/subscriptions';
     templateUrl: './walkthrough-content.component.html',
     styleUrls: ['./walkthrough-content.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, PortalModule, MagmaLimitFocusFirstDirective],
+    imports: [PortalModule, MagmaLimitFocusFirstDirective],
     hostDirectives: [MagmaLimitFocusDirective],
 })
 export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {

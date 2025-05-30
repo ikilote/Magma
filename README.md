@@ -1,6 +1,6 @@
 # @ikilote/magma
 
-[![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma) [![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma) [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md) ![Angular 19.0](https://img.shields.io/badge/Angular-19.0-red)
+[![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma) [![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma) [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md) ![Angular 20.0](https://img.shields.io/badge/Angular-20.0-red)
 
 Magma is a component library for my personal projects, because I don't want to copy/paste.
 
@@ -86,14 +86,14 @@ See : [Demo](https://magma.ikilote.net/)
 Install in project:
 
 ```sh
-npm i @ikilote/magma
+npm i @ikilote/magma colorjs.io ng-select2-component
 ```
 
 Required in `package.json`
 
-- `@angular/common`: `^19.0.0`
-- `@angular/core`: `^19.0.0`
-- `@angular/cdk`: `^19.0.0`
+- `@angular/common`: `^20.0.0`
+- `@angular/core`: `^20.0.0`
+- `@angular/cdk`: `^20.0.0`
 - `colorjs.io`: `^0.5.2`
 - `ng-select2-component`: `^17.2.5`
 

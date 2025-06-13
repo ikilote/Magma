@@ -1,4 +1,4 @@
-<menu>
+<aside>
   <div class="title">
     <h2>
       <img src="/assets/images/magma.svg" alt="logo" />
@@ -7,18 +7,18 @@
     </h2>
     <button class="mobile-menu" (click)="toggleMenu()">×</button>
   </div>
-  <div class="content">
+  <nav class="content">
     @for (group of contentMenu; track $index) {
       <ng-container
         [ngTemplateOutlet]="groupTemplate"
         [ngTemplateOutletContext]="{ lvl: 1, groupItem: group }"
       ></ng-container>
     }
-  </div>
+  </nav>
   <div class="light-dark">
     <mg-light-dark></mg-light-dark>
   </div>
-</menu>
+</aside>
 <main>
   <button class="mobile-menu" (click)="toggleMenu()">☰</button>
   <router-outlet></router-outlet>

@@ -2,7 +2,7 @@
     display: flex;
 }
 
-menu {
+aside {
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
@@ -22,7 +22,7 @@ menu {
 }
 
 @media (width < 768px) {
-    menu {
+    aside {
         position: relative;
         position: fixed;
         left: -90%;
@@ -32,7 +32,7 @@ menu {
         width: 90%;
     }
 
-    :host.mobile-menu-open menu {
+    :host.mobile-menu-open aside {
         left: 0;
         box-shadow: 0 0 10vw 10vw #0008;
     }

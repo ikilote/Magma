@@ -18,6 +18,10 @@ html {
 
 :focus {
     outline: 2px solid var(--link-focus-border-color);
+
+    [tabindex='-1']& {
+        outline: none;
+    }
 }
 
 * {
@@ -32,13 +36,14 @@ a {
     cursor: pointer;
     color: var(--link-color);
     text-decoration: none;
-}
-a:hover {
-    color: var(--link-hover-color);
-}
 
-table a {
-    margin: auto 10px;
+    &:hover {
+        color: var(--link-hover-color);
+    }
+
+    table & {
+        margin: auto 10px;
+    }
 }
 
 /* -------------------- buttons ------------------------------------------------------------
@@ -50,48 +55,47 @@ button {
     align-items: center;
     gap: 10px;
     max-width: 100%;
-}
-
-button:disabled {
-    opacity: 0.25;
-    cursor: default;
-
-    --button-default-hover-border-color: var(--button-default-border-color);
-    --button-default-hover-background: var(--button-default-background);
-    --button-default-hover-box-shadow: var(--button-default-box-shadow);
-}
-
-button.primary {
-    --button-default-border-color: var(--button-primary-border-color);
-    --button-default-background: var(--button-primary-background);
-    --button-default-box-shadow: var(--button-primary-box-shadow);
-    --button-default-color: var(--button-primary-color);
-    --button-default-focus-border-color: var(--button-primary-focus-border-color);
-    --button-default-hover-border-color: var(--button-primary-hover-border-color);
-    --button-default-hover-background: var(--button-primary-hover-background);
-    --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
 
     &:disabled {
-        --button-default-hover-border-color: var(--button-primary-border-color);
-        --button-default-hover-background: var(--button-primary-background);
-        --button-default-hover-box-shadow: var(--button-primary-box-shadow);
+        opacity: 0.25;
+        cursor: default;
+
+        --button-default-hover-border-color: var(--button-default-border-color);
+        --button-default-hover-background: var(--button-default-background);
+        --button-default-hover-box-shadow: var(--button-default-box-shadow);
     }
-}
+    &.primary {
+        --button-default-border-color: var(--button-primary-border-color);
+        --button-default-background: var(--button-primary-background);
+        --button-default-box-shadow: var(--button-primary-box-shadow);
+        --button-default-color: var(--button-primary-color);
+        --button-default-focus-border-color: var(--button-primary-focus-border-color);
+        --button-default-hover-border-color: var(--button-primary-hover-border-color);
+        --button-default-hover-background: var(--button-primary-hover-background);
+        --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
 
-button.warn {
-    --button-default-border-color: var(--button-warn-border-color);
-    --button-default-background: var(--button-warn-background);
-    --button-default-box-shadow: var(--button-warn-box-shadow);
-    --button-default-color: var(--button-warn-color);
-    --button-default-focus-border-color: var(--button-warn-focus-border-color);
-    --button-default-hover-border-color: var(--button-warn-hover-border-color);
-    --button-default-hover-background: var(--button-warn-hover-background);
-    --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
+        &:disabled {
+            --button-default-hover-border-color: var(--button-primary-border-color);
+            --button-default-hover-background: var(--button-primary-background);
+            --button-default-hover-box-shadow: var(--button-primary-box-shadow);
+        }
+    }
 
-    &:disabled {
-        --button-default-hover-border-color: var(--button-warn-border-color);
-        --button-default-hover-background: var(--button-warn-background);
-        --button-default-hover-box-shadow: var(--button-warn-box-shadow);
+    &.warn {
+        --button-default-border-color: var(--button-warn-border-color);
+        --button-default-background: var(--button-warn-background);
+        --button-default-box-shadow: var(--button-warn-box-shadow);
+        --button-default-color: var(--button-warn-color);
+        --button-default-focus-border-color: var(--button-warn-focus-border-color);
+        --button-default-hover-border-color: var(--button-warn-hover-border-color);
+        --button-default-hover-background: var(--button-warn-hover-background);
+        --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
+
+        &:disabled {
+            --button-default-hover-border-color: var(--button-warn-border-color);
+            --button-default-hover-background: var(--button-warn-background);
+            --button-default-hover-box-shadow: var(--button-warn-box-shadow);
+        }
     }
 }
 
@@ -100,14 +104,14 @@ button.warn {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
-}
 
-.buttons > button {
-    margin: 0;
-}
+    & > button {
+        margin: 0;
+    }
 
-.buttons > .line {
-    flex: 1 1 100%;
+    & > .line {
+        flex: 1 1 100%;
+    }
 }
 
 /* -------------------- input / button ------------------------------------------------------------

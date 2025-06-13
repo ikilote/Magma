@@ -1,5 +1,5 @@
 @let context = items().contextMenu;
-<menu [style.--total]="context.length">
+<menu [style.--total]="context.length" limitFocus>
   <ul>
     @for (item of context; track item; let index = $index) {
       @let itc = typeComponent(item);
@@ -14,7 +14,7 @@
           ></span>
         </li>
       } @else {
-        <li (click)="active(iti)" [style.--position]="index" [attr.title]="iti.label ? iti.label : null">
+        <li (clickEnter)="active(iti)" [style.--position]="index" [attr.title]="iti.label ? iti.label : null">
           @if (iti.iconText) {
             <span class="icon">{{ iti.iconText }}</span>
           } @else {

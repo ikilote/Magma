@@ -1,7 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { NgComponentOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, Component, HostListener, Type, input } from '@angular/core';
 
 import { MagmaContextMenu } from './context-menu.directive';
+
+import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
+import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
 
 type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T, Keys>> &
     {
@@ -42,7 +45,7 @@ export type ContextMenuMode = 'default' | 'bubble' | undefined;
         '[class.bubble]': 'mode() === "bubble"',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule],
+    imports: [NgComponentOutlet, MagmaClickEnterDirective, MagmaLimitFocusDirective],
 })
 export class MagmaContextMenuComponent<T> {
     // input

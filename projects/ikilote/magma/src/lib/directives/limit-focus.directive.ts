@@ -24,7 +24,7 @@ export class MagmaLimitFocusFirstDirective implements OnInit, OnDestroy {
 @Directive({
     selector: '[limitFocus]',
     host: {
-        tabindex: '0',
+        tabindex: '-1',
     },
     exportAs: 'limitFocus',
 })

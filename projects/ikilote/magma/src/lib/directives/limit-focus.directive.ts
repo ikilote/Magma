@@ -73,8 +73,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
         if (div) {
             div.focus();
 
-            const firstFocusableElement = div;
-            let lastFocusableElement = this.lastFocusableElement(div);
+            let [firstFocusableElement, lastFocusableElement] = this.firstLastFocusableElement(div);
 
             div.addEventListener('keydown', e => {
                 if (e.key === 'Tab') {
@@ -93,7 +92,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             this.observer = new MutationObserver(mutationsList => {
                 for (const mutation of mutationsList) {
                     if (mutation.type == 'childList' || mutation.type == 'attributes') {
-                        lastFocusableElement = this.lastFocusableElement(div);
+                        [firstFocusableElement, lastFocusableElement] = this.firstLastFocusableElement(div);
                         return;
                     }
                 }
@@ -102,10 +101,10 @@ export class MagmaLimitFocusDirective implements OnDestroy {
         }
     }
 
-    private lastFocusableElement(div: HTMLDivElement) {
+    private firstLastFocusableElement(div: HTMLDivElement) {
         const focusableElements = div.querySelectorAll<HTMLElement>(
             'a[href], button:not(:disabled), input:not(:disabled), [tabindex="0"]',
         );
-        return focusableElements[focusableElements.length - 1];
+        return [focusableElements[0], focusableElements[focusableElements.length - 1]];
     }
 }

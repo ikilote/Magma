@@ -3,12 +3,15 @@ import {
     Component,
     HostListener,
     booleanAttribute,
+    computed,
     input,
     output,
     signal,
 } from '@angular/core';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
+
+let idIndex = 0;
 
 @Component({
     selector: 'mg-dialog',
@@ -18,6 +21,8 @@ import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive
     imports: [MagmaLimitFocusDirective],
     host: {
         '[class.open]': 'isOpen()',
+        '[attr.tabindex]': "isOpen() && closeBackdrop() ? '0' : null",
+        '[attr.role]': "isOpen() && closeBackdrop() ? 'button' : null",
     },
 })
 export class MagmaDialog {
@@ -25,6 +30,10 @@ export class MagmaDialog {
 
     readonly closeButton = input(false, { transform: booleanAttribute });
     readonly closeBackdrop = input(false, { transform: booleanAttribute });
+    readonly closeButtonTitle = input('Close');
+    readonly label = input<string>();
+    readonly title = input<string>();
+    readonly id = input<string>();
 
     // output
 
@@ -33,6 +42,8 @@ export class MagmaDialog {
     // host
 
     isOpen = signal(false);
+    private index = idIndex++;
+    _id = computed(() => this.id() || `dialog-${this.index}}`);
 
     @HostListener('click')
     onClick() {

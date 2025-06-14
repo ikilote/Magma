@@ -9,6 +9,7 @@ import {
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputElement,
+    MagmaInputText,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -16,7 +17,15 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-dialog',
     templateUrl: './demo-dialog.component.html',
     styleUrls: ['./demo-dialog.component.scss'],
-    imports: [CodeTabsComponent, ReactiveFormsModule, MagmaDialog, MagmaInput, MagmaInputElement, MagmaInputCheckbox],
+    imports: [
+        CodeTabsComponent,
+        ReactiveFormsModule,
+        MagmaDialog,
+        MagmaInput,
+        MagmaInputElement,
+        MagmaInputCheckbox,
+        MagmaInputText,
+    ],
 })
 export class DemoDialogComponent {
     readonly fb = inject(FormBuilderExtended);
@@ -24,6 +33,8 @@ export class DemoDialogComponent {
     ctrlForm: FormGroup<{
         closeButton: FormControl<boolean>;
         closeBackdrop: FormControl<boolean>;
+        title: FormControl<string>;
+        label: FormControl<string>;
     }>;
 
     codeHtml = '';
@@ -32,6 +43,8 @@ export class DemoDialogComponent {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
             closeButton: { default: true },
             closeBackdrop: { default: false },
+            title: { default: '' },
+            label: { default: '' },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -70,6 +83,14 @@ export class DemoDialogComponent {
 
         if (this.ctrlForm.value.closeBackdrop) {
             attrs['closeBackdrop'] = null;
+        }
+
+        if (this.ctrlForm.value.title) {
+            attrs['title'] = this.ctrlForm.value.title;
+        }
+
+        if (this.ctrlForm.value.label) {
+            attrs['label'] = this.ctrlForm.value.label;
         }
 
         this.codeHtml = new Json2html(json).toString();

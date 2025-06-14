@@ -15,11 +15,29 @@
           <mg-input-checkbox formControlName="closeBackdrop" mode="toggle">enabled</mg-input-checkbox>
         </mg-input>
       </p>
+      <p>
+        <mg-input>
+          <mg-input-label>title</mg-input-label>
+          <mg-input-text formControlName="title" />
+        </mg-input>
+      </p>
+      <p>
+        <mg-input>
+          <mg-input-label>label (ARIA if no title)</mg-input-label>
+          <mg-input-text formControlName="label" />
+        </mg-input>
+      </p>
     </form>
     <div class="s-4 s-4-l s-12-s">
       <button (click)="dialog.open()">Open dialog</button>
 
-      <mg-dialog #dialog [closeButton]="ctrlForm.value.closeButton" [closeBackdrop]="ctrlForm.value.closeBackdrop">
+      <mg-dialog
+        #dialog
+        [closeButton]="ctrlForm.value.closeButton"
+        [closeBackdrop]="ctrlForm.value.closeBackdrop"
+        [title]="ctrlForm.value.title"
+        [label]="ctrlForm.value.label"
+      >
         <p>Content dialog</p>
         <p>
           <button (click)="dialog.close()">Close</button>

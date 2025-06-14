@@ -1,9 +1,20 @@
 @if (isOpen()) {
-  <div class="content" (click)="_propagationStop($event)" limitFocus>
+  <div
+    class="content"
+    role="dialog"
+    [attr.aria-label]="label()"
+    [attr.aria-labelledby]="_id() + '-title'"
+    (click)="_propagationStop($event)"
+    limitFocus
+  >
     @if (closeButton()) {
-      <button class="close" (click)="close()">×</button>
+      <button class="close" (click)="close()" (window:keydown.esc)="close()" [title]="closeButtonTitle()">×</button>
     }
     <div class="main">
+      @let h1 = title();
+      @if (h1) {
+        <h1 [id]="_id() + '-title'">{{ title() }}</h1>
+      }
       <ng-content></ng-content>
     </div>
   </div>

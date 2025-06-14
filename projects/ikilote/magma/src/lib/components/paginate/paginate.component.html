@@ -1,4 +1,4 @@
-@for (item of pages; track item) {
+@for (item of pages; track item.page) {
   @if (!item.separator) {
     <a
       [class.current]="item.current"

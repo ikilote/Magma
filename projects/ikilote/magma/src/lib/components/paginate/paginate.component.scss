@@ -5,6 +5,11 @@
     padding: 5px;
 }
 
+.total {
+    flex: 1;
+    align-self: center;
+}
+
 a {
     cursor: pointer;
     border: 1px solid var(--page-item-border-color);
@@ -13,7 +18,7 @@ a {
     color: var(--page-item-text-color);
     text-align: center;
 
-    &.current {
+    &[aria-current] {
         background: var(--page-item-current-background);
         color: var(--page-item-current-test-color);
         font-weight: 700;

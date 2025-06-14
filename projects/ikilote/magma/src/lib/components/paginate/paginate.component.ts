@@ -7,6 +7,7 @@ import {
     OnDestroy,
     OnInit,
     SimpleChanges,
+    booleanAttribute,
     computed,
     inject,
     input,
@@ -48,6 +49,9 @@ export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
     // input
 
     readonly linkId = input<string>();
+    readonly showTotal = input(false, { transform: booleanAttribute });
+    readonly textTotal = input('Total %');
+    readonly textPage = input('Page %p / %t');
 
     readonly page = input(1, { transform: numberAttribute });
     readonly total = input(0, { transform: numberAttribute });
@@ -159,6 +163,6 @@ export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
     }
 
     pageQueryParams(page: number): {} {
-        return { page: page, ...this.queryParams() };
+        return { page, ...this.queryParams() };
     }
 }

@@ -1,9 +1,24 @@
+@if (showTotal()) {
+  <div class="total">
+    {{ textTotal().replace('%', '' + total()) }}
+  </div>
+}
 @for (item of pages; track item.page) {
   @if (!item.separator) {
     <a
-      [class.current]="item.current"
       [routerLink]="[base()]"
       [queryParams]="pageQueryParams(item.page!)"
+      [attr.title]="
+        textPage()
+          .replace('%p', item.view!)
+          .replace('%t', pages[pages.length - 1].view!)
+      "
+      [attr.aria-label]="
+        textPage()
+          .replace('%p', item.view!)
+          .replace('%t', pages[pages.length - 1].view!)
+      "
+      [attr.aria-current]="item.current ? 'page' : null"
       (click)="update(item.page!, true)"
     >
       {{ item.view }}

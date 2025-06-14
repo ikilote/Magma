@@ -3,48 +3,60 @@
 @if (ctrlForm) {
   <section>
     <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
-      <p>
-        <mg-input>
-          <mg-input-label>linkId</mg-input-label>
-          <mg-input-text formControlName="linkId"></mg-input-text>
-        </mg-input>
-        <mg-input>
-          <mg-input-label>page</mg-input-label>
-          <mg-input-number formControlName="page"></mg-input-number>
-        </mg-input>
-        <mg-input>
-          <mg-input-label>total</mg-input-label>
-          <mg-input-number formControlName="total"></mg-input-number>
-        </mg-input>
-        <mg-input>
-          <mg-input-label>base</mg-input-label>
-          <mg-input-text formControlName="base"></mg-input-text>
-        </mg-input>
-        <mg-input>
-          <mg-input-label>size</mg-input-label>
-          <mg-input-number formControlName="size"></mg-input-number>
-        </mg-input>
-        <!-- <mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>linkId</mg-input-label>
+        <mg-input-text formControlName="linkId" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>page</mg-input-label>
+        <mg-input-number formControlName="page" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>total</mg-input-label>
+        <mg-input-number formControlName="total" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>base</mg-input-label>
+        <mg-input-text formControlName="base" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>size</mg-input-label>
+        <mg-input-number formControlName="size" />
+      </mg-input>
+      <!-- <mg-input  class="s-12">
           <mg-input-label>queryParams</mg-input-label>
-          <mg-input-text formControlName="queryParams"></mg-input-text>
+          <mg-input-text formControlName="queryParams"/>
         </mg-input> -->
-        <mg-input>
-          <mg-input-label>start</mg-input-label>
-          <mg-input-number formControlName="start"></mg-input-number>
-        </mg-input>
-        <mg-input>
-          <mg-input-label>middleStart</mg-input-label>
-          <mg-input-number formControlName="middleStart"></mg-input-number>
-        </mg-input>
-        <mg-input>
-          <mg-input-label>middleEnd</mg-input-label>
-          <mg-input-number formControlName="middleEnd"></mg-input-number>
-        </mg-input>
-        <mg-input>
-          <mg-input-label>end</mg-input-label>
-          <mg-input-number formControlName="end"></mg-input-number>
-        </mg-input>
-      </p>
+      <mg-input class="s-6">
+        <mg-input-label>start</mg-input-label>
+        <mg-input-number formControlName="start" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>middleStart</mg-input-label>
+        <mg-input-number formControlName="middleStart" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>middleEnd</mg-input-label>
+        <mg-input-number formControlName="middleEnd" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>end</mg-input-label>
+        <mg-input-number formControlName="end" />
+      </mg-input>
+
+      <mg-input class="s-6">
+        <mg-input-label>showTotal</mg-input-label>
+        <mg-input-checkbox formControlName="showTotal" mode="toggle" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>textTotal</mg-input-label>
+        <mg-input-text formControlName="textTotal" /> <mg-input-desc><code>%</code> for total number</mg-input-desc>
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>textPage</mg-input-label>
+        <mg-input-text formControlName="textPage" />
+        <mg-input-desc><code>%p</code> for page number | <code>%t</code> for total page</mg-input-desc>
+      </mg-input>
     </form>
     <div class="s-5 s-6-l s-12-s">
       <mg-paginate
@@ -57,6 +69,9 @@
         [middleStart]="ctrlForm.value.middleStart"
         [middleEnd]="ctrlForm.value.middleEnd"
         [end]="ctrlForm.value.end"
+        [showTotal]="ctrlForm.value.showTotal"
+        [textTotal]="ctrlForm.value.textTotal || ''"
+        [textPage]="ctrlForm.value.textPage || ''"
       ></mg-paginate>
       <p>...</p>
       <mg-paginate
@@ -69,6 +84,9 @@
         [middleStart]="ctrlForm.value.middleStart"
         [middleEnd]="ctrlForm.value.middleEnd"
         [end]="ctrlForm.value.end"
+        [showTotal]="ctrlForm.value.showTotal"
+        [textTotal]="ctrlForm.value.textTotal || ''"
+        [textPage]="ctrlForm.value.textPage || ''"
       ></mg-paginate>
     </div>
     <div class="s-4 s-12-l">

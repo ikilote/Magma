@@ -6,6 +6,7 @@ import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import {
     FormBuilderExtended,
     MagmaInput,
+    MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputText,
@@ -25,6 +26,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputElement,
         MagmaInputText,
         MagmaInputNumber,
+        MagmaInputCheckbox,
     ],
 })
 export class DemoPaginateComponent {
@@ -41,6 +43,9 @@ export class DemoPaginateComponent {
         middleStart: FormControl<number>;
         middleEnd: FormControl<number>;
         end: FormControl<number>;
+        showTotal: FormControl<boolean>;
+        textTotal: FormControl<string>;
+        textPage: FormControl<string>;
     }>;
 
     codeHtml = '';
@@ -57,6 +62,9 @@ export class DemoPaginateComponent {
             middleStart: { default: 3 },
             middleEnd: { default: 3 },
             end: { default: 1 },
+            showTotal: { default: true },
+            textTotal: { default: 'Total %' },
+            textPage: { default: 'Page %p / %t' },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -101,9 +109,18 @@ export class DemoPaginateComponent {
         if (value.middleEnd) {
             attrs['middleEnd'] = value.middleEnd;
         }
-        if (value.end) {
-            attrs['end'] = value.end;
+        if (value.showTotal) {
+            attrs['showTotal'] = null;
+
+            if (value.textTotal && value.textTotal !== 'Total %') {
+                attrs['textTotal'] = value.textTotal;
+            }
         }
+
+        if (value.textPage && value.textPage !== 'Page %p / %t') {
+            attrs['textPage'] = value.textPage;
+        }
+
         this.codeHtml = new Json2html({
             tag: 'div',
             attrs: {},

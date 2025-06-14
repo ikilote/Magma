@@ -9,6 +9,7 @@ import { Directive, HostListener, Input, booleanAttribute, output } from '@angul
     },
 })
 export class MagmaClickEnterDirective {
+    // don't change: https://github.com/angular/angular/issues/50510
     @Input({ transform: booleanAttribute })
     disabled = false;
 

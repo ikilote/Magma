@@ -1,18 +1,22 @@
 <div class="component" #element [class.top]="top()" [class.right]="right()"></div>
-<div class="content">
+<div class="content" role="dialog">
   <div>
     <ng-template [cdkPortalOutlet]="portal()" (attached)="update()" />
   </div>
 
-  <div class="buttons">
+  <nav class="buttons">
     @if (portal().previousStep()) {
-      <button (click)="previous()">{{ portal().previousButtonName() }}</button>
+      <button (click)="previous()" (window:keydown.arrowLeft)="previous()">{{ portal().previousButtonName() }}</button>
     }
     @if (portal().nextStep()) {
-      <button (click)="next()" limitFocusFirst="1">{{ portal().nextButtonName() }}</button>
+      <button (click)="next()" (window:keydown.arrowRight)="next()" limitFocusFirst="1">
+        {{ portal().nextButtonName() }}
+      </button>
     }
     @if (portal().close()) {
-      <button (click)="close()" limitFocusFirst="2">{{ portal().closeButtonName() }}</button>
+      <button (click)="close()" limitFocusFirst="2">
+        {{ portal().closeButtonName() }}
+      </button>
     }
-  </div>
+  </nav>
 </div>

@@ -32,6 +32,9 @@ let counter = 0;
     styleUrls: ['./paginate.component.scss'],
     imports: [RouterLink],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    host: {
+        role: 'navigation',
+    },
 })
 export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
     private static readonly onPageUpdate = new Subject<{

@@ -13,7 +13,7 @@
     <div class="main">
       @let h1 = title();
       @if (h1) {
-        <h1 [id]="_id() + '-title'">{{ title() }}</h1>
+        <h1 [id]="_id() + '-title'">{{ h1 }}</h1>
       }
       <ng-content></ng-content>
     </div>

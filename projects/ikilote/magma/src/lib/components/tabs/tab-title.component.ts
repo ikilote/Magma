@@ -1,6 +1,8 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    ElementRef,
+    HostListener,
     OnChanges,
     OnInit,
     SimpleChanges,
@@ -30,6 +32,7 @@ export class MagmaTabTitle implements OnInit, OnChanges {
 
     private readonly tabs = inject(MagmaTabs, { host: true });
     private readonly click = inject(MagmaClickEnterDirective);
+    readonly element = inject(ElementRef<HTMLElement>);
 
     // input
 
@@ -40,6 +43,20 @@ export class MagmaTabTitle implements OnInit, OnChanges {
         this.click.clickEnter.subscribe(() => {
             this.onclick();
         });
+    }
+
+    @HostListener('keydown.ArrowLeft')
+    focusLeft() {
+        this.tabs.titles()[Math.max(0, this.tabs.titles().indexOf(this) - 1)].element.nativeElement.focus();
+    }
+
+    @HostListener('keydown.ArrowRight')
+    focusRight() {
+        this.tabs
+            .titles()
+            [
+                Math.min(this.tabs.titles().length - 1, this.tabs.titles().indexOf(this) + 1)
+            ].element.nativeElement.focus();
     }
 
     ngOnInit(): void {
@@ -58,6 +75,7 @@ export class MagmaTabTitle implements OnInit, OnChanges {
         if (this.tabs && this.id()) {
             setTimeout(() => {
                 this.tabs.update(this.id());
+                this.tabs.tabpanel()?.nativeElement.focus();
             });
         }
     }

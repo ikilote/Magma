@@ -9,6 +9,15 @@
         margin-bottom: 5px;
         border-bottom: 1px solid var(--tabs-line-color);
     }
+
+    .content {
+        display: block;
+        width: 100%;
+    }
+
+    .visually-hidden-focusable button {
+        margin-top: 15px;
+    }
 }
 
 :host.compact > .tabs {

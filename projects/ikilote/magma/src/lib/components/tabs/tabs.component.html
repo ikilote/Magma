@@ -1,6 +1,9 @@
-<div class="tabs">
+<div class="tabs" role="tablist">
   <ng-content select="mg-tab-title"></ng-content>
 </div>
-<div class="content">
+<div class="content" role="tabpanel" tabindex="-1" #tabpanel>
   <ng-content select="mg-tab-content"></ng-content>
+</div>
+<div class="visually-hidden-focusable">
+  <button (click)="returnTabs()">{{ returnTabsLabel() }}</button>
 </div>

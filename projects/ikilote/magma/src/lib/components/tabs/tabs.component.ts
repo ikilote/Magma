@@ -1,4 +1,13 @@
-import { AfterContentInit, ChangeDetectionStrategy, Component, contentChildren, output } from '@angular/core';
+import {
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    contentChildren,
+    input,
+    output,
+    viewChild,
+} from '@angular/core';
 
 import { MagmaTabContent } from './tab-content.component';
 import { MagmaTabTitle } from './tab-title.component';
@@ -15,9 +24,15 @@ export class MagmaTabs implements AfterContentInit {
     readonly titles = contentChildren(MagmaTabTitle);
     readonly content = contentChildren(MagmaTabContent);
 
+    // input
+
+    readonly returnTabsLabel = input('Return to tabs');
+
     // output
 
     readonly tabChange = output<string>();
+
+    readonly tabpanel = viewChild<ElementRef<HTMLDivElement>>('tabpanel');
 
     ngAfterContentInit(): void {
         if (this.titles()?.length) {
@@ -57,5 +72,13 @@ export class MagmaTabs implements AfterContentInit {
         if (emit) {
             this.tabChange.emit(id);
         }
+    }
+
+    returnTabs() {
+        this.titles().forEach(e => {
+            if (e.selected()) {
+                e.element.nativeElement.focus();
+            }
+        });
     }
 }

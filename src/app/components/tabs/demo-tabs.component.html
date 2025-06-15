@@ -3,10 +3,16 @@
 @if (ctrlForm) {
   <section>
     <div class="s-3 s-12-l">
-      <h3>Style</h3>
       <form [formGroup]="form">
+        <h3>Style</h3>
         <mg-input>
           <mg-input-checkbox formControlName="compact" mode="toggle">Compact</mg-input-checkbox>
+        </mg-input>
+        <h3>Text</h3>
+        <mg-input>
+          <mg-input-label>returnTabsLabel</mg-input-label>
+          <mg-input-text formControlName="returnTabsLabel" />
+          <mg-input-desc>For keyboard navigation</mg-input-desc>
         </mg-input>
       </form>
 
@@ -39,7 +45,7 @@
       </form>
     </div>
     <div class="s-5 s-12-l">
-      <mg-tabs [class.compact]="form.value.compact">
+      <mg-tabs [class.compact]="form.value.compact" [returnTabsLabel]="form.value.returnTabsLabel!">
         @for (item of tabs; track $index) {
           <mg-tab-title [id]="item.id" [selected]="item.selected">{{ item.title }}</mg-tab-title>
         }

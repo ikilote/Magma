@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
+import { MagmaMessage } from '@ikilote/magma';
 
 import {
     MagmaInput,
@@ -29,6 +30,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     ],
 })
 export class DemoTabsComponent {
+    readonly mgMessage = inject(MagmaMessage);
+
     tabs: {
         id: string;
         title: string;
@@ -38,6 +41,7 @@ export class DemoTabsComponent {
 
     form: FormGroup<{
         compact: FormControl<boolean>;
+        returnTabsLabel: FormControl<string>;
     }>;
 
     ctrlForm: FormGroup<{
@@ -52,6 +56,7 @@ export class DemoTabsComponent {
     constructor(fb: NonNullableFormBuilder) {
         this.form = fb.group({
             compact: new FormControl<boolean>(false, { nonNullable: true }),
+            returnTabsLabel: new FormControl<string>('Return to tabs', { nonNullable: true }),
         });
         this.ctrlForm = fb.group({
             id: new FormControl<string>('', { nonNullable: true }),
@@ -67,14 +72,20 @@ export class DemoTabsComponent {
     }
 
     addTab() {
-        this.tabs.forEach(e => (e.selected = false));
-        this.tabs.push({
-            id: this.ctrlForm.value.id!,
-            title: this.ctrlForm.value.title!,
-            content: this.ctrlForm.value.content!,
-            selected: this.ctrlForm.value.selected!,
-        });
-        this.codeGeneration();
+        if (this.tabs.find(e => e.id === this.ctrlForm.value.id)) {
+            this.mgMessage.addMessage(`This ID is already in use`);
+        } else if (!this.ctrlForm.value.id) {
+            this.mgMessage.addMessage(`no ID`);
+        } else {
+            this.tabs.forEach(e => (e.selected = false));
+            this.tabs.push({
+                id: this.ctrlForm.value.id!,
+                title: this.ctrlForm.value.title!,
+                content: this.ctrlForm.value.content!,
+                selected: this.ctrlForm.value.selected!,
+            });
+            this.codeGeneration();
+        }
     }
 
     codeGeneration() {
@@ -82,7 +93,13 @@ export class DemoTabsComponent {
 
         const json: Json2htmlRef = {
             tag: 'mg-tabs',
-            attrs: { class: this.form.value.compact ? 'compact' : undefined },
+            attrs: {
+                class: this.form.value.compact ? 'compact' : undefined,
+                returnTabsLabel:
+                    this.form.value.returnTabsLabel !== '' && this.form.value.returnTabsLabel !== 'Return to tabs'
+                        ? this.form.value.returnTabsLabel
+                        : undefined,
+            },
             body: [],
         };
         const body = json.body as Json2htmlRef[];

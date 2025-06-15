@@ -2,6 +2,29 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.7.0 (2025-06-15)
+
+### ✅ New
+
+- Add focus trap for **contextMenu**
+- Add keyboard navigation for **tabs** (with arrow & return button to tabs)
+- Improve **dialog** with keyboard
+- Improve **walkthrough** with keyboard
+- **Paginate**: update the component to display the total items
+
+### 🐞 Fix
+
+- `limitFocus`: change first focused element
+- Fix paginate update (for perf & focus)
+- No focus for `tabindex="-1"`
+
+### 🎦 Demo
+
+- Replace menu to aside/nav in demo
+- Improve Tabs demo
+- Improve Dialog demo
+- Improve Paginate demo
+
 ## 0.6.0 (2025-05-30)
 
 ### ✅ New

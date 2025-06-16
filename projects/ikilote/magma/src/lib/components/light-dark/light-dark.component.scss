@@ -36,6 +36,12 @@
             display: none;
         }
     }
+
+    &.compact.click-enter:focus,
+    .click-enter:focus {
+        outline-width: 3px;
+        outline-offset: 1px;
+    }
 }
 
 .light,

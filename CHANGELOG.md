@@ -2,6 +2,20 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.7.1 (2025-06-16)
+
+### ✅ New
+
+- Add stop-propagation directive
+
+### 🐞 Fix
+
+- Fix focus on style for Light-dark
+
+### 🎦 Demo
+
+- Remove unnecessary end tag in demo
+
 ## 0.7.0 (2025-06-15)
 
 ### ✅ New

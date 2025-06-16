@@ -106,7 +106,7 @@ export class TestComponent {
                 body: 'Click zone',
             },
         ];
-        this.codeHtml = new Json2html(json).toString();
+        this.codeHtml = new Json2html(json, { webComponentAutoClose: true }).toString();
     }
 
     codeGeneration2() {
@@ -121,6 +121,6 @@ export class TestComponent {
             },
         ];
 
-        this.codeBlockHtml = new Json2html(jsonBlock).toString();
+        this.codeBlockHtml = new Json2html(jsonBlock, { webComponentAutoClose: true }).toString();
     }
 }

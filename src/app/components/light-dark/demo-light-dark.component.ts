@@ -10,8 +10,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [MagmaLightDark, CodeTabsComponent],
 })
 export class DemoLightDarkComponent {
-    codeHtml = '<mg-light-dark></mg-light-dark>';
-    codeHtmlCompact = '<mg-light-dark compact></mg-light-dark>';
+    codeHtml = '<mg-light-dark />';
+    codeHtmlCompact = '<mg-light-dark compact />';
 
     codeTsService = `private readonly lightDark = inject(LightDark);
 

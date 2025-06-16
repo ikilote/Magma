@@ -274,6 +274,6 @@ export class DemoWalkthroughComponent {
             },
         ];
 
-        this.html = new Json2html(json).toString();
+        this.html = new Json2html(json, { webComponentAutoClose: true }).toString();
     }
 }

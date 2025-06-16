@@ -221,6 +221,6 @@ export class ContextTestComponent {
             attrs['contextMenuDisabled'] = null;
         }
 
-        this.codeHtml = new Json2html(json).toString();
+        this.codeHtml = new Json2html(json, { webComponentAutoClose: true }).toString();
     }
 }

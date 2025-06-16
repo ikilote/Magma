@@ -160,6 +160,6 @@ export class DemoTableComponent {
             ],
         };
 
-        this.codeHtml = new Json2html(json).toString();
+        this.codeHtml = new Json2html(json, { webComponentAutoClose: true }).toString();
     }
 }

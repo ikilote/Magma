@@ -1,0 +1,19 @@
+<h1>ngInit</h1>
+
+<div>
+  <div class="s-6 s-12-m" (keydown)="keydown($event)">
+    <mg-input class="s-6">
+      <mg-input-label>no directive</mg-input-label>
+      <mg-input-text />
+    </mg-input>
+
+    <mg-input stop-propagation stopKeydown class="s-6">
+      <mg-input-label>stop-propagation stopKeydown</mg-input-label>
+      <mg-input-text />
+    </mg-input>
+  </div>
+
+  <div class="s-6 s-12-m">
+    <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+  </div>
+</div>

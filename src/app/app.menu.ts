@@ -34,6 +34,7 @@ export const menu = [
             { routerLink: '/directive/ng-init', label: 'ngInit' },
             { routerLink: '/directive/ng-model-change-debounced', label: 'ngModelChange<br />debounced' },
             { routerLink: '/directive/sortable', label: 'Sortable ' },
+            { routerLink: '/directive/stop-propagation', label: 'Stop Propagation' },
             { routerLink: '/directive/tooltip', label: 'Tooltip ' },
             { routerLink: '/directive/textarea-autosize', label: 'Textarea autosize' },
         ],

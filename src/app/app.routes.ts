@@ -149,6 +149,14 @@ export const routes: Routes = [
                     import('./directives/sortable/demo-sortable.component').then(m => m.DemoSortableComponent),
             },
             {
+                path: 'stop-propagation',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/stop-propagation/demo-stop-propagation.component').then(
+                        m => m.DemoStopPropagationComponent,
+                    ),
+            },
+            {
                 path: 'tooltip',
                 pathMatch: 'full',
                 loadComponent: () =>

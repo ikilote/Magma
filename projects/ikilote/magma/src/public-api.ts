@@ -41,6 +41,7 @@ export * from './lib/directives/limit-focus.directive';
 export * from './lib/directives/ng-model-change-debounced.directive';
 export * from './lib/directives/ngInit.directive';
 export * from './lib/directives/sortable.directive';
+export * from './lib/directives/stop-propagation.directive';
 export * from './lib/directives/textarea-autosize.directive';
 export * from './lib/directives/tooltip.directive';
 

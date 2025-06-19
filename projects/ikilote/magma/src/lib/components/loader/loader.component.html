@@ -1,0 +1,17 @@
+<mg-spinner />
+@let msg = message();
+@if (msg) {
+  <div class="message">
+    {{ msg }}
+  </div>
+}
+@let loaded = progressLoaded();
+@let total = progressTotal();
+@if (loaded !== undefined && total !== undefined) {
+  <div>
+    @if (total > 0) {
+      <div class="progress" [style.--progress]="(loaded / total) * 100"></div>
+    }
+    <div class="progress-text">{{ loaded | fileSize }} / {{ total | fileSize }}</div>
+  </div>
+}

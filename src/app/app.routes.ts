@@ -104,6 +104,12 @@ export const routes: Routes = [
                     import('./components/spinner/demo-spinner.component').then(m => m.DemoSpinnerComponent),
             },
             {
+                path: 'loader',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/loader/demo-loader.component').then(m => m.DemoLoaderComponent),
+            },
+            {
                 path: 'walkthrough',
                 pathMatch: 'full',
                 loadComponent: () =>
@@ -203,6 +209,12 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () =>
                     import('./pipes/repeat-for/demo-repeat-for.component').then(m => m.DemoeRepeatForComponent),
+            },
+            {
+                path: 'file-size',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./pipes/file-size/demo-file-size.component').then(m => m.DemoFileSizeComponent),
             },
         ],
     },

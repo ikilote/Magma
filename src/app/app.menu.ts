@@ -19,6 +19,7 @@ export const menu = [
                 ],
             },
             { routerLink: '/component/light-dark', label: 'Light-dark' },
+            { routerLink: '/component/loader', label: 'Loader' },
             { routerLink: '/component/paginate', label: 'Paginate' },
             { routerLink: '/component/spinner', label: 'Spinner' },
             { routerLink: '/component/table', label: 'Table' },
@@ -47,6 +48,7 @@ export const menu = [
             { routerLink: '/pipe/math', label: 'math' },
             { routerLink: '/pipe/num-format', label: 'numFormat' },
             { routerLink: '/pipe/repeat-for', label: 'repeatFor' },
+            { routerLink: '/pipe/file-size', label: 'fileSize' },
         ],
     },
     {

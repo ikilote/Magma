@@ -1,0 +1,50 @@
+<h1>Loader</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+      <h2 class="s-12">Options</h2>
+      <mg-input class="s-8">
+        <mg-input-label>message</mg-input-label>
+        <mg-input-text formControlName="message" />
+      </mg-input>
+      <mg-input class="s-8">
+        <mg-input-label>progressLoaded</mg-input-label>
+        <mg-input-number formControlName="progressLoaded" min="0" noDecimal noNegative />
+      </mg-input>
+      <mg-input class="s-8">
+        <mg-input-label>progressTotal</mg-input-label>
+        <mg-input-number formControlName="progressTotal" min="1" noDecimal noNegative />
+      </mg-input>
+    </form>
+    <div class="s-4 s-6-l s-12-s">
+      <h2>Preview</h2>
+      <div class="loader">
+        <mg-loader
+          [message]="ctrlForm.value.message"
+          [progressLoaded]="ctrlForm.value.progressLoaded"
+          [progressTotal]="ctrlForm.value.progressTotal"
+        />
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum.
+        </p>
+        <p>
+          Vestibulum sagittis ligula eget ultrices gravida. Donec euismod at odio in laoreet. Aenean a vulputate felis.
+          Nam ultricies massa vitae enim ultricies, vitae pellentesque mauris lacinia. Ut non arcu lacus. Duis vel
+          scelerisque nulla. Vestibulum pulvinar dui enim, ut faucibus urna bibendum ullamcorper. Fusce enim elit,
+          mattis in faucibus sed, convallis sed elit. Sed diam turpis, pulvinar id blandit a, aliquet ac eros. Proin ac
+          cursus elit. Phasellus blandit facilisis nisi in varius. Maecenas interdum posuere elit in egestas. Sed
+          facilisis magna molestie velit ullamcorper tempus. Proin id efficitur dui. Maecenas pharetra nunc a dui porta,
+          egestas scelerisque est maximus. Duis vel imperdiet urna.
+        </p>
+      </div>
+    </div>
+    <div class="s-5 s-12-l">
+      <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    </div>
+  </section>
+}

@@ -1,0 +1,70 @@
+<h1>fileSize</h1>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h2>Default</h2>
+    <ul>
+      <li>
+        <code>{{ 150 | fileSize }}</code>
+      </li>
+      <li>
+        <code>{{ 15400 | fileSize }}</code>
+      </li>
+      <li>
+        <code>{{ 155566400 | fileSize }}</code>
+      </li>
+      <li>
+        <code>{{ 566155566400 | fileSize }}</code>
+      </li>
+    </ul>
+    <h2>Format: decimal</h2>
+    <ul>
+      <li>
+        <code>{{ 150 | fileSize: { format: 'decimal' } }}</code>
+      </li>
+      <li>
+        <code>{{ 15400 | fileSize: { format: 'decimal' } }}</code>
+      </li>
+      <li>
+        <code>{{ 155566400 | fileSize: { format: 'decimal' } }}</code>
+      </li>
+      <li>
+        <code>{{ 566155566400 | fileSize: { format: 'decimal' } }}</code>
+      </li>
+    </ul>
+
+    <h2>Language: 'fr'</h2>
+    <ul>
+      <li>
+        <code>{{
+          150 | fileSize: { language: 'fr', translate: { unitTableBinary: [' o', ' Kio', ' Mio', ' Gio', ' Tio'] } }
+        }}</code>
+      </li>
+      <li>
+        <code>{{
+          15400 | fileSize: { language: 'fr', translate: { unitTableBinary: [' o', ' Kio', ' Mio', ' Gio', ' Tio'] } }
+        }}</code>
+      </li>
+      <li>
+        <code>{{
+          155566400
+            | fileSize: { language: 'fr', translate: { unitTableBinary: [' o', ' Kio', ' Mio', ' Gio', ' Tio'] } }
+        }}</code>
+      </li>
+      <li>
+        <code>{{
+          566155566400
+            | fileSize: { language: 'fr', translate: { unitTableBinary: [' o', ' Kio', ' Mio', ' Gio', ' Tio'] } }
+        }}</code>
+      </li>
+    </ul>
+  </div>
+  <div class="s-8">
+    <code-tabs [code]="[{ type: 'html', code: default }]"></code-tabs>
+  </div>
+</section>
+
+<div>
+  Note: It is possible to overwrite texts in <code>FileSizePipe</code> with static
+  <code>FileSizePipe.unitTableBinary</code> & <code>FileSizePipe.unitTableDecimal</code>.
+</div>

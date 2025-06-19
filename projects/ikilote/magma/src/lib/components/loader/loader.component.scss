@@ -1,0 +1,50 @@
+:host {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    z-index: 1;
+    backdrop-filter: blur(2px);
+    background: var(--loader-background);
+    width: 100%;
+    height: 100%;
+
+    /* text */
+    color: var(--loader-text-color);
+    font-weight: 700;
+    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+}
+
+.message {
+    text-align: center;
+}
+
+.progress-text {
+    margin: 0 3px;
+    color: var(--loader-text-color);
+    font-size: 12px;
+    text-align: end;
+    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+}
+
+.progress {
+    border: 2px solid var(--loader-text-color);
+    background: var(--loader-progress-background);
+    padding: 2px;
+    width: 300px;
+    height: 10px;
+    overflow: hidden;
+    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+
+    &::before {
+        display: block;
+        background: var(--loader-progress-bar-background);
+        width: calc(var(--progress) * 1%);
+        height: 10px;
+        content: '';
+    }
+}

@@ -21,6 +21,7 @@ export * from './lib/components/input/input-text.component';
 export * from './lib/components/input/input-textarea.component';
 export * from './lib/components/input/input.component';
 export * from './lib/components/light-dark/light-dark.component';
+export * from './lib/components/loader/loader.component';
 export * from './lib/components/paginate/paginate.component';
 export * from './lib/components/spinner/spinner.component';
 export * from './lib/components/table/table-cell.component';
@@ -48,6 +49,7 @@ export * from './lib/directives/tooltip.directive';
 
 // pipes
 export * from './lib/pipes/class-list.pipe';
+export * from './lib/pipes/file-size.pipe';
 export * from './lib/pipes/math.pipe';
 export * from './lib/pipes/num-format.pipe';
 export * from './lib/pipes/repeat-for.pipe';

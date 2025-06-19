@@ -240,6 +240,13 @@ body {
     /* MARK: spinner */
     --spinner-color: var(--neutral0);
 
+    /* MARK: loader */
+    --loader-background: color-mix(in hsl, var(--neutralA) 23%, transparent);
+    --loader-text-color: var(--neutral0);
+    --loader-text-shadow-color: var(--neutralB);
+    --loader-progress-background: #0b0b0b80;
+    --loader-progress-bar-background: #fff;
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--input-focus-border-color);

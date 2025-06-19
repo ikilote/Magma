@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-import { MagmaMessage } from '@ikilote/magma';
 
 import {
     MagmaInput,
@@ -10,6 +9,7 @@ import {
     MagmaInputElement,
     MagmaInputText,
     MagmaInputTextarea,
+    MagmaMessage,
     MagmaTabsModule,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';

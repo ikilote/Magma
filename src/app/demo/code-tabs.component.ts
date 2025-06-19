@@ -1,10 +1,9 @@
 import { Component, inject, input } from '@angular/core';
 
-import { MagmaMessage } from '@ikilote/magma';
-
 import { Highlight } from 'ngx-highlightjs';
 
 import {
+    MagmaMessage,
     MagmaTabContent,
     MagmaTabTitle,
     MagmaTabs,

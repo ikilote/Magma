@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 
-import { MagmaInputElement } from '@ikilote/magma';
-
 import {
     MagmaInput,
+    MagmaInputElement,
     MagmaInputText,
     MagmaStopPropagationDirective,
 } from '../../../../projects/ikilote/magma/src/public-api';

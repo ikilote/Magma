@@ -2,6 +2,8 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
+import { Json2html } from '@ikilote/json2html';
+
 import { menu } from './app.menu';
 
 import { LightDark, MagmaLightDark } from '../../projects/ikilote/magma/src/public-api';
@@ -27,6 +29,8 @@ export class AppComponent {
 
     constructor() {
         this.lightDark.init();
+
+        Json2html.default.webComponentSelfClosing = true;
     }
 
     toggleMenu() {

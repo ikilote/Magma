@@ -93,6 +93,6 @@ export class DemoDialogComponent {
             attrs['label'] = this.ctrlForm.value.label;
         }
 
-        this.codeHtml = new Json2html(json, { webComponentAutoClose: true }).toString();
+        this.codeHtml = new Json2html(json).toString();
     }
 }

@@ -324,7 +324,7 @@ export class DemoInputGeneratorComponent {
             body.push(jsonDesc);
         }
 
-        this.codeHtml = new Json2html(json, { webComponentAutoClose: true }).toString();
+        this.codeHtml = new Json2html(json).toString();
 
         // ------------------- TS --------------------------------------
 

@@ -124,6 +124,6 @@ export class DemoTabsComponent {
             });
         }
 
-        this.codeHtml = new Json2html(json, { webComponentAutoClose: true }).toString();
+        this.codeHtml = new Json2html(json).toString();
     }
 }

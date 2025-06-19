@@ -121,20 +121,17 @@ export class DemoPaginateComponent {
             attrs['textPage'] = value.textPage;
         }
 
-        this.codeHtml = new Json2html(
-            {
-                tag: 'div',
-                attrs: {},
-                body: [
-                    json,
-                    {
-                        tag: 'p',
-                        body: '...',
-                    },
-                    json,
-                ],
-            },
-            { webComponentAutoClose: true },
-        ).toString();
+        this.codeHtml = new Json2html({
+            tag: 'div',
+            attrs: {},
+            body: [
+                json,
+                {
+                    tag: 'p',
+                    body: '...',
+                },
+                json,
+            ],
+        }).toString();
     }
 }

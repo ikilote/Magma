@@ -178,7 +178,7 @@ export class DemoColorPickerComponent {
 
         attrs['(colorChange)'] = 'colorChange($event)';
 
-        this.codeHtml = new Json2html(json, { webComponentAutoClose: true }).toString();
+        this.codeHtml = new Json2html(json).toString();
     }
 
     codeGenerationPopup() {
@@ -217,7 +217,7 @@ export class DemoColorPickerComponent {
         attrs['(colorChange)'] = 'colorChange($event)';
         attrs['(colorClose)'] = 'colorClose($event)';
 
-        this.codeHtmlPopup = new Json2html(json, { webComponentAutoClose: true }).toString();
+        this.codeHtmlPopup = new Json2html(json).toString();
     }
 
     colorChange(color: string) {

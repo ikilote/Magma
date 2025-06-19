@@ -24,7 +24,7 @@ Required in `package.json`
 - `"@angular/core": "^20.0.0"`
 - `"@angular/cdk": "^20.0.1"`
 - `"colorjs.io": "^0.5.2"`
-- `"ng-select2-component": "^17.2.5"`
+- `"ng-select2-component": "^17.2.7"`
 
 Add in `style.css`
 

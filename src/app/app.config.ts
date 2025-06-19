@@ -2,7 +2,7 @@ import { HttpClient, provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
-import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { provideHighlightOptions } from 'ngx-highlightjs';
 import { MARKED_OPTIONS, MarkedRenderer, provideMarkdown } from 'ngx-markdown';
 
 import { routes } from './app.routes';
@@ -37,19 +37,16 @@ export const appConfig: ApplicationConfig = {
         provideHttpClient(),
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
-        {
-            provide: HIGHLIGHT_OPTIONS,
-            useValue: {
-                coreLibraryLoader: () => import('highlight.js/lib/core'),
-                lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
-                languages: {
-                    typescript: () => import('highlight.js/lib/languages/typescript'),
-                    javascript: () => import('highlight.js/lib/languages/javascript'),
-                    css: () => import('highlight.js/lib/languages/css'),
-                    xml: () => import('highlight.js/lib/languages/xml'),
-                },
+        provideHighlightOptions({
+            coreLibraryLoader: () => import('highlight.js/lib/core'),
+            lineNumbersLoader: () => import('ngx-highlightjs/line-numbers'),
+            languages: {
+                typescript: () => import('highlight.js/lib/languages/typescript'),
+                javascript: () => import('highlight.js/lib/languages/javascript'),
+                css: () => import('highlight.js/lib/languages/css'),
+                xml: () => import('highlight.js/lib/languages/xml'),
             },
-        },
+        }),
         provideMarkdown({
             loader: HttpClient,
             markedOptions: {

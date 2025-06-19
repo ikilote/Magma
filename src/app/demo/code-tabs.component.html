@@ -5,15 +5,18 @@
   @for (item of code(); track $index) {
     <mg-tab-content [id]="item.type">
       @if (typeof item.code === 'string') {
+        <button (click)="clipboard(item.code)">copy</button>
         <code><pre [highlight]="$any(item.code)" [language]="item.type"></pre></code>
       } @else {
         @for (block of item.code; track $index) {
           @if (typeof block === 'string') {
+            <button (click)="clipboard(block)">copy</button>
             <code><pre [highlight]="$any(block)" [language]="item.type"></pre></code>
           } @else {
             @if ($any(block).title) {
               <h3>{{ $any(block).title }}</h3>
             }
+            <button (click)="clipboard($any(block).code)">copy</button>
             <code><pre [highlight]="$any(block).code" [language]="item.type"></pre></code>
           }
         }

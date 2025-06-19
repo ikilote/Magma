@@ -1,8 +1,15 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
+
+import { MagmaMessage } from '@ikilote/magma';
 
 import { Highlight } from 'ngx-highlightjs';
 
-import { MagmaTabContent, MagmaTabTitle, MagmaTabs } from '../../../projects/ikilote/magma/src/public-api';
+import {
+    MagmaTabContent,
+    MagmaTabTitle,
+    MagmaTabs,
+    clipboardWrite,
+} from '../../../projects/ikilote/magma/src/public-api';
 
 @Component({
     selector: 'code-tabs',
@@ -11,5 +18,12 @@ import { MagmaTabContent, MagmaTabTitle, MagmaTabs } from '../../../projects/iki
     imports: [MagmaTabs, MagmaTabContent, MagmaTabTitle, Highlight],
 })
 export class CodeTabsComponent {
+    readonly mgMessage = inject(MagmaMessage);
+
     code = input.required<{ type: 'html' | 'ts'; code: string | string[] | { title?: string; code: string }[] }[]>();
+
+    clipboard(code: string) {
+        clipboardWrite(code);
+        this.mgMessage.addMessage(`Code copy to clipboard`);
+    }
 }

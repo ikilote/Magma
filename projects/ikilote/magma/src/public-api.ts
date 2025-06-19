@@ -22,6 +22,7 @@ export * from './lib/components/input/input-textarea.component';
 export * from './lib/components/input/input.component';
 export * from './lib/components/light-dark/light-dark.component';
 export * from './lib/components/paginate/paginate.component';
+export * from './lib/components/spinner/spinner.component';
 export * from './lib/components/table/table-cell.component';
 export * from './lib/components/table/table-group.component';
 export * from './lib/components/table/table-row.component';

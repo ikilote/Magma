@@ -98,6 +98,12 @@ export const routes: Routes = [
                     import('./components/paginate/demo-paginate.component').then(m => m.DemoPaginateComponent),
             },
             {
+                path: 'spinner',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/spinner/demo-spinner.component').then(m => m.DemoSpinnerComponent),
+            },
+            {
                 path: 'walkthrough',
                 pathMatch: 'full',
                 loadComponent: () =>

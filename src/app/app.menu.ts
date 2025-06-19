@@ -20,6 +20,7 @@ export const menu = [
             },
             { routerLink: '/component/light-dark', label: 'Light-dark' },
             { routerLink: '/component/paginate', label: 'Paginate' },
+            { routerLink: '/component/spinner', label: 'Spinner' },
             { routerLink: '/component/table', label: 'Table' },
             { routerLink: '/component/tabs', label: 'Tabs' },
             { routerLink: '/component/walkthrough', label: 'Walkthrough' },

@@ -237,6 +237,9 @@ body {
     /* MARK: click-enter */
     --click-enter-hover-background: var(--neutral8);
 
+    /* MARK: spinner */
+    --spinner-color: var(--neutral0);
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--input-focus-border-color);

@@ -1,5 +1,15 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+export interface FileSizePipeParams {
+    format?: 'decimal' | 'binary';
+    language?: string;
+    options?: Intl.NumberFormatOptions | undefined;
+    translate?: {
+        unitTableBinary?: [string, string, string, string, string];
+        unitTableDecimal?: [string, string, string, string, string];
+    };
+}
+
 @Pipe({
     name: 'fileSize',
     pure: false,
@@ -18,18 +28,8 @@ export class FileSizePipe implements PipeTransform {
      * * options : NumberFormatOptions
      * @returns
      */
-    transform(
-        value: number,
-        params: {
-            format?: 'decimal' | 'binary';
-            language?: string;
-            options?: Intl.NumberFormatOptions | undefined;
-            translate?: {
-                unitTableBinary?: [string, string, string, string, string];
-                unitTableDecimal?: [string, string, string, string, string];
-            };
-        } = {},
-    ): string {
+    transform(value: number, params?: FileSizePipeParams): string {
+        params ??= {};
         let unit = 0;
         const format = params?.format === 'decimal' ? 1000 : 1024;
         while (value / format > 9) {

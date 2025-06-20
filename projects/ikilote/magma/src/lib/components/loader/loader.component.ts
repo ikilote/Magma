@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { FileSizePipe } from '../../pipes/file-size.pipe';
+import { FileSizePipe, FileSizePipeParams } from '../../pipes/file-size.pipe';
 import { numberAttributeOrUndefined } from '../../utils/coercion';
 import { MagmaSpinner } from '../spinner/spinner.component';
 
@@ -20,4 +20,5 @@ export class MagmaLoader {
     readonly message = input<string>();
     readonly progressLoaded = input(undefined, { transform: numberAttributeOrUndefined });
     readonly progressTotal = input(undefined, { transform: numberAttributeOrUndefined });
+    readonly progressSizeFormat = input<FileSizePipeParams>();
 }

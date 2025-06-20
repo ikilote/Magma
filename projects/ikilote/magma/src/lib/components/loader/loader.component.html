@@ -12,6 +12,8 @@
     @if (total > 0) {
       <div class="progress" [style.--progress]="(loaded / total) * 100"></div>
     }
-    <div class="progress-text">{{ loaded | fileSize }} / {{ total | fileSize }}</div>
+    <div class="progress-text">
+      {{ loaded | fileSize: progressSizeFormat() }} / {{ total | fileSize: progressSizeFormat() }}
+    </div>
   </div>
 }

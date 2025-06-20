@@ -16,6 +16,10 @@
         <mg-input-label>progressTotal</mg-input-label>
         <mg-input-number formControlName="progressTotal" min="1" noDecimal noNegative />
       </mg-input>
+      <mg-input class="s-8">
+        <mg-input-label>progressSizeFormat</mg-input-label>
+        <mg-input-select formControlName="progressSizeFormat" [data]="progressSizeFormatData" />
+      </mg-input>
     </form>
     <div class="s-4 s-6-l s-12-s">
       <h2>Preview</h2>
@@ -24,6 +28,7 @@
           [message]="ctrlForm.value.message"
           [progressLoaded]="ctrlForm.value.progressLoaded"
           [progressTotal]="ctrlForm.value.progressTotal"
+          [progressSizeFormat]="ctrlForm.value.progressSizeFormat"
         />
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore

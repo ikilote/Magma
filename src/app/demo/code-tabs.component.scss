@@ -16,7 +16,12 @@ mg-tab-content {
 }
 
 button {
+    display: none;
     position: absolute;
     top: 5px;
     right: 0px;
+
+    &:has(+ code:hover) {
+        display: initial;
+    }
 }

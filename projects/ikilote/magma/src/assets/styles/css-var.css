@@ -17,6 +17,9 @@ body.light-mode {
     --L9: 90%;
     --LA: 95%;
     --LB: 100%;
+
+    /* MARK: loader-item */
+    --loading-item-animation-color: 0 0 0;
 }
 
 body.dark-mode {
@@ -37,6 +40,9 @@ body.dark-mode {
     --L9: 6%;
     --LA: 5%;
     --LB: 0%;
+
+    /* MARK: loader-item */
+    --loading-item-animation-color: 255 255 255;
 }
 
 body {
@@ -246,6 +252,9 @@ body {
     --loader-text-shadow-color: var(--neutralB);
     --loader-progress-background: #0b0b0b80;
     --loader-progress-bar-background: #fff;
+
+    /* MARK: loader-item */
+    --loading-item-color: var(--primary8);
 
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */

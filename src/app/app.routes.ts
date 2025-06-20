@@ -110,6 +110,14 @@ export const routes: Routes = [
                     import('./components/loader/demo-loader.component').then(m => m.DemoLoaderComponent),
             },
             {
+                path: 'loader-block',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/loader-block/demo-loader-block.component').then(
+                        m => m.DemoLoaderBlockComponent,
+                    ),
+            },
+            {
                 path: 'walkthrough',
                 pathMatch: 'full',
                 loadComponent: () =>

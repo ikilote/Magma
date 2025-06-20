@@ -1,0 +1,21 @@
+<h1>Loader Block</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+      <mg-input class="s-8">
+        <mg-input-label>Example</mg-input-label>
+        <mg-input-select formControlName="example" [data]="examples" />
+      </mg-input>
+    </form>
+    <div class="s-5 s-6-l s-12-s">
+      <h2>Preview</h2>
+      <div class="loader">
+        <mg-loader-block><mg-loader-item /><mg-loader-item /></mg-loader-block>
+      </div>
+    </div>
+    <div class="s-4 s-12-l">
+      <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    </div>
+  </section>
+}

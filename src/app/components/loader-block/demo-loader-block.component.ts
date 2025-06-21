@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
+import { Json2html, Json2htmlRef } from '@ikilote/json2html';
 
 import { Select2Data } from 'ng-select2-component';
 
@@ -36,7 +36,10 @@ export class DemoLoaderBlockComponent {
         example: FormControl<string>;
     }>;
 
-    examples: Select2Data = [{ label: 'example 1', value: 'example-1' }];
+    examples: Select2Data = [
+        { label: 'example 1', value: 'example-1' },
+        { label: 'example 2', value: 'example-2' },
+    ];
 
     codeHtml = '';
 
@@ -52,26 +55,48 @@ export class DemoLoaderBlockComponent {
 
     codeGeneration() {
         // tag root
+        let json: Json2htmlRef = {
+            tag: 'mg-loader-block',
+            body: [],
+        };
 
         switch (this.ctrlForm.value?.example) {
             case 'example-1':
-                const json: Json2htmlRef = {
-                    tag: 'mg-loader-block',
-
-                    body: [
-                        {
-                            tag: 'mg-loader-tile',
-                        },
-                        {
-                            tag: 'mg-loader-tile',
-                        },
-                    ],
-                };
-                const attrs: Json2htmlAttr = json.attrs!;
-
-                this.codeHtml = new Json2html(json).toString();
+                json.body = [
+                    {
+                        tag: 'mg-loader-tile',
+                    },
+                    {
+                        tag: 'mg-loader-tile',
+                    },
+                ];
 
                 break;
+            case 'example-2':
+                json.body = [
+                    {
+                        tag: 'mg-loader-tile',
+                        attrs: { size: '70px / 70px' },
+                    },
+                    {
+                        tag: 'mg-loader-tile',
+                        attrs: { size: '70px / 70px' },
+                    },
+                    {
+                        tag: 'mg-loader-tile',
+                        attrs: { size: 'flex / 70px' },
+                    },
+                    {
+                        tag: 'mg-loader-tile',
+                        attrs: { size: '100% / 70px' },
+                    },
+                ];
+
+                break;
+        }
+
+        if (json) {
+            this.codeHtml = new Json2html(json).toString();
         }
     }
 }

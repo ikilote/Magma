@@ -11,7 +11,19 @@
     <div class="s-5 s-6-l s-12-s">
       <h2>Preview</h2>
       <div class="loader">
-        <mg-loader-block><mg-loader-tile /><mg-loader-tile /></mg-loader-block>
+        @switch (ctrlForm.value.example) {
+          @case ('example-1') {
+            <mg-loader-block><mg-loader-tile /><mg-loader-tile /></mg-loader-block>
+          }
+          @case ('example-2') {
+            <mg-loader-block>
+              <mg-loader-tile size="70px / 70px" />
+              <mg-loader-tile size="70px / 70px" />
+              <mg-loader-tile size="flex / 70px" />
+              <mg-loader-tile size="100% / 70px" />
+            </mg-loader-block>
+          }
+        }
       </div>
     </div>
     <div class="s-4 s-12-l">

@@ -1,4 +1,8 @@
 :host {
+    --width: 0 0 150px;
+    --height: 150px;
+    flex: var(--width);
+
     animation-duration: 3s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
@@ -18,9 +22,8 @@
         transparent 55%,
         transparent 100%
     );
-    background-size: 1500px 300px;
-    width: 220px;
-    height: 300px;
+    background-size: 1500px 700px;
+    height: var(--height);
 }
 
 @keyframes lighting {
@@ -28,6 +31,6 @@
         background-position: -100px 0;
     }
     100% {
-        background-position: 200em 0;
+        background-position: 3200px 0;
     }
 }

@@ -2,6 +2,24 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.8.0 (2025-06-22)
+
+### ✅ New
+
+- Add spinner component
+- Add loader component
+- Add loader-block component
+- Add fileSize pipe
+
+### 🐞 Fix
+
+- Focus more visible
+
+### 🎦 Demo
+
+- Update `@ikilote/json2html` for demo for webComponentSelfClosing
+- Add button to copy the code
+
 ## 0.7.1 (2025-06-16)
 
 ### ✅ New

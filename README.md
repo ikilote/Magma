@@ -28,7 +28,10 @@ It will evolve mainly according to my projects. But people want to use it and he
     - Text
     - Textarea
 - Light-dark
+- Loader
+- Loader-block
 - Paginate
+- Spinner
 - Table
 - Tabs
 - Walkthrough
@@ -41,17 +44,20 @@ It will evolve mainly according to my projects. But people want to use it and he
 ### Pipes
 
 - classList
+- fileSize
 - math
 - numFormat
 - repeatFor
 
 ### Directive
 
+- Click Enter
 - Click Outside
+- Limit-focus
 - ngInit
-- ngModelChange
-- debounced
+- ngModelChange debounced
 - Sortable
+- Stop Propagation
 - Tooltip
 - Textarea autosize
 
@@ -72,6 +78,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 ### Styles
 
 - Buttons
+- Links
 - Input
 - Grid
     - Responsive

@@ -102,6 +102,7 @@ body {
     --font-mono:
         'Roboto Mono', 'FreeMono', 'Liberation Mono', 'Ubuntu Mono', 'Courier New', 'Droid Sans Mono', Courier,
         monospace;
+    --input-focus-color: var(--neutral0);
 
     /* MARK: context-menu */
     --context-menu-background: var(--primary8);
@@ -116,7 +117,7 @@ body {
     --button-default-hover-border-color: var(--neutral9);
     --button-default-hover-background: var(--neutral6);
     --button-default-hover-box-shadow: var(--neutral7);
-    --button-default-focus-border-color: var(--primary2);
+    --button-default-focus-border-color: var(--input-focus-color);
 
     /* MARK: primary button */
     --button-primary-border-color: var(--primary7);
@@ -126,7 +127,7 @@ body {
     --button-primary-hover-border-color: var(--primary9);
     --button-primary-hover-background: var(--primary6);
     --button-primary-hover-box-shadow: var(--primary7);
-    --button-primary-focus-border-color: var(--primary3);
+    --button-primary-focus-border-color: var(--input-focus-color);
 
     /* MARK: warn button */
     --button-warn-border-color: var(--alert7);
@@ -141,7 +142,7 @@ body {
     /* MARK: link */
     --link-color: var(--primary3);
     --link-hover-color: var(--primary0);
-    --link-focus-border-color: var(--primary2);
+    --link-focus-border-color: var(--input-focus-color);
 
     /* MARK: dialog */
     --dialog-backdrop-background: color-mix(in hsl, var(--primaryA) 60%, transparent);
@@ -159,7 +160,7 @@ body {
     --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
     --input-item-color: var(--primary6);
     --input-item-active-color: var(--primary3);
-    --input-focus-border-color: var(--neutral5);
+    --input-focus-border-color: var(--input-focus-color);
     --input-color-shadow: var(--neutralA);
     --input-checked-color: var(--primary5);
     --input-textarea-min-height: 33px;

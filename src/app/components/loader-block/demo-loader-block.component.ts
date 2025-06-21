@@ -11,7 +11,7 @@ import {
     MagmaInputElement,
     MagmaInputSelect,
     MagmaLoaderBlock,
-    MagmaLoaderItem,
+    MagmaLoaderTile,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -26,7 +26,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputElement,
         MagmaInputSelect,
         MagmaLoaderBlock,
-        MagmaLoaderItem,
+        MagmaLoaderTile,
     ],
 })
 export class DemoLoaderBlockComponent {
@@ -60,10 +60,10 @@ export class DemoLoaderBlockComponent {
 
                     body: [
                         {
-                            tag: 'mg-loader-item',
+                            tag: 'mg-loader-tile',
                         },
                         {
-                            tag: 'mg-loader-item',
+                            tag: 'mg-loader-tile',
                         },
                     ],
                 };

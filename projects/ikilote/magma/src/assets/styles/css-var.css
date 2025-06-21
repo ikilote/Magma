@@ -18,7 +18,7 @@ body.light-mode {
     --LA: 95%;
     --LB: 100%;
 
-    /* MARK: loader-item */
+    /* MARK: loader-tile */
     --loading-item-animation-color: 0 0 0;
 }
 
@@ -41,7 +41,7 @@ body.dark-mode {
     --LA: 5%;
     --LB: 0%;
 
-    /* MARK: loader-item */
+    /* MARK: loader-tile */
     --loading-item-animation-color: 255 255 255;
 }
 
@@ -253,7 +253,7 @@ body {
     --loader-progress-background: #0b0b0b80;
     --loader-progress-bar-background: #fff;
 
-    /* MARK: loader-item */
+    /* MARK: loader-tile */
     --loading-item-color: var(--primary8);
 
     /* -----external ------------------------------------------------------------------------------------------------*/

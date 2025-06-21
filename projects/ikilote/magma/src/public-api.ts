@@ -22,7 +22,7 @@ export * from './lib/components/input/input-textarea.component';
 export * from './lib/components/input/input.component';
 export * from './lib/components/light-dark/light-dark.component';
 export * from './lib/components/loader-block/loader-block.component';
-export * from './lib/components/loader-block/loader-item.component';
+export * from './lib/components/loader-block/loader-tile.component';
 export * from './lib/components/loader/loader.component';
 export * from './lib/components/paginate/paginate.component';
 export * from './lib/components/spinner/spinner.component';

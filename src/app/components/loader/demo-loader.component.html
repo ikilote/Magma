@@ -5,11 +5,18 @@
     <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
       <h2 class="s-12">Options</h2>
       <mg-input class="s-8">
+        <mg-input-label>loading</mg-input-label>
+        <mg-input-checkbox formControlName="loading" mode="toggle" />
+      </mg-input>
+
+      <h3>Message</h3>
+      <mg-input class="s-8">
         <mg-input-label>message</mg-input-label>
         <mg-input-text formControlName="message" />
       </mg-input>
+      <h3>Progres</h3>
       <mg-input class="s-8">
-        <mg-input-label>progressLoaded</mg-input-label>
+        <mg-input-label>loaded</mg-input-label>
         <mg-input-number formControlName="progressLoaded" min="0" noDecimal noNegative />
       </mg-input>
       <mg-input class="s-8">
@@ -24,12 +31,21 @@
     <div class="s-4 s-6-l s-12-s">
       <h2>Preview</h2>
       <div class="loader">
-        <mg-loader
-          [message]="ctrlForm.value.message"
-          [progressLoaded]="ctrlForm.value.progressLoaded"
-          [progressTotal]="ctrlForm.value.progressTotal"
-          [progressSizeFormat]="ctrlForm.value.progressSizeFormat"
-        />
+        <mg-loader #loader [loading]="ctrlForm.value.loading || false" (loadingChange)="(null)">
+          <mg-spinner></mg-spinner>
+          @if (ctrlForm.value.message) {
+            <mg-loader-message>
+              {{ ctrlForm.value.message }}
+            </mg-loader-message>
+          }
+          @if (ctrlForm.value.progressLoaded) {
+            <mg-progress
+              [loaded]="ctrlForm.value.progressLoaded"
+              [total]="ctrlForm.value.progressTotal"
+              [sizeFormat]="ctrlForm.value.progressSizeFormat"
+            ></mg-progress>
+          }
+        </mg-loader>
         <p>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
           magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo

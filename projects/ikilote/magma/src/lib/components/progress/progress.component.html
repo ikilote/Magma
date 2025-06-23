@@ -1,0 +1,17 @@
+@let _loaded = loaded();
+@let _total = total();
+@if (_loaded !== undefined) {
+  <div>
+    @if (_total && _total > 0) {
+      <div class="progress" [style.--progress]="(_loaded / _total) * 100"></div>
+    } @else {
+      <div class="progress undetermined"></div>
+    }
+    <div class="progress-text">
+      {{ _loaded | fileSize: sizeFormat() }}
+      @if (_total && _total > 0) {
+        / {{ _total | fileSize: sizeFormat() }}
+      }
+    </div>
+  </div>
+}

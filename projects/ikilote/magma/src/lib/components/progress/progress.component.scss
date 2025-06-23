@@ -1,0 +1,49 @@
+.progress-text {
+    margin: 0 3px;
+    color: var(--loader-text-color);
+    font-size: 12px;
+    text-align: end;
+    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+}
+
+.progress {
+    border: 2px solid var(--loader-text-color);
+    background: var(--loader-progress-background);
+    padding: 2px;
+    width: 300px;
+    height: 10px;
+    overflow: hidden;
+    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+
+    &::before {
+        display: block;
+        background: var(--loader-progress-bar-background);
+        width: calc(var(--progress) * 1%);
+        height: 10px;
+        content: '';
+    }
+
+    &.undetermined::before {
+        animation: move 2s linear infinite;
+        background: linear-gradient(
+            -45deg,
+            var(--loader-progress-bar-background) 25%,
+            transparent 25%,
+            transparent 50%,
+            var(--loader-progress-bar-background) 50%,
+            var(--loader-progress-bar-background) 75%,
+            transparent 75%,
+            transparent
+        );
+        background-size: 40px 40px;
+    }
+}
+
+@keyframes move {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: 40px 40px;
+    }
+}

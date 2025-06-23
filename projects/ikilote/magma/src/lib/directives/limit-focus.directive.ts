@@ -73,17 +73,28 @@ export class MagmaLimitFocusDirective implements OnDestroy {
         if (div) {
             div.focus();
 
-            let [firstFocusableElement, lastFocusableElement] = this.firstLastFocusableElement(div);
+            let listElement = this.firstLastFocusableElement(div);
 
             div.addEventListener('keydown', e => {
                 if (e.key === 'Tab') {
+                    const list = listElement.filter(
+                        e => getComputedStyle(e).display !== 'none' && getComputedStyle(e).visibility !== 'hidden',
+                    );
+                    const firstFocusableElement = list[0];
+                    const lastFocusableElement = list[list.length - 1];
+
                     if (e.shiftKey) {
                         if (document.activeElement === firstFocusableElement) {
                             e.preventDefault();
                             lastFocusableElement.focus();
                         }
+                        if (!list.find(e => e === document.activeElement)) {
+                            lastFocusableElement.focus();
+                        }
                     } else if (document.activeElement === lastFocusableElement) {
                         e.preventDefault();
+                        firstFocusableElement.focus();
+                    } else if (!list.find(e => e === document.activeElement)) {
                         firstFocusableElement.focus();
                     }
                 }
@@ -92,7 +103,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             this.observer = new MutationObserver(mutationsList => {
                 for (const mutation of mutationsList) {
                     if (mutation.type == 'childList' || mutation.type == 'attributes') {
-                        [firstFocusableElement, lastFocusableElement] = this.firstLastFocusableElement(div);
+                        listElement = this.firstLastFocusableElement(div);
                         return;
                     }
                 }
@@ -101,10 +112,10 @@ export class MagmaLimitFocusDirective implements OnDestroy {
         }
     }
 
-    private firstLastFocusableElement(div: HTMLDivElement) {
+    private firstLastFocusableElement(div: HTMLDivElement): HTMLElement[] {
         const focusableElements = div.querySelectorAll<HTMLElement>(
             'a[href], button:not(:disabled), input:not(:disabled), [tabindex="0"]',
         );
-        return [focusableElements[0], focusableElements[focusableElements.length - 1]];
+        return Array.from(focusableElements);
     }
 }

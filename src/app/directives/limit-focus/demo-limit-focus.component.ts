@@ -40,7 +40,12 @@ export class DemoLimitFocusComponent {
                 body: [
                     {
                         tag: 'button',
-
+                        body: 'Test 0',
+                        attrs: { class: 'hide' },
+                        inline: true,
+                    },
+                    {
+                        tag: 'button',
                         body: 'Test 1',
                         inline: true,
                     },
@@ -54,8 +59,19 @@ export class DemoLimitFocusComponent {
                     },
                     {
                         tag: 'button',
-
-                        body: 'Test 13',
+                        body: 'Test 3',
+                        attrs: { class: 'hide' },
+                        inline: true,
+                    },
+                    {
+                        tag: 'button',
+                        body: 'Test 4',
+                        inline: true,
+                    },
+                    {
+                        tag: 'button',
+                        body: 'Test 5',
+                        attrs: { class: 'hidden' },
                         inline: true,
                     },
                 ],

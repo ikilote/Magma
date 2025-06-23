@@ -8,7 +8,7 @@
       <button limitFocusFirst="1">Test 2</button>
       <button class="hide">Test 3</button>
       <button>Test 4</button>
-      <button class="hide">Test 5</button>
+      <button class="hidden">Test 5</button>
     </p>
 
     <p>
@@ -17,6 +17,11 @@
   </div>
 
   <div class="s-8 s-12-m">
-    <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'css', code: codeCss },
+      ]"
+    ></code-tabs>
   </div>
 </div>

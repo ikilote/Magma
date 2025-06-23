@@ -18,6 +18,12 @@ export class DemoLimitFocusComponent {
     limitFocus = viewChild.required(MagmaLimitFocusDirective);
 
     codeHtml = ``;
+    codeCss = `.hide {
+    display: none;
+}
+.hidden {
+    visibility: hidden;
+}`;
 
     constructor() {
         this.codeGeneration();

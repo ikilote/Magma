@@ -19,7 +19,10 @@ import {
 export class CodeTabsComponent {
     readonly mgMessage = inject(MagmaMessage);
 
-    code = input.required<{ type: 'html' | 'ts'; code: string | string[] | { title?: string; code: string }[] }[]>();
+    code =
+        input.required<
+            { type: 'html' | 'ts' | 'css' | 'scss'; code: string | string[] | { title?: string; code: string }[] }[]
+        >();
 
     clipboard(code: string) {
         clipboardWrite(code);

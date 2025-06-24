@@ -98,6 +98,12 @@ export const routes: Routes = [
                     import('./components/paginate/demo-paginate.component').then(m => m.DemoPaginateComponent),
             },
             {
+                path: 'progress',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/progress/demo-progress.component').then(m => m.DemoProgressComponent),
+            },
+            {
                 path: 'spinner',
                 pathMatch: 'full',
                 loadComponent: () =>

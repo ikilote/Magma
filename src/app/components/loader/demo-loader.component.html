@@ -38,7 +38,7 @@
               {{ ctrlForm.value.message }}
             </mg-loader-message>
           }
-          @if (ctrlForm.value.progressLoaded) {
+          @if (ctrlForm.value.progressLoaded || ctrlForm.value.progressTotal) {
             <mg-progress
               [loaded]="ctrlForm.value.progressLoaded"
               [total]="ctrlForm.value.progressTotal"

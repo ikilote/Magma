@@ -1,0 +1,32 @@
+<h1>Progress</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+      <h2 class="s-12">Options</h2>
+      <mg-input class="s-8">
+        <mg-input-label>loaded</mg-input-label>
+        <mg-input-number formControlName="loaded" min="0" noDecimal noNegative />
+      </mg-input>
+      <mg-input class="s-8">
+        <mg-input-label>total</mg-input-label>
+        <mg-input-number formControlName="total" min="1" noDecimal noNegative />
+      </mg-input>
+      <mg-input class="s-8">
+        <mg-input-label>sizeFormat</mg-input-label>
+        <mg-input-select formControlName="sizeFormat" [data]="sizeFormatData" />
+      </mg-input>
+    </form>
+    <div class="s-4 s-6-l s-12-s">
+      <h2>Preview</h2>
+      <mg-progress
+        [loaded]="ctrlForm.value.loaded"
+        [total]="ctrlForm.value.total"
+        [sizeFormat]="ctrlForm.value.sizeFormat"
+      ></mg-progress>
+    </div>
+    <div class="s-5 s-12-l">
+      <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    </div>
+  </section>
+}

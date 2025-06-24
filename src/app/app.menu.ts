@@ -22,6 +22,7 @@ export const menu = [
             { routerLink: '/component/loader', label: 'Loader' },
             { routerLink: '/component/loader-block', label: 'Loader Block' },
             { routerLink: '/component/paginate', label: 'Paginate' },
+            { routerLink: '/component/progress', label: 'Progress' },
             { routerLink: '/component/spinner', label: 'Spinner' },
             { routerLink: '/component/table', label: 'Table' },
             { routerLink: '/component/tabs', label: 'Tabs' },

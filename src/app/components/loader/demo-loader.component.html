@@ -2,36 +2,39 @@
 
 @if (ctrlForm) {
   <section>
-    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
-      <h2 class="s-12">Options</h2>
+    <h2 class="s-12">Options</h2>
+    <div class="s-3 s-6-l s-12-s">
       <mg-input class="s-8">
         <mg-input-label>loading</mg-input-label>
-        <mg-input-checkbox formControlName="loading" mode="toggle" />
+        <mg-input-checkbox [(ngModel)]="loadingValue" (ngModelChange)="codeGeneration()" mode="toggle" />
       </mg-input>
+      <div><button (click)="loadingStart()">Start</button> <button (click)="loadingStop()">Stop</button></div>
 
-      <h3>Message</h3>
-      <mg-input class="s-8">
-        <mg-input-label>message</mg-input-label>
-        <mg-input-text formControlName="message" />
-      </mg-input>
-      <h3>Progres</h3>
-      <mg-input class="s-8">
-        <mg-input-label>loaded</mg-input-label>
-        <mg-input-number formControlName="progressLoaded" min="0" noDecimal noNegative />
-      </mg-input>
-      <mg-input class="s-8">
-        <mg-input-label>progressTotal</mg-input-label>
-        <mg-input-number formControlName="progressTotal" min="1" noDecimal noNegative />
-      </mg-input>
-      <mg-input class="s-8">
-        <mg-input-label>progressSizeFormat</mg-input-label>
-        <mg-input-select formControlName="progressSizeFormat" [data]="progressSizeFormatData" />
-      </mg-input>
-    </form>
+      <h3 class="s-12">Message</h3>
+      <form [formGroup]="ctrlForm">
+        <mg-input class="s-8">
+          <mg-input-label>message</mg-input-label>
+          <mg-input-text formControlName="message" />
+        </mg-input>
+        <h3 class="s-12">Progress</h3>
+        <mg-input class="s-8">
+          <mg-input-label>loaded</mg-input-label>
+          <mg-input-number formControlName="progressLoaded" min="0" noDecimal noNegative />
+        </mg-input>
+        <mg-input class="s-8">
+          <mg-input-label>progressTotal</mg-input-label>
+          <mg-input-number formControlName="progressTotal" min="1" noDecimal noNegative />
+        </mg-input>
+        <mg-input class="s-8">
+          <mg-input-label>progressSizeFormat</mg-input-label>
+          <mg-input-select formControlName="progressSizeFormat" [data]="progressSizeFormatData" />
+        </mg-input>
+      </form>
+    </div>
     <div class="s-4 s-6-l s-12-s">
       <h2>Preview</h2>
       <div class="loader">
-        <mg-loader #loader [loading]="ctrlForm.value.loading || false" (loadingChange)="(null)">
+        <mg-loader #loader [(loading)]="loadingValue" (loadingChange)="loadingChange($event)">
           <mg-spinner></mg-spinner>
           @if (ctrlForm.value.message) {
             <mg-loader-message>
@@ -65,7 +68,12 @@
       </div>
     </div>
     <div class="s-5 s-12-l">
-      <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+        ]"
+      ></code-tabs>
     </div>
   </section>
 }

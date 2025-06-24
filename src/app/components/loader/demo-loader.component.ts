@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, inject, viewChild } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
 
@@ -27,6 +27,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     styleUrls: ['./demo-loader.component.scss'],
     imports: [
         CodeTabsComponent,
+        FormsModule,
         ReactiveFormsModule,
         MagmaLoader,
         MagmaLoaderMessage,
@@ -43,9 +44,12 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoLoaderComponent {
     readonly fb = inject(FormBuilderExtended);
 
+    readonly loading = viewChild<MagmaLoader>('loader');
+
+    loadingValue = false;
+
     ctrlForm: FormGroup<{
         message: FormControl<string>;
-        loading: FormControl<boolean>;
         progressLoaded: FormControl<number>;
         progressTotal: FormControl<number>;
         progressSizeFormat: FormControl<FileSizePipeParams>;
@@ -61,11 +65,38 @@ export class DemoLoaderComponent {
     ];
 
     codeHtml = '';
+    codeTs = `@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaLoader,
+        MagmaLoaderMessage,
+        MagmaSpinner,
+        MagmaProgress,
+    ],
+})
+export class DemoMagmaProgressComponent {
+
+    readonly loader = viewChild.required<MagmaLoader>('loader');
+
+    loadingChange(event : boolean) {
+        console.log('MagmaProgress loading', event)
+    }
+
+    loadingStart() {
+        this.loader().start();
+    }
+
+    loadingStop() {
+        this.loader().stop();
+    }
+
+}`;
 
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
             message: { default: undefined },
-            loading: { default: false },
             progressLoaded: { default: undefined },
             progressTotal: { default: undefined },
             progressSizeFormat: { default: undefined },
@@ -84,7 +115,11 @@ export class DemoLoaderComponent {
 
         const json: Json2htmlRef = {
             tag: 'mg-loader',
-            attrs: { '[loading]': value.loading ? 'true' : 'false' },
+            attrs: {
+                '#loader': null,
+                '[loading]': this.loadingValue ? 'true' : 'false',
+                '(loadingChange)': 'loadingChange($event)',
+            },
             body,
         };
         const attrs: Json2htmlAttr = json.attrs!;
@@ -116,6 +151,7 @@ export class DemoLoaderComponent {
             if (value.progressTotal) {
                 attrsProgress['total'] = value.progressTotal;
             }
+
             if (
                 value.progressSizeFormat &&
                 ('format' in value.progressSizeFormat || 'language' in value.progressSizeFormat)
@@ -124,8 +160,18 @@ export class DemoLoaderComponent {
             }
         }
 
-        console.log(attrs['progressSizeFormat']);
-
         this.codeHtml = new Json2html(json).toString();
+    }
+
+    loadingChange(event: boolean) {
+        console.log('MagmaProgress loading', event);
+    }
+
+    loadingStart() {
+        this.loading()?.start();
+    }
+
+    loadingStop() {
+        this.loading()?.stop();
     }
 }

@@ -2,6 +2,26 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.8.1 (2025-06-25)
+
+### 🫢 Breaking
+
+- Loader: rewrite with sub components (spinner, loader-message & progress)
+- Progress: fix undetermined progression
+
+### ✅ New
+
+- Add progress component
+
+### 🐞 Fix
+
+- LimitFocus: remove `display:none` & `visibility:hidden`
+
+### 🎦 Demo
+
+- Progress: add demo
+- Loader: improve page
+
 ## 0.8.0 (2025-06-22)
 
 ### ✅ New

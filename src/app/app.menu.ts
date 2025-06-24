@@ -20,7 +20,7 @@ export const menu = [
             },
             { routerLink: '/component/light-dark', label: 'Light-dark' },
             { routerLink: '/component/loader', label: 'Loader' },
-            { routerLink: '/component/loader-block', label: 'Loader Block' },
+            { routerLink: '/component/loader-block', label: 'Loader-block' },
             { routerLink: '/component/paginate', label: 'Paginate' },
             { routerLink: '/component/progress', label: 'Progress' },
             { routerLink: '/component/spinner', label: 'Spinner' },

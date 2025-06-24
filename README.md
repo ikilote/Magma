@@ -31,6 +31,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Loader
 - Loader-block
 - Paginate
+- Progress
 - Spinner
 - Table
 - Tabs

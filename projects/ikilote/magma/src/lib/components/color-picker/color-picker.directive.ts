@@ -132,7 +132,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     }
 
     private close() {
-        MagmaColorPicker._overlayRef!.dispose();
+        MagmaColorPicker._overlayRef?.dispose();
         MagmaColorPicker._overlayRef = undefined;
         MagmaColorPicker._component = undefined;
     }

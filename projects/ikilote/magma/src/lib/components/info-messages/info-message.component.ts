@@ -79,7 +79,7 @@ export class InfoMessageComponent {
         this.destruct.emit(this.message()!);
     }
 
-    protected withContext(inputs?: ContextMessageInputs) {
-        return { ...inputs, ...{ context: this } };
+    withContext(inputs?: ContextMessageInputs) {
+        return { ...inputs, ...{ context: this as any } };
     }
 }

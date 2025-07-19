@@ -2,6 +2,41 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.8.2 (2025-07-19)
+
+### ✅ New
+
+- **sort-rule**:
+    - improve with string rule or multiple rules
+        - rule
+        - rule list
+        - string (see: `MagmaSortRules` type)
+- **utils**:
+    - add `sortWithRule()` util method
+- **info-message**:
+    - possible to use a component, in addition to a string
+    - add type style:
+        - `tip`
+        - `warn`
+        - `success`
+- **css variable**
+    - add `--warn0`~`--warnA`
+- **stop-propagation**
+    - add `stopClick`
+
+### 🐞 Fix
+
+- **limit-focus**:
+    - improve with `tabindex="-1"`
+    - add textarea, select and tabindex
+
+### 🎦 Demo
+
+- Info-messages: improve page
+- limitFocus: improve page
+- Sortable: update page
+- Update to **Angular** `20.1`
+
 ## 0.8.1 (2025-06-25)
 
 ### 🫢 Breaking

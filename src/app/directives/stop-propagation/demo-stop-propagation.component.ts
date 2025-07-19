@@ -15,7 +15,10 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [MagmaStopPropagationDirective, MagmaInput, MagmaInputText, MagmaInputElement, CodeTabsComponent],
 })
 export class DemoStopPropagationComponent {
-    codeHtml = `<div (keydown)="consoleLog($event)">
+    codeHtml = [
+        {
+            title: 'stopKeydown',
+            code: `<div (keydown)="consoleLog($event)">
   <mg-input>
     <mg-input-label>no directive</mg-input-label>
     <mg-input-text />
@@ -27,15 +30,19 @@ export class DemoStopPropagationComponent {
     <mg-input-text />
   </mg-input>
 </div>
-
-
-<div (click)="click($event)">
+`,
+        },
+        {
+            title: 'stopClick',
+            code: `<div (click)="click($event)">
   <button>no directive</button>
 
   <!-- Stop propagation for click -->
   <button stop-propagation stopClick>stop-propagation stopClick</button>
 </div>
-`;
+`,
+        },
+    ];
 
     log = '';
 

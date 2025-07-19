@@ -2,14 +2,29 @@
 
 <div>
   <div class="s-4 s-12-m">
-    <p limitFocus #limit="limitFocus">
-      <button class="hide">Test 0</button>
-      <button>Test 1</button>
-      <button limitFocusFirst="1">Test 2</button>
-      <button class="hide">Test 3</button>
-      <button>Test 4</button>
-      <button class="hidden">Test 5</button>
-    </p>
+    <div limitFocus #limit="limitFocus">
+      <p>
+        <button class="hide">Test 0</button>
+        <button>Test 1</button>
+        <button limitFocusFirst="1">Test 2</button>
+        <button class="hide">Test 3</button>
+        <button>Test 4</button>
+      </p>
+      <p>
+        <mg-input>
+          <mg-input-label>Test 5</mg-input-label>
+          <mg-input-text />
+        </mg-input>
+      </p>
+      <p>
+        <mg-input>
+          <mg-input-label>Test 6</mg-input-label>
+          <mg-input-textarea />
+        </mg-input>
+        <button tabIndex="-1">Test 7</button>
+        <button class="hidden">Test 8</button>
+      </p>
+    </div>
 
     <p>
       <button (click)="limit.focus()">Focus</button>

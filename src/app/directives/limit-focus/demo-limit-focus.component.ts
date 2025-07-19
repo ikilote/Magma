@@ -3,6 +3,10 @@ import { Component, viewChild } from '@angular/core';
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
 
 import {
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputText,
+    MagmaInputTextarea,
     MagmaLimitFocusDirective,
     MagmaLimitFocusFirstDirective,
 } from '../../../../projects/ikilote/magma/src/public-api';
@@ -12,7 +16,15 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-limit-focus',
     templateUrl: './demo-limit-focus.component.html',
     styleUrls: ['./demo-limit-focus.component.scss'],
-    imports: [CodeTabsComponent, MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective],
+    imports: [
+        CodeTabsComponent,
+        MagmaLimitFocusDirective,
+        MagmaLimitFocusFirstDirective,
+        MagmaInput,
+        MagmaInputText,
+        MagmaInputTextarea,
+        MagmaInputElement,
+    ],
 })
 export class DemoLimitFocusComponent {
     limitFocus = viewChild.required(MagmaLimitFocusDirective);
@@ -38,47 +50,84 @@ export class DemoLimitFocusComponent {
 
         const json: Json2htmlObject = [
             {
-                tag: 'p',
+                tag: 'div',
                 attrs: {
                     limitFocus: null,
                     '#limit': 'limitFocus',
                 },
                 body: [
                     {
-                        tag: 'button',
-                        body: 'Test 0',
-                        attrs: { class: 'hide' },
-                        inline: true,
+                        tag: 'p',
+                        body: [
+                            {
+                                tag: 'button',
+                                body: 'Test 0',
+                                attrs: { class: 'hide' },
+                                inline: true,
+                            },
+                            {
+                                tag: 'button',
+                                body: 'Test 1',
+                                inline: true,
+                            },
+                            {
+                                tag: 'button',
+                                attrs: {
+                                    limitFocusFirst: '1',
+                                },
+                                body: 'Test 2',
+                                inline: true,
+                            },
+                            {
+                                tag: 'button',
+                                body: 'Test 3',
+                                attrs: { class: 'hide' },
+                                inline: true,
+                            },
+                            {
+                                tag: 'button',
+                                body: 'Test 4',
+                                inline: true,
+                            },
+                        ],
                     },
+                    { emptyLine: 1 },
                     {
-                        tag: 'button',
-                        body: 'Test 1',
-                        inline: true,
+                        tag: 'p',
+                        body: [
+                            {
+                                tag: 'mg-input',
+                                body: [
+                                    { tag: 'mg-input-label', body: 'Test 5', inline: true },
+                                    { tag: 'mg-input-text' },
+                                ],
+                            },
+                        ],
                     },
+                    { emptyLine: 1 },
                     {
-                        tag: 'button',
-                        attrs: {
-                            limitFocusFirst: '1',
-                        },
-                        body: 'Test 2',
-                        inline: true,
-                    },
-                    {
-                        tag: 'button',
-                        body: 'Test 3',
-                        attrs: { class: 'hide' },
-                        inline: true,
-                    },
-                    {
-                        tag: 'button',
-                        body: 'Test 4',
-                        inline: true,
-                    },
-                    {
-                        tag: 'button',
-                        body: 'Test 5',
-                        attrs: { class: 'hidden' },
-                        inline: true,
+                        tag: 'p',
+                        body: [
+                            {
+                                tag: 'mg-input',
+                                body: [
+                                    { tag: 'mg-input-label', body: 'Test 6', inline: true },
+                                    { tag: 'mg-input-textarea' },
+                                ],
+                            },
+                            {
+                                tag: 'button',
+                                body: 'Test 7',
+                                attrs: { tabIndex: '-1' },
+                                inline: true,
+                            },
+                            {
+                                tag: 'button',
+                                body: 'Test 8',
+                                attrs: { class: 'hidden' },
+                                inline: true,
+                            },
+                        ],
                     },
                 ],
             },

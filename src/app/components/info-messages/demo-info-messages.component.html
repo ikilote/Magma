@@ -6,7 +6,7 @@
   <div [formGroup]="formGroup">
     <mg-input class="s-3 s-6-m s-12-s">
       <mg-input-label>Text message</mg-input-label>
-      <mg-input-textarea formControlName="text" autosize></mg-input-textarea>
+      <mg-input-textarea formControlName="text" autosize />
     </mg-input>
     <mg-input class="s-3 s-6-m s-12-s">
       <mg-input-label>Time</mg-input-label>
@@ -15,9 +15,12 @@
     </mg-input>
     <mg-input class="s-3 s-6-m s-12-s">
       <mg-input-label>Type</mg-input-label>
-      <mg-input-select formControlName="type" [data]="data"></mg-input-select>
+      <mg-input-select formControlName="type" [data]="data" />
+    </mg-input>
+    <mg-input class="s-3 s-6-m s-12-s">
+      <mg-input-checkbox formControlName="component" mode="toggle">Component</mg-input-checkbox>
     </mg-input>
   </div>
 }
 
-<code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+<code-tabs [code]="[{ type: 'ts', code: [codeTs, codeTsComponent] }]"></code-tabs>

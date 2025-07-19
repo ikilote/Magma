@@ -1,3 +1,4 @@
+import { NgComponentOutlet } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -11,11 +12,14 @@ import {
 
 import { MagmaMessageInfo } from '../../services/message';
 
+type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, any>;
+
 @Component({
     selector: 'info-message',
     templateUrl: './info-message.component.html',
     styleUrls: ['./info-message.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [NgComponentOutlet],
 })
 export class InfoMessageComponent {
     // inject
@@ -73,5 +77,9 @@ export class InfoMessageComponent {
 
     close() {
         this.destruct.emit(this.message()!);
+    }
+
+    protected withContext(inputs?: ContextMessageInputs) {
+        return { ...inputs, ...{ context: this } };
     }
 }

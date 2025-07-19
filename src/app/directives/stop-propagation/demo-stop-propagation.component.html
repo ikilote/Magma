@@ -1,16 +1,30 @@
 <h1>Stop Propagation</h1>
 
 <div>
-  <div class="s-6 s-12-m" (keydown)="keydown($event)">
-    <mg-input class="s-6">
-      <mg-input-label>no directive</mg-input-label>
-      <mg-input-text />
-    </mg-input>
+  <div class="s-6 s-12-m">
+    <div class="s-12" (keydown)="keydown($event)">
+      <mg-input class="s-6">
+        <mg-input-label>no directive</mg-input-label>
+        <mg-input-text />
+      </mg-input>
+      <mg-input stop-propagation stopKeydown class="s-6">
+        <mg-input-label>stop-propagation stopKeydown</mg-input-label>
+        <mg-input-text />
+      </mg-input>
+    </div>
 
-    <mg-input stop-propagation stopKeydown class="s-6">
-      <mg-input-label>stop-propagation stopKeydown</mg-input-label>
-      <mg-input-text />
-    </mg-input>
+    <div class="s-12" (click)="click($event)">
+      <div class="s-6">
+        <button>no directive</button>
+      </div>
+      <div class="s-6">
+        <button stop-propagation stopClick>stop-propagation stopClick</button>
+      </div>
+    </div>
+
+    @if (log) {
+      <pre class="s-12"><h4 class="s-12">Log</h4><code  class="s-12">{{ log }}</code></pre>
+    }
   </div>
 
   <div class="s-6 s-12-m">

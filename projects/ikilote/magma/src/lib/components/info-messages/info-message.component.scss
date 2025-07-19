@@ -25,6 +25,24 @@
         --info-message-box-shadow-color: var(--error-message-box-shadow-color);
         --info-message-progress-background: var(--error-message-progress-background);
     }
+    &.warn {
+        --info-message-border-color: var(--warn-message-border-color);
+        --info-message-background: var(--warn-message-background);
+        --info-message-box-shadow-color: var(--warn-message-box-shadow-color);
+        --info-message-progress-background: var(--warn-message-progress-background);
+    }
+    &.success {
+        --info-message-border-color: var(--success-message-border-color);
+        --info-message-background: var(--success-message-background);
+        --info-message-box-shadow-color: var(--success-message-box-shadow-color);
+        --info-message-progress-background: var(--success-message-progress-background);
+    }
+    &.tip {
+        --info-message-border-color: var(--tip-message-border-color);
+        --info-message-background: var(--tip-message-background);
+        --info-message-box-shadow-color: var(--tip-message-box-shadow-color);
+        --info-message-progress-background: var(--tip-message-progress-background);
+    }
 }
 
 .message {

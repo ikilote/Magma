@@ -35,6 +35,10 @@ export class DemoPaletteComponent {
             list: [...'0123456789A'.split('')],
         },
         {
+            group: 'warn',
+            list: [...'0123456789A'.split('')],
+        },
+        {
             group: 'success',
             list: [...'0123456789A'.split('')],
         },

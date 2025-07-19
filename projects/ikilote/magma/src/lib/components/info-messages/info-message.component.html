@@ -1,2 +1,9 @@
-<div class="message">{{ message()?.message }}</div>
+<div class="message">
+  @let msg = message()?.message;
+  @if (typeof msg === 'string') {
+    {{ msg }}
+  } @else if (msg) {
+    <ng-container [ngComponentOutlet]="msg.component" [ngComponentOutletInputs]="msg.input" />
+  }
+</div>
 <div class="progress" #progress (animationend)="animationend()"></div>

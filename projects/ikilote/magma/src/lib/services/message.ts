@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, Type, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -8,11 +8,16 @@ import { InfoMessagesComponent } from '../components/info-messages/info-messages
 
 export enum MagmaMessageType {
     info = 'info',
+    success = 'success',
+    warn = 'warn',
     error = 'error',
+    tip = 'tip',
 }
 
+export type MagmaMessageContent = string | { component: Type<any>; input?: Record<string, any> };
+
 export interface MagmaMessageInfo {
-    message: string;
+    message: MagmaMessageContent;
     type: MagmaMessageType;
     time: string;
 }
@@ -27,7 +32,7 @@ export class MagmaMessage {
 
     readonly onAddMessage = new Subject<void>();
 
-    addMessage(message: string, options: { type?: MagmaMessageType; time?: string } = {}) {
+    addMessage(message: MagmaMessageContent, options: { type?: MagmaMessageType; time?: string } = {}) {
         if (!this.messages.length) {
             this.init();
         }

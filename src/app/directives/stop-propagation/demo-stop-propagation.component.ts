@@ -16,19 +16,36 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 })
 export class DemoStopPropagationComponent {
     codeHtml = `<div (keydown)="consoleLog($event)">
-  <mg-input class="s-6">
+  <mg-input>
     <mg-input-label>no directive</mg-input-label>
     <mg-input-text />
   </mg-input>
 
   <!-- Stop propagation for keydown -->
-  <mg-input stop-propagation stopKeydown class="s-6">
+  <mg-input stop-propagation stopKeydown>
     <mg-input-label>stop-propagation stopKeydown</mg-input-label>
     <mg-input-text />
   </mg-input>
-</div>`;
+</div>
+
+
+<div (click)="click($event)">
+  <button>no directive</button>
+
+  <!-- Stop propagation for click -->
+  <button stop-propagation stopClick>stop-propagation stopClick</button>
+</div>
+`;
+
+    log = '';
 
     keydown(event: KeyboardEvent) {
-        console.log(event);
+        console.log('keydown', event);
+        this.log += `keydown', ${event}\n`;
+    }
+
+    click(event: MouseEvent) {
+        console.log('click', event);
+        this.log += `click', ${event}\n`;
     }
 }

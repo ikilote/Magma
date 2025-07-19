@@ -82,6 +82,17 @@ body {
     --alert8: hsl(0, 45%, var(--L8));
     --alert9: hsl(0, 25%, var(--L9));
     --alertA: hsl(0, 5%, var(--LA));
+    --warn0: hsl(15, 5%, var(--L0));
+    --warn1: hsl(15, 15%, var(--L1));
+    --warn2: hsl(15, 25%, var(--L2));
+    --warn3: hsl(15, 45%, var(--L3));
+    --warn4: hsl(15, 55%, var(--L4));
+    --warn5: hsl(15, 75%, var(--L5));
+    --warn6: hsl(15, 65%, var(--L6));
+    --warn7: hsl(15, 55%, var(--L7));
+    --warn8: hsl(15, 45%, var(--L8));
+    --warn9: hsl(15, 25%, var(--L9));
+    --warnA: hsl(15, 5%, var(--LA));
     --success0: hsl(120, 5%, var(--L0));
     --success1: hsl(120, 15%, var(--L1));
     --success2: hsl(120, 25%, var(--L2));
@@ -204,10 +215,22 @@ body {
     --info-message-background: var(--neutral5);
     --info-message-box-shadow-color: var(--neutralB);
     --info-message-progress-background: var(--neutral1);
-    --error-message-border-color: var(-alert3);
+    --error-message-border-color: var(--alert3);
     --error-message-background: var(--alert7);
     --error-message-box-shadow-color: var(--neutralB);
     --error-message-progress-background: var(--alert5);
+    --warn-message-border-color: var(--warn3);
+    --warn-message-background: var(--warn7);
+    --warn-message-box-shadow-color: var(--neutralB);
+    --warn-message-progress-background: var(--warn5);
+    --success-message-border-color: var(--success3);
+    --success-message-background: var(--success7);
+    --success-message-box-shadow-color: var(--neutralB);
+    --success-message-progress-background: var(--success5);
+    --tip-message-border-color: var(--primary3);
+    --tip-message-background: var(--primary7);
+    --tip-message-box-shadow-color: var(--neutralB);
+    --tip-message-progress-background: var(--primary5);
 
     /* MARK: grid */
     --grid-cell-padding: 6px;

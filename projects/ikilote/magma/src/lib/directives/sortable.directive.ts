@@ -14,19 +14,53 @@ import {
 import { MagmaClickEnterDirective } from './click-enter.directive';
 
 import { MagmaInputCommon } from '../components/input/input-common';
-import { objectNestedValue } from '../utils/object';
+import { sortWithRule } from '../utils/array';
+
+/**
+ * * MagmaSortRule : rule object
+ * * MagmaSortRule[] : list of rule
+ * * string :
+ *    * `path.in.object` for string
+ *    * `path.in.object:number` with type number (string, number, date → default string)
+ *    * `path.in.object:desc` order (asc, desc → default asc)
+ *    * `path.in.object:number:desc` with type and order
+ *    * `path.in.object.1,path.in.object.2:desc` multiple rules with `,` separator (without space)
+ */
+export type MagmaSortRules = MagmaSortRule | MagmaSortRule[] | string;
 
 export type MagmaSortRule =
-    | { type: 'string' | 'number' | 'date'; attr: string; init?: 'asc' | 'desc' }
     | {
-          type: 'translate';
-          attr: string;
-          translate: (text: string) => string;
-          translateId: string;
+          /** @see MagmaSortRules "string" */
+          rules: string;
+          /** order on init (only first) */
           init?: 'asc' | 'desc';
+      }
+    | {
+          /** type translate */
+          type: 'string' | 'number' | 'date';
+          /** path.in.object */
+          attr: string;
+          /** order on init (only first) */
+          init?: 'asc' | 'desc';
+      }
+    | {
+          /** type translate */
+          type: 'translate';
+          /** path.in.object */
+          attr: string;
+          /** translate methode */
+          translate: (text: string) => string;
+          /** translate id */
+          translateId: string;
+          /** order on init (only first) */
+          init?: 'asc' | 'desc';
+          /** default value */
           default?: string;
       }
-    | { type: 'none' }
+    | {
+          /** no sort */
+          type: 'none';
+      }
     | undefined;
 
 @Directive({
@@ -37,7 +71,7 @@ export class MagmaSortRuleDirective implements OnInit {
     private sortable = inject(MagmaSortableDirective, { host: true });
     private click = inject(MagmaClickEnterDirective);
 
-    sortRule = input<MagmaSortRule>(undefined, { alias: 'sort-rule' });
+    sortRule = input<MagmaSortRules>(undefined, { alias: 'sort-rule' });
 
     constructor() {
         this.click.clickEnter.subscribe(() => {
@@ -57,20 +91,37 @@ export class MagmaSortRuleDirective implements OnInit {
 
     @HostBinding('class.sort-cell')
     get classSortCell() {
-        return this.sortRule()?.type !== 'none';
+        return this.isNone();
     }
 
     sortOrder?: { order: boolean; rule: MagmaSortRule };
 
     ngOnInit(): void {
         const sortRule = this.sortRule();
-        if (sortRule && sortRule.type !== 'none' && sortRule.init) {
-            this.sortable.sortWithRule(sortRule, sortRule.init);
+        debugger;
+        if (sortRule && !this.isNone() && this.isInit()) {
+            this.sortable.sortWithRule(sortRule, this.isInit());
         }
     }
 
     onClick() {
         this.sortable.sortWithRule(this.sortRule());
+    }
+
+    private isNone() {
+        const rule = this.sortRule();
+        return rule && typeof rule !== 'string' && !Array.isArray(rule) && 'type' in rule
+            ? rule?.type === 'none'
+            : false;
+    }
+
+    private isInit() {
+        const rule = this.sortRule();
+        return rule && typeof rule !== 'string' && !Array.isArray(rule) && 'type' in rule && rule?.type !== 'none'
+            ? rule.init
+            : Array.isArray(rule) && rule[0] && 'type' in rule[0] && rule[0]?.type !== 'none'
+              ? rule[0].init
+              : undefined;
     }
 }
 
@@ -91,7 +142,7 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
         alias: 'sortable-filter',
     });
 
-    currentRule?: MagmaSortRule;
+    currentRule?: MagmaSortRules;
     currentRuleOrder = false;
 
     private sortableComplete: any[] = [];
@@ -128,7 +179,7 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
         this.inputListener?.();
     }
 
-    sortWithRule(rule?: MagmaSortRule, order: 'asc' | 'desc' = 'asc') {
+    sortWithRule(rule?: MagmaSortRules, order: 'asc' | 'desc' = 'asc') {
         if (this.currentRule === rule) {
             this.currentRuleOrder = !this.currentRuleOrder;
         } else {
@@ -140,33 +191,7 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     }
 
     sortLines() {
-        const rule = this.currentRule;
-        const sortable = this.sortable();
-        if (rule && rule.type !== 'none' && Array.isArray(sortable) && sortable.length > 1) {
-            sortable.sort((a, b) => {
-                let valA;
-                let valB;
-                for (const attr of rule.attr.split(',')) {
-                    valA ??= objectNestedValue(a, attr);
-                    valB ??= objectNestedValue(b, attr);
-                }
-
-                let test = 0;
-                if (rule.type === 'string') {
-                    test = (valA as string).localeCompare(valB as string);
-                } else if (rule.type === 'translate') {
-                    test = rule
-                        .translate(rule.translateId.replace('%value%', valA || rule.default))
-                        .localeCompare(rule.translate(rule.translateId.replace('%value%', valB || rule.default)));
-                } else if (rule.type === 'number') {
-                    test = valA - valB;
-                } else if (rule.type === 'date') {
-                    test = new Date(valA).getTime() - new Date(valB).getTime();
-                }
-
-                return test * (this.currentRuleOrder ? 1 : -1);
-            });
-        }
+        sortWithRule(this.sortable(), this.currentRule, this.currentRuleOrder);
     }
 
     private filter(input: string = '') {

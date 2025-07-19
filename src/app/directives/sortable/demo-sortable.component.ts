@@ -52,12 +52,13 @@ export class TestComponent {
     codeHtml = `<table mg hover [sortable]="items" class="s-12">
   <thead mg>
     <tr mg>
-      <th mg [sort-rule]="{ type: 'string', attr: 'col1' }">Col 1</th>
-      <th mg [sort-rule]="{ type: 'string', attr: 'col2' }">Col 2</th>
+      <th mg [sort-rule]="{ type: 'string', attr: 'col1', init: 'asc' }">Col 1</th>
+      <th mg sort-rule="col2">Col 2</th>
       <th mg [sort-rule]="{ type: 'string', attr: 'col3' }">Col 3</th>
       <th mg [sort-rule]="{ type: 'string', attr: 'col4' }">Col 4</th>
       <th mg [sort-rule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
       <th mg [sort-rule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
+      <th mg sort-rule="col6.value:number,col5.value:number">Col Num+</th>
     </tr>
   </thead>
   <tbody mg>
@@ -69,6 +70,7 @@ export class TestComponent {
         <td mg>{{ item.col4 }}</td>
         <td mg>{{ item.col5.value | numFormat }}</td>
         <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
+        <td mg>{{ item.col6.value | numFormat }}</td>
       </tr>
     }
   </tbody>
@@ -158,12 +160,62 @@ export class TestComponent {
   </tbody>
 </table>`;
 
-    items: { col1: string; col2: string; col3: string; col4: string; col5: { date: Date; value: number } }[] = [
-        { col1: 'X', col2: 'Y', col3: 'B', col4: 'A', col5: { date: new Date('2025-10-03'), value: 1 } },
-        { col1: 'A', col2: 'B', col3: 'K', col4: 'D', col5: { date: new Date('2022-09-09'), value: 12 } },
-        { col1: 'M', col2: 'F', col3: 'G', col4: 'P', col5: { date: new Date('2030-10-03'), value: 5 } },
-        { col1: 'E', col2: 'N', col3: 'O', col4: 'H', col5: { date: new Date('1980-06-15'), value: 1000 } },
-        { col1: 'I', col2: 'J', col3: 'C', col4: 'L', col5: { date: new Date('1999-01-29'), value: 4 } },
+    items: {
+        col1: string;
+        col2: string;
+        col3: string;
+        col4: string;
+        col5: { date: Date; value: number };
+        col6: { value: number };
+    }[] = [
+        {
+            col1: 'X',
+            col2: 'Y',
+            col3: 'B',
+            col4: 'A',
+            col5: { date: new Date('2025-10-03'), value: 1 },
+            col6: { value: 5.65 },
+        },
+        {
+            col1: 'A',
+            col2: 'B',
+            col3: 'K',
+            col4: 'D',
+            col5: { date: new Date('2022-09-09'), value: 12 },
+            col6: { value: 456.85 },
+        },
+        {
+            col1: 'M',
+            col2: 'F',
+            col3: 'G',
+            col4: 'P',
+            col5: { date: new Date('2030-10-03'), value: 5 },
+            col6: { value: 12 },
+        },
+        {
+            col1: 'E',
+            col2: 'N',
+            col3: 'O',
+            col4: 'H',
+            col5: { date: new Date('1980-06-15'), value: 1000 },
+            col6: { value: 50.48 },
+        },
+        {
+            col1: 'I',
+            col2: 'J',
+            col3: 'C',
+            col4: 'L',
+            col5: { date: new Date('1999-01-29'), value: 4 },
+            col6: { value: 50.49 },
+        },
+        {
+            col1: 'I',
+            col2: 'J',
+            col3: 'C',
+            col4: 'L',
+            col5: { date: new Date('1999-01-29'), value: 5 },
+            col6: { value: 50.49 },
+        },
     ];
 
     filter = '';

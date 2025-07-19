@@ -7,12 +7,13 @@
     <table mg hover [sortable]="items" class="s-12">
       <thead mg>
         <tr mg>
-          <th mg [sort-rule]="{ type: 'string', attr: 'col1' }">Col 1</th>
-          <th mg [sort-rule]="{ type: 'string', attr: 'col2' }">Col 2</th>
+          <th mg [sort-rule]="{ type: 'string', attr: 'col1', init: 'asc' }">Col 1</th>
+          <th mg sort-rule="col2">Col 2</th>
           <th mg [sort-rule]="{ type: 'string', attr: 'col3' }">Col 3</th>
           <th mg [sort-rule]="{ type: 'string', attr: 'col4' }">Col 4</th>
           <th mg [sort-rule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
           <th mg [sort-rule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
+          <th mg sort-rule="col6.value:number,col5.value:number">Col Num+</th>
         </tr>
       </thead>
       <tbody mg>
@@ -24,6 +25,7 @@
             <td mg>{{ item.col4 }}</td>
             <td mg>{{ item.col5.value | numFormat }}</td>
             <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
+            <td mg>{{ item.col6.value | numFormat }}</td>
           </tr>
         }
       </tbody>

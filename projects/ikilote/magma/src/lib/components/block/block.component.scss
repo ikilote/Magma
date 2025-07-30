@@ -7,4 +7,8 @@
     & > div {
         margin: var(--block-margin);
     }
+
+    &[tabindex]:not(button, a[href]):hover {
+        background: var(--click-enter-block-hover-background);
+    }
 }

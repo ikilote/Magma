@@ -885,8 +885,9 @@ pre.mono {
     outline-offset: -1px;
 
     &:hover {
-        cursor: pointer;
-        background-color: var(--click-enter-hover-background);
+        filter: var(--click-enter-hover-filter);
+        cursor: var(--click-enter-hover-cursor);
+        background: var(--click-enter-hover-background);
     }
 
     &:focus {

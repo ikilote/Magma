@@ -265,7 +265,10 @@ body {
     --walkthrough-backdrop: rgba(0, 0, 0, 0.7);
 
     /* MARK: click-enter */
-    --click-enter-hover-background: var(--neutral8);
+    --click-enter-hover-background: none;
+    --click-enter-hover-cursor: pointer;
+    --click-enter-hover-filter: brightness(0.8);
+    --click-enter-block-hover-background: var(--neutral8);
 
     /* MARK: spinner */
     --spinner-color: var(--neutral0);

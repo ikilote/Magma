@@ -56,3 +56,37 @@
     <code-tabs [code]="[{ type: 'ts', code: codeTsGet }]"></code-tabs>
   </div>
 </div>
+
+<div>
+  <div class="s-6" [formGroup]="formAssign">
+    <h2 class="s-12">objectAssignNested</h2>
+    <mg-input class="s-6">
+      <mg-input-label>Object</mg-input-label>
+      <mg-input-textarea formControlName="valueD" autosize></mg-input-textarea>
+      @if (errorD) {
+        <mg-input-error>{{ errorD }}</mg-input-error>
+      }
+    </mg-input>
+    <mg-input class="s-6">
+      <mg-input-label>Object</mg-input-label>
+      <mg-input-textarea formControlName="valueE" autosize></mg-input-textarea>
+      @if (errorE) {
+        <mg-input-error>{{ errorE }}</mg-input-error>
+      }
+    </mg-input>
+
+    <div class="s-12">
+      <button (click)="objectAssignNested()">Get Value</button>
+    </div>
+    <mg-input class="s-6">
+      <mg-input-label>Value</mg-input-label>
+      <mg-input-textarea [value]="assign | json" autosize></mg-input-textarea>
+      @if (errorE) {
+        <mg-input-error>{{ errorE }}</mg-input-error>
+      }
+    </mg-input>
+  </div>
+  <div class="s-6">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsAssign }]"></code-tabs>
+  </div>
+</div>

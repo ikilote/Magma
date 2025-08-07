@@ -8,6 +8,7 @@ import {
     MagmaInputElement,
     MagmaInputText,
     MagmaInputTextarea,
+    objectAssignNested,
     objectNestedValue,
     objectsAreSame,
 } from '../../../../projects/ikilote/magma/src/public-api';
@@ -30,14 +31,11 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoObjectComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
+    // ------------------------------- objectsAreSame ---------------------------------------
+
     readonly formCompare: FormGroup<{
         valueA: FormControl<string>;
         valueB: FormControl<string>;
-    }>;
-
-    readonly formGet: FormGroup<{
-        valueC: FormControl<string>;
-        valuePath: FormControl<string>;
     }>;
 
     codeTs = `@Component({ ... })
@@ -65,28 +63,30 @@ export class TestComponent {
             this.state = false;
         }
 
-        this.state = objectsAreSame(valueA, valueB);
+        if (!this.errorA && !this.errorB) {
+            this.state = objectsAreSame(valueA, valueB);
+        }
     }
 }`;
 
     valueA = `{
     "a" : 10,
-    "c": [1, 10, 569, 5],
+    "c": [ 1, 10, 569, 5 ],
     "b": "a",
     "d": {
         "a": 150,
         "b": { "a" : 150},
-        "A": [10, 5, 12],
+        "A": [ 10, 5, 12 ],
         "B": { "A" : 100}
     }
 }`;
     valueB = `{
     "a" : 10,
     "b": "a",
-    "c": [1, 10, 569, 5],
+    "c": [ 1, 10, 569, 5 ],
     "d": {
         "a": 150,
-        "A": [12, 10, 5],
+        "A": [ 12, 10, 5 ],
         "b": { "a" : 150},
         "B": { "A" : 100}
     }
@@ -95,6 +95,13 @@ export class TestComponent {
     errorA = ``;
     errorB = ``;
     state = false;
+
+    // -------------------------------  objectNestedValue ---------------------------------------
+
+    readonly formGet: FormGroup<{
+        valueC: FormControl<string>;
+        valuePath: FormControl<string>;
+    }>;
 
     codeTsGet = `@Component({ ... })
 export class TestComponent {
@@ -106,31 +113,98 @@ export class TestComponent {
         this.errorC = '';
 
         try {
-            value = JSON.parse(value);
+            valueC = JSON.parse(this.formGet.value.valueC!);
         } catch (e) {
             const error = e as any;
-            this.value = error.message;
-            this.state = false;
+            this.errorC = error.message;
         }
 
-        this.value = objectNestedValue(value, path);
+        if (!this.errorC) {
+            this.value = objectNestedValue(valueC, this.formGet.value.valuePath || '');
+        }
     }
 }`;
 
     valueC = `{
     "a" : 10,
-    "c": [1, 10, 569, 5],
+    "c": [ 1, 10, 569, 5 ],
     "b": "a",
     "d": {
         "a": 150,
-        "b": { "a" : 150},
-        "A": [10, 5, 12],
-        "B": { "A" : 100}
+        "b": { "a" : 150 },
+        "A": [ 10, 5, 12 ],
+        "B": { "A" : 100 }
     }
 }`;
     valuePath = `d.A.1`;
     errorC = ``;
     value: any;
+
+    // ------------------------------- objectAssignNested ---------------------------------------
+
+    readonly formAssign: FormGroup<{
+        valueD: FormControl<string>;
+        valueE: FormControl<string>;
+    }>;
+
+    codeTsAssign = `@Component({ ... })
+export class TestComponent {
+    errorD = '';
+    errorE = '';
+    assign: any;
+
+    objectAssignNested() {
+        let valueD = {};
+        let valueE = {};
+        this.errorD = '';
+        this.errorE = '';
+
+        try {
+            valueD = JSON.parse(this.formAssign.value.valueD!);
+        } catch (e) {
+            const error = e as any;
+            this.errorD = error.message;
+        }
+
+        try {
+            valueE = JSON.parse(this.formAssign.value.valueE!);
+        } catch (e) {
+            const error = e as any;
+            this.errorE = error.message;
+        }
+
+        this.assign = objectAssignNested(valueD, valueE);
+    }
+}`;
+
+    valueD = `{
+    "a" : 10,
+    "c": [ 1, 10, 569, 5 ],
+    "b": "a",
+    "d": {
+        "a": 150,
+        "b": { "a" : 150 },
+        "A": [ 10, 5, 12 ],
+        "B": { "A" : 100 }
+    }
+}`;
+
+    valueE = `{
+    "a" : 10,
+    "c": "test",
+    "b": "a",
+    "d": {
+        "a": [ "a", "b", "c" ],
+        "b": { "b" : 180 },
+        "A": [ 6, 7, 8, 9, 10 ],
+        "B": { "A" : 100 }
+    }
+}`;
+    errorD = ``;
+    errorE = ``;
+    assign: any;
+
+    // -------------------------------------------------------------------------------------------
 
     constructor() {
         this.formCompare = this.fbe.groupWithErrorNonNullable({
@@ -141,9 +215,14 @@ export class TestComponent {
             valueC: { default: this.valueC },
             valuePath: { default: this.valuePath },
         });
+        this.formAssign = this.fbe.groupWithErrorNonNullable({
+            valueD: { default: this.valueD },
+            valueE: { default: this.valueE },
+        });
 
         this.objectsAreSame();
         this.objectNestedValue();
+        this.objectAssignNested();
     }
 
     objectsAreSame() {
@@ -156,9 +235,6 @@ export class TestComponent {
             valueA = JSON.parse(this.formCompare.value.valueA!);
         } catch (e) {
             const error = e as any;
-            // if (error.columnNumber || error.lineNumber) {
-            //     error.message.match(/.*line (\d+) column (\d+).*/);
-            // }
             this.errorA = error.message;
             this.state = false;
         }
@@ -170,7 +246,9 @@ export class TestComponent {
             this.state = false;
         }
 
-        this.state = objectsAreSame(valueA, valueB);
+        if (!this.errorA && !this.errorB) {
+            this.state = objectsAreSame(valueA, valueB);
+        }
     }
 
     objectNestedValue() {
@@ -181,10 +259,34 @@ export class TestComponent {
             valueC = JSON.parse(this.formGet.value.valueC!);
         } catch (e) {
             const error = e as any;
-            this.valueC = error.message;
-            this.state = false;
+            this.errorC = error.message;
         }
 
-        this.value = objectNestedValue(valueC, this.formGet.value.valuePath || '');
+        if (!this.errorC) {
+            this.value = objectNestedValue(valueC, this.formGet.value.valuePath || '');
+        }
+    }
+
+    objectAssignNested() {
+        let valueD = {};
+        let valueE = {};
+        this.errorD = ``;
+        this.errorE = ``;
+
+        try {
+            valueD = JSON.parse(this.formAssign.value.valueD!);
+        } catch (e) {
+            const error = e as any;
+            this.errorD = error.message;
+        }
+
+        try {
+            valueE = JSON.parse(this.formAssign.value.valueE!);
+        } catch (e) {
+            const error = e as any;
+            this.errorE = error.message;
+        }
+
+        this.assign = objectAssignNested(valueD, valueE);
     }
 }

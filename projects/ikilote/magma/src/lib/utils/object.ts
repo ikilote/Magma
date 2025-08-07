@@ -57,9 +57,23 @@ export function objectsAreSame(
     return areTheSame;
 }
 
-export function objectNestedValue(object: any, path: (string | number)[] | string): any {
+export function objectNestedValue<T = any>(object: any, path: (string | number)[] | string): any {
     if (typeof path === 'string') {
         path = path !== '' ? path.split('.') : [];
     }
-    return path.reduce((obj, key) => (obj ? obj[key] : undefined), object);
+    return path.reduce((obj, key) => (obj ? obj[key] : undefined), object) as T;
+}
+
+export function objectAssignNested(target: any, ...sources: any[]) {
+    sources.forEach(source => {
+        Object.keys(source).forEach(key => {
+            const sourceVal = source[key];
+            const targetVal = target[key];
+            target[key] =
+                typeof targetVal === 'object' && typeof sourceVal === 'object'
+                    ? objectAssignNested(targetVal, sourceVal)
+                    : sourceVal;
+        });
+    });
+    return target;
 }

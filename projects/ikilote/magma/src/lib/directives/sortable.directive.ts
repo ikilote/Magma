@@ -98,7 +98,6 @@ export class MagmaSortRuleDirective implements OnInit {
 
     ngOnInit(): void {
         const sortRule = this.sortRule();
-        debugger;
         if (sortRule && !this.isNone() && this.isInit()) {
             this.sortable.sortWithRule(sortRule, this.isInit());
         }

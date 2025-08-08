@@ -2,6 +2,18 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.8.3 (2025-08-08)
+
+### ✅ New
+
+- **utils**:
+    - add `objectAssignNested()` util method
+
+### 🐞 Fix
+
+- **click-enter**:
+    - fix background style if not a block
+
 ## 0.8.2 (2025-07-19)
 
 ### ✅ New

@@ -39,4 +39,20 @@ export class Logger {
                 break;
         }
     }
+
+    error(value: string, ...values: any[]) {
+        this.log(value, LoggerLevel.error, ...values);
+    }
+
+    info(value: string, ...values: any[]) {
+        this.log(value, LoggerLevel.info, ...values);
+    }
+
+    debug(value: string, ...values: any[]) {
+        this.log(value, LoggerLevel.debug, ...values);
+    }
+
+    warn(value: string, ...values: any[]) {
+        this.log(value, LoggerLevel.warn, ...values);
+    }
 }

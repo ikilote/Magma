@@ -2,6 +2,18 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.8.4 (2025-08-10)
+
+### ✅ New
+
+- **logger**:
+    - add prefix
+
+### 🐞 Fix
+
+- **sort**:
+    - fix regression with alternative value
+
 ## 0.8.3 (2025-08-08)
 
 ### ✅ New

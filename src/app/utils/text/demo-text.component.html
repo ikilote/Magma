@@ -1,0 +1,20 @@
+<h1>Text</h1>
+
+<h2>normalizeString</h2>
+
+<div>
+  <div class="s-3 s-12-m" [formGroup]="ctrlFormA">
+    <mg-input class="s-12">
+      <mg-input-label>Text</mg-input-label>
+      <mg-input-text formControlName="text"></mg-input-text>
+    </mg-input>
+
+    <div class="s-12">
+      Without accents and case: <code>{{ normalizeString(ctrlFormA.value.text ?? '') }}</code>
+    </div>
+  </div>
+
+  <div class="s-9 s-12-m">
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+  </div>
+</div>

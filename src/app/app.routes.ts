@@ -288,6 +288,11 @@ export const routes: Routes = [
                 loadComponent: () => import('./utils/object/demo-object.component').then(m => m.DemoObjectComponent),
             },
             {
+                path: 'text',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/text/demo-text.component').then(m => m.DemoTextComponent),
+            },
+            {
                 path: 'subscriptions',
                 pathMatch: 'full',
                 loadComponent: () =>

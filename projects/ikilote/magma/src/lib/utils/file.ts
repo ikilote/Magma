@@ -60,10 +60,16 @@ export function ulrToBase64(url: string): Promise<string | ArrayBuffer | null> {
     });
 }
 
-export function normalizeFileName(string: string) {
+/**
+ * remove accents, case and characters and  `\:*?"<>` symbols
+ * @param string text with accents, case and symbols
+ * @param limit text with accents, case and symbols
+ * @returns text without accents, case and symbols
+ */
+export function normalizeFileName(string: string, limit: number = 200) {
     return string
         .toLocaleLowerCase()
         .normalize('NFD')
         .replace(/[\p{Diacritic}\/|\\:*?"<>]/gu, '')
-        .substring(0, 200);
+        .substring(0, limit);
 }

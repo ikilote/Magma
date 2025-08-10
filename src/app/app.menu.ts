@@ -66,6 +66,7 @@ export const menu = [
             { routerLink: '/utils/json', label: 'Json' },
             { routerLink: '/utils/number', label: 'Number' },
             { routerLink: '/utils/object', label: 'Object' },
+            { routerLink: '/utils/text', label: 'Text' },
             { routerLink: '/utils/subscriptions', label: 'Subscriptions' },
         ],
     },

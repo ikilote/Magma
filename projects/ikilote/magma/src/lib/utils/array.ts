@@ -24,8 +24,12 @@ export function sortWithRule<T = any>(
         sortable.sort((a: T, b: T) => {
             for (const rule of rules) {
                 if (rule && 'type' in rule && rule.type !== 'none') {
-                    const valA = objectNestedValue(a, rule.attr);
-                    const valB = objectNestedValue(b, rule.attr);
+                    let valA: any = undefined;
+                    let valB: any = undefined;
+                    for (const frag of rule.attr.split(',')) {
+                        valA ??= objectNestedValue(a, frag);
+                        valB ??= objectNestedValue(b, frag);
+                    }
 
                     let test = 0;
                     if (rule.type === 'string') {

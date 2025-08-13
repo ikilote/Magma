@@ -3,7 +3,7 @@ import { Component, inject, input } from '@angular/core';
 import { Highlight } from 'ngx-highlightjs';
 
 import {
-    MagmaMessage,
+    MagmaMessages,
     MagmaTabContent,
     MagmaTabTitle,
     MagmaTabs,
@@ -17,7 +17,7 @@ import {
     imports: [MagmaTabs, MagmaTabContent, MagmaTabTitle, Highlight],
 })
 export class CodeTabsComponent {
-    readonly mgMessage = inject(MagmaMessage);
+    readonly mgMessages = inject(MagmaMessages);
 
     code =
         input.required<
@@ -26,6 +26,6 @@ export class CodeTabsComponent {
 
     clipboard(code: string) {
         clipboardWrite(code);
-        this.mgMessage.addMessage(`Code copy to clipboard`);
+        this.mgMessages.addMessage(`Code copy to clipboard`);
     }
 }

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@
 
 import { InfoMessageComponent } from './info-message.component';
 
-import { MagmaMessage, MagmaMessageInfo } from '../../services/message';
+import { MagmaMessageInfo, MagmaMessages } from '../../services/messages';
 
 @Component({
     selector: 'info-messages',
@@ -14,20 +14,20 @@ import { MagmaMessage, MagmaMessageInfo } from '../../services/message';
 export class InfoMessagesComponent {
     // inject
 
-    protected readonly messageService = inject(MagmaMessage);
+    protected readonly messages = inject(MagmaMessages);
     private readonly cd = inject(ChangeDetectorRef);
 
     // template
 
     constructor() {
-        this.messageService.onAddMessage.subscribe(() => {
+        this.messages.onAddMessage.subscribe(() => {
             this.cd.detectChanges();
         });
     }
 
     destruct(message: MagmaMessageInfo) {
-        this.messageService.removeMessage(message);
+        this.messages.removeMessage(message);
         this.cd.detectChanges();
-        this.messageService.testDispose();
+        this.messages.testDispose();
     }
 }

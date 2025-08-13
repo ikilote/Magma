@@ -13,8 +13,8 @@ import {
     MagmaInputSelect,
     MagmaInputText,
     MagmaInputTextarea,
-    MagmaMessage,
     MagmaMessageType,
+    MagmaMessages,
     MagmaStopPropagationDirective,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -62,7 +62,7 @@ export class ContextTestComponent {
 })
 export class DemoInfoMessageComponent {
     readonly fbe = inject(FormBuilderExtended);
-    readonly mgMessage = inject(MagmaMessage);
+    readonly mgMessages = inject(MagmaMessages);
 
     readonly data: Select2Data = [
         { value: '', label: 'default' },
@@ -100,7 +100,7 @@ export class DemoInfoMessageComponent {
 
     sendMessage() {
         if (this.formGroup.value.component) {
-            this.mgMessage.addMessage(
+            this.mgMessages.addMessage(
                 {
                     component: ContextTestComponent,
                     input: {
@@ -114,7 +114,7 @@ export class DemoInfoMessageComponent {
                 },
             );
         } else if (this.formGroup.value.text) {
-            this.mgMessage.addMessage(this.formGroup.value.text, {
+            this.mgMessages.addMessage(this.formGroup.value.text, {
                 time: this.formGroup.value.time,
                 type: this.formGroup.value.type,
             });

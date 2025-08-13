@@ -23,7 +23,7 @@ export interface MagmaMessageInfo {
 }
 
 @Injectable({ providedIn: 'root' })
-export class MagmaMessage {
+export class MagmaMessages {
     private readonly overlay = inject(Overlay);
 
     private _overlayRef?: OverlayRef;

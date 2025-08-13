@@ -1,0 +1,14 @@
+:host {
+    display: block;
+    box-shadow: var(--block-shadow);
+    border: var(--block-border);
+    border-radius: var(--block-radius);
+
+    & > .block:has(> :first-child) {
+        margin: var(--block-margin);
+    }
+
+    & > .block:not(:has(> :first-child)) {
+        display: none;
+    }
+}

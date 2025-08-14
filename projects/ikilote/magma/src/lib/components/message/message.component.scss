@@ -1,14 +1,20 @@
-:host {
-    display: block;
-    box-shadow: var(--block-shadow);
-    border: var(--block-border);
-    border-radius: var(--block-radius);
+@import url(./message-block.component.scss);
 
+:host {
     & > .block:has(> :first-child) {
-        margin: var(--block-margin);
+        margin: var(--message-margin);
     }
 
     & > .block:not(:has(> :first-child)) {
         display: none;
+    }
+
+    &:has(> :is(mg-message-block)) {
+        display: flex;
+        flex-direction: column;
+        gap: var(--block-margin);
+        box-shadow: none;
+        border: none;
+        border-radius: none;
     }
 }

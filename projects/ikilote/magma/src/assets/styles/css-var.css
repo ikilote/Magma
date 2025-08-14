@@ -241,6 +241,24 @@ body {
     --block-shadow: 0 0 24px 2px var(--primary8);
     --block-margin: 12px;
 
+    /* MARK: block */
+    --message-radius: 3px;
+    --message-border-color: var(--primary5);
+    --message-border: 1px solid var(--message-border-color);
+    --message-shadow: 0 0 24px 2px var(--primary8);
+    --message-margin: 12px;
+    --message-background: var(--primaryA);
+    --info-message-border-color: var(--neutral1);
+    --info-message-background: var(--neutral5);
+    --success-message-border: var(--success3);
+    --success-message-background: var(--success7);
+    --warn-message-border: var(--warn3);
+    --warn-message-background: var(--warn7);
+    --error-message-border: var(--alert3);
+    --error-message-error-background: var(--alert7);
+    --tip-message-border: var(--primary3);
+    --tip-message-background: var(--primary7);
+
     /* MARK: table */
     --table-header-background: var(--neutral9);
     --table-header-background-hover: var(--neutral8);

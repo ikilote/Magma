@@ -5,21 +5,41 @@
     <h2>Option</h2>
   </div>
   <div class="s-6 s-12-l">
-    <mg-message>
+    <mg-message type="error">
       <h1>Test</h1>
       <p>Test</p>
-    </mg-message>
-
-    test
-
-    <mg-message>
-      <mg-message-block>
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-message-block>
     </mg-message>
   </div>
   <div class="s-3 s-12-l">
     <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+  </div>
+</div>
+
+<div>
+  <div class="s-3 s-12-l"></div>
+  <div class="s-6 s-12-l">
+    <mg-message>
+      <mg-message-block>
+        <p>no type</p>
+      </mg-message-block>
+      <mg-message-block type="success">
+        <p>success</p>
+      </mg-message-block>
+      <mg-message-block type="warn">
+        <p>warn</p>
+      </mg-message-block>
+      <mg-message-block type="error">
+        <p>error</p>
+      </mg-message-block>
+      <mg-message-block type="tip">
+        <p>tip</p>
+      </mg-message-block>
+      <mg-message-block type="info">
+        <p>info</p>
+      </mg-message-block>
+    </mg-message>
+  </div>
+  <div class="s-3 s-12-l">
+    <code-tabs [code]="[{ type: 'html', code: codeHtmlSub }]"></code-tabs>
   </div>
 </div>

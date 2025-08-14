@@ -1,4 +1,32 @@
 :host {
     display: block;
-    margin: var(--block-margin);
+    box-shadow: var(--message-shadow);
+    border: var(--message-border);
+    border-radius: var(--message-radius);
+    background: var(--message-background);
+
+    & > div {
+        margin: var(--block-margin);
+    }
+
+    &.info {
+        --message-border-color: var(--info-message-border-color);
+        --message-background: var(--info-message-background);
+    }
+    &.success {
+        --message-border-color: var(--success-message-border-color);
+        --message-background: var(--success-message-background);
+    }
+    &.warn {
+        --message-border-color: var(--warn-message-border-color);
+        --message-background: var(--warn-message-background);
+    }
+    &.error {
+        --message-border-color: var(--error-message-border-color);
+        --message-background: var(--error-message-background);
+    }
+    &.tip {
+        --message-border-color: var(--tip-message-border-color);
+        --message-background: var(--tip-message-background);
+    }
 }

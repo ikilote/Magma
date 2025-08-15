@@ -92,6 +92,12 @@ export const routes: Routes = [
                 loadComponent: () => import('./components/tabs/demo-tabs.component').then(m => m.DemoTabsComponent),
             },
             {
+                path: 'message',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/message/demo-message.component').then(m => m.DemoMessageComponent),
+            },
+            {
                 path: 'paginate',
                 pathMatch: 'full',
                 loadComponent: () =>
@@ -266,6 +272,11 @@ export const routes: Routes = [
                 path: 'email',
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/email/demo-email.component').then(m => m.DemoEmailComponent),
+            },
+            {
+                path: 'enum',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/enum/demo-enum.component').then(m => m.DemoEnumComponent),
             },
             {
                 path: 'file',

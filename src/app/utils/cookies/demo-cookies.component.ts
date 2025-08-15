@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { MagmaMessage, getCookie, removeCookie, setCookie } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaMessages, getCookie, removeCookie, setCookie } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
@@ -10,38 +10,38 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoCookiesComponent {
-    readonly mgMessage = inject(MagmaMessage);
+    readonly mgMessages = inject(MagmaMessages);
 
     codeTs = `@Component({ ... })
 export class TestComponent {
-    readonly mgMessage = inject(MagmaMessage);
+    readonly mgMessages = inject(MagmaMessages);
 
     addCookie(value: string) {
       setCookie('text', value, 1, '/');
-      this.mgMessage.addMessage('setCookie');
+      this.mgMessages.addMessage('setCookie');
     }
 
     readCookie() {
-        this.mgMessage.addMessage('getCookie: ' + getCookie('text'));
+        this.mgMessages.addMessage('getCookie: ' + getCookie('text'));
     }
 
     removeCookie() {
         removeCookie('text');
-        this.mgMessage.addMessage('removeCookie');
+        this.mgMessages.addMessage('removeCookie');
     }
 }`;
 
     addCookie(value: string) {
         setCookie('text', value, 1, '/');
-        this.mgMessage.addMessage('setCookie');
+        this.mgMessages.addMessage('setCookie');
     }
 
     readCookie() {
-        this.mgMessage.addMessage('getCookie: ' + getCookie('text'));
+        this.mgMessages.addMessage('getCookie: ' + getCookie('text'));
     }
 
     removeCookie() {
         removeCookie('text');
-        this.mgMessage.addMessage('removeCookie');
+        this.mgMessages.addMessage('removeCookie');
     }
 }

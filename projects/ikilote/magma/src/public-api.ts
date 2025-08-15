@@ -27,6 +27,8 @@ export * from './lib/components/loader-block/loader-block.component';
 export * from './lib/components/loader-block/loader-tile.component';
 export * from './lib/components/loader/loader-message.component';
 export * from './lib/components/loader/loader.component';
+export * from './lib/components/message/message-block.component';
+export * from './lib/components/message/message.component';
 export * from './lib/components/paginate/paginate.component';
 export * from './lib/components/progress/progress.component';
 export * from './lib/components/spinner/spinner.component';
@@ -64,7 +66,7 @@ export * from './lib/pipes/repeat-for.pipe';
 export * from './lib/services/form-builder-extended';
 export * from './lib/services/light-dark';
 export * from './lib/services/logger';
-export * from './lib/services/message';
+export * from './lib/services/messages';
 
 // utils
 export * from './lib/utils/clipboard';
@@ -73,6 +75,7 @@ export * from './lib/utils/cookies';
 export * from './lib/utils/date';
 export * from './lib/utils/dom';
 export * from './lib/utils/email';
+export * from './lib/utils/enum';
 export * from './lib/utils/file';
 export * from './lib/utils/json';
 export * from './lib/utils/number';

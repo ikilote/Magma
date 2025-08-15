@@ -95,6 +95,12 @@ ul {
             &.active {
                 background: var(--neutral9);
             }
+
+            &.new::after {
+                content: ' new';
+                color: var(--success5);
+                font-variant-position: super;
+            }
         }
 
         li a {

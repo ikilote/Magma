@@ -37,6 +37,7 @@
             routerLinkActive="selected"
             ariaCurrentWhenActive="page"
             [innerHTML]="item.label"
+            [ngClass]="item.status"
           ></a>
         } @else {
           <ng-container

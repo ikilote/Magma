@@ -10,7 +10,7 @@ import {
     output,
 } from '@angular/core';
 
-import { MagmaMessageInfo } from '../../services/message';
+import { MagmaMessageInfo } from '../../services/messages';
 
 type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, any>;
 

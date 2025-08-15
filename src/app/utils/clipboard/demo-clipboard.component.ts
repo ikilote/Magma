@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 
-import { MagmaMessage, clipboardWrite } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaMessages, clipboardWrite } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
@@ -10,7 +10,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoClipboardComponent {
-    readonly mgMessage = inject(MagmaMessage);
+    readonly mgMessages = inject(MagmaMessages);
 
     codeHtml = `<p #ref contenteditable>Editable text</p>
 
@@ -31,7 +31,7 @@ export class TestComponent {
     copy(element: HTMLDivElement) {
         if (element.textContent) {
             clipboardWrite(element.textContent);
-            this.mgMessage.addMessage(`Copy to clipboard`);
+            this.mgMessages.addMessage(`Copy to clipboard`);
         }
     }
 }

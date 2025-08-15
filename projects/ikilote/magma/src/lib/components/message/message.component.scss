@@ -1,0 +1,25 @@
+@import url(./message-block.component.scss);
+
+:host {
+    & > .block:has(> :first-child) {
+        margin: var(--message-margin);
+    }
+
+    & > .block:not(:has(> :first-child)) {
+        display: none;
+    }
+
+    &:has(> :is(mg-message-block)) {
+        display: flex;
+        position: inherit;
+        flex-direction: column;
+        gap: var(--message-gap);
+        box-shadow: none;
+        border: none;
+        border-radius: none;
+
+        &::before {
+            display: none;
+        }
+    }
+}

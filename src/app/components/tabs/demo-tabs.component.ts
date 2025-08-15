@@ -9,7 +9,7 @@ import {
     MagmaInputElement,
     MagmaInputText,
     MagmaInputTextarea,
-    MagmaMessage,
+    MagmaMessages,
     MagmaTabsModule,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -30,7 +30,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     ],
 })
 export class DemoTabsComponent {
-    readonly mgMessage = inject(MagmaMessage);
+    readonly mgMessages = inject(MagmaMessages);
 
     tabs: {
         id: string;
@@ -73,9 +73,9 @@ export class DemoTabsComponent {
 
     addTab() {
         if (this.tabs.find(e => e.id === this.ctrlForm.value.id)) {
-            this.mgMessage.addMessage(`This ID is already in use`);
+            this.mgMessages.addMessage(`This ID is already in use`);
         } else if (!this.ctrlForm.value.id) {
-            this.mgMessage.addMessage(`no ID`);
+            this.mgMessages.addMessage(`no ID`);
         } else {
             this.tabs.forEach(e => (e.selected = false));
             this.tabs.push({

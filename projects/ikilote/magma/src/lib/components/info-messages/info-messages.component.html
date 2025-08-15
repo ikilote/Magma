@@ -1,3 +1,3 @@
-@for (message of messageService.messages; track message) {
+@for (message of messages.messages; track message) {
   <info-message [message]="message" (destruct)="destruct(message)"></info-message>
 }

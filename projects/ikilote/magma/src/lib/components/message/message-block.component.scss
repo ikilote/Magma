@@ -1,31 +1,62 @@
 :host {
     display: block;
+    position: relative;
     box-shadow: var(--message-shadow);
-    border: var(--message-border);
+    border: var(--message-border-width) var(--message-border-style);
+    border-color: var(--message-border-color);
     border-radius: var(--message-radius);
     background: var(--message-background);
+    color: var(--message-color);
+
+    &::before,
+    &::after {
+        --rotate: -45deg;
+        display: block;
+        position: absolute;
+        border-top-left-radius: calc(var(--message-radius) - var(--message-border-width));
+        background-image: linear-gradient(
+            var(--rotate),
+            transparent 50%,
+            color-mix(in srgb, transparent, var(--neutralB) 5%) 70%,
+            var(--message-border-color) 70%
+        );
+        width: var(--message-marquee-size);
+        height: var(--message-marquee-size);
+        content: '';
+    }
+
+    &::after {
+        --rotate: 135deg;
+        right: 0;
+        bottom: 0;
+    }
 
     & > div {
-        margin: var(--block-margin);
+        margin: var(--message-margin);
     }
 
     &.info {
+        --message-color: var(--info-message-color);
         --message-border-color: var(--info-message-border-color);
         --message-background: var(--info-message-background);
     }
     &.success {
+        --message-color: var(--success-message-color);
         --message-border-color: var(--success-message-border-color);
         --message-background: var(--success-message-background);
     }
     &.warn {
+        --message-color: var(--warn-message-color);
         --message-border-color: var(--warn-message-border-color);
         --message-background: var(--warn-message-background);
     }
     &.error {
+        --message-color: var(--error-message-color);
         --message-border-color: var(--error-message-border-color);
         --message-background: var(--error-message-background);
     }
     &.tip {
+        --message-color: var(--tip-message-color);
         --message-border-color: var(--tip-message-border-color);
         --message-background: var(--tip-message-background);
     }

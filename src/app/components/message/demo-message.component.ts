@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
 import { MagmaMessageType } from '@ikilote/magma';
 
 import { Select2Data, Select2Option } from 'ng-select2-component';
@@ -21,10 +22,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [MagmaMessage, MagmaBlockMessage, CodeTabsComponent, MagmaInput, MagmaInputSelect, FormsModule],
 })
 export class DemoMessageComponent {
-    codeHtml = `<mg-message>
-  <h1>Test</h1>
-  <p>Test</p>
-</mg-message>`;
+    codeHtml = '';
 
     codeHtmlSub = `<mg-message>
   <mg-message-block>
@@ -48,9 +46,32 @@ export class DemoMessageComponent {
 </mg-message>`;
 
     data: Select2Data = [];
-    type: MagmaMessageType = MagmaMessageType.info;
+    type: MagmaMessageType = MagmaMessageType.success;
 
     constructor() {
-        this.data = enumToValueList(MagmaMessageType).map<Select2Option>(k => ({ value: k, label: `${k}` }));
+        this.data = [
+            { value: null, label: `no type` },
+            ...enumToValueList(MagmaMessageType).map<Select2Option>(k => ({ value: k, label: `${k}` })),
+        ];
+
+        this.codeUpdate();
+    }
+
+    codeUpdate() {
+        const body: Json2htmlBody = [];
+
+        const json: Json2htmlRef = {
+            tag: 'mg-message',
+            attrs: {
+                type: this.type || undefined,
+            },
+            body: [
+                { tag: 'h1', body: 'Test', inline: true },
+                { tag: 'p', body: 'Test', inline: true },
+            ],
+        };
+        const attrs: Json2htmlAttr = json.attrs!;
+
+        this.codeHtml = new Json2html(json).toString();
     }
 }

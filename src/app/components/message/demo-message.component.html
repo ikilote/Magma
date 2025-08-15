@@ -6,7 +6,7 @@
     <h3>Option</h3>
     <div>
       <mg-input class="s-12">
-        <mg-input-select [data]="data" [(ngModel)]="type" />
+        <mg-input-select [data]="data" [(ngModel)]="type" (ngModelChange)="codeUpdate()" />
       </mg-input>
     </div>
   </div>

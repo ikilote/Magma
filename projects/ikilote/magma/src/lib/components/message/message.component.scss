@@ -11,10 +11,15 @@
 
     &:has(> :is(mg-message-block)) {
         display: flex;
+        position: inherit;
         flex-direction: column;
-        gap: var(--block-margin);
+        gap: var(--message-gap);
         box-shadow: none;
         border: none;
         border-radius: none;
+
+        &::before {
+            display: none;
+        }
     }
 }

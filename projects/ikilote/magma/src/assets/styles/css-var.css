@@ -243,20 +243,29 @@ body {
 
     /* MARK: block */
     --message-radius: 3px;
+    --message-color: var(--primary0);
     --message-border-color: var(--primary5);
-    --message-border: 1px solid var(--message-border-color);
+    --message-border-width: 1px;
+    --message-border-style: solid;
     --message-shadow: 0 0 24px 2px var(--primary8);
     --message-margin: 12px;
+    --message-gap: 12px;
+    --message-marquee-size: 20px;
     --message-background: var(--primaryA);
-    --info-message-border-color: var(--neutral1);
+    --info-message-color: var(--neutral8);
+    --info-message-border-color: var(--neutral3);
     --info-message-background: var(--neutral5);
-    --success-message-border: var(--success3);
+    --success-message-color: var(--success2);
+    --success-message-border-color: var(--success5);
     --success-message-background: var(--success7);
-    --warn-message-border: var(--warn3);
+    --warn-message-color: var(--warn2);
+    --warn-message-border-color: var(--warn5);
     --warn-message-background: var(--warn7);
-    --error-message-border: var(--alert3);
+    --error-message-color: var(--alert2);
+    --error-message-border-color: var(--alert5);
     --error-message-error-background: var(--alert7);
-    --tip-message-border: var(--primary3);
+    --tip-message-color: var(---primary2);
+    --tip-message-border-color: var(--primary5);
     --tip-message-background: var(--primary7);
 
     /* MARK: table */

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
-import { MagmaMessageType } from '@ikilote/magma';
+import { MagmaMessageType } from '../../services/messages';
 
 @Component({
     selector: 'mg-message-block',

@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
-import { MagmaMessageType } from '@ikilote/magma';
 
 import { Select2Data, Select2Option } from 'ng-select2-component';
 
@@ -11,6 +10,7 @@ import {
     MagmaInput,
     MagmaInputSelect,
     MagmaMessage,
+    MagmaMessageType,
     enumToValueList,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';

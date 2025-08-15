@@ -274,6 +274,11 @@ export const routes: Routes = [
                 loadComponent: () => import('./utils/email/demo-email.component').then(m => m.DemoEmailComponent),
             },
             {
+                path: 'enum',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/enum/demo-enum.component').then(m => m.DemoEnumComponent),
+            },
+            {
                 path: 'file',
                 pathMatch: 'full',
                 loadComponent: () => import('./utils/file/demo-file.component').then(m => m.DemoFileComponent),

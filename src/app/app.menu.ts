@@ -63,6 +63,7 @@ export const menu = [
             { routerLink: '/utils/date', label: 'Date' },
             { routerLink: '/utils/dom', label: 'DOM' },
             { routerLink: '/utils/email', label: 'Email' },
+            { routerLink: '/utils/enum', label: 'Enum' },
             { routerLink: '/utils/file', label: 'File' },
             { routerLink: '/utils/json', label: 'Json' },
             { routerLink: '/utils/number', label: 'Number' },

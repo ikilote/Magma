@@ -1,19 +1,31 @@
 import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { MagmaBlockMessage, MagmaMessage } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaMessageType } from '@ikilote/magma';
+
+import { Select2Data, Select2Option } from 'ng-select2-component';
+
+import {
+    MagmaBlockMessage,
+    MagmaInput,
+    MagmaInputSelect,
+    MagmaMessage,
+    enumToValueList,
+} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
     selector: 'demo-message',
     templateUrl: './demo-message.component.html',
     styleUrls: ['./demo-message.component.scss'],
-    imports: [MagmaMessage, MagmaBlockMessage, CodeTabsComponent],
+    imports: [MagmaMessage, MagmaBlockMessage, CodeTabsComponent, MagmaInput, MagmaInputSelect, FormsModule],
 })
 export class DemoMessageComponent {
     codeHtml = `<mg-message>
   <h1>Test</h1>
   <p>Test</p>
 </mg-message>`;
+
     codeHtmlSub = `<mg-message>
   <mg-message-block>
     <p>no type</p>
@@ -34,4 +46,11 @@ export class DemoMessageComponent {
     <p>info</p>
   </mg-message-block>
 </mg-message>`;
+
+    data: Select2Data = [];
+    type: MagmaMessageType = MagmaMessageType.info;
+
+    constructor() {
+        this.data = enumToValueList(MagmaMessageType).map<Select2Option>(k => ({ value: k, label: `${k}` }));
+    }
 }

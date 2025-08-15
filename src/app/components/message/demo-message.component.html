@@ -1,11 +1,17 @@
 <h1>Message</h1>
 
+<h1>Unique block</h1>
 <div>
   <div class="s-3 s-12-l">
-    <h2>Option</h2>
+    <h3>Option</h3>
+    <div>
+      <mg-input class="s-12">
+        <mg-input-select [data]="data" [(ngModel)]="type" />
+      </mg-input>
+    </div>
   </div>
   <div class="s-6 s-12-l">
-    <mg-message type="error">
+    <mg-message [type]="type">
       <h1>Test</h1>
       <p>Test</p>
     </mg-message>
@@ -15,6 +21,7 @@
   </div>
 </div>
 
+<h1>Sub-block</h1>
 <div>
   <div class="s-3 s-12-l"></div>
   <div class="s-6 s-12-l">

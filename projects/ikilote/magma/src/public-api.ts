@@ -75,6 +75,7 @@ export * from './lib/utils/cookies';
 export * from './lib/utils/date';
 export * from './lib/utils/dom';
 export * from './lib/utils/email';
+export * from './lib/utils/enum';
 export * from './lib/utils/file';
 export * from './lib/utils/json';
 export * from './lib/utils/number';

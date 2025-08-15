@@ -27,7 +27,7 @@
     "@ikilote/json2html": "^0.10.0",
     "@ikilote/num-formatter": "^1.0.0",
     "autosize": "^6.0.1",
-    "bowser": "^2.11.0",
+    "bowser": "^2.12.0",
     "colorjs.io": "^0.5.2",
     "highlight.js": "11.11.1",
     "marked": "^15.0.12",

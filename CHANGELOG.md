@@ -2,6 +2,26 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.8.6 (2025-08-15)
+
+### ✅ New
+
+- **Message**:
+    - add component:
+        - simple
+        - sub-block
+- **Utils**:
+    - add for enum
+        - `enumToValueList()`
+        - `enumToKeyList()`
+        - `enumToKeyValue()`
+        - `enumToObject()`
+        - `enumToMap()`
+
+### 📦 Packages
+
+- Update **bowser**
+
 ## 0.8.5 (2025-08-10)
 
 ### ✅ New

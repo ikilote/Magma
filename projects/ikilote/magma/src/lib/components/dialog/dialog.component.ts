@@ -45,10 +45,12 @@ export class MagmaDialog {
     private index = idIndex++;
     _id = computed(() => this.id() || `dialog-${this.index}}`);
 
-    @HostListener('click')
-    onClick() {
+    @HostListener('click', ['$event'])
+    onClick(event: MouseEvent) {
         if (this.closeBackdrop()) {
             this.close();
+        } else {
+            event.stopPropagation();
         }
     }
 

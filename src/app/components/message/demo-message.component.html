@@ -50,3 +50,28 @@
     <code-tabs [code]="[{ type: 'html', code: codeHtmlSub }]"></code-tabs>
   </div>
 </div>
+
+<h1>Unique with grid</h1>
+<div>
+  <div class="s-3 s-12-l"></div>
+  <div class="s-6 s-12-l gap">
+    <mg-message [type]="type" class="s-12">
+      <h1>Test</h1>
+      <p>Test</p>
+    </mg-message>
+
+    <mg-message [type]="type" class="s-6">
+      <div>
+        <h1>Test div</h1>
+        <p>Test</p>
+      </div>
+    </mg-message>
+
+    <mg-message class="s-6">
+      <p>Test</p>
+    </mg-message>
+  </div>
+  <div class="s-3 s-12-l">
+    <code-tabs [code]="[{ type: 'html', code: codeHtmlGrid }]"></code-tabs>
+  </div>
+</div>

@@ -24,6 +24,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoMessageComponent {
     codeHtml = '';
     codeHtmlSub = '';
+    codeHtmlGrid = '';
 
     data: Select2Data = [];
     type: MagmaMessageType = MagmaMessageType.success;
@@ -35,6 +36,7 @@ export class DemoMessageComponent {
         ];
 
         this.codeUpdate();
+        this.codeUpdateGrid();
 
         this.codeHtmlSub = new Json2html({
             tag: 'mg-message',
@@ -42,10 +44,7 @@ export class DemoMessageComponent {
             body: [undefined, ...enumToValueList(MagmaMessageType)].map(value => ({
                 tag: 'mg-message-block',
                 attrs: { type: value },
-                body: [
-                    { tag: 'h1', body: 'Test', inline: true },
-                    { tag: 'p', body: 'Test', inline: true },
-                ],
+                body: [{ tag: 'p', body: `${value ?? 'no type'}`, inline: true }],
             })),
         }).toString();
     }
@@ -57,6 +56,47 @@ export class DemoMessageComponent {
             body: [
                 { tag: 'h1', body: 'Test', inline: true },
                 { tag: 'p', body: 'Test', inline: true },
+            ],
+        }).toString();
+    }
+
+    codeUpdateGrid() {
+        this.codeHtmlGrid = new Json2html({
+            tag: 'div',
+            attrs: { class: 's-12 gap' },
+            body: [
+                {
+                    tag: 'mg-message',
+                    attrs: { type: this.type || undefined, class: 's-12' },
+                    body: [
+                        { tag: 'h1', body: 'Test', inline: true },
+                        { tag: 'p', body: 'Test', inline: true },
+                    ],
+                },
+                { emptyLine: 1 },
+                {
+                    tag: 'mg-message',
+                    attrs: { type: this.type || undefined, class: 's-6' },
+                    body: [
+                        {
+                            tag: 'div',
+                            body: [
+                                { tag: 'h1', body: 'Test div', inline: true },
+                                { tag: 'p', body: 'Test', inline: true },
+                            ],
+                        },
+                    ],
+                },
+                {
+                    tag: 'mg-message',
+                    attrs: { class: 's-6' },
+                    body: [
+                        {
+                            tag: 'div',
+                            body: 'Test',
+                        },
+                    ],
+                },
             ],
         }).toString();
     }

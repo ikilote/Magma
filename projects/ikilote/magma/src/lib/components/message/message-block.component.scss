@@ -10,7 +10,6 @@
 
     &::before,
     &::after {
-        --rotate: -45deg;
         display: block;
         position: absolute;
         border-top-left-radius: calc(var(--message-radius) - var(--message-border-width));
@@ -23,6 +22,12 @@
         width: var(--message-marquee-size);
         height: var(--message-marquee-size);
         content: '';
+    }
+
+    &::before {
+        --rotate: -45deg;
+        top: 0;
+        left: 0;
     }
 
     &::after {

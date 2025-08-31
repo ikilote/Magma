@@ -99,7 +99,9 @@
 }
 
 .cursor {
+    position: absolute;
     cursor: pointer;
+    margin: -1px 0 0 -1px;
     outline: 2px solid black;
     border: 1px solid white;
     border-radius: 50%;

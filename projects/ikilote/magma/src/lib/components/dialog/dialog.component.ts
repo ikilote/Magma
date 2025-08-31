@@ -43,7 +43,7 @@ export class MagmaDialog {
 
     isOpen = signal(false);
     private index = idIndex++;
-    _id = computed(() => this.id() || `dialog-${this.index}}`);
+    protected computedId = computed(() => this.id() || `dialog-${this.index}}`);
 
     @HostListener('click', ['$event'])
     onClick(event: MouseEvent) {
@@ -63,7 +63,7 @@ export class MagmaDialog {
         this.onClose.emit();
     }
 
-    _propagationStop(event: Event) {
+    protected _propagationStop(event: Event) {
         event.stopPropagation();
         window.dispatchEvent(new CustomEvent('dialog-click', { detail: event }));
     }

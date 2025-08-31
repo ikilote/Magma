@@ -75,7 +75,8 @@
 .gradient {
     --margin: 10px;
     margin: var(--margin);
-    background: linear-gradient(to left, black, transparent),
+    background:
+        linear-gradient(to left, black, transparent),
         linear-gradient(hsl(calc(360 - var(--hue, 0)), 100%, 50%), hsl(calc(360 - var(--hue, 0)), 100%, 100%));
     width: calc(100% - var(--margin) * 2);
     height: calc(100% - var(--margin) * 2);
@@ -100,13 +101,10 @@
 .cursor {
     cursor: pointer;
     outline: 2px solid black;
+    border: 1px solid white;
     border-radius: 50%;
     width: var(--cursor-size);
     height: var(--cursor-size);
-
-    &.negative {
-        outline: 2px solid white;
-    }
 }
 
 .hsla,
@@ -130,7 +128,8 @@ input[type='range'] {
         hsl(270, 100%, 50%) 75%,
         hsl(360, 100%, 50%) 100%
     );
-    --alpha-background: linear-gradient(to bottom, black 0%, transparent 100%),
+    --alpha-background:
+        linear-gradient(to bottom, black 0%, transparent 100%),
         conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left / 5px 5px
             repeat;
 

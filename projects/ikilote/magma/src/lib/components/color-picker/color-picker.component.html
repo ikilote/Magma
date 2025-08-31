@@ -12,7 +12,6 @@
             (cdkDragEnded)="dragEnd($event)"
             [cdkDragFreeDragPosition]="pos"
             [cdkDragDisabled]="readonly()"
-            [class.negative]="rangeLight > 50"
             (click)="$event.stopPropagation()"
           ></div>
         </div>

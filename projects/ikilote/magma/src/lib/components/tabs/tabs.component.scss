@@ -5,9 +5,28 @@
 
     .tabs {
         display: flex;
-        gap: 10px;
+        position: relative;
+        align-items: stretch;
         margin-bottom: 5px;
-        border-bottom: 1px solid var(--tabs-line-color);
+        min-height: 42px;
+
+        nav {
+            display: flex;
+            flex: 1 1 auto;
+            gap: 10px;
+            border-bottom: 1px solid var(--tabs-line-color);
+            overflow-y: auto;
+        }
+
+        button {
+            display: none;
+            margin: 0 3px;
+            padding: 6px;
+
+            &.show {
+                display: block;
+            }
+        }
     }
 
     .content {

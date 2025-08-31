@@ -1,11 +1,13 @@
 import {
     AfterContentInit,
+    AfterViewChecked,
     ChangeDetectionStrategy,
     Component,
     ElementRef,
     contentChildren,
     input,
     output,
+    signal,
     viewChild,
 } from '@angular/core';
 
@@ -18,11 +20,13 @@ import { MagmaTabTitle } from './tab-title.component';
     styleUrls: ['./tabs.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MagmaTabs implements AfterContentInit {
-    // contentChildren
+export class MagmaTabs implements AfterContentInit, AfterViewChecked {
+    // content/view
 
     readonly titles = contentChildren(MagmaTabTitle);
     readonly content = contentChildren(MagmaTabContent);
+    readonly tablist = viewChild.required<ElementRef<HTMLElement>>('tablist');
+    readonly tabpanel = viewChild<ElementRef<HTMLDivElement>>('tabpanel');
 
     // input
 
@@ -32,7 +36,10 @@ export class MagmaTabs implements AfterContentInit {
 
     readonly tabChange = output<string>();
 
-    readonly tabpanel = viewChild<ElementRef<HTMLDivElement>>('tabpanel');
+    readonly prev = signal(false);
+    readonly next = signal(false);
+
+    updateInterval?: any;
 
     ngAfterContentInit(): void {
         if (this.titles()?.length) {
@@ -62,6 +69,33 @@ export class MagmaTabs implements AfterContentInit {
         }
     }
 
+    ngAfterViewChecked(): void {
+        const div = this.tablist().nativeElement;
+        const clientWidth = div.clientWidth;
+        const scrollWidth = div.scrollWidth;
+        const scrollLeft = div.scrollLeft;
+
+        if (clientWidth < scrollWidth) {
+            if (scrollLeft > 15 && !this.prev()) {
+                this.prev.set(true);
+            } else if (scrollLeft === 0 && this.prev()) {
+                this.prev.set(false);
+            }
+            if (scrollLeft + clientWidth < scrollWidth - 15 && !this.next()) {
+                this.next.set(true);
+            } else if (scrollLeft + clientWidth === scrollWidth && this.next()) {
+                this.next.set(false);
+            }
+        } else {
+            if (this.prev()) {
+                this.prev.set(false);
+            }
+            if (this.next()) {
+                this.next.set(false);
+            }
+        }
+    }
+
     update(id: string, emit: boolean = true) {
         this.titles()?.forEach(e => {
             if (e.id()) {
@@ -80,5 +114,17 @@ export class MagmaTabs implements AfterContentInit {
                 e.element.nativeElement.focus();
             }
         });
+    }
+
+    moveTabs(update: boolean, dist?: number) {
+        if (update && dist) {
+            this.tablist().nativeElement.scrollLeft += dist;
+            this.updateInterval = setInterval(() => {
+                this.tablist().nativeElement.scrollLeft += dist;
+            }, 50);
+        } else {
+            clearInterval(this.updateInterval);
+            this.updateInterval = undefined;
+        }
     }
 }

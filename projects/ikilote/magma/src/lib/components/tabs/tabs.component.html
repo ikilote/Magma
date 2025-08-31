@@ -1,5 +1,26 @@
 <div class="tabs" role="tablist">
-  <ng-content select="mg-tab-title"></ng-content>
+  <div><!-- not remove for align --></div>
+  <button
+    class="prev"
+    [class.show]="prev()"
+    (mousedown)="moveTabs(true, -10)"
+    (mouseup)="moveTabs(false)"
+    (mouseout)="moveTabs(false)"
+  >
+    «
+  </button>
+  <nav #tablist (scroll)="ngAfterViewChecked()">
+    <ng-content select="mg-tab-title"></ng-content>
+  </nav>
+  <button
+    class="next"
+    [class.show]="next()"
+    (mousedown)="moveTabs(true, 10)"
+    (mouseup)="moveTabs(false)"
+    (mouseout)="moveTabs(false)"
+  >
+    »
+  </button>
 </div>
 <div class="content" role="tabpanel" tabindex="-1" #tabpanel>
   <ng-content select="mg-tab-content"></ng-content>

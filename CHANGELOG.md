@@ -2,6 +2,22 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.8.7 (2025-08-31)
+
+### ✅ New
+
+- Tab: Add a button to scroll through tabs when they are too long
+
+### 🐞 Fix
+
+- Message: improve corner
+- Dialog: propagation when no backdrop click
+- Color picker: cursor color & position
+
+### 🎦 Demo
+
+- Message: improve page
+
 ## 0.8.6 (2025-08-15)
 
 ### ✅ New

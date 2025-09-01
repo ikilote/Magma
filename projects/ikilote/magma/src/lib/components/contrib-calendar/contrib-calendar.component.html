@@ -1,23 +1,17 @@
 <div class="day">
-  <div>L</div>
-  <div>M</div>
-  <div>M</div>
-  <div>J</div>
-  <div>V</div>
-  <div>S</div>
-  <div>D</div>
+  @for (day of days; track $index) {
+    <div>{{ day }}</div>
+  }
 </div>
 <div class="month">
-  <div>Sep</div>
-  <div style="--pos: 5">Oct</div>
-  <div style="--pos: 10">Nov</div>
-  <div style="--pos: 15">Dec</div>
-  <div style="--pos: 20">Jan</div>
+  @for (month of mouths; track $index) {
+    <div style="--pos: {{ month.pos }}">{{ month.name }}</div>
+  }
 </div>
 <div class="tile">
-  <div class="hide"></div>
-  <div class="hide"></div>
-  <div class="hide"></div>
+  @for (i of 3 | repeatFor; track $index) {
+    <div class="hide"></div>
+  }
   @for (i of 365 | repeatFor; track $index) {
     <div></div>
   }

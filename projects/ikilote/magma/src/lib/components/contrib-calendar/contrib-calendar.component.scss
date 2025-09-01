@@ -22,7 +22,7 @@
     grid-column: 2 / end;
 
     div {
-        grid-column: var(--pos);
+        grid-column: calc(var(--pos) + 1);
     }
 }
 

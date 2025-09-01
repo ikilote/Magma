@@ -9,4 +9,14 @@ import { RepeatForPipe } from '../../pipes/repeat-for.pipe';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [RepeatForPipe],
 })
-export class MagmaContribCalendar {}
+export class MagmaContribCalendar {
+    days = ['L', 'M', 'M', 'J', 'V', 'S', 'D'];
+
+    mouths = [
+        { pos: 0, name: 'Sep' },
+        { pos: 5, name: 'Oct' },
+        { pos: 10, name: 'Nov' },
+        { pos: 15, name: 'Dec' },
+        { pos: 20, name: 'Jan' },
+    ];
+}

@@ -37,6 +37,14 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'contrib-calendar',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/contrib-calendar/demo-contrib-calendar.component').then(
+                        m => m.DemoContribCalendarComponent,
+                    ),
+            },
+            {
                 path: 'dialog',
                 pathMatch: 'full',
                 loadComponent: () =>

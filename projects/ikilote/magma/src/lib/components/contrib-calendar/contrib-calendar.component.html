@@ -9,42 +9,16 @@
 </div>
 <div class="month">
   <div>Sep</div>
-  <div>Oct</div>
-  <div>Nov</div>
-  <div>Dec</div>
-  <div>Jan</div>
+  <div style="--pos: 5">Oct</div>
+  <div style="--pos: 10">Nov</div>
+  <div style="--pos: 15">Dec</div>
+  <div style="--pos: 20">Jan</div>
 </div>
 <div class="tile">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
+  <div class="hide"></div>
+  <div class="hide"></div>
+  <div class="hide"></div>
+  @for (i of 365 | repeatFor; track $index) {
+    <div></div>
+  }
 </div>

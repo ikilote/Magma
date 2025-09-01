@@ -20,6 +20,10 @@
     grid: subgrid / subgrid;
     grid-row: 1;
     grid-column: 2 / end;
+
+    div {
+        grid-column: var(--pos);
+    }
 }
 
 .tile {
@@ -30,6 +34,11 @@
     grid-column: 2 / end;
 
     div {
-        background-color: #332f2f;
+        border-radius: 2px;
+        background-color: var(--neutral8);
     }
+}
+
+.hide {
+    visibility: hidden;
 }

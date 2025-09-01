@@ -6,6 +6,7 @@
     [attr.aria-labelledby]="computedId() + '-title'"
     (click)="_propagationStop($event)"
     limitFocus
+    #div
   >
     @if (closeButton()) {
       <button class="close" (click)="close()" (window:keydown.esc)="close()" [title]="closeButtonTitle()">×</button>

@@ -1,12 +1,14 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    ElementRef,
     HostListener,
     booleanAttribute,
     computed,
     input,
     output,
     signal,
+    viewChild,
 } from '@angular/core';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
@@ -39,6 +41,10 @@ export class MagmaDialog {
 
     readonly onClose = output();
 
+    // viewChild
+
+    readonly divFocus = viewChild<ElementRef<HTMLDivElement>>('div');
+
     // host
 
     isOpen = signal(false);
@@ -50,6 +56,7 @@ export class MagmaDialog {
         if (this.closeBackdrop()) {
             this.close();
         } else {
+            this.divFocus()?.nativeElement.focus();
             event.stopPropagation();
         }
     }

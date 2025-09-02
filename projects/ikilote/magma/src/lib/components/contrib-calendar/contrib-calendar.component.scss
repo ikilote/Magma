@@ -12,6 +12,8 @@
     grid: subgrid / subgrid;
     grid-auto-flow: column;
     grid-row: 2 / span 7;
+    font-size: 12px;
+    line-height: 14px;
     text-align: center;
 }
 
@@ -36,6 +38,26 @@
     div {
         border-radius: 2px;
         background-color: var(--neutral8);
+
+        &.odd {
+            background-color: var(--neutral9);
+        }
+        &.lvl1 {
+            background-color: var(--success7);
+        }
+        &.lvl2 {
+            background-color: var(--success6);
+        }
+        &.lvl3 {
+            background-color: var(--success5);
+        }
+        &.lvl4 {
+            background-color: var(--success4);
+        }
+
+        &:first-child {
+            grid-row: var(--first-pos, 1);
+        }
     }
 }
 

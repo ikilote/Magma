@@ -49,6 +49,7 @@
           <mg-input-radio formControlName="type" value="radio">radio</mg-input-radio>
           <mg-input-radio formControlName="type" value="select">select</mg-input-radio>
           <mg-input-radio formControlName="type" value="color">color</mg-input-radio>
+          <mg-input-radio formControlName="type" value="date">date</mg-input-radio>
         </mg-input>
         <mg-input class="s-12">
           <mg-input-label>Type of access value</mg-input-label>
@@ -203,6 +204,7 @@
             <mg-input-checkbox formControlName="eye" mode="toggle"></mg-input-checkbox>
           </mg-input>
         }
+
         @if (
           formGenerator.value.type === 'number' ||
           formGenerator.value.type === 'text' ||
@@ -313,7 +315,7 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [datalist]="formGenerator.value.datalist ? datalistText : undefined"
-            ></mg-input-text>
+            />
           }
           @case ('textarea') {
             <mg-input-textarea
@@ -334,6 +336,15 @@
                 <mg-input-textarea-desc>{{ formGenerator.value.textareaDesc }}</mg-input-textarea-desc>
               }
             </mg-input-textarea>
+          }
+          @case ('date') {
+            <mg-input-date
+              [(ngModel)]="valueDate"
+              (ngModelChange)="codeGeneration()"
+              [maxlength]="formGenerator.value.maxLength ?? null"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
+            />
           }
           @case ('password') {
             <mg-input-password
@@ -504,6 +515,8 @@
           {{ valuePassword | json }}
         } @else if (formGenerator.value.type === 'range') {
           {{ valueRange | json }}
+        } @else if (formGenerator.value.type === 'date') {
+          {{ valueDate | json }}
         }
       </code>
     </p>

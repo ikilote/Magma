@@ -96,10 +96,17 @@ ul {
                 background: var(--neutral9);
             }
 
-            &.new::after {
-                content: ' new';
-                color: var(--success5);
+            &::after {
+                margin-left: 5px;
                 font-variant-position: super;
+            }
+            &.new::after {
+                content: 'new';
+                color: var(--success5);
+            }
+            &.update::after {
+                content: 'update';
+                color: var(--warn5);
             }
         }
 

@@ -8,12 +8,13 @@ export const menu = [
             { routerLink: '/component/block', label: 'Block' },
             { routerLink: '/component/color-picker', label: 'Color picker' },
             { routerLink: '/component/context-menu', label: 'Context menu' },
+            { routerLink: '/component/contrib-calendar', label: 'Contrib calendar', status: 'new' },
             { routerLink: '/component/dialog', label: 'Dialog' },
             { routerLink: '/component/info-messages', label: 'Info-messages' },
             {
                 groupName: 'Inputs',
                 items: [
-                    { routerLink: '/component/input/generator', label: 'Generator' },
+                    { routerLink: '/component/input/generator', label: 'Generator', status: 'update' },
                     { routerLink: '/component/input/validators', label: 'Validators' },
                     { routerLink: '/component/input/test', label: 'Tests' },
                 ],

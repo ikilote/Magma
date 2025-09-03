@@ -312,6 +312,7 @@ body {
 
     /* MARK: contrib-calendar */
     --contrib-calendar-day-font-size: 12px;
+    --contrib-calendar-day-background: var(--neutralA);
     --contrib-calendar-month-font-size: 12px;
     --contrib-calendar-tile-size: 15px;
     --contrib-calendar-tile-color-even: var(--neutral9);

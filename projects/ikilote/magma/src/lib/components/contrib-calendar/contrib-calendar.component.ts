@@ -14,6 +14,9 @@ export type ContribCalendar<date = string | Date> = ContribCalendarDay<date>[];
     styleUrls: ['./contrib-calendar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [DatePipe],
+    host: {
+        '[style.--size]': 'size()',
+    },
 })
 export class MagmaContribCalendar {
     lang = input<undefined | string>('en');
@@ -51,6 +54,10 @@ export class MagmaContribCalendar {
 
     protected mouths = computed(() => {
         return this.listOfMonths(this.sortedCalendar());
+    });
+
+    protected size = computed(() => {
+        return this.numberWeek(this.sortedCalendar());
     });
 
     private createListDates(map: ContribCalendar<Date>) {
@@ -120,5 +127,20 @@ export class MagmaContribCalendar {
         }
 
         return months;
+    }
+
+    private numberWeek(map: ContribCalendar<Date>) {
+        // first Monday
+
+        const firstMonday = new Date(map[0].date);
+        const day = (firstMonday.getUTCDay() || 7) - 1;
+        if (day) {
+            firstMonday.setUTCDate(firstMonday.getUTCDate() - day);
+        }
+
+        // number of weeks
+
+        const diffTime = map[map.length - 1].date.getTime() - firstMonday.getTime();
+        return Math.ceil(diffTime / (7 * 24 * 60 * 60 * 1000));
     }
 }

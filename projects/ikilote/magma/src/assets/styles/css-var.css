@@ -310,6 +310,17 @@ body {
     /* MARK: loader-tile */
     --loading-item-color: var(--primary8);
 
+    /* MARK: contrib-calendar */
+    --contrib-calendar-day-font-size: 12px;
+    --contrib-calendar-month-font-size: 12px;
+    --contrib-calendar-tile-size: 15px;
+    --contrib-calendar-tile-color-even: var(--neutral9);
+    --contrib-calendar-tile-color-odd: var(--neutral8);
+    --contrib-calendar-tile-color-lvl1: var(--success7);
+    --contrib-calendar-tile-color-lvl2: var(--success6);
+    --contrib-calendar-tile-color-lvl3: var(--success5);
+    --contrib-calendar-tile-color-lvl4: var(--success4);
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--input-focus-border-color);

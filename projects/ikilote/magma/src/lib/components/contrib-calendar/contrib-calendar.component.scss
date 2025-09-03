@@ -1,10 +1,11 @@
 :host {
     display: grid;
-    grid-template-rows: repeat(8, 15px);
-    grid-template-columns: repeat(auto-fill, 15px);
+    grid-template-rows: repeat(8, var(--contrib-calendar-tile-size));
+    grid-template-columns: repeat(auto-fill, var(--contrib-calendar-tile-size));
     grid-auto-flow: column;
     gap: 5px;
-    width: 100%;
+    width: auto;
+    overflow: auto;
 }
 
 .day {
@@ -12,8 +13,8 @@
     grid: subgrid / subgrid;
     grid-auto-flow: column;
     grid-row: 2 / span 7;
-    font-size: 12px;
-    line-height: 14px;
+    font-size: var(--contrib-calendar-day-font-size);
+    line-height: calc(var(--contrib-calendar-day-font-size) + 2px);
     text-align: center;
 }
 
@@ -25,8 +26,8 @@
 
     div {
         grid-column: calc(var(--pos) + 1);
-        font-size: 12px;
-        line-height: 14px;
+        font-size: var(--contrib-calendar-month-font-size);
+        line-height: calc(var(--contrib-calendar-month-font-size) + 2px);
         white-space: nowrap;
     }
 }
@@ -40,30 +41,27 @@
 
     div {
         border-radius: 2px;
-        background-color: var(--neutral8);
+        background-color: var(--contrib-calendar-tile-color-even);
+        width: var(--contrib-calendar-tile-size);
 
         &.odd {
-            background-color: var(--neutral9);
+            background-color: var(--contrib-calendar-tile-color-odd);
         }
         &.lvl1 {
-            background-color: var(--success7);
+            background-color: var(--contrib-calendar-tile-color-lvl1);
         }
         &.lvl2 {
-            background-color: var(--success6);
+            background-color: var(--contrib-calendar-tile-color-lvl2);
         }
         &.lvl3 {
-            background-color: var(--success5);
+            background-color: var(--contrib-calendar-tile-color-lvl3);
         }
         &.lvl4 {
-            background-color: var(--success4);
+            background-color: var(--contrib-calendar-tile-color-lvl4);
         }
 
         &:first-child {
             grid-row: var(--first-pos, 1);
         }
     }
-}
-
-.hide {
-    visibility: hidden;
 }

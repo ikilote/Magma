@@ -1,16 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
 import { Select2Data } from 'ng-select2-component';
 
 import {
-    ContribCalendar,
     FormBuilderExtended,
     MagmaContribCalendar,
     MagmaInput,
+    MagmaInputDate,
     MagmaInputElement,
+    MagmaInputNumber,
     MagmaInputSelect,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -20,16 +21,19 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-contrib-calendar.component.html',
     styleUrls: ['./demo-contrib-calendar.component.scss'],
     imports: [
+        ReactiveFormsModule,
+        CodeTabsComponent,
         MagmaContribCalendar,
         MagmaInput,
         MagmaInputSelect,
-        CodeTabsComponent,
-        ReactiveFormsModule,
         MagmaInputElement,
+        MagmaInputNumber,
+        MagmaInputDate,
     ],
 })
 export class DemoContribCalendarComponent {
-    readonly fb = inject(FormBuilderExtended);
+    private readonly fbe = inject(FormBuilderExtended);
+    private readonly fb = inject(FormBuilder);
 
     langues: Select2Data = [
         { value: '', label: '(empty)' },
@@ -57,27 +61,39 @@ export class DemoContribCalendarComponent {
         { value: 'id', label: 'Indonesian' },
     ];
 
-    calendar: ContribCalendar = [
-        { date: '2024-12-12', value: 1 },
-        { date: '2025-03-10', value: 15 },
-        { date: '2025-08-14', value: 6 },
-    ];
-
     ctrlForm: FormGroup<{
         lang: FormControl<string>;
     }>;
+    formArray: FormGroup;
 
     codeHtml = '';
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fbe.groupWithErrorNonNullable({
             lang: { default: '' },
         });
 
-        this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
             this.codeGeneration();
         });
+
+        // list
+
+        const initialItems = [
+            { date: '2024-12-12', value: 1 },
+            { date: '2025-03-10', value: 15 },
+            { date: '2025-08-14', value: 6 },
+        ];
+
+        this.formArray = this.fb.group({
+            items: this.fb.array(initialItems.map(item => this.createItem(item))),
+        });
+
+        this.formArray.valueChanges.subscribe(() => {
+            this.codeGeneration();
+        });
+
+        this.codeGeneration();
     }
 
     codeGeneration() {
@@ -95,8 +111,27 @@ export class DemoContribCalendarComponent {
             attrs['lang'] = this.ctrlForm.value.lang;
         }
 
-        attrs['calendar'] = new Json2Js(this.calendar).toString().replaceAll('T00:00:00.000Z', '');
+        attrs['calendar'] = new Json2Js(this.items.value).toString().replaceAll('T00:00:00.000Z', '');
 
         this.codeHtml = new Json2html(json).toString();
+    }
+
+    createItem(item?: { date: string; value: number }): FormGroup {
+        return this.fb.group({
+            date: [item?.date || '', [Validators.required]],
+            value: [item?.value || '', [Validators.required]],
+        });
+    }
+
+    get items(): FormArray {
+        return this.formArray.get('items') as FormArray;
+    }
+
+    addItem(): void {
+        this.items.push(this.createItem());
+    }
+
+    removeItem(index: number): void {
+        this.items.removeAt(index);
     }
 }

@@ -104,7 +104,6 @@ export class MagmaContribCalendar {
             // Calculate the number of weeks between the 1st day of the first month and the 1st day of the current month
             const diffTime = firstDayOfCurrentMonth.getTime() - firstMonday.getTime();
             const pos = diffTime > 0 ? Math.floor(diffTime / (7 * 24 * 60 * 60 * 1000)) : 0; // + 1 for grid-column
-            console.log(diffTime, diffTime / (7 * 24 * 60 * 60 * 1000));
 
             months.push({
                 name: firstDayOfCurrentMonth.toLocaleString(this.lang() || 'en', { month: 'short' }),

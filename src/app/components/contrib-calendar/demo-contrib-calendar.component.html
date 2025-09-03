@@ -1,20 +1,47 @@
 <h1>Contrib-calendar</h1>
 
-<form [formGroup]="ctrlForm">
+<form>
   <div class="s-4 s-12-l">
     <h2>Options</h2>
 
-    <div>
+    <div [formGroup]="ctrlForm">
       <mg-input class="s-12">
         <mg-input-label>Language</mg-input-label>
         <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
         <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
       </mg-input>
     </div>
+
+    <h2>Calendar</h2>
+
+    @if (formArray) {
+      <div [formGroup]="formArray">
+        <div formArrayName="items">
+          @for (item of items.controls; track $index; let i = $index) {
+            <div [formGroupName]="i">
+              <mg-input class="s-5">
+                <mg-input-label>Date</mg-input-label>
+                <mg-input-date formControlName="date" step="0" />
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>Value</mg-input-label>
+                <mg-input-number formControlName="value" step="0" />
+              </mg-input>
+              <div class="s-3">
+                <button type="button" (click)="removeItem(i)">Remove</button>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="s-12 a-l">
+          <button type="button" (click)="addItem()">Add Row</button>
+        </div>
+      </div>
+    }
   </div>
   <div class="s-8 s-12-l gap">
     <div class="s-12">
-      <mg-contrib-calendar [calendar]="calendar" [lang]="ctrlForm.value.lang" />
+      <mg-contrib-calendar [calendar]="items.value" [lang]="ctrlForm.value.lang" />
     </div>
 
     <div class="s-12">

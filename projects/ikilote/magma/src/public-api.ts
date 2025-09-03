@@ -14,6 +14,7 @@ export * from './lib/components/info-messages/info-message.component';
 export * from './lib/components/info-messages/info-messages.component';
 export * from './lib/components/input/input-checkbox.component';
 export * from './lib/components/input/input-color.component';
+export * from './lib/components/input/input-date.component';
 export * from './lib/components/input/input-element.component';
 export * from './lib/components/input/input-number.component';
 export * from './lib/components/input/input-password.component';

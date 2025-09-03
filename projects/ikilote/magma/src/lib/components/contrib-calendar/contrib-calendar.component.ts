@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 
 export interface ContribCalendarDay<date = string | Date> {
@@ -12,6 +13,7 @@ export type ContribCalendar<date = string | Date> = ContribCalendarDay<date>[];
     templateUrl: './contrib-calendar.component.html',
     styleUrls: ['./contrib-calendar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [DatePipe],
 })
 export class MagmaContribCalendar {
     lang = input<undefined | string>('en');

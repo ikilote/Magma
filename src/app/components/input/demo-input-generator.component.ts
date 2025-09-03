@@ -358,6 +358,9 @@ export class DemoInputGeneratorComponent {
             case 'range':
                 imports.push(`MagmaInputRange`);
                 break;
+            case 'date':
+                imports.push(`MagmaInputDate`);
+                break;
             case 'select':
                 imports.push(`MagmaInputSelect`);
                 data += `data: Select2Data = [

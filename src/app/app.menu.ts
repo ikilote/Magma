@@ -14,7 +14,7 @@ export const menu = [
             {
                 groupName: 'Inputs',
                 items: [
-                    { routerLink: '/component/input/generator', label: 'Generator' },
+                    { routerLink: '/component/input/generator', label: 'Generator', status: 'update' },
                     { routerLink: '/component/input/validators', label: 'Validators' },
                     { routerLink: '/component/input/test', label: 'Tests' },
                 ],

@@ -11,6 +11,7 @@ import {
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputColor,
+    MagmaInputDate,
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputPassword,
@@ -33,6 +34,7 @@ import { palette, texts } from '../color-picker/demo-color-picker.component';
         MagmaInputTextarea,
         MagmaInputColor,
         MagmaInputRadio,
+        MagmaInputDate,
         MagmaInputElement,
         MagmaInputCheckbox,
         MagmaInputPassword,
@@ -63,7 +65,7 @@ export class DemoInputGeneratorComponent {
         label: FormControl<string>;
         desc: FormControl<string>;
         type: FormControl<
-            'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select' | 'range'
+            'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select' | 'range' | 'date'
         >;
         access: FormControl<'none' | 'value' | 'ngModel' | 'formControlName'>;
         prefix: FormControl<string>;
@@ -129,6 +131,7 @@ export class DemoInputGeneratorComponent {
     valueText = 'Test';
     valueTextarea = 'Test';
     valuePassword = '';
+    valueDate = '2012-12-12';
     valueNumber = 20;
     valueRange = 20;
     valueCheckbox = ['value2'];

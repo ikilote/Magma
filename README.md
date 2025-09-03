@@ -15,11 +15,13 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Context-menu
     - List in options
     - Circle in options
+- Contrib calendar
 - Dialog
 - Info-message
 - Input
     - Checkbox
     - Color
+    - Date
     - Number
     - Password
     - Radio
@@ -30,6 +32,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Light-dark
 - Loader
 - Loader-block
+- Message
 - Paginate
 - Progress
 - Spinner
@@ -70,6 +73,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Date
 - DOM
 - Email
+- Enum
 - File
 - Json
 - Number

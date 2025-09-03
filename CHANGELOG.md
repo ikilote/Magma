@@ -2,6 +2,22 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.9.0 (2025-09-04)
+
+### ✅ New
+
+- New components:
+    - Add `contrib-calendar` component
+    - Input : add `input-date`
+
+### 🐞 Fix
+
+- Dialog: fix focus when clicking outside the dialog
+
+### 🎦 Demo
+
+- Contrib-calendar: ad page
+
 ## 0.8.7 (2025-08-31)
 
 ### ✅ New

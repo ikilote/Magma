@@ -14,14 +14,14 @@ export type ContribCalendar<date = string | Date> = ContribCalendarDay<date>[];
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaContribCalendar {
-    lang = input('en');
+    lang = input<undefined | string>('en');
 
     calendar = input.required<ContribCalendar>();
 
     protected computedDays = computed(() =>
         Array.from({ length: 7 }, (_, i) => {
             const date = new Date(2024, 0, i + 1);
-            return date.toLocaleString(this.lang(), { weekday: 'narrow' });
+            return date.toLocaleString(this.lang() || 'en', { weekday: 'narrow' });
         }),
     );
 
@@ -107,7 +107,7 @@ export class MagmaContribCalendar {
             console.log(diffTime, diffTime / (7 * 24 * 60 * 60 * 1000));
 
             months.push({
-                name: firstDayOfCurrentMonth.toLocaleString(this.lang(), { month: 'short' }),
+                name: firstDayOfCurrentMonth.toLocaleString(this.lang() || 'en', { month: 'short' }),
                 pos,
             });
         }
@@ -117,8 +117,6 @@ export class MagmaContribCalendar {
         if (months.length > 1 && months[0].pos === months[1].pos) {
             months.shift();
         }
-
-        console.log(months);
 
         return months;
     }

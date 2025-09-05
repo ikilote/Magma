@@ -2,15 +2,29 @@
     position: relative;
     width: 100%;
 
-    &::before {
+    input {
+        color: transparent;
+        text-align: right;
+    }
+
+    &::after {
         display: block;
         position: absolute;
         top: 6px;
         right: 4px;
-        z-index: 2;
         pointer-events: none;
         content: attr(data-number);
         color: var(--text-color);
+    }
+
+    &:focus-within {
+        &::after {
+            color: transparent;
+        }
+
+        input {
+            color: var(--text-color);
+        }
     }
 
     &.show-arrows::before {
@@ -39,19 +53,6 @@
     :host.show-arrows::before {
         right: 4px;
     }
-}
-
-input {
-    color: transparent;
-    text-align: right;
-
-    &:focus {
-        color: var(--text-color);
-    }
-}
-
-:host:has(> input:focus)::before {
-    color: transparent;
 }
 
 :host(:not(.show-arrows)) {

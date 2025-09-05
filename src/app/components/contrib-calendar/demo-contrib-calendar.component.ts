@@ -63,6 +63,8 @@ export class DemoContribCalendarComponent {
 
     ctrlForm: FormGroup<{
         lang: FormControl<string>;
+        min: FormControl<string>;
+        max: FormControl<string>;
     }>;
     formArray: FormGroup;
 
@@ -72,6 +74,8 @@ export class DemoContribCalendarComponent {
     constructor() {
         this.ctrlForm = this.fbe.groupWithErrorNonNullable({
             lang: { default: '' },
+            min: { default: '' },
+            max: { default: '' },
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -110,6 +114,14 @@ export class DemoContribCalendarComponent {
 
         if (this.ctrlForm.value.lang) {
             attrs['lang'] = this.ctrlForm.value.lang;
+        }
+
+        if (this.ctrlForm.value.min) {
+            attrs['min'] = this.ctrlForm.value.min;
+        }
+
+        if (this.ctrlForm.value.max) {
+            attrs['max'] = this.ctrlForm.value.max;
         }
 
         attrs['[calendar]'] = 'calendar';

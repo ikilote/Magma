@@ -10,6 +10,14 @@
         <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
         <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
       </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>Min</mg-input-label>
+        <mg-input-date formControlName="min" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>Max</mg-input-label>
+        <mg-input-date formControlName="max" />
+      </mg-input>
     </form>
 
     <h2>Calendar</h2>
@@ -41,7 +49,12 @@
   </div>
   <div class="s-8 s-12-l gap">
     <div class="s-12">
-      <mg-contrib-calendar [calendar]="items.value" [lang]="ctrlForm.value.lang" />
+      <mg-contrib-calendar
+        [calendar]="items.value"
+        [lang]="ctrlForm.value.lang"
+        [min]="ctrlForm.value.min"
+        [max]="ctrlForm.value.max"
+      />
     </div>
 
     <div class="s-12">

@@ -21,6 +21,10 @@ export type ContribCalendar<date = string | Date> = ContribCalendarDay<date>[];
 export class MagmaContribCalendar {
     lang = input<string | undefined>();
 
+    min = input<string | number | Date | undefined>();
+
+    max = input<string | number | Date | undefined>();
+
     calendar = input.required<ContribCalendar>();
 
     protected computedDays = computed(() =>
@@ -48,7 +52,7 @@ export class MagmaContribCalendar {
     });
 
     protected firstPos = computed(() => {
-        let day = this.sortedCalendar()[0].date.getDay();
+        let day = this.minDate(this.sortedCalendar()).getDay();
         return day === 0 ? 7 : day;
     });
 
@@ -61,8 +65,8 @@ export class MagmaContribCalendar {
     });
 
     private createListDates(map: ContribCalendar<Date>) {
-        const minDate = map[0].date;
-        const maxDate = map[map.length - 1].date;
+        const minDate = this.minDate(map);
+        const maxDate = this.maxDate(map);
 
         const allDates: Date[] = [];
         for (let d = new Date(minDate); d <= maxDate; d.setUTCDate(d.getUTCDate() + 1)) {
@@ -87,7 +91,7 @@ export class MagmaContribCalendar {
     private listOfMonths(map: ContribCalendar<Date>) {
         // first Monday
 
-        const firstMonday = new Date(map[0].date);
+        const firstMonday = this.minDate(map);
         const day = (firstMonday.getUTCDay() || 7) - 1;
         if (day) {
             firstMonday.setUTCDate(firstMonday.getUTCDate() - day);
@@ -95,12 +99,12 @@ export class MagmaContribCalendar {
 
         // first mouth
 
-        const firstDayOfMonth = new Date(map[0].date);
+        const firstDayOfMonth = this.minDate(map);
         firstDayOfMonth.setUTCDate(1);
 
         // max date
 
-        const maxDate = map[map.length - 1].date;
+        const maxDate = this.maxDate(map);
 
         const months: { name: string; pos: number }[] = [];
 
@@ -132,7 +136,7 @@ export class MagmaContribCalendar {
     private numberWeek(map: ContribCalendar<Date>) {
         // first Monday
 
-        const firstMonday = new Date(map[0].date);
+        const firstMonday = this.minDate(map);
         const day = (firstMonday.getUTCDay() || 7) - 1;
         if (day) {
             firstMonday.setUTCDate(firstMonday.getUTCDate() - day);
@@ -140,7 +144,15 @@ export class MagmaContribCalendar {
 
         // number of weeks
 
-        const diffTime = map[map.length - 1].date.getTime() - firstMonday.getTime();
+        const diffTime = this.maxDate(map).getTime() - firstMonday.getTime();
         return Math.ceil(diffTime / (7 * 24 * 60 * 60 * 1000));
+    }
+
+    private minDate(map: ContribCalendar<Date>): Date {
+        return (this.min() ? new Date(this.min()!) : null) || new Date(map[0].date);
+    }
+
+    private maxDate(map: ContribCalendar<Date>): Date {
+        return (this.max() ? new Date(this.max()!) : null) || new Date(map[map.length - 1].date);
     }
 }

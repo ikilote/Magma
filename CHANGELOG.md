@@ -2,37 +2,59 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.9.1 (2025-09-06)
+
+### ✅ New
+
+- **Contrib-calendar**:
+    - no default `lang` in signal
+    - add `min`/`max` parameters
+- **Tabs**:
+    - `tab-content`: `id` required
+
+### 🐞 Fix
+
+- **Input**:
+    - **number**: remove `z-index`
+    - **select**: improve alignment with affixes or not
+
+### 🎦 Demo
+
+- **Menu**: fix menu in mobile
+- **Input**: page merge
+- Add `import` and `ts` code for all components
+
 ## 0.9.0 (2025-09-04)
 
 ### ✅ New
 
-- New components:
+- **New components**:
     - Add `contrib-calendar` component
     - Input : add `input-date`
 
 ### 🐞 Fix
 
-- Dialog: fix focus when clicking outside the dialog
+- **Dialog**: fix focus when clicking outside the dialog
 
 ### 🎦 Demo
 
-- Contrib-calendar: add page
+- **Contrib-calendar**: add page
 
 ## 0.8.7 (2025-08-31)
 
 ### ✅ New
 
-- Tab: Add a button to scroll through tabs when they are too long
+- **Tab**: Add a button to scroll through tabs when they are too long
 
 ### 🐞 Fix
 
-- Message: improve corner
-- Dialog: propagation when no backdrop click
-- Color picker: cursor color & position
+- **Message**: improve corner
+- **Dialog**: propagation when no backdrop click
+- **Color picker**: cursor color & position
 
 ### 🎦 Demo
 
-- Message: improve page
+- **Message**: improve page
 
 ## 0.8.6 (2025-08-15)
 

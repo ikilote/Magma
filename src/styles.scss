@@ -26,3 +26,11 @@ code > pre {
     border-radius: 6px;
     overflow: auto;
 }
+
+sup.new {
+    color: var(--success5);
+}
+
+sup.update {
+    color: var(--warn5);
+}

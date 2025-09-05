@@ -52,34 +52,8 @@ export const routes: Routes = [
             },
             {
                 path: 'input',
-                children: [
-                    {
-                        path: 'generator',
-                        pathMatch: 'full',
-                        loadComponent: () =>
-                            import('./components/input/demo-input-generator.component').then(
-                                m => m.DemoInputGeneratorComponent,
-                            ),
-                    },
-                    {
-                        path: 'validators',
-                        pathMatch: 'full',
-                        loadComponent: () =>
-                            import('./components/input/demo-input-error.component').then(
-                                m => m.DemoInputErrorComponent,
-                            ),
-                    },
-                    {
-                        path: 'test',
-                        pathMatch: 'full',
-                        loadComponent: () =>
-                            import('./components/input/demo-input.component').then(m => m.DemoInputComponent),
-                    },
-                    {
-                        path: '**',
-                        redirectTo: 'generator',
-                    },
-                ],
+                pathMatch: 'full',
+                loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),
             },
             {
                 path: 'info-messages',

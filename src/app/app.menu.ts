@@ -11,14 +11,7 @@ export const menu = [
             { routerLink: '/component/contrib-calendar', label: 'Contrib calendar', status: 'new' },
             { routerLink: '/component/dialog', label: 'Dialog' },
             { routerLink: '/component/info-messages', label: 'Info-messages' },
-            {
-                groupName: 'Inputs',
-                items: [
-                    { routerLink: '/component/input/generator', label: 'Generator', status: 'update' },
-                    { routerLink: '/component/input/validators', label: 'Validators' },
-                    { routerLink: '/component/input/test', label: 'Tests' },
-                ],
-            },
+            { routerLink: '/component/input', label: 'Inputs', status: 'update' },
             { routerLink: '/component/light-dark', label: 'Light-dark' },
             { routerLink: '/component/loader', label: 'Loader' },
             { routerLink: '/component/loader-block', label: 'Loader-block' },

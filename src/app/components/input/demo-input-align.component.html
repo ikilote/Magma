@@ -1,0 +1,277 @@
+<h1>Input visual tests</h1>
+
+<p>This page is here to test the alignment of group behaviors.</p>
+
+<section>
+  <h2>Alignment test</h2>
+
+  <!-- Text / Textarea-->
+  <h3>Text / Textarea</h3>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-text value="test"></mg-input-text>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label ({{ value }})</mg-input-label>
+      <mg-input-text [(ngModel)]="value"></mg-input-text>
+    </mg-input>
+    Test
+    <mg-input [formGroup]="formText">
+      <mg-input-text formControlName="test"></mg-input-text>
+      <mg-input-desc
+        >Desc<br />
+        {{ formText.value.test }}</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-prefix>Au</mg-input-prefix>
+      <mg-input-text value="test"></mg-input-text>
+      <mg-input-suffix>mois</mg-input-suffix>
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-textarea value="test" autosize></mg-input-textarea>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+  </div>
+
+  <!-- Color -->
+  <h3>Color</h3>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-color value="red"></mg-input-color>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label ({{ color }})</mg-input-label>
+      <mg-input-color [(ngModel)]="color"></mg-input-color>
+    </mg-input>
+    Test
+    <mg-input [formGroup]="formColor">
+      <mg-input-color formControlName="test"></mg-input-color>
+      <mg-input-desc
+        >Desc<br />
+        {{ formColor.value.test }}</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-color value="red"></mg-input-color>
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label (alpha)</mg-input-label>
+      <mg-input-color value="#f005" alpha></mg-input-color>
+    </mg-input>
+  </div>
+  <!-- Radio / Checkbox -->
+  <h3>Radio / Checkbox</h3>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-text value="test"></mg-input-text>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-radio value="red">red</mg-input-radio>
+      <mg-input-radio value="blue" checked>blue</mg-input-radio>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+
+    Test
+
+    <mg-input>
+      <mg-input-label>Label ({{ radio }})</mg-input-label>
+      <mg-input-radio [(ngModel)]="radio" value="red">red</mg-input-radio>
+      <mg-input-radio [(ngModel)]="radio" value="blue">blue</mg-input-radio>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+
+    Test
+
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-checkbox value="red">red</mg-input-checkbox>
+      <mg-input-checkbox value="blue" checked>blue</mg-input-checkbox>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+
+    Test
+
+    <mg-input>
+      <mg-input-label>Label ({{ checkboxOne }})</mg-input-label>
+      <mg-input-checkbox [(ngModel)]="checkboxOne">red</mg-input-checkbox>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+
+    Test
+
+    <mg-input>
+      <mg-input-label>Label ({{ checkbox }})</mg-input-label>
+      <mg-input-checkbox [(ngModel)]="checkbox" value="red">red</mg-input-checkbox>
+      <mg-input-checkbox [(ngModel)]="checkbox" value="blue">blue</mg-input-checkbox>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+
+    <mg-input>
+      <mg-input-label>Toggle</mg-input-label>
+      <mg-input-checkbox value="red" mode="toggle">red</mg-input-checkbox>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+  </div>
+  <!-- Number -->
+  <h3>Number</h3>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-number value="153.15"></mg-input-number>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label ({{ number }})</mg-input-label>
+      <mg-input-number [(ngModel)]="number"></mg-input-number>
+    </mg-input>
+    Test
+    <mg-input [formGroup]="formNumber">
+      <mg-input-number formControlName="test"></mg-input-number>
+      <mg-input-desc
+        >Desc<br />
+        {{ formNumber.value.test }}</mg-input-desc
+      >
+    </mg-input>
+    Test
+  </div>
+
+  <!-- Select -->
+  <h3>Select</h3>
+  <div>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-select [data]="data" value="test2"></mg-input-select>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label ({{ select1 }})</mg-input-label>
+      <mg-input-select [data]="data" [(ngModel)]="select1"></mg-input-select>
+    </mg-input>
+    Test
+    <mg-input [formGroup]="formSelect">
+      <mg-input-select formControlName="test" [data]="data"></mg-input-select>
+      <mg-input-desc
+        >Desc<br />
+        {{ formSelect.value.test }}</mg-input-desc
+      >
+    </mg-input>
+    Test
+    <mg-input>
+      <mg-input-label>Label</mg-input-label>
+      <mg-input-select [data]="data" value="test2"></mg-input-select>
+      <mg-input-prefix>Au</mg-input-prefix>
+      <mg-input-suffix>mois</mg-input-suffix>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+  </div>
+
+  <!-- Form -->
+  <h2>Form test</h2>
+  <form [formGroup]="formTest">
+    <mg-input class="s-3">
+      <mg-input-text formControlName="text"></mg-input-text>
+      <mg-input-desc> {{ formTest.value.text }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-password formControlName="password"></mg-input-password>
+      <mg-input-desc> {{ formTest.value.password }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-textarea formControlName="textarea"></mg-input-textarea>
+      <mg-input-desc> {{ formTest.value.textarea }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-radio formControlName="radio" value="value1"></mg-input-radio>
+      <mg-input-radio formControlName="radio" value="value2"></mg-input-radio>
+      <mg-input-radio formControlName="radio" value="value3"></mg-input-radio>
+      <mg-input-desc> {{ formTest.value.radio }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-checkbox formControlName="checkbox"></mg-input-checkbox>
+      <mg-input-desc> {{ formTest.value.checkbox }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-checkbox formControlName="checkboxMultiple" value="value1"></mg-input-checkbox>
+      <mg-input-checkbox formControlName="checkboxMultiple" value="value2"></mg-input-checkbox>
+      <mg-input-checkbox formControlName="checkboxMultiple" value="value3"></mg-input-checkbox>
+      <mg-input-desc> {{ formTest.value.checkboxMultiple }}</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-3">
+      <mg-input-select formControlName="select" [data]="data2"></mg-input-select>
+      <mg-input-desc> {{ formTest.value.select }}</mg-input-desc> </mg-input
+    ><mg-input class="s-3">
+      <mg-input-color formControlName="color"></mg-input-color>
+      <mg-input-desc> {{ formTest.value.color }}</mg-input-desc>
+    </mg-input>
+  </form>
+  <div>
+    <button (click)="validate()">validate</button>
+    <button (click)="clear()">clear</button>
+    <button (click)="set()">setValue</button>
+  </div>
+</section>

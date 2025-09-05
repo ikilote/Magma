@@ -67,6 +67,7 @@ export class DemoContribCalendarComponent {
     formArray: FormGroup;
 
     codeHtml = '';
+    codeTs = '';
 
     constructor() {
         this.ctrlForm = this.fbe.groupWithErrorNonNullable({
@@ -111,9 +112,21 @@ export class DemoContribCalendarComponent {
             attrs['lang'] = this.ctrlForm.value.lang;
         }
 
-        attrs['calendar'] = new Json2Js(this.items.value).toString().replaceAll('T00:00:00.000Z', '');
+        attrs['[calendar]'] = 'calendar';
 
         this.codeHtml = new Json2html(json).toString();
+
+        this.codeTs = `@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaContribCalendar
+    ],
+})
+export class DemoContribCalendarComponent {
+    calendar = ${new Json2Js(this.items.value, { tabAdded: 1 }).toString().replaceAll('T00:00:00.000Z', '')};
+}`;
     }
 
     createItem(item?: { date: string; value: number }): FormGroup {

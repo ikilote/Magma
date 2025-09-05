@@ -45,7 +45,12 @@
     </div>
 
     <div class="s-12">
-      <code-tabs [code]="[{ type: 'html', code: codeHtml }]" />
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+        ]"
+      />
     </div>
   </div>
 </div>

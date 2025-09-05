@@ -3,7 +3,12 @@
 }
 
 ng-select2 {
+    display: flex;
+    align-items: baseline;
+    align-self: baseline;
+    width: 100%;
+
     @supports selector(::-webkit-slider-runnable-track) {
-        --select2-selection-line-height: 29px;
+        --select2-selection-line-height: 31px; // for Blink
     }
 }

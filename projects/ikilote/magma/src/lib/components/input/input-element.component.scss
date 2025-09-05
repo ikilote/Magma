@@ -33,19 +33,19 @@
 }
 
 :is(mg-input-text, mg-input-number, mg-input-password):has(+ :host:is(mg-input-suffix)) ::ng-deep input {
-    position: relative; // for focus
-    z-index: 1; // for focus
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+}
+
+:is(mg-input-text, mg-input-number, mg-input-password):focus-within:has(+ :host:is(mg-input-suffix)) ::ng-deep input {
+    position: relative; // for focus
+    z-index: 1; // for focus
 }
 
 // affix -> select2 style
 
 :host:is(mg-input-prefix) + ::ng-deep :is(mg-input-select) {
-    position: relative; // for focus
-    top: -2px;
-    z-index: 1; // for focus
-    margin-bottom: -2px;
+    position: relative;
 
     & .select2-container--default[class] .select2-selection--single[class] {
         border-top-left-radius: 0;
@@ -53,23 +53,20 @@
     }
 }
 
-:is(mg-input-select):has(+ :host:is(mg-input-suffix)) {
-    position: relative; // for focus
-    top: -2px;
+:host:is(mg-input-prefix) + ::ng-deep :is(mg-input-select:focus-within) {
     z-index: 1; // for focus
-    margin-bottom: -2px;
-
-    & ::ng-deep .select2-container--default[class] .select2-selection--single[class] {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-    }
 }
 
-@supports selector(::-moz-range-track) {
-    :host:is(mg-input-prefix) + ::ng-deep :is(mg-input-select),
-    :is(mg-input-select):has(+ :host:is(mg-input-suffix)) {
-        top: -3px;
-    }
+:is(mg-input-select):has(+ :host:is(mg-input-suffix))
+    ::ng-deep
+    .select2-container--default[class]
+    .select2-selection--single[class] {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+:is(mg-input-select:focus-within):has(+ :host:is(mg-input-suffix)) {
+    position: relative; // for focus
+    z-index: 1; // for focus
 }
 
 // mg-input-textarea-desc

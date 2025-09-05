@@ -1,27 +1,27 @@
 <aside>
-  <div class="title">
-    <h2>
-      <img src="/assets/images/magma.svg" alt="logo" />
-      <div>Magma</div>
-      <small>{{ version }}</small>
-    </h2>
-    <button class="mobile-menu" (click)="toggleMenu()">×</button>
-  </div>
-  <nav class="content">
-    @for (group of contentMenu; track $index) {
-      <ng-container
-        [ngTemplateOutlet]="groupTemplate"
-        [ngTemplateOutletContext]="{ lvl: 1, groupItem: group }"
-      ></ng-container>
-    }
-  </nav>
-  <div class="light-dark">
-    <mg-light-dark></mg-light-dark>
+  <div class="backdrop" (click)="toggleMenu(false)"></div>
+  <div class="aside-content">
+    <div class="title">
+      <h2>
+        <img src="/assets/images/magma.svg" alt="logo" />
+        <div>Magma</div>
+        <small>{{ version }}</small>
+      </h2>
+      <button class="mobile-menu" (click)="toggleMenu(false)">×</button>
+    </div>
+    <nav class="content">
+      @for (group of contentMenu; track $index) {
+        <ng-container [ngTemplateOutlet]="groupTemplate" [ngTemplateOutletContext]="{ lvl: 1, groupItem: group }" />
+      }
+    </nav>
+    <div class="light-dark">
+      <mg-light-dark />
+    </div>
   </div>
 </aside>
 <main>
-  <button class="mobile-menu" (click)="toggleMenu()">☰</button>
-  <router-outlet></router-outlet>
+  <button class="mobile-menu" (click)="toggleMenu(true)">☰</button>
+  <router-outlet />
 </main>
 
 <ng-template #groupTemplate let-groupItem="groupItem" let-lvl="lvl">
@@ -38,12 +38,13 @@
             ariaCurrentWhenActive="page"
             [innerHTML]="item.label"
             [ngClass]="item.status"
+            (click)="toggleMenu(false)"
           ></a>
         } @else {
           <ng-container
             [ngTemplateOutlet]="groupTemplate"
             [ngTemplateOutletContext]="{ lvl: lvl + 1, groupItem: item }"
-          ></ng-container>
+          />
         }
       </li>
     }

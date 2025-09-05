@@ -3,13 +3,17 @@
 }
 
 aside {
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
-    margin: 0;
-    background: var(--neutral9);
-    padding: 10px;
-    height: 100%;
+    z-index: 2;
+
+    .aside-content {
+        display: flex;
+        flex-direction: column;
+        box-sizing: border-box;
+        margin: 0;
+        background: var(--neutral9);
+        padding: 10px;
+        height: 100%;
+    }
 
     .content {
         flex: 1;
@@ -19,33 +23,6 @@ aside {
 
 .mobile-menu {
     display: none;
-}
-
-@media (width < 768px) {
-    aside {
-        position: relative;
-        position: fixed;
-        left: -90%;
-        z-index: 1;
-        transition: left 0.5s;
-        box-shadow: 0 0 0 0 #0000;
-        width: 90%;
-    }
-
-    :host.mobile-menu-open aside {
-        left: 0;
-        box-shadow: 0 0 10vw 10vw #0008;
-    }
-
-    .mobile-menu {
-        display: block;
-    }
-
-    main .mobile-menu {
-        position: relative;
-        top: 15px;
-        float: right;
-    }
 }
 
 .title {
@@ -80,6 +57,8 @@ h2 {
 }
 
 ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     margin: 2px 0;
     padding: 0;
     list-style: none;
@@ -134,4 +113,51 @@ main {
 .light-dark {
     margin-top: 10px;
     text-align: center;
+}
+
+@media (width < 768px) {
+    aside {
+        .backdrop {
+            width: 100%;
+        }
+        .aside-content {
+            position: relative;
+            position: fixed;
+            left: -90%;
+            z-index: 1;
+            transition: left 0.5s;
+            box-shadow: 0 0 0 0 #0000;
+            width: 90%;
+        }
+    }
+
+    :host.mobile-menu-open aside {
+        .aside-content {
+            left: 0;
+            box-shadow: 0 0 10vw 10vw #0008;
+        }
+
+        .backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: #0004;
+            width: 100vw;
+            height: 100%;
+        }
+    }
+
+    .mobile-menu {
+        display: block;
+    }
+
+    main .mobile-menu {
+        position: relative;
+        top: 15px;
+        float: right;
+    }
+
+    ul li a {
+        padding: 12px 6px;
+    }
 }

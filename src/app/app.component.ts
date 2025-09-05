@@ -33,11 +33,7 @@ export class AppComponent {
         Json2html.default.webComponentSelfClosing = true;
     }
 
-    toggleMenu() {
-        this.menu = !this.menu;
-    }
-
-    closeMenu() {
-        this.menu = false;
+    toggleMenu(state?: boolean) {
+        this.menu = state ?? !this.menu;
     }
 }

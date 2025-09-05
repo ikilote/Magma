@@ -12,6 +12,6 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
 export class MagmaTabContent {
     // input
 
-    readonly id = input<string>();
+    readonly id = input.required<string>();
     readonly selected = model<boolean>(false);
 }

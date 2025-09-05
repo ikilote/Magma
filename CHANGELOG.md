@@ -16,7 +16,7 @@
 
 ### 🎦 Demo
 
-- Contrib-calendar: ad page
+- Contrib-calendar: add page
 
 ## 0.8.7 (2025-08-31)
 

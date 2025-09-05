@@ -19,7 +19,7 @@ export type ContribCalendar<date = string | Date> = ContribCalendarDay<date>[];
     },
 })
 export class MagmaContribCalendar {
-    lang = input<undefined | string>('en');
+    lang = input<string | undefined>();
 
     calendar = input.required<ContribCalendar>();
 

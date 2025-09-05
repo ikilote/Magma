@@ -29,7 +29,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     ],
 })
 export class DemoSortableComponent {
-    codeTs = `@Component({
+    codeTs = `import { MagmaSortable, MagmaTableComponent } from '@ikilote/magma';
+
+@Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],

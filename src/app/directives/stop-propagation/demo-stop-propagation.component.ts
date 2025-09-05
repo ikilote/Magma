@@ -44,6 +44,26 @@ export class DemoStopPropagationComponent {
         },
     ];
 
+    codeTs = `import {
+    MagmaStopPropagationDirective,
+    MagmaInput,
+    MagmaInputText,
+    MagmaInputElement
+} from '@ikilote/magma';
+
+@Component({
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [
+        MagmaStopPropagationDirective,
+        MagmaInput,
+        MagmaInputText,
+        MagmaInputElement
+    ],
+})
+export class TestComponent { }`;
+
     log = '';
 
     keydown(event: KeyboardEvent) {

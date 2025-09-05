@@ -29,4 +29,13 @@ Language: 'fr'
 {{ 155566400 | fileSize: { language: 'fr', translate: { unitTableBinary: [' o', ' Kio', ' Mio', ' Gio', ' Tio'] } } }}
 {{ 566155566400  | fileSize: { language: 'fr', translate: { unitTableBinary: [' o', ' Kio', ' Mio', ' Gio', ' Tio'] } } }}
 `;
+    codeTs = `import { MathPipe } from '@ikilote/magma';
+
+@Component({
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [MathPipe],
+})
+export class TestComponent {}`;
 }

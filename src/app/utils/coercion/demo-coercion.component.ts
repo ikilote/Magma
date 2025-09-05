@@ -9,7 +9,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoCoercionComponent {
-    codeTs = `@Component({ ... })
+    codeTs = `import { numberAttributeOrUndefined } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     // number or undefined if input is empty
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });

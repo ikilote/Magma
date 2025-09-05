@@ -16,7 +16,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent, FormsModule, MagmaInput, MagmaInputNumber, MagmaInputElement],
 })
 export class DemoNumberComponent {
-    codeTs = `@Component({ ... })
+    codeTs = `import { randomNumber } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     size = 9;
     number?: string;

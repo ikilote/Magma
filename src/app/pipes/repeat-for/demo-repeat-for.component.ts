@@ -15,4 +15,16 @@ export class DemoeRepeatForComponent {
     <li>{{ $index }}</li>
   }
 </ul>`;
+
+    tion = `{{ 51555.55 | numFormat: { style: 'currency', currency: 'EUR' } : 'fr-FR' }}`;
+
+    codeTs = `import { RepeatForPipe } from '@ikilote/magma';
+
+@Component({
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [RepeatForPipe],
+})
+export class TestComponent {}`;
 }

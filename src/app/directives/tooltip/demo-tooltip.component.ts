@@ -32,7 +32,9 @@ export class DemoTooltipComponent {
 
     codeHtml = ``;
 
-    codeTs = `@Component({
+    codeTs = `import { MagmaTooltipDirective } from '@ikilote/magma';
+
+@Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],

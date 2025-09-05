@@ -49,6 +49,18 @@ export class DemoPaginateComponent {
     }>;
 
     codeHtml = '';
+    codeTs = `import { MagmaPagination } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaPagination
+    ],
+})
+export class DemoPaginationComponent {
+}`;
 
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({

@@ -7,7 +7,12 @@
     <mg-light-dark></mg-light-dark>
   </div>
   <div class="s-8 s-12-m">
-    <code-tabs [code]="[{ type: 'html', code: codeHtml }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -16,7 +21,12 @@
     <mg-light-dark compact></mg-light-dark>
   </div>
   <div class="s-8 s-12-m">
-    <code-tabs [code]="[{ type: 'html', code: codeHtmlCompact }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlCompact },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 

@@ -3,7 +3,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Select2Data } from 'ng-select2-component';
 
-import '../../../../projects/ikilote/magma/src/lib/components/info-messages/info-message.component';
 import {
     FormBuilderExtended,
     InfoMessageComponent,
@@ -122,7 +121,9 @@ export class DemoInfoMessageComponent {
     }
 
     codeGenerator() {
-        this.codeTs = `@Component({
+        this.codeTs = `import { MagmaMessage } from '@ikilote/magma';
+
+@Component({
      ...
 })
 export class SendMessageComponent {

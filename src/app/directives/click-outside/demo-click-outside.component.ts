@@ -10,7 +10,11 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [MagmaClickOutsideDirective, CodeTabsComponent],
 })
 export class DemoClickOutsideComponent {
-    codeTs = `@Component({
+    codeHtml = `<button (clickOutside)="clickOutside()" (click)="clickInside()">Click</button>`;
+
+    codeTs = `import { MagmaClickOutsideDirective } from '@ikilote/magma';
+
+@Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],
@@ -27,7 +31,6 @@ export class TestComponent {
         this.events += 'inside\n';
     }
 }`;
-    codeHtml = `<button (clickOutside)="clickOutside()" (click)="clickInside()">Click</button>`;
 
     events = '';
 

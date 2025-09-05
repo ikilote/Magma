@@ -11,5 +11,15 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent, ClassListPipe, JsonPipe],
 })
 export class DemoClassListComponent {
-    default = "{{ ['test', ['class-1 class-2'], 'class-a class-b'] | class-list }}";
+    codeHtml = "{{ ['test', ['class-1 class-2'], 'class-a class-b'] | class-list }}";
+
+    codeTs = `import { ClassListPipe } from '@ikilote/magma';
+
+@Component({
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [ClassListPipe],
+})
+export class TestComponent {}`;
 }

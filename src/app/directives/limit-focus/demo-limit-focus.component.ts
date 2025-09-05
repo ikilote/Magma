@@ -36,6 +36,15 @@ export class DemoLimitFocusComponent {
 .hidden {
     visibility: hidden;
 }`;
+    codeTs = `import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective } from '@ikilote/magma';
+
+@Component({
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective],
+})
+export class TestComponent { }`;
 
     constructor() {
         this.codeGeneration();

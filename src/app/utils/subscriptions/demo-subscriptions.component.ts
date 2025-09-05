@@ -9,7 +9,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoSubscriptionsComponent {
-    codeTs = `@Component({ ... })
+    codeTs = `import { Subscriptions } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
 
     sub = Subscriptions.instance();

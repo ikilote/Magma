@@ -26,6 +26,33 @@ export class DemoMessageComponent {
     codeHtmlSub = '';
     codeHtmlGrid = '';
 
+    codeTs = `import { MagmaMessage } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaMessage
+    ],
+})
+export class DemoMessageComponent {
+}`;
+
+    codeTsSub = `import { MagmaMessage, MagmaBlockMessage } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaMessage,
+        MagmaBlockMessage
+    ],
+})
+export class DemoMessageComponent {
+}`;
+
     data: Select2Data = [];
     type: MagmaMessageType = MagmaMessageType.success;
 

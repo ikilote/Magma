@@ -65,7 +65,14 @@ export class DemoLoaderComponent {
     ];
 
     codeHtml = '';
-    codeTs = `@Component({
+    codeTs = `import {
+    MagmaLoader,
+    MagmaLoaderMessage,
+    MagmaSpinner,
+    MagmaProgress
+} from '@ikilote/magma';
+
+@Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
     styleUrls: ['./my-component.component.scss'],

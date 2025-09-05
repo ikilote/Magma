@@ -16,7 +16,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [ReactiveFormsModule, CodeTabsComponent, MagmaInput, MagmaInputText, MagmaInputElement],
 })
 export class DemoEmailComponent {
-    codeTs = `@Component({ ... })
+    codeTs = `import { testEmail } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     emailValid = '';
 

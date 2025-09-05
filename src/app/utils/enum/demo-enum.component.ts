@@ -26,7 +26,15 @@ enum Test {
     imports: [CodeTabsComponent, JsonPipe, Highlight],
 })
 export class DemoEnumComponent {
-    codeTs = `enum Test {
+    codeTs = `import {
+    enumToValueList,
+    enumToKeyList,
+    enumToKeyValue,
+    enumToObject,
+    enumToMap
+} from '@ikilote/magma';
+
+enum Test {
     Val1 = 'test',
     Val2 = 'foo',
     Val3 = 'bar',

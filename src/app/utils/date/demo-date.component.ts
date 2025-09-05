@@ -27,7 +27,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoDateComponent {
     readonly fb = inject(FormBuilderExtended);
 
-    codeTs = `@Component({ ... })
+    codeTs = `import { toISODate } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     getDate(value: string | undefined, newDate: boolean): string | undefined {
         return toISODate(value ? new Date(value) : undefined, newDate);

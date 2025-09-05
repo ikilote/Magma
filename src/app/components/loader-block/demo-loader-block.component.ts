@@ -43,6 +43,20 @@ export class DemoLoaderBlockComponent {
 
     codeHtml = '';
 
+    codeTs = `import { MagmaLoaderBlock, MagmaLoaderTile } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaLoaderBlock,
+        MagmaLoaderTile
+    ],
+})
+export class DemoLoaderBlockComponent {
+}`;
+
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
             example: { default: 'example-1' },

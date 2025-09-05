@@ -107,7 +107,9 @@ export class DemoContextMenuComponent {
     }>;
 
     codeHtml = '';
-    codeTs = `export class DemoContextMenuComponent {
+    codeTs = `import { ContextMenuData } from '@ikilote/magma';
+
+export class DemoContextMenuComponent {
     contextMenu: ContextMenuData<any> = {
         contextMenu: [
             {
@@ -156,7 +158,9 @@ export class DemoContextMenuComponent {
     };
 }`;
 
-    codeTsComponent = `@Component({
+    codeTsComponent = `import { MagmaContextMenu } from '@ikilote/magma';
+
+@Component({
     selector: 'context-test',
     templateUrl: './demo-context-test.component.html',
     styles: [

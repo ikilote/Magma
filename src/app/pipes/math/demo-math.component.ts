@@ -17,4 +17,14 @@ export class DemoMathComponent {
     random = "{{ '' | math: 'random' }}";
     min = "{{ 150 | math: 'min' : 10 : -5 : 155 }}";
     max = "{{ 150 | math: 'max' : 10 : -5 : 155 }}";
+
+    codeTs = `import { MathPipe } from '@ikilote/magma';
+
+@Component({
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [MathPipe],
+})
+export class TestComponent {}`;
 }

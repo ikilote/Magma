@@ -38,6 +38,17 @@ export class DemoDialogComponent {
     }>;
 
     codeHtml = '';
+    codeTs = `import { MagmaDialog } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaDialog
+    ],
+})
+export class DemoBlockComponent { }`;
 
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({

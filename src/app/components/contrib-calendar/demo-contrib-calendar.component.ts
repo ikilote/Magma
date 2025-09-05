@@ -116,7 +116,9 @@ export class DemoContribCalendarComponent {
 
         this.codeHtml = new Json2html(json).toString();
 
-        this.codeTs = `@Component({
+        this.codeTs = `import { MagmaContribCalendar } from '@ikilote/magma';
+
+@Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
     styleUrls: ['./my-component.component.scss'],

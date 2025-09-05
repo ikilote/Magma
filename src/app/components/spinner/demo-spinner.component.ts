@@ -29,6 +29,19 @@ export class DemoSpinnerComponent {
 
     codeHtml = '';
 
+    codeTs = `import { MagmaSpinner } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaSpinner
+    ],
+})
+export class DemoSpinnerComponent {
+}`;
+
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
             size: { default: undefined },

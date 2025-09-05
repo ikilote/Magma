@@ -13,13 +13,33 @@ export class DemoLightDarkComponent {
     codeHtml = '<mg-light-dark />';
     codeHtmlCompact = '<mg-light-dark compact />';
 
-    codeTsService = `private readonly lightDark = inject(LightDark);
+    codeTs = `import { MagmaLightDark } from '@ikilote/magma';
 
-constructor() {
-    // with browser preference
-    this.lightDark.init();
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaLightDark
+    ],
+})
+export class DemoLightDarkComponent {
+}`;
 
-    // with user preference
-    this.lightDark.init('dark');
+    codeTsService = `import { LightDark } from '@ikilote/magma';
+
+@Component({
+    ...
+})
+export class DemoLightDarkComponent {
+    private readonly lightDark = inject(LightDark);
+
+    constructor() {
+        // with browser preference
+        this.lightDark.init();
+
+        // with user preference
+        this.lightDark.init('dark');
+    }
 }`;
 }

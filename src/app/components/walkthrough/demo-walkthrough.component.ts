@@ -39,7 +39,6 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 })
 export class DemoWalkthroughComponent {
     readonly fb = inject(FormBuilderExtended);
-    html: string = '';
 
     ctrlForm: FormGroup<{
         selector: FormControl<string>;
@@ -106,6 +105,23 @@ export class DemoWalkthroughComponent {
     ];
 
     codeHtml = '';
+
+    codeTs = `import {
+    MagmaWalkthrough,
+    MagmaWalkthroughStep
+} from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaWalkthrough,
+        MagmaWalkthroughStep,
+    ],
+})
+export class DemoWalkthroughComponent {
+}`;
 
     alert(e: string) {
         alert(e);
@@ -274,6 +290,6 @@ export class DemoWalkthroughComponent {
             },
         ];
 
-        this.html = new Json2html(json).toString();
+        this.codeHtml = new Json2html(json).toString();
     }
 }

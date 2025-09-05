@@ -16,4 +16,14 @@ export class DemoNumFormatComponent {
 {{ 51555.55 | numFormat: '###,###0.00' }}`;
 
     option = `{{ 51555.55 | numFormat: { style: 'currency', currency: 'EUR' } : 'fr-FR' }}`;
+
+    codeTs = `import { NumFormatPipe } from '@ikilote/magma';
+
+@Component({
+    selector: 'demo-test',
+    templateUrl: './demo-test.component.html',
+    styleUrls: ['./demo-test.component.scss'],
+    imports: [NumFormatPipe],
+})
+export class TestComponent {}`;
 }

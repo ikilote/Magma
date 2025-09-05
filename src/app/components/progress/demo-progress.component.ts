@@ -50,6 +50,19 @@ export class DemoProgressComponent {
 
     codeHtml = '';
 
+    codeTs = `import { MagmaProgress } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaProgress
+    ],
+})
+export class DemoProgressComponent {
+}`;
+
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
             loaded: { default: undefined },

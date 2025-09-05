@@ -12,7 +12,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoTextareaAutosizeComponent {
     codeHtml = `<textarea autosize></textarea>`;
 
-    codeTs = `@Component({
+    codeTs = `import { MagmaTextareaAutosizeDirective } from '@ikilote/magma';
+
+@Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],

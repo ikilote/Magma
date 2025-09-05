@@ -5,6 +5,11 @@
     <code>{{ ['test', ['class-1 class-2'], 'class-a class-b'] | classList | json }}</code>
   </div>
   <div class="s-f">
-    <code-tabs [code]="[{ type: 'html', code: default }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>

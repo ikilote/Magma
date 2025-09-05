@@ -17,7 +17,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [ReactiveFormsModule, CodeTabsComponent, MagmaInput, MagmaInputText, MagmaInputElement],
 })
 export class DemoDomComponent {
-    codeTsGetParentElementByClass = `@Component({ ... })
+    codeTsGetParentElementByClass = `import { getParentElementByClass } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     classList: DOMTokenList | undefined;
 
@@ -27,7 +29,9 @@ export class TestComponent {
     }
 }`;
 
-    codeTsContainClasses = `@Component({ ... })
+    codeTsContainClasses = `import { containClasses } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     valid = false;
 

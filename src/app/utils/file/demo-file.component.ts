@@ -17,25 +17,33 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [ReactiveFormsModule, CodeTabsComponent, MagmaInput, MagmaInputText, MagmaInputElement],
 })
 export class DemoFileComponent {
-    codeTsDownloadFile = `@Component({ ... })
+    codeTsDownloadFile = `import { downloadFile } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
   downloadFile() {
         downloadFile('data:@file/plain;base64,VGVzdCBmaWxlCg==', 'file.txt', 'text/plain');
     }
 }`;
-    codeTsBlobToBase64 = `@Component({ ... })
+    codeTsBlobToBase64 = `import { blobToBase64 } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
   async blobToBase64(blob: Blob) {
     return await blobToBase64(blob);
   }
 }`;
-    codeTsUlrToBase64 = `@Component({ ... })
+    codeTsUlrToBase64 = `import { ulrToBase64 } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
   async ulrToBase64(url: string) {
     return await ulrToBase64(url);
   }
 }`;
-    codeTsNormalizeFileName = `@Component({ ... })
+    codeTsNormalizeFileName = `import { normalizeFileName } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     file = '';
 

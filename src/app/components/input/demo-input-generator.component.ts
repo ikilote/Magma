@@ -422,7 +422,9 @@ export class DemoInputGeneratorComponent {
     `;
         }
 
-        this.codeTs = `@Component({
+        this.codeTs = `import { MagmaInput, ${imports.join(', ')} } from '@ikilote/magma';
+
+@Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
     styleUrls: ['./my-component.component.scss'],

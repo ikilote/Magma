@@ -252,7 +252,12 @@
 
       <h3>Code</h3>
 
-      <code-tabs [code]="[{ type: 'html', code: html }]"></code-tabs>
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+        ]"
+      ></code-tabs>
 
       <mg-walkthrough #walkExample="walkthrough">
         <ng-template

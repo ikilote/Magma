@@ -42,10 +42,10 @@ export const menu = [
         groupName: 'Pipes',
         items: [
             { routerLink: '/pipe/class-list', label: 'classList' },
+            { routerLink: '/pipe/file-size', label: 'fileSize' },
             { routerLink: '/pipe/math', label: 'math' },
             { routerLink: '/pipe/num-format', label: 'numFormat' },
             { routerLink: '/pipe/repeat-for', label: 'repeatFor' },
-            { routerLink: '/pipe/file-size', label: 'fileSize' },
         ],
     },
     {

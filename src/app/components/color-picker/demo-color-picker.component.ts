@@ -104,14 +104,37 @@ export class DemoColorPickerComponent {
         texts: FormControl<boolean>;
     }>;
 
-    codeHtml = '';
-    codeHtmlPopup = '';
-
     colorChangeValue = '';
     colorCloseValue = '';
 
     palette = palette;
     texts = texts;
+
+    codeHtml = '';
+    codeTs = `import { MagmaColorPickerComponent } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaColorPickerComponent
+    ],
+})
+export class DemoBlockComponent { }`;
+
+    codeHtmlPopup = '';
+    codeTsPopup = `import { MagmaColorPicker } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaColorPicker
+    ],
+})
+export class DemoBlockComponent { }`;
 
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({

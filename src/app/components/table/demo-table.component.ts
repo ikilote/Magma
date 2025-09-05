@@ -32,6 +32,19 @@ export class DemoTableComponent {
     }>;
     codeHtml = '';
 
+    codeTs = `import { MagmaTableModule } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaTableModule
+    ],
+})
+export class DemoTableComponent {
+}`;
+
     constructor() {
         this.form = this.fbe.groupWithErrorNonNullable({
             col: { default: false },

@@ -34,7 +34,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoInputErrorComponent {
     private readonly fbe = inject(FormBuilderExtended);
 
-    readonly codeTsText = `@Component({
+    readonly codeTsText = `import { MagmaInput, MagmaInputText } from '@ikilote/magma';
+
+@Component({
     ...
     imports: [
         MagmaInput,
@@ -77,7 +79,14 @@ export class DemoInputErrorComponent {
   <mg-input-text formControlName="test"></mg-input-text>
 </mg-input>`;
 
-    readonly codeTsList = `@Component({
+    readonly codeTsList = `import {
+    MagmaInput,
+    MagmaInputRadio,
+    MagmaInputCheckbox,
+    MagmaInputSelect
+} from '@ikilote/magma';
+
+@Component({
     ...
     imports: [
         MagmaInput,
@@ -167,7 +176,9 @@ export class DemoInputErrorComponent {
   </div>
 </section>`;
 
-    readonly codeTsNumber = `@Component({
+    readonly codeTsNumber = `import { MagmaInput, MagmaInputNumber } from '@ikilote/magma';
+
+@Component({
     ...
     imports: [
         MagmaInput,

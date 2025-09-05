@@ -34,13 +34,21 @@ export class DemoNgModelChangeDebouncedComponent {
   ></mg-input-text>
 </mg-input>`;
 
-    codeTs = `@Component({
+    codeTs = `import {
+    MagmaNgModelChangeDebouncedDirective,
+    MagmaInput,
+    MagmaInputText,
+    MagmaInputNumber,
+    MagmaInputElement
+} from '@ikilote/magma';
+
+@Component({
     selector: 'demo-ng-model-change-debounced',
     templateUrl: './demo-ng-model-change-debounced.component.html',
     styleUrls: ['./demo-ng-model-change-debounced.component.scss'],
     imports: [
-        MagmaNgModelChangeDebouncedDirective,
         FormsModule,
+        MagmaNgModelChangeDebouncedDirective,
         MagmaInput,
         MagmaInputText,
         MagmaInputNumber,

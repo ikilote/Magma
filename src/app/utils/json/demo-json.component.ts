@@ -17,7 +17,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent, MagmaInput, MagmaInputTextarea, FormsModule, MagmaInputElement],
 })
 export class DemoJsonComponent {
-    codeTsCopy = `@Component({ ... })
+    codeTsCopy = `import { jsonCopy } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     myNewObject?: MyObject;
 
@@ -26,14 +28,16 @@ export class TestComponent {
     }
 }`;
 
-    codeTsParse = `@Component({ ... })
+    codeTsParse = `import { ExceptionJsonParse, jsonParse } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     error = '';
 
     update($event: any) {
         this.error = '';
         try {
-            jsonParse($event);
+            const value = jsonParse($event);
         } catch (e) {
             this.error = (e as ExceptionJsonParse).cause;
         }
@@ -63,7 +67,7 @@ export class TestComponent {
     update($event: any) {
         this.error = '';
         try {
-            jsonParse($event);
+            const value = jsonParse($event);
         } catch (e) {
             this.error = (e as ExceptionJsonParse).cause;
         }

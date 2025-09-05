@@ -16,7 +16,9 @@ export class DemoClipboardComponent {
 
 <button (click)="copy(ref)">Copy</button>`;
 
-    codeTs = `@Component({ ... })
+    codeTs = `import { clipboardWrite } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     readonly mgMessage = inject(MagmaMessage);
 

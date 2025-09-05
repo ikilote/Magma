@@ -19,7 +19,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoTextComponent {
     readonly fb = inject(FormBuilderExtended);
 
-    codeTs = `@Component({ ... })
+    codeTs = `import { normalizeString } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     normalizeString(value: string): string {
         return normalizeString(value);

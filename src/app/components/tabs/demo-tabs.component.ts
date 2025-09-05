@@ -19,9 +19,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-tabs.component.html',
     styleUrls: ['./demo-tabs.component.scss'],
     imports: [
-        MagmaTabsModule,
         CodeTabsComponent,
         ReactiveFormsModule,
+        MagmaTabsModule,
         MagmaInput,
         MagmaInputText,
         MagmaInputTextarea,
@@ -52,6 +52,19 @@ export class DemoTabsComponent {
     }>;
 
     codeHtml = '';
+
+    codeTs = `import { MagmaTabsModule } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrls: ['./my-component.component.scss'],
+    imports: [
+        MagmaTabsModule
+    ],
+})
+export class DemoTabsComponent {
+}`;
 
     constructor(fb: NonNullableFormBuilder) {
         this.form = fb.group({

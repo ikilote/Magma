@@ -12,7 +12,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoCookiesComponent {
     readonly mgMessages = inject(MagmaMessages);
 
-    codeTs = `@Component({ ... })
+    codeTs = `import { setCookie, getCookie, removeCookie } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     readonly mgMessages = inject(MagmaMessages);
 

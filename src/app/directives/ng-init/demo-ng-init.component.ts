@@ -17,7 +17,9 @@ export class DemoNgInitComponent {
 @for (item of items; track $index) {
   <div (ngInit)="ngInit(item)">item {{ item }}</div>
 }`;
-    codeTs = `@Component({
+    codeTs = `import { MagmaNgInitDirective } from '@ikilote/magma';
+
+@Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],

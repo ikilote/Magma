@@ -10,7 +10,12 @@
     <code>{{ -150.5 | math: 'abs' | json }}</code>
   </div>
   <div class="s-f">
-    <code-tabs [code]="[{ type: 'html', code: abs }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: abs },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -20,7 +25,12 @@
     <code>{{ -159.5599 | math: 'trunc' | json }}</code>
   </div>
   <div class="s-f">
-    <code-tabs [code]="[{ type: 'html', code: trunc }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: trunc },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -30,7 +40,12 @@
     <code>{{ -159.5599 | math: 'round' | json }}</code>
   </div>
   <div class="s-f">
-    <code-tabs [code]="[{ type: 'html', code: round }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: round },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -40,7 +55,12 @@
     <code>{{ '' | math: 'random' | json }}</code>
   </div>
   <div class="s-f">
-    <code-tabs [code]="[{ type: 'html', code: random }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: random },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -50,7 +70,12 @@
     <code>{{ 150 | math: 'min' : 10 : -5 : 155 | json }}</code>
   </div>
   <div class="s-f">
-    <code-tabs [code]="[{ type: 'html', code: min }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: min },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>
 
@@ -60,6 +85,11 @@
     <code>{{ 150 | math: 'max' : 10 : -5 : 155 | json }}</code>
   </div>
   <div class="s-f">
-    <code-tabs [code]="[{ type: 'html', code: max }]"></code-tabs>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: max },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
   </div>
 </section>

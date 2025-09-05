@@ -25,7 +25,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoClickEnterComponent {
     readonly fb = inject(FormBuilderExtended);
 
-    codeTs = `@Component({
+    codeTs = `import { MagmaClickEnterDirective } from '@ikilote/magma';
+
+@Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrls: ['./demo-test.component.scss'],
@@ -39,7 +41,9 @@ export class TestComponent {
     }
 
 }`;
-    codeTsBlock = `@Component({
+    codeTsBlock = `import { MagmaClickEnterDirective, MagmaBlock } from '@ikilote/magma';
+
+@Component({
   selector: 'demo-test',
   templateUrl: './demo-test.component.html',
   styleUrls: ['./demo-test.component.scss'],

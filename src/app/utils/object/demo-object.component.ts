@@ -38,7 +38,9 @@ export class DemoObjectComponent {
         valueB: FormControl<string>;
     }>;
 
-    codeTs = `@Component({ ... })
+    codeTs = `import { objectsAreSame } from '@ikilote/magma';
+
+@Component({ ... })
 export class TestComponent {
     errorA = '';
     errorB = '';

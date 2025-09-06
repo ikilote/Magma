@@ -190,6 +190,12 @@ export const routes: Routes = [
         path: 'pipe',
         children: [
             {
+                path: 'array-filter',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./pipes/array-filter/demo-array-filter.component').then(m => m.DemoArrayFilterComponent),
+            },
+            {
                 path: 'class-list',
                 pathMatch: 'full',
                 loadComponent: () =>
@@ -218,6 +224,12 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./pipes/file-size/demo-file-size.component').then(m => m.DemoFileSizeComponent),
             },
+            {
+                path: 'str-replace',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./pipes/str-replace/demo-str-replace.component').then(m => m.DemoStrReplaceComponent),
+            },
         ],
     },
     {
@@ -228,6 +240,11 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () =>
                     import('./utils/clipboard/demo-clipboard.component').then(m => m.DemoClipboardComponent),
+            },
+            {
+                path: 'css',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/css/demo-css.component').then(m => m.DemoCSSComponent),
             },
             {
                 path: 'coercion',
@@ -292,6 +309,11 @@ export const routes: Routes = [
                     import('./utils/subscriptions/demo-subscriptions.component').then(
                         m => m.DemoSubscriptionsComponent,
                     ),
+            },
+            {
+                path: 'other',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/other/demo-other.component').then(m => m.DemoOtherComponent),
             },
         ],
     },

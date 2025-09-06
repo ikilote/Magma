@@ -364,7 +364,7 @@ select2 {
     align-items: baseline;
 
     /* (0, 4, 1) */
-    & > :not(.break, .sub) {
+    & > :not(.break, .sub, hr) {
         box-sizing: border-box;
         padding: var(--grid-cell-padding);
     }

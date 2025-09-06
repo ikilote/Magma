@@ -10,9 +10,17 @@ export interface FileSizePipeParams {
     };
 }
 
+/**
+ * Format file size
+ *
+ * Examples of usage:
+ * - `{{ 566155566400 | fileSize  }}` → `527.3 GiB`
+ * - `{{ 566155566400 | fileSize: { format: 'decimal' }}`  → `566.2 GB`
+ * - `{{ 566155566400  | fileSize: { language: 'fr', translate: { unitTableBinary: [' o', ' Kio', ' Mio',
+ *    ' Gio', ' Tio'] } } }}` → `527,3 Gio`
+ */
 @Pipe({
     name: 'fileSize',
-    pure: false,
 })
 export class FileSizePipe implements PipeTransform {
     static unitTableBinary = [' B', ' KiB', ' MiB', ' GiB', ' TiB'];

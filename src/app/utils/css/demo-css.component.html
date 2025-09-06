@@ -1,0 +1,58 @@
+<h1>CSS</h1>
+
+<h2>getPaletteList</h2>
+
+<div class="test-palette" [style.--my-palette]="palette">
+  <div class="s-6">
+    <h3>HTML</h3>
+    <mg-input class="s-12">
+      <mg-input-label>--palette</mg-input-label>
+      <mg-input-text [(ngModel)]="palette" (ngModelChange)="update()" />
+      <mg-input-desc>
+        <code>{{ palette }}</code>
+      </mg-input-desc>
+    </mg-input>
+
+    <code-tabs class="s-12" [code]="[{ type: 'html', code: codeHtml }]" />
+  </div>
+  <div class="s-6">
+    <h3>Params</h3>
+    @if (ctrlForm) {
+      <form class="s-12" [formGroup]="ctrlForm">
+        <mg-input class="s-12">
+          <mg-input-label>colorSeparator</mg-input-label>
+          <mg-input-text formControlName="colorSeparator" />
+          <mg-input-desc>
+            if the string starts and ends with <code>/</code>, it will be transformed into RegExp
+          </mg-input-desc>
+        </mg-input>
+      </form>
+    }
+
+    <code-tabs class="s-12" [code]="[{ type: 'ts', code: [getPaletteList() | json] }]" />
+  </div>
+  <hr class="s-12" />
+  <div class="s-6">
+    <h3>Informations</h3>
+    <p>
+      It is possible to override the default values by changing the static values of <code>Palette</code>. It is also
+      possible to pass this object to retrieve multiple values to avoid persisting the value of
+      <code>getPaletteList</code>. It is also possible to use it as a non-static object.
+    </p>
+    <code-tabs
+      class="s-12"
+      [code]="[{ type: 'ts', code: [`const palette = Palette.globalPalette();
+
+/* clear static cache */
+Palette.globalClear();`, `const palette = new Palette(params);
+const paletteList =  palette.palette;
+
+/* clear cache */
+palette.clear();`] }]"
+    />
+  </div>
+  <div class="s-6">
+    <h3>Default</h3>
+    <code-tabs class="s-12" [code]="[{ type: 'ts', code: codeTsDefault }]" />
+  </div>
+</div>

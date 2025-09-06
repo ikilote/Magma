@@ -1,0 +1,50 @@
+<h1>Other</h1>
+
+<h2>isEmpty</h2>
+
+<div>
+  <div class="s-6">
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+  </div>
+  <div class="s-6">
+    <code-tabs
+      [code]="[
+        {
+          type: 'ts',
+          code: [
+            { title: 'isEmpty(\'\')', code: (isEmptyString | json) },
+            { title: 'isEmpty([])', code: (isEmptyArray | json) },
+            { title: 'isEmpty({})', code: (isEmptyObject | json) },
+            { title: 'isEmpty(undefined)', code: (isEmptyUndefined | json) },
+            { title: 'isEmpty(null)', code: (isEmptyNull | json) },
+            { title: 'isEmpty([undefined])', code: (notEmptyArray | json) },
+            { title: 'isEmpty(\'   \')', code: (notEmptyString | json) },
+            { title: 'isEmpty({ a: undefined })', code: (notEmptyObject | json) },
+          ],
+        },
+      ]"
+    ></code-tabs>
+  </div>
+</div>
+
+<h2>regexpSlash</h2>
+
+<div>
+  <div class="s-6">
+    <code-tabs [code]="[{ type: 'ts', code: codeTsRegExp }]"></code-tabs>
+  </div>
+  <div class="s-6">
+    <code-tabs
+      [code]="[
+        {
+          type: 'ts',
+          code: [
+            { title: `regexpSlash('Test')`, code: (regexpSlashString | json) },
+            { title: `regexpSlash('/Test/')`, code: (`${regexpSlashString2}`) },
+            { title: 'regexpSlash(/Test/)', code: (`${regexpSlashRegex}`) },
+          ],
+        },
+      ]"
+    ></code-tabs>
+  </div>
+</div>

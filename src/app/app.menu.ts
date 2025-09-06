@@ -41,11 +41,13 @@ export const menu = [
     {
         groupName: 'Pipes',
         items: [
+            { routerLink: '/pipe/array-filter', label: 'arrayFilter', status: 'new' },
             { routerLink: '/pipe/class-list', label: 'classList' },
             { routerLink: '/pipe/file-size', label: 'fileSize' },
             { routerLink: '/pipe/math', label: 'math' },
             { routerLink: '/pipe/num-format', label: 'numFormat' },
             { routerLink: '/pipe/repeat-for', label: 'repeatFor' },
+            { routerLink: '/pipe/str-replace', label: 'strReplace', status: 'new' },
         ],
     },
     {
@@ -54,6 +56,7 @@ export const menu = [
             { routerLink: '/utils/clipboard', label: 'Clipboard' },
             { routerLink: '/utils/coercion', label: 'Coercion' },
             { routerLink: '/utils/cookies', label: 'Cookies' },
+            { routerLink: '/utils/css', label: 'CSS', status: 'new' },
             { routerLink: '/utils/date', label: 'Date' },
             { routerLink: '/utils/dom', label: 'DOM' },
             { routerLink: '/utils/email', label: 'Email' },
@@ -64,6 +67,7 @@ export const menu = [
             { routerLink: '/utils/object', label: 'Object' },
             { routerLink: '/utils/text', label: 'Text' },
             { routerLink: '/utils/subscriptions', label: 'Subscriptions' },
+            { routerLink: '/utils/other', label: 'Other', status: 'new' },
         ],
     },
     {

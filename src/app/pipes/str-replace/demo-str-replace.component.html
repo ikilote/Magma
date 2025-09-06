@@ -1,0 +1,24 @@
+<h1>String Replace</h1>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>Result</h3>
+    <p>
+      <code>{{ 'Test---Test' | strReplace: '/-+/' : '-' }}</code>
+    </p>
+    <p>
+      <code>{{ 'Test---Test' | strReplace: 'Test' : '/' }}</code>
+    </p>
+    <p>
+      <code>{{ 'Test---Test' | strReplace: replace : '/' }}</code>
+    </p>
+  </div>
+  <div class="s-f">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    ></code-tabs>
+  </div>
+</section>

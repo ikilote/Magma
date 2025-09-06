@@ -2,15 +2,21 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 import { NumFormatter } from '@ikilote/num-formatter';
 
+/**
+ * Format number to string
+ *
+ * Usage:
+ * - `{{ 1000 | numFormat }}` → ` 1,000 `
+ * - `{{ 1000 | numFormat:'#,##0.00' }}`  → ` 1,000.00 `
+ */
 @Pipe({
     name: 'numFormat',
-    standalone: true,
 })
 export class NumFormatPipe implements PipeTransform {
     static lang = 'en';
 
     /**
-     * format number tot string
+     * format number to string
      * @param value
      * @param params 2 cases:
      * * params is `string`: use `@ikilote/num-formatter` pattern

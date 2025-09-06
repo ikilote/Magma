@@ -58,11 +58,13 @@ export * from './lib/directives/textarea-autosize.directive';
 export * from './lib/directives/tooltip.directive';
 
 // pipes
+export * from './lib/pipes/array-filter.pipe';
 export * from './lib/pipes/class-list.pipe';
 export * from './lib/pipes/file-size.pipe';
 export * from './lib/pipes/math.pipe';
 export * from './lib/pipes/num-format.pipe';
 export * from './lib/pipes/repeat-for.pipe';
+export * from './lib/pipes/str-replace.pipe';
 
 // services
 export * from './lib/services/form-builder-extended';
@@ -74,6 +76,7 @@ export * from './lib/services/messages';
 export * from './lib/utils/clipboard';
 export * from './lib/utils/coercion';
 export * from './lib/utils/cookies';
+export * from './lib/utils/css';
 export * from './lib/utils/date';
 export * from './lib/utils/dom';
 export * from './lib/utils/email';
@@ -82,6 +85,7 @@ export * from './lib/utils/file';
 export * from './lib/utils/json';
 export * from './lib/utils/number';
 export * from './lib/utils/object';
+export * from './lib/utils/other';
 export * from './lib/utils/subscriptions';
 export * from './lib/utils/text';
 export * from './lib/utils/timing';

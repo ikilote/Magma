@@ -2,6 +2,21 @@
 
 > The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
 
+## 0.9.2 (2025-09-07)
+
+### ✅ New
+
+- **pipe**:
+    - `arrayFilter`
+    - `strReplace`
+- **service**:
+    - `MagmaCache`: with id, group name and end of life
+- **utils**:
+    - `flattenedListItems()`
+    - `getPaletteList()`
+    - `isEmpty()`
+    - `regexpSlash()`
+
 ## 0.9.1 (2025-09-06)
 
 ### ✅ New

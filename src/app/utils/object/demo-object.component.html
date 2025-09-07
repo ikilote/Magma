@@ -25,9 +25,7 @@
       {{ state ? 'Same' : 'Not same' }}
     </div>
   </div>
-  <div class="s-6">
-    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
-  </div>
+  <div class="s-6"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
 </div>
 
 <div>
@@ -52,9 +50,7 @@
       Value: <code>{{ value | json }}</code>
     </div>
   </div>
-  <div class="s-6">
-    <code-tabs [code]="[{ type: 'ts', code: codeTsGet }]"></code-tabs>
-  </div>
+  <div class="s-6"><code-tabs [code]="[{ type: 'ts', code: codeTsGet }]" /></div>
 </div>
 
 <div>
@@ -86,7 +82,5 @@
       }
     </mg-input>
   </div>
-  <div class="s-6">
-    <code-tabs [code]="[{ type: 'ts', code: codeTsAssign }]"></code-tabs>
-  </div>
+  <div class="s-6"><code-tabs [code]="[{ type: 'ts', code: codeTsAssign }]" /></div>
 </div>

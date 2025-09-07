@@ -246,6 +246,11 @@ export const routes: Routes = [
         path: 'utils',
         children: [
             {
+                path: 'array',
+                pathMatch: 'full',
+                loadComponent: () => import('./utils/array/demo-array.component').then(m => m.DemoArrayComponent),
+            },
+            {
                 path: 'clipboard',
                 pathMatch: 'full',
                 loadComponent: () =>

@@ -57,6 +57,7 @@ export const menu = [
     {
         groupName: 'Utils',
         items: [
+            { routerLink: '/utils/array', label: 'Array', status: 'new' },
             { routerLink: '/utils/clipboard', label: 'Clipboard' },
             { routerLink: '/utils/coercion', label: 'Coercion' },
             { routerLink: '/utils/cookies', label: 'Cookies' },

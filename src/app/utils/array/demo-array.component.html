@@ -1,0 +1,22 @@
+<h1>Array</h1>
+
+<h2>flattenedListItems</h2>
+
+<div>
+  <div class="s-6"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
+  <div class="s-6">
+    <code-tabs
+      [code]="[
+        {
+          type: 'ts',
+          code: [
+            { title: `flattenedListItems('test1, test2, test3')`, code: (test1 | json) },
+            { title: `flattenedListItems('test1, test2, test3')`, code: (`${test2 | json}`) },
+            { title: `flattenedListItems(['test1, test2, test3', ['test4']])`, code: (`${test3 | json}`) },
+            { title: `flattenedListItems(['test1  test2  test3', ['test4']], /\s+/)`, code: (`${test4 | json}`) },
+          ],
+        },
+      ]"
+    />
+  </div>
+</div>

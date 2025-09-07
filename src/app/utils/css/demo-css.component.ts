@@ -49,7 +49,7 @@ export class DemoCSSComponent {
 
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
-            colorSeparator: { default: '/\s*,\s*/' },
+            colorSeparator: { default: '/\\s*,\\s*/' },
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {

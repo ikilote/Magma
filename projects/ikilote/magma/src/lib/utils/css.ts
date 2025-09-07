@@ -45,7 +45,7 @@ export function getPaletteList(params?: PaletteParams) {
 
     return element
         ? getComputedStyle(element).getPropertyValue(params.cssVar).split(regexpSlash(params.colorSeparator))
-        : null;
+        : undefined;
 }
 
 export class Palette {
@@ -56,29 +56,29 @@ export class Palette {
     static root: Document | HTMLElement | DocumentFragment = document;
     static colorSeparator: string | RegExp = /\s*,\s*/;
 
-    private static _globalPalette: string[] | null;
+    private static _globalPalette: string[] | undefined;
 
-    static get globalPalette(): string[] | null {
+    static get globalPalette(): string[] | undefined {
         Palette._globalPalette ??= getPaletteList();
         return this._globalPalette;
     }
 
     static globalClear() {
-        Palette._globalPalette = null;
+        Palette._globalPalette = undefined;
     }
 
     // NO STATIC
 
-    private _palette: string[] | null = null;
+    private _palette: string[] | undefined = undefined;
 
     constructor(private params?: PaletteParams) {}
 
-    get palette(): string[] | null {
-        this._palette ??= getPaletteList(this.params);
+    get palette(): string[] | undefined {
+        this._palette ??= getPaletteList(this.params)?.filter(e => e);
         return this._palette;
     }
 
     clear() {
-        this._palette = null;
+        this._palette = undefined;
     }
 }

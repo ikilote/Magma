@@ -8,11 +8,11 @@ import { flattenedListItems } from '../utils/array';
 export class MagmaCache {
     private static cache: Record<
         string,
-        { id: string; group: string[]; value?: any; wait?: true; observable?: Observable<any>; clearDate?: Date }
+        { id: string; group: string[]; value?: any; wait?: true; observable?: Observable<any>; endDate?: Date }
     > = {};
 
-    async request<T>(id: string, group: string | string[], observable: Observable<T>, clearDate?: Date) {
-        if (MagmaCache.cache[id]?.clearDate && MagmaCache.cache[id].clearDate.getTime() > new Date().getTime()) {
+    async request<T>(id: string, group: string | string[], observable: Observable<T>, endDate?: Date) {
+        if (MagmaCache.cache[id]?.endDate && MagmaCache.cache[id].endDate.getTime() > new Date().getTime()) {
             this.clearById(id);
         }
 
@@ -21,10 +21,10 @@ export class MagmaCache {
         if (MagmaCache.cache[id] && !('wait' in MagmaCache.cache[id])) {
             return MagmaCache.cache[id] as T;
         } else if (MagmaCache.cache[id] && 'wait' in MagmaCache.cache[id]) {
-            MagmaCache.cache[id] = { id, group, clearDate, wait: true, observable };
+            MagmaCache.cache[id] = { id, group, endDate, wait: true, observable };
             return await firstValueFrom<T>(observable);
         } else {
-            MagmaCache.cache[id] = { id, group, clearDate, wait: true, observable };
+            MagmaCache.cache[id] = { id, group, endDate, wait: true, observable };
             const value = await firstValueFrom<T>(observable);
             if (MagmaCache.cache[id].wait) {
                 MagmaCache.cache[id] = { id, group, value };

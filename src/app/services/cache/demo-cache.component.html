@@ -1,0 +1,42 @@
+<h1>Cache</h1>
+
+<p>See the console <kbd>F12</kbd> for test</p>
+
+<section>
+  <div class="s-2 s-12-m">
+    <button (click)="action()">action()</button>
+
+    <div class="s-12">
+      <mg-input>
+        <mg-input-label>Id</mg-input-label>
+        <mg-input-text [(ngModel)]="id" />
+      </mg-input>
+      <mg-input>
+        <mg-input-label>group</mg-input-label>
+        <mg-input-text [(ngModel)]="group" />
+      </mg-input>
+    </div>
+  </div>
+  <div class="s-2 s-12-m">
+    <button (click)="clearId()">clearId()</button>
+
+    <div class="s-12">
+      <mg-input>
+        <mg-input-label>Id</mg-input-label>
+        <mg-input-text [(ngModel)]="idClear" />
+      </mg-input>
+    </div>
+
+    <button (click)="clearGroup()">clearGroup()</button>
+
+    <div class="s-12">
+      <mg-input>
+        <mg-input-label>group</mg-input-label>
+        <mg-input-text [(ngModel)]="groupClear" />
+      </mg-input>
+    </div>
+  </div>
+  <div class="s-f">
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]"></code-tabs>
+  </div>
+</section>

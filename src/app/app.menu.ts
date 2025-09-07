@@ -51,6 +51,10 @@ export const menu = [
         ],
     },
     {
+        groupName: 'Services',
+        items: [{ routerLink: '/service/cache', label: 'Cache', status: 'new' }],
+    },
+    {
         groupName: 'Utils',
         items: [
             { routerLink: '/utils/clipboard', label: 'Clipboard' },

@@ -1,5 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
+import { MagmaStringArray, flattenedListItems } from '../utils/array';
+
 /**
  * Flatten and create a css class array
  *
@@ -11,13 +13,7 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'classList',
 })
 export class ClassListPipe implements PipeTransform {
-    transform(values: any[]): any[] {
-        const list: any[] = [];
-        values.flat(Infinity).forEach((value: any) => {
-            if (typeof value === 'string' && value) {
-                list.push(...value.split(/\s+/));
-            }
-        });
-        return list;
+    transform(values: MagmaStringArray): string[] {
+        return flattenedListItems(values, /\s+/);
     }
 }

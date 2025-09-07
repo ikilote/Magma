@@ -2,6 +2,8 @@ import { objectNestedValue } from './object';
 
 import { MagmaSortRule, MagmaSortRules } from '../directives/sortable.directive';
 
+export type MagmaStringArray = string | MagmaStringArray[];
+
 /**
  * sort an array
  * @param sortable sortable array
@@ -74,4 +76,17 @@ function sortWithRuleFormater(rule: string): MagmaSortRule[] {
         });
     });
     return rules;
+}
+
+export function flattenedListItems(values: MagmaStringArray, pattern = /\s*,\s*/): string[] {
+    if (typeof values === 'string') {
+        values = values.split(pattern);
+    }
+    const list: any[] = [];
+    values.flat(20).forEach((value: any) => {
+        if (typeof value === 'string' && value) {
+            list.push(...value.split(pattern));
+        }
+    });
+    return list;
 }

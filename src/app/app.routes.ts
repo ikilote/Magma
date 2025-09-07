@@ -233,6 +233,16 @@ export const routes: Routes = [
         ],
     },
     {
+        path: 'service',
+        children: [
+            {
+                path: 'cache',
+                pathMatch: 'full',
+                loadComponent: () => import('./services/cache/demo-cache.component').then(m => m.DemoCacheComponent),
+            },
+        ],
+    },
+    {
         path: 'utils',
         children: [
             {

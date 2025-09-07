@@ -67,12 +67,14 @@ export * from './lib/pipes/repeat-for.pipe';
 export * from './lib/pipes/str-replace.pipe';
 
 // services
+export * from './lib/services/cache';
 export * from './lib/services/form-builder-extended';
 export * from './lib/services/light-dark';
 export * from './lib/services/logger';
 export * from './lib/services/messages';
 
 // utils
+export * from './lib/utils/array';
 export * from './lib/utils/clipboard';
 export * from './lib/utils/coercion';
 export * from './lib/utils/cookies';

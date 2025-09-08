@@ -10,11 +10,11 @@
         <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
         <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
       </mg-input>
-      <mg-input class="s-6">
+      <mg-input class="s-6 s-12-x">
         <mg-input-label>Min</mg-input-label>
         <mg-input-date formControlName="min" />
       </mg-input>
-      <mg-input class="s-6">
+      <mg-input class="s-6 s-12-x">
         <mg-input-label>Max</mg-input-label>
         <mg-input-date formControlName="max" />
       </mg-input>
@@ -27,21 +27,21 @@
         <div formArrayName="items">
           @for (item of items.controls; track $index; let i = $index) {
             <div [formGroupName]="i">
-              <mg-input class="s-5">
+              <mg-input class="s-6 s-12-x">
                 <mg-input-label>Date</mg-input-label>
                 <mg-input-date formControlName="date" step="0" />
               </mg-input>
-              <mg-input class="s-4">
+              <mg-input class="s-3 s-12-x">
                 <mg-input-label>Value</mg-input-label>
                 <mg-input-number formControlName="value" step="0" />
               </mg-input>
-              <div class="s-3">
+              <div class="s-f s-12-x">
                 <button type="button" (click)="removeItem(i)">Remove</button>
               </div>
             </div>
           }
         </div>
-        <div class="s-12 a-l">
+        <div class="s-12">
           <button type="button" (click)="addItem()">Add Row</button>
         </div>
       </form>

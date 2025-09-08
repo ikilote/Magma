@@ -4,6 +4,7 @@
     width: 100%;
     max-width: 100%;
     overflow-x: auto;
+    scrollbar-gutter: stable;
 }
 
 .calendar {
@@ -12,6 +13,7 @@
     grid-template-columns: repeat(auto-fill, var(--contrib-calendar-tile-size));
     grid-auto-flow: column;
     gap: 5px;
+    margin-bottom: 5px;
     width: calc((var(--contrib-calendar-tile-size) + 5px) * var(--size));
 }
 
@@ -49,30 +51,33 @@
     grid-auto-flow: column;
     grid-row: 2 / 9;
     grid-column: 2 / end;
+}
 
+.tile,
+.tile-desc {
     div {
         border-radius: 2px;
-        background: var(--contrib-calendar-tile-color-even);
+        background: var(--color, var(--contrib-calendar-tile-color-even));
         width: var(--contrib-calendar-tile-size);
 
         &.odd {
-            background: var(--contrib-calendar-tile-color-odd);
+            --color: var(--contrib-calendar-tile-color-odd);
         }
-        &.lvl1 {
-            background: var(--contrib-calendar-tile-color-lvl1);
-        }
-        &.lvl2 {
-            background: var(--contrib-calendar-tile-color-lvl2);
-        }
-        &.lvl3 {
-            background: var(--contrib-calendar-tile-color-lvl3);
-        }
-        &.lvl4 {
-            background: var(--contrib-calendar-tile-color-lvl4);
-        }
-
         &:first-child {
             grid-row: var(--first-pos, 1);
         }
+    }
+}
+
+.desc {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+
+    .tile-desc {
+        display: grid;
+        grid-template-rows: var(--contrib-calendar-tile-size);
+        grid-template-columns: repeat(4, var(--contrib-calendar-tile-size));
+        gap: 5px;
     }
 }

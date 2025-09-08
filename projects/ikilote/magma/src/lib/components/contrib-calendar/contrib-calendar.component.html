@@ -14,10 +14,21 @@
       <div
         title="{{ i.date | date: 'dd/MM/y' }} : {{ i.value }}"
         [class.odd]="i.odd"
-        [class.lvl1]="i.value > 0 && i.value <= 5"
-        [class.lvl2]="i.value > 5 && i.value <= 10"
-        [class.lvl3]="i.value > 10 && i.value <= 15"
-        [class.lvl4]="i.value > 15"
+        [style.--color]="getColor(i.value)"
+      ></div>
+    }
+  </div>
+</div>
+<div class="desc">
+  <div>
+    <ng-content select="mg-contrib-calendar-desc" />
+  </div>
+  <div class="tile-desc">
+    @let s = steps();
+    @for (i of 4 | repeatFor: true; track $index) {
+      <div
+        [style.--color]="s[$index].color"
+        [title]="s[$index + 1] ? s[$index].value + ' - ' + (s[$index + 1].value - 1) : '> ' + (s[$index].value - 1)"
       ></div>
     }
   </div>

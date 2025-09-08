@@ -1,5 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, computed, input } from '@angular/core';
+
+import { RepeatForPipe } from '../../pipes/repeat-for.pipe';
 
 export interface ContribCalendarDay<date = string | Date> {
     date: date;
@@ -7,13 +9,17 @@ export interface ContribCalendarDay<date = string | Date> {
 }
 
 export type ContribCalendar<date = string | Date> = ContribCalendarDay<date>[];
+export type MagmaContribCalendarSteps = { value: number; color: string }[];
+
+@Directive({ selector: 'mg-contrib-calendar-desc' })
+export class MagmaContribCalendarDesc {}
 
 @Component({
     selector: 'mg-contrib-calendar',
     templateUrl: './contrib-calendar.component.html',
     styleUrls: ['./contrib-calendar.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [DatePipe],
+    imports: [DatePipe, RepeatForPipe],
     host: {
         '[style.--size]': 'size()',
     },
@@ -26,6 +32,13 @@ export class MagmaContribCalendar {
     max = input<string | number | Date | undefined>();
 
     calendar = input.required<ContribCalendar>();
+
+    steps = input<MagmaContribCalendarSteps>([
+        { value: 1, color: 'var(--contrib-calendar-tile-color-lvl1)' },
+        { value: 6, color: 'var(--contrib-calendar-tile-color-lvl2)' },
+        { value: 11, color: 'var(--contrib-calendar-tile-color-lvl3)' },
+        { value: 16, color: 'var(--contrib-calendar-tile-color-lvl4)' },
+    ]);
 
     protected computedDays = computed(() =>
         Array.from({ length: 7 }, (_, i) => {
@@ -63,6 +76,20 @@ export class MagmaContribCalendar {
     protected size = computed(() => {
         return this.numberWeek(this.sortedCalendar());
     });
+
+    protected getColor(value: number) {
+        const t = this.steps();
+        if (value < t[0].value) {
+            return undefined;
+        }
+        const l = t.length - 1;
+        for (let i = 0; i < l; i++) {
+            if ((i < l && value >= t[i].value && value < t[i + 1].value) || i === l) {
+                return t[i].color;
+            }
+        }
+        return undefined;
+    }
 
     private createListDates(map: ContribCalendar<Date>) {
         const minDate = this.minDate(map);

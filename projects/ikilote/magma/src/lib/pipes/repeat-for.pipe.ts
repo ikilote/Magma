@@ -16,7 +16,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class RepeatForPipe implements PipeTransform {
     transform(value: number, counter = false): number[] {
         if (counter) {
-            return new Array(...new Array(5)).map((i, index) => index + 1);
+            return new Array(...new Array(value)).map((i, index) => index + 1);
         } else {
             return new Array(value);
         }

@@ -1,4 +1,4 @@
-import { inXDays } from './date';
+import { DurationTime, addDuration } from './date';
 
 /**
  * get cookie by name
@@ -20,7 +20,7 @@ export function getCookie<T extends string>(name: string): T | undefined {
  */
 export function setCookie(name: string, value: string, days: number = 7, path: string = '/') {
     var date = new Date();
-    date.setTime(inXDays(days).getTime());
+    date.setTime(addDuration(days, DurationTime.DAY).getTime());
     document.cookie = `${name}=${value}; path=${path}; expires=${date.toUTCString()}`;
 }
 

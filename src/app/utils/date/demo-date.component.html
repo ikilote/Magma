@@ -6,7 +6,7 @@
   <div class="s-3 s-12-m" [formGroup]="ctrlForm">
     <mg-input class="s-12">
       <mg-input-label>Date</mg-input-label>
-      <mg-input-text formControlName="date"></mg-input-text>
+      <mg-input-text formControlName="date" />
     </mg-input>
     <mg-input class="s-12">
       <mg-input-label>New date (if date is empty)</mg-input-label>
@@ -19,4 +19,50 @@
   </div>
 
   <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
+</div>
+
+<h2>addDuration</h2>
+
+<div>
+  <div class="s-3 s-12-m" [formGroup]="ctrlFormDate">
+    <mg-input class="s-12">
+      <mg-input-label>Date</mg-input-label>
+      <mg-input-number formControlName="number" />
+    </mg-input>
+
+    <div class="s-12">
+      <div>
+        millisecond: <br /><code>{{
+          addDuration(ctrlFormDate.value.number, duration.MILLISECOND) | date: 'y-MM-dd HH:mm:ss.SSS'
+        }}</code>
+      </div>
+      <div>
+        second: <br /><code>{{
+          addDuration(ctrlFormDate.value.number, duration.SECOND) | date: 'y-MM-dd HH:mm:ss.SSS'
+        }}</code>
+      </div>
+      <div>
+        minute: <br /><code>{{
+          addDuration(ctrlFormDate.value.number, duration.MINUTE) | date: 'y-MM-dd HH:mm:ss.SSS'
+        }}</code>
+      </div>
+      <div>
+        hour: <br /><code>{{
+          addDuration(ctrlFormDate.value.number, duration.HOUR) | date: 'y-MM-dd HH:mm:ss.SSS'
+        }}</code>
+      </div>
+      <div>
+        day: <br /><code>{{
+          addDuration(ctrlFormDate.value.number, duration.DAY) | date: 'y-MM-dd HH:mm:ss.SSS'
+        }}</code>
+      </div>
+      <div>
+        week: <br /><code>{{
+          addDuration(ctrlFormDate.value.number, duration.WEEK) | date: 'y-MM-dd HH:mm:ss.SSS'
+        }}</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsDate }]" /></div>
 </div>

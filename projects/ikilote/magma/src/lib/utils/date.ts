@@ -25,15 +25,15 @@ export enum DurationTime {
 
 /**
  * Add time in weeks
- * @param weeks number
+ * @param number number
  * @param duration size (default : MINUTE)
  * @param start date (default: now)
  * @returns new Date
  */
 export function addDuration(
-    weeks: number,
+    number: number,
     duration: DurationTime = DurationTime.MINUTE,
     start: number | Date = Date.now(),
 ): Date {
-    return new Date(typeof start === 'number' ? start : start.getTimezoneOffset() + weeks * duration);
+    return new Date((typeof start === 'number' ? start : start.getTimezoneOffset()) + number * duration);
 }

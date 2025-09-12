@@ -61,10 +61,18 @@ export class DemoContribCalendarComponent {
         { value: 'id', label: 'Indonesian' },
     ];
 
+    days: Select2Data = [
+        { value: '', label: '(empty)' },
+        { value: 'Monday', label: 'Monday' },
+        { value: 'Sunday', label: 'Sunday' },
+        { value: 'Saturday', label: 'Saturday' },
+    ];
+
     ctrlForm: FormGroup<{
         lang: FormControl<string>;
         min: FormControl<string>;
         max: FormControl<string>;
+        day: FormControl<'Monday' | 'Sunday' | 'Saturday'>;
     }>;
     formArray: FormGroup;
 
@@ -76,6 +84,7 @@ export class DemoContribCalendarComponent {
             lang: { default: '' },
             min: { default: '' },
             max: { default: '' },
+            day: { default: '' },
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -122,6 +131,10 @@ export class DemoContribCalendarComponent {
 
         if (this.ctrlForm.value.max) {
             attrs['max'] = this.ctrlForm.value.max;
+        }
+
+        if (this.ctrlForm.value.day) {
+            attrs['firstDayOfWeek'] = this.ctrlForm.value.day;
         }
 
         attrs['[calendar]'] = 'calendar';

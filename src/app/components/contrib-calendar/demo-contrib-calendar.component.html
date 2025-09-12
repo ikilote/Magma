@@ -18,6 +18,10 @@
         <mg-input-label>Max</mg-input-label>
         <mg-input-date formControlName="max" />
       </mg-input>
+      <mg-input class="s-6 s-12-x">
+        <mg-input-label>First day of the week</mg-input-label>
+        <mg-input-select [data]="days" formControlName="day" />
+      </mg-input>
     </form>
 
     <h2>Calendar</h2>
@@ -54,6 +58,7 @@
         [lang]="ctrlForm.value.lang"
         [min]="ctrlForm.value.min"
         [max]="ctrlForm.value.max"
+        [firstDayOfWeek]="ctrlForm.value.day"
       />
     </div>
 

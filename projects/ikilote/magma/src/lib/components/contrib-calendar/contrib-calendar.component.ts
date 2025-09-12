@@ -40,12 +40,25 @@ export class MagmaContribCalendar {
         { value: 16, color: 'var(--contrib-calendar-tile-color-lvl4)' },
     ]);
 
+    firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
+
     protected computedDays = computed(() =>
         Array.from({ length: 7 }, (_, i) => {
-            const date = new Date(2024, 0, i + 1);
+            const date = new Date(2024, 0, this.getFirstGet(this.firstDayOfWeek()) + i + 1);
             return date.toLocaleString(this.lang() || 'en', { weekday: 'narrow' });
         }),
     );
+
+    private getFirstGet(day: 'Monday' | 'Sunday' | 'Saturday' | undefined) {
+        switch (day) {
+            case 'Sunday':
+                return -1;
+            case 'Saturday':
+                return -2;
+            default:
+                return 0;
+        }
+    }
 
     protected sortedCalendar = computed(() => {
         const map = this.calendar()
@@ -65,7 +78,8 @@ export class MagmaContribCalendar {
     });
 
     protected firstPos = computed(() => {
-        let day = this.minDate(this.sortedCalendar()).getDay();
+        let day = (this.minDate(this.sortedCalendar()).getDay() - this.getFirstGet(this.firstDayOfWeek())) % 7;
+        console.log('day', day);
         return day === 0 ? 7 : day;
     });
 
@@ -118,10 +132,10 @@ export class MagmaContribCalendar {
     private listOfMonths(map: ContribCalendar<Date>) {
         // first Monday
 
-        const firstMonday = this.minDate(map);
-        const day = (firstMonday.getUTCDay() || 7) - 1;
+        const firstDayWeek = this.minDate(map);
+        const day = (firstDayWeek.getUTCDay() || 7) - 1 + this.getFirstGet(this.firstDayOfWeek());
         if (day) {
-            firstMonday.setUTCDate(firstMonday.getUTCDate() - day);
+            firstDayWeek.setUTCDate(firstDayWeek.getUTCDate() - day);
         }
 
         // first mouth
@@ -142,7 +156,7 @@ export class MagmaContribCalendar {
             const firstDayOfCurrentMonth = new Date(Date.UTC(year, month, 1));
 
             // Calculate the number of weeks between the 1st day of the first month and the 1st day of the current month
-            const diffTime = firstDayOfCurrentMonth.getTime() - firstMonday.getTime();
+            const diffTime = firstDayOfCurrentMonth.getTime() - firstDayWeek.getTime();
             const pos = diffTime > 0 ? Math.floor(diffTime / (7 * 24 * 60 * 60 * 1000)) : 0; // + 1 for grid-column
 
             months.push({
@@ -161,17 +175,17 @@ export class MagmaContribCalendar {
     }
 
     private numberWeek(map: ContribCalendar<Date>) {
-        // first Monday
+        // first day of the week
 
-        const firstMonday = this.minDate(map);
-        const day = (firstMonday.getUTCDay() || 7) - 1;
+        const firstDayWeek = this.minDate(map);
+        const day = (firstDayWeek.getUTCDay() || 7) - 1 + this.getFirstGet(this.firstDayOfWeek());
         if (day) {
-            firstMonday.setUTCDate(firstMonday.getUTCDate() - day);
+            firstDayWeek.setUTCDate(firstDayWeek.getUTCDate() - day);
         }
 
         // number of weeks
 
-        const diffTime = this.maxDate(map).getTime() - firstMonday.getTime();
+        const diffTime = this.maxDate(map).getTime() - firstDayWeek.getTime();
         return Math.ceil(diffTime / (7 * 24 * 60 * 60 * 1000));
     }
 

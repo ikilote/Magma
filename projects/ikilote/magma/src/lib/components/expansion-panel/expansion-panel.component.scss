@@ -1,0 +1,41 @@
+details {
+    --pos: 90deg;
+    --radius: var(--block-radius);
+
+    summary {
+        position: relative;
+        cursor: pointer;
+        border: var(--block-border);
+        border-radius: var(--radius);
+        padding: 5px;
+
+        &::marker {
+            content: '';
+        }
+
+        &::before {
+            display: block;
+            position: relative;
+            top: 10px;
+            right: 2px;
+            float: right;
+            transform: rotate(var(--pos)) translateY(-2px);
+            transition: transform 0.5s;
+            content: '▶';
+            line-height: 0px;
+            text-align: center;
+        }
+    }
+
+    .detail-content {
+        border: var(--block-border);
+        border-top: 0;
+        border-radius: 0 0 var(--block-radius) var(--block-radius);
+        padding: 10px 5px 5px;
+    }
+
+    &[open] {
+        --pos: -90deg;
+        --radius: var(--block-radius) var(--block-radius) 0 0;
+    }
+}

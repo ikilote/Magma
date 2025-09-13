@@ -18,8 +18,8 @@ export function isEmpty(value: any) {
 }
 
 export function regexpSlash(value: string | RegExp) {
-    if (typeof value === 'string' && value.startsWith('/') && value.endsWith('/')) {
-        value = new RegExp(value.replace(/^\/(.*)\/$/, '$1'), 'g');
+    if (typeof value === 'string' && value.length > 2 && value.match(/^\/.*\/[ig]*$/)) {
+        value = new RegExp(value.replace(/^\/(.*)\/[ig]*$/, '$1'), 'g');
     }
     return value;
 }

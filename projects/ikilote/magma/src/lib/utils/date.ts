@@ -35,5 +35,5 @@ export function addDuration(
     duration: DurationTime = DurationTime.MINUTE,
     start: number | Date = Date.now(),
 ): Date {
-    return new Date((typeof start === 'number' ? start : start.getTimezoneOffset()) + number * duration);
+    return new Date((typeof start === 'number' ? start : start.getTime()) + number * duration);
 }

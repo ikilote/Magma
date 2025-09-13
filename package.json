@@ -11,7 +11,8 @@
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint @ikilote/magma",
     "format": "npx prettier --write .",
-    "test": "ng test"
+    "test": "ng test",
+    "test:lib": "ng test @ikilote/magma"
   },
   "private": true,
   "dependencies": {

@@ -136,6 +136,22 @@ npm run publish:lib
 npm run build:demo
 ```
 
+## Test
+
+### Linux
+
+Required for start test
+
+```sh
+export CHROME_BIN=chromium
+```
+
+test for lib
+
+```sh
+npm run test:lib
+```
+
 ## License
 
 Like Angular, this module is released under the permissive MIT license. Your contributions are always welcome.

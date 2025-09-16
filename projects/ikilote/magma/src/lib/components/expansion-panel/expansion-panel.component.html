@@ -1,4 +1,4 @@
-<details>
+<details [attr.open]="open() ? 'open' : undefined" #details (click)="updateOpen(details)">
   <summary>
     <div class="summary-content">
       <ng-content select="mg-expansion-header" />

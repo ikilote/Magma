@@ -1,0 +1,14 @@
+<details [attr.open]="open() ? 'open' : undefined" #details>
+  <summary
+    [attr.disabled]="disabled() ? 'disabled' : undefined"
+    [tabIndex]="disabled() ? -1 : 0"
+    (click)="updateOpen(details)"
+  >
+    <div class="summary-content">
+      <ng-content select="mg-expansion-header" />
+    </div>
+  </summary>
+  <div class="detail-content">
+    <ng-content select="mg-expansion-content" />
+  </div>
+</details>

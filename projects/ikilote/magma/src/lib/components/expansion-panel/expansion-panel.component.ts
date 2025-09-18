@@ -13,6 +13,7 @@ export interface MagmaExpansionPanelUpdateEvent {
 })
 export class MagmaExpansionPanel {
     open = input(false, { transform: booleanAttribute });
+    disabled = input(false, { transform: booleanAttribute });
 
     update = output<MagmaExpansionPanelUpdateEvent>();
 

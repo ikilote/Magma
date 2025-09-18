@@ -3,19 +3,30 @@
 <section>
   <form class="s-4 s-8-l s-12-s">
     <h2>Option</h2>
+    <div>
+      <mg-input>
+        <mg-input-checkbox
+          mode="toggle"
+          [(ngModel)]="open"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="generator()"
+          >Open</mg-input-checkbox
+        >
+      </mg-input>
+    </div>
     <mg-input>
       <mg-input-checkbox
         mode="toggle"
-        [(ngModel)]="open"
+        [(ngModel)]="disabled"
         [ngModelOptions]="{ standalone: true }"
         (ngModelChange)="generator()"
-        >Open</mg-input-checkbox
+        >Disabled</mg-input-checkbox
       >
     </mg-input>
   </form>
   <div class="s-4 s-4-l s-12-s">
     <h2>Render</h2>
-    <mg-expansion-panel [open]="open" (update)="update($event)">
+    <mg-expansion-panel [open]="open" [disabled]="disabled" (update)="update($event)">
       <mg-expansion-header><p>test</p> </mg-expansion-header>
       <mg-expansion-content>
         <h2>test</h2>

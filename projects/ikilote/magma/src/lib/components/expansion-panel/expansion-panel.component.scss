@@ -17,29 +17,35 @@ summary {
     border-radius: var(--radius);
     padding: 5px;
 
-    &::marker {
-        content: '';
+    &[disabled] {
+        pointer-events: none;
     }
 
-    &::after {
-        display: block;
-        position: relative;
-        top: 0;
-        right: 2px;
+    &:not([disabled]) {
+        &::marker {
+            content: '';
+        }
 
-        transform: rotate(var(--pos));
-        transform-origin: 10px 10px;
-        transition:
-            transform 0.5s,
-            top 0.5s;
-        width: 20px;
-        height: 20px;
-        content: '▶';
-        line-height: 20px;
-        text-align: center;
+        &::after {
+            display: block;
+            position: relative;
+            top: 0;
+            right: 2px;
 
-        @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
-            line-height: 16px;
+            transform: rotate(var(--pos));
+            transform-origin: 10px 10px;
+            transition:
+                transform 0.5s,
+                top 0.5s;
+            width: 20px;
+            height: 20px;
+            content: '▶';
+            line-height: 20px;
+            text-align: center;
+
+            @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+                line-height: 16px;
+            }
         }
     }
 }

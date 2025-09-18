@@ -12,7 +12,7 @@
     "lint": "ng lint @ikilote/magma",
     "format": "npx prettier --write .",
     "test": "ng test",
-    "test:lib": "ng test @ikilote/magma"
+    "test:lib": "export CHROME_BIN=chromium && ng test @ikilote/magma"
   },
   "private": true,
   "dependencies": {

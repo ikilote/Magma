@@ -88,9 +88,7 @@ describe('Cookie Utilities', () => {
             setCookie('testCookie', 'testValue');
 
             expect(cookieStore['testCookie']).toBe('testValue');
-            expect(cookieString).toContain('testCookie=testValue');
-            expect(cookieString).toContain('path=/');
-            expect(cookieString).toContain('expires=Thu, 01 Jan 2025 00:00:00 GMT');
+            expect(cookieString).toBe('testCookie=testValue; path=/; expires=Thu, 01 Jan 2025 00:00:00 GMT');
         });
 
         it('should set a cookie with custom expiration and path', () => {
@@ -101,9 +99,7 @@ describe('Cookie Utilities', () => {
             setCookie('testCookie', 'testValue', 7, '/custom-path');
 
             expect(cookieStore['testCookie']).toBe('testValue');
-            expect(cookieString).toContain('testCookie=testValue');
-            expect(cookieString).toContain('path=/custom-path');
-            expect(cookieString).toContain('expires=Thu, 01 Jan 2025 00:00:00 GMT');
+            expect(cookieString).toBe('testCookie=testValue; path=/custom-path; expires=Thu, 01 Jan 2025 00:00:00 GMT');
         });
     });
 
@@ -114,7 +110,7 @@ describe('Cookie Utilities', () => {
 
             removeCookie('testCookie');
             expect(getCookie('testCookie')).toBe('');
-            expect(cookieString).toContain('testCookie=; path=/; Max-Age=0');
+            expect(cookieString).toBe('testCookie=; path=/; Max-Age=0');
         });
 
         it('should remove a cookie with a custom path', () => {
@@ -123,7 +119,7 @@ describe('Cookie Utilities', () => {
 
             removeCookie('testCookie', '/custom-path');
             expect(getCookie('testCookie')).toBe('');
-            expect(cookieString).toContain('testCookie=; path=/custom-path; Max-Age=0');
+            expect(cookieString).toBe('testCookie=; path=/custom-path; Max-Age=0');
         });
     });
 

@@ -83,7 +83,7 @@ export function flattenedListItems(values: MagmaStringArray, pattern = /\s*,\s*/
         values = values.split(pattern);
     }
     const list: any[] = [];
-    values.flat(20).forEach((value: any) => {
+    values?.flat(20).forEach((value: any) => {
         if (typeof value === 'string' && value) {
             list.push(...value.split(pattern));
         }

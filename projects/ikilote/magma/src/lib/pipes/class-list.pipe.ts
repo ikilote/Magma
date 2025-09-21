@@ -14,6 +14,6 @@ import { MagmaStringArray, flattenedListItems } from '../utils/array';
 })
 export class ClassListPipe implements PipeTransform {
     transform(values: MagmaStringArray): string[] {
-        return flattenedListItems(values, /\s+/);
+        return flattenedListItems(values, /\s+/).filter(e => e);
     }
 }

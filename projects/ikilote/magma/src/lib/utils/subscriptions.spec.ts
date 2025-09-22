@@ -71,18 +71,22 @@ describe('Subscriptions', () => {
         it('should unsubscribe all added subscriptions', () => {
             // Test: Clearing subscriptions calls unsubscribe on all
             subscriptions.push(testSub1, testSub2);
+            expect(subscriptions.length).toBe(2);
             subscriptions.clear();
             expect(unsubscribeSpy1).toHaveBeenCalledTimes(1);
             // @ts-ignore: Access private property for testing
             expect(subscriptions.listener.closed).toBeTrue();
+            expect(subscriptions.length).toBe(0);
         });
 
         it('should be safe to call clear multiple times', () => {
             // Test: Multiple calls to clear are safe
             subscriptions.push(testSub1);
+            expect(subscriptions.length).toBe(1);
             subscriptions.clear();
             subscriptions.clear(); // Should not throw
             expect(unsubscribeSpy1).toHaveBeenCalledTimes(1);
+            expect(subscriptions.length).toBe(0);
         });
 
         it('should unsubscribe even if no subscriptions were added', () => {

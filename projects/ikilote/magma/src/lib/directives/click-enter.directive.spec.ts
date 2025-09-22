@@ -27,8 +27,8 @@ describe('MagmaClickEnterDirective', () => {
     let clickableElement: DebugElement;
     let disabledElement: DebugElement;
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
+    beforeEach(() => {
+        TestBed.configureTestingModule({
             imports: [TestComponent],
         }).compileComponents();
 

@@ -21,8 +21,8 @@ describe('MagmaClickOutsideDirective', () => {
     let element: DebugElement;
     let directive: MagmaClickOutsideDirective;
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
+    beforeEach(() => {
+        TestBed.configureTestingModule({
             imports: [TestComponent],
         }).compileComponents();
 

@@ -134,7 +134,8 @@
           "options": {
             "tsConfig": "projects/ikilote/magma/tsconfig.spec.json",
             "polyfills": ["zone.js", "zone.js/testing"],
-            "browsers": "ChromeHeadless"
+            "browsers": "ChromeHeadless",
+            "codeCoverage": true
           }
         }
       }

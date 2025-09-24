@@ -44,6 +44,10 @@ describe('objectsAreSame', () => {
         expect(objectsAreSame(objA, objB)).toBeFalse();
     });
 
+    it('should return false for second is not a array', () => {
+        expect(objectsAreSame({ a: [] }, { a: {} })).toBeFalse();
+    });
+
     // Arrays
     it('should return true for identical arrays', () => {
         const objA = { a: [1, 2, 3] };

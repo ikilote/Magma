@@ -1,4 +1,4 @@
-import { objectsAreSame } from './object';
+import { objectAssignNested, objectNestedValue, objectsAreSame } from './object';
 
 describe('objectsAreSame', () => {
     // Basic equality
@@ -132,5 +132,103 @@ describe('objectsAreSame', () => {
             e: [{ g: 6 }, { f: 5 }],
         };
         expect(objectsAreSame(objA, objB)).toBeFalse();
+    });
+});
+
+describe('objectNestedValue', () => {
+    // Basic nested value access
+    it('should return the nested value for a valid path (array)', () => {
+        const obj = { a: { b: { c: 42 } } };
+        expect(objectNestedValue(obj, ['a', 'b', 'c'])).toBe(42);
+    });
+
+    it('should return the nested value for a valid path (string)', () => {
+        const obj = { a: { b: { c: 42 } } };
+        expect(objectNestedValue(obj, 'a.b.c')).toBe(42);
+    });
+
+    // Edge cases
+    it('should return undefined for an invalid path', () => {
+        const obj = { a: { b: { c: 42 } } };
+        expect(objectNestedValue(obj, ['a', 'x', 'c'])).toBeUndefined();
+    });
+
+    it('should return undefined for an empty path', () => {
+        const obj = { a: { b: { c: 42 } } };
+        expect(objectNestedValue(obj, [])).toBe(obj);
+    });
+
+    it('should return the object itself for an empty string path', () => {
+        const obj = { a: { b: { c: 42 } } };
+        expect(objectNestedValue(obj, '')).toBe(obj);
+    });
+
+    // Array indices
+    it('should handle array indices in the path', () => {
+        const obj = { a: [{ b: 42 }] };
+        expect(objectNestedValue(obj, ['a', 0, 'b'])).toBe(42);
+    });
+
+    // Null/undefined object
+    it('should return undefined if the object is null or undefined', () => {
+        expect(objectNestedValue(null, ['a', 'b'])).toBeUndefined();
+        expect(objectNestedValue(undefined, ['a', 'b'])).toBeUndefined();
+    });
+});
+
+describe('objectAssignNested', () => {
+    // Basic nested assignment
+    it('should merge nested objects', () => {
+        const target = { a: { b: { c: 1 } } };
+        const source = { a: { b: { d: 2 } } };
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: { b: { c: 1, d: 2 } } });
+    });
+
+    // Overwrite primitive values
+    it('should overwrite primitive values', () => {
+        const target = { a: { b: 1 } };
+        const source = { a: { b: 2 } };
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: { b: 2 } });
+    });
+
+    // Multiple sources
+    it('should merge multiple sources', () => {
+        const target = { a: { b: 1 } };
+        const source1 = { a: { c: 2 } };
+        const source2 = { a: { d: 3 } };
+        const result = objectAssignNested(target, source1, source2);
+        expect(result).toEqual({ a: { b: 1, c: 2, d: 3 } });
+    });
+
+    // New properties
+    it('should add new properties', () => {
+        const target = { a: { b: 1 } };
+        const source = { c: 2 };
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: { b: 1 }, c: 2 });
+    });
+
+    // Edge cases
+    it('should handle empty target', () => {
+        const target = {};
+        const source = { a: { b: 1 } };
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: { b: 1 } });
+    });
+
+    it('should handle empty source', () => {
+        const target = { a: { b: 1 } };
+        const source = {};
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: { b: 1 } });
+    });
+
+    it('should handle null/undefined source values', () => {
+        const target = { a: { b: 1 } };
+        const source = { a: { b: null } };
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: { b: null } });
     });
 });

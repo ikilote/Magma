@@ -1,4 +1,4 @@
-import { normalizeString } from './text';
+import { normalizeString, unescapedString } from './text';
 
 describe('normalizeString', () => {
     // Basic normalization
@@ -69,5 +69,64 @@ describe('normalizeString', () => {
 
     it('should handle strings with only special diacritic characters', () => {
         expect(normalizeString('́̀̂̃̄')).toBe(''); // These are combining diacritical marks
+    });
+});
+
+describe('unescapedString', () => {
+    // Classic escape sequences
+    it('should transform \\n into a newline', () => {
+        expect(unescapedString('Line 1\\nLine 2')).toBe('Line 1\nLine 2');
+    });
+
+    it('should transform \\t into a tab', () => {
+        expect(unescapedString('Col1\\tCol2')).toBe('Col1\tCol2');
+    });
+
+    it('should transform \\r into a carriage return', () => {
+        expect(unescapedString('Return\\r')).toBe('Return\r');
+    });
+
+    it('should transform \\" into a double quote', () => {
+        expect(unescapedString('This is a \\"quote\\"')).toBe('This is a "quote"');
+    });
+
+    it("should transform \\' into a single quote", () => {
+        expect(unescapedString("This is a \\'quote\\'")).toBe("This is a 'quote'");
+    });
+
+    it('should transform \\` into a backtick', () => {
+        expect(unescapedString('Backtick: \\`')).toBe('Backtick: `');
+    });
+
+    // Unicode sequences
+    it('should transform \\u00A9 into ©', () => {
+        expect(unescapedString('Copyright \\u00A9')).toBe('Copyright ©');
+    });
+
+    it('should transform \\u20AC into €', () => {
+        expect(unescapedString('Price: \\u20AC10')).toBe('Price: €10');
+    });
+
+    // Latin-1 sequences
+    it('should transform \\xA9 into ©', () => {
+        expect(unescapedString('Copyright \\xA9')).toBe('Copyright ©');
+    });
+
+    // Multiple sequences
+    it('should transform multiple sequences', () => {
+        expect(unescapedString('Line\\n\\t\\u00A9\\xA9')).toBe('Line\n\t©©');
+    });
+
+    // Edge cases
+    it('should return the string unchanged if no sequences are found', () => {
+        expect(unescapedString('No sequences here')).toBe('No sequences here');
+    });
+
+    it('should ignore invalid sequences (e.g., \\z)', () => {
+        expect(unescapedString('Invalid sequence: \\z')).toBe('Invalid sequence: \\z');
+    });
+
+    it('should ignore invalid Unicode/Latin-1 sequences (e.g., \\uZZZZ)', () => {
+        expect(unescapedString('Invalid Unicode sequence: \\uZZZZ')).toBe('Invalid Unicode sequence: \\uZZZZ');
     });
 });

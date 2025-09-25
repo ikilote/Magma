@@ -12,14 +12,14 @@ export class MagmaCache {
     > = {};
 
     async request<T>(id: string, group: string | string[], observable: Observable<T>, endDate?: Date) {
-        if (MagmaCache.cache[id]?.endDate && MagmaCache.cache[id].endDate.getTime() > new Date().getTime()) {
+        if (MagmaCache.cache[id]?.endDate && new Date().getTime() > MagmaCache.cache[id].endDate.getTime()) {
             this.clearById(id);
         }
 
         group = flattenedListItems(group);
 
         if (MagmaCache.cache[id] && !('wait' in MagmaCache.cache[id])) {
-            return MagmaCache.cache[id] as T;
+            return MagmaCache.cache[id].value as T;
         } else if (MagmaCache.cache[id] && 'wait' in MagmaCache.cache[id]) {
             MagmaCache.cache[id] = { id, group, endDate, wait: true, observable };
             return await firstValueFrom<T>(observable);
@@ -29,8 +29,12 @@ export class MagmaCache {
             if (MagmaCache.cache[id].wait) {
                 MagmaCache.cache[id] = { id, group, value };
             }
-            return MagmaCache.cache[id] as T;
+            return value;
         }
+    }
+
+    clearAll() {
+        MagmaCache.cache = {};
     }
 
     clearById(id: string) {

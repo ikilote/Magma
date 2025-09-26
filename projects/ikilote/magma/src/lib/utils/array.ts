@@ -35,7 +35,7 @@ export function sortWithRule<T = any>(
 
                     let test = 0;
                     if (rule.type === 'string') {
-                        test = (valA as string).localeCompare(valB as string);
+                        test = (valA as string)?.localeCompare(valB as string);
                     } else if (rule.type === 'translate') {
                         test = rule
                             .translate(rule.translateId.replace('%value%', valA || rule.default))

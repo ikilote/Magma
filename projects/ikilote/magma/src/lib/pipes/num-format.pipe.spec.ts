@@ -47,6 +47,13 @@ describe('NumFormatPipe', () => {
         NumFormatPipe.lang = 'en'; // Reset
     });
 
+    it('should format number using default language ("en")', () => {
+        NumFormatPipe.lang = '';
+        const result = pipe.transform(1000.123, { maximumFractionDigits: 2 });
+        expect(result).toBe('1,000.12');
+        NumFormatPipe.lang = 'en'; // Reset
+    });
+
     // --- Invalid Value Tests ---
     it('should return an empty string for NaN', () => {
         const result = pipe.transform(NaN as unknown as number);

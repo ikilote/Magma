@@ -43,9 +43,13 @@ export function getPaletteList(params?: PaletteParams) {
     const element =
         params.selector instanceof HTMLElement ? params.selector : params.root.querySelector(params.selector);
 
-    return element
-        ? getComputedStyle(element).getPropertyValue(params.cssVar).split(regexpSlash(params.colorSeparator))
+    const value = element
+        ? getComputedStyle(element)
+              .getPropertyValue(params.cssVar)
+              .split(regexpSlash(params.colorSeparator))
+              .filter(e => e)
         : undefined;
+    return value && value?.length > 0 ? value : undefined;
 }
 
 export class Palette {
@@ -74,7 +78,7 @@ export class Palette {
     constructor(private params?: PaletteParams) {}
 
     get palette(): string[] | undefined {
-        this._palette ??= getPaletteList(this.params)?.filter(e => e);
+        this._palette ??= getPaletteList(this.params);
         return this._palette;
     }
 

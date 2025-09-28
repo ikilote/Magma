@@ -35,7 +35,7 @@ export class NumFormatPipe implements PipeTransform {
         } else {
             return new Intl.NumberFormat(
                 lang || NumFormatPipe.lang || 'en',
-                typeof params !== 'string' ? params : {},
+                typeof params === 'object' ? params : {},
             ).format(value);
         }
     }

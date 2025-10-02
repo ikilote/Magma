@@ -120,6 +120,6 @@ describe('MagmaProgress usage', () => {
         wrapperComponent.sizeFormat = { format: 'binary', language: 'en' };
         fixture.detectChanges();
         const progressText = debugElement.query(By.css('.progress-text')).nativeElement.textContent;
-        expect(progressText.trim()).toContain('1,024\u00A0kB  /  2,048\u00A0kB');
+        expect(progressText.trim()).toContain('1,024\u00A0KiB  /  2,048\u00A0KiB');
     });
 });

@@ -122,6 +122,22 @@ describe('sortWithRule', () => {
             expect(translateMock).toHaveBeenCalled();
             expect(array.map(item => item.value)).toEqual(['a', 'b', 'c']);
         });
+
+        it('should sort translated values (default value)', () => {
+            const translateMock = jasmine.createSpy().and.callFake((str: string) => str);
+            const array = [{ value: 'b' }, { value: 'a' }, { value: 'c' }];
+
+            sortWithRule(array, {
+                attr: 'test',
+                type: 'translate',
+                translateId: 'test.%value%',
+                default: 'a',
+                translate: translateMock,
+            });
+
+            expect(translateMock).toHaveBeenCalled();
+            expect(array.map(item => item.value)).toEqual(['b', 'a', 'c']);
+        });
     });
 
     describe('Multiple rules', () => {
@@ -183,6 +199,22 @@ describe('sortWithRule', () => {
                 { category: 'B', value: 2 },
             ]);
         });
+
+        it('should parse string rule format (without type)', () => {
+            const array = [{ name: 'Charlie' }, { name: 'Alice' }, { name: 'Bob' }];
+
+            sortWithRule(array, 'name:asc');
+
+            expect(array.map(item => item.name)).toEqual(['Alice', 'Bob', 'Charlie']);
+        });
+
+        it('should parse string rule format  (without order)', () => {
+            const array = [{ name: 'Charlie' }, { name: 'Alice' }, { name: 'Bob' }];
+
+            sortWithRule(array, 'name:string');
+
+            expect(array.map(item => item.name)).toEqual(['Alice', 'Bob', 'Charlie']);
+        });
     });
 
     describe('Edge cases', () => {
@@ -206,6 +238,17 @@ describe('sortWithRule', () => {
             expect(array[0].name).toBe('Alice');
             expect(array[1].name).toBe('Bob');
             expect(array[2].other).toBe('property');
+        });
+
+        it('should handle empty list rule', () => {
+            const array = [{ name: 'Alice' }, { other: 'property' }, { name: 'Bob' }];
+
+            sortWithRule(array, []);
+
+            // no change
+            expect(array[0].name).toBe('Alice');
+            expect(array[1].other).toBe('property');
+            expect(array[2].name).toBe('Bob');
         });
     });
 });

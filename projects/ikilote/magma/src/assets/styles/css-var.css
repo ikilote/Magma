@@ -176,6 +176,10 @@ body {
     --input-checked-color: var(--primary5);
     --input-textarea-min-height: 33px;
     --input-textarea-max-height: 500px;
+    --input-textarea-limit-size: 16px;
+    --input-textarea-limit-background: var(--neutral6);
+    --input-textarea-limit-color: var(--primary4);
+    --input-textarea-limit-border: 1px solid var(--neutral6);
     --input-error-color: var(--alert3);
     --input-line-height: 21px;
     --input-mark-top: -2px;

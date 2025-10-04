@@ -11,6 +11,18 @@
     &.monospace {
         --font-family: var(--font-mono);
     }
+
+    & > div {
+        display: flex;
+        position: absolute;
+        right: 8px;
+        bottom: 2px;
+        justify-content: end;
+        align-items: end;
+        gap: 8px;
+        pointer-events: none;
+        font-size: 11px;
+    }
 }
 
 textarea {
@@ -19,4 +31,21 @@ textarea {
     min-height: var(--min, var(--input-textarea-min-height));
     max-height: var(--max, var(--input-textarea-max-height));
     resize: var(--input-textarea-vertical, vertical);
+}
+
+.limit {
+    --percent: calc(var(--size) / var(--total) * 360deg);
+    --width: var(--input-textarea-limit-size);
+    display: inline-block;
+    margin-bottom: 3px;
+    outline: var(--input-textarea-limit-border);
+    outline-offset: 1px;
+    border-radius: 50%;
+    background-image: conic-gradient(
+        var(--input-textarea-limit-background) var(--percent),
+        var(--input-textarea-limit-color) var(--percent)
+    );
+    width: var(--width);
+    min-width: var(--width);
+    height: var(--width);
 }

@@ -163,6 +163,12 @@
           </mg-input>
         }
         @if (formGenerator.value.type === 'textarea') {
+          @if (formGenerator.value.maxLength) {
+            <mg-input class="s-4 s-6-m">
+              <mg-input-label>displayLimit</mg-input-label>
+              <mg-input-number formControlName="displayLimit" />
+            </mg-input>
+          }
           <mg-input class="s-4 s-6-m">
             <mg-input-label>autosize</mg-input-label>
             <mg-input-checkbox formControlName="autosize" mode="toggle"></mg-input-checkbox>
@@ -324,6 +330,7 @@
               [autosize]="formGenerator.value.autosize"
               [monospace]="formGenerator.value.monospace"
               [maxlength]="formGenerator.value.maxLength ?? null"
+              [displayLimit]="formGenerator.value.displayLimit ?? null"
               [height]="formGenerator.value.height"
               [maxHeight]="formGenerator.value.maxHeight"
               [minHeight]="formGenerator.value.minHeight"

@@ -62,7 +62,8 @@ describe('MagmaDialog', () => {
             [title]="title"
             [id]="id"
             (onClose)="onClose()"
-        />
+            >Content</mg-dialog
+        >
     `,
 })
 class TestWrapperComponent {
@@ -95,6 +96,20 @@ describe('MagmaDialog usage', () => {
 
     it('should create', () => {
         expect(dialogComponent).toBeTruthy();
+    });
+
+    it('should project not open', () => {
+        const main = debugElement.query(By.css('.main'));
+        expect(main).toBeNull();
+    });
+
+    it('should project open with simple content', () => {
+        wrapperComponent.title = '';
+        dialogComponent.open();
+        fixture.detectChanges();
+        const main = debugElement.query(By.css('.main'));
+        expect(main).toBeDefined();
+        expect(main.nativeElement.textContent).toBe('Content');
     });
 
     it('should display close button if closeButton is true', () => {

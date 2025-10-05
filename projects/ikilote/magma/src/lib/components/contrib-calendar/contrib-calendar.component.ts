@@ -79,7 +79,6 @@ export class MagmaContribCalendar {
 
     protected firstPos = computed(() => {
         let day = (this.minDate(this.sortedCalendar()).getDay() - this.getFirstGet(this.firstDayOfWeek())) % 7;
-        console.log('day', day);
         return day === 0 ? 7 : day;
     });
 
@@ -97,7 +96,7 @@ export class MagmaContribCalendar {
             return undefined;
         }
         const l = t.length - 1;
-        for (let i = 0; i < l; i++) {
+        for (let i = 0; i <= l; i++) {
             if ((i < l && value >= t[i].value && value < t[i + 1].value) || i === l) {
                 return t[i].color;
             }

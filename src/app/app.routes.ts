@@ -51,6 +51,14 @@ export const routes: Routes = [
                     import('./components/dialog/demo-dialog.component').then(m => m.DemoDialogComponent),
             },
             {
+                path: 'expansion-panel',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/expansion-panel/demo-expansion-panel.component').then(
+                        m => m.DemoExpansionPanelComponent,
+                    ),
+            },
+            {
                 path: 'input',
                 pathMatch: 'full',
                 loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),

@@ -44,6 +44,7 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     readonly autosize = input(false, { transform: booleanAttribute });
     readonly monospace = input(false, { transform: booleanAttribute });
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
+    readonly displayLimit = input(undefined, { transform: numberAttributeOrUndefined });
     readonly height = input<string>();
     readonly maxHeight = input<string>();
     readonly minHeight = input<string>();

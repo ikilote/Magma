@@ -1,0 +1,46 @@
+<h1>Expansion-panel</h1>
+
+<section>
+  <form class="s-4 s-8-l s-12-s">
+    <h2>Option</h2>
+    <div>
+      <mg-input>
+        <mg-input-checkbox
+          mode="toggle"
+          [(ngModel)]="open"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="generator()"
+          >Open</mg-input-checkbox
+        >
+      </mg-input>
+    </div>
+    <mg-input>
+      <mg-input-checkbox
+        mode="toggle"
+        [(ngModel)]="disabled"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="generator()"
+        >Disabled</mg-input-checkbox
+      >
+    </mg-input>
+  </form>
+  <div class="s-4 s-4-l s-12-s">
+    <h2>Render</h2>
+    <mg-expansion-panel [open]="open" [disabled]="disabled" (update)="update($event)">
+      <mg-expansion-header><p>test</p> </mg-expansion-header>
+      <mg-expansion-content>
+        <h2>test</h2>
+        <p>test content</p>
+      </mg-expansion-content>
+    </mg-expansion-panel>
+  </div>
+  <div class="s-4 s-12-l">
+    <h2>Code</h2>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</section>

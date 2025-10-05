@@ -1,0 +1,62 @@
+details {
+    --pos: 90deg;
+    --radius: var(--block-radius);
+
+    &[open] {
+        --pos: -90deg;
+        --radius: var(--block-radius) var(--block-radius) 0 0;
+    }
+}
+
+summary {
+    display: flex;
+    position: relative;
+    align-items: center;
+    cursor: pointer;
+    border: var(--block-border);
+    border-radius: var(--radius);
+    padding: 5px;
+
+    &[disabled] {
+        pointer-events: none;
+    }
+
+    &:not([disabled]) {
+        &::marker {
+            content: '';
+        }
+
+        &::after {
+            display: block;
+            position: relative;
+            top: 0;
+            right: 2px;
+
+            transform: rotate(var(--pos));
+            transform-origin: 10px 10px;
+            transition:
+                transform 0.5s,
+                top 0.5s;
+            width: 20px;
+            height: 20px;
+            content: '▶';
+            line-height: 20px;
+            text-align: center;
+
+            @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
+                line-height: 16px;
+            }
+        }
+    }
+}
+
+.summary-content {
+    flex: 1;
+}
+
+.detail-content {
+    border: var(--block-border);
+    border-top: 0;
+    border-radius: 0 0 var(--block-radius) var(--block-radius);
+    padding: 5px;
+}

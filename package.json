@@ -25,7 +25,7 @@
     "@angular/platform-browser": "^20.1.2",
     "@angular/platform-browser-dynamic": "^20.1.2",
     "@angular/router": "^20.1.2",
-    "@ikilote/json2html": "^0.10.0",
+    "@ikilote/json2html": "^0.10.1",
     "@ikilote/num-formatter": "^1.0.0",
     "autosize": "^6.0.1",
     "bowser": "^2.12.1",

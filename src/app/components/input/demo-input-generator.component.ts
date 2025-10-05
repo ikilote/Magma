@@ -85,6 +85,7 @@ export class DemoInputGeneratorComponent {
         clearCross: FormControl<boolean>;
 
         // textarea
+        displayLimit: FormControl<number>;
         autosize: FormControl<boolean>;
         monospace: FormControl<boolean>;
         height: FormControl<string>;
@@ -190,6 +191,7 @@ export class DemoInputGeneratorComponent {
             maxLength: { default: undefined },
             clearCross: { default: false },
             // textarea
+            displayLimit: { default: undefined },
             autosize: { default: false },
             monospace: { default: false },
             height: { default: undefined },
@@ -537,6 +539,12 @@ export class DemoInputGeneratorComponent {
             }
         }
         if (type === 'textarea') {
+            if (
+                (fgValue.maxLength || fgValue.maxLength === 0) &&
+                (fgValue.displayLimit || fgValue.displayLimit === 0)
+            ) {
+                attrInput['displayLimit'] = fgValue.displayLimit;
+            }
             if (fgValue.autosize) {
                 attrInput['autosize'] = null;
             }

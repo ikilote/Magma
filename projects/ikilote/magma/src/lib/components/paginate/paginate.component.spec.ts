@@ -1,3 +1,4 @@
+import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
@@ -139,6 +140,33 @@ describe('MagmaPagination', () => {
         expect(spy).toHaveBeenCalledWith(4, false);
     }));
 
+    it('should update page on external update event', () => {
+        const spy = spyOn(MagmaPagination['onPageUpdate'], 'next');
+
+        fixture.detectChanges();
+
+        component.update(2, false);
+        expect(spy).not.toHaveBeenCalled();
+
+        component.update(3, true);
+        expect(spy).not.toHaveBeenCalled();
+
+        fixture.componentRef.setInput('linkId', 'test-link');
+        fixture.detectChanges();
+
+        component.update(4, false);
+        expect(spy).not.toHaveBeenCalled();
+
+        component.update(5, true);
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('should be uid', () => {
+        expect(component['uid']()).toMatch(/page-\d+/);
+    });
+
+    // Edge cases
+
     it('should be empty', () => {
         fixture.componentRef.setInput('total', 0);
         fixture.detectChanges();
@@ -146,5 +174,42 @@ describe('MagmaPagination', () => {
 
         const size = component.pages.length;
         expect(size).toBe(0);
+    });
+
+    it('should update page with invalide value', () => {
+        component.ngOnChanges({
+            page: {
+                currentValue: 0,
+                previousValue: 1,
+                firstChange: false,
+                isFirstChange: () => false,
+            },
+        } as SimpleChanges);
+        component.ngDoCheck();
+
+        fixture.detectChanges();
+        expect(component.currentPage).toBe(1);
+
+        component.ngOnChanges({
+            page: {
+                currentValue: 50,
+                previousValue: 1,
+                firstChange: false,
+                isFirstChange: () => false,
+            },
+        } as SimpleChanges);
+        component.ngDoCheck();
+
+        fixture.detectChanges();
+        expect(component.currentPage).toBe(10);
+    });
+
+    it('should update size with invalide value', () => {
+        fixture.componentRef.setInput('size', 0);
+        fixture.detectChanges();
+        component.ngDoCheck();
+
+        const currentPage = component.currentPage;
+        expect(currentPage).toBe(1);
     });
 });

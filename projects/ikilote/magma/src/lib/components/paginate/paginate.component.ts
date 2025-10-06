@@ -103,12 +103,14 @@ export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
         let currentPage = +this.currentPage;
         let test = 0;
 
-        const nbPages = this.size ? Math.ceil((this.total() ?? 0) / this.size()) : 0;
+        const nbPages = this.size() ? Math.ceil(this.total() / this.size()) : 0;
 
         if (currentPage < 1) {
             currentPage = 1;
+            this.currentPage = currentPage;
         } else if (currentPage > nbPages) {
             currentPage = nbPages;
+            this.currentPage = currentPage;
         }
 
         const addPage = (pageNbr: number) => {

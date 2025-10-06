@@ -18,7 +18,6 @@ describe('MagmaPagination', () => {
         fixture = TestBed.createComponent(MagmaPagination);
         component = fixture.componentInstance;
 
-        // Définir les inputs requis
         fixture.componentRef.setInput('page', 1);
         fixture.componentRef.setInput('total', 100);
         fixture.componentRef.setInput('size', 10);
@@ -92,7 +91,7 @@ describe('MagmaPagination', () => {
         expect(currentLink.nativeElement.textContent).toContain('3');
     });
 
-    it('should update current page on link click', () => {
+    it('should update current page on link click (call update)', () => {
         spyOn(component, 'update');
         const links = fixture.debugElement.queryAll(By.css('a'));
         const secondLink = links[1];
@@ -103,7 +102,7 @@ describe('MagmaPagination', () => {
         expect(component.update).toHaveBeenCalledWith(2, true);
     });
 
-    it('should update current page on link click', () => {
+    it('should update current page on link click (currentPage)', () => {
         const links = fixture.debugElement.queryAll(By.css('a'));
         const secondLink = links[1];
         secondLink.nativeElement.click();
@@ -140,7 +139,7 @@ describe('MagmaPagination', () => {
         expect(spy).toHaveBeenCalledWith(4, false);
     }));
 
-    it('should update page on external update event', () => {
+    it('should update method with an external update event', () => {
         const spy = spyOn(MagmaPagination['onPageUpdate'], 'next');
 
         fixture.detectChanges();

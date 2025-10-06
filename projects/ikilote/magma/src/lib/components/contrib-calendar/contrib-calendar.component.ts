@@ -96,12 +96,14 @@ export class MagmaContribCalendar {
             return undefined;
         }
         const l = t.length - 1;
-        for (let i = 0; i <= l; i++) {
-            if ((i < l && value >= t[i].value && value < t[i + 1].value) || i === l) {
-                return t[i].color;
+        if (value < t[l].value) {
+            for (let i = 0; i <= l - 1; i++) {
+                if (i < l && value >= t[i].value && value < t[i + 1].value) {
+                    return t[i].color;
+                }
             }
         }
-        return undefined;
+        return t[l].color;
     }
 
     private createListDates(map: ContribCalendar<Date>) {

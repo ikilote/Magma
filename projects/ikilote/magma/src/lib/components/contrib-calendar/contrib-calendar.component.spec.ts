@@ -71,7 +71,7 @@ describe('MagmaContribCalendar', () => {
 
         it('should compute number of weeks', () => {
             const size = component['size']();
-            expect(size).toBeGreaterThan(0);
+            expect(size).toBe(14);
         });
 
         it('should return correct color based on value', () => {
@@ -100,6 +100,40 @@ describe('MagmaContribCalendar', () => {
             expect(list.length).toBe(93);
             expect(list[0].date).toEqual(new Date('2024-01-01'));
             expect(list[92].date).toEqual(new Date('2024-04-02'));
+        });
+
+        it('should compute first is Sunday', () => {
+            fixture.componentRef.setInput('calendar', [
+                { date: '2024-01-07', value: 1 },
+                { date: '2024-04-02', value: 16 },
+            ]);
+
+            const pos = component['firstPos']();
+            expect(pos).toBe(7);
+
+            const months = component['mouths']();
+            expect(months.length).toBe(4);
+            expect(months[0].name).toBe('Jan');
+            expect(months[0].pos).toBe(0);
+
+            const size = component['size']();
+            expect(size).toBe(14);
+        });
+
+        it('should compute when the end of the month overlaps the following month', () => {
+            fixture.componentRef.setInput('calendar', [
+                { date: '2024-01-31', value: 6 },
+                { date: '2024-04-02', value: 16 },
+            ]);
+
+            const pos = component['firstPos']();
+            expect(pos).toBe(3);
+
+            const months = component['mouths']();
+            expect(months.length).toBe(3);
+
+            const size = component['size']();
+            expect(size).toBe(10);
         });
     });
 
@@ -146,6 +180,62 @@ describe('MagmaContribCalendar', () => {
             fixture.detectChanges();
             const daysSat = component['computedDays']();
             expect(daysSat[0]).toBe('S');
+        });
+
+        it('should use min input for min date', () => {
+            fixture.componentRef.setInput('min', '2024-01-31');
+            fixture.detectChanges();
+
+            const pos = component['firstPos']();
+            expect(pos).toBe(3);
+
+            const months = component['mouths']();
+            expect(months.length).toBe(3);
+
+            const size = component['size']();
+            expect(size).toBe(10);
+        });
+
+        it('should use max input for max date', () => {
+            fixture.componentRef.setInput('max', '2024-01-31');
+            fixture.detectChanges();
+
+            const pos = component['firstPos']();
+            expect(pos).toBe(1);
+
+            const months = component['mouths']();
+            expect(months.length).toBe(1);
+
+            const size = component['size']();
+            expect(size).toBe(5);
+        });
+
+        it('should return correct color based on value', () => {
+            fixture.componentRef.setInput('steps', [
+                { value: 2, color: 'var(--var1)' },
+                { value: 8, color: 'var(--var2)' },
+                { value: 12, color: 'var(--var3)' },
+                { value: 16, color: 'var(--var4)' },
+            ]);
+            fixture.detectChanges();
+
+            const color1 = component['getColor'](-1);
+            expect(color1).toBe(undefined);
+
+            const color2 = component['getColor'](0);
+            expect(color2).toBe(undefined);
+
+            const color3 = component['getColor'](1);
+            expect(color3).toBe(undefined);
+
+            const color4 = component['getColor'](6);
+            expect(color4).toBe('var(--var1)');
+
+            const color5 = component['getColor'](11);
+            expect(color5).toBe('var(--var2)');
+
+            const color6 = component['getColor'](16);
+            expect(color6).toBe('var(--var4)');
         });
     });
 });

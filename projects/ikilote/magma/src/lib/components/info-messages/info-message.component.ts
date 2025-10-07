@@ -12,7 +12,7 @@ import {
 
 import { MagmaMessageInfo } from '../../services/messages';
 
-type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, any>;
+export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, any>;
 
 @Component({
     selector: 'info-message',

@@ -48,7 +48,7 @@ export type MagmaSortRule =
           type: 'translate';
           /** path.in.object */
           attr: string;
-          /** translate methode */
+          /** translate method */
           translate: (text: string) => string;
           /** translate id */
           translateId: string;
@@ -111,7 +111,9 @@ export class MagmaSortRuleDirective implements OnInit {
         const rule = this.sortRule();
         return rule && typeof rule !== 'string' && !Array.isArray(rule) && 'type' in rule
             ? rule?.type === 'none'
-            : false;
+            : Array.isArray(rule) && rule[0] && 'type' in rule[0]
+              ? rule[0].type === 'none'
+              : false;
     }
 
     private isInit() {
@@ -185,7 +187,6 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
             this.currentRule = rule;
             this.currentRuleOrder = order === 'asc';
         }
-
         this.sortLines();
     }
 

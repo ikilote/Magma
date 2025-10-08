@@ -6,7 +6,7 @@ import { FileSizePipeParams } from '@ikilote/magma';
 
 import { MagmaProgress } from './progress.component';
 
-describe('MagmaDialog', () => {
+describe('MagmaProgress', () => {
     let component: MagmaProgress;
     let fixture: ComponentFixture<MagmaProgress>;
 

@@ -1,13 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaSortRuleDirective, MagmaSortableDirective, MagmaSortableModule } from './sortable.directive';
 
 @Component({
     template: `
-        <div sortable [sortable]="data">
+        <div
+            sortable
+            [sortable]="data"
+            [sortable-filter-input]="sortableFilterInput"
+            [sortable-filter]="sortableFilter"
+        >
             <div [sort-rule]="sortRule" (clickEnter)="onClick()"></div>
             <ul>
                 @for (item of date; track item.name) {
@@ -24,6 +29,8 @@ class TestHostComponent {
         { name: 'Alice', age: 30 },
         { name: 'Bob', age: 25 },
     ];
+    sortableFilterInput: any = undefined;
+    sortableFilter: any = undefined;
     onClick() {}
 }
 
@@ -46,6 +53,7 @@ describe('MagmaSortableModule', () => {
         sortableDirective = fixture.debugElement
             .query(By.directive(MagmaSortableDirective))
             .injector.get(MagmaSortableDirective);
+
         fixture.detectChanges();
 
         classList = sortRuleDirectiveElement.nativeElement.classList;
@@ -95,7 +103,7 @@ describe('MagmaSortableModule', () => {
         });
     });
 
-    describe('sortable', () => {
+    describe('sortable with sort-rule', () => {
         it('should apply "sort-cell" class when rule type is "none"', () => {
             componentInstance.sortRule = { type: 'none' };
             fixture.detectChanges();
@@ -175,6 +183,85 @@ describe('MagmaSortableModule', () => {
 
             const result = sortRuleDirective['isInit']();
             expect(result).toBe('desc');
+        });
+    });
+
+    describe('sortable', () => {
+        it('should initialize with default values for inputListener and input', () => {
+            fixture.detectChanges();
+            const inputListener = sortableDirective['inputListener'];
+            const input = sortableDirective['input'];
+            expect(inputListener).toBe(undefined);
+            expect(input).toBe('');
+        });
+
+        it('should register input listener on initialization with input element', fakeAsync(() => {
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            component.sortableFilterInput = inputElement;
+            fixture.detectChanges();
+            sortableDirective.ngOnInit();
+            inputElement.dispatchEvent(new Event('input'));
+            tick();
+            const inputListener = sortableDirective['inputListener'];
+            const input = sortableDirective['input'];
+            expect(typeof inputListener).toBe('function');
+            expect(input).toBe('');
+        }));
+
+        it('should register input listener on initialization with input element and filter function', () => {
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            component.sortableFilterInput = inputElement;
+            component.sortableFilter = (key: string, item: any, index: number) => true;
+            fixture.detectChanges();
+            sortableDirective.ngOnInit();
+            const inputListener = sortableDirective['inputListener'];
+            const input = sortableDirective['input'];
+            expect(typeof inputListener).toBe('function');
+            expect(input).toBe('');
+        });
+
+        it('should not call update if data is not initialized', () => {
+            spyOn(sortableDirective, 'update');
+            fixture.detectChanges();
+            componentInstance.data = [
+                { name: 'Foo', age: 30 },
+                { name: 'Bar', age: 25 },
+            ];
+            expect(sortableDirective.update).toHaveBeenCalledTimes(0);
+        });
+
+        it('should call update once when data is initialized with input element and filter function', () => {
+            spyOn(sortableDirective, 'update');
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            component.sortableFilterInput = inputElement;
+            component.sortableFilter = (key: string, item: any, index: number) => true;
+            fixture.detectChanges();
+            sortableDirective.ngOnInit();
+            componentInstance.data = [
+                { name: 'Foo', age: 30 },
+                { name: 'Bar', age: 25 },
+            ];
+            fixture.detectChanges();
+            expect(sortableDirective.update).toHaveBeenCalledTimes(1);
+        });
+
+        it('should set input value correctly when input element has a value', () => {
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            inputElement.value = 'test';
+            component.sortableFilterInput = inputElement;
+            component.sortableFilter = (key: string, item: any, index: number) => true;
+            fixture.detectChanges();
+            sortableDirective.ngOnInit();
+            componentInstance.data = [
+                { name: 'Foo', age: 30 },
+                { name: 'Bar', age: 25 },
+            ];
+            fixture.detectChanges();
+            expect(sortableDirective['input']).toBe('test');
         });
     });
 });

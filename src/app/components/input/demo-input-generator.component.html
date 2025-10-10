@@ -8,33 +8,33 @@
       <div>
         <mg-input class="s-4 s-6-m">
           <mg-input-label>Label</mg-input-label>
-          <mg-input-text formControlName="label"></mg-input-text>
+          <mg-input-text formControlName="label" />
         </mg-input>
         <mg-input class="s-4 s-6-m">
           <mg-input-label>Desc</mg-input-label>
-          <mg-input-text formControlName="desc"></mg-input-text>
+          <mg-input-text formControlName="desc" />
         </mg-input>
         <mg-input class="s-4 s-6-m">
           <mg-input-label>Error</mg-input-label>
-          <mg-input-text formControlName="error"></mg-input-text>
+          <mg-input-text formControlName="error" />
         </mg-input>
       </div>
       <div>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>Before</mg-input-label>
-          <mg-input-text formControlName="before"></mg-input-text>
+          <mg-input-text formControlName="before" />
         </mg-input>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>Prefix</mg-input-label>
-          <mg-input-text formControlName="prefix"></mg-input-text>
+          <mg-input-text formControlName="prefix" />
         </mg-input>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>Suffix</mg-input-label>
-          <mg-input-text formControlName="suffix"></mg-input-text>
+          <mg-input-text formControlName="suffix" />
         </mg-input>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>After</mg-input-label>
-          <mg-input-text formControlName="after"></mg-input-text>
+          <mg-input-text formControlName="after" />
         </mg-input>
       </div>
       <div>
@@ -79,12 +79,12 @@
         ) {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Placeholder</mg-input-label>
-            <mg-input-text formControlName="placeholder"></mg-input-text>
+            <mg-input-text formControlName="placeholder" />
           </mg-input>
           @if (formGenerator.value.placeholder) {
             <mg-input class="s-3 s-6-m">
               <mg-input-label>placeholderAnimated</mg-input-label>
-              <mg-input-text formControlName="placeholderAnimated"></mg-input-text>
+              <mg-input-text formControlName="placeholderAnimated" />
               <mg-input-desc
                 >Example: <code>30 3 1500 |</code> for
                 <ul>
@@ -100,17 +100,17 @@
         @if (formGenerator.value.type === 'number' || formGenerator.value.type === 'range') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Step</mg-input-label>
-            <mg-input-number formControlName="step"></mg-input-number>
+            <mg-input-number formControlName="step" />
             <mg-input-desc>Step for <kbd>↑</kbd>, <kbd>↓</kbd> and arrows</mg-input-desc>
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Min</mg-input-label>
-            <mg-input-number formControlName="min"></mg-input-number>
+            <mg-input-number formControlName="min" />
             <mg-input-desc>Step min value</mg-input-desc>
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Max</mg-input-label>
-            <mg-input-number formControlName="max"></mg-input-number>
+            <mg-input-number formControlName="max" />
             <mg-input-desc>Step max value</mg-input-desc>
           </mg-input>
         }
@@ -122,7 +122,7 @@
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Formater</mg-input-label>
-            <mg-input-text formControlName="formater"></mg-input-text>
+            <mg-input-text formControlName="formater" />
             <mg-input-desc>Example: <code>#,##0.00</code> or <code>#,##0</code></mg-input-desc>
           </mg-input>
           <mg-input class="s-3 s-6-m">
@@ -159,7 +159,7 @@
         @if (formGenerator.value.type === 'textarea' || formGenerator.value.type === 'text') {
           <mg-input class="s-4 s-6-m">
             <mg-input-label>maxlength</mg-input-label>
-            <mg-input-number formControlName="maxLength"></mg-input-number>
+            <mg-input-number formControlName="maxLength" />
           </mg-input>
         }
         @if (formGenerator.value.type === 'textarea') {
@@ -180,7 +180,7 @@
           <div class="break"></div>
           <mg-input class="s-4 s-6-m">
             <mg-input-label>default height</mg-input-label>
-            <mg-input-text formControlName="height"></mg-input-text>
+            <mg-input-text formControlName="height" />
             <mg-input-desc>Example: <code>10px</code> or <code>1.5em</code></mg-input-desc>
           </mg-input>
           <mg-input class="s-4 s-6-m">
@@ -195,7 +195,7 @@
           </mg-input>
           <mg-input class="s-4 s-6-m">
             <mg-input-label>textarea-desc</mg-input-label>
-            <mg-input-text formControlName="textareaDesc"></mg-input-text>
+            <mg-input-text formControlName="textareaDesc" />
           </mg-input>
         }
         @if (formGenerator.value.type === 'text') {
@@ -241,37 +241,37 @@
         @if (formGenerator.value.type === 'checkbox' || formGenerator.value.type === 'radio') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>alignMode</mg-input-label>
-            <mg-input-select formControlName="alignMode" [data]="alignMode"></mg-input-select>
+            <mg-input-select formControlName="alignMode" [data]="alignMode" />
           </mg-input>
 
           <div class="s-12">
             <mg-input class="s-4 s-6-m">
               <mg-input-label>Input label</mg-input-label>
-              <mg-input-text formControlName="subLabel1"></mg-input-text>
+              <mg-input-text formControlName="subLabel1" />
             </mg-input>
             <mg-input class="s-4 s-6-m">
               <mg-input-label>Input value</mg-input-label>
-              <mg-input-text formControlName="subValue1"></mg-input-text>
+              <mg-input-text formControlName="subValue1" />
             </mg-input>
 
             @if (formGenerator.value.type === 'radio' || formGenerator.value.multiple) {
               <div class="break"></div>
               <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input label</mg-input-label>
-                <mg-input-text formControlName="subLabel2"></mg-input-text>
+                <mg-input-text formControlName="subLabel2" />
               </mg-input>
               <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input value</mg-input-label>
-                <mg-input-text formControlName="subValue2"></mg-input-text>
+                <mg-input-text formControlName="subValue2" />
               </mg-input>
               <div class="break"></div>
               <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input label</mg-input-label>
-                <mg-input-text formControlName="subLabel3"></mg-input-text>
+                <mg-input-text formControlName="subLabel3" />
               </mg-input>
               <mg-input class="s-4 s-6-m">
                 <mg-input-label>Input value</mg-input-label>
-                <mg-input-text formControlName="subValue3"></mg-input-text>
+                <mg-input-text formControlName="subValue3" />
               </mg-input>
             }
           </div>
@@ -362,7 +362,7 @@
               [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
-            ></mg-input-password>
+            />
           }
           @case ('number') {
             <mg-input-number
@@ -381,7 +381,7 @@
               [datalist]="formGenerator.value.datalist ? datalistNumber : undefined"
               [(ngModel)]="valueNumber"
               (ngModelChange)="codeGeneration()"
-            ></mg-input-number>
+            />
           }
           @case ('range') {
             <mg-input-range
@@ -427,7 +427,7 @@
               [overlay]="formGenerator.value.overlay"
               [(ngModel)]="valueSelect"
               (ngModelChange)="codeGeneration()"
-            ></mg-input-select>
+            />
           }
           @case ('color') {
             <mg-input-color
@@ -440,7 +440,7 @@
               [datalist]="formGenerator.value.datalist ? datalistColor : undefined"
               [(ngModel)]="valueColor"
               (ngModelChange)="codeGeneration()"
-            ></mg-input-color>
+            />
           }
         }
         @if (formGenerator.value.multiple && formGenerator.value.type === 'checkbox') {

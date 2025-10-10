@@ -8,13 +8,13 @@
         [(ngModel)]="binding"
         (ngModelChangeDebounced)="change($event)"
         [ngModelChangeDebounceTime]="time"
-      ></mg-input-text>
+      />
     </mg-input>
 
     <p>
       <mg-input>
         <mg-input-label>Timer</mg-input-label>
-        <mg-input-number [(ngModel)]="time"></mg-input-number>
+        <mg-input-number [(ngModel)]="time" />
         <mg-input-suffix>ms</mg-input-suffix>
       </mg-input>
     </p>

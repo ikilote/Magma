@@ -76,7 +76,7 @@ export class DemoInputErrorComponent {
 }`;
 
     readonly codeHtmlText = `<mg-input [formGroup]="formText">
-  <mg-input-text formControlName="test"></mg-input-text>
+  <mg-input-text formControlName="test"/>
 </mg-input>`;
 
     readonly codeTsList = `import {
@@ -171,7 +171,7 @@ export class DemoInputErrorComponent {
   <div>
     <mg-input>
       <mg-input-label>Select</mg-input-label>
-      <mg-input-select formControlName="select" [data]="data"></mg-input-select>
+      <mg-input-select formControlName="select" [data]="data"/>
     </mg-input>
   </div>
 </section>`;
@@ -208,7 +208,7 @@ export class DemoInputErrorComponent {
 }`;
 
     readonly codeHtmlNumber = `<mg-input [formGroup]="formNumber">
-  <mg-input-number formControlName="test"></mg-input-number>
+  <mg-input-number formControlName="test"/>
 </mg-input>`;
 
     readonly data: Select2Data = [

@@ -26,8 +26,8 @@ import { Timing } from '../../utils/timing';
 export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
     protected readonly host = inject(MagmaInput, { optional: false, host: true });
     protected readonly logger = inject(Logger);
-    readonly cd = inject(ChangeDetectorRef);
-    private injector = inject(Injector);
+    protected readonly cd = inject(ChangeDetectorRef);
+    protected readonly injector = inject(Injector);
 
     readonly value = input();
 

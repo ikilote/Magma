@@ -1,9 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, DebugElement } from '@angular/core';
+import { Component, DebugElement, ElementRef, forwardRef, viewChildren } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaSortRuleDirective, MagmaSortableDirective, MagmaSortableModule } from './sortable.directive';
+
+import { MagmaInput } from '../../public-api';
+import { MagmaInputCommon } from '../components/input/input-common';
 
 @Component({
     template: `
@@ -304,5 +308,96 @@ describe('MagmaSortableModule', () => {
                 { name: 'Bar', age: 25 },
             ]);
         });
+    });
+});
+
+@Component({
+    selector: 'mg-input',
+    template: '<ng-content />',
+})
+class MockMagmaInput {}
+
+@Component({
+    selector: 'mg-input-text',
+    template: '<input #input />',
+    imports: [ReactiveFormsModule, FormsModule],
+    providers: [
+        { provide: MagmaInputCommon, useExisting: MockMagmaInputText },
+        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputCommon), multi: true },
+        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputCommon), multi: true },
+        { provide: MagmaInput, useExisting: MockMagmaInput },
+    ],
+})
+export class MockMagmaInputText extends MagmaInputCommon<any> {
+    override ngOnInit() {}
+
+    readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
+
+    override get inputElement(): HTMLInputElement | undefined {
+        return this.input()?.[0]?.nativeElement;
+    }
+}
+
+@Component({
+    template: `
+        <mg-input>
+            <mg-input-text #test />
+        </mg-input>
+        <div [sortable]="sortable" [sortable-filter-input]="test" [sortable-filter]="sortableFilter">
+            <div [sort-rule]="sortRule" (clickEnter)="onClick()"></div>
+            <ul>
+                @for (item of date; track item.name) {
+                    <li>{{ item.name }} ({{ item.age }})</li>
+                }
+            </ul>
+        </div>
+    `,
+    imports: [MagmaSortableModule, MockMagmaInput, MockMagmaInputText],
+})
+class TestInputHostComponent {
+    sortRule: any = 'name';
+    sortable: any = [
+        { name: 'Alice', age: 30 },
+        { name: 'Bob', age: 25 },
+    ];
+
+    sortableFilter: any = undefined;
+
+    onClick() {}
+}
+
+describe('MagmaSortableModule + MagmaInput', () => {
+    let fixture: ComponentFixture<TestInputHostComponent>;
+    let component: TestInputHostComponent;
+    let sortRuleDirectiveElement: DebugElement;
+    let sortableDirective: MagmaSortableDirective;
+    let componentInstance: TestInputHostComponent;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestInputHostComponent] }).compileComponents();
+
+        fixture = TestBed.createComponent(TestInputHostComponent);
+        component = fixture.componentInstance;
+        sortRuleDirectiveElement = fixture.debugElement.query(By.directive(MagmaSortRuleDirective));
+        sortableDirective = fixture.debugElement
+            .query(By.directive(MagmaSortableDirective))
+            .injector.get(MagmaSortableDirective);
+
+        fixture.detectChanges();
+
+        componentInstance = sortRuleDirectiveElement.componentInstance;
+    });
+
+    it('should call update once when sortable is initialized with input element and filter function', () => {
+        spyOn(sortableDirective, 'update');
+        component.sortableFilter = (key: string, item: any, index: number) => true;
+        fixture.detectChanges();
+        sortableDirective.ngOnInit();
+        componentInstance.sortable = [
+            { name: 'Foo', age: 30 },
+            { name: 'Bar', age: 25 },
+        ];
+        fixture.detectChanges();
+        expect(sortableDirective.update).toHaveBeenCalledTimes(1);
     });
 });

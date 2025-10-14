@@ -1,5 +1,5 @@
 import { Component, DebugElement, contentChildren } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaTabTitle } from './tab-title.component';
@@ -14,9 +14,9 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
 class MockMagmaTabs {
     update = jasmine.createSpy('update');
     // Mock for tabpanel() which returns an object with a nativeElement that has a focus method
-    // override tabpanel = jasmine.createSpy('tabpanel').and.returnValue({
-    //     nativeElement: { focus: jasmine.createSpy('focus') },
-    // });
+    tabpanel = jasmine.createSpy('tabpanel').and.returnValue({
+        nativeElement: { focus: jasmine.createSpy('focus') },
+    });
     // Simulate the array of title components for focus tests
     titles = contentChildren(MagmaTabTitle);
 }
@@ -140,4 +140,11 @@ describe('MagmaTabTitle', () => {
         clickDirective.clickEnter.emit(new MouseEvent('click'));
         expect(tabTitleComponent.onclick).toHaveBeenCalled();
     });
+
+    it('should call update on clickEnter event', fakeAsync(() => {
+        const clickDirective = tabTitleElement.injector.get(MagmaClickEnterDirective);
+        clickDirective.clickEnter.emit(new MouseEvent('click'));
+        tick();
+        expect(tabsComponent.update).toHaveBeenCalled();
+    }));
 });

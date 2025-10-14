@@ -241,34 +241,6 @@ select2 {
     cursor: help;
 }
 
-.tooltip-container {
-    position: fixed;
-    transform: translate(-50%, -30%);
-    opacity: 0;
-    z-index: 4;
-    animation: tooltip-slide 0.18s ease-out 0.5s;
-    animation-fill-mode: forwards;
-    box-shadow: 2px 2px 5px var(--tooltip-shadow-color);
-    border: 1px solid var(--tooltip-border-color);
-    background: var(--tooltip-background);
-    padding: 6px;
-    pointer-events: none;
-    color: var(--tooltip-text-color);
-    text-align: center;
-    white-space: pre-wrap;
-}
-
-@keyframes tooltip-slide {
-    0% {
-        transform: translate(-50%, -30%);
-        opacity: 0;
-    }
-    100% {
-        transform: translate(-50%, 0);
-        opacity: 1;
-    }
-}
-
 /*  -------------------- table / sortable ------------------------------------------------------------
     MARK: Table / sortable
 */

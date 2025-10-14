@@ -1,29 +1,85 @@
-import { Directive, ElementRef, HostListener, OnDestroy, inject, input, numberAttribute } from '@angular/core';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
+import {
+    Component,
+    ComponentRef,
+    Directive,
+    ElementRef,
+    HostListener,
+    OnDestroy,
+    inject,
+    input,
+    numberAttribute,
+} from '@angular/core';
+
+const connectedPosition: ConnectedPosition[] = [
+    { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top' },
+    { originX: 'center', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
+    { originX: 'end', originY: 'center', overlayX: 'end', overlayY: 'top' },
+    { originX: 'end', originY: 'center', overlayX: 'end', overlayY: 'bottom' },
+];
+
+@Component({
+    template: '{{ text() }}',
+    styles: [
+        `
+            :host {
+                display: block;
+                transform: translate(-50%, -30%);
+                opacity: 0;
+                animation: tooltip-slide 0.18s ease-out 0.5s;
+                animation-fill-mode: forwards;
+                box-shadow: 2px 2px 5px var(--tooltip-shadow-color);
+                border: 1px solid var(--tooltip-border-color);
+                background: var(--tooltip-background);
+                padding: 6px;
+                color: var(--tooltip-text-color);
+                white-space: pre-wrap;
+            }
+
+            @keyframes tooltip-slide {
+                0% {
+                    transform: translate(-50%, -30%);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translate(-50%, 0);
+                    opacity: 1;
+                }
+            }
+        `,
+    ],
+})
+export class MagmaTooltipComponent {
+    text = input<string>();
+}
 
 @Directive({
     selector: '[mgTooltip]',
 })
 export class MagmaTooltipDirective implements OnDestroy {
+    private readonly overlay = inject(Overlay);
     private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
     mgTooltip = input('');
     mgTooltipEntryDelay = input(200, { transform: numberAttribute });
     mgTooltipDisplayDelay = input(0, { transform: numberAttribute }); // 0 to infini
 
-    private tooltipElement?: HTMLDivElement;
+    static _overlayRef?: OverlayRef;
+    static _component?: ComponentRef<MagmaTooltipComponent>;
+
     private timer?: NodeJS.Timeout;
 
     ngOnDestroy(): void {
-        if (this.tooltipElement) {
-            this.tooltipElement.remove();
-        }
+        MagmaTooltipDirective._overlayRef?.dispose();
+        MagmaTooltipDirective._overlayRef = undefined;
+        MagmaTooltipDirective._component = undefined;
     }
 
     @HostListener('mouseenter')
     onMouseEnter() {
         this.timer = setTimeout(() => {
-            const { x, y } = this.position();
-            this.createTooltip(x, y);
+            this.createTooltip();
         }, this.mgTooltipEntryDelay());
     }
 
@@ -36,29 +92,28 @@ export class MagmaTooltipDirective implements OnDestroy {
         this.ngOnDestroy();
     }
 
-    private position(): { x: number; y: number } {
-        const element = this.element.nativeElement;
-        const rect = element.getBoundingClientRect();
-        const x = rect.left + element.offsetWidth / 2;
-        const y = rect.top + element.offsetHeight + 6;
-        return { x, y };
-    }
-
-    private createTooltip(x: number, y: number) {
+    private createTooltip() {
         if (this.timer) {
             clearTimeout(this.timer);
         }
 
-        const tooltipElement = document.createElement('div');
-        tooltipElement.innerHTML = this.mgTooltip();
-        document.body.appendChild(tooltipElement);
-        tooltipElement.setAttribute('class', 'tooltip-container');
-        tooltipElement.style.top = y.toString() + 'px';
+        console.log(this.element);
 
-        const rect = tooltipElement.getBoundingClientRect();
-        tooltipElement.style.left = Math.max(Math.abs(rect.left) + 5, x).toString() + 'px';
+        const overlayRef = this.overlay.create({
+            panelClass: 'tooltip-panel',
+            scrollStrategy: this.overlay.scrollStrategies.block(),
+            positionStrategy: this.overlay
+                .position()
+                .flexibleConnectedTo(this.element)
+                .withPositions(connectedPosition),
+        });
+        const userProfilePortal = new ComponentPortal(MagmaTooltipComponent);
 
-        this.tooltipElement = tooltipElement;
+        const component = overlayRef.attach(userProfilePortal);
+        component.setInput('text', this.mgTooltip());
+
+        MagmaTooltipDirective._overlayRef = overlayRef;
+        MagmaTooltipDirective._component = component;
 
         if (this.mgTooltipDisplayDelay()) {
             setTimeout(() => {

@@ -1,14 +1,12 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { MagmaMessageContent, MagmaMessageInfo, MagmaMessageType } from '@ikilote/magma';
-
 import { Subject } from 'rxjs';
 
 import { InfoMessageComponent } from './info-message.component';
 import { InfoMessagesComponent } from './info-messages.component';
 
-import { MagmaMessages } from '../../services/messages';
+import { MagmaMessageContent, MagmaMessageInfo, MagmaMessageType, MagmaMessages } from '../../services/messages';
 
 describe('InfoMessagesComponent', () => {
     let fixture: ComponentFixture<InfoMessagesComponent>;

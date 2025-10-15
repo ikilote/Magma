@@ -2,8 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { MagmaBlockMessage } from '@ikilote/magma';
-
+import { MagmaBlockMessage } from './message-block.component';
 import { MagmaMessage } from './message.component';
 
 describe('MagmaMessage', () => {

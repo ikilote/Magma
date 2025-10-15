@@ -2,9 +2,9 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { FileSizePipeParams } from '@ikilote/magma';
-
 import { MagmaProgress } from './progress.component';
+
+import { FileSizePipeParams } from '../../pipes/file-size.pipe';
 
 describe('MagmaProgress', () => {
     let component: MagmaProgress;

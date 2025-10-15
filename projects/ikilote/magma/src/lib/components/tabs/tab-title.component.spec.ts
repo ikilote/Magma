@@ -24,16 +24,14 @@ class MockMagmaTabs {
 @Component({
     template: `
         <mg-tabs>
-            <mg-tab-title id="tab1" [selected]="isSelected">Title 1</mg-tab-title>
-            <mg-tab-title id="tab2" [selected]="isSelected">Title 2</mg-tab-title>
-            <mg-tab-title id="tab3" [selected]="isSelected">Title 3</mg-tab-title>
+            <mg-tab-title id="tab1">Title 1</mg-tab-title>
+            <mg-tab-title id="tab2">Title 2</mg-tab-title>
+            <mg-tab-title id="tab3">Title 3</mg-tab-title>
         </mg-tabs>
     `,
     imports: [MockMagmaTabs, MagmaTabTitle],
 })
-class TestHostComponent {
-    isSelected = false;
-}
+class TestHostComponent {}
 
 describe('MagmaTabTitle', () => {
     let fixture: ComponentFixture<TestHostComponent>;

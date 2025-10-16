@@ -94,6 +94,12 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
                 this.next.set(false);
             }
         }
+
+        if (this.titles()?.length) {
+            this.titles().forEach(e => {
+                e.tabs ??= this;
+            });
+        }
     }
 
     update(id: string, emit: boolean = true) {

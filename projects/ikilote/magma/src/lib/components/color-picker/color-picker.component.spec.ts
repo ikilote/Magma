@@ -1,4 +1,5 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -91,11 +92,54 @@ describe('MagmaColorPickerComponent', () => {
         expect(component['rangeAlpha']).toBe(1);
     });
 
+    it('should change alpha input to true is false with input', () => {
+        fixture.componentRef.setInput('alpha', true);
+        fixture.componentRef.setInput('color', '#ff000000');
+        expect(component['rangeAlpha']).toBe(1);
+
+        fixture.detectChanges();
+        fixture.componentRef.setInput('alpha', false);
+        expect(component['rangeAlpha']).toBe(0);
+    });
+
+    it('should change alpha input to true is false with ngOnChanges', () => {
+        fixture.componentRef.setInput('alpha', true);
+        fixture.componentRef.setInput('color', '#ff000000');
+        expect(component['rangeAlpha']).toBe(1);
+        fixture.detectChanges();
+
+        const mockChange = { alpha: { currentValue: false } };
+        component.ngOnChanges(mockChange as unknown as SimpleChanges);
+
+        expect(component['hexa']).toBe('#f00');
+        expect(component['rangeAlpha']).toBe(1);
+    });
+
+    it('should change alpha input to true is false with ngOnChanges with invalid hexa', () => {
+        fixture.componentRef.setInput('color', '#ff000000');
+        fixture.componentRef.setInput('alpha', true);
+        fixture.detectChanges();
+        // force remove hexa
+        component['hexa'] = '';
+
+        const mockChange = { alpha: { currentValue: false } };
+        component.ngOnChanges(mockChange as unknown as SimpleChanges);
+
+        expect(component['hexa']).toBe('#f00');
+        expect(component['rangeAlpha']).toBe(1);
+    });
+
     it('should not update color if readonly is true', () => {
         fixture.componentRef.setInput('alpha', true);
         const mockEvent = { layerX: 50, layerY: 50, stopPropagation: jasmine.createSpy() };
         component['click'](mockEvent as unknown as MouseEvent);
         expect(component['rangeLight']).toBe(16);
+    });
+
+    it('should change color input with invalide color', () => {
+        const mockChange = { color: { currentValue: '###' } };
+        component.ngOnChanges(mockChange as unknown as SimpleChanges);
+        expect(loggerSpy.log).toHaveBeenCalled();
     });
 
     it('should clear all values', () => {
@@ -108,6 +152,12 @@ describe('MagmaColorPickerComponent', () => {
 
     it('should convert color correctly', () => {
         component['updateHex']('#ff0000');
+        expect(component['hsla']).toBe('hsl(0 100% 50%)');
+        expect(component['rgba']).toBe('rgb(100% 0% 0%)');
+    });
+
+    it('should convert color correctly (alpha)', () => {
+        component['updateHex']('#ff0000ff');
         expect(component['hsla']).toBe('hsl(0 100% 50%)');
         expect(component['rgba']).toBe('rgb(100% 0% 0%)');
     });
@@ -155,7 +205,7 @@ describe('MagmaColorPickerComponent', () => {
             fixture.componentRef.setInput('palette', customPalette);
 
             fixture.detectChanges();
-            expect(component['_palette']()).toEqual(customPalette);
+            expect(component['_palette']()).toEqual(['#f00', '#0f0', '#00f']);
         });
 
         it('should display datalist colors if provided', async () => {
@@ -208,6 +258,59 @@ describe('MagmaColorPickerComponent', () => {
             const button = fixture.nativeElement.querySelector('.datalist button:last-child');
             button.click();
             expect(component['hexa']).toBe('#0f0');
+        });
+
+        it('should apply correct style to color buttons', async () => {
+            const customPalette = ['#ff0000', '#00ff00'];
+            fixture.componentRef.setInput('palette', customPalette);
+
+            fixture.detectChanges();
+
+            // select tab palette
+            const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
+            (tabs.componentInstance as MagmaTabs).update('palette');
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            // test color var
+            const buttons = fixture.nativeElement.querySelectorAll('.base button');
+            expect(buttons[0].style.getPropertyValue('--color')).toBe('#f00');
+        });
+
+        it('should add .selected class to the active color button', async () => {
+            const customPalette = ['#ff0000', '#00ff00'];
+            fixture.componentRef.setInput('palette', customPalette);
+            fixture.detectChanges();
+
+            // select tab palette
+            const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
+            (tabs.componentInstance as MagmaTabs).update('palette');
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            // select color
+            component['updateHex'](customPalette[0]);
+            fixture.detectChanges();
+
+            const buttons = fixture.nativeElement.querySelectorAll('.base button');
+            expect(buttons[0].classList).toContain('selected');
+        });
+
+        it('should not display datalist section if empty', async () => {
+            fixture.componentRef.setInput('datalist', []);
+            fixture.detectChanges();
+
+            // select tab palette
+            const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
+            (tabs.componentInstance as MagmaTabs).update('palette');
+            fixture.detectChanges();
+            await fixture.whenStable();
+
+            // no datalist
+            const palettes = fixture.nativeElement.querySelectorAll('.palette');
+            expect(palettes.length).toBe(1);
+            const data = fixture.nativeElement.querySelector('.data');
+            expect(data).toBeNull();
         });
     });
 });

@@ -19,9 +19,7 @@ import { FormsModule } from '@angular/forms';
 import Color from 'colorjs.io';
 
 import { Logger } from '../../services/logger';
-import { MagmaTabContent } from '../tabs/tab-content.component';
-import { MagmaTabTitle } from '../tabs/tab-title.component';
-import { MagmaTabs } from '../tabs/tabs.component';
+import { MagmaTabsModule } from '../tabs/tabs.module';
 
 export type MagmaColorPickerTexts = { hsl?: string; palette?: string };
 
@@ -82,7 +80,7 @@ export const magmaColorPickerPalette = [
     selector: 'color-picker',
     templateUrl: './color-picker.component.html',
     styleUrls: ['./color-picker.component.scss'],
-    imports: [FormsModule, CdkDrag, MagmaTabs, MagmaTabTitle, MagmaTabContent],
+    imports: [FormsModule, CdkDrag, MagmaTabsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--hue]': 'rangeHue',

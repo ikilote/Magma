@@ -20,7 +20,7 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
     templateUrl: './tab-title.component.html',
     styleUrls: ['./tab-title.component.scss'],
     host: {
-        '[attr.id]': 'id()',
+        '[attr.id]': '"tab-" + id()',
         '[class.selected]': 'selected()',
         tabindex: '0',
     },

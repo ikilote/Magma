@@ -64,7 +64,7 @@ describe('MagmaTabTitle', () => {
     });
 
     it('should set the correct id attribute', () => {
-        expect(tabTitleElement.nativeElement.getAttribute('id')).toBe('tab1');
+        expect(tabTitleElement.nativeElement.getAttribute('id')).toBe('tab-tab1');
     });
 
     it('should apply "selected" class when selected is true', () => {

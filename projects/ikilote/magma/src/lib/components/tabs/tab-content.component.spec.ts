@@ -40,7 +40,7 @@ describe('MagmaTabContent', () => {
         fixture.componentRef.setInput('id', 'tab-1');
         fixture.detectChanges();
 
-        expect(fixture.nativeElement.getAttribute('id')).toBe('tab-1');
+        expect(fixture.nativeElement.getAttribute('id')).toBe('tab-content-tab-1');
     });
 });
 

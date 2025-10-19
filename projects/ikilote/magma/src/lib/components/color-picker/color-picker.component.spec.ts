@@ -50,6 +50,7 @@ describe('MagmaColorPickerComponent', () => {
         });
         expect(component['hexa']).toBe('#f00');
         expect(component['hsla']).toBe('hsl(0 100% 50%)');
+        // 'NG0953: Unexpected emit for destroyed `OutputRef`. The owning directive/component is destroyed.'
     });
 
     it('should emit colorChange when color is updated', () => {
@@ -100,6 +101,7 @@ describe('MagmaColorPickerComponent', () => {
         fixture.detectChanges();
         fixture.componentRef.setInput('alpha', false);
         expect(component['rangeAlpha']).toBe(0);
+        // 'NG0953: Unexpected emit for destroyed `OutputRef`. The owning directive/component is destroyed.'
     });
 
     it('should change alpha input to true is false with ngOnChanges', () => {
@@ -113,6 +115,7 @@ describe('MagmaColorPickerComponent', () => {
 
         expect(component['hexa']).toBe('#f00');
         expect(component['rangeAlpha']).toBe(1);
+        // 'NG0953: Unexpected emit for destroyed `OutputRef`. The owning directive/component is destroyed.'
     });
 
     it('should change alpha input to true is false with ngOnChanges with invalid hexa', () => {
@@ -127,6 +130,7 @@ describe('MagmaColorPickerComponent', () => {
 
         expect(component['hexa']).toBe('#f00');
         expect(component['rangeAlpha']).toBe(1);
+        // 'NG0953: Unexpected emit for destroyed `OutputRef`. The owning directive/component is destroyed.'
     });
 
     it('should not update color if readonly is true', () => {

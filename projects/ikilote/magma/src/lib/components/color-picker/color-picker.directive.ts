@@ -119,6 +119,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
 
     ngOnDestroy(): void {
         this.updateEmit?.unsubscribe();
+        this.close();
     }
 
     @HostListener('keydown.space', ['$event'])

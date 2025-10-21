@@ -11,6 +11,11 @@ const connectedPosition: ConnectedPosition[] = [
     { originX: 'end', originY: 'top', overlayX: 'end', overlayY: 'bottom' },
 ];
 
+@Directive()
+export abstract class AbstractContextMenuComponent {
+    context = input<MagmaContextMenu<any>>();
+}
+
 @Directive({
     selector: '[contextMenu]',
 })

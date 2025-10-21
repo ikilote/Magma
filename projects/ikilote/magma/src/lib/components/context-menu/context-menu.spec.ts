@@ -38,6 +38,7 @@ describe('MagmaContextMenu Integration', () => {
     let fixture: ComponentFixture<TestHostComponent>;
     let overlay: Overlay;
     let directiveElement: DebugElement;
+    let event: MouseEvent;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({ imports: [TestHostComponent] }).compileComponents();
@@ -46,10 +47,11 @@ describe('MagmaContextMenu Integration', () => {
         directiveElement = fixture.debugElement.query(By.directive(MagmaContextMenu));
         overlay = TestBed.inject(Overlay);
         fixture.detectChanges();
+
+        event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
     });
 
     it('should open context menu on right-click', fakeAsync(() => {
-        const event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
         spyOn(event, 'preventDefault');
         spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
@@ -60,7 +62,6 @@ describe('MagmaContextMenu Integration', () => {
     }));
 
     it('should open context menu on right-click', fakeAsync(() => {
-        const event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
         spyOn(event, 'preventDefault');
         spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
@@ -71,7 +72,6 @@ describe('MagmaContextMenu Integration', () => {
     }));
 
     it('should close context menu on backdrop click', fakeAsync(() => {
-        const event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
@@ -82,14 +82,13 @@ describe('MagmaContextMenu Integration', () => {
     it('should not open context menu if disabled', fakeAsync(() => {
         fixture.componentInstance.disabled = true;
         fixture.detectChanges();
-        const event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
+
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         expect(document.querySelector('.cdk-overlay-backdrop')).toBeNull();
     }));
 
     it('should close context menu on window contextmenu event', fakeAsync(() => {
-        const event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         const windowEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
@@ -103,7 +102,6 @@ describe('MagmaContextMenu Integration', () => {
     }));
 
     it('should close context menu on auxclick event', fakeAsync(() => {
-        const event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         const auxEvent = new MouseEvent('auxclick', { button: 1, clientX: 200, clientY: 200 });
@@ -112,6 +110,40 @@ describe('MagmaContextMenu Integration', () => {
         window.dispatchEvent(auxEvent);
         tick();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
+        expect(auxEvent.preventDefault).toHaveBeenCalled();
+        expect(auxEvent.stopPropagation).toHaveBeenCalled();
+    }));
+
+    it('should call action when menu item is clicked', fakeAsync(() => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        tick();
+        const actionSpy = spyOn(directiveElement.componentInstance.menuData.contextMenu[0], 'action');
+        document.querySelector('context-menu ul li:first-child')?.dispatchEvent(new Event('click'));
+        tick();
+        expect(actionSpy).toHaveBeenCalledWith('test-data');
+        expect(MagmaContextMenu._overlayRef).toBeUndefined();
+    }));
+
+    it('should call onContextMenuContext when middle click on context-menu component', fakeAsync(() => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        tick();
+        const auxEvent = new MouseEvent('auxclick', { button: 2, clientX: 200, clientY: 200 });
+        spyOn(auxEvent, 'preventDefault');
+        spyOn(auxEvent, 'stopPropagation');
+        document.querySelector('context-menu')?.dispatchEvent(auxEvent);
+        tick();
+        expect(auxEvent.preventDefault).toHaveBeenCalled();
+        expect(auxEvent.stopPropagation).toHaveBeenCalled();
+    }));
+
+    it('should call onContextMenuContext when contextmenu event on context-menu component', fakeAsync(() => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        tick();
+        const auxEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
+        spyOn(auxEvent, 'preventDefault');
+        spyOn(auxEvent, 'stopPropagation');
+        document.querySelector('context-menu')?.dispatchEvent(auxEvent);
+        tick();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
     }));

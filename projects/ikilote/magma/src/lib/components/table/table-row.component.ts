@@ -51,6 +51,11 @@ export class MagmaTableRow implements AfterViewInit, AfterViewChecked {
     }
 
     ngAfterViewChecked(): void {
+        if (this.inputs()?.length) {
+            this.inputs().forEach(e => {
+                e.host ??= this;
+            });
+        }
         this.ngAfterViewInit();
     }
 }

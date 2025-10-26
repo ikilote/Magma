@@ -28,7 +28,7 @@ import { MagmaTable } from './table.component';
 })
 export class MagmaTableCell implements AfterViewInit, AfterViewChecked {
     host?: MagmaTableRow;
-    protected table?: MagmaTable;
+    table?: MagmaTable;
     readonly cd = inject(ChangeDetectorRef);
     readonly el = inject(ElementRef<HTMLTableSectionElement>);
 

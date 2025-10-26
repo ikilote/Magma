@@ -24,7 +24,6 @@ import { MagmaTable } from './table.component';
 })
 export class MagmaTableGroup {
     readonly host = inject(MagmaTable, { optional: false, host: true });
-    readonly table = this.host;
     protected readonly el = inject(ElementRef<HTMLTableSectionElement>);
 
     readonly sticky = input(false, { transform: booleanAttribute });
@@ -36,6 +35,15 @@ export class MagmaTableGroup {
 
     @HostListener('mouseout')
     mouseOut() {
-        this.table.clearOver();
+        this.host.clearOver();
+    }
+
+    ngAfterViewChecked(): void {
+        if (this.inputs()?.length) {
+            this.inputs().forEach(e => {
+                e.host ??= this;
+                e.table ??= this.host;
+            });
+        }
     }
 }

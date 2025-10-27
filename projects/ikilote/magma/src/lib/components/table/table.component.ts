@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, contentChildren, input } from '@angular/core';
 
 import { MagmaTableCell } from './table-cell.component';
+import { MagmaTableGroup } from './table-group.component';
 import { MagmaTableRow } from './table-row.component';
 
 export type MagmaTableData = {
@@ -30,6 +31,8 @@ export class MagmaTable {
         tbody: [],
         tfoot: [],
     };
+
+    readonly inputs = contentChildren(MagmaTableGroup);
 
     over(line: number, col: number) {
         if (this.hover() || this.hoverCol()) {
@@ -71,5 +74,13 @@ export class MagmaTable {
                 }),
             ),
         );
+    }
+
+    ngAfterViewChecked(): void {
+        if (this.inputs()?.length) {
+            this.inputs().forEach(e => {
+                e.host ??= this;
+            });
+        }
     }
 }

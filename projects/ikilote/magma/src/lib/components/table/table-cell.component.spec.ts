@@ -59,7 +59,7 @@ describe('MagmaTableCell', () => {
         component.row = 1;
         component.index = 2;
         component.mouseOver();
-        expect(component.host?.table.over).toHaveBeenCalledWith(1, 2);
+        expect(component.host?.table?.over).toHaveBeenCalledWith(1, 2);
     });
 
     it('should initialize hover and hoverLink signals', () => {
@@ -83,11 +83,11 @@ describe('MagmaTableCell', () => {
     });
 
     it('should update index in ngAfterViewChecked', () => {
-        const mockInputs = [{}, {}, {}];
+        const mockInputs = [{}, {}, component];
         (component.host as any).inputs = () => mockInputs;
         component.ngAfterViewChecked();
-        expect(component.index).toBe(-1);
-        // expect(mockCdRef.detectChanges).toHaveBeenCalled();
+        expect(component.index).toBe(2);
+        //  expect(mockCdRef.detectChanges).toHaveBeenCalled();
     });
 
     it('should get table from host', () => {
@@ -105,9 +105,4 @@ describe('MagmaTableCell', () => {
         fixture.detectChanges();
         expect(component.el.nativeElement.classList.contains('hover')).toBeTrue();
     });
-
-    // it('should throw if MagmaTableRow is not provided', () => {
-    //     TestBed.overrideProvider(MagmaTableRow, { useValue: null });
-    //     expect(() => TestBed.createComponent(MagmaTableCell)).toThrowError(/Cannot override provider/);
-    // });
 });

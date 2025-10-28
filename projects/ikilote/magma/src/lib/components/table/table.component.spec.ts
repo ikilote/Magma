@@ -46,20 +46,30 @@ describe('MagmaTable', () => {
         component._data = {
             thead: [],
             tbody: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
+                [mockCell, mockCell],
+                [mockCell, mockCell],
             ],
             tfoot: [],
         };
         fixture.componentRef.setInput('hover', true);
         component.over(0, 0);
         expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][1].cell.hover.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][0].cell.hover.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][1].cell.hover.set).toHaveBeenCalledWith(false);
     });
 
     it('should set hoverLink for tbody cells when hoverRow and hoverCol are true', () => {
         component._data = {
             thead: [],
             tbody: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
+                [mockCell, mockCell],
+                [mockCell, mockCell],
             ],
             tfoot: [],
         };
@@ -67,58 +77,68 @@ describe('MagmaTable', () => {
         fixture.componentRef.setInput('hoverCol', true);
         component.over(0, 0);
         expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
     });
 
     it('should set hoverLink for tbody cells when hoverCol are true', () => {
         component._data = {
             thead: [],
             tbody: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
+                [mockCell, mockCell],
+                [mockCell, mockCell],
             ],
             tfoot: [],
         };
         fixture.componentRef.setInput('hoverCol', true);
         component.over(0, 0);
         expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
     });
 
     it('should set hoverLink for tbody cells when hoverRow are true', () => {
         component._data = {
             thead: [],
             tbody: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
+                [mockCell, mockCell],
+                [mockCell, mockCell],
             ],
             tfoot: [],
         };
         fixture.componentRef.setInput('hoverRow', true);
         component.over(0, 0);
         expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
     });
 
     it('should set hoverLink for tbody cells when hoverCell are true', () => {
         component._data = {
             thead: [],
             tbody: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
+                [mockCell, mockCell],
+                [mockCell, mockCell],
             ],
             tfoot: [],
         };
         fixture.componentRef.setInput('hoverCell', true);
         component.over(0, 0);
         expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][0].cell.hoverLink.set).not.toHaveBeenCalled();
+        expect(component._data.tbody[0][1].cell.hoverLink.set).not.toHaveBeenCalled();
+        expect(component._data.tbody[1][0].cell.hoverLink.set).not.toHaveBeenCalled();
+        expect(component._data.tbody[1][1].cell.hoverLink.set).not.toHaveBeenCalled();
     });
 
     it('should clear hover and hoverLink for all cells', () => {
         component._data = {
-            thead: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
-            ],
-            tbody: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
-            ],
-            tfoot: [
-                [{ cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } } } as any],
-            ],
+            thead: [[mockCell]],
+            tbody: [[mockCell]],
+            tfoot: [[mockCell]],
         };
         component.clearOver();
         component._data.thead.forEach(row =>

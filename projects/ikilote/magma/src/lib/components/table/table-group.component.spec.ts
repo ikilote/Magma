@@ -16,14 +16,11 @@ class MockHost {
 describe('MagmaTableGroup', () => {
     let component: MagmaTableGroup;
     let fixture: ComponentFixture<MagmaTableGroup>;
-    let mockHost: Partial<MagmaTable>;
+    let mockHost: MagmaTable;
     let mockElementRef: Partial<ElementRef>;
 
     beforeEach(async () => {
-        mockHost = {
-            _data: { thead: [], tbody: [], tfoot: [] },
-            clearOver: jasmine.createSpy('clearOver'),
-        };
+        mockHost = new MockHost() as unknown as MagmaTable; // mock host
 
         mockElementRef = {
             nativeElement: document.createElement('tbody'),
@@ -35,17 +32,11 @@ describe('MagmaTableGroup', () => {
                 { provide: MagmaTable, useValue: mockHost },
                 { provide: ElementRef, useValue: mockElementRef },
             ],
-        })
-            .overrideComponent(MagmaTableGroup, {
-                add: {
-                    providers: [{ provide: MagmaTableRow, useValue: MockHost }],
-                },
-            })
-            .compileComponents();
+        }).compileComponents();
 
         fixture = TestBed.createComponent(MagmaTableGroup);
         component = fixture.componentInstance;
-        component.host = new MockHost() as any; // mock host
+        component.host = mockHost;
         fixture.detectChanges();
     });
 

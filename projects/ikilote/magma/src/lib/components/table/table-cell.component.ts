@@ -30,7 +30,7 @@ export class MagmaTableCell implements AfterViewInit, AfterViewChecked {
     host?: MagmaTableRow;
     table?: MagmaTable;
     readonly cd = inject(ChangeDetectorRef);
-    readonly el = inject(ElementRef<HTMLTableSectionElement>);
+    readonly el = inject(ElementRef<HTMLTableCellElement>);
 
     readonly baseline = input(false, { transform: booleanAttribute });
 

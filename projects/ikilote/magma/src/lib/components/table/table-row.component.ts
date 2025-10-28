@@ -4,6 +4,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    ElementRef,
     booleanAttribute,
     contentChildren,
     inject,
@@ -27,6 +28,7 @@ export class MagmaTableRow implements AfterViewInit, AfterViewChecked {
     host?: MagmaTableGroup;
     table?: MagmaTable;
     protected readonly cd = inject(ChangeDetectorRef);
+    readonly el = inject(ElementRef<HTMLTableRowElement>);
 
     readonly baseline = input(false, { transform: booleanAttribute });
 
@@ -40,14 +42,14 @@ export class MagmaTableRow implements AfterViewInit, AfterViewChecked {
             this.index = this.host.inputs().indexOf(this);
             this._data = this.host._data![this.index] = [];
 
-            this.inputs().forEach(e => {
-                this.host!._data![this.index][e.index] = {
-                    cell: e,
+            for (const input of this.inputs()) {
+                this.host._data![this.index][input.index] = {
+                    cell: input,
                     row: this,
-                    textContent: e.el.nativeElement.textContent,
+                    textContent: input.el.nativeElement.textContent,
                 };
-                e.cd.detectChanges();
-            });
+                input.cd.detectChanges();
+            }
         }
         this.cd.detectChanges();
     }

@@ -31,17 +31,11 @@ describe('MagmaTableCell', () => {
                 { provide: ChangeDetectorRef, useValue: mockCdRef },
                 { provide: ElementRef, useValue: mockElementRef },
             ],
-        })
-            .overrideComponent(MagmaTableCell, {
-                add: {
-                    providers: [{ provide: MagmaTableRow, useValue: MockHost }],
-                },
-            })
-            .compileComponents();
+        }).compileComponents();
 
         fixture = TestBed.createComponent(MagmaTableCell);
         component = fixture.componentInstance;
-        component.host = new MockHost() as any; // mock host
+        component.host = new MockHost() as unknown as MagmaTableRow; // mock host
         fixture.detectChanges();
     });
 

@@ -1,10 +1,11 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Component } from '@angular/core';
+import { Component, ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 
+import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
 
@@ -162,5 +163,114 @@ describe('MagmaWalkthrough', () => {
         component.start({ group: 'test' });
         tick();
         expect(overlay.create).not.toHaveBeenCalled();
+    }));
+
+    it('should call close() if backdropAction is "close"', fakeAsync(() => {
+        component['portal'] = {
+            backdropAction: () => 'close',
+            nextStep: () => 'second',
+            group: () => 'test',
+        } as unknown as MagmaWalkthroughStep;
+
+        spyOn(component, 'close' as any);
+
+        (component as any)['overlayRef'] = new MockOverlayRef();
+        (component as any)['overlayRef'].backdropClick().subscribe(() => {
+            (component as any).backdropAction();
+        });
+
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+
+        tick();
+
+        expect(component['close']).toHaveBeenCalled();
+    }));
+
+    it('should call changeStep() if backdropAction is "next" and nextStep is defined', fakeAsync(() => {
+        component['portal'] = {
+            backdropAction: () => 'next',
+            nextStep: () => 'second',
+            group: () => 'test',
+        } as unknown as MagmaWalkthroughStep;
+
+        spyOn(component, 'changeStep' as any);
+
+        (component as any)['overlayRef'] = new MockOverlayRef();
+        (component as any)['overlayRef'].backdropClick().subscribe(() => {
+            (component as any).backdropAction();
+        });
+
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+
+        tick();
+
+        expect(component['changeStep']).toHaveBeenCalledWith('second', 'test');
+    }));
+
+    it('should call content.instance.clone.click() if backdropAction is "clickElement" and clickElementActive or \
+clickElementOrigin is true', fakeAsync(() => {
+        component['portal'] = {
+            backdropAction: () => 'clickElement',
+            clickElementActive: () => true,
+            clickElementOrigin: () => false,
+        } as unknown as MagmaWalkthroughStep;
+
+        component['content'] = {
+            instance: { clone: { click: jasmine.createSpy('click') } },
+        } as unknown as ComponentRef<MagmaWalkthroughContent>;
+
+        (component as any)['overlayRef'] = new MockOverlayRef();
+        (component as any)['overlayRef'].backdropClick().subscribe(() => {
+            (component as any).backdropAction();
+        });
+
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+
+        tick();
+
+        expect((component as any)['content'].instance.clone.click).toHaveBeenCalled();
+    }));
+
+    it('should call content.instance.clone.click() if backdropAction is "clickElement" and clickElementActive or \
+clickElementOrigin is true', fakeAsync(() => {
+        component['portal'] = {
+            backdropAction: () => 'clickElement',
+            clickElementActive: () => false,
+            clickElementOrigin: () => true,
+        } as unknown as MagmaWalkthroughStep;
+
+        component['content'] = {
+            instance: { clone: { click: jasmine.createSpy('click') } },
+        } as unknown as ComponentRef<MagmaWalkthroughContent>;
+
+        (component as any)['overlayRef'] = new MockOverlayRef();
+        (component as any)['overlayRef'].backdropClick().subscribe(() => {
+            (component as any).backdropAction();
+        });
+
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+
+        tick();
+
+        expect((component as any)['content'].instance.clone.click).toHaveBeenCalled();
+    }));
+
+    it('should do nothing if backdropAction is not defined or does not match any case', fakeAsync(() => {
+        component['portal'] = { backdropAction: () => undefined } as unknown as MagmaWalkthroughStep;
+
+        spyOn(component, 'close' as any);
+        spyOn(component, 'changeStep' as any);
+
+        (component as any)['overlayRef'] = new MockOverlayRef();
+        (component as any)['overlayRef'].backdropClick().subscribe(() => {
+            (component as any).backdropAction();
+        });
+
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+
+        tick();
+
+        expect(component['close']).not.toHaveBeenCalled();
+        expect(component['changeStep']).not.toHaveBeenCalled();
     }));
 });

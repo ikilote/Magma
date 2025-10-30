@@ -48,24 +48,7 @@ export class MagmaWalkthrough {
                         .flexibleConnectedTo(element)
                         .withPositions(magmaWalkthroughConnectedPosition),
                 });
-                overlayRef.backdropClick().subscribe(() => {
-                    switch (this.portal?.backdropAction()) {
-                        case 'close':
-                            this.close();
-                            break;
-                        case 'next':
-                            if (this.portal.nextStep()) {
-                                this.changeStep(this.portal.nextStep(), this.portal.group());
-                            }
-                            break;
-                        case 'clickElement':
-                            if (this.portal.clickElementActive() || this.portal.clickElementOrigin()) {
-                                this.content?.instance.clone?.click();
-                            }
-                            break;
-                        default:
-                    }
-                });
+                overlayRef.backdropClick().subscribe(this.backdropAction);
                 const userProfilePortal = new ComponentPortal(MagmaWalkthroughContent);
                 const component = overlayRef.attach(userProfilePortal);
                 component.setInput('host', this);
@@ -87,7 +70,6 @@ export class MagmaWalkthrough {
             }
         }
     }
-
     changeStep(stepName?: string, group?: string) {
         if (!stepName) {
             this.close();
@@ -119,5 +101,24 @@ export class MagmaWalkthrough {
         this.overlayRef?.dispose();
         this.content = undefined;
         this.overlayRef = undefined;
+    }
+
+    private backdropAction() {
+        switch (this.portal?.backdropAction()) {
+            case 'close':
+                this.close();
+                break;
+            case 'next':
+                if (this.portal.nextStep()) {
+                    this.changeStep(this.portal.nextStep(), this.portal.group());
+                }
+                break;
+            case 'clickElement':
+                if (this.portal.clickElementActive() || this.portal.clickElementOrigin()) {
+                    this.content?.instance.clone?.click();
+                }
+                break;
+            default:
+        }
     }
 }

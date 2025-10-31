@@ -95,7 +95,9 @@ describe('InfoMessageComponent', () => {
         component.click();
         fixture.detectChanges();
 
-        expect(component.classes).toEqual([undefined, 'close']);
+        console.log(fixture.nativeElement.classList);
+
+        expect(fixture.nativeElement.classList[0]).toEqual('close');
         tick(700);
         expect(component.close).toHaveBeenCalled();
     }));

@@ -1,9 +1,9 @@
 import {
-    AfterViewInit,
     ChangeDetectorRef,
     Directive,
     Injector,
     OnChanges,
+    OnInit,
     SimpleChanges,
     booleanAttribute,
     computed,
@@ -23,9 +23,7 @@ import { Logger } from '../../services/logger';
 import { Timing } from '../../utils/timing';
 
 @Directive({})
-export class MagmaInputCommon<T = any[]>
-    implements ControlValueAccessor, AfterViewInit, OnChanges, ControlValueAccessor
-{
+export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
     host?: MagmaInput;
     protected readonly logger = inject(Logger);
     protected readonly cd = inject(ChangeDetectorRef);
@@ -71,7 +69,7 @@ export class MagmaInputCommon<T = any[]>
 
     ngControl: NgControl | null = null;
 
-    ngAfterViewInit(): void {
+    ngOnInit(): void {
         setTimeout(() => {
             if (!this.host) {
                 this.onError = true;

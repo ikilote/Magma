@@ -1,8 +1,8 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     ElementRef,
-    OnInit,
     booleanAttribute,
     forwardRef,
     input,
@@ -35,7 +35,7 @@ let counter = 0;
 })
 export class MagmaInputNumber
     extends MagmaInputCommon<(number | { label?: string; value: number })[]>
-    implements OnInit
+    implements AfterViewInit
 {
     override readonly componentName = 'input-number';
     protected override counter = counter++;

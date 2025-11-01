@@ -1,9 +1,9 @@
 import {
+    AfterViewInit,
     ChangeDetectorRef,
     Directive,
     Injector,
     OnChanges,
-    OnInit,
     SimpleChanges,
     booleanAttribute,
     computed,
@@ -23,8 +23,10 @@ import { Logger } from '../../services/logger';
 import { Timing } from '../../utils/timing';
 
 @Directive({})
-export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
-    protected readonly host = inject(MagmaInput, { optional: false, host: true });
+export class MagmaInputCommon<T = any[]>
+    implements ControlValueAccessor, AfterViewInit, OnChanges, ControlValueAccessor
+{
+    host?: MagmaInput;
     protected readonly logger = inject(Logger);
     protected readonly cd = inject(ChangeDetectorRef);
     protected readonly injector = inject(Injector);
@@ -69,12 +71,16 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
 
     ngControl: NgControl | null = null;
 
-    ngOnInit(): void {
-        if (!this.host) {
-            this.onError = true;
-        }
+    ngAfterViewInit(): void {
+        setTimeout(() => {
+            if (!this.host) {
+                this.onError = true;
+            }
+        });
         this.ngControl = this.injector.get(NgControl, null, { self: true, optional: true });
-        this.host.ngControl ??= this.ngControl;
+        if (this.host) {
+            this.host.ngControl ??= this.ngControl;
+        }
         this.setHostLabelId();
     }
 
@@ -159,15 +165,17 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
                         }
                     }
                 }
-                this.host._errorMessage.set(errorMessage ?? null);
+                this.host?._errorMessage.set(errorMessage ?? null);
             });
         }
         return null;
     }
 
     protected setHostLabelId() {
-        this.host.forId = `${this._id()}-input`;
-        this.host.cd.detectChanges();
+        if (this.host) {
+            this.host.forId = `${this._id()}-input`;
+            this.host.cd.detectChanges();
+        }
     }
 
     protected initAnimation() {

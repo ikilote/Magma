@@ -1,7 +1,6 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    OnInit,
     TemplateRef,
     booleanAttribute,
     forwardRef,
@@ -44,7 +43,7 @@ let counter = 0;
     },
     imports: [Select2],
 })
-export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
+export class MagmaInputSelect extends MagmaInputCommon {
     override readonly componentName = 'input-select';
     protected override counter = counter++;
 

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+    AfterContentChecked,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -28,7 +29,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInput implements OnChanges {
+export class MagmaInput implements OnChanges, AfterContentChecked {
     readonly cd = inject(ChangeDetectorRef);
 
     readonly id = input<string>();
@@ -54,6 +55,14 @@ export class MagmaInput implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         if (changes['arrayValue'] && this.inputs()[0]?.componentName === 'input-checkbox') {
             this.inputs()[0].onChange(this.inputs()[0].getValue());
+        }
+    }
+
+    ngAfterContentChecked(): void {
+        if (this.inputs()?.length) {
+            this.inputs().forEach(e => {
+                e.host ??= this;
+            });
         }
     }
 }

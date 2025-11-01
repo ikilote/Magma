@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, ElementRef, forwardRef, input, viewChildren } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    forwardRef,
+    input,
+    viewChildren,
+} from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -20,7 +28,10 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInputDate extends MagmaInputCommon<(string | { label?: string; value: string })[]> {
+export class MagmaInputDate
+    extends MagmaInputCommon<(string | { label?: string; value: string })[]>
+    implements AfterViewInit
+{
     override readonly componentName: string = 'input-date';
     protected override counter = counter++;
 

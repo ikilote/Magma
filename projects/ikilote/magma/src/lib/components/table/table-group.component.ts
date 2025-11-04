@@ -1,4 +1,5 @@
 import {
+    AfterViewChecked,
     ChangeDetectionStrategy,
     Component,
     ElementRef,
@@ -22,7 +23,7 @@ import { MagmaTable, MagmaTableData } from './table.component';
         '[class.baseline]': 'baseline()',
     },
 })
-export class MagmaTableGroup {
+export class MagmaTableGroup implements AfterViewChecked {
     host?: MagmaTable;
     protected readonly el = inject(ElementRef<HTMLTableSectionElement>);
     protected readonly tag: 'thead' | 'tbody' | 'tfoot' = this.el.nativeElement.tagName.toLowerCase();

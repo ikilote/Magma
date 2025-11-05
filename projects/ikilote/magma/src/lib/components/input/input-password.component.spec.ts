@@ -1,4 +1,3 @@
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -8,7 +7,6 @@ import { MagmaInputPassword } from './input-password.component';
 describe('MagmaInputPassword', () => {
     let component: MagmaInputPassword;
     let fixture: ComponentFixture<MagmaInputPassword>;
-    let debugElement: DebugElement;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -122,10 +120,12 @@ describe('MagmaInputPassword', () => {
         expect(component.focus).toHaveBeenCalledWith(false);
     });
 
-    // it('should display Error if onError is true', () => {
-    //     component['onError'] = true;
-    //     fixture.detectChanges();
-    //     const errorElement = fixture.debugElement.query(By.css('div:contains("Error")'));
-    //     expect(errorElement).toBeTruthy();
-    // });
+    it('should display Error if onError is true', async () => {
+        component['onError'].set(true);
+        fixture.detectChanges();
+        await fixture.whenStable();
+
+        const errorElement = fixture.debugElement.nativeElement.textContent;
+        expect(errorElement).toContain('Error');
+    });
 });

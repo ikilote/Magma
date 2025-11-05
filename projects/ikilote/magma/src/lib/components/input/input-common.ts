@@ -61,7 +61,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
 
     protected _value: any = '';
 
-    protected onError = false;
+    protected onError = signal(false);
 
     protected placeholderTimer: undefined | number = undefined;
 
@@ -72,7 +72,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     ngOnInit(): void {
         setTimeout(() => {
             if (!this.host) {
-                this.onError = true;
+                this.onError.set(true);
             }
         });
         this.ngControl = this.injector.get(NgControl, null, { self: true, optional: true });
@@ -171,7 +171,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
 
     protected setHostLabelId() {
         if (this.host) {
-            this.host.forId = `${this._id()}-input`;
+            this.host.forId.set(`${this._id()}-input`);
             this.host.cd.detectChanges();
         }
     }
@@ -239,6 +239,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     }
 
     protected stopPlaceholderAnimation(separator: string = '') {
+        console.log('stopPlaceholderAnimation');
         Timing.stop(this.placeholderTimer!);
         this.placeholderTimer = undefined;
         this.placeholderDisplay.set(

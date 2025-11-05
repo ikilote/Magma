@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { AbstractControl, NgControl } from '@angular/forms';
 
@@ -9,7 +9,7 @@ import { Logger } from '../../services/logger';
 import { Timing } from '../../utils/timing';
 
 class MockMagmaInput {
-    forId: string | undefined;
+    forId = signal<string | undefined>(undefined);
     _errorMessage = { set: jasmine.createSpy('set') };
     cd = { detectChanges: jasmine.createSpy('detectChanges') };
 }
@@ -125,6 +125,13 @@ describe('MagmaInputCommon', () => {
         expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
     }));
 
+    it('should placeholder not start animation if only text', fakeAsync(() => {
+        spyOn(directive as any, 'stopPlaceholderAnimation');
+        fixture.componentRef.setInput('placeholder', 'test');
+        fixture.detectChanges();
+        expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
+    }));
+
     it('should start placeholder animation if value is empty', fakeAsync(() => {
         spyOn(directive as any, 'startPlaceholderAnimation');
         fixture.componentRef.setInput('placeholderAnimated', 'test');
@@ -159,7 +166,7 @@ describe('MagmaInputCommon', () => {
     it('should set host forId on setHostLabelId', () => {
         fixture.componentRef.setInput('id', 'test-id');
         directive['setHostLabelId']();
-        expect(mockHost.forId).toBe('test-id-input');
+        expect(mockHost.forId()).toBe('test-id-input');
     });
 
     it('should undefined inputElement', () => {

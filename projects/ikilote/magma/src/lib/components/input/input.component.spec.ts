@@ -100,10 +100,11 @@ describe('MagmaInput', () => {
     });
 
     it('should render label with forId', async () => {
-        await fixture.whenStable();
+        component.forId.set('test');
+        fixture.detectChanges();
         const labelElement = debugElement.query(By.css('label'));
         expect(labelElement).toBeTruthy();
-        expect(labelElement.nativeElement.getAttribute('for')).toMatch(/input-checkbox-\d+-input/);
+        expect(labelElement.nativeElement.getAttribute('for')).toBe('test');
     });
 
     it('should set align style based on alignMode', () => {

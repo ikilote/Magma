@@ -61,7 +61,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     ngDoCheck() {
         if (this.host) {
             if (
-                this.host.forId !== `${this._id()}-input` &&
+                this.host.forId() !== `${this._id()}-input` &&
                 this.host.inputs().filter(item => item.componentName === this.componentName).length === 1 &&
                 this.label() &&
                 !this.label()[0]?.nativeElement.innerHTML.trim()
@@ -71,9 +71,9 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
             } else if (
                 (this.host.inputs().filter(item => item.componentName === this.componentName).length > 1 ||
                     this.label()?.[0]?.nativeElement.innerHTML.trim()) &&
-                this.host.forId
+                this.host.forId()
             ) {
-                this.host.forId = undefined;
+                this.host.forId.set(undefined);
                 this.host.cd.detectChanges();
             }
         }

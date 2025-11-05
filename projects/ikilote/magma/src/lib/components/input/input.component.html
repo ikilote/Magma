@@ -1,6 +1,6 @@
 <div class="top label">
-  @if (forId) {
-    <label [for]="forId"><ng-container [ngTemplateOutlet]="label"></ng-container></label>
+  @if (forId()) {
+    <label [for]="forId()"><ng-container [ngTemplateOutlet]="label"></ng-container></label>
   } @else {
     <ng-container [ngTemplateOutlet]="label"></ng-container>
   }

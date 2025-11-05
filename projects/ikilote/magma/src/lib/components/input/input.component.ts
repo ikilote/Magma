@@ -34,7 +34,7 @@ export class MagmaInput implements OnChanges, AfterContentChecked {
 
     readonly id = input<string>();
 
-    forId: string | undefined;
+    forId = signal<string | undefined>(undefined);
 
     /** for checkbox */
     readonly arrayValue = input(false, { transform: booleanAttribute });

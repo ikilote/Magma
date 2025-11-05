@@ -6,6 +6,8 @@ import { MagmaInputText } from './input-text.component';
 
 let counter = 0;
 
+const magmaInputPassword = () => MagmaInputPassword;
+
 @Component({
     selector: 'mg-input-password',
     templateUrl: './input-password.component.html',
@@ -14,8 +16,8 @@ let counter = 0;
     imports: [ReactiveFormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputPassword },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputPassword), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputPassword), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(magmaInputPassword), multi: true },
+        { provide: NG_VALIDATORS, useExisting: forwardRef(magmaInputPassword), multi: true },
     ],
     host: {
         '[id]': '_id()',

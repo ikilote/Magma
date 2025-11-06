@@ -15,6 +15,8 @@ import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 let counter = 0;
 
+const magmaInputText = () => MagmaInputText;
+
 @Component({
     selector: 'mg-input-text',
     templateUrl: './input-text.component.html',
@@ -23,8 +25,8 @@ let counter = 0;
     imports: [ReactiveFormsModule, FormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputText },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputText), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputText), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(magmaInputText), multi: true },
+        { provide: NG_VALIDATORS, useExisting: forwardRef(magmaInputText), multi: true },
     ],
     host: {
         '[id]': '_id()',
@@ -62,7 +64,7 @@ export class MagmaInputText extends MagmaInputCommon<(string | { label?: string;
         this.onChange(value);
     }
 
-    focus(focus: boolean = true) {
+    focus(focus: boolean) {
         if (!focus) {
             this.onTouched();
             if (this.ngControl?.control) {

@@ -1,4 +1,4 @@
-@if (!onError) {
+@if (!onError()) {
   <input type="hidden" [value]="_value ?? ''" #input />
   <span
     [id]="_id() + '-input'"

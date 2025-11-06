@@ -120,11 +120,9 @@ describe('MagmaInputPassword', () => {
         expect(component.focus).toHaveBeenCalledWith(false);
     });
 
-    it('should display Error if onError is true', async () => {
+    it('should display Error if onError is true', () => {
         component['onError'].set(true);
         fixture.detectChanges();
-        await fixture.whenStable();
-
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });

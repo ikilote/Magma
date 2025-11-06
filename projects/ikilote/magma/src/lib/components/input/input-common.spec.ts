@@ -163,6 +163,16 @@ describe('MagmaInputCommon', () => {
     //     expect(MockTiming.stop).toHaveBeenCalledWith(123);
     // });
 
+    it('should placeholder not start animation if only text', fakeAsync(() => {
+        spyOn(directive as any, 'stopPlaceholderAnimation');
+        spyOn(directive.placeholderDisplay as any, 'set');
+
+        fixture.componentRef.setInput('placeholder', 'test|test2');
+        fixture.detectChanges();
+        expect(directive['placeholderTimer']).toBe(undefined);
+        // expect(directive.placeholderDisplay.set).toHaveBeenCalledWith('');
+    }));
+
     it('should set host forId on setHostLabelId', () => {
         fixture.componentRef.setInput('id', 'test-id');
         directive['setHostLabelId']();

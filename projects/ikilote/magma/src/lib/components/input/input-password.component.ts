@@ -1,12 +1,10 @@
-import { ChangeDetectionStrategy, Component, booleanAttribute, forwardRef, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 import { MagmaInputText } from './input-text.component';
 
 let counter = 0;
-
-const magmaInputPassword = () => MagmaInputPassword;
 
 @Component({
     selector: 'mg-input-password',
@@ -16,8 +14,8 @@ const magmaInputPassword = () => MagmaInputPassword;
     imports: [ReactiveFormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputPassword },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(magmaInputPassword), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(magmaInputPassword), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputPassword, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputPassword, multi: true },
     ],
     host: {
         '[id]': '_id()',

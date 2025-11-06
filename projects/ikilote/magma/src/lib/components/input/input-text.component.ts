@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    booleanAttribute,
-    forwardRef,
-    input,
-    viewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -14,8 +6,6 @@ import { MagmaInputCommon } from './input-common';
 import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 let counter = 0;
-
-const magmaInputText = () => MagmaInputText;
 
 @Component({
     selector: 'mg-input-text',
@@ -25,8 +15,8 @@ const magmaInputText = () => MagmaInputText;
     imports: [ReactiveFormsModule, FormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputText },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(magmaInputText), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(magmaInputText), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputText, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputText, multi: true },
     ],
     host: {
         '[id]': '_id()',

@@ -52,7 +52,11 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     protected counter = 0;
     protected readonly uid = computed<string>(() => `${this.componentName}-${this.counter}`);
 
-    _name = computed<string>(() => this.formControlName() || this.name() || this.id() || this.uid());
+    refreshTrigger = signal<any>(false);
+
+    _name = computed<string>(
+        () => this.refreshTrigger() || this.formControlName() || this.name() || this.id() || this.uid(),
+    );
     _id = computed<string>(() => this.id() || this.uid());
 
     get inputElement(): HTMLInputElement | HTMLTextAreaElement | Select2 | undefined {
@@ -239,7 +243,6 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     }
 
     protected stopPlaceholderAnimation(separator: string = '') {
-        console.log('stopPlaceholderAnimation');
         Timing.stop(this.placeholderTimer!);
         this.placeholderTimer = undefined;
         this.placeholderDisplay.set(

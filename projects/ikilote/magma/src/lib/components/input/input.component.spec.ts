@@ -10,6 +10,7 @@ import { MagmaInput } from './input.component';
 @Component({ selector: 'mg-input-checkbox' })
 class MockMagmaInputCommon {
     host: MagmaInput | null = null;
+    refreshTrigger = signal(undefined);
     componentName = 'input-checkbox';
     getValue = jasmine.createSpy('getValue').and.returnValue(true);
     onChange = jasmine.createSpy('onChange');

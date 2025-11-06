@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    booleanAttribute,
-    forwardRef,
-    input,
-    viewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -24,8 +16,8 @@ let counter = 0;
     imports: [MagmaColorPicker],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputColor },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputColor), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputColor), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputColor, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputColor, multi: true },
     ],
     host: {
         '[id]': '_id()',

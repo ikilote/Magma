@@ -7,7 +7,6 @@ import {
     SimpleChanges,
     booleanAttribute,
     computed,
-    forwardRef,
     input,
     output,
     viewChildren,
@@ -25,8 +24,8 @@ let counter = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputCheckbox },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputCheckbox), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputCheckbox), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputCheckbox, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputCheckbox, multi: true },
     ],
     host: {
         '[id]': '_id()',

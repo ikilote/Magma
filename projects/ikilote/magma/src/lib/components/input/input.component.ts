@@ -62,6 +62,7 @@ export class MagmaInput implements OnChanges, AfterContentChecked {
         if (this.inputs()?.length) {
             this.inputs().forEach(e => {
                 e.host ??= this;
+                e.refreshTrigger?.set(null);
             });
         }
     }

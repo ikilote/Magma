@@ -3,7 +3,6 @@ import {
     Component,
     TemplateRef,
     booleanAttribute,
-    forwardRef,
     input,
     numberAttribute,
     output,
@@ -35,8 +34,8 @@ let counter = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputSelect },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputSelect), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputSelect), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputSelect, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputSelect, multi: true },
     ],
     host: {
         '[id]': '_id()',

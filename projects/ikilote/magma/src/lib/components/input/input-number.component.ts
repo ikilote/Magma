@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    booleanAttribute,
-    forwardRef,
-    input,
-    viewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -23,8 +15,8 @@ let counter = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputNumber },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputNumber), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputNumber), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputNumber, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputNumber, multi: true },
     ],
     host: {
         '[id]': '_id()',

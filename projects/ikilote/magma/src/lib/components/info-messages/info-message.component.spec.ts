@@ -94,9 +94,6 @@ describe('InfoMessageComponent', () => {
         spyOn(component, 'close');
         component.click();
         fixture.detectChanges();
-
-        console.log(fixture.nativeElement.classList);
-
         expect(fixture.nativeElement.classList[0]).toEqual('close');
         tick(700);
         expect(component.close).toHaveBeenCalled();

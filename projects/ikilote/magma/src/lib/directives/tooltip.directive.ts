@@ -96,9 +96,6 @@ export class MagmaTooltipDirective implements OnDestroy {
         if (this.timer) {
             clearTimeout(this.timer);
         }
-
-        console.log(this.element);
-
         const overlayRef = this.overlay.create({
             panelClass: 'tooltip-panel',
             scrollStrategy: this.overlay.scrollStrategies.block(),

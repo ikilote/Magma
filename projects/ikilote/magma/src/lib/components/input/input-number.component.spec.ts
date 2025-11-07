@@ -6,16 +6,6 @@ import { By } from '@angular/platform-browser';
 import { MagmaInputNumber } from './input-number.component';
 import { MockNgControl } from './input-text.component.spec';
 
-// Mock pour MagmaInputCommon
-class MockMagmaInputCommon {
-    _value: any = '';
-    onChange = jasmine.createSpy('onChange');
-    onTouched = jasmine.createSpy('onTouched');
-    writeValue = jasmine.createSpy('writeValue');
-    validate = jasmine.createSpy('validate');
-    ngControl = { control: { errors: null } };
-}
-
 describe('MagmaInputNumber', () => {
     let component: MagmaInputNumber;
     let fixture: ComponentFixture<MagmaInputNumber>;

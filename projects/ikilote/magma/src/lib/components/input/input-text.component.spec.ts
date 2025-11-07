@@ -5,7 +5,7 @@ import { By } from '@angular/platform-browser';
 
 import { MagmaInputText } from './input-text.component';
 
-class MockNgControl {
+export class MockNgControl {
     control = {
         errors: { required: true },
         touched: true,

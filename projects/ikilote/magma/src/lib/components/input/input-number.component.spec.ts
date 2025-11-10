@@ -30,39 +30,23 @@ describe('MagmaInputNumber', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should set step correctly', () => {
-        fixture.componentRef.setInput('step', 2);
-        expect(component.step()).toBe(2);
-    });
+    describe('Input properties', () => {
+        const inputTests = [
+            { property: 'step', value: 2, expected: 2 },
+            { property: 'min', value: 0, expected: 0 },
+            { property: 'max', value: 100, expected: 100 },
+            { property: 'forceMinMax', value: true, expected: true },
+            { property: 'showArrows', value: true, expected: true },
+            { property: 'noDecimal', value: true, expected: true },
+            { property: 'noNegative', value: true, expected: true },
+        ];
 
-    it('should set min correctly', () => {
-        fixture.componentRef.setInput('min', 0);
-        expect(component.min()).toBe(0);
-    });
-
-    it('should set max correctly', () => {
-        fixture.componentRef.setInput('max', 100);
-        expect(component.max()).toBe(100);
-    });
-
-    it('should set forceMinMax correctly', () => {
-        fixture.componentRef.setInput('forceMinMax', true);
-        expect(component.forceMinMax()).toBeTrue();
-    });
-
-    it('should set showArrows correctly', () => {
-        fixture.componentRef.setInput('showArrows', true);
-        expect(component.showArrows()).toBeTrue();
-    });
-
-    it('should set noDecimal correctly', () => {
-        fixture.componentRef.setInput('noDecimal', true);
-        expect(component.noDecimal()).toBeTrue();
-    });
-
-    it('should set noNegative correctly', () => {
-        fixture.componentRef.setInput('noNegative', true);
-        expect(component.noNegative()).toBeTrue();
+        inputTests.forEach(({ property, value, expected }) => {
+            it(`should set ${property} correctly`, () => {
+                fixture.componentRef.setInput(property, value);
+                expect((component as any)[property]()).toEqual(expected);
+            });
+        });
     });
 
     it('should render input element with type number', () => {

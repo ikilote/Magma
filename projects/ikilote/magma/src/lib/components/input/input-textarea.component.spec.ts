@@ -30,39 +30,23 @@ describe('MagmaInputTextarea', () => {
         expect(component).toBeTruthy();
     });
 
-    it('should set autosize correctly', () => {
-        fixture.componentRef.setInput('autosize', true);
-        expect(component.autosize()).toBeTrue();
-    });
+    describe('Input properties', () => {
+        const inputTests = [
+            { property: 'autosize', value: true, expected: true },
+            { property: 'monospace', value: true, expected: true },
+            { property: 'maxlength', value: 100, expected: 100 },
+            { property: 'displayLimit', value: 50, expected: 50 },
+            { property: 'height', value: '200px', expected: '200px' },
+            { property: 'maxHeight', value: '300px', expected: '300px' },
+            { property: 'minHeight', value: '100px', expected: '100px' },
+        ];
 
-    it('should set monospace correctly', () => {
-        fixture.componentRef.setInput('monospace', true);
-        expect(component.monospace()).toBeTrue();
-    });
-
-    it('should set maxlength correctly', () => {
-        fixture.componentRef.setInput('maxlength', 100);
-        expect(component.maxlength()).toBe(100);
-    });
-
-    it('should set displayLimit correctly', () => {
-        fixture.componentRef.setInput('displayLimit', 50);
-        expect(component.displayLimit()).toBe(50);
-    });
-
-    it('should set height correctly', () => {
-        fixture.componentRef.setInput('height', '200px');
-        expect(component.height()).toBe('200px');
-    });
-
-    it('should set maxHeight correctly', () => {
-        fixture.componentRef.setInput('maxHeight', '300px');
-        expect(component.maxHeight()).toBe('300px');
-    });
-
-    it('should set minHeight correctly', () => {
-        fixture.componentRef.setInput('minHeight', '100px');
-        expect(component.minHeight()).toBe('100px');
+        inputTests.forEach(({ property, value, expected }) => {
+            it(`should set ${property} correctly`, () => {
+                fixture.componentRef.setInput(property, value);
+                expect((component as any)[property]()).toEqual(expected);
+            });
+        });
     });
 
     it('should render textarea element', () => {
@@ -128,6 +112,21 @@ describe('MagmaInputTextarea', () => {
         const style = limitElement.nativeElement.style;
         expect(style.getPropertyValue('--size')).toBe('10');
         expect(style.getPropertyValue('--total')).toBe('10');
+    });
+
+    it('should display limit indicator if maxlength and displayLimit are not as the limit', () => {
+        fixture.componentRef.setInput('maxlength', 10);
+        fixture.componentRef.setInput('displayLimit', 10);
+        component.writeValue('123456789');
+        fixture.detectChanges();
+        const limitElement = debugElement.query(By.css('.limit'));
+        expect(limitElement).toBeFalsy();
+    });
+
+    it('should render input element with undefined attributes', () => {
+        component.writeValue(undefined);
+        fixture.detectChanges();
+        expect(component.inputElement.value).toBe('');
     });
 
     it('should display Error if onError is true', () => {

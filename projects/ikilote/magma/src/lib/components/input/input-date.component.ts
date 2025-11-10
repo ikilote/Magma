@@ -50,7 +50,7 @@ export class MagmaInputDate extends MagmaInputCommon<(string | { label?: string;
         this.onChange(value);
     }
 
-    focus(focus: boolean = true) {
+    focus(focus: boolean) {
         if (!focus) {
             this.onTouched();
             if (this.ngControl?.control) {

@@ -28,6 +28,7 @@ export class MagmaInputColor extends MagmaInputCommon<string[]> {
     protected override counter = counter++;
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
+    readonly colorPicker = viewChildren<MagmaColorPicker>(MagmaColorPicker);
 
     readonly alpha = input(false, { transform: booleanAttribute });
     readonly clearButton = input(false, { transform: booleanAttribute });
@@ -36,8 +37,12 @@ export class MagmaInputColor extends MagmaInputCommon<string[]> {
 
     override readonly placeholder: any = undefined; // not for color
 
-    override get inputElement(): HTMLInputElement {
+    override get inputElement(): HTMLInputElement | undefined {
         return this.input()?.[0]?.nativeElement;
+    }
+
+    get inputDirective(): MagmaColorPicker | undefined {
+        return this.colorPicker()?.[0];
     }
 
     colorClose(color: string) {

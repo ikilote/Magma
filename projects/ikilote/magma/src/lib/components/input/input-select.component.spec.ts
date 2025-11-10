@@ -76,7 +76,7 @@ describe('MagmaInputSelect', () => {
                 fixture.componentRef.setInput(name, value);
                 expect((component as any)[name]()).toEqual(value);
                 fixture.detectChanges();
-                expect((component.input()[0] as any)[name]()).toEqual(value);
+                expect((component.inputElement as any)[name]()).toEqual(value);
             });
         });
     });

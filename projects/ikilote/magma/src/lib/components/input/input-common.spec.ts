@@ -179,7 +179,7 @@ describe('MagmaInputCommon', () => {
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
         }));
 
-        it('should replace placeholders in error message', fakeAsync(() => {
+        it('should replace placeholders in error message with controlParamsData', fakeAsync(() => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = { minlength: { requiredLength: 5, actualLength: 3 } } as any;
             (mockNgControl.control as any).controlData = {
@@ -193,6 +193,22 @@ describe('MagmaInputCommon', () => {
             tick();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Minimum length is 5, got 3');
+        }));
+
+        it('should replace placeholders in error message with controlParamsData default params', fakeAsync(() => {
+            mockNgControl.control.touched = true;
+            mockNgControl.control.errors = { minlength: { requiredLength: 5, actualLength: 3 } } as any;
+            (mockNgControl.control as any).controlData = {
+                minlength: {
+                    message: 'Minimum length is {minlength}',
+                },
+            };
+            (mockNgControl.control as any).controlParamsData = { minlength: 3 };
+
+            directive.validate(mockNgControl.control as AbstractControl);
+            tick();
+
+            expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Minimum length is 3');
         }));
 
         it('should handle multiple errors and use the first one', fakeAsync(() => {
@@ -211,9 +227,42 @@ describe('MagmaInputCommon', () => {
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
         }));
+
+        it('should handle multiple errors and use the first one', fakeAsync(() => {
+            mockNgControl.control.touched = true;
+            mockNgControl.control.errors = {
+                required: true,
+                minlength: { requiredLength: 5, actualLength: 3 },
+            } as any;
+            (mockNgControl.control as any).controlData = {
+                required: { message: 'Required field' },
+                minlength: { message: 'Too short' },
+            };
+
+            directive.validate(mockNgControl.control as AbstractControl);
+            tick();
+
+            expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
+        }));
+
+        it('should handle default message error and use the first one', fakeAsync(() => {
+            mockNgControl.control.touched = true;
+            mockNgControl.control.errors = {
+                required: true,
+                minlength: { requiredLength: 5, actualLength: 3 },
+            } as any;
+            (mockNgControl.control as any).controlData = {
+                message: 'Invalid field', // default message
+            };
+
+            directive.validate(mockNgControl.control as AbstractControl);
+            tick();
+
+            expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Invalid field');
+        }));
     });
 
-    describe('PlaceholderAnimation (part with Mock)', () => {
+    describe('placeholderAnimated', () => {
         it('should placeholder not start animation if only text', fakeAsync(() => {
             spyOn(directive as any, 'stopPlaceholderAnimation');
             fixture.componentRef.setInput('placeholder', 'test');
@@ -253,6 +302,32 @@ describe('MagmaInputCommon', () => {
             fixture.componentRef.setInput('placeholder', 'test|test2');
             fixture.detectChanges();
             expect(directive['placeholderTimer']).toBe(undefined);
+        }));
+
+        it('should init initAnimation', fakeAsync(() => {
+            spyOn(directive as any, 'initAnimation');
+            spyOn(directive as any, 'stopPlaceholderAnimation');
+
+            fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
+            fixture.detectChanges();
+            fixture.componentRef.setInput('placeholderAnimated', '200 2 50 |');
+            fixture.detectChanges();
+
+            expect(directive['initAnimation']).toHaveBeenCalledTimes(3); // 2 times by init
+            expect(directive['stopPlaceholderAnimation']).not.toHaveBeenCalled();
+        }));
+
+        it('should init initAnimation', fakeAsync(() => {
+            spyOn(directive as any, 'initAnimation');
+            spyOn(directive as any, 'stopPlaceholderAnimation');
+
+            fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
+            fixture.detectChanges();
+            fixture.componentRef.setInput('placeholderAnimated', '');
+            fixture.detectChanges();
+
+            expect(directive['initAnimation']).toHaveBeenCalledTimes(2); // 2 times by init
+            expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
         }));
     });
 

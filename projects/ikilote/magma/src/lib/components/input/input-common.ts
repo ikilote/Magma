@@ -193,10 +193,11 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     }
 
     protected infoPlaceholderAnimation(info: string) {
-        const [baseDelayValue, repeatValue, intervaleValue, separator] = (info ?? '').split(/\s+/);
+        const [baseDelayValue, repeatValue, intervaleValue, separatorVal] = (info ?? '').split(/\s+/);
         const baseDelay = Math.max(+baseDelayValue || 30, 1);
         const repeat = Math.max(+repeatValue || 1, 1);
         const intervale = Math.max(+intervaleValue || baseDelay, 1);
+        const separator = separatorVal || '|';
         return [baseDelay, repeat, intervale, separator] as [number, number, number, string];
     }
 

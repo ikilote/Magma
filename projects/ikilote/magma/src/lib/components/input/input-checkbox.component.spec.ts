@@ -308,7 +308,6 @@ class TestHostComponent {}
 describe('MagmaInput with multiple MagmaInputCheckbox', () => {
     let fixture: ComponentFixture<TestHostComponent>;
     let debugElement: DebugElement;
-    let hostComponent: MagmaInput;
     let checkboxComponents: MagmaInputCheckbox[];
 
     beforeEach(async () => {
@@ -323,8 +322,6 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
         fixture = TestBed.createComponent(TestHostComponent);
         debugElement = fixture.debugElement;
         fixture.detectChanges();
-
-        hostComponent = debugElement.query(By.directive(MagmaInput)).componentInstance as MagmaInput;
 
         checkboxComponents = debugElement
             .queryAll(By.directive(MagmaInputCheckbox))
@@ -394,6 +391,21 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
         expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option3']);
     });
 
+    it('should update checkbox state when host value changes 2 times', () => {
+        checkboxComponents[0].writeValue(['option1', 'option3']);
+        fixture.detectChanges();
+        checkboxComponents[0].writeValue(['option2']);
+        fixture.detectChanges();
+
+        expect(checkboxComponents[0]['testChecked']).toBeFalse();
+        expect(checkboxComponents[1]['testChecked']).toBeTrue();
+        expect(checkboxComponents[2]['testChecked']).toBeFalse();
+
+        expect(checkboxComponents[0].getValue()).toEqual(['option2']);
+        expect(checkboxComponents[1].getValue()).toEqual(['option2']);
+        expect(checkboxComponents[2].getValue()).toEqual(['option2']);
+    });
+
     it('should emit update event when checkbox state changes', () => {
         spyOn(checkboxComponents[0].update, 'emit');
 
@@ -432,7 +444,6 @@ class TestHostComponentSimple {
 describe('MagmaInput with mono MagmaInputCheckbox', () => {
     let fixture: ComponentFixture<TestHostComponentSimple>;
     let debugElement: DebugElement;
-    let hostComponent: MagmaInput;
     let checkboxComponents: MagmaInputCheckbox[];
 
     beforeEach(async () => {
@@ -447,8 +458,6 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
         fixture = TestBed.createComponent(TestHostComponentSimple);
         debugElement = fixture.debugElement;
         fixture.detectChanges();
-
-        hostComponent = debugElement.query(By.directive(MagmaInput)).componentInstance as MagmaInput;
 
         checkboxComponents = debugElement
             .queryAll(By.directive(MagmaInputCheckbox))

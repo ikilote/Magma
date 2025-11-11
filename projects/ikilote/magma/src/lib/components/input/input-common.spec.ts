@@ -83,7 +83,6 @@ describe('MagmaInputCommon', () => {
         spyOn(directive as any, 'setHostLabelId');
         directive.ngOnInit();
         expect(directive.host).toBe(mockHost as any);
-        // expect(directive.ngControl).toBe(mockNgControl as any);
         expect(directive['setHostLabelId']).toHaveBeenCalled();
     });
 
@@ -157,12 +156,6 @@ describe('MagmaInputCommon', () => {
         expect(directive['inPlaceholderAnimation']).toHaveBeenCalledWith(100, 2, 50, '|');
     });
 
-    // it('should stop placeholder animation', () => {
-    //     fixture.componentRef.setInput('placeholderTimer', 123);
-    //     directive['stopPlaceholderAnimation']('|');
-    //     expect(MockTiming.stop).toHaveBeenCalledWith(123);
-    // });
-
     it('should placeholder not start animation if only text', fakeAsync(() => {
         spyOn(directive as any, 'stopPlaceholderAnimation');
         spyOn(directive.placeholderDisplay as any, 'set');
@@ -170,7 +163,6 @@ describe('MagmaInputCommon', () => {
         fixture.componentRef.setInput('placeholder', 'test|test2');
         fixture.detectChanges();
         expect(directive['placeholderTimer']).toBe(undefined);
-        // expect(directive.placeholderDisplay.set).toHaveBeenCalledWith('');
     }));
 
     it('should set host forId on setHostLabelId', () => {

@@ -122,9 +122,9 @@
     Test
 
     <mg-input>
-      <mg-input-label>Label</mg-input-label>
-      <mg-input-checkbox value="red">red</mg-input-checkbox>
-      <mg-input-checkbox value="blue" checked>blue</mg-input-checkbox>
+      <mg-input-label>Label ({{ checkbox1.getValue() }} / {{ checkbox2.getValue() }})</mg-input-label>
+      <mg-input-checkbox value="red" #checkbox1>red</mg-input-checkbox>
+      <mg-input-checkbox value="blue" #checkbox2 checked>blue</mg-input-checkbox>
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc

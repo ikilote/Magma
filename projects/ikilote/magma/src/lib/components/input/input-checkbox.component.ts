@@ -41,7 +41,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     readonly checked = input(false, { transform: booleanAttribute });
     readonly mode = input<'checkbox' | 'toggle'>();
 
-    protected testChecked: boolean | undefined;
+    testChecked: boolean | undefined;
     override readonly placeholder: any = undefined; // not for checkbox
     override readonly datalist: any = undefined; // not for checkbox
 
@@ -90,6 +90,23 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
                   ? value === this.value()
                   : value === true;
 
+        // update all other checkboxes in the group
+        if (this.host && (this.host.arrayValue() || this.host.inputs().length > 1)) {
+            this.host
+                .inputs()
+                .filter(item => item.componentName === this.componentName && item !== this)
+                .forEach(item => {
+                    if (item instanceof MagmaInputCheckbox) {
+                        item['_value'] = this._value;
+                        if (item.testChecked && !value.includes(item.value())) {
+                            item.testChecked = false;
+                        } else if (!item.testChecked && value.includes(item.value())) {
+                            item.testChecked = true;
+                        }
+                    }
+                });
+        }
+
         super.writeValue(this.getValue());
     }
 
@@ -108,11 +125,10 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
 
     override getValue() {
         if (this.host && (this.host.arrayValue() || this.host.inputs().length > 1)) {
-            const value = this.host
+            return this.host
                 .inputs()
                 .filter(item => item.componentName === this.componentName && (item as MagmaInputCheckbox).testChecked)
                 .map(item => item.value());
-            return value;
         } else {
             return this.testChecked;
         }

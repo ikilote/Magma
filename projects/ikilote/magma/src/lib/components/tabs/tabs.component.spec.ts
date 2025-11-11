@@ -99,7 +99,7 @@ describe('MagmaTabs - Integration', () => {
         expect(scrollLeft).toBe(0);
     });
 
-    it('should next button is visible', () => {
+    it('should next/prev button is visible', () => {
         window.document.body.style = 'width:150px';
         fixture.detectChanges();
         tags.ngAfterViewChecked();
@@ -114,6 +114,7 @@ describe('MagmaTabs - Integration', () => {
         expect(clientWidth).not.toBe(scrollWidth);
         expect(scrollLeft).toBe(0);
 
+        fixture.detectChanges();
         tags.moveTabs(true, 15);
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
@@ -122,6 +123,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
 
+        fixture.detectChanges();
         tags.moveTabs(true, 100);
 
         const { scrollLeft: scrollLeft3 } = tags.tablist().nativeElement;
@@ -141,8 +143,80 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(false);
         expect(tags.updateInterval).toBeDefined();
 
+        fixture.detectChanges();
         tags.moveTabs(false);
 
         expect(tags.updateInterval).toBeUndefined();
+    });
+
+    it('should next/prev button is visible', () => {
+        window.document.body.style = 'width:150px';
+        fixture.detectChanges();
+        tags.ngAfterViewChecked();
+
+        fixture.detectChanges();
+        tags.moveTabs(true, 300);
+
+        const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
+        expect(scrollLeft).toBe(48);
+        expect(tags.prev()).toBe(false);
+        expect(tags.next()).toBe(true);
+        expect(tags.updateInterval).toBeDefined();
+
+        fixture.detectChanges();
+        tags.moveTabs(true, -100);
+        fixture.detectChanges();
+        tags.moveTabs(true, -100);
+
+        const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
+        expect(scrollLeft2).toBe(0);
+        expect(tags.prev()).toBe(false);
+        expect(tags.next()).toBe(true);
+        expect(tags.updateInterval).toBeDefined();
+    });
+
+    it('should next hide when resize', () => {
+        window.document.body.style = 'width:150px';
+        fixture.detectChanges();
+        tags.ngAfterViewChecked();
+
+        fixture.detectChanges();
+
+        const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
+        expect(scrollLeft).toBe(0);
+        expect(tags.prev()).toBe(false);
+        expect(tags.next()).toBe(true);
+
+        window.document.body.style = 'width:300px';
+
+        fixture.detectChanges();
+
+        const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
+        expect(scrollLeft2).toBe(0);
+        expect(tags.prev()).toBe(false);
+        expect(tags.next()).toBe(false);
+    });
+
+    it('should prev hide when resize', () => {
+        window.document.body.style = 'width:150px';
+        fixture.detectChanges();
+        tags.ngAfterViewChecked();
+
+        tags.moveTabs(true, 300);
+        fixture.detectChanges();
+
+        const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
+        expect(scrollLeft).toBe(48);
+        expect(tags.prev()).toBe(true);
+        expect(tags.next()).toBe(false);
+
+        window.document.body.style = 'width:300px';
+
+        fixture.detectChanges();
+
+        const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
+        expect(scrollLeft2).toBe(0);
+        expect(tags.prev()).toBe(false);
+        expect(tags.next()).toBe(false);
     });
 });

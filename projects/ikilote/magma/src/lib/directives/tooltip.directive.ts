@@ -7,6 +7,7 @@ import {
     ElementRef,
     HostListener,
     OnDestroy,
+    computed,
     inject,
     input,
     numberAttribute,
@@ -14,18 +15,24 @@ import {
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top' },
-    { originX: 'center', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
-    { originX: 'end', originY: 'center', overlayX: 'end', overlayY: 'top' },
-    { originX: 'end', originY: 'center', overlayX: 'end', overlayY: 'bottom' },
+    { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom' },
 ];
 
+let index = 0;
+
 @Component({
-    template: '{{ text() }}',
+    template: '<span [id]="describedBy()">{{ text() }}</span>',
     styles: [
         `
             :host {
                 display: block;
-                transform: translate(-50%, -30%);
+                position: relative;
+            }
+
+            span {
+                display: block;
+                position: relative;
+                top: -15px;
                 opacity: 0;
                 animation: tooltip-slide 0.18s ease-out 0.5s;
                 animation-fill-mode: forwards;
@@ -39,11 +46,11 @@ const connectedPosition: ConnectedPosition[] = [
 
             @keyframes tooltip-slide {
                 0% {
-                    transform: translate(-50%, -30%);
+                    top: -15px;
                     opacity: 0;
                 }
                 100% {
-                    transform: translate(-50%, 0);
+                    top: 0;
                     opacity: 1;
                 }
             }
@@ -52,10 +59,14 @@ const connectedPosition: ConnectedPosition[] = [
 })
 export class MagmaTooltipComponent {
     text = input<string>();
+    describedBy = input<string>();
 }
 
 @Directive({
     selector: '[mgTooltip]',
+    host: {
+        '[aria-describedby]': 'describedBy()',
+    },
 })
 export class MagmaTooltipDirective implements OnDestroy {
     private readonly overlay = inject(Overlay);
@@ -64,11 +75,14 @@ export class MagmaTooltipDirective implements OnDestroy {
     mgTooltip = input('');
     mgTooltipEntryDelay = input(200, { transform: numberAttribute });
     mgTooltipDisplayDelay = input(0, { transform: numberAttribute }); // 0 to infini
+    mgTooltipDescribedBy = input<string>();
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaTooltipComponent>;
 
     private timer?: NodeJS.Timeout;
+
+    index = index++;
 
     ngOnDestroy(): void {
         MagmaTooltipDirective._overlayRef?.dispose();
@@ -88,9 +102,10 @@ export class MagmaTooltipDirective implements OnDestroy {
         if (this.timer) {
             clearTimeout(this.timer);
         }
-
         this.ngOnDestroy();
     }
+
+    private describedBy = computed(() => this.mgTooltipDescribedBy() || 'tooltip-' + this.index);
 
     private createTooltip() {
         if (this.timer) {
@@ -102,12 +117,14 @@ export class MagmaTooltipDirective implements OnDestroy {
             positionStrategy: this.overlay
                 .position()
                 .flexibleConnectedTo(this.element)
-                .withPositions(connectedPosition),
+                .withPositions(connectedPosition)
+                .withPush(true),
         });
         const userProfilePortal = new ComponentPortal(MagmaTooltipComponent);
 
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('text', this.mgTooltip());
+        component.setInput('describedBy', this.describedBy());
 
         MagmaTooltipDirective._overlayRef = overlayRef;
         MagmaTooltipDirective._component = component;

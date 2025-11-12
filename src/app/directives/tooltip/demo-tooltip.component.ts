@@ -50,13 +50,15 @@ export class TestComponent {}`;
         text: FormControl<string>;
         mgTooltipEntryDelay: FormControl<number>;
         mgTooltipDisplayDelay: FormControl<number>;
+        mgTooltipDescribedBy: FormControl<string>;
     }>;
 
     constructor() {
         this.ctrlForm = this.fb.groupWithErrorNonNullable({
-            text: { default: 'text' },
+            text: { default: 'text text text text text text text text' },
             mgTooltipEntryDelay: { default: '' },
             mgTooltipDisplayDelay: { default: '' },
+            mgTooltipDescribedBy: { default: '' },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -84,6 +86,10 @@ export class TestComponent {}`;
 
         if (this.ctrlForm.value.mgTooltipDisplayDelay || this.ctrlForm.value.mgTooltipDisplayDelay === 0) {
             attrs['mgTooltipDisplayDelay'] = this.ctrlForm.value.mgTooltipDisplayDelay;
+        }
+
+        if (this.ctrlForm.value.mgTooltipDescribedBy) {
+            attrs['mgTooltipDescribedBy'] = this.ctrlForm.value.mgTooltipDescribedBy;
         }
 
         this.codeHtml = new Json2html(json).toString();

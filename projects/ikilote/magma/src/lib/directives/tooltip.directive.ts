@@ -8,6 +8,7 @@ import {
     HostListener,
     OnDestroy,
     computed,
+    effect,
     inject,
     input,
     numberAttribute,
@@ -103,6 +104,13 @@ export class MagmaTooltipDirective implements OnDestroy {
             clearTimeout(this.timer);
         }
         this.ngOnDestroy();
+    }
+
+    constructor() {
+        effect(() => {
+            MagmaTooltipDirective._component?.setInput('text', this.mgTooltip());
+            MagmaTooltipDirective._component?.setInput('describedBy', this.describedBy());
+        });
     }
 
     private describedBy = computed(() => this.mgTooltipDescribedBy() || 'tooltip-' + this.index);

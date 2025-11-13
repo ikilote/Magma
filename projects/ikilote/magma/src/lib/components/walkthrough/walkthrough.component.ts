@@ -1,6 +1,6 @@
 import { ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, ComponentRef, contentChildren, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentRef, contentChildren, inject } from '@angular/core';
 
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
@@ -16,11 +16,14 @@ export const magmaWalkthroughConnectedPosition: ConnectedPosition[] = [
     selector: 'mg-walkthrough',
     template: '',
     exportAs: 'walkthrough',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaWalkthrough {
     private content: ComponentRef<MagmaWalkthroughContent> | undefined = undefined;
     private overlayRef: OverlayRef | undefined = undefined;
     private positionStrategy: FlexibleConnectedPositionStrategy | undefined = undefined;
+
+    overlayComponent: MagmaWalkthroughContent | undefined = undefined;
 
     private readonly overlay = inject(Overlay);
     stepsDirective = contentChildren(MagmaWalkthroughStep);
@@ -54,6 +57,8 @@ export class MagmaWalkthrough {
                 component.setInput('host', this);
                 component.setInput('portal', this.portal);
                 component.setInput('element', element as HTMLElement);
+
+                this.overlayComponent = component.instance;
 
                 this.positionStrategy = overlayRef.getConfig().positionStrategy as FlexibleConnectedPositionStrategy;
 
@@ -101,6 +106,7 @@ export class MagmaWalkthrough {
         this.overlayRef?.dispose();
         this.content = undefined;
         this.overlayRef = undefined;
+        this.overlayComponent = undefined;
     }
 
     private backdropAction() {

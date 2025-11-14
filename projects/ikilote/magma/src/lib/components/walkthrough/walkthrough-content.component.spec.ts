@@ -1,6 +1,6 @@
 import { ConnectedOverlayPositionChange, OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
-import { Component, DebugElement, viewChild } from '@angular/core';
+import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
@@ -10,27 +10,45 @@ import { MagmaWalkthrough } from './walkthrough.component';
 @Component({
     template: `
         <mg-walkthrough #walkthrough>
-            <ng-template mg-walkthrough-step name="first" group="test" selector=".target">
+            <ng-template
+                mg-walkthrough-step
+                name="first"
+                nextStep="second"
+                group="test"
+                selector=".target"
+                showElement
+                clickElementOrigin
+            >
                 <div>First step content</div>
             </ng-template>
-            <ng-template mg-walkthrough-step name="second" group="test" selector=".target2">
+            <ng-template
+                mg-walkthrough-step
+                name="second"
+                previousStep="first"
+                group="test"
+                selector=".target2"
+                close
+                [showElement]="showElement"
+            >
                 <div>Second step content</div>
             </ng-template>
         </mg-walkthrough>
-        <div class="target"></div>
-        <div class="target2"></div>
+        <div class="target" style="width: 100px" (click)="call()">target</div>
+        <div class="target2">target2</div>
     `,
     imports: [MagmaWalkthrough, MagmaWalkthroughStep],
 })
 class TestHostComponent {
     walkthrough = viewChild.required(MagmaWalkthrough);
+    call = jasmine.createSpy('call');
+    showElement = false;
 }
 
 describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
     let fixture: ComponentFixture<TestHostComponent>;
     let hostComponent: TestHostComponent;
     let walkthrough: MagmaWalkthrough;
-    let debugElement: DebugElement;
+    let testComponent: TestHostComponent;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -40,7 +58,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
         fixture = TestBed.createComponent(TestHostComponent);
         hostComponent = fixture.componentInstance;
         walkthrough = hostComponent.walkthrough();
-        debugElement = fixture.debugElement;
+        testComponent = fixture.debugElement.componentInstance;
         fixture.detectChanges();
     });
 
@@ -61,7 +79,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
-            const contentComponent = walkthrough['overlayComponent'];
+            const contentComponent = walkthrough.overlayComponent!;
             expect(contentComponent).toBeTruthy();
             expect(contentComponent instanceof MagmaWalkthroughContent).toBeTrue();
         }));
@@ -71,33 +89,91 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
+            // Verify first step content is displayed
             expect(document.querySelector('mg-walkthrough-content')?.textContent).toContain('First step content');
+            expect(document.querySelector('mg-walkthrough-content .previous')).toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .next')).not.toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .close')).toBeNull();
         }));
 
-        // it('should change to second step when next is clicked', fakeAsync(() => {
-        //     // Start with first step
-        //     walkthrough.start({ group: 'test' });
-        //     tick();
-        //     fixture.detectChanges();
+        it('should change to second step when next/previous is clicked', fakeAsync(() => {
+            // Start with first step
+            walkthrough.start({ group: 'test' });
+            tick();
+            fixture.detectChanges();
 
-        //     // Get the content component and click next
-        //     const contentComponent = walkthrough['overlayComponent'];
-        //     contentComponent?.next();
-        //     tick(20);
-        //     fixture.detectChanges();
-        //     tick();
+            // Get the content component and click next
+            const contentComponent = walkthrough.overlayComponent!;
+            contentComponent?.next();
+            tick(10);
+            fixture.detectChanges();
 
-        //     // Verify second step content is displayed
-        //     expect(document.querySelector('mg-walkthrough-content')?.textContent).toContain('Second step content');
-        // }));
+            // Verify second step content is displayed
+            expect(document.querySelector('mg-walkthrough-content')?.textContent).toContain('Second step content');
+            expect(document.querySelector('mg-walkthrough-content .previous')).not.toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .next')).toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .close')).not.toBeNull();
+
+            contentComponent?.previous();
+            tick(10);
+            fixture.detectChanges();
+
+            // Verify first step content is displayed
+            expect(document.querySelector('mg-walkthrough-content')?.textContent).toContain('First step content');
+            expect(document.querySelector('mg-walkthrough-content .previous')).toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .next')).not.toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .close')).toBeNull();
+        }));
+
+        it('should change to second step when next/previous/close html button is clicked', fakeAsync(() => {
+            // Start with first step
+            walkthrough.start({ group: 'test' });
+            tick();
+            fixture.detectChanges();
+
+            // Get the content component and click next
+            document.querySelector<HTMLButtonElement>('mg-walkthrough-content .next')!.click();
+            tick(10);
+            fixture.detectChanges();
+
+            // Verify second step content is displayed
+            expect(document.querySelector('mg-walkthrough-content')?.textContent).toContain('Second step content');
+            expect(document.querySelector('mg-walkthrough-content .previous')).not.toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .next')).toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .close')).not.toBeNull();
+
+            document.querySelector<HTMLButtonElement>('mg-walkthrough-content .previous')!.click();
+            tick(10);
+            fixture.detectChanges();
+
+            // Verify first step content is displayed
+            expect(document.querySelector('mg-walkthrough-content')?.textContent).toContain('First step content');
+            expect(document.querySelector('mg-walkthrough-content .previous')).toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .next')).not.toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .close')).toBeNull();
+
+            // return to the last step
+            document.querySelector<HTMLButtonElement>('mg-walkthrough-content .next')!.click();
+            tick(10);
+            fixture.detectChanges();
+            expect(document.querySelector('mg-walkthrough-content .previous')).not.toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .next')).toBeNull();
+            expect(document.querySelector('mg-walkthrough-content .close')).not.toBeNull();
+
+            document.querySelector<HTMLButtonElement>('mg-walkthrough-content .close')!.click();
+            tick(10);
+            fixture.detectChanges();
+
+            // Verify walkthrough is close
+            expect(document.querySelector('mg-walkthrough-content')).toBeNull();
+        }));
 
         it('should close walkthrough when close is clicked', fakeAsync(() => {
             walkthrough.start({ group: 'test' });
             tick();
             fixture.detectChanges();
 
-            const contentComponent = walkthrough['overlayComponent'];
-
+            const contentComponent = walkthrough.overlayComponent!;
             contentComponent?.close();
             tick(10);
             fixture.detectChanges();
@@ -105,7 +181,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(walkthrough['overlayRef']).toBeUndefined();
             expect(walkthrough['content']).toBeUndefined();
             expect(walkthrough['overlayRef']).toBeUndefined();
-            expect(walkthrough['overlayComponent']).toBeUndefined();
+            expect(walkthrough.overlayComponent!).toBeUndefined();
         }));
 
         it('should position content correctly based on target element', fakeAsync(() => {
@@ -113,7 +189,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
-            const contentComponent = walkthrough['overlayComponent'];
+            const contentComponent = walkthrough.overlayComponent!;
             const position: ConnectedOverlayPositionChange = {
                 connectionPair: { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
                 scrollableViewProperties: {} as any,
@@ -144,6 +220,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             // Simulate escape key press
             const event = new KeyboardEvent('keydown', { key: 'Escape' });
 
+            (walkthrough.overlayComponent!.portal().nextStep as any) = () => '';
             document.dispatchEvent(event);
             tick(10);
 
@@ -198,7 +275,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
-            const contentComponent = walkthrough['overlayComponent'];
+            const contentComponent = walkthrough.overlayComponent!;
             const contentElement = contentComponent?.['elementContent']().nativeElement;
 
             // Verify the cloned element exists
@@ -215,7 +292,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
-            const contentComponent = walkthrough['overlayComponent'];
+            const contentComponent = walkthrough.overlayComponent!;
             const clonedElement = contentComponent?.['elementContent']().nativeElement?.querySelector('.target');
 
             spyOn(steps[0].clickElement, 'emit');
@@ -223,6 +300,74 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
 
             expect(steps[0].clickElement.emit).toHaveBeenCalled();
+        }));
+
+        it('should subscribe to window resize event on ngOnInit', fakeAsync(() => {
+            walkthrough.start({ group: 'test' });
+            tick();
+            fixture.detectChanges();
+
+            const contentComponent = walkthrough.overlayComponent!;
+            spyOn(contentComponent as any, 'resize');
+            window.dispatchEvent(new Event('resize'));
+            tick(10);
+            expect(contentComponent['resize']).toHaveBeenCalled();
+        }));
+
+        it('should update clone style on resize', fakeAsync(() => {
+            walkthrough.start({ group: 'test' });
+            tick();
+            fixture.detectChanges();
+
+            const contentComponent = walkthrough.overlayComponent!;
+
+            contentComponent.clone = document.createElement('div');
+            contentComponent['resize']();
+            expect(contentComponent.clone.style.width).toBe('100px');
+            expect(contentComponent.clone.style.margin).toBe('0px');
+        }));
+
+        it('should call action on clone element', fakeAsync(() => {
+            walkthrough.start({ group: 'test' });
+            tick();
+            fixture.detectChanges();
+
+            expect(document.querySelector('mg-walkthrough-content .target')).not.toBeNull();
+            document.querySelector<HTMLElement>('mg-walkthrough-content .target')?.click();
+            expect(testComponent.call).toHaveBeenCalled();
+        }));
+
+        it('should component is empty in the second step', fakeAsync(() => {
+            walkthrough.start({ group: 'test' });
+            tick();
+            fixture.detectChanges();
+
+            expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('target');
+
+            // Get the content component and click next
+            const contentComponent = walkthrough.overlayComponent!;
+            contentComponent?.next();
+            tick(10);
+            fixture.detectChanges();
+
+            expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('');
+        }));
+
+        it('should component is not empty in the second step', fakeAsync(() => {
+            testComponent.showElement = true;
+            walkthrough.start({ group: 'test' });
+            tick();
+            fixture.detectChanges();
+
+            expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('target');
+
+            // Get the content component and click next
+            const contentComponent = walkthrough.overlayComponent!;
+            contentComponent?.next();
+            tick(10);
+            fixture.detectChanges();
+
+            expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('target2');
         }));
     });
 });

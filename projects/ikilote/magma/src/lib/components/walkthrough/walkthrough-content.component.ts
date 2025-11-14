@@ -83,6 +83,7 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
             portal.start.emit();
 
             if (portal.showElement()) {
+                // clean before clone
                 while (target.lastElementChild) {
                     target.removeChild(target.lastElementChild);
                 }

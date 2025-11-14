@@ -110,7 +110,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeUndefined();
         expect(fixture.nativeElement.querySelector('.prev.show')).toBeNull();
-        expect(fixture.nativeElement.querySelector('.next.show')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('.next.show')).not.toBeNull();
         expect(clientWidth).not.toBe(scrollWidth);
         expect(scrollLeft).toBe(0);
 
@@ -132,7 +132,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
         fixture.detectChanges();
-        expect(fixture.nativeElement.querySelector('.prev.show')).toBeDefined();
+        expect(fixture.nativeElement.querySelector('.prev.show')).not.toBeNull();
         expect(fixture.nativeElement.querySelector('.next.show')).toBeNull();
 
         tags.moveTabs(true, -15);

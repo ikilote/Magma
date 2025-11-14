@@ -90,7 +90,6 @@ describe('MagmaWalkthroughStep', () => {
     });
 
     it('should inject CdkPortal', () => {
-        expect(directive.portal).toBeDefined();
         expect(directive.portal).toBeInstanceOf(CdkPortal);
     });
 });

@@ -3,6 +3,9 @@ import { Directive, ElementRef, OnDestroy, OnInit, inject, input } from '@angula
 import { numberAttributeOrUndefined } from '../utils/coercion';
 import { Subscriptions } from '../utils/subscriptions';
 
+export const focusRules =
+    'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])';
+
 @Directive({
     selector: '[limitFocusFirst]',
 })
@@ -36,6 +39,8 @@ export class MagmaLimitFocusDirective implements OnDestroy {
     private sub = Subscriptions.instance();
     private focusOrigin: HTMLElement | null = null;
     private observer: MutationObserver | undefined;
+
+    focusRules = focusRules;
 
     constructor() {
         setTimeout(() => {
@@ -76,49 +81,55 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             let listElement = this.firstLastFocusableElement(div);
 
             div.addEventListener('keydown', e => {
-                if (e.key === 'Tab') {
-                    const list = listElement.filter(
-                        e =>
-                            getComputedStyle(e).display !== 'none' &&
-                            getComputedStyle(e).visibility !== 'hidden' &&
-                            e.tabIndex !== -1,
-                    );
-                    const firstFocusableElement = list[0];
-                    const lastFocusableElement = list[list.length - 1];
-
-                    if (e.shiftKey) {
-                        if (document.activeElement === firstFocusableElement) {
-                            e.preventDefault();
-                            lastFocusableElement.focus();
-                        }
-                        if (!list.find(e => e === document.activeElement)) {
-                            lastFocusableElement.focus();
-                        }
-                    } else if (document.activeElement === lastFocusableElement) {
-                        e.preventDefault();
-                        firstFocusableElement.focus();
-                    } else if (!list.find(e => e === document.activeElement)) {
-                        firstFocusableElement.focus();
-                    }
-                }
+                this.keydown(e, listElement);
             });
 
             this.observer = new MutationObserver(mutationsList => {
-                for (const mutation of mutationsList) {
-                    if (mutation.type == 'childList' || mutation.type == 'attributes') {
-                        listElement = this.firstLastFocusableElement(div);
-                        return;
-                    }
-                }
+                this.mutations(mutationsList, listElement, div);
             });
             this.observer.observe(div, { attributes: true, childList: true, subtree: true });
         }
     }
 
+    private keydown(e: KeyboardEvent, listElement: HTMLElement[]) {
+        if (e.key === 'Tab') {
+            const list = listElement.filter(
+                e =>
+                    getComputedStyle(e).display !== 'none' &&
+                    getComputedStyle(e).visibility !== 'hidden' &&
+                    e.tabIndex !== -1,
+            );
+            const firstFocusableElement = list[0];
+            const lastFocusableElement = list[list.length - 1];
+
+            if (e.shiftKey) {
+                if (document.activeElement === firstFocusableElement) {
+                    e.preventDefault();
+                    lastFocusableElement.focus();
+                }
+                if (!list.find(e => e === document.activeElement)) {
+                    lastFocusableElement.focus();
+                }
+            } else if (document.activeElement === lastFocusableElement) {
+                e.preventDefault();
+                firstFocusableElement.focus();
+            } else if (!list.find(e => e === document.activeElement)) {
+                firstFocusableElement.focus();
+            }
+        }
+    }
+
+    private mutations(mutationsList: MutationRecord[], listElement: HTMLElement[], div: HTMLDivElement) {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList' || mutation.type === 'attributes') {
+                listElement = this.firstLastFocusableElement(div);
+                return;
+            }
+        }
+    }
+
     private firstLastFocusableElement(div: HTMLDivElement): HTMLElement[] {
-        const focusableElements = div.querySelectorAll<HTMLElement>(
-            'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])',
-        );
+        const focusableElements = div.querySelectorAll<HTMLElement>(this.focusRules);
         return Array.from(focusableElements);
     }
 }

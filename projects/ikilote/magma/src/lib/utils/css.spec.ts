@@ -30,6 +30,7 @@ describe('getPaletteList', () => {
     afterEach(() => {
         document.body.removeChild(shadowHost);
         document.body.removeChild(parentElement);
+        document.body.removeAttribute('style');
     });
 
     it('should return the default palette from body', () => {

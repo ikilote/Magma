@@ -80,8 +80,8 @@ export class MagmaLimitFocusDirective implements OnDestroy {
 
             let listElement = this.firstLastFocusableElement(div);
 
-            div.addEventListener('keydown', e => {
-                this.keydown(e, listElement);
+            div.addEventListener('keydown', event => {
+                this.keydown(event, listElement);
             });
 
             this.observer = new MutationObserver(mutationsList => {
@@ -91,8 +91,8 @@ export class MagmaLimitFocusDirective implements OnDestroy {
         }
     }
 
-    private keydown(e: KeyboardEvent, listElement: HTMLElement[]) {
-        if (e.key === 'Tab') {
+    private keydown(event: KeyboardEvent, listElement: HTMLElement[]) {
+        if (event.key === 'Tab') {
             const list = listElement.filter(
                 e =>
                     getComputedStyle(e).display !== 'none' &&
@@ -102,16 +102,16 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             const firstFocusableElement = list[0];
             const lastFocusableElement = list[list.length - 1];
 
-            if (e.shiftKey) {
+            if (event.shiftKey) {
                 if (document.activeElement === firstFocusableElement) {
-                    e.preventDefault();
+                    event.preventDefault();
                     lastFocusableElement.focus();
                 }
                 if (!list.find(e => e === document.activeElement)) {
                     lastFocusableElement.focus();
                 }
             } else if (document.activeElement === lastFocusableElement) {
-                e.preventDefault();
+                event.preventDefault();
                 firstFocusableElement.focus();
             } else if (!list.find(e => e === document.activeElement)) {
                 firstFocusableElement.focus();

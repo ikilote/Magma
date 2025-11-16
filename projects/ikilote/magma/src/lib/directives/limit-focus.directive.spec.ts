@@ -260,4 +260,120 @@ describe('MagmaLimitFocusDirective', () => {
             expect(spy).toHaveBeenCalledTimes(1);
         });
     });
+
+    describe('keydown function', () => {
+        let focusableElements: HTMLElement[];
+        let mockEvent: any;
+
+        let focusSpy: jasmine.Spy;
+
+        beforeEach(() => {
+            // Get the list of focusable elements
+            focusableElements = (limitFocusDirective as any).firstLastFocusableElement(containerElement);
+
+            // Create mock event
+            mockEvent = { key: 'Tab', shiftKey: false, preventDefault: () => {} } as KeyboardEvent;
+            spyOn(mockEvent, 'preventDefault');
+
+            // Spy on focus method for all focusable elements
+            focusableElements.forEach(el => {
+                focusSpy = spyOn(el, 'focus').and.callThrough();
+            });
+        });
+
+        it('should prevent default and focus last element when Shift+Tab from first element', () => {
+            mockEvent.shiftKey = true;
+            // Mock active element as first element
+            spyOnProperty(document, 'activeElement', 'get').and.returnValue(input1);
+
+            // Call keydown directly
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+
+            // Verify preventDefault was called
+            expect(mockEvent.preventDefault).toHaveBeenCalled();
+            // Verify focus was set to last element
+            expect(button2.focus).toHaveBeenCalled();
+        });
+
+        it('should prevent default and focus first element when Tab from last element', () => {
+            // Mock active element as last element
+            spyOnProperty(document, 'activeElement', 'get').and.returnValue(button2);
+
+            // Call keydown directly
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+
+            // Verify preventDefault was called
+            expect(mockEvent.preventDefault).toHaveBeenCalled();
+            // Verify focus was set to first element
+            expect(input1.focus).toHaveBeenCalled();
+        });
+
+        it('should focus first element when Tab from non-focusable element', () => {
+            mockEvent.shiftKey = true;
+
+            // Mock active element as non-focusable element
+            const nonFocusableElement = document.createElement('div');
+            spyOnProperty(document, 'activeElement', 'get').and.returnValue(nonFocusableElement);
+
+            // Call keydown directly
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+
+            // Verify focus was set to first element
+            expect(button2.focus).toHaveBeenCalled();
+        });
+
+        it('should focus last element when Shift+Tab from non-focusable element', () => {
+            // Mock active element as non-focusable element
+            const nonFocusableElement = document.createElement('div');
+            spyOnProperty(document, 'activeElement', 'get').and.returnValue(nonFocusableElement);
+
+            // Call keydown directly
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+
+            // Verify focus was set to last element
+            expect(input1.focus).toHaveBeenCalled();
+        });
+
+        it('should not prevent default for non-Tab keys', () => {
+            mockEvent.key = 'Enter';
+
+            // Call keydown directly
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+
+            // Verify preventDefault was not called
+            expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+        });
+
+        it('should not prevent default when Tab is pressed but active element is in the list', () => {
+            // Mock active element as element in the middle of the list
+            spyOnProperty(document, 'activeElement', 'get').and.returnValue(button1);
+
+            // Call keydown directly
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+
+            // Verify preventDefault was not called
+            expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+        });
+
+        it('should filter out hidden and disabled elements from focusable list', () => {
+            // Hide one element and disable another
+            input1.style.display = 'none';
+            button1.disabled = true;
+            fixture.detectChanges();
+
+            // Get filtered list
+            const filteredElements = focusableElements.filter(
+                e =>
+                    getComputedStyle(e).display !== 'none' &&
+                    getComputedStyle(e).visibility !== 'hidden' &&
+                    e.tabIndex !== -1,
+            );
+
+            // Verify only visible, enabled elements remain
+            expect(filteredElements.length).toBe(3); // input2 and button2
+            expect(filteredElements).toContain(button1);
+            expect(filteredElements).toContain(input2);
+            expect(filteredElements).toContain(button2);
+        });
+    });
 });

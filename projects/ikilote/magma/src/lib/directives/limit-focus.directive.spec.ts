@@ -377,3 +377,78 @@ describe('MagmaLimitFocusDirective', () => {
         });
     });
 });
+
+describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
+    let fixture: ComponentFixture<TestHostComponent>;
+    let hostComponent: TestHostComponent;
+    let divRef: ElementRef<HTMLDivElement>;
+    let limitFocusDirective: MagmaLimitFocusDirective;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostComponent] }).compileComponents();
+
+        fixture = TestBed.createComponent(TestHostComponent);
+        hostComponent = fixture.componentInstance;
+
+        const directiveEl = fixture.debugElement.query(By.directive(MagmaLimitFocusDirective));
+        limitFocusDirective = directiveEl.injector.get(MagmaLimitFocusDirective);
+
+        const div = document.createElement('div');
+        divRef = { nativeElement: div } as unknown as ElementRef<HTMLDivElement>;
+        (limitFocusDirective as any)['focusElement'] = divRef;
+
+        limitFocusDirective['mutations'] = jasmine.createSpy('mutations');
+
+        fixture.detectChanges();
+    });
+
+    it('should intercept keydown', fakeAsync(async () => {
+        limitFocusDirective['keydown'] = jasmine.createSpy('keydown');
+
+        tick();
+        await fixture.whenStable();
+
+        divRef.nativeElement.dispatchEvent(new KeyboardEvent('keydown'));
+
+        expect(limitFocusDirective['keydown']).toHaveBeenCalled();
+    }));
+
+    it('should detect mutation (attr)', done => {
+        setTimeout(() => {
+            divRef.nativeElement.setAttribute('test', 'test');
+
+            setTimeout(() => {
+                expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
+                done();
+            }, 10);
+        }, 10);
+    });
+
+    it('should detect mutation (childList)', done => {
+        setTimeout(() => {
+            const button = document.createElement('button');
+            divRef.nativeElement.append(button);
+
+            setTimeout(() => {
+                expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
+                done();
+            }, 10);
+        }, 10);
+    });
+
+    it('should detect mutation (childList & subtree)', done => {
+        setTimeout(() => {
+            const button = document.createElement('button');
+            divRef.nativeElement.append(button);
+            setTimeout(() => {
+                const div = document.createElement('div');
+                button.append(div);
+
+                setTimeout(() => {
+                    expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(2);
+                    done();
+                }, 10);
+            }, 10);
+        }, 10);
+    });
+});

@@ -39,10 +39,10 @@ function simulateTab(reverse = false) {
             <button id="button1">Button 1</button>
             <button disabled>Button disabled</button>
             <div>
-                <input limitFocusFirst="1" id="input2" />
+                <input [limitFocusFirst]="limitFocus1" id="input2" />
             </div>
             <div>
-                <button limitFocusFirst="2" id="button2">Button 2</button>
+                <button [limitFocusFirst]="limitFocus2" id="button2">Button 2</button>
                 <button disabled>Button disabled</button>
             </div>
         </div>
@@ -51,6 +51,8 @@ function simulateTab(reverse = false) {
 })
 class TestHostComponent {
     container = viewChild.required<ElementRef<HTMLDivElement>>('container');
+    limitFocus1 = 1;
+    limitFocus2 = 2;
 }
 
 describe('MagmaLimitFocusDirective', () => {
@@ -80,16 +82,22 @@ describe('MagmaLimitFocusDirective', () => {
         fixture.detectChanges();
     });
 
-    // Test: Should create the directive
     it('should create the directive', () => {
         expect(limitFocusDirective).toBeTruthy();
     });
 
-    // Test: Should focus the first focusable element with the lowest `limitFocusFirst` value
     it('should focus the first focusable element with the lowest `limitFocusFirst` value', () => {
         limitFocusDirective.focus();
         fixture.detectChanges();
         expect(document.activeElement).toBe(input2);
+    });
+
+    it('should focus the first focusable element with the lowest `limitFocusFirst` value value with change order', () => {
+        hostComponent.limitFocus1 = 3;
+        fixture.detectChanges();
+        limitFocusDirective.focus();
+        fixture.detectChanges();
+        expect(document.activeElement).toBe(button2);
     });
 
     it('should handle Tab key', () => {
@@ -103,7 +111,6 @@ describe('MagmaLimitFocusDirective', () => {
         expect(document.activeElement).toBe(button1);
     });
 
-    // Test: Should trap focus inside the container
     it('should trap focus inside the container', fakeAsync(() => {
         input1.focus();
         fixture.detectChanges();
@@ -163,7 +170,6 @@ describe('MagmaLimitFocusDirective', () => {
         tick();
     }));
 
-    //  Test: Should restore focus to the origin element on destroy
     it('should restore focus to the origin element on destroy', () => {
         const originElement = document.createElement('button');
         document.body.appendChild(originElement);

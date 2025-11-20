@@ -6,6 +6,11 @@ Magma is a component library for my personal projects, because I don't want to c
 
 It will evolve mainly according to my projects. But people want to use it and help, no worries.
 
+## Coverage
+![Statements 97.34% (1830/1880)](https://test.ikilote.net/badge-custom.php?label=Statements&value=97.34%25&valueBgColor=4D9221)
+![Branches 94.32% (765/811)](https://test.ikilote.net/badge-custom.php?label=Branches&value=94.32%25&valueBgColor=4D9221)
+![Functions 98.34% (475/483)](https://test.ikilote.net/badge-custom.php?label=Functions&value=98.34%25&valueBgColor=4D9221)
+![Lines 97.26% (1780/1830)](https://test.ikilote.net/badge-custom.php?label=Lines&value=97.26%25&valueBgColor=4D9221)
 ## Included in Magma
 
 ### Components

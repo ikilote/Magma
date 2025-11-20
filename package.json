@@ -12,7 +12,8 @@
     "lint": "ng lint @ikilote/magma",
     "format": "npx prettier --write .",
     "test": "ng test",
-    "test:lib": "export CHROME_BIN=chromium && ng test @ikilote/magma"
+    "test:lib": "export CHROME_BIN=chromium && ng test @ikilote/magma",
+    "update-coverage-badges": "node scripts/update-coverage-badges.js"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +48,7 @@
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
     "@types/autosize": "^4.0.3",
     "@types/jasmine": "~5.1.0",
+    "cheerio": "^1.1.2",
     "jasmine-core": "~5.1.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

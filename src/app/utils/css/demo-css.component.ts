@@ -3,9 +3,9 @@ import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-import { FormBuilderExtended } from '@ikilote/magma';
 
 import {
+    FormBuilderExtended,
     MagmaInput,
     MagmaInputElement,
     MagmaInputText,
@@ -48,7 +48,7 @@ export class DemoCSSComponent {
       `;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             colorSeparator: { default: '/\\s*,\\s*/' },
         });
 

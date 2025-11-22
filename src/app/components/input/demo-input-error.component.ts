@@ -52,7 +52,7 @@ export class DemoInputErrorComponent {
     }>;
 
     constructor() {
-        this.formText = this.fbe.groupWithErrorNonNullable({
+        this.formText = this.fbe.groupWithError({
             test: {
                 default: 'form',
                 control: {
@@ -112,7 +112,7 @@ export class DemoInputErrorComponent {
     }>;
 
     constructor() {
-        this.formList = this.fbe.groupWithErrorNonNullable({
+        this.formList = this.fbe.groupWithError({
             oneValue: {
                 default: 'blue',
                 control: {
@@ -194,7 +194,7 @@ export class DemoInputErrorComponent {
     }>;
 
     constructor() {
-        this.formNumber = this.fbe.groupWithErrorNonNullable({
+        this.formNumber = this.fbe.groupWithError({
             test: {
                 default: 53.15,
                 control: {

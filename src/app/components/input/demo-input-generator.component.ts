@@ -413,7 +413,7 @@ export class DemoInputGeneratorComponent {
     }>
 
     constructor() {
-        this.form = this.fbe.groupWithErrorNonNullable({
+        this.form = this.fbe.groupWithError({
             field: { default: ` +
                 this.jsonPipe.transform(
                     (this as any)['value' + value.type[0].toUpperCase() + value.type.substring(1)],

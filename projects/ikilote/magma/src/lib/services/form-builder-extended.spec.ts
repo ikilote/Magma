@@ -34,7 +34,7 @@ describe('FormBuilderExtended', () => {
         expect(service).toBeTruthy();
     });
 
-    describe('groupWithErrorNonNullable', () => {
+    describe('groupWithError', () => {
         it('should create a simple FormControl with metadata', () => {
             const config = {
                 username: {

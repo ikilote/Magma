@@ -63,7 +63,7 @@ export class DemoPaginationComponent {
 }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             linkId: { default: 'test' },
             page: { default: 1 },
             total: { default: 5000 },

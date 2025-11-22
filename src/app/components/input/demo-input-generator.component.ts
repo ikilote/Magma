@@ -172,7 +172,7 @@ export class DemoInputGeneratorComponent {
     ];
 
     constructor(fbe: FormBuilderExtended) {
-        this.formGenerator = fbe.groupWithErrorNonNullable({
+        this.formGenerator = fbe.groupWithError({
             type: { default: 'text' },
             access: { default: 'none' },
             label: { default: '' },

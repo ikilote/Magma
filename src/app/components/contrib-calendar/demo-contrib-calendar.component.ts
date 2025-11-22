@@ -80,7 +80,7 @@ export class DemoContribCalendarComponent {
     codeTs = '';
 
     constructor() {
-        this.ctrlForm = this.fbe.groupWithErrorNonNullable({
+        this.ctrlForm = this.fbe.groupWithError({
             lang: { default: '' },
             min: { default: '' },
             max: { default: '' },

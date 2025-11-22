@@ -1,6 +1,6 @@
 import { JsonPipe } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import {
     FormBuilderExtended,
@@ -21,12 +21,20 @@ export class DemoFormBuilderExtended {
     ctrlForm1: FormGroup<{
         id: FormControl<string>;
         group: FormControl<string>;
+        sub: FormGroup<{
+            id: FormControl<string>;
+        }>;
+        array: FormArray<any>;
     }>;
 
     constructor() {
-        this.ctrlForm1 = this.fb.groupWithErrorNonNullable({
-            id: { default: '' },
+        this.ctrlForm1 = this.fb.groupWithError({
+            id: { default: 'string' },
             group: { default: 'test' },
+            sub: this.fb.groupWithError({
+                id: { default: '' },
+            }),
+            array: this.fb.array([]),
         });
     }
 }

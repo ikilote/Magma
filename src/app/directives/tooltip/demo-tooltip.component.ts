@@ -54,7 +54,7 @@ export class TestComponent {}`;
     }>;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             text: { default: 'text text text text text text text text' },
             mgTooltipEntryDelay: { default: '' },
             mgTooltipDisplayDelay: { default: '' },

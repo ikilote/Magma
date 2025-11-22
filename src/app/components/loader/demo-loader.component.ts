@@ -102,7 +102,7 @@ export class DemoMagmaProgressComponent {
 }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             message: { default: undefined },
             progressLoaded: { default: undefined },
             progressTotal: { default: undefined },

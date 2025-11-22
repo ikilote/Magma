@@ -63,11 +63,11 @@ export class TestComponent {
     duration = DurationTime;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             date: { default: '2012-12-06' },
             newDate: { default: false },
         });
-        this.ctrlFormDate = this.fb.groupWithErrorNonNullable({
+        this.ctrlFormDate = this.fb.groupWithError({
             number: { default: 15 },
         });
     }

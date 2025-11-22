@@ -2,21 +2,18 @@ import { Injectable, inject } from '@angular/core';
 import {
     AbstractControl,
     AbstractControlOptions,
+    AsyncValidatorFn,
     FormArray,
     FormBuilder,
     FormControl,
     FormGroup,
-    FormRecord,
     ValidatorFn,
     Validators,
-    ɵElement,
 } from '@angular/forms';
 
 import { MagmaValidators } from '../utils/validators';
 
-declare type ɵNullableFormControls<T> = {
-    [K in keyof T]: ɵElement<T[K], null>;
-};
+// --- Base Message Types ---
 
 export type ParamsMessageRequired = {
     type: 'required';
@@ -81,6 +78,9 @@ export type ParamsMessageCustom = {
     data: any;
     params: Record<string, any>;
 };
+
+// --- Control Configuration Types ---
+
 export type ParamsMessagesControlMessage<T> = {
     message?: string | ((params: T) => string);
     data?: any;
@@ -120,12 +120,11 @@ export interface ParamsMessagesControl {
     /** custom validator */
     custom?: ParamsMessagesControlCustom | ParamsMessagesControlCustom[];
     /** message if not defined in other control */
-    message?: string | string | ((params: any) => string);
+    message?: string | ((params: any) => string);
 }
 
-export declare type ParamsMessages<T = any> = {
+export type ParamsMessages<T = any> = {
     default: T;
-    controlType?: ɵNullableFormControls<T>;
     options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -135,101 +134,116 @@ export declare type ParamsMessages<T = any> = {
     control?: ParamsMessagesControl;
 };
 
-declare type ControlWithError<T> = {
-    [K in keyof T]: ParamsMessages<T[K]>;
-};
-
-declare type FormMapper<Type extends ControlWithError<any>> = {
-    [K in keyof Type]: [
-        Type['ParamsMessages']['controlType'] extends ɵElement<Type['ParamsMessages']['default'], any>
-            ? Type['ParamsMessages']['controlType']
-            : ɵElement<Type['ParamsMessages']['default'], any>,
-    ];
-};
+// --- UTILITY TYPES FOR INFERENCE ---
 
 /**
- * For persistence during the session of use.
- *
- * Extension for Angular `FormBuilder`
+ * Deduce the control type.
+ * If it's ParamsMessages -> it becomes a FormControl.
+ * If it's already an AbstractControl -> keep it as is.
  */
+export type ControlOf<T> =
+    T extends ParamsMessages<infer U> ? FormControl<U> : T extends AbstractControl<infer U> ? T : never;
+
+/**
+ * Maps the input object keys to their corresponding Angular Controls
+ */
+export type FormMapperExtended<T extends Record<string, any>> = {
+    [K in keyof T]: ControlOf<T[K]>;
+};
+
+// --- SERVICE ---
+
 @Injectable({
     providedIn: 'root',
 })
-export abstract class FormBuilderExtended {
-    fb = inject(FormBuilder);
+export class FormBuilderExtended {
+    private readonly fb = inject(FormBuilder);
 
     /**
-     * create group validation for `mg-input` form
-     * @param controlsWithError control schemas with validators and error messages
-     * @param options validation options
-     * @returns FormGroup
+     * Create a FormGroup with validation messages and non-nullable controls.
+     * Supports mixed input: Config objects (ParamsMessages) or existing FormGroups/Arrays.
+     * @param controlsWithError Control schemas with validators/messages OR existing controls
+     * @param options Validation options for the group
+     * @returns Strongly typed FormGroup
      */
-    groupWithErrorNonNullable<T extends {}>(
-        controlsWithError: ControlWithError<T>,
+    groupWithError<T extends Record<string, any>>(
+        controlsWithError: T,
         options?: AbstractControlOptions | null,
-    ) {
+    ): FormGroup<FormMapperExtended<T>> {
         const controls: any = {};
 
-        Object.entries<ParamsMessages>(controlsWithError).forEach(([key, value]) => {
-            const validators: ValidatorFn[] = [];
+        Object.entries(controlsWithError).forEach(([key, value]: [string, any]) => {
             const paramsData: Record<string, any> = {};
 
-            if (value.control && Object.keys(value.control).length) {
-                Object.entries(value.control).forEach(([subKey, control]) => {
-                    if (subKey === 'required' && control.state) {
-                        validators.push(Validators.required);
-                    } else if (subKey === 'minlength' && control.state > 0) {
-                        validators.push(Validators.minLength(control.state));
-                    } else if (subKey === 'maxlength' && control.state > 0) {
-                        validators.push(Validators.maxLength(control.state));
-                    } else if (subKey === 'min') {
-                        validators.push(Validators.min(control.state));
-                    } else if (subKey === 'max') {
-                        validators.push(Validators.max(control.state));
-                    } else if (subKey === 'pattern' && control.state) {
-                        validators.push(Validators.pattern(control.state));
-                    } else if (subKey === 'email') {
-                        validators.push(Validators.email);
-                    } else if (subKey === 'inlist') {
-                        validators.push(MagmaValidators.inList(control.state));
-                    } else if (subKey === 'custom') {
-                        for (const validator of Array.isArray(control) ? control : [control]) {
-                            if (typeof validator === 'function') {
-                                validators.push(validator(control.state));
+            // 1. Check if the value is already an Angular Control (Group, Array, Record)
+            if (value instanceof AbstractControl) {
+                controls[key] = value;
+            }
+            // 2. Otherwise, treat it as a configuration object to build a FormControl
+            else {
+                const validators: ValidatorFn[] = [];
+
+                if (value.control && Object.keys(value.control).length) {
+                    Object.entries(value.control).forEach(([subKey, control]: [string, any]) => {
+                        // Standard Validators
+                        if (subKey === 'required' && control.state) {
+                            validators.push(Validators.required);
+                        } else if (subKey === 'minlength' && control.state > 0) {
+                            validators.push(Validators.minLength(control.state));
+                        } else if (subKey === 'maxlength' && control.state > 0) {
+                            validators.push(Validators.maxLength(control.state));
+                        } else if (subKey === 'min') {
+                            validators.push(Validators.min(control.state));
+                        } else if (subKey === 'max') {
+                            validators.push(Validators.max(control.state));
+                        } else if (subKey === 'pattern' && control.state) {
+                            validators.push(Validators.pattern(control.state));
+                        } else if (subKey === 'email') {
+                            validators.push(Validators.email);
+                        }
+                        // Custom Validators
+                        else if (subKey === 'inlist') {
+                            validators.push(MagmaValidators.inList(control.state));
+                        } else if (subKey === 'custom') {
+                            const customValidators = Array.isArray(control) ? control : [control];
+                            for (const validator of customValidators) {
+                                if (typeof validator === 'function') {
+                                    validators.push(validator(control.state));
+                                }
                             }
                         }
-                    }
-                    if (control.state !== undefined) {
-                        paramsData[subKey] = control.state;
-                    }
-                });
-            }
 
-            if (value.controlType instanceof FormGroup) {
-                controls[key] = new FormGroup(value.default) as any;
-            } else if (value.controlType instanceof FormRecord) {
-                controls[key] = new FormRecord(value.default) as any;
-            } else if (value.controlType instanceof FormArray) {
-                controls[key] = new FormArray(value.default) as any;
-            } else {
+                        if (control.state !== undefined) {
+                            paramsData[subKey] = control.state;
+                        }
+                    });
+                }
+
+                // Create the FormControl with nonNullable: true
                 controls[key] = new FormControl(value.default, {
                     ...value.options,
-                    ...{ validators, nonNullable: true },
-                }) as any;
+                    validators,
+                    nonNullable: true,
+                });
+
+                // Attach metadata (monkey-patching)
+                // We use 'any' cast here because these properties don't exist on standard AbstractControl
+                (controls[key] as any).controlData = value.control;
+                (controls[key] as any).controlParamsData = paramsData;
             }
-            controls[key].controlData = value.control;
-            controls[key].controlParamsData = paramsData;
         });
 
-        return this.fb.group<FormMapper<ControlWithError<T>>>(controls, options);
+        // Force cast the return type.
+        // We know the structure matches FormMapperExtended<T> because we just built it.
+        return this.fb.group(controls, options) as unknown as FormGroup<FormMapperExtended<T>>;
     }
 
     /**
-     * Mark form touched and display errors
-     * @param form form to update error message
+     * Mark form as touched and force validation update on all controls recursively.
+     * @param form FormGroup or FormArray to validate
      */
     validateForm(form: FormGroup | FormArray) {
-        form.markAllAsTouched({ emitEvent: true });
+        form.markAllAsTouched(); // 'emitEvent' is not a standard option for markAllAsTouched in standard Angular, check your version.
         this.recursiveValidateForm(form.controls);
     }
 
@@ -251,5 +265,16 @@ export abstract class FormBuilderExtended {
                 ctrl.updateValueAndValidity();
             });
         }
+    }
+
+    /**
+     * Helper for FormArray creation
+     */
+    array(
+        controls: any[],
+        validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
+        asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null,
+    ) {
+        return this.fb.array(controls, validatorOrOpts, asyncValidator);
     }
 }

@@ -51,7 +51,7 @@ export class DemoDialogComponent {
 export class DemoBlockComponent { }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             closeButton: { default: true },
             closeBackdrop: { default: false },
             title: { default: '' },

@@ -81,7 +81,7 @@ export class DemoInputAlignComponent {
     }>;
 
     constructor() {
-        this.formText = this.fbe.groupWithErrorNonNullable({
+        this.formText = this.fbe.groupWithError({
             test: {
                 default: 'form',
                 control: {
@@ -91,7 +91,7 @@ export class DemoInputAlignComponent {
                 },
             },
         });
-        this.formColor = this.fbe.groupWithErrorNonNullable({
+        this.formColor = this.fbe.groupWithError({
             test: {
                 default: null,
                 control: {
@@ -100,7 +100,7 @@ export class DemoInputAlignComponent {
                 },
             },
         });
-        this.formNumber = this.fbe.groupWithErrorNonNullable({
+        this.formNumber = this.fbe.groupWithError({
             test: {
                 default: 53.15,
                 control: {
@@ -110,7 +110,7 @@ export class DemoInputAlignComponent {
                 },
             },
         });
-        this.formSelect = this.fbe.groupWithErrorNonNullable({
+        this.formSelect = this.fbe.groupWithError({
             test: {
                 default: 'test2',
                 control: {
@@ -119,7 +119,7 @@ export class DemoInputAlignComponent {
             },
         });
 
-        this.formTest = this.fbe.groupWithErrorNonNullable({
+        this.formTest = this.fbe.groupWithError({
             text: {
                 default: 'text',
                 control: { required: { state: true, message: 'Required field' } },

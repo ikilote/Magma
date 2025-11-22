@@ -183,7 +183,7 @@ export class ContextTestComponent extends AbstractContextMenuComponent {
 }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             contextMenuMode: { default: 'default' },
             contextMenuDisabled: { default: false },
         });

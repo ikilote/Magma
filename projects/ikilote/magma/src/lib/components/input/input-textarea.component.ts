@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    booleanAttribute,
-    forwardRef,
-    input,
-    viewChildren,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -24,8 +16,8 @@ let counter = 0;
     imports: [ReactiveFormsModule, MagmaTextareaAutosizeDirective],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputTextarea },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputTextarea), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputTextarea), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputTextarea, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputTextarea, multi: true },
     ],
     host: {
         '[id]': '_id()',
@@ -71,7 +63,7 @@ export class MagmaInputTextarea extends MagmaInputCommon {
         this.onChange(value);
     }
 
-    focus(focus: boolean = true) {
+    focus(focus: boolean) {
         if (!focus) {
             this.onTouched();
             if (this.ngControl?.control) {

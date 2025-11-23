@@ -81,10 +81,10 @@ export class TestComponent {
     }>;
 
     constructor() {
-        this.ctrlForm1 = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm1 = this.fb.groupWithError({
             disabled: { default: false },
         });
-        this.ctrlForm2 = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm2 = this.fb.groupWithError({
             disabled: { default: false },
         });
         this.codeGeneration1();

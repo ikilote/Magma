@@ -58,7 +58,7 @@ export class DemoLoaderBlockComponent {
 }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             example: { default: 'example-1' },
         });
         this.codeGeneration();

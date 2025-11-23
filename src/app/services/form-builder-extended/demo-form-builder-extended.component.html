@@ -1,0 +1,18 @@
+<h1>FormBuilderExtended</h1>
+
+<form [formGroup]="ctrlForm1">
+  <div class="s-12">
+    <mg-input class="s-12">
+      <mg-input-label>Id</mg-input-label>
+      <mg-input-text formControlName="id" />
+    </mg-input>
+    <mg-input class="s-12">
+      <mg-input-label>group</mg-input-label>
+      <mg-input-text formControlName="group" />
+    </mg-input>
+  </div>
+</form>
+
+<div>
+  <pre><code>{{ ctrlForm1.value | json }}</code></pre>
+</div>

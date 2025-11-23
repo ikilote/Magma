@@ -19,9 +19,7 @@ import { FormsModule } from '@angular/forms';
 import Color from 'colorjs.io';
 
 import { Logger } from '../../services/logger';
-import { MagmaTabContent } from '../tabs/tab-content.component';
-import { MagmaTabTitle } from '../tabs/tab-title.component';
-import { MagmaTabs } from '../tabs/tabs.component';
+import { MagmaTabsModule } from '../tabs/tabs.module';
 
 export type MagmaColorPickerTexts = { hsl?: string; palette?: string };
 
@@ -82,7 +80,7 @@ export const magmaColorPickerPalette = [
     selector: 'color-picker',
     templateUrl: './color-picker.component.html',
     styleUrls: ['./color-picker.component.scss'],
-    imports: [FormsModule, CdkDrag, MagmaTabs, MagmaTabTitle, MagmaTabContent],
+    imports: [FormsModule, CdkDrag, MagmaTabsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--hue]': 'rangeHue',
@@ -120,12 +118,18 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     protected hexa = '';
 
     protected pos: Point = { x: 0, y: 0 };
-    protected _palette = computed(() => (this.palette()?.length ? this.palette() : magmaColorPickerPalette));
+    protected _palette = computed(() =>
+        this.palette()?.length
+            ? this.palette()?.map(color =>
+                  new Color(color).toGamut({ space: 'srgb' }).to('srgb').toString({ format: 'hex' }),
+              )
+            : magmaColorPickerPalette,
+    );
 
     protected startDrag = false;
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes['color'] && changes['color'].currentValue) {
+        if (changes['color']?.currentValue) {
             try {
                 const colorObject = new Color(changes['color'].currentValue);
                 if (!this.alpha()) {
@@ -139,9 +143,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
             const color = this.hexa || this.color();
             if (color) {
                 const colorObject = new Color(color);
-                if (!this.alpha()) {
-                    colorObject.alpha = 1;
-                }
+                colorObject.alpha = 1;
                 this.updateWithHLS(colorObject);
             }
         }
@@ -195,7 +197,6 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         if (id === 'hsl') {
             setTimeout(() => {
                 this.updateHex(this.hexa);
-                this.cd.detectChanges();
             }, 10);
         }
     }
@@ -207,6 +208,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
                 colorObject.alpha = 1;
             }
             this.updateWithHLS(colorObject);
+            this.cd.detectChanges();
         } catch (e) {
             this.logger.log('[MagmaColorPickerComponent] Invalid color');
         }

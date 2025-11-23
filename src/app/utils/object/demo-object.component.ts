@@ -209,15 +209,15 @@ export class TestComponent {
     // -------------------------------------------------------------------------------------------
 
     constructor() {
-        this.formCompare = this.fbe.groupWithErrorNonNullable({
+        this.formCompare = this.fbe.groupWithError({
             valueA: { default: this.valueA },
             valueB: { default: this.valueB },
         });
-        this.formGet = this.fbe.groupWithErrorNonNullable({
+        this.formGet = this.fbe.groupWithError({
             valueC: { default: this.valueC },
             valuePath: { default: this.valuePath },
         });
-        this.formAssign = this.fbe.groupWithErrorNonNullable({
+        this.formAssign = this.fbe.groupWithError({
             valueD: { default: this.valueD },
             valueE: { default: this.valueE },
         });

@@ -11,7 +11,7 @@
     Test
     <mg-input>
       <mg-input-label>Label</mg-input-label>
-      <mg-input-text value="test"></mg-input-text>
+      <mg-input-text value="test" />
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc
@@ -20,11 +20,11 @@
     Test
     <mg-input>
       <mg-input-label>Label ({{ value }})</mg-input-label>
-      <mg-input-text [(ngModel)]="value"></mg-input-text>
+      <mg-input-text [(ngModel)]="value" />
     </mg-input>
     Test
     <mg-input [formGroup]="formText">
-      <mg-input-text formControlName="test"></mg-input-text>
+      <mg-input-text formControlName="test" />
       <mg-input-desc
         >Desc<br />
         {{ formText.value.test }}</mg-input-desc
@@ -33,7 +33,7 @@
     Test
     <mg-input>
       <mg-input-prefix>Au</mg-input-prefix>
-      <mg-input-text value="test"></mg-input-text>
+      <mg-input-text value="test" />
       <mg-input-suffix>mois</mg-input-suffix>
     </mg-input>
     Test
@@ -54,7 +54,7 @@
     Test
     <mg-input>
       <mg-input-label>Label</mg-input-label>
-      <mg-input-color value="red"></mg-input-color>
+      <mg-input-color value="red" />
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc
@@ -63,11 +63,11 @@
     Test
     <mg-input>
       <mg-input-label>Label ({{ color }})</mg-input-label>
-      <mg-input-color [(ngModel)]="color"></mg-input-color>
+      <mg-input-color [(ngModel)]="color" />
     </mg-input>
     Test
     <mg-input [formGroup]="formColor">
-      <mg-input-color formControlName="test"></mg-input-color>
+      <mg-input-color formControlName="test" />
       <mg-input-desc
         >Desc<br />
         {{ formColor.value.test }}</mg-input-desc
@@ -75,12 +75,12 @@
     </mg-input>
     Test
     <mg-input>
-      <mg-input-color value="red"></mg-input-color>
+      <mg-input-color value="red" />
     </mg-input>
     Test
     <mg-input>
       <mg-input-label>Label (alpha)</mg-input-label>
-      <mg-input-color value="#f005" alpha></mg-input-color>
+      <mg-input-color value="#f005" alpha />
     </mg-input>
   </div>
   <!-- Radio / Checkbox -->
@@ -89,7 +89,7 @@
     Test
     <mg-input>
       <mg-input-label>Label</mg-input-label>
-      <mg-input-text value="test"></mg-input-text>
+      <mg-input-text value="test" />
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc
@@ -122,9 +122,9 @@
     Test
 
     <mg-input>
-      <mg-input-label>Label</mg-input-label>
-      <mg-input-checkbox value="red">red</mg-input-checkbox>
-      <mg-input-checkbox value="blue" checked>blue</mg-input-checkbox>
+      <mg-input-label>Label ({{ checkbox1.getValue() }} / {{ checkbox2.getValue() }})</mg-input-label>
+      <mg-input-checkbox value="red" #checkbox1>red</mg-input-checkbox>
+      <mg-input-checkbox value="blue" #checkbox2 checked>blue</mg-input-checkbox>
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc
@@ -170,7 +170,7 @@
     Test
     <mg-input>
       <mg-input-label>Label</mg-input-label>
-      <mg-input-number value="153.15"></mg-input-number>
+      <mg-input-number value="153.15" />
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc
@@ -179,11 +179,11 @@
     Test
     <mg-input>
       <mg-input-label>Label ({{ number }})</mg-input-label>
-      <mg-input-number [(ngModel)]="number"></mg-input-number>
+      <mg-input-number [(ngModel)]="number" />
     </mg-input>
     Test
     <mg-input [formGroup]="formNumber">
-      <mg-input-number formControlName="test"></mg-input-number>
+      <mg-input-number formControlName="test" />
       <mg-input-desc
         >Desc<br />
         {{ formNumber.value.test }}</mg-input-desc
@@ -198,7 +198,7 @@
     Test
     <mg-input>
       <mg-input-label>Label</mg-input-label>
-      <mg-input-select [data]="data" value="test2"></mg-input-select>
+      <mg-input-select [data]="data" value="test2" />
       <mg-input-desc
         >Desc<br />
         test</mg-input-desc
@@ -207,11 +207,11 @@
     Test
     <mg-input>
       <mg-input-label>Label ({{ select1 }})</mg-input-label>
-      <mg-input-select [data]="data" [(ngModel)]="select1"></mg-input-select>
+      <mg-input-select [data]="data" [(ngModel)]="select1" />
     </mg-input>
     Test
     <mg-input [formGroup]="formSelect">
-      <mg-input-select formControlName="test" [data]="data"></mg-input-select>
+      <mg-input-select formControlName="test" [data]="data" />
       <mg-input-desc
         >Desc<br />
         {{ formSelect.value.test }}</mg-input-desc
@@ -220,7 +220,7 @@
     Test
     <mg-input>
       <mg-input-label>Label</mg-input-label>
-      <mg-input-select [data]="data" value="test2"></mg-input-select>
+      <mg-input-select [data]="data" value="test2" />
       <mg-input-prefix>Au</mg-input-prefix>
       <mg-input-suffix>mois</mg-input-suffix>
       <mg-input-desc
@@ -234,11 +234,11 @@
   <h2>Form test</h2>
   <form [formGroup]="formTest">
     <mg-input class="s-3">
-      <mg-input-text formControlName="text"></mg-input-text>
+      <mg-input-text formControlName="text" />
       <mg-input-desc> {{ formTest.value.text }}</mg-input-desc>
     </mg-input>
     <mg-input class="s-3">
-      <mg-input-password formControlName="password"></mg-input-password>
+      <mg-input-password formControlName="password" />
       <mg-input-desc> {{ formTest.value.password }}</mg-input-desc>
     </mg-input>
     <mg-input class="s-3">
@@ -262,10 +262,10 @@
       <mg-input-desc> {{ formTest.value.checkboxMultiple }}</mg-input-desc>
     </mg-input>
     <mg-input class="s-3">
-      <mg-input-select formControlName="select" [data]="data2"></mg-input-select>
+      <mg-input-select formControlName="select" [data]="data2" />
       <mg-input-desc> {{ formTest.value.select }}</mg-input-desc> </mg-input
     ><mg-input class="s-3">
-      <mg-input-color formControlName="color"></mg-input-color>
+      <mg-input-color formControlName="color" />
       <mg-input-desc> {{ formTest.value.color }}</mg-input-desc>
     </mg-input>
   </form>

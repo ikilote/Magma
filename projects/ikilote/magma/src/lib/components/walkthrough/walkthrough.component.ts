@@ -1,6 +1,6 @@
 import { ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, ComponentRef, contentChildren, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentRef, contentChildren, inject } from '@angular/core';
 
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
@@ -16,11 +16,14 @@ export const magmaWalkthroughConnectedPosition: ConnectedPosition[] = [
     selector: 'mg-walkthrough',
     template: '',
     exportAs: 'walkthrough',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaWalkthrough {
     private content: ComponentRef<MagmaWalkthroughContent> | undefined = undefined;
     private overlayRef: OverlayRef | undefined = undefined;
     private positionStrategy: FlexibleConnectedPositionStrategy | undefined = undefined;
+
+    overlayComponent: MagmaWalkthroughContent | undefined = undefined;
 
     private readonly overlay = inject(Overlay);
     stepsDirective = contentChildren(MagmaWalkthroughStep);
@@ -48,29 +51,14 @@ export class MagmaWalkthrough {
                         .flexibleConnectedTo(element)
                         .withPositions(magmaWalkthroughConnectedPosition),
                 });
-                overlayRef.backdropClick().subscribe(() => {
-                    switch (this.portal?.backdropAction()) {
-                        case 'close':
-                            this.close();
-                            break;
-                        case 'next':
-                            if (this.portal.nextStep()) {
-                                this.changeStep(this.portal.nextStep(), this.portal.group());
-                            }
-                            break;
-                        case 'clickElement':
-                            if (this.portal.clickElementActive() || this.portal.clickElementOrigin()) {
-                                this.content?.instance.clone?.click();
-                            }
-                            break;
-                        default:
-                    }
-                });
+                overlayRef.backdropClick().subscribe(this.backdropAction);
                 const userProfilePortal = new ComponentPortal(MagmaWalkthroughContent);
                 const component = overlayRef.attach(userProfilePortal);
                 component.setInput('host', this);
                 component.setInput('portal', this.portal);
                 component.setInput('element', element as HTMLElement);
+
+                this.overlayComponent = component.instance;
 
                 this.positionStrategy = overlayRef.getConfig().positionStrategy as FlexibleConnectedPositionStrategy;
 
@@ -87,7 +75,6 @@ export class MagmaWalkthrough {
             }
         }
     }
-
     changeStep(stepName?: string, group?: string) {
         if (!stepName) {
             this.close();
@@ -119,5 +106,25 @@ export class MagmaWalkthrough {
         this.overlayRef?.dispose();
         this.content = undefined;
         this.overlayRef = undefined;
+        this.overlayComponent = undefined;
+    }
+
+    private backdropAction() {
+        switch (this.portal?.backdropAction()) {
+            case 'close':
+                this.close();
+                break;
+            case 'next':
+                if (this.portal.nextStep()) {
+                    this.changeStep(this.portal.nextStep(), this.portal.group());
+                }
+                break;
+            case 'clickElement':
+                if (this.portal.clickElementActive() || this.portal.clickElementOrigin()) {
+                    this.content?.instance.clone?.click();
+                }
+                break;
+            default:
+        }
     }
 }

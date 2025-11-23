@@ -45,13 +45,13 @@
   </mg-tab-content>
   <mg-tab-title id="palette">{{ texts()?.palette ?? 'Palette' }}</mg-tab-title>
   <mg-tab-content id="palette">
-    <div class="palette">
+    <div class="palette base">
       @for (color of _palette(); track $index) {
         <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
       }
     </div>
     @if (datalist()?.length) {
-      <div class="palette">
+      <div class="palette datalist">
         @for (color of datalist(); track $index) {
           <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
         }

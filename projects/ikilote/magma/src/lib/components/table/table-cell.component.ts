@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 
 import { MagmaTableRow } from './table-row.component';
+import { MagmaTable } from './table.component';
 
 @Component({
     selector: 'table[mg] > * > * > td[mg], table[mg] > * > * > th[mg]',
@@ -26,10 +27,10 @@ import { MagmaTableRow } from './table-row.component';
     },
 })
 export class MagmaTableCell implements AfterViewInit, AfterViewChecked {
-    protected readonly host = inject(MagmaTableRow, { optional: false, host: true });
-    readonly table = this.host.table;
+    host?: MagmaTableRow;
+    table?: MagmaTable;
     readonly cd = inject(ChangeDetectorRef);
-    readonly el = inject(ElementRef<HTMLTableSectionElement>);
+    readonly el = inject(ElementRef<HTMLTableCellElement>);
 
     readonly baseline = input(false, { transform: booleanAttribute });
 
@@ -44,12 +45,17 @@ export class MagmaTableCell implements AfterViewInit, AfterViewChecked {
     }
 
     ngAfterViewChecked(): void {
-        this.index = this.host.inputs().indexOf(this);
+        if (this.host) {
+            this.index = this.host.inputs().indexOf(this);
+            this.table = this.host.table;
+        }
         this.cd.detectChanges();
     }
 
     @HostListener('mouseover')
     mouseOver() {
-        this.table.over(this.row, this.index);
+        if (this.table) {
+            this.table.over(this.row, this.index);
+        }
     }
 }

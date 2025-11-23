@@ -1,4 +1,4 @@
-@if (!onError) {
+@if (!onError()) {
   <ng-select2
     [id]="_id() + '-select2'"
     [value]="_value"
@@ -54,7 +54,7 @@
     (search)="search.emit($event)"
     (scroll)="scroll.emit($event)"
     (removeOption)="removeOption.emit($event)"
-  ></ng-select2>
+  />
 } @else {
   Error
 }

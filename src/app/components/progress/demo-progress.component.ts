@@ -64,7 +64,7 @@ export class DemoProgressComponent {
 }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             loaded: { default: undefined },
             total: { default: undefined },
             sizeFormat: { default: undefined },

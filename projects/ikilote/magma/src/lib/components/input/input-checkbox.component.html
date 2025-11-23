@@ -1,4 +1,4 @@
-@if (!onError) {
+@if (!onError()) {
   <input
     type="checkbox"
     [name]="_name()"
@@ -8,7 +8,7 @@
     [disabled]="disabled()"
     [readonly]="readonly()"
     (change)="_change()"
-  /><label #ref [for]="_id() + '-input'" [class.empty]="!ref.textContent"><ng-content></ng-content></label>
+  /><label #ref [for]="_id() + '-input'" [class.empty]="!ref.textContent"><ng-content /></label>
 } @else {
   Error
 }

@@ -46,7 +46,7 @@ export class DemoTableComponent {
 }`;
 
     constructor() {
-        this.form = this.fbe.groupWithErrorNonNullable({
+        this.form = this.fbe.groupWithError({
             col: { default: false },
             row: { default: false },
             hover: { default: false },

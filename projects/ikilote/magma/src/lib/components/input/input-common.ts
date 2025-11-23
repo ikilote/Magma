@@ -24,10 +24,10 @@ import { Timing } from '../../utils/timing';
 
 @Directive({})
 export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
-    protected readonly host = inject(MagmaInput, { optional: false, host: true });
+    host?: MagmaInput;
     protected readonly logger = inject(Logger);
-    readonly cd = inject(ChangeDetectorRef);
-    private injector = inject(Injector);
+    protected readonly cd = inject(ChangeDetectorRef);
+    protected readonly injector = inject(Injector);
 
     readonly value = input();
 
@@ -52,7 +52,11 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     protected counter = 0;
     protected readonly uid = computed<string>(() => `${this.componentName}-${this.counter}`);
 
-    _name = computed<string>(() => this.formControlName() || this.name() || this.id() || this.uid());
+    refreshTrigger = signal<any>(false);
+
+    _name = computed<string>(
+        () => this.refreshTrigger() || this.formControlName() || this.name() || this.id() || this.uid(),
+    );
     _id = computed<string>(() => this.id() || this.uid());
 
     get inputElement(): HTMLInputElement | HTMLTextAreaElement | Select2 | undefined {
@@ -61,7 +65,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
 
     protected _value: any = '';
 
-    protected onError = false;
+    protected onError = signal(false);
 
     protected placeholderTimer: undefined | number = undefined;
 
@@ -70,11 +74,15 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     ngControl: NgControl | null = null;
 
     ngOnInit(): void {
-        if (!this.host) {
-            this.onError = true;
-        }
+        setTimeout(() => {
+            if (!this.host) {
+                this.onError.set(true);
+            }
+        });
         this.ngControl = this.injector.get(NgControl, null, { self: true, optional: true });
-        this.host.ngControl ??= this.ngControl;
+        if (this.host) {
+            this.host.ngControl ??= this.ngControl;
+        }
         this.setHostLabelId();
     }
 
@@ -159,15 +167,17 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
                         }
                     }
                 }
-                this.host._errorMessage.set(errorMessage ?? null);
+                this.host?._errorMessage.set(errorMessage ?? null);
             });
         }
         return null;
     }
 
     protected setHostLabelId() {
-        this.host.forId = `${this._id()}-input`;
-        this.host.cd.detectChanges();
+        if (this.host) {
+            this.host.forId.set(`${this._id()}-input`);
+            this.host.cd.detectChanges();
+        }
     }
 
     protected initAnimation() {
@@ -183,10 +193,11 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     }
 
     protected infoPlaceholderAnimation(info: string) {
-        const [baseDelayValue, repeatValue, intervaleValue, separator] = (info ?? '').split(/\s+/);
+        const [baseDelayValue, repeatValue, intervaleValue, separatorVal] = (info ?? '').split(/\s+/);
         const baseDelay = Math.max(+baseDelayValue || 30, 1);
         const repeat = Math.max(+repeatValue || 1, 1);
         const intervale = Math.max(+intervaleValue || baseDelay, 1);
+        const separator = separatorVal || '|';
         return [baseDelay, repeat, intervale, separator] as [number, number, number, string];
     }
 

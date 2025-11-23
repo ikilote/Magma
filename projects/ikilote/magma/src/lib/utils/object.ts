@@ -5,7 +5,7 @@ export function objectsAreSame(
 ): boolean {
     if (objA === objB) {
         return true;
-    } else if (objA === undefined || objB === undefined) {
+    } else if (objA === undefined || objA === null || objB === undefined || objB === null) {
         return false;
     }
 
@@ -17,10 +17,12 @@ export function objectsAreSame(
     const compareValues = (a: Record<string, any>, b: Record<string, any>) => {
         if (Array.isArray(a)) {
             if (Array.isArray(b)) {
-                const aCopy = [...a];
-                const bCopy = [...b];
+                let aCopy = [...a];
+                let bCopy = [...b];
                 if (a.length === b.length) {
+                    aCopy = aCopy.map(a => (typeof a === 'number' ? a : `${a}`));
                     aCopy.sort();
+                    bCopy = bCopy.map(a => (typeof a === 'number' ? a : `${a}`));
                     bCopy.sort();
                     aCopy.forEach((ele, idx) => compareValues(ele, bCopy[idx]));
                 } else {

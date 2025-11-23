@@ -53,7 +53,10 @@ export const menu = [
     },
     {
         groupName: 'Services',
-        items: [{ routerLink: '/service/cache', label: 'Cache', status: 'new' }],
+        items: [
+            { routerLink: '/service/cache', label: 'Cache', status: 'new' },
+            { routerLink: '/service/form-builder-extended', label: 'FormBuilderExtended', status: 'new' },
+        ],
     },
     {
         groupName: 'Utils',

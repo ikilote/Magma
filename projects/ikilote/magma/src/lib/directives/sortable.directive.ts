@@ -48,7 +48,7 @@ export type MagmaSortRule =
           type: 'translate';
           /** path.in.object */
           attr: string;
-          /** translate methode */
+          /** translate method */
           translate: (text: string) => string;
           /** translate id */
           translateId: string;
@@ -111,7 +111,9 @@ export class MagmaSortRuleDirective implements OnInit {
         const rule = this.sortRule();
         return rule && typeof rule !== 'string' && !Array.isArray(rule) && 'type' in rule
             ? rule?.type === 'none'
-            : false;
+            : Array.isArray(rule) && rule[0] && 'type' in rule[0]
+              ? rule[0].type === 'none'
+              : false;
     }
 
     private isInit() {
@@ -131,7 +133,7 @@ export class MagmaSortRuleDirective implements OnInit {
 export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     private readonly renderer = inject(Renderer2);
 
-    sortable = input<any[] | undefined>([]);
+    sortable = input.required<any[]>();
 
     sortableFilterInput = input<HTMLInputElement | MagmaInputCommon | undefined>(undefined, {
         alias: 'sortable-filter-input',
@@ -162,9 +164,10 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['sortable'] && this.sortableFilterInput() && this.sortable()) {
+        const sortable = this.sortable();
+        if (changes['sortable'] && this.sortableFilterInput() && Array.isArray(sortable)) {
             this.sortableComplete.splice(0, this.sortable.length);
-            this.sortableComplete.push(...(this.sortable() || []));
+            this.sortableComplete.push(...sortable);
             this.update();
         }
     }
@@ -185,7 +188,6 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
             this.currentRule = rule;
             this.currentRuleOrder = order === 'asc';
         }
-
         this.sortLines();
     }
 
@@ -193,7 +195,7 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
         sortWithRule(this.sortable(), this.currentRule, this.currentRuleOrder);
     }
 
-    private filter(input: string = '') {
+    private filter(input: string) {
         const sortable = this.sortable();
         if (this.input !== input && sortable && this.sortableComplete?.length && this.sortableFilter()) {
             sortable.splice(0, sortable.length);

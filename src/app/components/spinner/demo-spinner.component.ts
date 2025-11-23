@@ -43,7 +43,7 @@ export class DemoSpinnerComponent {
 }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             size: { default: undefined },
             tickWidth: { default: undefined },
             radius: { default: undefined },

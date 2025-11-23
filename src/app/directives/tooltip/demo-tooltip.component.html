@@ -1,22 +1,27 @@
 <h1>mgTooltip</h1>
 
 <div>
-  <div class="s-2 s-12-m" [formGroup]="ctrlForm">
+  <div class="s-3 s-12-m" [formGroup]="ctrlForm">
     <mg-input class="s-12">
       <mg-input-label>Text</mg-input-label>
-      <mg-input-text formControlName="text"></mg-input-text>
+      <mg-input-text formControlName="text" />
     </mg-input>
     <mg-input class="s-12">
       <mg-input-label>mgTooltipEntryDelay</mg-input-label>
-      <mg-input-number formControlName="mgTooltipEntryDelay"></mg-input-number>
+      <mg-input-number formControlName="mgTooltipEntryDelay" />
       <mg-input-suffix>ms</mg-input-suffix>
       <mg-input-desc>default: <code>200</code></mg-input-desc>
     </mg-input>
     <mg-input class="s-12">
       <mg-input-label>mgTooltipDisplayDelay</mg-input-label>
-      <mg-input-number formControlName="mgTooltipDisplayDelay"></mg-input-number>
+      <mg-input-number formControlName="mgTooltipDisplayDelay" />
       <mg-input-suffix>ms</mg-input-suffix>
       <mg-input-desc>default: <code>0</code> = infinity </mg-input-desc>
+    </mg-input>
+    <mg-input class="s-12">
+      <mg-input-label>mgTooltipDescribedBy</mg-input-label>
+      <mg-input-text formControlName="mgTooltipDescribedBy" />
+      <mg-input-desc>define an id for <code>aria-describedBy</code>, if not define: autogenerate</mg-input-desc>
     </mg-input>
   </div>
 
@@ -25,12 +30,13 @@
       [mgTooltip]="ctrlForm.value.text!"
       [mgTooltipEntryDelay]="ctrlForm.value.mgTooltipEntryDelay"
       [mgTooltipDisplayDelay]="ctrlForm.value.mgTooltipDisplayDelay"
+      [mgTooltipDescribedBy]="ctrlForm.value.mgTooltipDescribedBy"
     >
       Example
     </button>
   </div>
 
-  <div class="s-8 s-12-m">
+  <div class="s-7 s-12-m">
     <code-tabs
       [code]="[
         { type: 'html', code: codeHtml },

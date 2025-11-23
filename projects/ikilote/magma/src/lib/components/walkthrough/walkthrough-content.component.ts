@@ -60,26 +60,30 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     resize() {
         const element = this.element();
         if (this.clone && element) {
-            if (this.clone.style.width !== element.offsetWidth + 'px') {
-                this.clone.style.width = element.offsetWidth + 'px';
+            const style = this.clone.style;
+            if (style.width !== element.offsetWidth + 'px') {
+                style.width = element.offsetWidth + 'px';
             }
-            if (this.clone.style.margin !== '0px') {
-                this.clone.style.margin = '0px';
+            if (style.margin !== '0px') {
+                style.margin = '0px';
             }
         }
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['position']) {
-            this.testPosition(changes['position'].currentValue.connectionPair);
+        const position = changes['position'];
+        if (position) {
+            this.testPosition(position.currentValue.connectionPair);
         }
 
         if (changes['element']) {
             const target = this.elementContent().nativeElement;
 
-            this.portal().start.emit();
+            const portal = this.portal();
+            portal.start.emit();
 
-            if (this.portal().showElement()) {
+            if (portal.showElement()) {
+                // clean before clone
                 while (target.lastElementChild) {
                     target.removeChild(target.lastElementChild);
                 }
@@ -92,15 +96,15 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
                         this.clone = clone;
 
                         // click on original element
-                        const actionOrigin = this.portal().clickElementOrigin();
+                        const actionOrigin = portal.clickElementOrigin();
                         if (target && actionOrigin) {
                             clone.addEventListener('click', () => element.click());
                         }
 
                         // click on copy element
-                        const action = this.portal().clickElementActive();
+                        const action = portal.clickElementActive();
                         if (action) {
-                            clone.addEventListener('click', () => this.portal().clickElement.emit());
+                            clone.addEventListener('click', () => portal.clickElement.emit());
                         }
 
                         target.appendChild(clone);
@@ -113,16 +117,18 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
     }
 
     next() {
-        this.portal().clickNext.emit();
+        const portal = this.portal();
+        portal.clickNext.emit();
         setTimeout(() => {
-            this.host().changeStep(this.portal().nextStep(), this.portal().group());
+            this.host().changeStep(portal.nextStep(), portal.group());
         }, 10);
     }
 
     previous() {
-        this.portal().clickPrevious.emit();
+        const portal = this.portal();
+        portal.clickPrevious.emit();
         setTimeout(() => {
-            this.host().changeStep(this.portal().previousStep(), this.portal().group());
+            this.host().changeStep(portal.previousStep(), portal.group());
         }, 10);
     }
 
@@ -150,12 +156,11 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
 
     @HostListener('document:keydown.escape', ['$event'])
     escape() {
-        if (this.portal().close()) {
+        const portal = this.portal();
+        if (portal.close()) {
             this.close();
-        } else {
-            if (this.portal().nextStep()) {
-                this.next();
-            }
+        } else if (portal.nextStep()) {
+            this.next();
         }
     }
 }

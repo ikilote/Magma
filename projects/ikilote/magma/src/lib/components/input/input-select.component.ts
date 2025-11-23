@@ -1,10 +1,8 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    OnInit,
     TemplateRef,
     booleanAttribute,
-    forwardRef,
     input,
     numberAttribute,
     output,
@@ -36,15 +34,15 @@ let counter = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputSelect },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputSelect), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputSelect), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputSelect, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputSelect, multi: true },
     ],
     host: {
         '[id]': '_id()',
     },
     imports: [Select2],
 })
-export class MagmaInputSelect extends MagmaInputCommon implements OnInit {
+export class MagmaInputSelect extends MagmaInputCommon {
     override readonly componentName = 'input-select';
     protected override counter = counter++;
 

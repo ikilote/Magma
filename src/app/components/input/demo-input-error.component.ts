@@ -52,7 +52,7 @@ export class DemoInputErrorComponent {
     }>;
 
     constructor() {
-        this.formText = this.fbe.groupWithErrorNonNullable({
+        this.formText = this.fbe.groupWithError({
             test: {
                 default: 'form',
                 control: {
@@ -76,7 +76,7 @@ export class DemoInputErrorComponent {
 }`;
 
     readonly codeHtmlText = `<mg-input [formGroup]="formText">
-  <mg-input-text formControlName="test"></mg-input-text>
+  <mg-input-text formControlName="test"/>
 </mg-input>`;
 
     readonly codeTsList = `import {
@@ -112,7 +112,7 @@ export class DemoInputErrorComponent {
     }>;
 
     constructor() {
-        this.formList = this.fbe.groupWithErrorNonNullable({
+        this.formList = this.fbe.groupWithError({
             oneValue: {
                 default: 'blue',
                 control: {
@@ -171,7 +171,7 @@ export class DemoInputErrorComponent {
   <div>
     <mg-input>
       <mg-input-label>Select</mg-input-label>
-      <mg-input-select formControlName="select" [data]="data"></mg-input-select>
+      <mg-input-select formControlName="select" [data]="data"/>
     </mg-input>
   </div>
 </section>`;
@@ -194,7 +194,7 @@ export class DemoInputErrorComponent {
     }>;
 
     constructor() {
-        this.formNumber = this.fbe.groupWithErrorNonNullable({
+        this.formNumber = this.fbe.groupWithError({
             test: {
                 default: 53.15,
                 control: {
@@ -208,7 +208,7 @@ export class DemoInputErrorComponent {
 }`;
 
     readonly codeHtmlNumber = `<mg-input [formGroup]="formNumber">
-  <mg-input-number formControlName="test"></mg-input-number>
+  <mg-input-number formControlName="test"/>
 </mg-input>`;
 
     readonly data: Select2Data = [
@@ -237,7 +237,7 @@ export class DemoInputErrorComponent {
     }>;
 
     constructor() {
-        this.formText = this.fbe.groupWithErrorNonNullable({
+        this.formText = this.fbe.groupWithError({
             test: {
                 default: 'form',
                 control: {
@@ -256,7 +256,7 @@ export class DemoInputErrorComponent {
                 },
             },
         });
-        this.formColor = this.fbe.groupWithErrorNonNullable({
+        this.formColor = this.fbe.groupWithError({
             test: {
                 default: 'null',
                 control: {
@@ -265,7 +265,7 @@ export class DemoInputErrorComponent {
                 },
             },
         });
-        this.formList = this.fbe.groupWithErrorNonNullable({
+        this.formList = this.fbe.groupWithError({
             oneValue: {
                 default: 'blue',
                 control: {
@@ -295,7 +295,7 @@ export class DemoInputErrorComponent {
                 },
             },
         });
-        this.formNumber = this.fbe.groupWithErrorNonNullable({
+        this.formNumber = this.fbe.groupWithError({
             test: {
                 default: 53.15,
                 control: {
@@ -305,7 +305,7 @@ export class DemoInputErrorComponent {
                 },
             },
         });
-        this.formSelect = this.fbe.groupWithErrorNonNullable({
+        this.formSelect = this.fbe.groupWithError({
             test: {
                 default: 'test2',
                 control: {

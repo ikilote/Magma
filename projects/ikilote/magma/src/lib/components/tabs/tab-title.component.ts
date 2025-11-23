@@ -20,7 +20,7 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
     templateUrl: './tab-title.component.html',
     styleUrls: ['./tab-title.component.scss'],
     host: {
-        '[attr.id]': 'id()',
+        '[attr.id]': '"tab-" + id()',
         '[class.selected]': 'selected()',
         tabindex: '0',
     },
@@ -30,7 +30,6 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
 export class MagmaTabTitle implements OnInit, OnChanges {
     // inject
 
-    private readonly tabs = inject(MagmaTabs, { host: true });
     private readonly click = inject(MagmaClickEnterDirective);
     readonly element = inject(ElementRef<HTMLElement>);
 
@@ -38,6 +37,9 @@ export class MagmaTabTitle implements OnInit, OnChanges {
 
     readonly id = input.required<string>();
     readonly selected = model<boolean>(false);
+
+    // host : not use inject(MagmaTabs, { host: true }); to fix circular dependency
+    tabs?: MagmaTabs;
 
     constructor() {
         this.click.clickEnter.subscribe(() => {
@@ -47,16 +49,20 @@ export class MagmaTabTitle implements OnInit, OnChanges {
 
     @HostListener('keydown.ArrowLeft')
     focusLeft() {
-        this.tabs.titles()[Math.max(0, this.tabs.titles().indexOf(this) - 1)].element.nativeElement.focus();
+        if (this.tabs) {
+            this.tabs.titles()[Math.max(0, this.tabs.titles().indexOf(this) - 1)].element.nativeElement.focus();
+        }
     }
 
     @HostListener('keydown.ArrowRight')
     focusRight() {
-        this.tabs
-            .titles()
-            [
-                Math.min(this.tabs.titles().length - 1, this.tabs.titles().indexOf(this) + 1)
-            ].element.nativeElement.focus();
+        if (this.tabs) {
+            this.tabs
+                .titles()
+                [
+                    Math.min(this.tabs.titles().length - 1, this.tabs.titles().indexOf(this) + 1)
+                ].element.nativeElement.focus();
+        }
     }
 
     ngOnInit(): void {
@@ -72,11 +78,11 @@ export class MagmaTabTitle implements OnInit, OnChanges {
     }
 
     onclick() {
-        if (this.tabs && this.id()) {
-            setTimeout(() => {
+        setTimeout(() => {
+            if (this.tabs && this.id()) {
                 this.tabs.update(this.id());
                 this.tabs.tabpanel()?.nativeElement.focus();
-            });
-        }
+            }
+        });
     }
 }

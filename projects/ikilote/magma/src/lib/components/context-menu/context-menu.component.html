@@ -7,11 +7,8 @@
       @if (itc.component) {
         <li [style.--position]="index" class="item-content">
           <span class="content">
-            <ng-container
-              [ngComponentOutlet]="itc.component"
-              [ngComponentOutletInputs]="withContext(itc.inputs)"
-            ></ng-container
-          ></span>
+            <ng-container [ngComponentOutlet]="itc.component" [ngComponentOutletInputs]="withContext(itc.inputs)"
+          /></span>
         </li>
       } @else {
         <li (clickEnter)="active(iti)" [style.--position]="index" [attr.title]="iti.label ? iti.label : null">

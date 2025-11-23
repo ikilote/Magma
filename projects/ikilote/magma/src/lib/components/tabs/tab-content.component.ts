@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
     templateUrl: './tab-content.component.html',
     styleUrls: ['./tab-content.component.scss'],
     host: {
-        '[attr.id]': 'id()',
+        '[attr.id]': '"tab-content-" + id()',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

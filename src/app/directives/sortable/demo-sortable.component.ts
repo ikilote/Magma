@@ -127,7 +127,7 @@ export class TestComponent {
     maxlength="150"
     [(ngModel)]="filter"
     #inputFilter
-  ></mg-input-text>
+  />
 </mg-input>
 
 <table

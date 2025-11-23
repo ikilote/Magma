@@ -35,7 +35,7 @@ export function sortWithRule<T = any>(
 
                     let test = 0;
                     if (rule.type === 'string') {
-                        test = (valA as string).localeCompare(valB as string);
+                        test = (valA as string)?.localeCompare(valB as string);
                     } else if (rule.type === 'translate') {
                         test = rule
                             .translate(rule.translateId.replace('%value%', valA || rule.default))
@@ -83,7 +83,7 @@ export function flattenedListItems(values: MagmaStringArray, pattern = /\s*,\s*/
         values = values.split(pattern);
     }
     const list: any[] = [];
-    values.flat(20).forEach((value: any) => {
+    values?.flat(20).forEach((value: any) => {
         if (typeof value === 'string' && value) {
             list.push(...value.split(pattern));
         }

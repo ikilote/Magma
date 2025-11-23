@@ -5,6 +5,7 @@ import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
 import { MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/lib/components/input/input-checkbox.component';
 import {
+    AbstractContextMenuComponent,
     ContextMenuData,
     ContextMenuMode,
     FormBuilderExtended,
@@ -27,8 +28,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         `,
     ],
 })
-export class ContextTestComponent {
-    context = input<MagmaContextMenu<any>>();
+export class ContextTestComponent extends AbstractContextMenuComponent {
     component = input<DemoContextMenuComponent>();
 
     action() {
@@ -158,7 +158,7 @@ export class DemoContextMenuComponent {
     };
 }`;
 
-    codeTsComponent = `import { MagmaContextMenu } from '@ikilote/magma';
+    codeTsComponent = `import { MagmaContextMenu, AbstractContextMenuComponent } from '@ikilote/magma';
 
 @Component({
     selector: 'context-test',
@@ -172,10 +172,8 @@ export class DemoContextMenuComponent {
         \`,
     ],
 })
-export class ContextTestComponent {
-    // context of directive
-    context = input<MagmaContextMenu<any>>();
-    // other input
+export class ContextTestComponent extends AbstractContextMenuComponent {
+    // inputs
     component = input<DemoContextMenuComponent>();
 
     action() {
@@ -185,7 +183,7 @@ export class ContextTestComponent {
 }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             contextMenuMode: { default: 'default' },
             contextMenuDisabled: { default: false },
         });

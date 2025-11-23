@@ -248,6 +248,14 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () => import('./services/cache/demo-cache.component').then(m => m.DemoCacheComponent),
             },
+            {
+                path: 'form-builder-extended',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./services/form-builder-extended/demo-form-builder-extended.component').then(
+                        m => m.DemoFormBuilderExtended,
+                    ),
+            },
         ],
     },
     {

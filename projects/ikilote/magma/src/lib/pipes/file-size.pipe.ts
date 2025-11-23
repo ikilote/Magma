@@ -49,7 +49,7 @@ export class FileSizePipe implements PipeTransform {
 
         return (
             new Intl.NumberFormat(params.language || 'en', params.options).format(value) +
-            (params?.format
+            (params?.format === 'decimal'
                 ? (params?.translate?.unitTableDecimal ?? FileSizePipe.unitTableDecimal)
                 : (params?.translate?.unitTableBinary ?? FileSizePipe.unitTableBinary))[unit]
         );

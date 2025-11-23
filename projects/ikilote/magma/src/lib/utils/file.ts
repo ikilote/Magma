@@ -8,12 +8,14 @@ export function downloadFile(content: string, fileName: string, contentType?: st
     }
     a.download = fileName;
     a.click();
+    return a;
 }
 
 export function blobToBase64(blob: Blob): Promise<string> {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = () => reject(new Error('Failed to read blob as base64'));
         reader.readAsDataURL(blob);
     });
 }
@@ -61,15 +63,20 @@ export function ulrToBase64(url: string): Promise<string | ArrayBuffer | null> {
 }
 
 /**
- * remove accents, case and characters and  `\:*?"<>` symbols
- * @param string text with accents, case and symbols
- * @param limit text with accents, case and symbols
- * @returns text without accents, case and symbols
+ * remove accents, case and all non-ASCII characters and `\:*?"<>` symbols
+ *
+ * @example 'Café_Été_日本語_Привет_😊' => 'cafe_ete___'
+ * @param string source text
+ * @param limit max size
+ * @returns text formatted
  */
 export function normalizeFileName(string: string, limit: number = 200) {
     return string
         .toLocaleLowerCase()
-        .normalize('NFD')
-        .replace(/[\p{Diacritic}\/|\\:*?"<>]/gu, '')
+        .normalize('NFD') // Decompose accented characters
+        .replace(/[\p{Diacritic}\/|\\:*?"<>]/gu, '') // Remove accents
+        .replace(/[\/|\\:*?"<>]/g, '') // Remove forbidden filename characters
+        .replace(/[^\x00-\x7F]/g, '_') // Remove all non-ASCII characters
+        .replace(/_+/g, '_') // Remove multiple underscore
         .substring(0, limit);
 }

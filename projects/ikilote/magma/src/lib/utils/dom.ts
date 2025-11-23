@@ -6,7 +6,7 @@ export function getParentElementByClass(element: HTMLElement, cssClass: string):
           : undefined;
 }
 
-export function containClasses(element: HTMLElement, cssClasses: string[]): boolean {
+export function containClasses(element: HTMLElement | SVGSVGElement, cssClasses: string[]): boolean {
     if (!element.classList) {
         return false;
     }

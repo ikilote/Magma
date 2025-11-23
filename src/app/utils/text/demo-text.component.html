@@ -6,7 +6,7 @@
   <div class="s-3 s-12-m" [formGroup]="ctrlFormA">
     <mg-input class="s-12">
       <mg-input-label>Text</mg-input-label>
-      <mg-input-text formControlName="text"></mg-input-text>
+      <mg-input-text formControlName="text" />
     </mg-input>
 
     <div class="s-12">
@@ -14,5 +14,23 @@
     </div>
   </div>
 
-  <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
+  <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsA }]" /></div>
+</div>
+
+<h2>unescapedString</h2>
+
+<div>
+  <div class="s-3 s-12-m" [formGroup]="ctrlFormB">
+    <mg-input class="s-12">
+      <mg-input-label>Text</mg-input-label>
+      <mg-input-text formControlName="text" />
+    </mg-input>
+
+    <div class="s-12">
+      Replace special character:
+      <pre><code>{{ unescapedString(ctrlFormB.value.text ?? '') }}</code></pre>
+    </div>
+  </div>
+
+  <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsB }]" /></div>
 </div>

@@ -12,10 +12,9 @@ export class MagmaStopPropagationDirective {
     @HostListener('keydown', ['$event'])
     @HostListener('click', ['$event'])
     block(event: KeyboardEvent | MouseEvent): void {
-        if (this.stopKeydown()) {
+        if (this.stopKeydown() && event instanceof KeyboardEvent) {
             event.stopPropagation();
-        }
-        if (this.stopClick()) {
+        } else if (this.stopClick() && event instanceof MouseEvent) {
             event.stopPropagation();
         }
     }

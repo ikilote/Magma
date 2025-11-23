@@ -6,15 +6,17 @@
 
   <nav class="buttons">
     @if (portal().previousStep()) {
-      <button (click)="previous()" (window:keydown.arrowLeft)="previous()">{{ portal().previousButtonName() }}</button>
+      <button class="previous" (click)="previous()" (window:keydown.arrowLeft)="previous()">
+        {{ portal().previousButtonName() }}
+      </button>
     }
     @if (portal().nextStep()) {
-      <button (click)="next()" (window:keydown.arrowRight)="next()" limitFocusFirst="1">
+      <button class="next" (click)="next()" (window:keydown.arrowRight)="next()" limitFocusFirst="1">
         {{ portal().nextButtonName() }}
       </button>
     }
     @if (portal().close()) {
-      <button (click)="close()" limitFocusFirst="2">
+      <button class="close" (click)="close()" limitFocusFirst="2">
         {{ portal().closeButtonName() }}
       </button>
     }

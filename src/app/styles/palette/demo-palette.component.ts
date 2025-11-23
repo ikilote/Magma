@@ -49,7 +49,7 @@ export class DemoPaletteComponent {
     }>;
 
     constructor() {
-        this.form = this.fbe.groupWithErrorNonNullable({
+        this.form = this.fbe.groupWithError({
             hue: { default: 210 },
         });
 

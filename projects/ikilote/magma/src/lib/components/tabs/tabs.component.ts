@@ -26,7 +26,7 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
     readonly titles = contentChildren(MagmaTabTitle);
     readonly content = contentChildren(MagmaTabContent);
     readonly tablist = viewChild.required<ElementRef<HTMLElement>>('tablist');
-    readonly tabpanel = viewChild<ElementRef<HTMLDivElement>>('tabpanel');
+    readonly tabpanel = viewChild.required<ElementRef<HTMLDivElement>>('tabpanel');
 
     // input
 
@@ -93,6 +93,12 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
             if (this.next()) {
                 this.next.set(false);
             }
+        }
+
+        if (this.titles()?.length) {
+            this.titles().forEach(e => {
+                e.tabs ??= this;
+            });
         }
     }
 

@@ -83,7 +83,7 @@ export class DemoInfoMessageComponent {
     codeTsComponent = '';
 
     constructor() {
-        this.formGroup = this.fbe.groupWithErrorNonNullable({
+        this.formGroup = this.fbe.groupWithError({
             component: { default: false },
             text: { default: 'Test' },
             time: { default: '' },

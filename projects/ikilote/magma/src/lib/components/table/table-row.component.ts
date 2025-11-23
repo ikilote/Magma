@@ -4,6 +4,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    ElementRef,
     booleanAttribute,
     contentChildren,
     inject,
@@ -12,6 +13,7 @@ import {
 
 import { MagmaTableCell } from './table-cell.component';
 import { MagmaTableGroup } from './table-group.component';
+import { MagmaTable } from './table.component';
 
 @Component({
     selector: 'table[mg] > * > tr[mg]',
@@ -23,9 +25,10 @@ import { MagmaTableGroup } from './table-group.component';
     },
 })
 export class MagmaTableRow implements AfterViewInit, AfterViewChecked {
-    readonly host = inject(MagmaTableGroup, { optional: false, host: true });
-    readonly table = this.host.table;
-    readonly cd = inject(ChangeDetectorRef);
+    host?: MagmaTableGroup;
+    table?: MagmaTable;
+    protected readonly cd = inject(ChangeDetectorRef);
+    readonly el = inject(ElementRef<HTMLTableRowElement>);
 
     readonly baseline = input(false, { transform: booleanAttribute });
 
@@ -35,22 +38,33 @@ export class MagmaTableRow implements AfterViewInit, AfterViewChecked {
     _data!: any[];
 
     ngAfterViewInit(): void {
-        this.index = this.host.inputs().indexOf(this);
-        this._data = this.host._data[this.index] = [];
+        if (this.host) {
+            this.index = this.host.inputs().indexOf(this);
+            this._data = this.host._data![this.index] = [];
 
-        this.inputs().forEach(e => {
-            e.row = this.index;
-            this.host._data[this.index][e.index] = {
-                cell: e,
-                row: this,
-                textContent: e.el.nativeElement.textContent,
-            };
-            e.cd.detectChanges();
-        });
+            for (const input of this.inputs()) {
+                this.host._data![this.index][input.index] = {
+                    cell: input,
+                    row: this,
+                    textContent: input.el.nativeElement.textContent,
+                };
+                input.cd.detectChanges();
+            }
+        }
         this.cd.detectChanges();
     }
 
     ngAfterViewChecked(): void {
+        if (this.host) {
+            this.index = this.host.inputs().indexOf(this);
+        }
+        if (this.inputs()?.length) {
+            this.inputs().forEach(e => {
+                e.host ??= this;
+                e.table ??= this.table;
+                e.row = this.index;
+            });
+        }
         this.ngAfterViewInit();
     }
 }

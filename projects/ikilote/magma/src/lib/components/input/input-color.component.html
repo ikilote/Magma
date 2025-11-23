@@ -1,8 +1,9 @@
-@if (!onError) {
+@if (!onError()) {
   <input type="hidden" [value]="_value ?? ''" #input />
   <span
     [id]="_id() + '-input'"
     [style.--color]="_value"
+    class="spanPicker"
     [class.empty]="!_value"
     [colorPicker]="_value"
     [colorPickerAlpha]="alpha()"

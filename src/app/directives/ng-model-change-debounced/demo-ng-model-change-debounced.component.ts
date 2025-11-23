@@ -31,7 +31,7 @@ export class DemoNgModelChangeDebouncedComponent {
     [(ngModel)]="binding"
     (ngModelChangeDebounced)="change($event)"
     ngModelChangeDebounceTime="${this.time}"
-  ></mg-input-text>
+  />
 </mg-input>`;
 
     codeTs = `import {

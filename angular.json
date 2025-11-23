@@ -95,6 +95,7 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
+            "browsers": "ChromeHeadless",
             "assets": [
               {
                 "glob": "**/*",
@@ -132,7 +133,9 @@
           "builder": "@angular/build:karma",
           "options": {
             "tsConfig": "projects/ikilote/magma/tsconfig.spec.json",
-            "polyfills": ["zone.js", "zone.js/testing"]
+            "polyfills": ["zone.js", "zone.js/testing"],
+            "browsers": "ChromeHeadless",
+            "codeCoverage": true
           }
         }
       }

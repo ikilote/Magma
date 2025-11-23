@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, booleanAttribute, forwardRef, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -14,8 +14,8 @@ let counter = 0;
     imports: [ReactiveFormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputPassword },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputPassword), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputPassword), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputPassword, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputPassword, multi: true },
     ],
     host: {
         '[id]': '_id()',

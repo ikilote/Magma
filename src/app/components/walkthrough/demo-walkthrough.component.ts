@@ -128,7 +128,7 @@ export class DemoWalkthroughComponent {
     }
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             selector: { default: '#btn-a' },
             group: { default: '' },
             name: { default: 'first' },
@@ -146,7 +146,7 @@ export class DemoWalkthroughComponent {
             clickPrevious: { default: false },
             clickClose: { default: false },
         });
-        this.ctrlForm2 = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm2 = this.fb.groupWithError({
             selector: { default: '#btn-b' },
             group: { default: '' },
             name: { default: 'second' },
@@ -164,7 +164,7 @@ export class DemoWalkthroughComponent {
             clickPrevious: { default: false },
             clickClose: { default: false },
         });
-        this.ctrlForm3 = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm3 = this.fb.groupWithError({
             selector: { default: '#btn-c' },
             group: { default: '' },
             name: { default: 'end' },

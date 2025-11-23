@@ -2,11 +2,9 @@ import {
     AfterContentChecked,
     ChangeDetectionStrategy,
     Component,
-    OnInit,
     SimpleChanges,
     booleanAttribute,
     computed,
-    forwardRef,
     input,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -22,14 +20,14 @@ let counter = 0;
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputRadio },
-        { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputRadio), multi: true },
-        { provide: NG_VALIDATORS, useExisting: forwardRef(() => MagmaInputRadio), multi: true },
+        { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputRadio, multi: true },
+        { provide: NG_VALIDATORS, useExisting: MagmaInputRadio, multi: true },
     ],
     host: {
         '[id]': '_id()',
     },
 })
-export class MagmaInputRadio extends MagmaInputCommon implements OnInit, AfterContentChecked {
+export class MagmaInputRadio extends MagmaInputCommon implements AfterContentChecked {
     override readonly componentName = 'input-radio';
     protected override counter = counter++;
 
@@ -43,7 +41,9 @@ export class MagmaInputRadio extends MagmaInputCommon implements OnInit, AfterCo
 
     protected override _baseValue = 'checked';
 
-    override _name = computed<string>(() => this.formControlName() || this.name() || this.host._id() || this.uid());
+    override _name = computed<string>(
+        () => this.refreshTrigger() || this.formControlName() || this.name() || this.host?._id() || this.uid(),
+    );
 
     override ngOnChanges(changes: SimpleChanges): void {
         if (changes['checked']) {

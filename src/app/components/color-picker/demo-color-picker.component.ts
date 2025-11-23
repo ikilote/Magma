@@ -137,7 +137,7 @@ export class DemoBlockComponent { }`;
 export class DemoBlockComponent { }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithErrorNonNullable({
+        this.ctrlForm = this.fb.groupWithError({
             color: { default: '' },
             alpha: { default: true },
             readonly: { default: false },
@@ -145,7 +145,7 @@ export class DemoBlockComponent { }`;
             palette: { default: false },
             texts: { default: false },
         });
-        this.ctrlFormPopup = this.fb.groupWithErrorNonNullable({
+        this.ctrlFormPopup = this.fb.groupWithError({
             color: { default: '' },
             alpha: { default: true },
             disabled: { default: false },

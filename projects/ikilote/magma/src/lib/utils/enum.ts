@@ -28,5 +28,5 @@ export function enumToObject(e: any): Record<string, string | number> {
 export function enumToMap(e: any): Map<string, string | number> {
     return Object.keys(e)
         .filter(k => isNaN(Number(k))) // Remove numeric key
-        .reduce((acc, k) => acc.set([k], e[k as keyof typeof e]), new Map());
+        .reduce((acc, k) => acc.set(k, e[k as keyof typeof e]), new Map());
 }

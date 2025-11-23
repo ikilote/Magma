@@ -1,11 +1,16 @@
 # @ikilote/magma
 
-[![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma) [![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma) [![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md) ![Angular 20.0](https://img.shields.io/badge/Angular-20.0-red)
+[![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma) [![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma) ![MIT license](https://test.ikilote.net/badge-custom.php?label=license&value=MIT&valueBgColor=007ec6) ![Angular 20.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=20.0&valueBgColor=e05d44)
 
 Magma is a component library for my personal projects, because I don't want to copy/paste.
 
 It will evolve mainly according to my projects. But people want to use it and help, no worries.
 
+## Coverage
+![Statements 97.34% (1830/1880)](https://test.ikilote.net/badge-custom.php?label=Statements&value=97.34%25&valueBgColor=4D9221)
+![Branches 94.32% (765/811)](https://test.ikilote.net/badge-custom.php?label=Branches&value=94.32%25&valueBgColor=4D9221)
+![Functions 98.34% (475/483)](https://test.ikilote.net/badge-custom.php?label=Functions&value=98.34%25&valueBgColor=4D9221)
+![Lines 97.26% (1780/1830)](https://test.ikilote.net/badge-custom.php?label=Lines&value=97.26%25&valueBgColor=4D9221)
 ## Included in Magma
 
 ### Components
@@ -134,6 +139,22 @@ npm run publish:lib
 
 ```
 npm run build:demo
+```
+
+## Test
+
+### Linux
+
+Required for start test
+
+```sh
+export CHROME_BIN=chromium
+```
+
+test for lib
+
+```sh
+npm run test:lib
 ```
 
 ## License

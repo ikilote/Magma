@@ -26,7 +26,7 @@ export class MagmaValidators {
                     if (
                         (strict && !nameRe.includes(value)) ||
                         (!strict &&
-                            nameRe.some(
+                            !nameRe.some(
                                 test => `${test}`.toLocaleLowerCase(local) == `${value}`.toLocaleLowerCase(local),
                             ))
                     ) {
@@ -36,7 +36,7 @@ export class MagmaValidators {
             } else if (
                 (strict && !nameRe.includes(control.value)) ||
                 (!strict &&
-                    nameRe.some(
+                    !nameRe.some(
                         test => `${test}`.toLocaleLowerCase(local) == `${control.value}`.toLocaleLowerCase(local),
                     ))
             ) {

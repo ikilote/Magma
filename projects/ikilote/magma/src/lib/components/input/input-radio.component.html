@@ -1,4 +1,4 @@
-@if (!onError) {
+@if (!onError()) {
   <input
     type="radio"
     [name]="_name()"
@@ -9,7 +9,7 @@
     [readonly]="readonly()"
     (change)="_change()"
   /><label #ref [for]="_id() + '-input'" [class.empty]="!ref.textContent">
-    <ng-content></ng-content>
+    <ng-content />
   </label>
 } @else {
   Error

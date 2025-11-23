@@ -32,7 +32,7 @@ export class LightDark {
             this.browserLightDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
             this.changeThemeClass();
 
-            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', event => {
                 this.browserLightDark = event.matches ? 'dark' : 'light';
                 this.changeThemeClass();
             });

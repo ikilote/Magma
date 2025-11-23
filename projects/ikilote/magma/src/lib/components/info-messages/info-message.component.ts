@@ -1,18 +1,9 @@
 import { NgComponentOutlet } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    HostBinding,
-    HostListener,
-    inject,
-    input,
-    output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, input, output } from '@angular/core';
 
 import { MagmaMessageInfo } from '../../services/messages';
 
-type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, any>;
+export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, any>;
 
 @Component({
     selector: 'info-message',
@@ -20,11 +11,17 @@ type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, 
     styleUrls: ['./info-message.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgComponentOutlet],
+    host: {
+        '[class]': 'classes()',
+        '[style.--current-pos.px]': 'this._pos ?? null',
+        '[style.--current-height.px]': 'this._height ?? null',
+        '[style.--info-message-progress-time]': 'this.message()?.time',
+    },
 })
 export class InfoMessageComponent {
     // inject
 
-    private readonly element = inject(ElementRef);
+    protected readonly element = inject(ElementRef);
 
     // input
 
@@ -36,29 +33,13 @@ export class InfoMessageComponent {
 
     /// host
 
-    @HostBinding('class')
-    get classes() {
-        return [this.message()?.type, this._closeClass ? 'close' : null];
-    }
+    protected _closeClass = false;
+    protected _pos!: number;
+    protected _height!: number;
 
-    @HostBinding('style.--current-pos.px')
-    get currentPos() {
-        return this._pos ?? null;
+    protected classes() {
+        return [this.message()?.type, this._closeClass ? 'close' : null].filter(e => e);
     }
-
-    @HostBinding('style.--current-height.px')
-    get currentHeight() {
-        return this._height ?? null;
-    }
-
-    @HostBinding('style.--info-message-progress-time')
-    get progressTime() {
-        return this.message()?.time;
-    }
-
-    private _closeClass = false;
-    private _pos!: number;
-    private _height!: number;
 
     @HostListener('click')
     click() {

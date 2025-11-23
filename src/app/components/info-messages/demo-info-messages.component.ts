@@ -87,7 +87,7 @@ export class DemoInfoMessageComponent {
             component: { default: false },
             text: { default: 'Test' },
             time: { default: '' },
-            type: { default: undefined },
+            type: { default: '' as MagmaMessageType },
         });
 
         this.formGroup.valueChanges.subscribe(() => {

@@ -103,10 +103,10 @@ export class DemoMagmaProgressComponent {
 
     constructor() {
         this.ctrlForm = this.fb.groupWithError({
-            message: { default: undefined },
-            progressLoaded: { default: undefined },
-            progressTotal: { default: undefined },
-            progressSizeFormat: { default: undefined },
+            message: { default: '' },
+            progressLoaded: { default: 0, emptyOnInit: true },
+            progressTotal: { default: 0, emptyOnInit: true },
+            progressSizeFormat: { default: {} as FileSizePipeParams },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {

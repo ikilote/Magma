@@ -44,9 +44,9 @@ export class DemoSpinnerComponent {
 
     constructor() {
         this.ctrlForm = this.fb.groupWithError({
-            size: { default: undefined },
-            tickWidth: { default: undefined },
-            radius: { default: undefined },
+            size: { default: 0, emptyOnInit: true },
+            tickWidth: { default: 0, emptyOnInit: true },
+            radius: { default: 0, emptyOnInit: true },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {

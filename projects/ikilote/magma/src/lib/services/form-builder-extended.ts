@@ -128,6 +128,7 @@ export interface ParamsMessagesControl {
 
 export type ParamsMessages<T = any> = {
     default: T;
+    emptyOnInit?: boolean;
     options?: {
         onlySelf?: boolean;
         emitEvent?: boolean;
@@ -225,7 +226,7 @@ export class FormBuilderExtended {
                 }
 
                 // Create the FormControl with nonNullable: true
-                controls[key] = new FormControl(value.default, {
+                controls[key] = new FormControl(value.emptyOnInit ? undefined : value.default, {
                     ...value.options,
                     validators,
                     nonNullable: true,

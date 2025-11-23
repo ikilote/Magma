@@ -56,8 +56,8 @@ export class TestComponent {}`;
     constructor() {
         this.ctrlForm = this.fb.groupWithError({
             text: { default: 'text text text text text text text text' },
-            mgTooltipEntryDelay: { default: '' },
-            mgTooltipDisplayDelay: { default: '' },
+            mgTooltipEntryDelay: { default: 0, emptyOnInit: true },
+            mgTooltipDisplayDelay: { default: 0, emptyOnInit: true },
             mgTooltipDescribedBy: { default: '' },
         });
         this.codeGeneration();

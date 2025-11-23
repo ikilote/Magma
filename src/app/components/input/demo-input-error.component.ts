@@ -12,6 +12,8 @@ import {
     MagmaInputRadio,
     MagmaInputSelect,
     MagmaInputText,
+    ParamsMessageMaxlength,
+    ParamsMessageMinlength,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -244,11 +246,13 @@ export class DemoInputErrorComponent {
                     required: { state: true, message: 'Field is required' },
                     minlength: {
                         state: 5,
-                        message: params => 'Minimal length: ' + params.errorData.requiredLength,
+                        message: (params: ParamsMessageMinlength) =>
+                            'Minimal length: ' + params.errorData.requiredLength,
                     },
                     maxlength: {
                         state: 50,
-                        message: params => `${params.data} length: ${params.errorData.requiredLength}`,
+                        message: (params: ParamsMessageMaxlength) =>
+                            `${params.data} length: ${params.errorData.requiredLength}`,
                         data: 'Maximal',
                     },
                     pattern: { state: /.*a.*/, message: 'Do include the “a” letter' },

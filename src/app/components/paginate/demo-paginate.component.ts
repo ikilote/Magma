@@ -38,7 +38,6 @@ export class DemoPaginateComponent {
         total: FormControl<number>;
         base: FormControl<string>;
         size: FormControl<number>;
-        queryParams: FormControl<string>;
         start: FormControl<number>;
         middleStart: FormControl<number>;
         middleEnd: FormControl<number>;
@@ -69,7 +68,6 @@ export class DemoPaginationComponent {
             total: { default: 5000 },
             base: { default: '/component/paginate' },
             size: { default: 25 },
-            queryParams: { default: true },
             start: { default: 1 },
             middleStart: { default: 3 },
             middleEnd: { default: 3 },

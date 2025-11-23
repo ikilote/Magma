@@ -6,7 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "build:lib": "ng build @ikilote/magma --configuration production && cp *.md dist/ikilote/magma",
-    "build:demo": "ng build magma-demo --configuration production",
+    "build:demo": "ng build magma-demo --configuration production && cp -r coverage dist/magma-demo/browser",
     "publish:lib": "cd dist/ikilote/magma && npm publish ",
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint @ikilote/magma",

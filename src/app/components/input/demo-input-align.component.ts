@@ -93,7 +93,7 @@ export class DemoInputAlignComponent {
         });
         this.formColor = this.fbe.groupWithError({
             test: {
-                default: null,
+                default: '',
                 control: {
                     required: { state: true, message: 'error required' },
                     pattern: { state: /^\#(?:[0-9a-f]{3,4}|[0-9a-f]{6}(?:[0-9a-f]{2})?)$/, message: 'error pattern' },

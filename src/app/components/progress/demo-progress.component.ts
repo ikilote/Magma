@@ -65,9 +65,9 @@ export class DemoProgressComponent {
 
     constructor() {
         this.ctrlForm = this.fb.groupWithError({
-            loaded: { default: undefined },
-            total: { default: undefined },
-            sizeFormat: { default: undefined },
+            loaded: { default: 0, emptyOnInit: true },
+            total: { default: 0, emptyOnInit: true },
+            sizeFormat: { default: {} as FileSizePipeParams, emptyOnInit: true },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {

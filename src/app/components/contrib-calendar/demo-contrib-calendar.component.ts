@@ -84,7 +84,7 @@ export class DemoContribCalendarComponent {
             lang: { default: '' },
             min: { default: '' },
             max: { default: '' },
-            day: { default: '' },
+            day: { default: '' as 'Monday' | 'Sunday' | 'Saturday' },
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {

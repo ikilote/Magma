@@ -173,8 +173,20 @@ export class DemoInputGeneratorComponent {
 
     constructor(fbe: FormBuilderExtended) {
         this.formGenerator = fbe.groupWithError({
-            type: { default: 'text' },
-            access: { default: 'none' },
+            type: {
+                default: 'text' as
+                    | 'number'
+                    | 'select'
+                    | 'textarea'
+                    | 'text'
+                    | 'password'
+                    | 'color'
+                    | 'checkbox'
+                    | 'radio'
+                    | 'range'
+                    | 'date',
+            },
+            access: { default: 'none' as 'value' | 'none' | 'ngModel' | 'formControlName' },
             label: { default: '' },
             desc: { default: '' },
             error: { default: '' },
@@ -188,15 +200,15 @@ export class DemoInputGeneratorComponent {
             readonly: { default: false },
             datalist: { default: false },
             // text
-            maxLength: { default: undefined },
+            maxLength: { default: 0, emptyOnInit: true },
             clearCross: { default: false },
             // textarea
-            displayLimit: { default: undefined },
+            displayLimit: { default: 0, emptyOnInit: true },
             autosize: { default: false },
             monospace: { default: false },
-            height: { default: undefined },
-            minHeight: { default: undefined },
-            maxHeight: { default: undefined },
+            height: { default: '' },
+            minHeight: { default: '' },
+            maxHeight: { default: '' },
             textareaDesc: { default: '' },
             // text
             eye: { default: false },
@@ -207,7 +219,7 @@ export class DemoInputGeneratorComponent {
             subValue2: { default: 'value2' },
             subLabel3: { default: 'input label 3' },
             subValue3: { default: 'value3' },
-            alignMode: { default: 'row' },
+            alignMode: { default: 'row' as 'row' | 'column' },
             // radio / checkbox / select
             multiple: { default: false },
             overlay: { default: false },
@@ -216,9 +228,9 @@ export class DemoInputGeneratorComponent {
             arrayValue: { default: false },
             // number
             showArrows: { default: false },
-            step: { default: undefined },
-            min: { default: undefined },
-            max: { default: undefined },
+            step: { default: 0, emptyOnInit: true },
+            min: { default: 0, emptyOnInit: true },
+            max: { default: 0, emptyOnInit: true },
             forceMinMax: { default: false },
             formater: { default: '#,##0' },
             noDecimal: { default: false },

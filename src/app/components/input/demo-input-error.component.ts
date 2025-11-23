@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 import { Select2Data } from 'ng-select2-component';
 
@@ -31,6 +32,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputSelect,
         CodeTabsComponent,
         ReactiveFormsModule,
+        RouterLink,
     ],
 })
 export class DemoInputErrorComponent {

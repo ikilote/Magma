@@ -276,11 +276,11 @@ export class FormBuilderExtended {
     /**
      * Helper for FormArray creation
      */
-    array(
-        controls: any[],
+    array<T extends AbstractControl>(
+        controls: T[],
         validatorOrOpts?: ValidatorFn | ValidatorFn[] | AbstractControlOptions | null,
         asyncValidator?: AsyncValidatorFn | AsyncValidatorFn[] | null,
-    ) {
-        return this.fb.array(controls, validatorOrOpts, asyncValidator);
+    ): FormArray<T> {
+        return this.fb.array(controls, validatorOrOpts, asyncValidator) as unknown as FormArray<T>;
     }
 }

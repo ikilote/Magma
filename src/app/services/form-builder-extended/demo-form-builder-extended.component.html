@@ -1,18 +1,57 @@
 <h1>FormBuilderExtended</h1>
 
-<form [formGroup]="ctrlForm1">
-  <div class="s-12">
-    <mg-input class="s-12">
-      <mg-input-label>Id</mg-input-label>
-      <mg-input-text formControlName="id" />
-    </mg-input>
-    <mg-input class="s-12">
-      <mg-input-label>group</mg-input-label>
-      <mg-input-text formControlName="group" />
-    </mg-input>
-  </div>
-</form>
+<p>
+  See also: <strong><a routerLink="/component/input">Inputs</a> » Errors</strong>
+</p>
 
 <div>
-  <pre><code>{{ ctrlForm1.value | json }}</code></pre>
+  <form class="s-6" [formGroup]="ctrlForm" (submit)="submit()">
+    <h3 class="s-12">Form example</h3>
+    <div class="s-12">
+      <mg-input class="s-12">
+        <mg-input-label>Id</mg-input-label>
+        <mg-input-text formControlName="id" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>group</mg-input-label>
+        <mg-input-text formControlName="group" />
+      </mg-input>
+      <h4 class="s-12">Group</h4>
+      <ng-container formGroupName="sub">
+        <mg-input class="s-12">
+          <mg-input-label>sub.id</mg-input-label>
+          <mg-input-text formControlName="id" />
+        </mg-input>
+      </ng-container>
+      <ng-container formArrayName="array">
+        <h4 class="s-12">Array</h4>
+        @for (control of ctrlForm.controls.array.controls; track $index; let index = $index) {
+          <ng-container [formGroupName]="index">
+            <mg-input class="s-10">
+              <mg-input-label>array.{{ index }}.id</mg-input-label>
+              <mg-input-text formControlName="id" />
+            </mg-input>
+          </ng-container>
+          <div class="s-2">
+            <button (click)="remove($index)">Remove</button>
+          </div>
+        }
+      </ng-container>
+      <div>
+        <button (click)="add()">Add</button>
+      </div>
+    </div>
+    <h3 class="s-12">Value from <code>ctrlForm.value</code></h3>
+    <div class="s-12">
+      <pre><code class="block">{{ ctrlForm.value | json }}</code></pre>
+    </div>
+  </form>
+  <div class="s-6">
+    <code-tabs
+      [code]="[
+        { type: 'ts', code: code.ts },
+        { type: 'html', code: code.html },
+      ]"
+    />
+  </div>
 </div>

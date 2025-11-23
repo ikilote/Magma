@@ -20,6 +20,10 @@ code:not(:has(> pre)) {
     background-color: var(--neutral8);
     padding: 2px;
     font-family: 'Courier New', Courier, monospace;
+
+    &.block {
+        display: block;
+    }
 }
 
 code > pre {

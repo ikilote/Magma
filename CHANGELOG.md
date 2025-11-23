@@ -1,6 +1,98 @@
 # Changelog of @ikilote/magma
 
-> The project is still under development, it is possible that major changes will take place on any version. The stable version will be `1.0.0`.
+## 1.0.0 (2025-11-XX)
+
+> This version of Magma marks the beginning of 100% test coverage, which has allowed all expected problems to be fixed.
+
+### Information
+
+- Add cover tests across the entire library
+- All @host instances have been removed due to recursive dependency issues in some cases, notably Karma tests.
+
+### ✅ New
+
+- **component**:
+    - `context-menu` : add `AbstractContextMenuComponent` (Directive) abstract class for component menu
+    - `contrib-calendar` :
+        - add `steps` table param to define colors
+        - add `firstDayOfWeek` param (Monday, Sunday or Saturday; Monday by default )
+        - add `mg-contrib-calendar-desc` tag
+    - `expansion` :
+        - new component with `open` & `disabled` params
+        - include: `mg-expansion-header` & `mg-expansion-content` tags
+    - `input` **color**: expose `inputDirective` to get the `MagmaColorPicker`
+    - `walkthrough`: add `overlayComponent` access on `<mg-walkthrough>`
+- **directives**:
+    - `tooltip`: add `mgTooltipDescribedBy`
+- **service**:
+    - `cache`: add `clearAll()` method
+- **tools**:
+    - **date**: add `addDuration()` function
+    - **dom**: `containClasses()` accept `SVGSVGElement`
+    - **file**:
+        - `downloadFile()` return DOM element
+        - `blobToBase64()` add error on reject
+    - **subscriptions**: add `length()`
+    - **text**: add `unescapedString()` function (remove accents and case), replace old `normalizeFileName()`
+
+### 🐞 Fix
+
+- **components**:
+    - `color-picker`: fix palette update and init
+    - `input` :
+        - `onError` & `forId`: change to signal
+        - `placeholderAnimated`: separator is `|` by default
+        - **checkbox**: update all other checkboxes value in the group
+        - **color**:
+            - fix keyboard navigation
+            - fix color on mouse over
+        - **number**: improve edge values
+    - `paginate`: fix `currentPage` on DOM update
+    - `tab`: fix content id and tab id
+    - `walkthrough`: change to `OnPush`
+- **directives**:
+    - `limitFocus`: expose `focusRules` (css rules)
+    - `ngModelChangeDebounced` : fix `ngModelChangeDebounceTime` update value
+    - `sortable`:
+        - rules now are required
+        - improve test sorting with array
+    - `stop-propagation`: improve propagation stop
+    - `tooltip` : rewrite directive with CDK
+- **pipes**:
+    - `classList`: remove empty classes in list
+    - `fileSize`: fix decimal
+    - `math`: test if function exist
+    - `repeat-for`: round number of repeat
+- **service**:
+    - `Cache`: add `clearAll()` method
+    - `FormBuilderExtended` :
+        - rewrite to accept Group, Array & Record
+        - fix custom validation
+        - add `array()` method for fix Array
+- **tools**:
+    - **array**: `flattenedListItems()` fix with invalid value
+    - **coercion**:`numberAttributeOrUndefined()` fix with invalid value
+    - **css**:`getPaletteList()` fix with empty value
+    - **enum**:`enumToMap()` fix
+    - **file**: `normalizeFileName()` change to remove all non-ASCII characters
+    - **number**: `randomNumber()` fix with invalid or impossible value
+    - **object**: `objectsAreSame()` improve with array and null in the object structure
+    - **other**:
+        - `isEmpty()`: add **Set** & **Map** support and ignore date
+        - `regexpSlash()` support escape character
+
+### 🎦 Demo
+
+- Add coverage link on **Readme**
+- Add pages for:
+    - `mg-expansion`
+    - `FormBuilderExtended`
+- Update pages for:
+    - `contrib-calendar`
+    - `date` utils
+    - `text` utils
+
+---
 
 ## 0.9.2 (2025-09-07)
 

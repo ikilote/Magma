@@ -48,7 +48,7 @@ describe('FormBuilderExtended', () => {
             const form = service.groupWithError(config);
 
             expect(form instanceof FormGroup).toBeTrue();
-            const ctrl = form.get('username'); // Cast to access custom props
+            const ctrl = form.get('username');
 
             expect(ctrl instanceof FormControl).toBeTrue();
             expect(ctrl?.value).toBe('John');
@@ -57,6 +57,27 @@ describe('FormBuilderExtended', () => {
             expect((ctrl as any)?.controlData).toBeDefined();
             expect((ctrl as any)?.controlData.required.message).toBe('Req');
             expect((ctrl as any)?.controlParamsData.required).toBeTrue();
+        });
+
+        it('should create a simple FormControl with emptyOnInit', () => {
+            const config = {
+                value: {
+                    default: 100,
+                    emptyOnInit: true,
+                    control: {
+                        required: { state: true, message: 'Req' },
+                    },
+                },
+            };
+
+            const form = service.groupWithError(config);
+
+            expect(form instanceof FormGroup).toBeTrue();
+            const ctrl = form.get('value');
+
+            expect(ctrl instanceof FormControl).toBeTrue();
+            expect(ctrl?.value).toBeNull();
+            expect(ctrl?.errors).toBeDefined();
         });
 
         describe('should apply standard validators: ', () => {

@@ -45,7 +45,7 @@ function updateReadme(badgeUrls, coverageData) {
     const badgesMarkdown = coverageData
         .map(
             (data, i) =>
-                `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})]( http://magma.ikilote.net/coverage/ikilote/magma/index.html)`,
+                `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})](http://magma.ikilote.net/coverage/ikilote/magma/index.html)`,
         )
         .join('\n');
 

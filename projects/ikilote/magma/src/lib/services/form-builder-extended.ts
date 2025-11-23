@@ -7,6 +7,7 @@ import {
     FormBuilder,
     FormControl,
     FormGroup,
+    ValidationErrors,
     ValidatorFn,
     Validators,
 } from '@angular/forms';
@@ -98,7 +99,9 @@ export type ParamsMessagesControlEmail = { state?: boolean } & ParamsMessagesCon
 export type ParamsMessagesControlInList = {
     state?: (string | number | boolean)[];
 } & ParamsMessagesControlMessage<ParamsMessageInList>;
-export type ParamsMessagesControlCustom = { state?: any } & ParamsMessagesControlMessage<ParamsMessageCustom>;
+export type ParamsMessagesControlCustom = {
+    state?: (value: any) => boolean;
+} & ParamsMessagesControlMessage<ParamsMessageCustom>;
 
 export interface ParamsMessagesControl {
     /** required */
@@ -208,7 +211,9 @@ export class FormBuilderExtended {
                             const customValidators = Array.isArray(control) ? control : [control];
                             for (const validator of customValidators) {
                                 if (typeof validator === 'function') {
-                                    validators.push(validator(control.state));
+                                    validators.push((control: AbstractControl): ValidationErrors | null =>
+                                        validator(control.value) ? null : { custom: true },
+                                    );
                                 }
                             }
                         }

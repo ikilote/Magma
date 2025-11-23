@@ -59,32 +59,123 @@ describe('FormBuilderExtended', () => {
             expect((ctrl as any)?.controlParamsData.required).toBeTrue();
         });
 
-        it('should apply standard validators (min, max, pattern)', () => {
-            const config = {
-                age: {
-                    default: 10,
-                    control: {
-                        min: { state: 18 },
-                        max: { state: 99 },
+        describe('should apply standard validators: ', () => {
+            let config: any;
+            let form: any;
+
+            beforeEach(() => {
+                config = {
+                    name: {
+                        default: 'S',
+                        control: {
+                            minlength: { state: 2 },
+                        },
                     },
-                },
-                code: {
-                    default: '123',
-                    control: {
-                        pattern: { state: '^[A-Z]+$' }, // Uppercase only
+                    domain: {
+                        default: 'logs',
+                        control: {
+                            maxlength: { state: 3 },
+                        },
                     },
-                },
-            };
+                    age: {
+                        default: 10,
+                        control: {
+                            min: { state: 18 },
+                            max: { state: 99 },
+                        },
+                    },
+                    size: {
+                        default: 500,
+                        control: {
+                            min: { state: 5 },
+                            max: { state: 15 },
+                        },
+                    },
+                    code: {
+                        default: '123',
+                        control: {
+                            pattern: { state: '^[A-Z]+$' },
+                        },
+                    },
+                    email: {
+                        default: 'email',
+                        control: {
+                            email: {},
+                        },
+                    },
+                    status: {
+                        default: 'child',
+                        control: {
+                            inlist: { state: ['human', 'woman', 'man'] },
+                        },
+                    },
+                    test: {
+                        default: 'mori',
+                        control: {
+                            custom: (value: string) => value.startsWith('sora'),
+                        },
+                    },
+                    testList: {
+                        default: 'mori',
+                        control: {
+                            custom: [(value: string) => value.startsWith('sora')],
+                        },
+                    },
+                    testTrue: {
+                        default: 'sora',
+                        control: {
+                            custom: [(value: string) => value.startsWith('sora')],
+                        },
+                    },
+                };
 
-            const form = service.groupWithError(config);
+                form = service.groupWithError(config);
+            });
 
-            // Age Check
-            expect(form.get('age')?.valid).toBeFalse();
-            expect(form.get('age')?.hasError('min')).toBeTrue();
+            it('minLength', () => {
+                expect(form.get('name')?.valid).toBeFalse();
+                expect(form.get('name')?.hasError('minlength')).toBeTrue();
+            });
 
-            // Pattern Check
-            expect(form.get('code')?.valid).toBeFalse();
-            expect(form.get('code')?.hasError('pattern')).toBeTrue();
+            it('maxLength', () => {
+                expect(form.get('domain')?.valid).toBeFalse();
+                expect(form.get('domain')?.hasError('maxlength')).toBeTrue();
+            });
+
+            it('min', () => {
+                expect(form.get('age')?.valid).toBeFalse();
+                expect(form.get('age')?.hasError('min')).toBeTrue();
+            });
+
+            it('max', () => {
+                expect(form.get('size')?.valid).toBeFalse();
+                expect(form.get('size')?.hasError('max')).toBeTrue();
+            });
+
+            it('pattern', () => {
+                expect(form.get('code')?.valid).toBeFalse();
+                expect(form.get('code')?.hasError('pattern')).toBeTrue();
+            });
+
+            it('email', () => {
+                expect(form.get('email')?.valid).toBeFalse();
+                expect(form.get('email')?.hasError('email')).toBeTrue();
+            });
+
+            it('test', () => {
+                expect(form.get('test')?.valid).toBeFalse();
+                expect(form.get('test')?.hasError('custom')).toBeTrue();
+            });
+
+            it('testList', () => {
+                expect(form.get('testList')?.valid).toBeFalse();
+                expect(form.get('testList')?.hasError('custom')).toBeTrue();
+            });
+
+            it('testList ok', () => {
+                expect(form.get('testTrue')?.valid).toBeTrue();
+                expect(form.get('testTrue')?.hasError('custom')).toBeFalse();
+            });
         });
 
         it('should handle nested FormGroups passed as input', () => {

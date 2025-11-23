@@ -214,6 +214,16 @@ describe('FormBuilderExtended', () => {
                 nested: service.groupWithError({
                     field2: { default: '', control: { required: { state: true } } },
                 }),
+                array: service.array([
+                    service.groupWithError({
+                        field2: { default: '', control: { required: { state: true } } },
+                    }),
+                    service.array([
+                        service.groupWithError({
+                            field2: { default: '', control: { required: { state: true } } },
+                        }),
+                    ]),
+                ]),
             });
 
             expect(form.touched).toBeFalse();

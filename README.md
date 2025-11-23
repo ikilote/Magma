@@ -1,16 +1,21 @@
 # @ikilote/magma
 
-[![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma) [![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma) ![MIT license](https://test.ikilote.net/badge-custom.php?label=license&value=MIT&valueBgColor=007ec6) ![Angular 20.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=20.0&valueBgColor=e05d44)
+[![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma)
+[![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma)
+[![MIT license](https://test.ikilote.net/badge-custom.php?label=license&value=MIT&valueBgColor=007ec6)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md)
+[![Angular 20.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=20.0&valueBgColor=e05d44)](https://angular.dev/)
 
 Magma is a component library for my personal projects, because I don't want to copy/paste.
 
 It will evolve mainly according to my projects. But people want to use it and help, no worries.
 
 ## Coverage
-![Statements 100% (1879/1879)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221)
-![Branches 100% (809/809)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221)
-![Functions 100% (485/485)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221)
-![Lines 100% (1829/1829)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221)
+
+[![Statements 100% (1879/1879)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
+[![Branches 100% (809/809)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
+[![Functions 100% (485/485)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
+[![Lines 100% (1829/1829)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
+
 ## Included in Magma
 
 ### Components

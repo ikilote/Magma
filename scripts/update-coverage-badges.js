@@ -43,11 +43,14 @@ function updateReadme(badgeUrls, coverageData) {
 
     // Generate markdown for badges
     const badgesMarkdown = coverageData
-        .map((data, i) => `![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})`)
+        .map(
+            (data, i) =>
+                `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})]( http://magma.ikilote.net/coverage/ikilote/magma/index.html)`,
+        )
         .join('\n');
 
     // Section to add/modify
-    const badgeSection = `## Coverage\n${badgesMarkdown}\n`;
+    const badgeSection = `## Coverage\n\n${badgesMarkdown}\n\n`;
 
     // Replace or add the section
     if (readmeContent.includes('# Coverage')) {

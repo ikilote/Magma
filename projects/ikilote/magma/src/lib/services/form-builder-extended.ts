@@ -249,7 +249,7 @@ export class FormBuilderExtended {
      * @param form FormGroup or FormArray to validate
      */
     validateForm(form: FormGroup | FormArray) {
-        form.markAllAsTouched(); // 'emitEvent' is not a standard option for markAllAsTouched in standard Angular, check your version.
+        form.markAllAsTouched();
         this.recursiveValidateForm(form.controls);
     }
 

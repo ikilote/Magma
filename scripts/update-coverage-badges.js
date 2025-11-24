@@ -3,8 +3,8 @@ const cheerio = require('cheerio');
 
 // Path to the coverage HTML file
 const coverageHtmlPath = 'coverage/ikilote/magma/index.html';
-// Path to the README file
-const readmePath = 'README.md';
+// Path to the README and home files
+const filesPath = ['README.md', 'public/assets/doc/home.md'];
 // Palette (red, yellow, green)
 const palette = ['e05d44', 'f9cd0b', '4D9221'];
 
@@ -37,9 +37,9 @@ function generateBadgeUrls(coverageData) {
     );
 }
 
-// Function to update the README
-function updateReadme(badgeUrls, coverageData) {
-    let readmeContent = fs.readFileSync(readmePath, 'utf8');
+// Function to update a file
+function updateReadme(filePath, badgeUrls, coverageData) {
+    let readmeContent = fs.readFileSync(filePath, 'utf8');
 
     // Generate markdown for badges
     const badgesMarkdown = coverageData
@@ -59,7 +59,7 @@ function updateReadme(badgeUrls, coverageData) {
         readmeContent = `${badgeSection}\n${readmeContent}`;
     }
 
-    fs.writeFileSync(readmePath, readmeContent, 'utf8');
+    fs.writeFileSync(filePath, readmeContent, 'utf8');
 }
 
 // Read the HTML file
@@ -67,7 +67,7 @@ const html = fs.readFileSync(coverageHtmlPath, 'utf8');
 const coverageData = extractCoverageData(html);
 const badgeUrls = generateBadgeUrls(coverageData);
 
-// Update the README
-updateReadme(badgeUrls, coverageData);
+// Update files
+filesPath.forEach(path => updateReadme(path, badgeUrls, coverageData));
 
 console.log('Coverage badges updated in README.md!');

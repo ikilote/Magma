@@ -1,13 +1,13 @@
 # Changelog of @ikilote/magma
 
-## 1.0.0 (2025-11-XX)
+## 1.0.0 (2025-11-25)
 
 > This version of Magma marks the beginning of 100% test coverage, which has allowed all expected problems to be fixed.
 
-### Information
+### ℹ️ Information
 
 - Add cover tests across the entire library
-- All @host instances have been removed due to recursive dependency issues in some cases, notably Karma tests.
+- All `@host` instances have been removed due to recursive dependency issues in some cases, notably Karma tests.
 
 ### ✅ New
 
@@ -64,7 +64,6 @@
     - `math`: test if function exist
     - `repeat-for`: round number of repeat
 - **service**:
-    - `Cache`: add `clearAll()` method
     - `FormBuilderExtended` :
         - rewrite to accept Group, Array & Record
         - fix custom validation

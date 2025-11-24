@@ -47,8 +47,8 @@ Add in `style.css`
 
 ## Coverage
 
-[![Statements 100% (1879/1879)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
-[![Branches 100% (811/811)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
-[![Functions 100% (485/485)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
-[![Lines 100% (1829/1829)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221)](http://magma.ikilote.net/coverage/ikilote/magma/index.html)
+<a href="http://magma.ikilote.net/coverage/ikilote/magma/index.html"> ![Statements 100% (1879/1879)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221) </a>
+<a href="http://magma.ikilote.net/coverage/ikilote/magma/index.html"> ![Branches 100% (811/811)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221) </a>
+<a href="http://magma.ikilote.net/coverage/ikilote/magma/index.html"> ![Functions 100% (485/485)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221) </a>
+<a href="http://magma.ikilote.net/coverage/ikilote/magma/index.html"> ![Lines 100% (1829/1829)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221) </a>
 

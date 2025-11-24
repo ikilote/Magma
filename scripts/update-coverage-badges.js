@@ -38,14 +38,15 @@ function generateBadgeUrls(coverageData) {
 }
 
 // Function to update a file
-function updateReadme(filePath, badgeUrls, coverageData) {
+function updateReadme(filePath, badgeUrls, coverageData, markdomn) {
     let readmeContent = fs.readFileSync(filePath, 'utf8');
 
     // Generate markdown for badges
     const badgesMarkdown = coverageData
-        .map(
-            (data, i) =>
-                `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})](http://magma.ikilote.net/coverage/ikilote/magma/index.html)`,
+        .map((data, i) =>
+            markdomn
+                ? `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})](http://magma.ikilote.net/coverage/ikilote/magma/index.html)`
+                : `<a href="http://magma.ikilote.net/coverage/ikilote/magma/index.html"> ![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]}) </a>`,
         )
         .join('\n');
 
@@ -60,6 +61,8 @@ function updateReadme(filePath, badgeUrls, coverageData) {
     }
 
     fs.writeFileSync(filePath, readmeContent, 'utf8');
+
+    console.log(`Coverage badges updated in ${filePath}!`);
 }
 
 // Read the HTML file
@@ -68,6 +71,5 @@ const coverageData = extractCoverageData(html);
 const badgeUrls = generateBadgeUrls(coverageData);
 
 // Update files
-filesPath.forEach(path => updateReadme(path, badgeUrls, coverageData));
-
-console.log('Coverage badges updated in README.md!');
+updateReadme(filesPath[0], badgeUrls, coverageData, true);
+updateReadme(filesPath[1], badgeUrls, coverageData, false);

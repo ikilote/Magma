@@ -45,8 +45,8 @@ function updateReadme(filePath, badgeUrls, coverageData, markdomn) {
     const badgesMarkdown = coverageData
         .map((data, i) =>
             markdomn
-                ? `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})](http://magma.ikilote.net/coverage/ikilote/magma/index.html)`
-                : `<a href="http://magma.ikilote.net/coverage/ikilote/magma/index.html"> ![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]}) </a>`,
+                ? `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})](https://magma.ikilote.net/coverage/ikilote/magma/)`
+                : `<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]}) </a>`,
         )
         .join('\n');
 

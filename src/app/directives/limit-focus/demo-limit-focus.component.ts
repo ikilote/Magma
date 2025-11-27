@@ -1,14 +1,17 @@
 import { Component, viewChild } from '@angular/core';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
+import { MagmaDialog } from '@ikilote/magma';
 
 import {
+    MagmaBlock,
     MagmaInput,
     MagmaInputElement,
     MagmaInputText,
     MagmaInputTextarea,
     MagmaLimitFocusDirective,
     MagmaLimitFocusFirstDirective,
+    MagmaTabsModule,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -24,6 +27,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputText,
         MagmaInputTextarea,
         MagmaInputElement,
+        MagmaBlock,
+        MagmaDialog,
+        MagmaTabsModule,
     ],
 })
 export class DemoLimitFocusComponent {

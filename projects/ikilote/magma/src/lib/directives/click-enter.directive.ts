@@ -5,7 +5,7 @@ import { Directive, HostListener, Input, booleanAttribute, output } from '@angul
     host: {
         '[class.click-enter]': 'true',
         '[attr.tabindex]': '!disabled ? 0 : null',
-        '[role]': "!disabled ? 'button' : null",
+        '[attr.role]': "!disabled ? 'button' : null",
     },
 })
 export class MagmaClickEnterDirective {
@@ -17,9 +17,9 @@ export class MagmaClickEnterDirective {
 
     @HostListener('click', ['$event'])
     @HostListener('keydown.enter', ['$event'])
-    onClick(event: KeyboardEvent | MouseEvent) {
+    onClick(event: KeyboardEvent | MouseEvent | Event) {
         if (!this.disabled) {
-            this.clickEnter.emit(event);
+            this.clickEnter.emit(event as KeyboardEvent | MouseEvent);
         }
     }
 }

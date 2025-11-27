@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, DebugElement, ElementRef, forwardRef, viewChildren } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
@@ -20,7 +20,7 @@ import { MagmaInputCommon } from '../components/input/input-common';
             </ul>
         </div>
     `,
-    imports: [CommonModule, MagmaSortableModule],
+    imports: [MagmaSortableModule],
 })
 class TestHostComponent {
     sortRule: any = 'name';

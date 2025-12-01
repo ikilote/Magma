@@ -23,6 +23,14 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'datetime-picker',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/datetime-picker/demo-datetime-picker.component').then(
+                        m => m.DemoDatetimePickerComponent,
+                    ),
+            },
+            {
                 path: 'light-dark',
                 pathMatch: 'full',
                 loadComponent: () =>

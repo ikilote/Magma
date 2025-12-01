@@ -9,6 +9,7 @@ export const menu = [
             { routerLink: '/component/color-picker', label: 'Color picker' },
             { routerLink: '/component/context-menu', label: 'Context menu', status: 'update' },
             { routerLink: '/component/contrib-calendar', label: 'Contrib calendar', status: 'update' },
+            { routerLink: '/component/datetime-picker', label: 'Datetime picker' },
             { routerLink: '/component/dialog', label: 'Dialog' },
             { routerLink: '/component/expansion-panel', label: 'Expansion panel', status: 'new' },
             { routerLink: '/component/info-messages', label: 'Info-messages' },

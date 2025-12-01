@@ -1,0 +1,80 @@
+<h1>Color picker</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+      <mg-input class="s-12">
+        <mg-input-label>Datetime</mg-input-label>
+        <mg-input-date formControlName="datetime" mode="toggle"></mg-input-date>
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>Readonly</mg-input-label>
+        <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+      </mg-input>
+    </form>
+    <div class="s-5 s-6-x s-12-m">
+      <h4>Component</h4>
+
+      <datetime-picker [value]="ctrlForm.value.datetime" (datetimeChange)="datetimeChange($event)"></datetime-picker>
+    </div>
+    <div class="s-4 s-12-x">
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+        ]"
+      />
+    </div>
+  </section>
+
+  <hr />
+
+  <section>
+    <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlFormPopup">
+      <p>
+        <mg-input class="s-12">
+          <mg-input-label>Datetime</mg-input-label>
+          <mg-input-date formControlName="datetime" mode="toggle"></mg-input-date>
+        </mg-input>
+        <mg-input class="s-6">
+          <mg-input-label>Disabled</mg-input-label>
+          <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-6">
+          <mg-input-label>Readonly</mg-input-label>
+          <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+      </p>
+    </form>
+    <div class="s-4 s-6-x s-12-m">
+      <h4>Directive</h4>
+      <div>
+        <p>
+          <button
+            [datetimePicker]="ctrlFormPopup.value.datetime"
+            [datetimePickerDisabled]="ctrlFormPopup.value.disabled"
+            [datetimePickerReadonly]="ctrlFormPopup.value.readonly"
+            (datetimeChange)="datetimeChange($event)"
+            (datetimeClose)="datetimeClose($event)"
+          >
+            Click me
+          </button>
+        </p>
+        <div>
+          datetimeChange : <code>{{ datetimeChangeValue }}</code>
+        </div>
+        <div>
+          datetimeClose : <code>{{ datetimeCloseValue }}</code>
+        </div>
+      </div>
+    </div>
+    <div class="s-4 s-12-x">
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtmlPopup },
+          { type: 'ts', code: codeTsPopup },
+        ]"
+      />
+    </div>
+  </section>
+}

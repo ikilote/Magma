@@ -9,6 +9,8 @@ export * from './lib/components/color-picker/color-picker.directive';
 export * from './lib/components/context-menu/context-menu.component';
 export * from './lib/components/context-menu/context-menu.directive';
 export * from './lib/components/contrib-calendar/contrib-calendar.component';
+export * from './lib/components/datetime-picker/datetime-picker.component';
+export * from './lib/components/datetime-picker/datetime-picker.directive';
 export * from './lib/components/dialog/dialog.component';
 export * from './lib/components/expansion-panel/expansion-panel.component';
 export * from './lib/components/expansion-panel/expansion-panel.module';

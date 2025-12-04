@@ -1,0 +1,15 @@
+.table {
+    display: grid;
+    grid-template-columns: repeat(7, 30px);
+    text-align: center;
+
+    .head {
+        height: 30px;
+        font-weight: bold;
+    }
+
+    .day {
+        border: 1px solid;
+        height: 30px;
+    }
+}

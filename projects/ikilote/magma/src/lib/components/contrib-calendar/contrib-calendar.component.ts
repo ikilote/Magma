@@ -25,22 +25,22 @@ export class MagmaContribCalendarDesc {}
     },
 })
 export class MagmaContribCalendar {
-    lang = input<string | undefined>();
+    readonly lang = input<string | undefined>();
 
-    min = input<string | number | Date | undefined>();
+    readonly min = input<string | number | Date | undefined>();
 
-    max = input<string | number | Date | undefined>();
+    readonly max = input<string | number | Date | undefined>();
 
-    calendar = input.required<ContribCalendar>();
+    readonly calendar = input.required<ContribCalendar>();
 
-    steps = input<MagmaContribCalendarSteps>([
+    readonly steps = input<MagmaContribCalendarSteps>([
         { value: 1, color: 'var(--contrib-calendar-tile-color-lvl1)' },
         { value: 6, color: 'var(--contrib-calendar-tile-color-lvl2)' },
         { value: 11, color: 'var(--contrib-calendar-tile-color-lvl3)' },
         { value: 16, color: 'var(--contrib-calendar-tile-color-lvl4)' },
     ]);
 
-    firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
+    readonly firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
 
     protected computedDays = computed(() =>
         Array.from({ length: 7 }, (_, i) => {

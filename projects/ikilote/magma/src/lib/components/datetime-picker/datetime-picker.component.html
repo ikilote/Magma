@@ -1,1 +1,22 @@
 Date Time Picker
+
+<div>
+  <mg-input>
+    <mg-input-select [data]="monthsList" [(ngModel)]="month" />
+  </mg-input>
+  <mg-input>
+    <mg-input-select [data]="yearsList" [(ngModel)]="year" />
+  </mg-input>
+</div>
+<div class="table">
+  @for (day of computedDays(); track $index) {
+    <div class="head">
+      {{ day }}
+    </div>
+  }
+  @for (day of computedDaysOfMonth(); track $index) {
+    <div class="day">
+      {{ day.day }}
+    </div>
+  }
+</div>

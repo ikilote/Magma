@@ -5,6 +5,13 @@
     align-items: center;
     gap: 5px;
     width: min-content;
+
+    &.embedded {
+        transition-duration: 0s;
+        box-shadow: 2px 2px 5px;
+        background-color: var(--neutralA);
+        padding: 10px;
+    }
 }
 
 .mouths-list {

@@ -31,7 +31,9 @@ export type DateInfo = {
     styleUrls: ['./datetime-picker.component.scss'],
     imports: [CommonModule, FormsModule, MagmaInput, MagmaInputSelect, MagmaClickEnterDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    host: {},
+    host: {
+        '[class.embedded]': 'embedded()',
+    },
 })
 export class MagmaDatetimePickerComponent {
     readonly logger = inject(Logger);
@@ -39,6 +41,7 @@ export class MagmaDatetimePickerComponent {
 
     readonly lang = input<string | undefined>();
     readonly value = input<string | undefined>('');
+    readonly embedded = input(false, { transform: booleanAttribute });
     readonly readonly = input(false, { transform: booleanAttribute });
     readonly firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
 

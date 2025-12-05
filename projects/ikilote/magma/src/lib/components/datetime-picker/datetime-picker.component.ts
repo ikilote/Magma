@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
@@ -10,11 +11,14 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Select2Data } from 'ng-select2-component';
+
+import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 import { Logger } from '../../services/logger';
 import { MagmaInputSelect } from '../input/input-select.component';
 import { MagmaInput } from '../input/input.component';
 
-export type Dates = {
+export type DateInfo = {
     date: Date;
     day: number;
     isCurrentMonth: boolean;
@@ -25,7 +29,7 @@ export type Dates = {
     selector: 'datetime-picker',
     templateUrl: './datetime-picker.component.html',
     styleUrls: ['./datetime-picker.component.scss'],
-    imports: [FormsModule, MagmaInput, MagmaInputSelect],
+    imports: [CommonModule, FormsModule, MagmaInput, MagmaInputSelect, MagmaClickEnterDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {},
 })
@@ -34,21 +38,17 @@ export class MagmaDatetimePickerComponent {
     readonly cd = inject(ChangeDetectorRef);
 
     readonly lang = input<string | undefined>();
-
     readonly value = input<string | undefined>('');
     readonly readonly = input(false, { transform: booleanAttribute });
+    readonly firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
+
+    readonly datetimeChange = output<string>();
 
     protected year: number;
     protected month: number;
     protected day: number;
 
-    protected yearsList = [];
-    protected monthsList = [];
-    protected daysList = [];
-
-    datetimeChange = output<string>();
-
-    firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
+    protected yearsList: Select2Data = [{ value: 2025, label: '2025' }];
 
     constructor() {
         const date = new Date();
@@ -57,6 +57,18 @@ export class MagmaDatetimePickerComponent {
         this.day ??= date.getDate();
     }
 
+    protected select(date: DateInfo) {}
+
+    protected left() {}
+    protected right() {}
+
+    protected monthsList = computed<Select2Data>(() =>
+        Array.from({ length: 12 }, (_, i) => {
+            const date = new Date(2024, i, 1);
+            return date.toLocaleString(this.lang() || 'en', { month: 'long' });
+        }).map((name, i) => ({ value: i + 1, label: name })),
+    );
+
     protected computedDays = computed(() =>
         Array.from({ length: 7 }, (_, i) => {
             const date = new Date(2024, 0, this.getFirstGet(this.firstDayOfWeek()) + i + 1);
@@ -64,9 +76,9 @@ export class MagmaDatetimePickerComponent {
         }),
     );
 
-    protected computedDaysOfMonth = computed<Dates[]>(() => {
+    protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
         const year = this.year;
-        const month = this.month;
+        const month = this.month - 1;
 
         let startOfWeek = 1;
         if (this.firstDayOfWeek() === 'Saturday') {
@@ -84,23 +96,23 @@ export class MagmaDatetimePickerComponent {
 
         const currentLoopDate = new Date(firstDayOfMonth);
         currentLoopDate.setDate(firstDayOfMonth.getDate() - diff);
+        const today = new Date();
 
-        const days: Dates[] = [];
+        const days: DateInfo[] = [];
 
         while (currentLoopDate <= lastDayOfMonth || currentLoopDate.getDay() !== startOfWeek) {
-            const isCurrentMonth = currentLoopDate.getMonth() === month;
             const date = new Date(currentLoopDate);
             days.push({
                 date,
                 day: date.getDate(),
-                isCurrentMonth: isCurrentMonth,
-                isToday: new Date().toDateString() === currentLoopDate.toDateString(),
+                isCurrentMonth: currentLoopDate.getMonth() === month,
+                isToday: today.toDateString() === currentLoopDate.toDateString(),
             });
 
             currentLoopDate.setDate(currentLoopDate.getDate() + 1);
         }
 
-        return days;
+        return [days];
     });
 
     private getFirstGet(day: 'Monday' | 'Sunday' | 'Saturday' | undefined) {

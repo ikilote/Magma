@@ -1,15 +1,67 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: min-content;
+}
+
+.mouths-list {
+    width: 120px;
+}
+
+.month-year {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+
+    span {
+        flex: 1;
+        line-height: 25px;
+        text-align: center;
+    }
+}
+
 .table {
     display: grid;
     grid-template-columns: repeat(7, 30px);
+    gap: 2px;
     text-align: center;
 
-    .head {
+    .head,
+    .day {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid transparent;
+        background-color: var(--neutral9);
         height: 30px;
+    }
+
+    .head {
+        pointer-events: none;
         font-weight: bold;
     }
 
     .day {
-        border: 1px solid;
-        height: 30px;
+        color: var(--neutral7);
+
+        &.current-month {
+            background-color: var(--neutral8);
+            color: var(--neutral2);
+        }
+
+        &.today {
+            background-color: var(--neutral7);
+            color: var(--primary3);
+            font-weight: bold;
+        }
+
+        &:hover {
+            background-color: var(--primary6);
+            color: var(--neutral0);
+        }
     }
 }

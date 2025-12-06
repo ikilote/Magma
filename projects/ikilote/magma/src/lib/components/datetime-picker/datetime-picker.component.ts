@@ -8,6 +8,7 @@ import {
     inject,
     input,
     output,
+    signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -47,23 +48,17 @@ export class MagmaDatetimePickerComponent {
 
     readonly datetimeChange = output<string>();
 
-    protected year: number;
-    protected month: number;
-    protected day: number;
+    protected date = signal<Date>(new Date());
+    protected year = computed<number>(() => this.date().getFullYear());
+    protected month = computed<number>(() => this.date().getMonth() + 1);
+    protected day = computed<number>(() => this.date().getDate());
 
-    protected yearsList: Select2Data = [{ value: 2025, label: '2025' }];
-
-    constructor() {
-        const date = new Date();
-        this.year ??= date.getFullYear();
-        this.month ??= date.getMonth() + 1;
-        this.day ??= date.getDate();
-    }
-
-    protected select(date: DateInfo) {}
-
-    protected left() {}
-    protected right() {}
+    protected yearsList: Select2Data = [
+        { value: 2023, label: '2023' },
+        { value: 2024, label: '2024' },
+        { value: 2025, label: '2025' },
+        { value: 2026, label: '2026' },
+    ];
 
     protected monthsList = computed<Select2Data>(() =>
         Array.from({ length: 12 }, (_, i) => {
@@ -80,8 +75,9 @@ export class MagmaDatetimePickerComponent {
     );
 
     protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
-        const year = this.year;
-        const month = this.month - 1;
+        const date = this.date();
+        const year = date.getFullYear();
+        const month = date.getMonth();
 
         let startOfWeek = 1;
         if (this.firstDayOfWeek() === 'Saturday') {
@@ -117,6 +113,32 @@ export class MagmaDatetimePickerComponent {
 
         return [days];
     });
+
+    protected select(date: DateInfo) {}
+
+    protected updateMonth(value: number) {
+        const date = this.date();
+        date.setMonth(value - 1);
+        this.date.set(new Date(date));
+    }
+
+    protected updateYear(value: number) {
+        const date = this.date();
+        date.setFullYear(value);
+        this.date.set(new Date(date));
+    }
+
+    protected left() {
+        const date = this.date();
+        date.setMonth(date.getMonth() - 1);
+        this.date.set(new Date(date));
+    }
+
+    protected right() {
+        const date = this.date();
+        date.setMonth(date.getMonth() + 1);
+        this.date.set(new Date(date));
+    }
 
     private getFirstGet(day: 'Monday' | 'Sunday' | 'Saturday' | undefined) {
         switch (day) {

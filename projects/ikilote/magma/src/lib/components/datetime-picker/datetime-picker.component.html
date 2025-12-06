@@ -2,9 +2,11 @@
   <span (clickEnter)="left()" class="icon-left"></span>
 
   <mg-input class="mouths-list">
-    <mg-input-select [data]="monthsList()" [(ngModel)]="month" />
+    <mg-input-select [data]="monthsList()" [ngModel]="month()" (ngModelChange)="updateMonth($event)" />
   </mg-input>
-  <mg-input class="mouths-years"> <mg-input-select [data]="yearsList" [(ngModel)]="year" /> </mg-input>
+  <mg-input class="mouths-years">
+    <mg-input-select [data]="yearsList" [ngModel]="year()" (ngModelChange)="updateYear($event)" />
+  </mg-input>
 
   <span (clickEnter)="right()" class="icon-right"></span>
 </div>

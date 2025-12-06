@@ -3,6 +3,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
+    ElementRef,
     booleanAttribute,
     computed,
     inject,
@@ -16,6 +17,7 @@ import { Select2Data } from 'ng-select2-component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 import { Logger } from '../../services/logger';
+import { DurationTime, addDuration } from '../../utils/date';
 import { MagmaInputSelect } from '../input/input-select.component';
 import { MagmaInput } from '../input/input.component';
 
@@ -39,6 +41,7 @@ export type DateInfo = {
 export class MagmaDatetimePickerComponent {
     readonly logger = inject(Logger);
     readonly cd = inject(ChangeDetectorRef);
+    readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
     readonly lang = input<string | undefined>();
     readonly value = input<string | undefined>('');
@@ -49,6 +52,7 @@ export class MagmaDatetimePickerComponent {
     readonly datetimeChange = output<string>();
 
     protected date = signal<Date>(new Date());
+    protected selected = signal<boolean>(false);
     protected year = computed<number>(() => this.date().getFullYear());
     protected month = computed<number>(() => this.date().getMonth() + 1);
     protected day = computed<number>(() => this.date().getDate());
@@ -114,7 +118,43 @@ export class MagmaDatetimePickerComponent {
         return [days];
     });
 
-    protected select(date: DateInfo) {}
+    protected select(date: DateInfo) {
+        this.selected.set(true);
+        this.date.set(date.date);
+        setTimeout(() => {
+            this.element.nativeElement.querySelector<HTMLDivElement>('.selected')?.focus();
+        }, 10);
+    }
+
+    protected move(event: KeyboardEvent) {
+        let move = 0;
+        switch (event.key) {
+            case 'ArrowLeft':
+                move = -1;
+                break;
+            case 'ArrowRight':
+                move = +1;
+                break;
+            case 'ArrowDown':
+                move = +7;
+                break;
+            case 'ArrowUp':
+                move = -7;
+                break;
+        }
+
+        if (move) {
+            const list = Array.from(this.element.nativeElement.querySelectorAll<HTMLDivElement>('.day'));
+            const index = list.findIndex(e => e.classList.contains('selected'));
+            console.log(event.key, index, move);
+            const pos = index + move;
+            if (list[pos]) {
+                list[pos].click();
+            } else {
+                this.date.set(new Date(addDuration(move < 0 ? -1 : 1, DurationTime.DAY, this.date())));
+            }
+        }
+    }
 
     protected updateMonth(value: number) {
         const date = this.date();

@@ -10,7 +10,7 @@
 
   <span (clickEnter)="right()" class="icon-right"></span>
 </div>
-<div class="table">
+<div class="table" (keydown)="move($event)">
   @for (day of computedDays(); track $index) {
     <div class="head">
       {{ day }}
@@ -22,6 +22,7 @@
         class="day"
         [class.today]="day.isToday"
         [class.current-month]="day.isCurrentMonth"
+        [class.selected]="day.date.getTime() === date().getTime() && selected()"
         (clickEnter)="select(day)"
       >
         {{ day.day }}

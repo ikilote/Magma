@@ -66,6 +66,11 @@
             font-weight: bold;
         }
 
+        &.selected {
+            background-color: var(--primary5);
+            color: var(--neutralB);
+        }
+
         &:hover {
             background-color: var(--primary6);
             color: var(--neutral0);

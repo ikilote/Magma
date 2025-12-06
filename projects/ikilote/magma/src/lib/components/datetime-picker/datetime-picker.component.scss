@@ -28,6 +28,10 @@
         flex: 1;
         line-height: 25px;
         text-align: center;
+
+        &:not([role]) {
+            visibility: hidden;
+        }
     }
 }
 
@@ -71,7 +75,7 @@
             color: var(--neutralB);
         }
 
-        &:hover {
+        &[role]:hover {
             background-color: var(--primary6);
             color: var(--neutral0);
         }

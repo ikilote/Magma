@@ -15,7 +15,11 @@
     <div class="s-5 s-6-x s-12-m">
       <h4>Component</h4>
 
-      <datetime-picker [value]="ctrlForm.value.datetime" (datetimeChange)="datetimeChange($event)"></datetime-picker>
+      <datetime-picker
+        [value]="ctrlForm.value.datetime"
+        [readonly]="ctrlForm.value.readonly"
+        (datetimeChange)="datetimeChangeComponent($event)"
+      ></datetime-picker>
     </div>
     <div class="s-4 s-12-x">
       <code-tabs

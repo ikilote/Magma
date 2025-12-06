@@ -146,6 +146,10 @@ export class DemoBlockComponent { }`;
         this.codeHtmlPopup = new Json2html(json).toString();
     }
 
+    datetimeChangeComponent(datetime: string) {
+        this.ctrlForm.get('datetime')?.setValue(datetime);
+    }
+
     datetimeChange(datetime: string) {
         this.datetimeChangeValue = datetime;
     }

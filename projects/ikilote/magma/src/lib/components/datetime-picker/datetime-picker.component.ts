@@ -120,13 +120,17 @@ export class MagmaDatetimePickerComponent {
 
     protected select(date: DateInfo) {
         this.selected.set(true);
-        this.date.set(date.date);
+        this.updateDate(date.date);
         setTimeout(() => {
             this.element.nativeElement.querySelector<HTMLDivElement>('.selected')?.focus();
         }, 10);
     }
 
     protected move(event: KeyboardEvent) {
+        if (this.readonly()) {
+            return;
+        }
+
         let move = 0;
         switch (event.key) {
             case 'ArrowLeft':
@@ -151,7 +155,7 @@ export class MagmaDatetimePickerComponent {
             if (list[pos]) {
                 list[pos].click();
             } else {
-                this.date.set(new Date(addDuration(move < 0 ? -1 : 1, DurationTime.DAY, this.date())));
+                this.updateDate(addDuration(move < 0 ? -1 : 1, DurationTime.DAY, this.date()));
             }
         }
     }
@@ -159,25 +163,30 @@ export class MagmaDatetimePickerComponent {
     protected updateMonth(value: number) {
         const date = this.date();
         date.setMonth(value - 1);
-        this.date.set(new Date(date));
+        this.updateDate(date);
     }
 
     protected updateYear(value: number) {
         const date = this.date();
         date.setFullYear(value);
-        this.date.set(new Date(date));
+        this.updateDate(date);
     }
 
     protected left() {
         const date = this.date();
         date.setMonth(date.getMonth() - 1);
-        this.date.set(new Date(date));
+        this.updateDate(date);
     }
 
     protected right() {
         const date = this.date();
         date.setMonth(date.getMonth() + 1);
+        this.updateDate(date);
+    }
+
+    protected updateDate(date: Date) {
         this.date.set(new Date(date));
+        this.datetimeChange.emit(date.toISOString().replace(/T.*/, ''));
     }
 
     private getFirstGet(day: 'Monday' | 'Sunday' | 'Saturday' | undefined) {

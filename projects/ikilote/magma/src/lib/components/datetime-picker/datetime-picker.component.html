@@ -1,14 +1,22 @@
 <div class="month-year">
-  <span (clickEnter)="left()" class="icon-left"></span>
-
+  <span (clickEnter)="left()" [disabled]="readonly()" class="icon-left"></span>
   <mg-input class="mouths-list">
-    <mg-input-select [data]="monthsList()" [ngModel]="month()" (ngModelChange)="updateMonth($event)" />
+    <mg-input-select
+      [data]="monthsList()"
+      [ngModel]="month()"
+      (ngModelChange)="updateMonth($event)"
+      [readonly]="readonly()"
+    />
   </mg-input>
   <mg-input class="mouths-years">
-    <mg-input-select [data]="yearsList" [ngModel]="year()" (ngModelChange)="updateYear($event)" />
+    <mg-input-select
+      [data]="yearsList"
+      [ngModel]="year()"
+      (ngModelChange)="updateYear($event)"
+      [readonly]="readonly()"
+    />
   </mg-input>
-
-  <span (clickEnter)="right()" class="icon-right"></span>
+  <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right"></span>
 </div>
 <div class="table" (keydown)="move($event)">
   @for (day of computedDays(); track $index) {
@@ -24,6 +32,7 @@
         [class.current-month]="day.isCurrentMonth"
         [class.selected]="day.date.getTime() === date().getTime() && selected()"
         (clickEnter)="select(day)"
+        [disabled]="readonly()"
       >
         {{ day.day }}
       </div>

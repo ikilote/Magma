@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { MagmaMessageType } from '../../services/messages';
@@ -8,7 +8,7 @@ import { MagmaMessageType } from '../../services/messages';
     templateUrl: './message.component.html',
     styleUrls: ['./message.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule],
+    imports: [],
     host: {
         '[class.info]': 'type() === "info"',
         '[class.success]': 'type() === "success"',

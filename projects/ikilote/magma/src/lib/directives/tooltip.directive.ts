@@ -113,7 +113,7 @@ export class MagmaTooltipDirective implements OnDestroy {
         });
     }
 
-    private describedBy = computed(() => this.mgTooltipDescribedBy() || 'tooltip-' + this.index);
+    protected describedBy = computed(() => this.mgTooltipDescribedBy() || 'tooltip-' + this.index);
 
     private createTooltip() {
         if (this.timer) {

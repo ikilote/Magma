@@ -17,7 +17,7 @@ export class MagmaClickOutsideDirective {
     }
 
     @HostListener('window:dialog-click', ['$event'])
-    dialogClick(event: CustomEvent<Event>) {
-        this.onClick(event.detail);
+    dialogClick(event: Event) {
+        this.onClick((event as CustomEvent<Event>).detail);
     }
 }

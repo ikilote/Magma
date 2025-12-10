@@ -154,7 +154,7 @@ export class MagmaWalkthroughContent implements OnInit, OnChanges, OnDestroy {
         this.top.set(connectionPair.originY === 'top');
     }
 
-    @HostListener('document:keydown.escape', ['$event'])
+    @HostListener('document:keydown.escape')
     escape() {
         const portal = this.portal();
         if (portal.close()) {

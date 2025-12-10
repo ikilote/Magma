@@ -122,12 +122,12 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
         this.close();
     }
 
-    @HostListener('keydown.space', ['$event'])
+    @HostListener('keydown.space')
     openKeyboard() {
         this.open();
     }
 
-    @HostListener('document:keydown.escape', ['$event'])
+    @HostListener('document:keydown.escape')
     escape() {
         this.close();
     }

@@ -10,10 +10,13 @@
   </mg-input>
   <mg-input class="mouths-years">
     <mg-input-select
-      [data]="yearsList"
+      [data]="yearsList()"
       [ngModel]="year()"
       (ngModelChange)="updateYear($event)"
       [readonly]="readonly()"
+      infiniteScroll
+      infiniteScrollThrottle="5"
+      (scroll)="scroll($event)"
     />
   </mg-input>
   <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right"></span>

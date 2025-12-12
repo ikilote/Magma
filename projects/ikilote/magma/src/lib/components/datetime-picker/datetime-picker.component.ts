@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { Select2Data } from 'ng-select2-component';
+import { Select2Data, Select2Option, Select2ScrollEvent } from 'ng-select2-component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 import { Logger } from '../../services/logger';
@@ -27,6 +27,8 @@ export type DateInfo = {
     isCurrentMonth: boolean;
     isToday: boolean;
 };
+
+let index = 0;
 
 @Component({
     selector: 'datetime-picker',
@@ -43,26 +45,35 @@ export class MagmaDatetimePickerComponent {
     readonly cd = inject(ChangeDetectorRef);
     readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
-    readonly lang = input<string | undefined>();
     readonly value = input<string | undefined>('');
+    readonly lang = input<string | undefined>();
     readonly embedded = input(false, { transform: booleanAttribute });
     readonly readonly = input(false, { transform: booleanAttribute });
     readonly firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
 
     readonly datetimeChange = output<string>();
 
-    protected date = signal<Date>(new Date());
-    protected selected = signal<boolean>(false);
-    protected year = computed<number>(() => this.date().getFullYear());
-    protected month = computed<number>(() => this.date().getMonth() + 1);
-    protected day = computed<number>(() => this.date().getDate());
+    protected readonly date = signal<Date>(new Date());
+    protected readonly selected = signal<boolean>(false);
+    protected readonly year = computed<number>(() => this.date().getFullYear());
+    protected readonly month = computed<number>(() => this.date().getMonth() + 1);
+    protected readonly day = computed<number>(() => this.date().getDate());
 
-    protected yearsList: Select2Data = [
-        { value: 2023, label: '2023' },
-        { value: 2024, label: '2024' },
-        { value: 2025, label: '2025' },
-        { value: 2026, label: '2026' },
-    ];
+    protected readonly past = signal(10);
+    protected readonly futur = signal(10);
+
+    protected readonly uid = `datetime-picker-${index++}`;
+    protected onscroll = false;
+
+    protected yearsList = computed<Select2Option[]>(() => {
+        let year = new Date(this.date()).getFullYear() - this.past();
+        const l = year + this.past() + this.futur();
+        const yearsList: Select2Option[] = [];
+        for (; year <= l; year++) {
+            yearsList.push({ id: `${this.uid}-${year}`, label: `${year}`, value: year });
+        }
+        return yearsList;
+    });
 
     protected monthsList = computed<Select2Data>(() =>
         Array.from({ length: 12 }, (_, i) => {
@@ -117,6 +128,24 @@ export class MagmaDatetimePickerComponent {
 
         return [days];
     });
+
+    protected scroll(event: Select2ScrollEvent) {
+        if (this.onscroll) {
+            return;
+        }
+
+        this.onscroll = true;
+
+        setTimeout(() => {
+            console.log(event.way);
+            if (event.way === 'up') {
+                this.past.update(value => value + 10);
+            } else {
+                this.futur.update(value => value + 10);
+            }
+            this.onscroll = false;
+        }, 50);
+    }
 
     protected select(date: DateInfo) {
         this.selected.set(true);

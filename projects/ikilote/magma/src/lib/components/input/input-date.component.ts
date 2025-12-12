@@ -1,7 +1,11 @@
 import { ChangeDetectionStrategy, Component, ElementRef, input, viewChildren } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
+import { MagmaStopPropagationDirective } from '@ikilote/magma';
+
 import { MagmaInputCommon } from './input-common';
+
+import { MagmaDatetimePicker } from '../datetime-picker/datetime-picker.directive';
 
 let counter = 0;
 
@@ -10,7 +14,7 @@ let counter = 0;
     templateUrl: './input-date.component.html',
     styleUrls: ['./input-date.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ReactiveFormsModule, FormsModule],
+    imports: [ReactiveFormsModule, FormsModule, MagmaDatetimePicker, MagmaStopPropagationDirective],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputDate },
         { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputDate, multi: true },
@@ -56,6 +60,15 @@ export class MagmaInputDate extends MagmaInputCommon<(string | { label?: string;
             if (this.ngControl?.control) {
                 this.validate(this.ngControl.control);
             }
+        }
+    }
+
+    dateClose(date: string) {
+        this.onChange(date);
+        this.writeValue(date);
+        this.onTouched();
+        if (this.ngControl?.control) {
+            this.validate(this.ngControl.control);
         }
     }
 }

@@ -12,6 +12,14 @@
     (focus)="focus(true)"
     (blur)="focus(false)"
   />
+  <span
+    class="picker-icon"
+    [datetimePicker]="input.value"
+    (datetimeClose)="dateClose($event)"
+    stop-propagation
+    stopKeydown
+    >📅</span
+  >
 } @else {
   Error
 }

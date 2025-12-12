@@ -7,9 +7,26 @@
         <mg-input-label>Datetime</mg-input-label>
         <mg-input-date formControlName="datetime" mode="toggle"></mg-input-date>
       </mg-input>
-      <mg-input class="s-6">
+      <mg-input class="s-6 s-12-x">
         <mg-input-label>Readonly</mg-input-label>
         <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Language</mg-input-label>
+        <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
+        <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
+      </mg-input>
+      <mg-input class="s-6 s-12-x">
+        <mg-input-label>Min</mg-input-label>
+        <mg-input-date formControlName="min" />
+      </mg-input>
+      <mg-input class="s-6 s-12-x">
+        <mg-input-label>Max</mg-input-label>
+        <mg-input-date formControlName="max" />
+      </mg-input>
+      <mg-input class="s-6 s-12-x">
+        <mg-input-label>First day of the week</mg-input-label>
+        <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
       </mg-input>
     </form>
     <div class="s-5 s-6-x s-12-m">
@@ -18,6 +35,10 @@
       <datetime-picker
         [value]="ctrlForm.value.datetime"
         [readonly]="ctrlForm.value.readonly"
+        [lang]="ctrlForm.value.lang"
+        [min]="ctrlForm.value.min"
+        [max]="ctrlForm.value.max"
+        [firstDayOfWeek]="ctrlForm.value.day"
         (datetimeChange)="datetimeChangeComponent($event)"
       ></datetime-picker>
     </div>
@@ -40,13 +61,30 @@
           <mg-input-label>Datetime</mg-input-label>
           <mg-input-date formControlName="datetime" mode="toggle"></mg-input-date>
         </mg-input>
-        <mg-input class="s-6">
+        <mg-input class="s-6 s-12-x">
           <mg-input-label>Disabled</mg-input-label>
           <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
         </mg-input>
-        <mg-input class="s-6">
+        <mg-input class="s-6 s-12-x">
           <mg-input-label>Readonly</mg-input-label>
           <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-12">
+          <mg-input-label>Language</mg-input-label>
+          <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
+          <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
+        </mg-input>
+        <mg-input class="s-6 s-12-x">
+          <mg-input-label>Min</mg-input-label>
+          <mg-input-date formControlName="min" />
+        </mg-input>
+        <mg-input class="s-6 s-12-x">
+          <mg-input-label>Max</mg-input-label>
+          <mg-input-date formControlName="max" />
+        </mg-input>
+        <mg-input class="s-6 s-12-x">
+          <mg-input-label>First day of the week</mg-input-label>
+          <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
         </mg-input>
       </p>
     </form>
@@ -58,6 +96,10 @@
             [datetimePicker]="ctrlFormPopup.value.datetime"
             [datetimePickerDisabled]="ctrlFormPopup.value.disabled"
             [datetimePickerReadonly]="ctrlFormPopup.value.readonly"
+            [datetimePickerLang]="ctrlFormPopup.value.lang"
+            [datetimePickerMin]="ctrlFormPopup.value.min"
+            [datetimePickerMax]="ctrlFormPopup.value.max"
+            [datetimePickerFirstDayOfWeek]="ctrlFormPopup.value.day"
             (datetimeChange)="datetimeChange($event)"
             (datetimeClose)="datetimeClose($event)"
           >

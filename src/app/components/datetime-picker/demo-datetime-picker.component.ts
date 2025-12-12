@@ -7,11 +7,14 @@ import {
     FormBuilderExtended,
     MagmaDatetimePicker,
     MagmaDatetimePickerComponent,
+    MagmaDatetimePickerDays,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputDate,
     MagmaInputElement,
+    MagmaInputSelect,
 } from '../../../../projects/ikilote/magma/src/public-api';
+import { days, langues } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
@@ -27,19 +30,31 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputElement,
         MagmaInputCheckbox,
         MagmaInputDate,
+        MagmaInputSelect,
     ],
 })
 export class DemoDatetimePickerComponent {
     readonly fb = inject(FormBuilderExtended);
 
+    langues = langues;
+    days = days;
+
     ctrlForm: FormGroup<{
         datetime: FormControl<string>;
         readonly: FormControl<boolean>;
+        lang: FormControl<string>;
+        min: FormControl<string>;
+        max: FormControl<string>;
+        day: FormControl<MagmaDatetimePickerDays>;
     }>;
     ctrlFormPopup: FormGroup<{
         datetime: FormControl<string>;
         disabled: FormControl<boolean>;
         readonly: FormControl<boolean>;
+        lang: FormControl<string>;
+        min: FormControl<string>;
+        max: FormControl<string>;
+        day: FormControl<MagmaDatetimePickerDays>;
     }>;
 
     datetimeChangeValue = '';
@@ -75,11 +90,19 @@ export class DemoBlockComponent { }`;
         this.ctrlForm = this.fb.groupWithError({
             datetime: { default: '' },
             readonly: { default: false },
+            lang: { default: '' },
+            min: { default: '' },
+            max: { default: '' },
+            day: { default: '' as MagmaDatetimePickerDays },
         });
         this.ctrlFormPopup = this.fb.groupWithError({
             datetime: { default: '' },
             disabled: { default: false },
             readonly: { default: false },
+            lang: { default: '' },
+            min: { default: '' },
+            max: { default: '' },
+            day: { default: '' as MagmaDatetimePickerDays },
         });
         this.codeGeneration();
         this.codeGenerationPopup();
@@ -112,6 +135,18 @@ export class DemoBlockComponent { }`;
         }
         if (this.ctrlForm.value.readonly) {
             attrs['readonly'] = null;
+        }
+        if (this.ctrlForm.value.min) {
+            attrs['min'] = this.ctrlForm.value.min;
+        }
+        if (this.ctrlForm.value.max) {
+            attrs['max'] = this.ctrlForm.value.max;
+        }
+        if (this.ctrlForm.value.lang) {
+            attrs['lang'] = this.ctrlForm.value.lang;
+        }
+        if (this.ctrlForm.value.lang) {
+            attrs['lang'] = null;
         }
 
         attrs['(datetimeChange)'] = 'datetimeChange($event)';

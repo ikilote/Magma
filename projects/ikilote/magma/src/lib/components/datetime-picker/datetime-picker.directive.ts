@@ -15,7 +15,7 @@ import {
     output,
 } from '@angular/core';
 
-import { MagmaDatetimePickerComponent } from './datetime-picker.component';
+import { MagmaDatetimePickerComponent, MagmaDatetimePickerDays } from './datetime-picker.component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 
@@ -42,6 +42,10 @@ export class MagmaDatetimePicker implements OnDestroy, OnChanges {
     readonly datetimePicker = input<string>();
     readonly datetimePickerDisabled = input(false, { transform: booleanAttribute });
     readonly datetimePickerReadonly = input(false, { transform: booleanAttribute });
+    readonly datetimePickerLang = input<string | undefined>();
+    readonly datetimePickerMin = input<string | number | Date | undefined>();
+    readonly datetimePickerMax = input<string | number | Date | undefined>();
+    readonly datetimePickerFirstDayOfWeek = input<MagmaDatetimePickerDays>();
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaDatetimePickerComponent>;
@@ -86,6 +90,10 @@ export class MagmaDatetimePicker implements OnDestroy, OnChanges {
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('value', this.datetimePicker());
         component.setInput('readonly', this.datetimePickerReadonly());
+        component.setInput('lang', this.datetimePickerLang());
+        component.setInput('min', this.datetimePickerMin());
+        component.setInput('max', this.datetimePickerMax());
+        component.setInput('firstDayOfWeek', this.datetimePickerFirstDayOfWeek());
         component.setInput('embedded', true);
 
         this.updateEmit = component.instance.datetimeChange.subscribe(value => {

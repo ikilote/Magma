@@ -30,6 +30,8 @@ export type DateInfo = {
 
 let index = 0;
 
+export type MagmaDatetimePickerDays = 'Monday' | 'Sunday' | 'Saturday' | undefined;
+
 @Component({
     selector: 'datetime-picker',
     templateUrl: './datetime-picker.component.html',
@@ -41,24 +43,33 @@ let index = 0;
     },
 })
 export class MagmaDatetimePickerComponent {
+    // inject
+
     readonly logger = inject(Logger);
     readonly cd = inject(ChangeDetectorRef);
     readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
+    // input
+
     readonly value = input<string | undefined>('');
     readonly lang = input<string | undefined>();
+    readonly min = input<string | number | Date | undefined>();
+    readonly max = input<string | number | Date | undefined>();
     readonly embedded = input(false, { transform: booleanAttribute });
     readonly readonly = input(false, { transform: booleanAttribute });
-    readonly firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
+    readonly firstDayOfWeek = input<MagmaDatetimePickerDays>();
+
+    // output
 
     readonly datetimeChange = output<string>();
+
+    // internal signals
 
     protected readonly date = signal<Date>(new Date());
     protected readonly selected = signal<boolean>(false);
     protected readonly year = computed<number>(() => this.date().getFullYear());
     protected readonly month = computed<number>(() => this.date().getMonth() + 1);
     protected readonly day = computed<number>(() => this.date().getDate());
-
     protected readonly past = signal(10);
     protected readonly futur = signal(10);
 

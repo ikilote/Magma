@@ -76,8 +76,6 @@ export class MagmaDatetimePickerComponent {
 
     protected readonly uid = `datetime-picker-${index++}`;
     protected onscroll = false;
-    protected prevMonth = false;
-    protected nextMonth = false;
 
     protected yearsList = computed<Select2Option[]>(() => {
         const min = this.minDate()?.getFullYear();
@@ -108,32 +106,45 @@ export class MagmaDatetimePickerComponent {
         let minMonth = 1;
         let maxMonth = 12;
 
-        this.prevMonth = true;
-        this.nextMonth = true;
-
         if (minDate && currentDate.getFullYear() === minDate.getFullYear()) {
             minMonth = minDate.getMonth() + 1;
-            if (minDate.getMonth() === currentDate.getMonth()) {
-                this.prevMonth = false;
-            }
         }
 
         if (maxDate && currentDate.getFullYear() === maxDate.getFullYear()) {
             maxMonth = maxDate.getMonth() + 1;
-
-            if (maxDate.getMonth() === currentDate.getMonth()) {
-                this.nextMonth = false;
-            }
         }
 
         return Array.from({ length: 12 }, (_, i) => {
             const monthValue = i + 1;
             return {
+                id: `${i}`,
                 value: monthValue,
                 label: new Date(2024, i, 1).toLocaleString(this.lang() || 'en', { month: 'long' }),
                 hide: monthValue < minMonth || monthValue > maxMonth,
             };
         }).filter(e => !e.hide);
+    });
+
+    protected prevMonth = computed(() => {
+        const currentDate = this.date();
+        const minDate = this.minDate();
+
+        return (
+            minDate &&
+            currentDate.getFullYear() === minDate.getFullYear() &&
+            minDate.getMonth() === currentDate.getMonth()
+        );
+    });
+
+    protected nextMonth = computed(() => {
+        const currentDate = this.date();
+        const maxDate = this.maxDate();
+
+        return (
+            maxDate &&
+            currentDate.getFullYear() === maxDate.getFullYear() &&
+            maxDate.getMonth() === currentDate.getMonth()
+        );
     });
 
     protected computedDays = computed(() =>
@@ -197,7 +208,6 @@ export class MagmaDatetimePickerComponent {
         this.onscroll = true;
 
         setTimeout(() => {
-            console.log(event.way);
             if (event.way === 'up') {
                 this.past.update(value => value + 10);
             } else {

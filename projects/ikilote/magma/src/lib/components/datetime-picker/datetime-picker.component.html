@@ -1,5 +1,5 @@
 <div class="month-year">
-  <span (clickEnter)="left()" [disabled]="readonly()" class="icon-left" [class.hide]="!prevMonth"></span>
+  <span (clickEnter)="left()" [disabled]="readonly()" class="icon-left" [class.hide]="prevMonth()"></span>
   <mg-input class="mouths-list">
     <mg-input-select
       [data]="monthsList()"
@@ -19,7 +19,7 @@
       (scroll)="scroll($event)"
     />
   </mg-input>
-  <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="!nextMonth"></span>
+  <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="nextMonth()"></span>
 </div>
 <div class="table" (keydown)="move($event)">
   @for (day of computedDays(); track $index) {

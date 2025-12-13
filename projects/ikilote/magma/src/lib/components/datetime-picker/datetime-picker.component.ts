@@ -26,6 +26,7 @@ export type DateInfo = {
     day: number;
     isCurrentMonth: boolean;
     isToday: boolean;
+    disabled: boolean;
 };
 
 let index = 0;
@@ -75,29 +76,72 @@ export class MagmaDatetimePickerComponent {
 
     protected readonly uid = `datetime-picker-${index++}`;
     protected onscroll = false;
+    protected prevMonth = false;
+    protected nextMonth = false;
 
     protected yearsList = computed<Select2Option[]>(() => {
+        const min = this.minDate()?.getFullYear();
+        const max = this.maxDate()?.getFullYear();
+
         let year = new Date(this.date()).getFullYear() - this.past();
-        const l = year + this.past() + this.futur();
+        if (min) {
+            year = Math.max(min, year);
+        }
+
+        let end = year + this.past() + this.futur();
+        if (max) {
+            end = Math.min(max, end);
+        }
+
         const yearsList: Select2Option[] = [];
-        for (; year <= l; year++) {
+        for (; year <= end; year++) {
             yearsList.push({ id: `${this.uid}-${year}`, label: `${year}`, value: year });
         }
         return yearsList;
     });
 
-    protected monthsList = computed<Select2Data>(() =>
-        Array.from({ length: 12 }, (_, i) => {
-            const date = new Date(2024, i, 1);
-            return date.toLocaleString(this.lang() || 'en', { month: 'long' });
-        }).map((name, i) => ({ value: i + 1, label: name })),
-    );
+    protected monthsList = computed<Select2Data>(() => {
+        const currentDate = this.date();
+        const minDate = this.minDate();
+        const maxDate = this.maxDate();
+
+        let minMonth = 1;
+        let maxMonth = 12;
+
+        this.prevMonth = true;
+        this.nextMonth = true;
+
+        if (minDate && currentDate.getFullYear() === minDate.getFullYear()) {
+            minMonth = minDate.getMonth() + 1;
+            if (minDate.getMonth() === currentDate.getMonth()) {
+                this.prevMonth = false;
+            }
+        }
+
+        if (maxDate && currentDate.getFullYear() === maxDate.getFullYear()) {
+            maxMonth = maxDate.getMonth() + 1;
+
+            if (maxDate.getMonth() === currentDate.getMonth()) {
+                this.nextMonth = false;
+            }
+        }
+
+        return Array.from({ length: 12 }, (_, i) => {
+            const monthValue = i + 1;
+            return {
+                value: monthValue,
+                label: new Date(2024, i, 1).toLocaleString(this.lang() || 'en', { month: 'long' }),
+                hide: monthValue < minMonth || monthValue > maxMonth,
+            };
+        }).filter(e => !e.hide);
+    });
 
     protected computedDays = computed(() =>
-        Array.from({ length: 7 }, (_, i) => {
-            const date = new Date(2024, 0, this.getFirstGet(this.firstDayOfWeek()) + i + 1);
-            return date.toLocaleString(this.lang() || 'en', { weekday: 'narrow' });
-        }),
+        Array.from({ length: 7 }, (_, i) =>
+            new Date(2024, 0, this.getFirstGet(this.firstDayOfWeek()) + i + 1).toLocaleString(this.lang() || 'en', {
+                weekday: 'narrow',
+            }),
+        ),
     );
 
     protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
@@ -125,13 +169,18 @@ export class MagmaDatetimePickerComponent {
 
         const days: DateInfo[] = [];
 
+        const min = this.minDate()?.getTime();
+        const max = this.maxDate()?.getTime();
+
         while (currentLoopDate <= lastDayOfMonth || currentLoopDate.getDay() !== startOfWeek) {
             const date = new Date(currentLoopDate);
+            const datetime = date.getTime();
             days.push({
                 date,
                 day: date.getDate(),
                 isCurrentMonth: currentLoopDate.getMonth() === month,
                 isToday: today.toDateString() === currentLoopDate.toDateString(),
+                disabled: (min ? datetime < min : false) || (max ? datetime > max : false),
             });
 
             currentLoopDate.setDate(currentLoopDate.getDate() + 1);
@@ -190,7 +239,6 @@ export class MagmaDatetimePickerComponent {
         if (move) {
             const list = Array.from(this.element.nativeElement.querySelectorAll<HTMLDivElement>('.day'));
             const index = list.findIndex(e => e.classList.contains('selected'));
-            console.log(event.key, index, move);
             const pos = index + move;
             if (list[pos]) {
                 list[pos].click();
@@ -238,5 +286,13 @@ export class MagmaDatetimePickerComponent {
             default:
                 return 0;
         }
+    }
+
+    private minDate(): Date | null {
+        return this.min() ? new Date(this.min()!) : null;
+    }
+
+    private maxDate(): Date | null {
+        return this.max() ? new Date(this.max()!) : null;
     }
 }

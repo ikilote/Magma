@@ -14,6 +14,10 @@
     }
 }
 
+.hide {
+    visibility: hidden;
+}
+
 .mouths-list {
     width: 120px;
 }
@@ -78,6 +82,10 @@
         &[role]:hover {
             background-color: var(--primary6);
             color: var(--neutral0);
+        }
+
+        &.disabled {
+            background-color: transparent;
         }
     }
 }

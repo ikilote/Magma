@@ -68,9 +68,9 @@ export class MagmaDatetimePickerComponent {
 
     protected readonly date = signal<Date>(new Date());
     protected readonly selected = signal<boolean>(false);
-    protected readonly year = computed<number>(() => this.date().getFullYear());
-    protected readonly month = computed<number>(() => this.date().getMonth() + 1);
-    protected readonly day = computed<number>(() => this.date().getDate());
+    protected readonly year = computed<number>(() => this.getDate().getFullYear());
+    protected readonly month = computed<number>(() => this.getDate().getMonth() + 1);
+    protected readonly day = computed<number>(() => this.getDate().getDate());
     protected readonly past = signal(10);
     protected readonly futur = signal(10);
 
@@ -156,7 +156,7 @@ export class MagmaDatetimePickerComponent {
     );
 
     protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
-        const date = this.date();
+        const date = this.getDate();
         const year = date.getFullYear();
         const month = date.getMonth();
 
@@ -296,6 +296,19 @@ export class MagmaDatetimePickerComponent {
             default:
                 return 0;
         }
+    }
+
+    protected getDate() {
+        const minDate = this.minDate();
+        const maxDate = this.maxDate();
+
+        if (minDate && this.date().getTime() < minDate.getTime()) {
+            return minDate;
+        }
+        if (maxDate && this.date().getTime() > maxDate.getTime()) {
+            return maxDate;
+        }
+        return this.date();
     }
 
     private minDate(): Date | null {

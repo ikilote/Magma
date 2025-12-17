@@ -145,8 +145,8 @@ export class DemoBlockComponent { }`;
         if (this.ctrlForm.value.lang) {
             attrs['lang'] = this.ctrlForm.value.lang;
         }
-        if (this.ctrlForm.value.lang) {
-            attrs['lang'] = null;
+        if (this.ctrlForm.value.day) {
+            attrs['firstDayOfWeek'] = this.ctrlForm.value.day;
         }
 
         attrs['(datetimeChange)'] = 'datetimeChange($event)';
@@ -173,6 +173,18 @@ export class DemoBlockComponent { }`;
         }
         if (this.ctrlFormPopup.value.readonly) {
             attrs['datetimePickerReadonly'] = null;
+        }
+        if (this.ctrlFormPopup.value.min) {
+            attrs['datetimePickerMin'] = this.ctrlFormPopup.value.min;
+        }
+        if (this.ctrlFormPopup.value.max) {
+            attrs['datetimePickerMax'] = this.ctrlFormPopup.value.max;
+        }
+        if (this.ctrlFormPopup.value.lang) {
+            attrs['datetimePickerLang'] = this.ctrlFormPopup.value.lang;
+        }
+        if (this.ctrlFormPopup.value.day) {
+            attrs['datetimeFirstDayOfWeek'] = this.ctrlFormPopup.value.day;
         }
 
         attrs['(datetimeChange)'] = 'datetimeChange($event)';

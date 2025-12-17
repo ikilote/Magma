@@ -1,9 +1,11 @@
 :host {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template:
+        'month-year time'
+        'table      time';
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 5px 15px;
     width: min-content;
 
     &.embedded {
@@ -24,6 +26,7 @@
 
 .month-year {
     display: flex;
+    grid-area: month-year;
     align-items: center;
     gap: 5px;
     width: 100%;
@@ -42,6 +45,7 @@
 .table {
     display: grid;
     grid-template-columns: repeat(7, 30px);
+    grid-area: table;
     gap: 2px;
     text-align: center;
 
@@ -88,4 +92,11 @@
             background-color: transparent;
         }
     }
+}
+
+.time {
+    display: flex;
+    grid-area: time;
+    align-items: center;
+    width: 100px;
 }

@@ -43,3 +43,16 @@
     }
   }
 </div>
+<div class="time">
+  <select size="9">
+    @for (hour of 23 | repeatFor: true; track $index) {
+      <option [value]="hour">{{ hour | string: 'padStart' : 2 : '0' }}</option>
+    }
+  </select>
+  <span>:</span>
+  <select size="9">
+    @for (minute of 59 | repeatFor: true; track $index) {
+      <option [value]="minute">{{ minute | string: 'padStart' : 2 : '0' }}</option>
+    }
+  </select>
+</div>

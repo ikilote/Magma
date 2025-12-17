@@ -16,6 +16,8 @@ import { FormsModule } from '@angular/forms';
 import { Select2Data, Select2Option, Select2ScrollEvent } from 'ng-select2-component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
+import { RepeatForPipe } from '../../pipes/repeat-for.pipe';
+import { StringPipe } from '../../pipes/string.pipe';
 import { Logger } from '../../services/logger';
 import { DurationTime, addDuration } from '../../utils/date';
 import { MagmaInputSelect } from '../input/input-select.component';
@@ -37,7 +39,15 @@ export type MagmaDatetimePickerDays = 'Monday' | 'Sunday' | 'Saturday' | undefin
     selector: 'datetime-picker',
     templateUrl: './datetime-picker.component.html',
     styleUrls: ['./datetime-picker.component.scss'],
-    imports: [CommonModule, FormsModule, MagmaInput, MagmaInputSelect, MagmaClickEnterDirective],
+    imports: [
+        CommonModule,
+        FormsModule,
+        MagmaInput,
+        MagmaInputSelect,
+        MagmaClickEnterDirective,
+        RepeatForPipe,
+        StringPipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.embedded]': 'embedded()',

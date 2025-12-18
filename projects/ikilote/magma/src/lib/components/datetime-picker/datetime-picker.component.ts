@@ -34,6 +34,7 @@ export type DateInfo = {
 let index = 0;
 
 export type MagmaDatetimePickerDays = 'Monday' | 'Sunday' | 'Saturday' | undefined;
+export type MagmaDatetimeType = 'date' | 'datetime-local' | 'time' | undefined;
 
 @Component({
     selector: 'datetime-picker',
@@ -51,6 +52,8 @@ export type MagmaDatetimePickerDays = 'Monday' | 'Sunday' | 'Saturday' | undefin
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.embedded]': 'embedded()',
+        '[class.only-date]': 'type() === "date" || type() !== "datetime-local" && type() !== "time"',
+        '[class.only-time]': 'type() === "time"',
     },
 })
 export class MagmaDatetimePickerComponent {
@@ -63,6 +66,7 @@ export class MagmaDatetimePickerComponent {
     // input
 
     readonly value = input<string | undefined>('');
+    readonly type = input<MagmaDatetimeType | undefined>();
     readonly lang = input<string | undefined>();
     readonly min = input<string | number | Date | undefined>();
     readonly max = input<string | number | Date | undefined>();
@@ -158,6 +162,14 @@ export class MagmaDatetimePickerComponent {
     });
 
     protected computedDays = computed(() =>
+        Array.from({ length: 7 }, (_, i) =>
+            new Date(2024, 0, this.getFirstGet(this.firstDayOfWeek()) + i + 1).toLocaleString(this.lang() || 'en', {
+                weekday: 'narrow',
+            }),
+        ),
+    );
+
+    protected h = computed(() =>
         Array.from({ length: 7 }, (_, i) =>
             new Date(2024, 0, this.getFirstGet(this.firstDayOfWeek()) + i + 1).toLocaleString(this.lang() || 'en', {
                 weekday: 'narrow',

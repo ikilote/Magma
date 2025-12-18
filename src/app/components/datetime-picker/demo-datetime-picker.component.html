@@ -5,11 +5,15 @@
     <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlForm">
       <mg-input class="s-12">
         <mg-input-label>Datetime</mg-input-label>
-        <mg-input-date formControlName="datetime" mode="toggle"></mg-input-date>
+        <mg-input-date formControlName="datetime" mode="toggle" [type]="ctrlForm.value.type" />
+      </mg-input>
+      <mg-input class="s-6 s-12-x">
+        <mg-input-label>Type</mg-input-label>
+        <mg-input-select [data]="types" formControlName="type" nativeKeyboard />
       </mg-input>
       <mg-input class="s-6 s-12-x">
         <mg-input-label>Readonly</mg-input-label>
-        <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+        <mg-input-checkbox formControlName="readonly" mode="toggle" />
       </mg-input>
       <mg-input class="s-12">
         <mg-input-label>Language</mg-input-label>
@@ -35,6 +39,7 @@
       <datetime-picker
         [value]="ctrlForm.value.datetime"
         [readonly]="ctrlForm.value.readonly"
+        [type]="ctrlForm.value.type"
         [lang]="ctrlForm.value.lang"
         [min]="ctrlForm.value.min"
         [max]="ctrlForm.value.max"
@@ -59,15 +64,19 @@
       <p>
         <mg-input class="s-12">
           <mg-input-label>Datetime</mg-input-label>
-          <mg-input-date formControlName="datetime" mode="toggle"></mg-input-date>
+          <mg-input-date formControlName="datetime" mode="toggle" [type]="ctrlFormPopup.value.type" />
         </mg-input>
         <mg-input class="s-6 s-12-x">
           <mg-input-label>Disabled</mg-input-label>
-          <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
+          <mg-input-checkbox formControlName="disabled" mode="toggle" />
+        </mg-input>
+        <mg-input class="s-6 s-12-x">
+          <mg-input-label>Type</mg-input-label>
+          <mg-input-select [data]="types" formControlName="type" nativeKeyboard />
         </mg-input>
         <mg-input class="s-6 s-12-x">
           <mg-input-label>Readonly</mg-input-label>
-          <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+          <mg-input-checkbox formControlName="readonly" mode="toggle" />
         </mg-input>
         <mg-input class="s-12">
           <mg-input-label>Language</mg-input-label>
@@ -96,6 +105,7 @@
             [datetimePicker]="ctrlFormPopup.value.datetime"
             [datetimePickerDisabled]="ctrlFormPopup.value.disabled"
             [datetimePickerReadonly]="ctrlFormPopup.value.readonly"
+            [datetimePickerType]="ctrlFormPopup.value.type"
             [datetimePickerLang]="ctrlFormPopup.value.lang"
             [datetimePickerMin]="ctrlFormPopup.value.min"
             [datetimePickerMax]="ctrlFormPopup.value.max"

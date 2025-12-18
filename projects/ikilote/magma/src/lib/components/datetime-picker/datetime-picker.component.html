@@ -1,58 +1,62 @@
-<div class="month-year">
-  <span (clickEnter)="left()" [disabled]="readonly()" class="icon-left" [class.hide]="prevMonth()"></span>
-  <mg-input class="mouths-list">
-    <mg-input-select
-      [data]="monthsList()"
-      [ngModel]="month()"
-      (ngModelChange)="updateMonth($event)"
-      [readonly]="readonly()"
-    />
-  </mg-input>
-  <mg-input class="mouths-years">
-    <mg-input-select
-      [data]="yearsList()"
-      [ngModel]="year()"
-      (ngModelChange)="updateYear($event)"
-      [readonly]="readonly()"
-      infiniteScroll
-      infiniteScrollThrottle="5"
-      (scroll)="scroll($event)"
-    />
-  </mg-input>
-  <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="nextMonth()"></span>
-</div>
-<div class="table" (keydown)="move($event)">
-  @for (day of computedDays(); track $index) {
-    <div class="head">
-      {{ day }}
-    </div>
-  }
-  @for (mouths of computedDaysOfMonth(); track $index) {
-    @for (day of mouths; track $index) {
-      <div
-        class="day"
-        [class.today]="day.isToday"
-        [class.current-month]="day.isCurrentMonth"
-        [class.selected]="day.date.getTime() === date().getTime() && selected()"
-        [class.disabled]="day.disabled"
-        (clickEnter)="select(day)"
-        [disabled]="readonly() || day.disabled"
-      >
-        {{ day.day }}
+@if (type() === 'date' || type() === 'datetime-local' || type() !== 'time') {
+  <div class="month-year">
+    <span (clickEnter)="left()" [disabled]="readonly()" class="icon-left" [class.hide]="prevMonth()"></span>
+    <mg-input class="mouths-list">
+      <mg-input-select
+        [data]="monthsList()"
+        [ngModel]="month()"
+        (ngModelChange)="updateMonth($event)"
+        [readonly]="readonly()"
+      />
+    </mg-input>
+    <mg-input class="mouths-years">
+      <mg-input-select
+        [data]="yearsList()"
+        [ngModel]="year()"
+        (ngModelChange)="updateYear($event)"
+        [readonly]="readonly()"
+        infiniteScroll
+        infiniteScrollThrottle="5"
+        (scroll)="scroll($event)"
+      />
+    </mg-input>
+    <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="nextMonth()"></span>
+  </div>
+  <div class="table" (keydown)="move($event)">
+    @for (day of computedDays(); track $index) {
+      <div class="head">
+        {{ day }}
       </div>
     }
-  }
-</div>
-<div class="time">
-  <select size="9">
-    @for (hour of 23 | repeatFor: true; track $index) {
-      <option [value]="hour">{{ hour | string: 'padStart' : 2 : '0' }}</option>
+    @for (mouths of computedDaysOfMonth(); track $index) {
+      @for (day of mouths; track $index) {
+        <div
+          class="day"
+          [class.today]="day.isToday"
+          [class.current-month]="day.isCurrentMonth"
+          [class.selected]="day.date.getTime() === date().getTime() && selected()"
+          [class.disabled]="day.disabled"
+          (clickEnter)="select(day)"
+          [disabled]="readonly() || day.disabled"
+        >
+          {{ day.day }}
+        </div>
+      }
     }
-  </select>
-  <span>:</span>
-  <select size="9">
-    @for (minute of 59 | repeatFor: true; track $index) {
-      <option [value]="minute">{{ minute | string: 'padStart' : 2 : '0' }}</option>
-    }
-  </select>
-</div>
+  </div>
+}
+@if (type() === 'time' || type() === 'datetime-local') {
+  <div class="time">
+    <select size="9">
+      @for (hour of 24 | repeatFor: true; track $index) {
+        <option [value]="$index">{{ $index | string: 'padStart' : 2 : '0' }}</option>
+      }
+    </select>
+    <span>:</span>
+    <select size="9">
+      @for (minute of 60 | repeatFor: true; track $index) {
+        <option [value]="$index">{{ $index | string: 'padStart' : 2 : '0' }}</option>
+      }
+    </select>
+  </div>
+}

@@ -1,12 +1,19 @@
 :host {
     display: grid;
-    grid-template:
-        'month-year time'
-        'table      time';
+    --grid: 'month-year time' 'table time';
+    grid-template: var(--grid);
     justify-content: center;
     align-items: center;
     gap: 5px 15px;
     width: min-content;
+
+    &.only-date {
+        --grid: 'month-year' 'table';
+    }
+
+    &.only-time {
+        --grid: ' time ';
+    }
 
     &.embedded {
         transition-duration: 0s;
@@ -46,8 +53,8 @@
     display: grid;
     grid-template-columns: repeat(7, 30px);
     grid-area: table;
+    justify-content: center;
     gap: 2px;
-    text-align: center;
 
     .head,
     .day {
@@ -98,5 +105,6 @@
     display: flex;
     grid-area: time;
     align-items: center;
-    width: 100px;
+    gap: 5px;
+    width: 120px;
 }

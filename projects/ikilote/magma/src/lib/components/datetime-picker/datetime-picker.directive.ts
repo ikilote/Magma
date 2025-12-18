@@ -15,7 +15,7 @@ import {
     output,
 } from '@angular/core';
 
-import { MagmaDatetimePickerComponent, MagmaDatetimePickerDays } from './datetime-picker.component';
+import { MagmaDatetimePickerComponent, MagmaDatetimePickerDays, MagmaDatetimeType } from './datetime-picker.component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 
@@ -40,6 +40,7 @@ export class MagmaDatetimePicker implements OnDestroy, OnChanges {
     private readonly click = inject(MagmaClickEnterDirective);
 
     readonly datetimePicker = input<string>();
+    readonly datetimePickerType = input<MagmaDatetimeType | undefined>();
     readonly datetimePickerDisabled = input(false, { transform: booleanAttribute });
     readonly datetimePickerReadonly = input(false, { transform: booleanAttribute });
     readonly datetimePickerLang = input<string | undefined>();
@@ -90,6 +91,7 @@ export class MagmaDatetimePicker implements OnDestroy, OnChanges {
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('value', this.datetimePicker());
         component.setInput('readonly', this.datetimePickerReadonly());
+        component.setInput('type', this.datetimePickerType());
         component.setInput('lang', this.datetimePickerLang());
         component.setInput('min', this.datetimePickerMin());
         component.setInput('max', this.datetimePickerMax());

@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component, ElementRef, input, viewChildren } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
-import { MagmaStopPropagationDirective } from '@ikilote/magma';
-
 import { MagmaInputCommon } from './input-common';
 
+import { MagmaStopPropagationDirective } from '../../directives/stop-propagation.directive';
+import { MagmaDatetimeType } from '../datetime-picker/datetime-picker.component';
 import { MagmaDatetimePicker } from '../datetime-picker/datetime-picker.directive';
 
 let counter = 0;
@@ -28,7 +28,7 @@ export class MagmaInputDate extends MagmaInputCommon<(string | { label?: string;
     override readonly componentName: string = 'input-date';
     protected override counter = counter++;
 
-    readonly type = input<'date' | 'datetime-local' | 'time' | 'month' | 'week'>('date');
+    readonly type = input<MagmaDatetimeType | 'month' | 'week'>('date');
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 

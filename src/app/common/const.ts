@@ -32,3 +32,10 @@ export const days: Select2Data = [
     { value: 'Sunday', label: 'Sunday' },
     { value: 'Saturday', label: 'Saturday' },
 ];
+
+export const dateTypes: Select2Data = [
+    { value: '', label: '(empty)' },
+    { value: 'date', label: 'date' },
+    { value: 'datetime-local', label: 'datetime-local' },
+    { value: 'time', label: 'time' },
+];

@@ -8,13 +8,14 @@ import {
     MagmaDatetimePicker,
     MagmaDatetimePickerComponent,
     MagmaDatetimePickerDays,
+    MagmaDatetimeType,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputDate,
     MagmaInputElement,
     MagmaInputSelect,
 } from '../../../../projects/ikilote/magma/src/public-api';
-import { days, langues } from '../../common/const';
+import { dateTypes, days, langues } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
@@ -37,11 +38,13 @@ export class DemoDatetimePickerComponent {
     readonly fb = inject(FormBuilderExtended);
 
     langues = langues;
+    types = dateTypes;
     days = days;
 
     ctrlForm: FormGroup<{
         datetime: FormControl<string>;
         readonly: FormControl<boolean>;
+        type: FormControl<MagmaDatetimeType>;
         lang: FormControl<string>;
         min: FormControl<string>;
         max: FormControl<string>;
@@ -51,6 +54,7 @@ export class DemoDatetimePickerComponent {
         datetime: FormControl<string>;
         disabled: FormControl<boolean>;
         readonly: FormControl<boolean>;
+        type: FormControl<MagmaDatetimeType>;
         lang: FormControl<string>;
         min: FormControl<string>;
         max: FormControl<string>;
@@ -90,6 +94,7 @@ export class DemoBlockComponent { }`;
         this.ctrlForm = this.fb.groupWithError({
             datetime: { default: '' },
             readonly: { default: false },
+            type: { default: '' as MagmaDatetimeType },
             lang: { default: '' },
             min: { default: '' },
             max: { default: '' },
@@ -99,6 +104,7 @@ export class DemoBlockComponent { }`;
             datetime: { default: '' },
             disabled: { default: false },
             readonly: { default: false },
+            type: { default: '' as MagmaDatetimeType },
             lang: { default: '' },
             min: { default: '' },
             max: { default: '' },

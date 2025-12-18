@@ -34,7 +34,7 @@
           class="day"
           [class.today]="day.isToday"
           [class.current-month]="day.isCurrentMonth"
-          [class.selected]="day.date.getTime() === date().getTime() && selected()"
+          [class.selected]="day.day === date().getUTCDate() && day.month - 1 === date().getUTCMonth() && selected()"
           [class.disabled]="day.disabled"
           (clickEnter)="select(day)"
           [disabled]="readonly() || day.disabled"
@@ -47,13 +47,13 @@
 }
 @if (type() === 'time' || type() === 'datetime-local') {
   <div class="time">
-    <select size="9">
+    <select size="9" [ngModel]="hours()" (ngModelChange)="updateHours($event)">
       @for (hour of 24 | repeatFor: true; track $index) {
         <option [value]="$index">{{ $index | string: 'padStart' : 2 : '0' }}</option>
       }
     </select>
     <span>:</span>
-    <select size="9">
+    <select size="9" [ngModel]="minutes()" (ngModelChange)="updateMinutes($event)">
       @for (minute of 60 | repeatFor: true; track $index) {
         <option [value]="$index">{{ $index | string: 'padStart' : 2 : '0' }}</option>
       }

@@ -26,6 +26,7 @@ import { MagmaInput } from '../input/input.component';
 export type DateInfo = {
     date: Date;
     day: number;
+    month: number;
     isCurrentMonth: boolean;
     isToday: boolean;
     disabled: boolean;
@@ -82,9 +83,12 @@ export class MagmaDatetimePickerComponent {
 
     protected readonly date = signal<Date>(new Date());
     protected readonly selected = signal<boolean>(false);
-    protected readonly year = computed<number>(() => this.getDate().getFullYear());
-    protected readonly month = computed<number>(() => this.getDate().getMonth() + 1);
-    protected readonly day = computed<number>(() => this.getDate().getDate());
+    protected readonly year = computed<number>(() => this.getDate().getUTCFullYear());
+    protected readonly month = computed<number>(() => this.getDate().getUTCMonth() + 1);
+    protected readonly day = computed<number>(() => this.getDate().getUTCDate());
+    protected readonly hours = computed<number>(() => this.getDate().getUTCHours());
+    protected readonly minutes = computed<number>(() => this.getDate().getUTCMinutes());
+    protected readonly seconds = computed<number>(() => this.getDate().getUTCSeconds());
     protected readonly past = signal(10);
     protected readonly futur = signal(10);
 
@@ -92,10 +96,10 @@ export class MagmaDatetimePickerComponent {
     protected onscroll = false;
 
     protected yearsList = computed<Select2Option[]>(() => {
-        const min = this.minDate()?.getFullYear();
-        const max = this.maxDate()?.getFullYear();
+        const min = this.minDate()?.getUTCFullYear();
+        const max = this.maxDate()?.getUTCFullYear();
 
-        let year = new Date(this.date()).getFullYear() - this.past();
+        let year = new Date(this.date()).getUTCFullYear() - this.past();
         if (min) {
             year = Math.max(min, year);
         }
@@ -120,12 +124,12 @@ export class MagmaDatetimePickerComponent {
         let minMonth = 1;
         let maxMonth = 12;
 
-        if (minDate && currentDate.getFullYear() === minDate.getFullYear()) {
-            minMonth = minDate.getMonth() + 1;
+        if (minDate && currentDate.getUTCFullYear() === minDate.getUTCFullYear()) {
+            minMonth = minDate.getUTCMonth() + 1;
         }
 
-        if (maxDate && currentDate.getFullYear() === maxDate.getFullYear()) {
-            maxMonth = maxDate.getMonth() + 1;
+        if (maxDate && currentDate.getUTCFullYear() === maxDate.getUTCFullYear()) {
+            maxMonth = maxDate.getUTCMonth() + 1;
         }
 
         return Array.from({ length: 12 }, (_, i) => {
@@ -145,8 +149,8 @@ export class MagmaDatetimePickerComponent {
 
         return (
             minDate &&
-            currentDate.getFullYear() === minDate.getFullYear() &&
-            minDate.getMonth() === currentDate.getMonth()
+            currentDate.getUTCFullYear() === minDate.getUTCFullYear() &&
+            minDate.getUTCMonth() === currentDate.getUTCMonth()
         );
     });
 
@@ -156,8 +160,8 @@ export class MagmaDatetimePickerComponent {
 
         return (
             maxDate &&
-            currentDate.getFullYear() === maxDate.getFullYear() &&
-            maxDate.getMonth() === currentDate.getMonth()
+            currentDate.getUTCFullYear() === maxDate.getUTCFullYear() &&
+            maxDate.getUTCMonth() === currentDate.getUTCMonth()
         );
     });
 
@@ -179,8 +183,8 @@ export class MagmaDatetimePickerComponent {
 
     protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
         const date = this.getDate();
-        const year = date.getFullYear();
-        const month = date.getMonth();
+        const year = date.getUTCFullYear();
+        const month = date.getUTCMonth();
 
         let startOfWeek = 1;
         if (this.firstDayOfWeek() === 'Saturday') {
@@ -189,15 +193,16 @@ export class MagmaDatetimePickerComponent {
             startOfWeek = 0;
         }
 
-        const firstDayOfMonth = new Date(year, month, 1);
-        const lastDayOfMonth = new Date(year, month + 1, 0);
+        const firstDayOfMonth = new Date(Date.UTC(year, month, 1));
+        const lastDayOfMonth = new Date(Date.UTC(year, month + 1, 0));
+        console.log(firstDayOfMonth);
 
-        const startDay = firstDayOfMonth.getDay();
+        const startDay = firstDayOfMonth.getUTCDay();
 
         const diff = (startDay - startOfWeek + 7) % 7;
 
         const currentLoopDate = new Date(firstDayOfMonth);
-        currentLoopDate.setDate(firstDayOfMonth.getDate() - diff);
+        currentLoopDate.setUTCDate(firstDayOfMonth.getUTCDate() - diff);
         const today = new Date();
 
         const days: DateInfo[] = [];
@@ -205,18 +210,19 @@ export class MagmaDatetimePickerComponent {
         const min = this.minDate()?.getTime();
         const max = this.maxDate()?.getTime();
 
-        while (currentLoopDate <= lastDayOfMonth || currentLoopDate.getDay() !== startOfWeek) {
+        while (currentLoopDate <= lastDayOfMonth || currentLoopDate.getUTCDay() !== startOfWeek) {
             const date = new Date(currentLoopDate);
             const datetime = date.getTime();
             days.push({
                 date,
-                day: date.getDate(),
-                isCurrentMonth: currentLoopDate.getMonth() === month,
+                day: date.getUTCDate(),
+                month: date.getUTCMonth() + 1,
+                isCurrentMonth: currentLoopDate.getUTCMonth() === month,
                 isToday: today.toDateString() === currentLoopDate.toDateString(),
                 disabled: (min ? datetime < min : false) || (max ? datetime > max : false),
             });
 
-            currentLoopDate.setDate(currentLoopDate.getDate() + 1);
+            currentLoopDate.setUTCDate(currentLoopDate.getUTCDate() + 1);
         }
 
         return [days];
@@ -241,7 +247,15 @@ export class MagmaDatetimePickerComponent {
 
     protected select(date: DateInfo) {
         this.selected.set(true);
-        this.updateDate(date.date);
+
+        if (this.date().getUTCMonth() + 1 !== date.month) {
+            this.updateMonth(date.month);
+            this.updateDay(date.day);
+            this.updateDate(this.date());
+        } else {
+            this.updateDay(date.day);
+        }
+
         setTimeout(() => {
             this.element.nativeElement.querySelector<HTMLDivElement>('.selected')?.focus();
         }, 10);
@@ -280,33 +294,64 @@ export class MagmaDatetimePickerComponent {
         }
     }
 
-    protected updateMonth(value: number) {
+    protected updateYear(value: number) {
         const date = this.date();
-        date.setMonth(value - 1);
+        date.setUTCFullYear(value);
         this.updateDate(date);
     }
 
-    protected updateYear(value: number) {
+    protected updateMonth(value: number) {
         const date = this.date();
-        date.setFullYear(value);
+        date.setUTCMonth(value - 1);
+        this.updateDate(date);
+    }
+
+    protected updateDay(value: number) {
+        const date = this.date();
+        date.setUTCDate(value);
+        this.updateDate(date);
+    }
+
+    protected updateHours(value: number) {
+        const date = this.date();
+        date.setUTCHours(value);
+        this.updateDate(date);
+    }
+
+    protected updateMinutes(value: number) {
+        const date = this.date();
+        date.setUTCMinutes(value);
         this.updateDate(date);
     }
 
     protected left() {
         const date = this.date();
-        date.setMonth(date.getMonth() - 1);
+        date.setUTCMonth(date.getMonth() - 1);
         this.updateDate(date);
     }
 
     protected right() {
         const date = this.date();
-        date.setMonth(date.getMonth() + 1);
+        date.setUTCMonth(date.getMonth() + 1);
         this.updateDate(date);
     }
 
     protected updateDate(date: Date) {
         this.date.set(new Date(date));
-        this.datetimeChange.emit(date.toISOString().replace(/T.*/, ''));
+
+        let value = '';
+        switch (this.type()) {
+            case 'datetime-local':
+                value = date.toISOString().replace(/:..\..*/, '');
+                break;
+            case 'time':
+                value = date.toISOString().replace(/.*T/, '');
+                break;
+            default:
+                value = date.toISOString().replace(/T.*/, '');
+                break;
+        }
+        this.datetimeChange.emit(value);
     }
 
     private getFirstGet(day: 'Monday' | 'Sunday' | 'Saturday' | undefined) {

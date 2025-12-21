@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, input, viewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -29,6 +29,7 @@ export class MagmaInputDate extends MagmaInputCommon<(string | { label?: string;
     protected override counter = counter++;
 
     readonly type = input<MagmaDatetimeType | 'month' | 'week'>('date');
+    readonly hideDatePicker = input(false, { transform: booleanAttribute });
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 

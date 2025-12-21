@@ -1,7 +1,7 @@
 @if (!onError()) {
   <input
     #input
-    [type]="type()"
+    [type]="type() || 'date'"
     [name]="_name()"
     [id]="_id() + '-input'"
     [value]="_value ?? ''"
@@ -12,14 +12,18 @@
     (focus)="focus(true)"
     (blur)="focus(false)"
   />
-  <span
-    class="picker-icon"
-    [datetimePicker]="input.value"
-    (datetimeClose)="dateClose($event)"
-    stop-propagation
-    stopKeydown
-    >📅</span
-  >
+  @if (hideDatePicker()) {
+    <span
+      class="picker-icon"
+      [datetimePicker]="input.value"
+      (datetimeClose)="dateClose($event)"
+      stop-propagation
+      stopKeydown
+      >📅</span
+    >
+  } @else {
+    <span class="picker-hide"></span>
+  }
 } @else {
   Error
 }

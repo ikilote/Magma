@@ -104,8 +104,11 @@ export class DemoInputGeneratorComponent {
         subLabel3: FormControl<string>;
         subValue3: FormControl<string>;
         alignMode: FormControl<'row' | 'column'>;
+
         // radio / checkbox / select
         multiple: FormControl<boolean>;
+
+        // select
         overlay: FormControl<boolean>;
 
         // checkbox
@@ -121,6 +124,9 @@ export class DemoInputGeneratorComponent {
         formater: FormControl<string>;
         noDecimal: FormControl<boolean>;
         noNegative: FormControl<boolean>;
+
+        // date
+        hideDatePicker: FormControl<boolean>;
 
         // color
         alpha: FormControl<boolean>;
@@ -222,6 +228,7 @@ export class DemoInputGeneratorComponent {
             alignMode: { default: 'row' as 'row' | 'column' },
             // radio / checkbox / select
             multiple: { default: false },
+            // select
             overlay: { default: false },
             // checkbox
             toggle: { default: false },
@@ -235,6 +242,8 @@ export class DemoInputGeneratorComponent {
             formater: { default: '#,##0' },
             noDecimal: { default: false },
             noNegative: { default: false },
+            // date
+            hideDatePicker: { default: false },
             // color
             alpha: { default: false },
             clearButton: { default: false },
@@ -579,6 +588,11 @@ export class DemoInputGeneratorComponent {
         if (type === 'textarea' || type === 'text') {
             if (fgValue.maxLength || fgValue.maxLength === 0) {
                 attrInput['maxlength'] = fgValue.maxLength;
+            }
+        }
+        if (type === 'date') {
+            if (fgValue.hideDatePicker) {
+                attrInput['maxlength'] = null;
             }
         }
         if (type === 'text') {

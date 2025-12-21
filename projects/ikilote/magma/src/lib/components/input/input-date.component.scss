@@ -20,6 +20,7 @@ input {
     z-index: -1;
 }
 
+.picker-hide,
 .picker-icon {
     --click-enter-hover-background: var(--input-background);
     --click-enter-hover-filter: none;

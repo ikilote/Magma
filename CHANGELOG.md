@@ -1,5 +1,14 @@
 # Changelog of @ikilote/magma
 
+## 1.1.0 (2025-12-22)
+
+**Up to Angular 21**
+
+### 🎦 Demo
+
+- Demo with **zoneless**
+- Update to `@ikilote/json2html` `1.0.0`
+
 ## 1.0.0 (2025-11-25)
 
 > This version of Magma marks the beginning of 100% test coverage, which has allowed all expected problems to be fixed.

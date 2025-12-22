@@ -3,18 +3,11 @@
 [![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg)](https://badge.fury.io/js/@ikilote%2Fmagma)
 [![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg)](https://www.npmjs.com/package/@ikilote%2Fmagma)
 [![MIT license](https://test.ikilote.net/badge-custom.php?label=license&value=MIT&valueBgColor=007ec6)](https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md)
-[![Angular 20.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=20.0&valueBgColor=e05d44)](https://angular.dev/)
+[![Angular 21.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=21.0&valueBgColor=e05d44)](https://angular.dev/)
 
 Magma is a component library for my personal projects, because I don't want to copy/paste.
 
 It will evolve mainly according to my projects. But people want to use it and help, no worries.
-
-## Coverage
-
-[![Statements 100% (1879/1879)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
-[![Branches 100% (811/811)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
-[![Functions 100% (485/485)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
-[![Lines 100% (1829/1829)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
 
 ## Included in Magma
 
@@ -27,6 +20,7 @@ It will evolve mainly according to my projects. But people want to use it and he
     - Circle in options
 - Contrib calendar
 - Dialog
+- Expansion panel
 - Info-message
 - Input
     - Checkbox
@@ -52,16 +46,19 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 ### Services
 
+- Cache
 - FormBuilderExtended
 - Logger
 
 ### Pipes
 
+- arrayFilter
 - classList
 - fileSize
 - math
 - numFormat
 - repeatFor
+- strRelace
 
 ### Directive
 
@@ -77,8 +74,10 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 ### Utils
 
+- Array
 - Clipboard
 - Coercion
+- CSS
 - Cookies
 - Date
 - DOM
@@ -88,6 +87,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Json
 - Number
 - Object
+- Text
 - Subscriptions
 
 ### Styles
@@ -113,11 +113,9 @@ npm i @ikilote/magma colorjs.io ng-select2-component
 
 Required in `package.json`
 
-- `@angular/common`: `^20.0.0`
-- `@angular/core`: `^20.0.0`
-- `@angular/cdk`: `^20.0.0`
-- `colorjs.io`: `^0.5.2`
-- `ng-select2-component`: `^17.2.7`
+- `@angular/common`: `^21.0.0`
+- `@angular/core`: `^21.0.0`
+- `@angular/cdk`: `^21.0.0`
 
 Add in `style.css`
 
@@ -128,6 +126,13 @@ Add in `style.css`
 @import '../node_modules/@ikilote/magma/assets/styles/css-var.css';
 @import '../node_modules/@ikilote/magma/assets/styles/style.css';
 ```
+
+## Supported versions of Angular
+
+| Magma | Angular |
+| ----: | ------: |
+| 1.1.0 |    21.0 |
+| 1.0.0 |    20.x |
 
 ## Development server
 
@@ -161,6 +166,13 @@ test for lib
 ```sh
 npm run test:lib
 ```
+
+## Coverage
+
+[![Statements 100% (1879/1879)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
+[![Branches 100% (811/811)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
+[![Functions 100% (485/485)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
+[![Lines 100% (1829/1829)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/ikilote/magma/)
 
 ## License
 

@@ -1,5 +1,11 @@
 # Changelog of @ikilote/magma
 
+## 1.1.1 (2025-12-24)
+
+### 🐞 Fix
+
+- **tooltip**: fix animation (causes `mouseleave`) and cursor
+
 ## 1.1.0 (2025-12-22)
 
 **Up to Angular 21**

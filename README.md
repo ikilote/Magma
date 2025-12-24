@@ -131,7 +131,7 @@ Add in `style.css`
 
 | Magma | Angular |
 | ----: | ------: |
-| 1.1.0 |    21.0 |
+| 1.1.x |    21.0 |
 | 1.0.0 |    20.x |
 
 ## Development server

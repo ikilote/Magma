@@ -284,6 +284,7 @@ body {
     --tooltip-background: color-mix(in hsl, var(--primary8) 93%, transparent);
     --tooltip-shadow-color: var(--neutralB);
     --tooltip-border-color: var(--primary8);
+    --tooltip-cursor: help;
 
     /* MARK: page */
     --page-item-text-color: var(--neutral1);

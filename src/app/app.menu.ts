@@ -10,6 +10,7 @@ export const menu = [
             { routerLink: '/component/context-menu', label: 'Context menu', status: 'update' },
             { routerLink: '/component/contrib-calendar', label: 'Contrib calendar', status: 'update' },
             { routerLink: '/component/dialog', label: 'Dialog' },
+            { routerLink: '/component/ellipsis-button', label: 'Ellipsis button', status: 'new' },
             { routerLink: '/component/expansion-panel', label: 'Expansion panel', status: 'new' },
             { routerLink: '/component/info-messages', label: 'Info-messages' },
             { routerLink: '/component/input', label: 'Inputs', status: 'update' },

@@ -18,7 +18,10 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
     selector: 'context-test',
-    templateUrl: './demo-context-test.component.html',
+    template: `<div>
+        Test
+        <button (click)="action()">Close</button>
+    </div>`,
     styles: [
         `
             :host {

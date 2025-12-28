@@ -72,7 +72,7 @@ export class DemoContextMenuComponent {
         body.push({
             tag: 'mg-ellipsis-item',
             attrs: { '(action)': "action('3')" },
-            body: 'Action with a long text for test le position',
+            body: 'Action with a long text to test the position',
         });
 
         this.codeHtml = new Json2html(json).toString();

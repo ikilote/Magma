@@ -14,9 +14,9 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
 export class MagmaEllipsisItemComponent implements OnDestroy {
     host?: MagmaEllipsisButton;
 
-    protected readonly clickEnter = inject(MagmaClickEnterDirective, { self: true, optional: true });
+    protected readonly clickEnter = inject(MagmaClickEnterDirective);
 
-    protected readonly sub = this.clickEnter?.clickEnter.subscribe(() => {
+    protected readonly sub = this.clickEnter.clickEnter.subscribe(() => {
         this.host?.close();
     });
 

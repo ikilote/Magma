@@ -1,0 +1,19 @@
+<button (click)="open()" cdkOverlayOrigin #button #trigger="cdkOverlayOrigin">
+  <span class="ellipsis"></span>
+  <ng-content select="mg-ellipsis-content" />
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-ellipsis-backdrop"
+  cdkConnectedOverlayPanelClass="cdk-overlay-button"
+  (detach)="close()"
+  (backdropClick)="close()"
+>
+  <div class="mg-ellipsis-list" limitFocus #element>
+    <ng-content select="mg-ellipsis-item" />
+  </div>
+</ng-template>

@@ -120,6 +120,11 @@ body {
     --context-menu-item: var(--primary7);
     --context-menu-item-hover: var(--primary6);
 
+    /* MARK: ellipsis-button */
+    --context-button-list-background: var(--primary8);
+    --ellipsis-item-background: var(--primary7);
+    --ellipsis-item-hover-background: var(--primary6);
+
     /* MARK: default button */
     --button-default-border-color: var(--neutral5);
     --button-default-background: var(--neutral7);

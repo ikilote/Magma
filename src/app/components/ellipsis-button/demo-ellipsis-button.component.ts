@@ -27,7 +27,13 @@ export class DemoEllipsisButtonComponent {
     selector: 'ellipsis-test',
     imports : [ MagmaEllipsisButtonModule ]
 })
-export class DemoContextMenuComponent {}`;
+export class DemoContextMenuComponent {
+
+    action(string: string) {
+        console.log(string);
+    }
+
+}`;
 
     action(string: string) {
         console.log(string);
@@ -55,13 +61,18 @@ export class DemoContextMenuComponent {}`;
 
         body.push({
             tag: 'mg-ellipsis-item',
-            attrs: { '(clickEnter)': "action('1')" },
+            attrs: { '(action)': "action('1')" },
             body: 'Action 1',
         });
         body.push({
             tag: 'mg-ellipsis-item',
-            attrs: { '(clickEnter)': "action('2')" },
+            attrs: { '(action)': "action('2')" },
             body: 'Action 2',
+        });
+        body.push({
+            tag: 'mg-ellipsis-item',
+            attrs: { '(action)': "action('3')" },
+            body: 'Action with a long text for test le position',
         });
 
         this.codeHtml = new Json2html(json).toString();

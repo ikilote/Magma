@@ -2,7 +2,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MagmaEllipsisItemComponent } from './ellipsis-item.component';
 
-
 describe('MagmaEllipsisItemComponent', () => {
     let component: MagmaEllipsisItemComponent;
     let fixture: ComponentFixture<MagmaEllipsisItemComponent>;
@@ -19,11 +18,16 @@ describe('MagmaEllipsisItemComponent', () => {
     });
 
     it('should call host.close() when clickEnter emits', () => {
+        // @ts-expect-error
+        spyOn(component.action, 'emit');
         const mockHost = { close: jasmine.createSpy('close') };
         // @ts-expect-error
         component.host = mockHost;
         // @ts-expect-error
         component.clickEnter.clickEnter.emit();
+
+        // @ts-expect-error
+        expect(component.action.emit).toHaveBeenCalled();
         expect(mockHost.close).toHaveBeenCalled();
     });
 
@@ -34,5 +38,4 @@ describe('MagmaEllipsisItemComponent', () => {
         // @ts-expect-error
         expect(component.sub.unsubscribe).toHaveBeenCalled();
     });
-
 });

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, inject, output } from '@angular/core';
 
 import { MagmaEllipsisButton } from './ellipsis-button.component';
 
@@ -16,7 +16,10 @@ export class MagmaEllipsisItemComponent implements OnDestroy {
 
     protected readonly clickEnter = inject(MagmaClickEnterDirective);
 
+    protected readonly action = output();
+
     protected readonly sub = this.clickEnter.clickEnter.subscribe(() => {
+        this.action.emit();
         this.host?.close();
     });
 

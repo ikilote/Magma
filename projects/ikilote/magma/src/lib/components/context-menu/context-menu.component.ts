@@ -39,7 +39,7 @@ export type ContextMenuMode = 'default' | 'bubble' | undefined;
 @Component({
     selector: 'context-menu',
     templateUrl: './context-menu.component.html',
-    styleUrls: ['./context-menu.component.scss'],
+    styleUrl: './context-menu.component.scss',
     host: {
         '[class.default]': 'mode() === "default"',
         '[class.bubble]': 'mode() === "bubble"',

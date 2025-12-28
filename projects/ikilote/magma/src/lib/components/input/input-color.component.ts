@@ -11,7 +11,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-color',
     templateUrl: './input-color.component.html',
-    styleUrls: ['./input-color.component.scss'],
+    styleUrl: './input-color.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaColorPicker],
     providers: [

@@ -16,7 +16,7 @@ import { MagmaTable, MagmaTableData } from './table.component';
 @Component({
     selector: 'table[mg] > thead[mg], table[mg] > tbody[mg],table[mg] > tfoot[mg]',
     templateUrl: './table-group.component.html',
-    styleUrls: ['./table-group.component.scss'],
+    styleUrl: './table-group.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.sticky]': 'sticky()',

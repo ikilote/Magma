@@ -30,7 +30,7 @@ let counter = 0;
 @Component({
     selector: 'mg-paginate',
     templateUrl: './paginate.component.html',
-    styleUrls: ['./paginate.component.scss'],
+    styleUrl: './paginate.component.scss',
     imports: [RouterLink],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {

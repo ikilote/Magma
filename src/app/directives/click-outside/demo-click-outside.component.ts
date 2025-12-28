@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-click-outside',
     templateUrl: './demo-click-outside.component.html',
-    styleUrls: ['./demo-click-outside.component.scss'],
+    styleUrl: './demo-click-outside.component.scss',
     imports: [MagmaClickOutsideDirective, CodeTabsComponent],
 })
 export class DemoClickOutsideComponent {
@@ -17,7 +17,7 @@ export class DemoClickOutsideComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MagmaClickOutsideDirective],
 })
 export class TestComponent {

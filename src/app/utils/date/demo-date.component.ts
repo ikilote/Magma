@@ -18,7 +18,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-date',
     templateUrl: './demo-date.component.html',
-    styleUrls: ['./demo-date.component.scss'],
+    styleUrl: './demo-date.component.scss',
     imports: [
         ReactiveFormsModule,
         CodeTabsComponent,

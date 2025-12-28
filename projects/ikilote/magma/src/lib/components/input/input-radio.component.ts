@@ -16,7 +16,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-radio',
     templateUrl: './input-radio.component.html',
-    styleUrls: ['./input-radio.component.scss'],
+    styleUrl: './input-radio.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputRadio },

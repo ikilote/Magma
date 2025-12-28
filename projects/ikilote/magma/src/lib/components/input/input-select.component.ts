@@ -30,7 +30,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-select',
     templateUrl: './input-select.component.html',
-    styleUrls: ['./input-select.component.scss'],
+    styleUrl: './input-select.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputSelect },

@@ -79,7 +79,7 @@ export const magmaColorPickerPalette = [
 @Component({
     selector: 'color-picker',
     templateUrl: './color-picker.component.html',
-    styleUrls: ['./color-picker.component.scss'],
+    styleUrl: './color-picker.component.scss',
     imports: [FormsModule, CdkDrag, MagmaTabsModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {

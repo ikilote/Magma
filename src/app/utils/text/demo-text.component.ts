@@ -14,7 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-text',
     templateUrl: './demo-text.component.html',
-    styleUrls: ['./demo-text.component.scss'],
+    styleUrl: './demo-text.component.scss',
     imports: [ReactiveFormsModule, CodeTabsComponent, MagmaInput, MagmaInputText, MagmaInputElement],
 })
 export class DemoTextComponent {

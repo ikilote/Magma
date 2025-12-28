@@ -7,7 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-grid',
     templateUrl: './demo-grid.component.html',
-    styleUrls: ['./demo-grid.component.scss'],
+    styleUrl: './demo-grid.component.scss',
     imports: [CodeTabsComponent, MagmaInput, MagmaInputCheckbox, FormsModule],
     host: {
         '[class.show-border]': 'show',

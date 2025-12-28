@@ -11,7 +11,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-textarea',
     templateUrl: './input-textarea.component.html',
-    styleUrls: ['./input-textarea.component.scss'],
+    styleUrl: './input-textarea.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule, MagmaTextareaAutosizeDirective],
     providers: [

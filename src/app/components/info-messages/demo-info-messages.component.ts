@@ -47,7 +47,7 @@ export class ContextTestComponent {
 @Component({
     selector: 'demo-info-messages',
     templateUrl: './demo-info-messages.component.html',
-    styleUrls: ['./demo-info-messages.component.scss'],
+    styleUrl: './demo-info-messages.component.scss',
     imports: [
         ReactiveFormsModule,
         MagmaInput,

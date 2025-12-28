@@ -19,7 +19,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-contrib-calendar',
     templateUrl: './demo-contrib-calendar.component.html',
-    styleUrls: ['./demo-contrib-calendar.component.scss'],
+    styleUrl: './demo-contrib-calendar.component.scss',
     imports: [
         ReactiveFormsModule,
         CodeTabsComponent,
@@ -146,7 +146,7 @@ export class DemoContribCalendarComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaContribCalendar
     ],

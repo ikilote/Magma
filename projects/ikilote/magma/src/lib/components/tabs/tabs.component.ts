@@ -17,7 +17,7 @@ import { MagmaTabTitle } from './tab-title.component';
 @Component({
     selector: 'mg-tabs',
     templateUrl: './tabs.component.html',
-    styleUrls: ['./tabs.component.scss'],
+    styleUrl: './tabs.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaTabs implements AfterContentInit, AfterViewChecked {

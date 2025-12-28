@@ -43,7 +43,7 @@ export class ContextTestComponent extends AbstractContextMenuComponent {
 @Component({
     selector: 'demo-context-menu',
     templateUrl: './demo-context-menu.component.html',
-    styleUrls: ['./demo-context-menu.component.scss'],
+    styleUrl: './demo-context-menu.component.scss',
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

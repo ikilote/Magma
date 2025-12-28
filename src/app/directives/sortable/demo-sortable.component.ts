@@ -15,7 +15,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-sortable',
     templateUrl: './demo-sortable.component.html',
-    styleUrls: ['./demo-sortable.component.scss'],
+    styleUrl: './demo-sortable.component.scss',
     imports: [
         MagmaSortableModule,
         MagmaTableModule,
@@ -34,7 +34,7 @@ export class DemoSortableComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [
         MagmaSortable, // like [MagmaSortableDirective, MagmaSortRuleDirective]
         MagmaTableComponent,
@@ -81,7 +81,7 @@ export class TestComponent {
     codeTsFilter = `@Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [
         MagmaSortable, // like [MagmaSortableDirective, MagmaSortRuleDirective]
         FormsModule,

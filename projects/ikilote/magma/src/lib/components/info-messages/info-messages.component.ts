@@ -7,7 +7,7 @@ import { MagmaMessageInfo, MagmaMessages } from '../../services/messages';
 @Component({
     selector: 'info-messages',
     templateUrl: './info-messages.component.html',
-    styleUrls: ['./info-messages.component.scss'],
+    styleUrl: './info-messages.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [InfoMessageComponent],
 })

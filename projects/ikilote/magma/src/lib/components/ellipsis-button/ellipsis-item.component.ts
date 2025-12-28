@@ -7,7 +7,7 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
 @Component({
     selector: 'mg-ellipsis-item',
     templateUrl: './ellipsis-item.component.html',
-    styleUrls: ['./ellipsis-item.component.scss'],
+    styleUrl: './ellipsis-item.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     hostDirectives: [MagmaClickEnterDirective],
 })

@@ -8,7 +8,7 @@ export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<s
 @Component({
     selector: 'info-message',
     templateUrl: './info-message.component.html',
-    styleUrls: ['./info-message.component.scss'],
+    styleUrl: './info-message.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgComponentOutlet],
     host: {

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 @Component({
     selector: 'mg-loader-message',
     templateUrl: './loader-message.component.html',
-    styleUrls: ['./loader-message.component.scss'],
+    styleUrl: './loader-message.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaLoaderMessage {}

@@ -8,7 +8,7 @@ export interface MagmaExpansionPanelUpdateEvent {
 @Component({
     selector: 'mg-expansion-panel',
     templateUrl: './expansion-panel.component.html',
-    styleUrls: ['./expansion-panel.component.scss'],
+    styleUrl: './expansion-panel.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaExpansionPanel {

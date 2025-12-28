@@ -8,7 +8,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-date',
     templateUrl: './input-date.component.html',
-    styleUrls: ['./input-date.component.scss'],
+    styleUrl: './input-date.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule, FormsModule],
     providers: [

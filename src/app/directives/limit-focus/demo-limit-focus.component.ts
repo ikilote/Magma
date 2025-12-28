@@ -15,7 +15,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-limit-focus',
     templateUrl: './demo-limit-focus.component.html',
-    styleUrls: ['./demo-limit-focus.component.scss'],
+    styleUrl: './demo-limit-focus.component.scss',
     imports: [
         CodeTabsComponent,
         MagmaLimitFocusDirective,
@@ -41,7 +41,7 @@ export class DemoLimitFocusComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective],
 })
 export class TestComponent { }`;

@@ -14,7 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-table',
     templateUrl: './demo-table.component.html',
-    styleUrls: ['./demo-table.component.scss'],
+    styleUrl: './demo-table.component.scss',
     imports: [MagmaTableModule, ReactiveFormsModule, MagmaInput, MagmaInputCheckbox, CodeTabsComponent],
 })
 export class DemoTableComponent {
@@ -37,7 +37,7 @@ export class DemoTableComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaTableModule
     ],

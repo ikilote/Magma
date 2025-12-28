@@ -8,7 +8,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-array',
     templateUrl: './demo-array.component.html',
-    styleUrls: ['./demo-array.component.scss'],
+    styleUrl: './demo-array.component.scss',
     imports: [ReactiveFormsModule, CodeTabsComponent, JsonPipe],
 })
 export class DemoArrayComponent {

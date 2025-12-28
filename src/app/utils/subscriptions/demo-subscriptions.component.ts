@@ -5,7 +5,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-subscriptions',
     templateUrl: './demo-subscriptions.component.html',
-    styleUrls: ['./demo-subscriptions.component.scss'],
+    styleUrl: './demo-subscriptions.component.scss',
     imports: [CodeTabsComponent],
 })
 export class DemoSubscriptionsComponent {

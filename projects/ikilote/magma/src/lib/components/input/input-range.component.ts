@@ -10,7 +10,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-range',
     templateUrl: './input-range.component.html',
-    styleUrls: ['./input-range.component.scss'],
+    styleUrl: './input-range.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule],
     providers: [

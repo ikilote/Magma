@@ -7,7 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-math',
     templateUrl: './demo-math.component.html',
-    styleUrls: ['./demo-math.component.scss'],
+    styleUrl: './demo-math.component.scss',
     imports: [CodeTabsComponent, MathPipe, JsonPipe],
 })
 export class DemoMathComponent {
@@ -23,7 +23,7 @@ export class DemoMathComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MathPipe],
 })
 export class TestComponent {}`;

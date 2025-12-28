@@ -9,7 +9,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-password',
     templateUrl: './input-password.component.html',
-    styleUrls: ['./input-password.component.scss'],
+    styleUrl: './input-password.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule],
     providers: [

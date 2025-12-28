@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-clipboard',
     templateUrl: './demo-clipboard.component.html',
-    styleUrls: ['./demo-clipboard.component.scss'],
+    styleUrl: './demo-clipboard.component.scss',
     imports: [CodeTabsComponent],
 })
 export class DemoClipboardComponent {

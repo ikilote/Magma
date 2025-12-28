@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-block',
     templateUrl: './demo-block.component.html',
-    styleUrls: ['./demo-block.component.scss'],
+    styleUrl: './demo-block.component.scss',
     imports: [MagmaBlock, CodeTabsComponent],
 })
 export class DemoBlockComponent {
@@ -40,7 +40,7 @@ export class DemoBlockComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaBlock
     ],

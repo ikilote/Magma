@@ -5,7 +5,7 @@ import { Highlight } from 'ngx-highlightjs';
 @Component({
     selector: 'demo-icons',
     templateUrl: './demo-icons.component.html',
-    styleUrls: ['./demo-icons.component.scss'],
+    styleUrl: './demo-icons.component.scss',
     imports: [Highlight],
 })
 export class DemoIconsComponent {

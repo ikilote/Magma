@@ -1,4 +1,3 @@
-
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { MagmaMessageType } from '../../services/messages';
@@ -6,7 +5,7 @@ import { MagmaMessageType } from '../../services/messages';
 @Component({
     selector: 'mg-message-block',
     templateUrl: './message-block.component.html',
-    styleUrls: ['./message-block.component.scss'],
+    styleUrl: './message-block.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [],
     host: {

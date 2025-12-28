@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-file-size',
     templateUrl: './demo-file-size.component.html',
-    styleUrls: ['./demo-file-size.component.scss'],
+    styleUrl: './demo-file-size.component.scss',
     imports: [CodeTabsComponent, FileSizePipe],
 })
 export class DemoFileSizeComponent {
@@ -34,7 +34,7 @@ Language: 'fr'
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MathPipe],
 })
 export class TestComponent {}`;

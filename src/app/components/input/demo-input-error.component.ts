@@ -21,7 +21,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-input-error',
     templateUrl: './demo-input-error.component.html',
-    styleUrls: ['./demo-input-error.component.scss'],
+    styleUrl: './demo-input-error.component.scss',
     imports: [
         MagmaInput,
         MagmaInputText,

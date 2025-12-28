@@ -18,7 +18,7 @@ import { MagmaTable } from './table.component';
 @Component({
     selector: 'table[mg] > * > * > td[mg], table[mg] > * > * > th[mg]',
     templateUrl: './table-cell.component.html',
-    styleUrls: ['./table-cell.component.scss'],
+    styleUrl: './table-cell.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.baseline]': 'baseline()',

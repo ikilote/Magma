@@ -15,7 +15,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-spinner',
     templateUrl: './demo-spinner.component.html',
-    styleUrls: ['./demo-spinner.component.scss'],
+    styleUrl: './demo-spinner.component.scss',
     imports: [CodeTabsComponent, ReactiveFormsModule, MagmaSpinner, MagmaInput, MagmaInputElement, MagmaInputNumber],
 })
 export class DemoSpinnerComponent {
@@ -34,7 +34,7 @@ export class DemoSpinnerComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaSpinner
     ],

@@ -9,7 +9,7 @@ import { MagmaTabContent, MagmaTabTitle, MagmaTabs } from '../../../../projects/
 @Component({
     selector: 'demo-input',
     templateUrl: './demo-input.component.html',
-    styleUrls: ['./demo-input.component.scss'],
+    styleUrl: './demo-input.component.scss',
     imports: [
         MagmaTabs,
         MagmaTabTitle,

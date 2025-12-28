@@ -26,7 +26,7 @@ import { Subscriptions } from '../../utils/subscriptions';
 @Component({
     selector: 'mg-walkthrough-content',
     templateUrl: './walkthrough-content.component.html',
-    styleUrls: ['./walkthrough-content.component.scss'],
+    styleUrl: './walkthrough-content.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [PortalModule, MagmaLimitFocusFirstDirective],
     hostDirectives: [MagmaLimitFocusDirective],

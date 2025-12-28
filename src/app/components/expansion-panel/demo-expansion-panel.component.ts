@@ -14,7 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-expansion-panel',
     templateUrl: './demo-expansion-panel.component.html',
-    styleUrls: ['./demo-expansion-panel.component.scss'],
+    styleUrl: './demo-expansion-panel.component.scss',
     imports: [FormsModule, CodeTabsComponent, MagmaExpansionPanelModule, MagmaInput, MagmaInputCheckbox],
 })
 export class DemoExpansionPanelComponent {
@@ -27,7 +27,7 @@ export class DemoExpansionPanelComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaExpansionPanelModule
     ],

@@ -22,7 +22,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input',
     templateUrl: './input.component.html',
-    styleUrls: ['./input.component.scss'],
+    styleUrl: './input.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CommonModule],
     host: {

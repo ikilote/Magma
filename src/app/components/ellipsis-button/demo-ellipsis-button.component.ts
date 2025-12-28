@@ -14,7 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-ellipsis-button',
     templateUrl: './demo-ellipsis-button.component.html',
-    styleUrls: ['./demo-ellipsis-button.component.scss'],
+    styleUrl: './demo-ellipsis-button.component.scss',
     imports: [MagmaEllipsisButtonModule, MagmaInput, MagmaInputElement, MagmaInputText, FormsModule, CodeTabsComponent],
 })
 export class DemoEllipsisButtonComponent {

@@ -27,7 +27,7 @@ import { palette, texts } from '../color-picker/demo-color-picker.component';
 @Component({
     selector: 'demo-input-generator',
     templateUrl: './demo-input-generator.component.html',
-    styleUrls: ['./demo-input-generator.component.scss'],
+    styleUrl: './demo-input-generator.component.scss',
     imports: [
         MagmaInput,
         MagmaInputText,
@@ -441,7 +441,7 @@ export class DemoInputGeneratorComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaInput,
         ${imports.join(',\n        ')}

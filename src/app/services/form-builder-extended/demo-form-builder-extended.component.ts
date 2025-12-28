@@ -20,7 +20,7 @@ type MyArrayItem = FormGroup<{
 @Component({
     selector: 'demo-form-builder-extended',
     templateUrl: './demo-form-builder-extended.component.html',
-    styleUrls: ['./demo-form-builder-extended.component.scss'],
+    styleUrl: './demo-form-builder-extended.component.scss',
     imports: [
         FormsModule,
         MagmaInput,
@@ -194,7 +194,7 @@ type MyArrayItem = FormGroup<{
 @Component({
     selector: 'demo-form',
     templateUrl: './demo-form.component.html',
-    styleUrls: ['./demo-form.component.scss'],
+    styleUrl: './demo-form.component.scss',
     imports: [
         FormsModule,
         MagmaInput,

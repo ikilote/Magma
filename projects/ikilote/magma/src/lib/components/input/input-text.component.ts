@@ -10,7 +10,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-text',
     templateUrl: './input-text.component.html',
-    styleUrls: ['./input-text.component.scss'],
+    styleUrl: './input-text.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule, FormsModule],
     providers: [

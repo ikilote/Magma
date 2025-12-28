@@ -20,7 +20,7 @@ export type MagmaTableData = {
 @Component({
     selector: 'table[mg]',
     templateUrl: './table.component.html',
-    styleUrls: ['./table.component.scss'],
+    styleUrl: './table.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.baseline]': 'baseline()',

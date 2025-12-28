@@ -20,7 +20,7 @@ import {
 @Component({
     selector: 'demo-input-align',
     templateUrl: './demo-input-align.component.html',
-    styleUrls: ['./demo-input-align.component.scss'],
+    styleUrl: './demo-input-align.component.scss',
     imports: [
         MagmaInput,
         MagmaInputText,

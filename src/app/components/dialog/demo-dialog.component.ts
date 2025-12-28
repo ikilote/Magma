@@ -16,7 +16,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-dialog',
     templateUrl: './demo-dialog.component.html',
-    styleUrls: ['./demo-dialog.component.scss'],
+    styleUrl: './demo-dialog.component.scss',
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,
@@ -43,7 +43,7 @@ export class DemoDialogComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaDialog
     ],

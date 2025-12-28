@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-textarea-autosize',
     templateUrl: './demo-textarea-autosize.component.html',
-    styleUrls: ['./demo-textarea-autosize.component.scss'],
+    styleUrl: './demo-textarea-autosize.component.scss',
     imports: [MagmaTextareaAutosizeDirective, CodeTabsComponent],
 })
 export class DemoTextareaAutosizeComponent {
@@ -17,7 +17,7 @@ export class DemoTextareaAutosizeComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MagmaTextareaAutosizeDirective],
 })
 export class TestComponent {}`;

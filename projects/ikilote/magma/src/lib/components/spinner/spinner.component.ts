@@ -5,7 +5,7 @@ import { numberAttributeOrUndefined } from '../../utils/coercion';
 @Component({
     selector: 'mg-spinner',
     templateUrl: './spinner.component.html',
-    styleUrls: ['./spinner.component.scss'],
+    styleUrl: './spinner.component.scss',
     host: {
         '[style.--height.px]': 'size()',
         '[style.--width.px]': 'tickWidth()',

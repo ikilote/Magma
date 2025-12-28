@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-cookies',
     templateUrl: './demo-cookies.component.html',
-    styleUrls: ['./demo-cookies.component.scss'],
+    styleUrl: './demo-cookies.component.scss',
     imports: [CodeTabsComponent],
 })
 export class DemoCookiesComponent {

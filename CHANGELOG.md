@@ -1,5 +1,18 @@
 # Changelog of @ikilote/magma
 
+## 1.2.0 (2025-12-29)
+
+> Note: replace `styleUrls` by `styleUrl`
+
+### ✅ New
+
+- **New component**:
+    - `ellipsis-button` : new component
+
+### 🐞 Fix
+
+- **input-number**: fix number position with arrows
+
 ## 1.1.1 (2025-12-24)
 
 ### 🐞 Fix

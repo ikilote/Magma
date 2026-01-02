@@ -19,7 +19,7 @@ export class MagmaContribCalendarDesc {}
 @Component({
     selector: 'mg-contrib-calendar',
     templateUrl: './contrib-calendar.component.html',
-    styleUrls: ['./contrib-calendar.component.scss'],
+    styleUrl: './contrib-calendar.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [DatePipe, RepeatForPipe],
     host: {

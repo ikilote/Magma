@@ -1,5 +1,33 @@
 # Changelog of @ikilote/magma
 
+## 1.2.0 (2025-12-29)
+
+> Note: replace `styleUrls` by `styleUrl`
+
+### ✅ New
+
+- **New component**:
+    - `ellipsis-button` : new component
+
+### 🐞 Fix
+
+- **input-number**: fix number position with arrows
+
+## 1.1.1 (2025-12-24)
+
+### 🐞 Fix
+
+- **tooltip**: fix animation (causes `mouseleave`) and cursor
+
+## 1.1.0 (2025-12-22)
+
+**Up to Angular 21**
+
+### 🎦 Demo
+
+- Demo with **zoneless**
+- Update to `@ikilote/json2html` `1.0.0`
+
 ## 1.0.0 (2025-11-25)
 
 > This version of Magma marks the beginning of 100% test coverage, which has allowed all expected problems to be fixed.

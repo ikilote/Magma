@@ -7,7 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-class-list',
     templateUrl: './demo-class-list.component.html',
-    styleUrls: ['./demo-class-list.component.scss'],
+    styleUrl: './demo-class-list.component.scss',
     imports: [CodeTabsComponent, ClassListPipe, JsonPipe],
 })
 export class DemoClassListComponent {
@@ -18,7 +18,7 @@ export class DemoClassListComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [ClassListPipe],
 })
 export class TestComponent {}`;

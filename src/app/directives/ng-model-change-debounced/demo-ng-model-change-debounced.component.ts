@@ -13,7 +13,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-ng-model-change-debounced',
     templateUrl: './demo-ng-model-change-debounced.component.html',
-    styleUrls: ['./demo-ng-model-change-debounced.component.scss'],
+    styleUrl: './demo-ng-model-change-debounced.component.scss',
     imports: [
         MagmaNgModelChangeDebouncedDirective,
         CodeTabsComponent,
@@ -45,7 +45,7 @@ export class DemoNgModelChangeDebouncedComponent {
 @Component({
     selector: 'demo-ng-model-change-debounced',
     templateUrl: './demo-ng-model-change-debounced.component.html',
-    styleUrls: ['./demo-ng-model-change-debounced.component.scss'],
+    styleUrl: './demo-ng-model-change-debounced.component.scss',
     imports: [
         FormsModule,
         MagmaNgModelChangeDebouncedDirective,

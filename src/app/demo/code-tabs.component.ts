@@ -13,7 +13,7 @@ import {
 @Component({
     selector: 'code-tabs',
     templateUrl: './code-tabs.component.html',
-    styleUrls: ['./code-tabs.component.scss'],
+    styleUrl: './code-tabs.component.scss',
     imports: [MagmaTabs, MagmaTabContent, MagmaTabTitle, Highlight],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

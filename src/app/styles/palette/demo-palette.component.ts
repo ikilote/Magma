@@ -11,7 +11,7 @@ import {
 @Component({
     selector: 'demo-palette',
     templateUrl: './demo-palette.component.html',
-    styleUrls: ['./demo-palette.component.scss'],
+    styleUrl: './demo-palette.component.scss',
     imports: [MagmaInput, MagmaInputNumber, ReactiveFormsModule, MagmaInputElement],
     host: {
         '[style.--primaryH]': 'form.value.hue',

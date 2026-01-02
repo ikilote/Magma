@@ -1,6 +1,7 @@
 <a href="https://badge.fury.io/js/@ikilote%2Fmagma"> ![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg) </a>
 <a href="https://www.npmjs.com/package/@ikilote%2Fmagma"> ![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg) </a>
-<a href="https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md"> ![MIT license](https://img.shields.io/badge/license-MIT-blue.svg) </a> ![Angular 20.0](https://img.shields.io/badge/Angular-20.0-red)
+<a href="https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md"> ![MIT license](https://test.ikilote.net/badge-custom.php?label=license&value=MIT&valueBgColor=007ec6) </a>
+<a href="https://angular.dev/">![Angular 21.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=21.0&valueBgColor=e05d44) </a>
 
 # Presentation
 
@@ -20,11 +21,9 @@ npm i @ikilote/magma colorjs.io ng-select2-component
 
 Required in `package.json`
 
-- `"@angular/common": "^20.0.0"`
-- `"@angular/core": "^20.0.0"`
-- `"@angular/cdk": "^20.0.1"`
-- `"colorjs.io": "^0.5.2"`
-- `"ng-select2-component": "^17.2.7"`
+- `"@angular/common": "^21.0.0"`
+- `"@angular/core": "^21.0.0"`
+- `"@angular/cdk": "^21.0.0"`
 
 Add in `style.css`
 
@@ -50,7 +49,8 @@ Add in `style.css`
 
 ## Coverage
 
-<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Statements 100% (1879/1879)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221) </a>
-<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Branches 100% (811/811)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221) </a>
-<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Functions 100% (485/485)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221) </a>
-<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Lines 100% (1829/1829)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Statements 100% (1906/1906)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Branches 100% (812/812)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Functions 100% (496/496)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Lines 100% (1854/1854)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221) </a>
+

@@ -22,7 +22,7 @@ enum Test {
 @Component({
     selector: 'demo-enum',
     templateUrl: './demo-enum.component.html',
-    styleUrls: ['./demo-enum.component.scss'],
+    styleUrl: './demo-enum.component.scss',
     imports: [CodeTabsComponent, JsonPipe, Highlight],
 })
 export class DemoEnumComponent {

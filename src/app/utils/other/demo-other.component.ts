@@ -8,7 +8,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-other',
     templateUrl: './demo-other.component.html',
-    styleUrls: ['./demo-other.component.scss'],
+    styleUrl: './demo-other.component.scss',
     imports: [ReactiveFormsModule, CodeTabsComponent, JsonPipe],
 })
 export class DemoOtherComponent {

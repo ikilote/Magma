@@ -18,7 +18,7 @@ let idIndex = 0;
 @Component({
     selector: 'mg-dialog',
     templateUrl: './dialog.component.html',
-    styleUrls: ['./dialog.component.scss'],
+    styleUrl: './dialog.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaLimitFocusDirective],
     host: {

@@ -19,7 +19,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-progress',
     templateUrl: './demo-progress.component.html',
-    styleUrls: ['./demo-progress.component.scss'],
+    styleUrl: './demo-progress.component.scss',
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,
@@ -55,7 +55,7 @@ export class DemoProgressComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaProgress
     ],

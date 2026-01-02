@@ -13,7 +13,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-cache',
     templateUrl: './demo-cache.component.html',
-    styleUrls: ['./demo-cache.component.scss'],
+    styleUrl: './demo-cache.component.scss',
     imports: [FormsModule, CodeTabsComponent, MagmaInput, MagmaInputElement, MagmaInputText],
 })
 export class DemoCacheComponent {
@@ -30,7 +30,7 @@ export class DemoCacheComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
 })
 export class TestComponent {
     protected readonly cache = inject(MagmaCache);

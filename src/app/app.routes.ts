@@ -53,6 +53,14 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'ellipsis-button',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/ellipsis-button/demo-ellipsis-button.component').then(
+                        m => m.DemoEllipsisButtonComponent,
+                    ),
+            },
+            {
                 path: 'dialog',
                 pathMatch: 'full',
                 loadComponent: () =>

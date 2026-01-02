@@ -18,7 +18,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-message',
     templateUrl: './demo-message.component.html',
-    styleUrls: ['./demo-message.component.scss'],
+    styleUrl: './demo-message.component.scss',
     imports: [MagmaMessage, MagmaBlockMessage, CodeTabsComponent, MagmaInput, MagmaInputSelect, FormsModule],
 })
 export class DemoMessageComponent {
@@ -31,7 +31,7 @@ export class DemoMessageComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaMessage
     ],
@@ -44,7 +44,7 @@ export class DemoMessageComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaMessage,
         MagmaBlockMessage

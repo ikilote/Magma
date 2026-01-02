@@ -13,7 +13,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-dom',
     templateUrl: './demo-dom.component.html',
-    styleUrls: ['./demo-dom.component.scss'],
+    styleUrl: './demo-dom.component.scss',
     imports: [ReactiveFormsModule, CodeTabsComponent, MagmaInput, MagmaInputText, MagmaInputElement],
 })
 export class DemoDomComponent {

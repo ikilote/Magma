@@ -11,7 +11,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-stop-propagation',
     templateUrl: './demo-stop-propagation.component.html',
-    styleUrls: ['./demo-stop-propagation.component.scss'],
+    styleUrl: './demo-stop-propagation.component.scss',
     imports: [MagmaStopPropagationDirective, MagmaInput, MagmaInputText, MagmaInputElement, CodeTabsComponent],
 })
 export class DemoStopPropagationComponent {
@@ -54,7 +54,7 @@ export class DemoStopPropagationComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [
         MagmaStopPropagationDirective,
         MagmaInput,

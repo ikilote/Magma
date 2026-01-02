@@ -18,7 +18,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-loader-block',
     templateUrl: './demo-loader-block.component.html',
-    styleUrls: ['./demo-loader-block.component.scss'],
+    styleUrl: './demo-loader-block.component.scss',
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,
@@ -48,7 +48,7 @@ export class DemoLoaderBlockComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaLoaderBlock,
         MagmaLoaderTile

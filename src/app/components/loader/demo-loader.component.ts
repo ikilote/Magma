@@ -24,7 +24,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-loader',
     templateUrl: './demo-loader.component.html',
-    styleUrls: ['./demo-loader.component.scss'],
+    styleUrl: './demo-loader.component.scss',
     imports: [
         CodeTabsComponent,
         FormsModule,
@@ -75,7 +75,7 @@ export class DemoLoaderComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaLoader,
         MagmaLoaderMessage,

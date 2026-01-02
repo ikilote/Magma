@@ -12,7 +12,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-click-enter',
     templateUrl: './demo-click-enter.component.html',
-    styleUrls: ['./demo-click-enter.component.scss'],
+    styleUrl: './demo-click-enter.component.scss',
     imports: [
         ReactiveFormsModule,
         MagmaClickEnterDirective,
@@ -30,7 +30,7 @@ export class DemoClickEnterComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MagmaClickEnterDirective],
 })
 export class TestComponent {
@@ -46,7 +46,7 @@ export class TestComponent {
 @Component({
   selector: 'demo-test',
   templateUrl: './demo-test.component.html',
-  styleUrls: ['./demo-test.component.scss'],
+  styleUrl: './demo-test.component.scss',
   imports: [MagmaClickEnterDirective, MagmaBlock],
 })
 export class TestComponent {

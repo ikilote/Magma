@@ -1,0 +1,34 @@
+<h1>Ellipsis button</h1>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h2>Options</h2>
+    <mg-input>
+      <mg-input-label>mg-ellipsis-content</mg-input-label>
+      <mg-input-text [(ngModel)]="content" (ngModelChange)="codeGeneration()" />
+      <mg-input-desc>Replace ellipsis</mg-input-desc>
+    </mg-input>
+  </div>
+
+  <div class="s-2 s-12-m">
+    <h2>Render</h2>
+    <mg-ellipsis-button>
+      @if (content) {
+        <mg-ellipsis-content>{{ content }}</mg-ellipsis-content>
+      }
+      <mg-ellipsis-item (action)="action('1')"> Action 1 </mg-ellipsis-item>
+      <mg-ellipsis-item (action)="action('2')"> Action 2 </mg-ellipsis-item>
+      <mg-ellipsis-item (action)="action('3')"> Action with a long text to test the position </mg-ellipsis-item>
+    </mg-ellipsis-button>
+  </div>
+
+  <div class="s-6 s-12-m">
+    <h2>Code</h2>
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtml },
+        { type: 'ts', code: [{ code: codeTs }] },
+      ]"
+    />
+  </div>
+</section>

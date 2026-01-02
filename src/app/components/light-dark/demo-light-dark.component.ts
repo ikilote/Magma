@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-light-dark',
     templateUrl: './demo-light-dark.component.html',
-    styleUrls: ['./demo-light-dark.component.scss'],
+    styleUrl: './demo-light-dark.component.scss',
     imports: [MagmaLightDark, CodeTabsComponent],
 })
 export class DemoLightDarkComponent {
@@ -18,7 +18,7 @@ export class DemoLightDarkComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaLightDark
     ],

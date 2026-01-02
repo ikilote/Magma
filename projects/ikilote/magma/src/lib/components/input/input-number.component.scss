@@ -27,14 +27,14 @@
         }
     }
 
-    &.show-arrows::before {
+    &.show-arrows::after {
         right: 22px;
     }
 }
 /*  Chrome, Edge, Opera */
 
 @supports selector(::-webkit-scrollbar) {
-    :host.show-arrows::before {
+    :host.show-arrows::after {
         right: 19px;
     }
 }
@@ -42,7 +42,7 @@
 /*  Safari, Web */
 
 @supports (background: -webkit-named-image(i)) {
-    :host.show-arrows::before {
+    :host.show-arrows::after {
         right: 20px;
     }
 }
@@ -50,7 +50,7 @@
 /*  Android, iOs */
 
 @media only screen and (hover: none) and (pointer: coarse) {
-    :host.show-arrows::before {
+    :host.show-arrows::after {
         right: 4px;
     }
 }

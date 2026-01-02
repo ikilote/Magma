@@ -12,7 +12,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-number',
     templateUrl: './demo-number.component.html',
-    styleUrls: ['./demo-number.component.scss'],
+    styleUrl: './demo-number.component.scss',
     imports: [CodeTabsComponent, FormsModule, MagmaInput, MagmaInputNumber, MagmaInputElement],
 })
 export class DemoNumberComponent {

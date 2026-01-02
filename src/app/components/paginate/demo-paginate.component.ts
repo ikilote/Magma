@@ -17,7 +17,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-paginate',
     templateUrl: './demo-paginate.component.html',
-    styleUrls: ['./demo-paginate.component.scss'],
+    styleUrl: './demo-paginate.component.scss',
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,
@@ -53,7 +53,7 @@ export class DemoPaginateComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaPagination
     ],

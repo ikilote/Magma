@@ -22,7 +22,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-walkthrough',
     templateUrl: './demo-walkthrough.component.html',
-    styleUrls: ['./demo-walkthrough.component.scss'],
+    styleUrl: './demo-walkthrough.component.scss',
     imports: [
         ReactiveFormsModule,
         CodeTabsComponent,
@@ -114,7 +114,7 @@ export class DemoWalkthroughComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaWalkthrough,
         MagmaWalkthroughStep,

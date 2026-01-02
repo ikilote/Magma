@@ -71,7 +71,7 @@ export const texts: MagmaColorPickerTexts = {
 @Component({
     selector: 'demo-color-picker',
     templateUrl: './demo-color-picker.component.html',
-    styleUrls: ['./demo-color-picker.component.scss'],
+    styleUrl: './demo-color-picker.component.scss',
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,
@@ -116,7 +116,7 @@ export class DemoColorPickerComponent {
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaColorPickerComponent
     ],
@@ -129,7 +129,7 @@ export class DemoBlockComponent { }`;
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    styleUrls: ['./my-component.component.scss'],
+    styleUrl: './my-component.component.scss',
     imports: [
         MagmaColorPicker
     ],

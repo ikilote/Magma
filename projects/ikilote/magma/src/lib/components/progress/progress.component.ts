@@ -9,7 +9,7 @@ import { numberAttributeOrUndefined } from '../../utils/coercion';
 @Component({
     selector: 'mg-progress',
     templateUrl: './progress.component.html',
-    styleUrls: ['./progress.component.scss'],
+    styleUrl: './progress.component.scss',
     imports: [FileSizePipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

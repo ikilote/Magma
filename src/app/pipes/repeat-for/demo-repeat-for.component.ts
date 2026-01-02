@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-repeat-for',
     templateUrl: './demo-repeat-for.component.html',
-    styleUrls: ['./demo-repeat-for.component.scss'],
+    styleUrl: './demo-repeat-for.component.scss',
     imports: [CodeTabsComponent, RepeatForPipe],
 })
 export class DemoeRepeatForComponent {
@@ -23,7 +23,7 @@ export class DemoeRepeatForComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [RepeatForPipe],
 })
 export class TestComponent {}`;

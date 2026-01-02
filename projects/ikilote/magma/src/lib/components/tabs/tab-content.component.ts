@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
 @Component({
     selector: 'mg-tab-content',
     templateUrl: './tab-content.component.html',
-    styleUrls: ['./tab-content.component.scss'],
+    styleUrl: './tab-content.component.scss',
     host: {
         '[attr.id]': '"tab-content-" + id()',
     },

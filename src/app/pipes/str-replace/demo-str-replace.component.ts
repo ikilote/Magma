@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-str-replace',
     templateUrl: './demo-str-replace.component.html',
-    styleUrls: ['./demo-str-replace.component.scss'],
+    styleUrl: './demo-str-replace.component.scss',
     imports: [CodeTabsComponent, StrReplacePipe],
 })
 export class DemoStrReplaceComponent {
@@ -21,7 +21,7 @@ export class DemoStrReplaceComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [ArrayFilterPipe],
 })
 export class TestComponent {

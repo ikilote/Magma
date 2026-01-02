@@ -13,7 +13,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-json',
     templateUrl: './demo-json.component.html',
-    styleUrls: ['./demo-json.component.scss'],
+    styleUrl: './demo-json.component.scss',
     imports: [CodeTabsComponent, MagmaInput, MagmaInputTextarea, FormsModule, MagmaInputElement],
 })
 export class DemoJsonComponent {

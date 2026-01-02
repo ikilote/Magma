@@ -237,8 +237,13 @@ select2 {
     MARK: Tooltip
 */
 
-[ng-reflect-tooltip] {
-    cursor: help;
+.tooltip {
+    cursor: var(--tooltip-cursor);
+}
+
+.tooltip-panel,
+.tooltip-panel * {
+    pointer-events: none;
 }
 
 /*  -------------------- table / sortable ------------------------------------------------------------

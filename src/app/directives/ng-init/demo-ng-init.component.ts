@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-ng-init',
     templateUrl: './demo-ng-init.component.html',
-    styleUrls: ['./demo-ng-init.component.scss'],
+    styleUrl: './demo-ng-init.component.scss',
     imports: [MagmaNgInitDirective, CodeTabsComponent],
 })
 export class DemoNgInitComponent {
@@ -22,7 +22,7 @@ export class DemoNgInitComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MagmaNgInitDirective],
 })
 export class TestComponent {

@@ -20,7 +20,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-checkbox',
     templateUrl: './input-checkbox.component.html',
-    styleUrls: ['./input-checkbox.component.scss'],
+    styleUrl: './input-checkbox.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputCheckbox },

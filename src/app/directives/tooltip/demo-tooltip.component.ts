@@ -16,7 +16,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-tooltip',
     templateUrl: './demo-tooltip.component.html',
-    styleUrls: ['./demo-tooltip.component.scss'],
+    styleUrl: './demo-tooltip.component.scss',
     imports: [
         ReactiveFormsModule,
         MagmaTooltipDirective,
@@ -37,7 +37,7 @@ export class DemoTooltipComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [MagmaTooltipDirective],
 })
 export class TestComponent {}`;

@@ -17,7 +17,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-object',
     templateUrl: './demo-object.component.html',
-    styleUrls: ['./demo-object.component.scss'],
+    styleUrl: './demo-object.component.scss',
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

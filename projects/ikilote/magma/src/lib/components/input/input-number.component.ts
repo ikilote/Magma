@@ -11,7 +11,7 @@ let counter = 0;
 @Component({
     selector: 'mg-input-number',
     templateUrl: './input-number.component.html',
-    styleUrls: ['./input-number.component.scss'],
+    styleUrl: './input-number.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputNumber },

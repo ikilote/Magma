@@ -5,7 +5,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-coercion',
     templateUrl: './demo-coercion.component.html',
-    styleUrls: ['./demo-coercion.component.scss'],
+    styleUrl: './demo-coercion.component.scss',
     imports: [CodeTabsComponent],
 })
 export class DemoCoercionComponent {

@@ -16,7 +16,7 @@ import { LightDark, PreferenceInterfaceTheme } from '../../services/light-dark';
 @Component({
     selector: 'mg-light-dark',
     templateUrl: './light-dark.component.html',
-    styleUrls: ['./light-dark.component.scss'],
+    styleUrl: './light-dark.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaClickEnterDirective],
     hostDirectives: [MagmaClickEnterDirective],

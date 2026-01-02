@@ -6,6 +6,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
         'mg-input-after, mg-input-textarea-desc',
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: '<ng-content />',
-    styleUrls: ['input-element.component.scss'],
+    styleUrl: 'input-element.component.scss',
 })
 export class MagmaInputElement {}

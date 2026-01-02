@@ -6,7 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-num-format',
     templateUrl: './demo-num-format.component.html',
-    styleUrls: ['./demo-num-format.component.scss'],
+    styleUrl: './demo-num-format.component.scss',
     imports: [CodeTabsComponent, NumFormatPipe],
 })
 export class DemoNumFormatComponent {
@@ -22,7 +22,7 @@ export class DemoNumFormatComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [NumFormatPipe],
 })
 export class TestComponent {}`;

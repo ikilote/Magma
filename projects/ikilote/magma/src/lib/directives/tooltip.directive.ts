@@ -49,10 +49,13 @@ let index = 0;
                 0% {
                     top: -15px;
                     opacity: 0;
+                    pointer-events: none;
                 }
+
                 100% {
                     top: 0;
                     opacity: 1;
+                    pointer-events: none;
                 }
             }
         `,
@@ -67,6 +70,7 @@ export class MagmaTooltipComponent {
     selector: '[mgTooltip]',
     host: {
         '[aria-describedby]': 'describedBy()',
+        '[class.tooltip]': 'true',
     },
 })
 export class MagmaTooltipDirective implements OnDestroy {

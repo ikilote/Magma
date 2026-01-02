@@ -7,7 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 @Component({
     selector: 'demo-array-filter',
     templateUrl: './demo-array-filter.component.html',
-    styleUrls: ['./demo-array-filter.component.scss'],
+    styleUrl: './demo-array-filter.component.scss',
     imports: [CodeTabsComponent, ArrayFilterPipe, JsonPipe],
 })
 export class DemoArrayFilterComponent {
@@ -18,7 +18,7 @@ export class DemoArrayFilterComponent {
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
-    styleUrls: ['./demo-test.component.scss'],
+    styleUrl: './demo-test.component.scss',
     imports: [ArrayFilterPipe],
 })
 export class TestComponent {

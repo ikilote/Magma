@@ -19,7 +19,7 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
 import { RepeatForPipe } from '../../pipes/repeat-for.pipe';
 import { StringPipe } from '../../pipes/string.pipe';
 import { Logger } from '../../services/logger';
-import { DurationTime, addDuration } from '../../utils/date';
+import { DurationTime, WeekDay, addDuration, getWeek } from '../../utils/date';
 import { MagmaInputSelect } from '../input/input-select.component';
 import { MagmaInput } from '../input/input.component';
 
@@ -30,12 +30,16 @@ export type DateInfo = {
     isCurrentMonth: boolean;
     isToday: boolean;
     disabled: boolean;
+    weekend: boolean;
+    weekNumber: number | null;
 };
 
 let index = 0;
 
 export type MagmaDatetimePickerDays = 'Monday' | 'Sunday' | 'Saturday' | undefined;
 export type MagmaDatetimeType = 'date' | 'datetime-local' | 'time' | undefined;
+
+const WEEK: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 @Component({
     selector: 'datetime-picker',
@@ -74,6 +78,9 @@ export class MagmaDatetimePickerComponent {
     readonly embedded = input(false, { transform: booleanAttribute });
     readonly readonly = input(false, { transform: booleanAttribute });
     readonly firstDayOfWeek = input<MagmaDatetimePickerDays>();
+    readonly weekend = input<WeekDay[]>(['Sunday', 'Saturday']);
+    readonly hideWeekend = input(false, { transform: booleanAttribute });
+    readonly hideWeekNumber = input(false, { transform: booleanAttribute });
 
     // output
 
@@ -220,6 +227,8 @@ export class MagmaDatetimePickerComponent {
                 isCurrentMonth: currentLoopDate.getUTCMonth() === month,
                 isToday: today.toDateString() === currentLoopDate.toDateString(),
                 disabled: (min ? datetime < min : false) || (max ? datetime > max : false),
+                weekend: !this.hideWeekend() ? this.weekend().includes(WEEK[date.getUTCDay()]) : false,
+                weekNumber: !this.hideWeekNumber() ? getWeek(date, { dowOffset: this.firstDayOfWeek() }) : null,
             });
 
             currentLoopDate.setUTCDate(currentLoopDate.getUTCDate() + 1);

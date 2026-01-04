@@ -56,6 +56,10 @@
     justify-content: center;
     gap: 2px;
 
+    &.week-number {
+        grid-template-columns: repeat(8, 30px);
+    }
+
     .head,
     .day {
         display: flex;
@@ -85,6 +89,14 @@
             font-weight: bold;
         }
 
+        &.weekend {
+            font-weight: bold;
+
+            &.current-month {
+                color: var(--primary4);
+            }
+        }
+
         &.selected {
             background-color: var(--primary5);
             color: var(--neutralB);
@@ -98,6 +110,12 @@
         &.disabled {
             background-color: transparent;
         }
+    }
+
+    .week {
+        justify-content: right;
+        padding-right: 5px;
+        font-size: smaller;
     }
 }
 

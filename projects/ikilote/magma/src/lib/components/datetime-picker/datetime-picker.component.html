@@ -22,20 +22,31 @@
     </mg-input>
     <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="nextMonth()"></span>
   </div>
-  <div class="table" (keydown)="move($event)">
+  <div class="table" [class.week-number]="!hideWeekNumber()" (keydown)="move($event)">
+    @if (!hideWeekNumber()) {
+      <div class="head"></div>
+    }
+
     @for (day of computedDays(); track $index) {
       <div class="head">
         {{ day }}
       </div>
     }
-    @for (mouths of computedDaysOfMonth(); track $index) {
-      @for (day of mouths; track $index) {
+    @for (mouth of computedDaysOfMonth(); track $index) {
+      @for (day of mouth; track $index; let i = $index) {
+        @if (!hideWeekNumber() && day.weekNumber && day.weekNumber !== mouth[i - 1]?.weekNumber) {
+          <div class="day week">
+            {{ day.weekNumber }}
+          </div>
+        }
+
         <div
           class="day"
           [class.today]="day.isToday"
           [class.current-month]="day.isCurrentMonth"
           [class.selected]="day.day === date().getUTCDate() && day.month - 1 === date().getUTCMonth() && selected()"
           [class.disabled]="day.disabled"
+          [class.weekend]="day.weekend"
           (clickEnter)="select(day)"
           [disabled]="readonly() || day.disabled"
         >

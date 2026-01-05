@@ -138,7 +138,7 @@ export class DemoInputGeneratorComponent {
     valueText = 'Test';
     valueTextarea = 'Test';
     valuePassword = '';
-    valueDate = '2012-12-12';
+    valueDate = '2012-12-25';
     valueNumber = 20;
     valueRange = 20;
     valueCheckbox = ['value2'];

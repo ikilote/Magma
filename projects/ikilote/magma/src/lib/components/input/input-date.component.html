@@ -1,19 +1,6 @@
 @if (!onError()) {
-  <input
-    #input
-    [type]="type() || 'date'"
-    [name]="_name()"
-    [id]="_id() + '-input'"
-    [value]="_value ?? ''"
-    [disabled]="disabled()"
-    [readonly]="readonly()"
-    (change)="changeValue($event)"
-    (input)="inputValue($event)"
-    (focus)="focus(true)"
-    (blur)="focus(false)"
-  />
-  <div class="input date">
-    @if (type()?.startsWith('date')) {
+  <div class="input date" #input>
+    @if (_type().startsWith('date')) {
       <input
         #inputDay
         type="number"
@@ -21,7 +8,16 @@
         [id]="_id() + '-day-input'"
         [value]="_day()"
         class="day"
+        min="0"
+        max="31"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, 'day')"
         (input)="updateDate($event, 'day')"
+        (focus)="focus(true)"
+        (blur)="focus(false)"
         [placeholder]="placeholderInfos?.dd"
       />
       <span>{{ placeholderInfos?.s1 }}</span>
@@ -32,7 +28,16 @@
         [id]="_id() + '-month-input'"
         [value]="_month()"
         class="month"
+        min="0"
+        max="12"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, 'month')"
         (input)="updateDate($event, 'month')"
+        (focus)="focus(true)"
+        (blur)="focus(false)"
         [placeholder]="placeholderInfos?.mm"
       />
       <span>{{ placeholderInfos?.s2 }}</span>
@@ -43,12 +48,21 @@
         [id]="_id() + '-year-input'"
         [value]="_year()"
         class="year"
+        min="0"
+        max="9999"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, 'year')"
         (input)="updateDate($event, 'year')"
+        (focus)="focus(true)"
+        (blur)="focus(false)"
         [placeholder]="placeholderInfos?.yyyy"
       />
     }
     <span>{{ placeholderInfos?.s3 }}</span>
-    @if (type()?.includes('time')) {
+    @if (_type().includes('time')) {
       <input
         #inputHours
         type="number"
@@ -56,7 +70,16 @@
         [id]="_id() + '-hours-input'"
         [value]="_hours()"
         class="hours"
+        min="0"
+        max="23"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, 'hours')"
         (input)="updateDate($event, 'hours')"
+        (focus)="focus(true)"
+        (blur)="focus(false)"
         [placeholder]="placeholderInfos?.hh"
       />
       <span>{{ placeholderInfos?.h1 }}</span>
@@ -67,11 +90,20 @@
         [id]="_id() + '-minutes-input'"
         [value]="_minutes()"
         class="minutes"
+        min="0"
+        max="59"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, 'minutes')"
         (input)="updateDate($event, 'minutes')"
+        (focus)="focus(true)"
+        (blur)="focus(false)"
         [placeholder]="placeholderInfos?.min"
       />
     }
-    @if (type()?.includes('seconds') || type()?.includes('milli')) {
+    @if (_type().includes('seconds') || _type().includes('milli')) {
       <span>{{ placeholderInfos?.h2 }}</span>
       <input
         #inputSeconds
@@ -80,11 +112,20 @@
         [id]="_id() + '-seconds-input'"
         [value]="_seconds()"
         class="seconds"
+        min="0"
+        max="59"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, 'seconds')"
         (input)="updateDate($event, 'seconds')"
+        (focus)="focus(true)"
+        (blur)="focus(false)"
         [placeholder]="placeholderInfos?.sec"
       />
     }
-    @if (type()?.includes('milli')) {
+    @if (_type().includes('milli')) {
       <span>{{ placeholderInfos?.h3 }}</span>
       <input
         #inputMilli
@@ -93,19 +134,21 @@
         [id]="_id() + '-milli-input'"
         [value]="_milli()"
         class="milli"
+        min="0"
+        max="999"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (change)="changeDate($event, 'milli')"
         (input)="updateDate($event, 'milli')"
+        (focus)="focus(true)"
+        (blur)="focus(false)"
         [placeholder]="placeholderInfos?.mmm"
       />
     }
   </div>
 
   @if (hideDatePicker()) {
-    <span
-      class="picker-icon"
-      [datetimePicker]="input.value"
-      (datetimeClose)="dateClose($event)"
-      stop-propagation
-      stopKeydown
+    <span class="picker-icon" [datetimePicker]="_value" (datetimeClose)="dateClose($event)" stop-propagation stopKeydown
       >📅</span
     >
   } @else {

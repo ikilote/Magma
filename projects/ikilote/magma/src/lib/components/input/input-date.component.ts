@@ -115,6 +115,16 @@ const languages: Record<string, string | { format: string; type: 'dmy' | 'ymd' |
     'sw-KE': 'dd/mm/aaaa hh:mm:ss:sss', // Kenya
 };
 
+const types: (MagmaDatetimeType | 'datatime-seconds' | 'datatime-milli' | 'month' | 'week')[] = [
+    'date',
+    'datetime-local',
+    'time',
+    'datatime-seconds',
+    'datatime-milli',
+    'month',
+    'week',
+];
+
 @Component({
     selector: 'mg-input-date',
     templateUrl: './input-date.component.html',
@@ -137,7 +147,8 @@ export class MagmaInputDate
     override readonly componentName: string = 'input-date';
     protected override counter = counter++;
 
-    readonly type = input<MagmaDatetimeType | 'datatime-seconds' | 'datatime-milli' | 'month' | 'week'>('date');
+    readonly type = input<MagmaDatetimeType | 'datatime-seconds' | 'datatime-milli' | 'month' | 'week'>();
+    protected readonly _type = computed(() => (types.includes(this.type()) ? (this.type() ?? 'date') : 'date'));
     readonly hideDatePicker = input(false, { transform: booleanAttribute });
     readonly lang = input<string>();
 
@@ -145,7 +156,7 @@ export class MagmaInputDate
 
     readonly datePicker = viewChildren(MagmaDatetimePicker);
 
-    override get inputElement(): HTMLInputElement | undefined {
+    override get inputElement(): HTMLElement | undefined {
         return this.input()?.[0]?.nativeElement;
     }
 
@@ -185,6 +196,8 @@ export class MagmaInputDate
         milli: 0,
     };
 
+    protected lockFocus = false;
+
     constructor() {
         super();
         this.placeholderCompute(this.lang());
@@ -211,7 +224,6 @@ export class MagmaInputDate
 
     override writeValue(value: any): void {
         super.writeValue(value);
-        this.inputElement!.value = value ?? '';
         this.refreshTrigger.set(true);
     }
 
@@ -252,19 +264,6 @@ export class MagmaInputDate
         }
     }
 
-    changeValue(event: Event) {
-        const value = ((event as InputEvent).target as HTMLInputElement).value;
-        super.writeValue(value);
-        this.onChange(value);
-        this.update.emit(value);
-    }
-
-    inputValue(event: Event) {
-        const value = ((event as InputEvent).target as HTMLInputElement).value;
-        super.writeValue(value);
-        this.onChange(value);
-    }
-
     focus(focus: boolean) {
         if (!focus) {
             this.onTouched();
@@ -291,7 +290,26 @@ export class MagmaInputDate
         }
     }
 
+    keydown(event: KeyboardEvent) {
+        if (event.key.includes('Arrow')) {
+            this.lockFocus = true;
+        }
+    }
+
+    keyup(event: KeyboardEvent) {
+        if (event.key.includes('Arrow')) {
+            this.lockFocus = false;
+        }
+    }
+
+    changeDate(event: Event, type: 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli') {
+        console.log('change', event);
+        this.updateDate(event, type);
+        this.update.emit(this._value);
+    }
+
     updateDate(event: Event, type: 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli') {
+        console.log('update', event);
         const input = event.target as HTMLInputElement;
         const value = input?.valueAsNumber;
         if (value) {
@@ -302,7 +320,10 @@ export class MagmaInputDate
                         if (value > 31) {
                             input.valueAsNumber = 31;
                         }
-                        next = true;
+                        console.log('>>>', this.lockFocus);
+                        if (!this.lockFocus) {
+                            next = true;
+                        }
                     }
                     break;
                 case 'month':
@@ -310,20 +331,26 @@ export class MagmaInputDate
                         if (value > 12) {
                             input.valueAsNumber = 12;
                         }
-                        next = true;
+                        if (!this.lockFocus) {
+                            next = true;
+                        }
                     }
                     break;
                 case 'year':
                     if (value > 9999) {
                         input.valueAsNumber = 9999;
-                        next = true;
+                        if (!this.lockFocus) {
+                            next = true;
+                        }
                     }
 
                     break;
                 case 'hours':
                     if (value > 24) {
                         input.valueAsNumber = 24;
-                        next = true;
+                        if (!this.lockFocus) {
+                            next = true;
+                        }
                     }
                     break;
                 case 'minutes':
@@ -332,7 +359,9 @@ export class MagmaInputDate
                         if (value > 60) {
                             input.valueAsNumber = 60;
                         }
-                        next = true;
+                        if (!this.lockFocus) {
+                            next = true;
+                        }
                     }
                     break;
                 case 'milli':

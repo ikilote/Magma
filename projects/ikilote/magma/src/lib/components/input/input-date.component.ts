@@ -115,12 +115,12 @@ const languages: Record<string, string | { format: string; type: 'dmy' | 'ymd' |
     'sw-KE': 'dd/mm/aaaa hh:mm:ss:sss', // Kenya
 };
 
-const types: (MagmaDatetimeType | 'datatime-seconds' | 'datatime-milli' | 'month' | 'week')[] = [
+const types: (MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli' | 'month' | 'week')[] = [
     'date',
     'datetime-local',
     'time',
-    'datatime-seconds',
-    'datatime-milli',
+    'datetime-seconds',
+    'datetime-milli',
     'month',
     'week',
 ];
@@ -149,7 +149,7 @@ export class MagmaInputDate
     override readonly componentName: string = 'input-date';
     protected override counter = counter++;
 
-    readonly type = input<MagmaDatetimeType | 'datatime-seconds' | 'datatime-milli' | 'month' | 'week'>();
+    readonly type = input<MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli' | 'month' | 'week'>();
     protected readonly _type = computed(() => (types.includes(this.type()) ? (this.type() ?? 'date') : 'date'));
     readonly hideDatePicker = input(false, { transform: booleanAttribute });
     readonly lang = input<string>();
@@ -408,10 +408,10 @@ export class MagmaInputDate
                     break;
                 case 'time':
                     break;
-                case 'datatime-seconds':
+                case 'datetime-seconds':
                     valueDate = valueDate?.substring(0, 18);
                     break;
-                case 'datatime-milli':
+                case 'datetime-milli':
                     valueDate = valueDate?.substring(0, 22);
                     break;
                 case 'date':

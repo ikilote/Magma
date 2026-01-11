@@ -125,6 +125,8 @@ const types: (MagmaDatetimeType | 'datatime-seconds' | 'datatime-milli' | 'month
     'week',
 ];
 
+type fieldName = 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli';
+
 @Component({
     selector: 'mg-input-date',
     templateUrl: './input-date.component.html',
@@ -160,14 +162,14 @@ export class MagmaInputDate
         return this.input()?.[0]?.nativeElement;
     }
 
-    protected readonly _day = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(8, 10) : ''),
+    protected readonly _year = computed(
+        () => this.refreshTrigger() || (this._value ? this._value.substring(0, 4) : ''),
     );
     protected readonly _month = computed(
         () => this.refreshTrigger() || (this._value ? this._value.substring(5, 7) : ''),
     );
-    protected readonly _year = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(0, 4) : ''),
+    protected readonly _day = computed(
+        () => this.refreshTrigger() || (this._value ? this._value.substring(8, 10) : ''),
     );
     protected readonly _hours = computed(
         () => this.refreshTrigger() || (this._value ? this._value.substring(11, 13) : ''),
@@ -264,11 +266,22 @@ export class MagmaInputDate
         }
     }
 
-    focus(focus: boolean) {
+    focus(event: FocusEvent, focus: boolean, type: fieldName) {
         if (!focus) {
             this.onTouched();
             if (this.ngControl?.control) {
                 this.validate(this.ngControl.control);
+            }
+            const element = event.target as HTMLInputElement;
+            let size = 2;
+            if (type === 'milli') {
+                size = 3;
+            } else if (type === 'year') {
+                size = 4;
+            }
+
+            if (element?.value.length < size) {
+                element.value = `${+element.value}`.padStart(size, '0');
             }
         }
     }
@@ -302,13 +315,13 @@ export class MagmaInputDate
         }
     }
 
-    changeDate(event: Event, type: 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli') {
+    changeDate(event: Event, type: fieldName) {
         console.log('change', event);
         this.updateDate(event, type);
         this.update.emit(this._value);
     }
 
-    updateDate(event: Event, type: 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli') {
+    updateDate(event: Event, type: fieldName) {
         console.log('update', event);
         const input = event.target as HTMLInputElement;
         const value = input?.valueAsNumber;
@@ -320,7 +333,6 @@ export class MagmaInputDate
                         if (value > 31) {
                             input.valueAsNumber = 31;
                         }
-                        console.log('>>>', this.lockFocus);
                         if (!this.lockFocus) {
                             next = true;
                         }
@@ -391,9 +403,6 @@ export class MagmaInputDate
             );
 
             switch (this.type()) {
-                case 'date':
-                    valueDate = valueDate?.substring(0, 10);
-                    break;
                 case 'datetime-local':
                     valueDate = valueDate?.substring(0, 16);
                     break;
@@ -404,6 +413,14 @@ export class MagmaInputDate
                     break;
                 case 'datatime-milli':
                     valueDate = valueDate?.substring(0, 22);
+                    break;
+                case 'date':
+                default:
+                    if (this.valueCache.year && this.valueCache.month && this.valueCache.year) {
+                        valueDate = valueDate?.substring(0, 10);
+                    } else {
+                        valueDate = undefined;
+                    }
                     break;
             }
 

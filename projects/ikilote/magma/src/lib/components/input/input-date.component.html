@@ -16,8 +16,8 @@
         (keydown)="keydown($event)"
         (change)="changeDate($event, 'day')"
         (input)="updateDate($event, 'day')"
-        (focus)="focus(true)"
-        (blur)="focus(false)"
+        (focus)="focus($event, true, 'day')"
+        (blur)="focus($event, false, 'day')"
         [placeholder]="placeholderInfos?.dd"
       />
       <span>{{ placeholderInfos?.s1 }}</span>
@@ -36,8 +36,8 @@
         (keydown)="keydown($event)"
         (change)="changeDate($event, 'month')"
         (input)="updateDate($event, 'month')"
-        (focus)="focus(true)"
-        (blur)="focus(false)"
+        (focus)="focus($event, true, 'month')"
+        (blur)="focus($event, false, 'month')"
         [placeholder]="placeholderInfos?.mm"
       />
       <span>{{ placeholderInfos?.s2 }}</span>
@@ -56,8 +56,8 @@
         (keydown)="keydown($event)"
         (change)="changeDate($event, 'year')"
         (input)="updateDate($event, 'year')"
-        (focus)="focus(true)"
-        (blur)="focus(false)"
+        (focus)="focus($event, true, 'year')"
+        (blur)="focus($event, false, 'year')"
         [placeholder]="placeholderInfos?.yyyy"
       />
     }
@@ -78,8 +78,8 @@
         (keydown)="keydown($event)"
         (change)="changeDate($event, 'hours')"
         (input)="updateDate($event, 'hours')"
-        (focus)="focus(true)"
-        (blur)="focus(false)"
+        (focus)="focus($event, true, 'hours')"
+        (blur)="focus($event, false, 'hours')"
         [placeholder]="placeholderInfos?.hh"
       />
       <span>{{ placeholderInfos?.h1 }}</span>
@@ -98,8 +98,8 @@
         (keydown)="keydown($event)"
         (change)="changeDate($event, 'minutes')"
         (input)="updateDate($event, 'minutes')"
-        (focus)="focus(true)"
-        (blur)="focus(false)"
+        (focus)="focus($event, true, 'minutes')"
+        (blur)="focus($event, false, 'minutes')"
         [placeholder]="placeholderInfos?.min"
       />
     }
@@ -120,8 +120,8 @@
         (keydown)="keydown($event)"
         (change)="changeDate($event, 'seconds')"
         (input)="updateDate($event, 'seconds')"
-        (focus)="focus(true)"
-        (blur)="focus(false)"
+        (focus)="focus($event, true, 'seconds')"
+        (blur)="focus($event, false, 'seconds')"
         [placeholder]="placeholderInfos?.sec"
       />
     }
@@ -140,8 +140,8 @@
         [readonly]="readonly()"
         (change)="changeDate($event, 'milli')"
         (input)="updateDate($event, 'milli')"
-        (focus)="focus(true)"
-        (blur)="focus(false)"
+        (focus)="focus($event, true, 'milli')"
+        (blur)="focus($event, false, 'milli')"
         [placeholder]="placeholderInfos?.mmm"
       />
     }

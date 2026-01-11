@@ -407,12 +407,13 @@ export class MagmaInputDate
                     valueDate = valueDate?.substring(0, 16);
                     break;
                 case 'time':
+                    valueDate = valueDate?.substring(11, 16);
                     break;
                 case 'datetime-seconds':
-                    valueDate = valueDate?.substring(0, 18);
+                    valueDate = valueDate?.substring(0, 19);
                     break;
                 case 'datetime-milli':
-                    valueDate = valueDate?.substring(0, 22);
+                    valueDate = valueDate?.substring(0, 23);
                     break;
                 case 'date':
                 default:

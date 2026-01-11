@@ -37,5 +37,7 @@ export const dateTypes: Select2Data = [
     { value: '', label: '(empty)' },
     { value: 'date', label: 'date' },
     { value: 'datetime-local', label: 'datetime-local' },
+    { value: 'datetime-seconds', label: 'datetime-seconds' },
+    { value: 'datetime-milli', label: 'datetime-milli' },
     { value: 'time', label: 'time' },
 ];

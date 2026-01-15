@@ -70,7 +70,7 @@ export class MagmaDatetimePickerComponent {
 
     // input
 
-    readonly value = input<string | undefined>('');
+    readonly value = input<string | number | Date | undefined>('');
     readonly type = input<MagmaDatetimeType | undefined>();
     readonly lang = input<string | undefined>();
     readonly min = input<string | number | Date | undefined>();
@@ -88,7 +88,8 @@ export class MagmaDatetimePickerComponent {
 
     // internal signals
 
-    protected readonly date = signal<Date>(new Date());
+    protected readonly dateValue = signal<Date>(new Date());
+    protected readonly date = computed<Date>(() => (this.value() ? new Date(this.value()!) || new Date() : new Date()));
     protected readonly selected = signal<boolean>(false);
     protected readonly year = computed<number>(() => this.getDate().getUTCFullYear());
     protected readonly month = computed<number>(() => this.getDate().getUTCMonth() + 1);
@@ -346,7 +347,7 @@ export class MagmaDatetimePickerComponent {
     }
 
     protected updateDate(date: Date) {
-        this.date.set(new Date(date));
+        this.dateValue.set(new Date(date));
 
         let value = '';
         switch (this.type()) {

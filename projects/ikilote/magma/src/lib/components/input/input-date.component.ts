@@ -212,19 +212,24 @@ export class MagmaInputDate
             this.placeholderCompute(changes['lang'].currentValue);
         }
         if (changes['value']) {
-            this.valueCache = {
-                year: this._value ? (this._value.substring(0, 4) ?? 0) : 0,
-                month: this._value ? (this._value.substring(5, 7) ?? 0) : 0,
-                day: this._value ? (this._value.substring(8, 10) ?? 0) : 0,
-                hours: this._value ? (this._value.substring(11, 13) ?? 0) : 0,
-                minutes: this._value ? (this._value.substring(14, 16) ?? 0) : 0,
-                seconds: this._value ? (this._value.substring(17, 18) ?? 0) : 0,
-                milli: this._value ? (this._value.substring(19, 22) ?? 0) : 0,
-            };
+            this.updateValueCache(changes['value'].currentValue);
         }
     }
 
+    private updateValueCache(value: string) {
+        this.valueCache = {
+            year: this._value ? +(value?.substring(0, 4) ?? 0) || 0 : 0,
+            month: this._value ? +(value?.substring(5, 7) ?? 0) || 0 : 0,
+            day: this._value ? +(value?.substring(8, 10) ?? 0) || 0 : 0,
+            hours: this._value ? +(value?.substring(11, 13) ?? 0) || 0 : 0,
+            minutes: this._value ? +(value?.substring(14, 16) ?? 0) || 0 : 0,
+            seconds: this._value ? +(value?.substring(17, 18) ?? 0) || 0 : 0,
+            milli: this._value ? +(value?.substring(19, 22) ?? 0) || 0 : 0,
+        };
+    }
+
     override writeValue(value: any): void {
+        this.updateValueCache(value);
         super.writeValue(value);
         this.refreshTrigger.set(true);
     }
@@ -325,6 +330,7 @@ export class MagmaInputDate
         console.log('update', event);
         const input = event.target as HTMLInputElement;
         const value = input?.valueAsNumber;
+        let padStart = 2;
         if (value) {
             let next = false;
             switch (type) {
@@ -337,6 +343,7 @@ export class MagmaInputDate
                             next = true;
                         }
                     }
+                    padStart = 2;
                     break;
                 case 'month':
                     if (value > 1) {
@@ -347,6 +354,7 @@ export class MagmaInputDate
                             next = true;
                         }
                     }
+
                     break;
                 case 'year':
                     if (value > 9999) {
@@ -355,6 +363,7 @@ export class MagmaInputDate
                             next = true;
                         }
                     }
+                    padStart = 4;
 
                     break;
                 case 'hours':
@@ -364,6 +373,7 @@ export class MagmaInputDate
                             next = true;
                         }
                     }
+
                     break;
                 case 'minutes':
                 case 'seconds':
@@ -375,12 +385,17 @@ export class MagmaInputDate
                             next = true;
                         }
                     }
+
                     break;
                 case 'milli':
                     if (value > 999) {
                         input.valueAsNumber = 999;
                     }
+                    padStart = 3;
                     break;
+            }
+            if (this.lockFocus) {
+                input.value = input.value.padStart(padStart, '0');
             }
             if (next) {
                 document.querySelector<HTMLInputElement>(`#${input.id} ~ input`)?.focus();

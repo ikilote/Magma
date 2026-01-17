@@ -218,14 +218,18 @@ export class MagmaInputDate
 
     private updateValueCache(value: string) {
         this.valueCache = {
-            year: this._value ? +(value?.substring(0, 4) ?? 0) || 0 : 0,
-            month: this._value ? +(value?.substring(5, 7) ?? 0) || 0 : 0,
-            day: this._value ? +(value?.substring(8, 10) ?? 0) || 0 : 0,
-            hours: this._value ? +(value?.substring(11, 13) ?? 0) || 0 : 0,
-            minutes: this._value ? +(value?.substring(14, 16) ?? 0) || 0 : 0,
-            seconds: this._value ? +(value?.substring(17, 18) ?? 0) || 0 : 0,
-            milli: this._value ? +(value?.substring(19, 22) ?? 0) || 0 : 0,
+            year: this.valueCacheSubstring(value, 0, 4),
+            month: this.valueCacheSubstring(value, 5, 7),
+            day: this.valueCacheSubstring(value, 8, 10),
+            hours: this.valueCacheSubstring(value, 11, 13),
+            minutes: this.valueCacheSubstring(value, 14, 16),
+            seconds: this.valueCacheSubstring(value, 17, 18),
+            milli: this.valueCacheSubstring(value, 19, 22),
         };
+    }
+
+    private valueCacheSubstring(value: string, a: number, b: number): number {
+        return value ? +(value?.substring(a, b) ?? 0) || 0 : 0;
     }
 
     override writeValue(value: any): void {

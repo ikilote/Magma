@@ -37,7 +37,7 @@ export type DateInfo = {
 let index = 0;
 
 export type MagmaDatetimePickerDays = 'Monday' | 'Sunday' | 'Saturday' | undefined;
-export type MagmaDatetimeType = 'date' | 'datetime-local' | 'time' | undefined;
+export type MagmaDatetimeType = 'date' | 'datetime-local' | 'datetime-seconds' | 'datetime-milli' | 'time' | undefined;
 
 const WEEK: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -57,7 +57,7 @@ const WEEK: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
     changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.embedded]': 'embedded()',
-        '[class.only-date]': 'type() === "date" || type() !== "datetime-local" && type() !== "time"',
+        '[class.only-date]': 'type() === "date" || !type()',
         '[class.only-time]': 'type() === "time"',
     },
 })
@@ -331,6 +331,18 @@ export class MagmaDatetimePickerComponent {
     protected updateMinutes(value: number) {
         const date = this.date();
         date.setUTCMinutes(value);
+        this.updateDate(date);
+    }
+
+    protected updateSeconds(value: number) {
+        const date = this.date();
+        date.setUTCSeconds(value);
+        this.updateDate(date);
+    }
+
+    protected updateMilli(value: number) {
+        const date = this.date();
+        date.setUTCMilliseconds(value);
         this.updateDate(date);
     }
 

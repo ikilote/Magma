@@ -124,5 +124,13 @@
     grid-area: time;
     align-items: center;
     gap: 5px;
-    width: 120px;
+
+    select {
+        width: 35px;
+    }
+
+    input {
+        width: 60px;
+        text-align: right;
+    }
 }

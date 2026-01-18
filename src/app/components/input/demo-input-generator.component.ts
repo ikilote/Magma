@@ -8,6 +8,7 @@ import { Select2Data } from 'ng-select2-component';
 
 import {
     FormBuilderExtended,
+    MagmaDatetimeType,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputColor,
@@ -21,6 +22,7 @@ import {
     MagmaInputText,
     MagmaInputTextarea,
 } from '../../../../projects/ikilote/magma/src/public-api';
+import { dateTypes } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 import { palette, texts } from '../color-picker/demo-color-picker.component';
 
@@ -126,6 +128,7 @@ export class DemoInputGeneratorComponent {
         noNegative: FormControl<boolean>;
 
         // date
+        typeDate: FormControl<MagmaDatetimeType>;
         hideDatePicker: FormControl<boolean>;
 
         // color
@@ -176,6 +179,8 @@ export class DemoInputGeneratorComponent {
         { value: 'row', label: 'row' },
         { value: 'column', label: 'column' },
     ];
+
+    typesDate = dateTypes;
 
     constructor(fbe: FormBuilderExtended) {
         this.formGenerator = fbe.groupWithError({
@@ -244,6 +249,7 @@ export class DemoInputGeneratorComponent {
             noNegative: { default: false },
             // date
             hideDatePicker: { default: false },
+            typeDate: { default: '' as MagmaDatetimeType },
             // color
             alpha: { default: false },
             clearButton: { default: false },
@@ -591,8 +597,11 @@ export class DemoInputGeneratorComponent {
             }
         }
         if (type === 'date') {
+            if (fgValue.typeDate) {
+                attrInput['type'] = fgValue.typeDate;
+            }
             if (fgValue.hideDatePicker) {
-                attrInput['maxlength'] = null;
+                attrInput['hideDatePicker'] = null;
             }
         }
         if (type === 'text') {

@@ -215,6 +215,10 @@
             <mg-input-label>hideDatePicker</mg-input-label>
             <mg-input-checkbox formControlName="hideDatePicker" mode="toggle" />
           </mg-input>
+          <mg-input class="s-3 s-6-m">
+            <mg-input-label>type</mg-input-label>
+            <mg-input-select formControlName="typeDate" [data]="typesDate" />
+          </mg-input>
         }
         @if (
           formGenerator.value.type === 'number' ||
@@ -353,7 +357,7 @@
             <mg-input-date
               [(ngModel)]="valueDate"
               (ngModelChange)="codeGeneration()"
-              [maxlength]="formGenerator.value.maxLength ?? null"
+              [type]="formGenerator.value.typeDate"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [hideDatePicker]="formGenerator.value.hideDatePicker ?? false"

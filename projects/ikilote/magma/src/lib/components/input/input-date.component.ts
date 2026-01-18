@@ -156,7 +156,7 @@ export class MagmaInputDate
     override readonly componentName: string = 'input-date';
     protected override counter = counter++;
 
-    readonly type = input<MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli' | 'month' | 'week'>();
+    readonly type = input<MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli'>();
     protected readonly _type = computed(() => (types.includes(this.type()) ? (this.type() ?? 'date') : 'date'));
     readonly hideDatePicker = input(false, { transform: booleanAttribute });
     readonly lang = input<string>();

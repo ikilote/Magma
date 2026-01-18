@@ -154,8 +154,14 @@
     }
   </div>
 
-  @if (hideDatePicker()) {
-    <span class="picker-icon" [datetimePicker]="_value" (datetimeClose)="dateClose($event)" stop-propagation stopKeydown
+  @if (!hideDatePicker()) {
+    <span
+      class="picker-icon"
+      [datetimePicker]="_value"
+      [datetimePickerType]="type()"
+      (datetimeClose)="dateClose($event)"
+      stop-propagation
+      stopKeydown
       >📅</span
     >
   } @else {

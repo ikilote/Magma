@@ -425,13 +425,13 @@ export class MagmaDatetimePickerComponent {
                 return (
                     new Date(
                         Date.UTC(
-                            this.valueCacheSubstring(value, 0, 4),
-                            Math.max(this.valueCacheSubstring(value, 5, 7) - 1),
-                            this.valueCacheSubstring(value, 8, 10),
-                            this.valueCacheSubstring(value, 11, 13),
-                            this.valueCacheSubstring(value, 14, 16),
-                            this.valueCacheSubstring(value, 17, 19),
-                            this.valueCacheSubstring(value, 20, 23),
+                            this.valueDateSubstring(value, 0, 4),
+                            Math.max(this.valueDateSubstring(value, 5, 7) - 1),
+                            this.valueDateSubstring(value, 8, 10),
+                            this.valueDateSubstring(value, 11, 13),
+                            this.valueDateSubstring(value, 14, 16),
+                            this.valueDateSubstring(value, 17, 19),
+                            this.valueDateSubstring(value, 20, 23),
                         ),
                     ) || new Date()
                 );
@@ -440,7 +440,7 @@ export class MagmaDatetimePickerComponent {
         return new Date();
     }
 
-    private valueCacheSubstring(value: string, a: number, b: number): number {
+    private valueDateSubstring(value: string, a: number, b: number): number {
         return value ? +(value?.substring(a, b) ?? 0) || 0 : 0;
     }
 }

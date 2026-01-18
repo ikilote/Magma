@@ -185,10 +185,10 @@ export class MagmaInputDate
         () => this.refreshTrigger() || (this._value ? this._value.substring(14, 16) : ''),
     );
     protected readonly _seconds = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(17, 18) : ''),
+        () => this.refreshTrigger() || (this._value ? this._value.substring(17, 19) : ''),
     );
     protected readonly _milli = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(19, 22) : ''),
+        () => this.refreshTrigger() || (this._value ? this._value.substring(20, 23) : ''),
     );
 
     orderType: 'dmy' | 'ymd' | 'mdy' = 'dmy';
@@ -230,9 +230,10 @@ export class MagmaInputDate
             day: this.valueCacheSubstring(value, 8, 10),
             hours: this.valueCacheSubstring(value, 11, 13),
             minutes: this.valueCacheSubstring(value, 14, 16),
-            seconds: this.valueCacheSubstring(value, 17, 18),
-            milli: this.valueCacheSubstring(value, 19, 22),
+            seconds: this.valueCacheSubstring(value, 17, 19),
+            milli: this.valueCacheSubstring(value, 20, 23),
         };
+        console.log('>>>>>>>', value, this.valueCache);
     }
 
     private valueCacheSubstring(value: string, a: number, b: number): number {
@@ -431,18 +432,17 @@ export class MagmaInputDate
                     valueDate = valueDate?.substring(11, 16);
                     break;
                 case 'datetime-seconds':
-                    valueDate = valueDate?.substring(0, 19);
+                    valueDate = valueDate?.substring(0, 20);
                     break;
                 case 'datetime-milli':
                     valueDate = valueDate?.substring(0, 23);
                     break;
                 case 'date':
                 default:
-                    if (this.valueCache.year && this.valueCache.month && this.valueCache.year) {
-                        valueDate = valueDate?.substring(0, 10);
-                    } else {
-                        valueDate = undefined;
-                    }
+                    valueDate =
+                        this.valueCache.year && this.valueCache.month && this.valueCache.year
+                            ? valueDate?.substring(0, 10)
+                            : undefined;
                     break;
             }
 

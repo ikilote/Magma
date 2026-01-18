@@ -366,6 +366,12 @@ export class MagmaDatetimePickerComponent {
             case 'datetime-local':
                 value = date.toISOString().replace(/:..\..*/, '');
                 break;
+            case 'datetime-seconds':
+                value = date.toISOString().replace(/\..*/, '');
+                break;
+            case 'datetime-milli':
+                value = date.toISOString();
+                break;
             case 'time':
                 value = date.toISOString().replace(/.*T/, '');
                 break;
@@ -425,8 +431,8 @@ export class MagmaDatetimePickerComponent {
                             this.valueCacheSubstring(value, 8, 10),
                             this.valueCacheSubstring(value, 11, 13),
                             this.valueCacheSubstring(value, 14, 16),
-                            this.valueCacheSubstring(value, 17, 18),
-                            this.valueCacheSubstring(value, 19, 22),
+                            this.valueCacheSubstring(value, 17, 19),
+                            this.valueCacheSubstring(value, 20, 23),
                         ),
                     ) || new Date()
                 );

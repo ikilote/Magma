@@ -89,7 +89,7 @@ export class MagmaDatetimePickerComponent {
     // internal signals
 
     protected readonly dateValue = signal<Date>(new Date());
-    protected readonly date = computed<Date>(() => (this.value() ? new Date(this.value()!) || new Date() : new Date()));
+    protected readonly date = computed<Date>(() => this.getDateValue());
     protected readonly selected = signal<boolean>(false);
     protected readonly year = computed<number>(() => this.getDate().getUTCFullYear());
     protected readonly month = computed<number>(() => this.getDate().getUTCMonth() + 1);
@@ -394,5 +394,36 @@ export class MagmaDatetimePickerComponent {
 
     private maxDate(): Date | null {
         return this.max() ? new Date(this.max()!) : null;
+    }
+
+    private getDateValue() {
+        let value = this.value();
+
+        if (value) {
+            if (value instanceof Date) {
+                return value;
+            } else if (value === 'number') {
+                return new Date(value);
+            } else if (typeof value === 'string') {
+                return (
+                    new Date(
+                        Date.UTC(
+                            this.valueCacheSubstring(value, 0, 4),
+                            Math.max(this.valueCacheSubstring(value, 5, 7) - 1),
+                            this.valueCacheSubstring(value, 8, 10),
+                            this.valueCacheSubstring(value, 11, 13),
+                            this.valueCacheSubstring(value, 14, 16),
+                            this.valueCacheSubstring(value, 17, 18),
+                            this.valueCacheSubstring(value, 19, 22),
+                        ),
+                    ) || new Date()
+                );
+            }
+        }
+        return new Date();
+    }
+
+    private valueCacheSubstring(value: string, a: number, b: number): number {
+        return value ? +(value?.substring(a, b) ?? 0) || 0 : 0;
     }
 }

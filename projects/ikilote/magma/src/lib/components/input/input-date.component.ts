@@ -125,6 +125,13 @@ const types: (MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli' | 'month
     'week',
 ];
 
+const dmy =
+    /(?<dd>\S{2})(?<s1>[\/\-. ]+)(?<mm>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/;
+const ymd =
+    /(?<yyyy>\S{4})(?<s2>[\/\-. ]+)(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/;
+const mdy =
+    /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/;
+
 type fieldName = 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli';
 
 @Component({
@@ -256,23 +263,18 @@ export class MagmaInputDate
         }
 
         this.orderType = format.type;
+
+        // format placeholder texts: default d/m/y
+        let match = dmy;
         switch (this.orderType) {
-            case 'dmy':
-                this.placeholderInfos = format.format.match(
-                    /(?<dd>\S{2})(?<s1>[\/\-. ]+)(?<mm>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-                )!.groups as PlaceholderInfos;
-                break;
             case 'ymd':
-                this.placeholderInfos = format.format.match(
-                    /(?<yyyy>\S{4})(?<s2>[\/\-. ]+)(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-                )!.groups as PlaceholderInfos;
+                match = ymd;
                 break;
             case 'mdy':
-                this.placeholderInfos = format.format.match(
-                    /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-                )!.groups as PlaceholderInfos;
+                match = mdy; // USA only ?
                 break;
         }
+        this.placeholderInfos = format.format.match(match)!.groups as PlaceholderInfos;
     }
 
     focus(event: FocusEvent, focus: boolean, type: fieldName) {

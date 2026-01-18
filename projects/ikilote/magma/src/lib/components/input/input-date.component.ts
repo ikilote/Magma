@@ -294,6 +294,8 @@ export class MagmaInputDate
 
             if (element?.value.length < size) {
                 element.value = `${+element.value}`.padStart(size, '0');
+            } else if (element?.value.length > size) {
+                element.value = `${+element.value}`;
             }
         }
     }

@@ -139,6 +139,9 @@ export class DemoBlockComponent { }`;
         if (this.ctrlForm.value.datetime) {
             attrs['datetime'] = this.ctrlForm.value.datetime;
         }
+        if (this.ctrlForm.value.type) {
+            attrs['type'] = this.ctrlForm.value.type;
+        }
         if (this.ctrlForm.value.readonly) {
             attrs['readonly'] = null;
         }
@@ -176,6 +179,9 @@ export class DemoBlockComponent { }`;
 
         if (this.ctrlFormPopup.value.disabled) {
             attrs['disabled'] = null;
+        }
+        if (this.ctrlForm.value.type) {
+            attrs['datetimePickerType'] = this.ctrlForm.value.type;
         }
         if (this.ctrlFormPopup.value.readonly) {
             attrs['datetimePickerReadonly'] = null;

@@ -97,6 +97,7 @@ export class MagmaDatetimePickerComponent {
     protected readonly hours = computed<number>(() => this.getDate().getUTCHours());
     protected readonly minutes = computed<number>(() => this.getDate().getUTCMinutes());
     protected readonly seconds = computed<number>(() => this.getDate().getUTCSeconds());
+    protected readonly milli = computed<number>(() => this.getDate().getUTCMilliseconds());
     protected readonly past = signal(10);
     protected readonly futur = signal(10);
 

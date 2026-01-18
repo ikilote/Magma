@@ -80,7 +80,7 @@
     }
     @if (type() === 'datetime-milli') {
       <span>:</span>
-      <input type="number" [ngModel]="seconds()" (ngModelChange)="updateMilli($event)" min="0" max="999" />
+      <input type="number" [ngModel]="milli()" (ngModelChange)="updateMilli($event)" min="0" max="999" />
     }
   </div>
 }

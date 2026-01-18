@@ -48,7 +48,9 @@
     - `expansion` :
         - new component with `open` & `disabled` params
         - include: `mg-expansion-header` & `mg-expansion-content` tags
-    - `input` **color**: expose `inputDirective` to get the `MagmaColorPicker`
+    - `input`
+        - **color**: expose `inputDirective` to get the `MagmaColorPicker`
+        - **textarea**: add `displayLimit` parameter
     - `walkthrough`: add `overlayComponent` access on `<mg-walkthrough>`
 - **directives**:
     - `tooltip`: add `mgTooltipDescribedBy`

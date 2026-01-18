@@ -233,7 +233,6 @@ export class MagmaInputDate
             seconds: this.valueCacheSubstring(value, 17, 19),
             milli: this.valueCacheSubstring(value, 20, 23),
         };
-        console.log('>>>>>>>', value, this.valueCache);
     }
 
     private valueCacheSubstring(value: string, a: number, b: number): number {
@@ -330,13 +329,11 @@ export class MagmaInputDate
     }
 
     changeDate(event: Event, type: fieldName) {
-        console.log('change', event);
         this.updateDate(event, type);
         this.update.emit(this._value);
     }
 
     updateDate(event: Event, type: fieldName) {
-        console.log('update', event);
         const input = event.target as HTMLInputElement;
         const value = input?.valueAsNumber;
         let padStart = 2;
@@ -447,8 +444,6 @@ export class MagmaInputDate
                             : undefined;
                     break;
             }
-
-            console.log(valueDate);
 
             super.writeValue(valueDate);
             this.onChange(valueDate);

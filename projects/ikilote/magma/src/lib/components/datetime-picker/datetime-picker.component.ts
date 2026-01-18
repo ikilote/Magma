@@ -88,8 +88,8 @@ export class MagmaDatetimePickerComponent {
 
     // internal signals
 
-    protected readonly dateValue = signal<Date>(new Date());
-    protected readonly date = computed<Date>(() => this.getDateValue());
+    protected readonly dateValue = signal<Date | null>(null);
+    protected readonly date = computed<Date>(() => this.getDateValue(this.dateValue() ?? this.value()));
     protected readonly selected = signal<boolean>(false);
     protected readonly year = computed<number>(() => this.getDate().getUTCFullYear());
     protected readonly month = computed<number>(() => this.getDate().getUTCMonth() + 1);
@@ -204,7 +204,6 @@ export class MagmaDatetimePickerComponent {
 
         const firstDayOfMonth = new Date(Date.UTC(year, month, 1));
         const lastDayOfMonth = new Date(Date.UTC(year, month + 1, 0));
-        console.log(firstDayOfMonth);
 
         const startDay = firstDayOfMonth.getUTCDay();
 
@@ -380,6 +379,7 @@ export class MagmaDatetimePickerComponent {
                 value = date.toISOString().replace(/T.*/, '');
                 break;
         }
+
         this.datetimeChange.emit(value);
     }
 
@@ -415,9 +415,7 @@ export class MagmaDatetimePickerComponent {
         return this.max() ? new Date(this.max()!) : null;
     }
 
-    private getDateValue() {
-        let value = this.value();
-
+    private getDateValue(value: string | number | Date | undefined) {
         if (value) {
             if (value instanceof Date) {
                 return value;

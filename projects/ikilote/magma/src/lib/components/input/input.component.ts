@@ -38,6 +38,7 @@ export class MagmaInput implements OnChanges, AfterContentChecked {
 
     /** for checkbox */
     readonly arrayValue = input(false, { transform: booleanAttribute });
+    readonly forceValue = input(false, { transform: booleanAttribute });
     /** for checkbox & radio */
     readonly alignMode = input<'row' | 'column'>('row');
 

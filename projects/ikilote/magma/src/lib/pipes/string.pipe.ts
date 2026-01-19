@@ -11,7 +11,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class StringPipe implements PipeTransform {
     transform(value: any, name: string, ...args: any[]): any {
-        console.log(value, name, args, `${value}`, (`${value}` as any)[name], (`${value}` as any)[name]?.(...args));
         return (`${value}` as any)[name]?.(...args);
     }
 }

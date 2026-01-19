@@ -54,7 +54,6 @@ export function addDuration(
  * @param int dowOffset the day of week the week"starts" on for your locale - it can be from 0 to 6.
  * If dowOffset is 1 (Monday). Default is Monday (ISO 8601).
  * @return int the week returned is the ISO 8601 week number
- * @author getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com
  */
 export function getWeek(
     date: Date,

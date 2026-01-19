@@ -60,29 +60,28 @@ export function getWeek(
     date: Date,
     param?: { dowOffset?: 'Monday' | 'Sunday' | 'Saturday'; firstWeekContainsDay?: 1 | 4 },
 ) {
+    const DAYS = { Sunday: 0, Monday: 1, Saturday: 6 };
+    // Default to Monday (1) as per ISO 8601
     const dowOffset = param?.dowOffset ? (DAYS[param.dowOffset] ?? 1) : 1;
-    const firstWeekContainsDay = param?.firstWeekContainsDay ? param?.firstWeekContainsDay : 4;
-    const newYear = new Date(date.getFullYear(), 0, 1);
-    let day = newYear.getDay() - dowOffset; // the day of week the year begins on
-    day = day >= 0 ? day : day + 7;
-    const dayNum =
-        Math.floor(
-            (date.getTime() - newYear.getTime() - (date.getTimezoneOffset() - newYear.getTimezoneOffset()) * 60000) /
-                86400000,
-        ) + 1;
-    let weekNumber = 0;
-    // if the year starts before the middle of a week
-    if (day < firstWeekContainsDay) {
-        weekNumber = Math.floor((dayNum + day - 1) / 7) + 1;
-        if (weekNumber > 52) {
-            const nYear = new Date(date.getFullYear() + 1, 0, 1);
-            let nDay = nYear.getDay() - dowOffset;
-            nDay = nDay >= 0 ? nDay : nDay + 7;
-            // if the next year starts before the middle of the week, it is week #1 of that year
-            weekNumber = nDay < firstWeekContainsDay ? 1 : 53;
-        }
-    } else {
-        weekNumber = Math.floor((dayNum + day - 1) / 7);
-    }
+
+    // Create a copy so we don't mutate the original date object
+    const target = new Date(date.valueOf());
+
+    // 1. Adjust the date to the Thursday of the current week
+    // (In ISO 8601, the week number is determined by the Thursday)
+    const dayNr = (date.getDay() - dowOffset + 7) % 7;
+    target.setDate(target.getDate() - dayNr + 3);
+
+    // 2. Find the first Thursday of the year
+    const firstThursday = new Date(target.getFullYear(), 0, 4);
+    const firstThursdayDayNr = (firstThursday.getDay() - dowOffset + 7) % 7;
+    firstThursday.setDate(firstThursday.getDate() - firstThursdayDayNr + 3);
+
+    // 3. Calculate the number of weeks between the target Thursday and the first Thursday
+    const diffInMs = target.getTime() - firstThursday.getTime();
+
+    // 604800000 = 7 days * 24h * 60m * 60s * 1000ms
+    const weekNumber = 1 + Math.round(diffInMs / 604800000);
+
     return weekNumber;
 }

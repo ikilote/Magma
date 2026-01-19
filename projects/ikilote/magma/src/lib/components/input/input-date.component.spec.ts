@@ -35,15 +35,15 @@ describe('MagmaInputDate', () => {
         const typeTests = [
             { value: 'date', expected: 'date' },
             { value: 'datetime-local', expected: 'datetime-local' },
+            { value: 'datetime-seconds', expected: 'datetime-seconds' },
+            { value: 'datetime-milli', expected: 'datetime-milli' },
             { value: 'time', expected: 'time' },
-            { value: 'month', expected: 'month' },
-            { value: 'week', expected: 'week' },
         ];
 
         typeTests.forEach(({ value, expected }) => {
             it(`should set type to ${expected}`, () => {
                 fixture.componentRef.setInput('type', value);
-                expect(component.type()).toBe(expected);
+                expect(component.type()).toBe(expected as any);
             });
         });
     });
@@ -96,7 +96,7 @@ describe('MagmaInputDate', () => {
         inputElement.dispatchEvent(new Event('input'));
         fixture.detectChanges();
         expect(component.onChange).toHaveBeenCalledWith('2023-10-10');
-        component.inputElement!.value = '2023-10-10';
+        //  component.inputElement!.value = '2023-10-10';
     });
 
     it('should update value on input event with undefined value', () => {
@@ -108,7 +108,7 @@ describe('MagmaInputDate', () => {
         inputElement.dispatchEvent(new Event('input'));
         fixture.detectChanges();
         expect(component.onChange).toHaveBeenCalledWith('');
-        component.inputElement!.value = '';
+        // component.inputElement!.value = '';
     });
 
     it('should call onTouched and validate on blur', () => {

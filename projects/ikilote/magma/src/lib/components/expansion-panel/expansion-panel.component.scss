@@ -57,6 +57,9 @@ summary {
 .detail-content {
     border: var(--block-border);
     border-top: 0;
-    border-radius: 0 0 var(--block-radius) var(--block-radius);
+    border-start-start-radius: 0;
+    border-start-end-radius: 0;
+    border-end-start-radius: var(--block-radius);
+    border-end-end-radius: var(--block-radius);
     padding: 5px;
 }

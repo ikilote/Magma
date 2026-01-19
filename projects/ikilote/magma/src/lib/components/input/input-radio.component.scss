@@ -16,7 +16,7 @@ input {
             top: var(--input-mark-top);
             left: 0px;
             box-sizing: border-box;
-            margin-right: 5px;
+            margin-inline-end: 5px;
             outline: 2px solid transparent;
             border: 1px solid var(--input-border-color);
             border-radius: 50%;
@@ -48,12 +48,12 @@ input:focus + label::before {
 label {
     all: unset;
     position: relative;
-    padding-right: 5px;
-    padding-left: calc(var(--size) + 6px);
+    padding-inline-start: calc(var(--size) + 6px);
+    padding-inline-end: 5px;
     line-height: 31px;
 
     &.empty {
-        padding-left: calc(var(--size) - 6px);
+        padding-inline-start: calc(var(--size) - 6px);
     }
 }
 

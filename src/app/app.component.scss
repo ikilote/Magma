@@ -76,7 +76,7 @@ ul {
             }
 
             &::after {
-                margin-left: 5px;
+                margin-inline-start: 5px;
                 font-variant-position: super;
             }
             &.new::after {

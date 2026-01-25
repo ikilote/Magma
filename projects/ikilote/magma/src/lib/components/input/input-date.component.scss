@@ -15,11 +15,6 @@ input[type='date']::-webkit-calendar-picker-indicator {
     height: 100%;
 }
 
-input[type='date'] {
-    -moz-appearance: textfield;
-    z-index: -1;
-}
-
 .picker-hide,
 .picker-icon {
     --click-enter-hover-background: var(--input-background);

@@ -4,6 +4,8 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
+    OnChanges,
+    SimpleChanges,
     booleanAttribute,
     computed,
     inject,
@@ -61,7 +63,7 @@ const WEEK: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
         '[class.only-time]': 'type() === "time"',
     },
 })
-export class MagmaDatetimePickerComponent {
+export class MagmaDatetimePickerComponent implements OnChanges {
     // inject
 
     readonly logger = inject(Logger);
@@ -237,6 +239,12 @@ export class MagmaDatetimePickerComponent {
 
         return [days];
     });
+
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['value']) {
+            this.selected.set(this.getDateValue(changes['value'].currentValue) instanceof Date);
+        }
+    }
 
     protected scroll(event: Select2ScrollEvent) {
         if (this.onscroll) {

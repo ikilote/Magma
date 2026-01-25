@@ -1,13 +1,13 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    OnChanges,
-    SimpleChanges,
-    booleanAttribute,
-    computed,
-    input,
-    viewChildren,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnChanges,
+  SimpleChanges,
+  booleanAttribute,
+  computed,
+  input,
+  viewChildren,
 } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -125,12 +125,11 @@ const types: (MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli' | 'month
     'week',
 ];
 
-const dmy =
-    /(?<dd>\S{2})(?<s1>[\/\-. ]+)(?<mm>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/;
-const ymd =
-    /(?<yyyy>\S{4})(?<s2>[\/\-. ]+)(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/;
-const mdy =
-    /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/;
+const dateRegex = {
+    dmy: /(?<dd>\S{2})(?<s1>[\/\-. ]+)(?<mm>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+    ymd: /(?<yyyy>\S{4})(?<s2>[\/\-. ]+)(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+    mdy: /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+};
 
 type fieldName = 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli';
 
@@ -233,6 +232,8 @@ export class MagmaInputDate
             seconds: this.valueCacheSubstring(value, 17, 19),
             milli: this.valueCacheSubstring(value, 20, 23),
         };
+
+        this.updateValueWithCache(false);
     }
 
     private valueCacheSubstring(value: string, a: number, b: number): number {
@@ -242,7 +243,7 @@ export class MagmaInputDate
     override writeValue(value: any): void {
         this.updateValueCache(value);
         super.writeValue(value);
-        this.refreshTrigger.set(true);
+        this.refreshTrigger.set(null);
     }
 
     placeholderCompute(lang?: string) {
@@ -265,13 +266,13 @@ export class MagmaInputDate
         this.orderType = format.type;
 
         // format placeholder texts: default d/m/y
-        let match = dmy;
+        let match = dateRegex.dmy;
         switch (this.orderType) {
             case 'ymd':
-                match = ymd;
+                match = dateRegex.ymd;
                 break;
             case 'mdy':
-                match = mdy; // USA only ?
+                match = dateRegex.mdy; // USA only ?
                 break;
         }
         this.placeholderInfos = format.format.match(match)!.groups as PlaceholderInfos;
@@ -373,8 +374,10 @@ export class MagmaInputDate
 
                     break;
                 case 'hours':
-                    if (value > 24) {
-                        input.valueAsNumber = 24;
+                    if (value > 3) {
+                        if (value > 23) {
+                            input.valueAsNumber = 23;
+                        }
                         if (!this.lockFocus) {
                             next = true;
                         }
@@ -383,9 +386,9 @@ export class MagmaInputDate
                     break;
                 case 'minutes':
                 case 'seconds':
-                    if (value > 6) {
-                        if (value > 60) {
-                            input.valueAsNumber = 60;
+                    if (value > 5) {
+                        if (value > 59) {
+                            input.valueAsNumber = 59;
                         }
                         if (!this.lockFocus) {
                             next = true;
@@ -404,50 +407,60 @@ export class MagmaInputDate
                 input.value = input.value.padStart(padStart, '0');
             }
             if (next) {
-                document.querySelector<HTMLInputElement>(`#${input.id} ~ input`)?.focus();
+                this.focusNext(input.id);
             }
 
-            this.valueCache[type] = value;
+            this.valueCache[type] = input.valueAsNumber;
 
-            let valueDate = toISODate(
-                new Date(
-                    Date.UTC(
-                        this.valueCache.year,
-                        this.valueCache.month - 1,
-                        this.valueCache.day,
-                        this.valueCache.hours,
-                        this.valueCache.minutes,
-                        this.valueCache.seconds,
-                        this.valueCache.milli,
-                    ),
+            this.updateValueWithCache();
+        }
+    }
+
+    private updateValueWithCache(change = true) {
+        let valueDate = toISODate(
+            new Date(
+                Date.UTC(
+                    this.valueCache.year,
+                    this.valueCache.month - 1,
+                    this.valueCache.day,
+                    this.valueCache.hours,
+                    this.valueCache.minutes,
+                    this.valueCache.seconds,
+                    this.valueCache.milli,
                 ),
-            );
+            ),
+        );
 
-            switch (this.type()) {
-                case 'datetime-local':
-                    valueDate = valueDate?.substring(0, 16);
-                    break;
-                case 'time':
-                    valueDate = valueDate?.substring(11, 16);
-                    break;
-                case 'datetime-seconds':
-                    valueDate = valueDate?.substring(0, 20);
-                    break;
-                case 'datetime-milli':
-                    valueDate = valueDate?.substring(0, 23);
-                    break;
-                case 'date':
-                default:
-                    valueDate =
-                        this.valueCache.year && this.valueCache.month && this.valueCache.year
-                            ? valueDate?.substring(0, 10)
-                            : undefined;
-                    break;
-            }
+        switch (this.type()) {
+            case 'datetime-local':
+                valueDate = valueDate?.substring(0, 16);
+                break;
+            case 'time':
+                valueDate = valueDate?.substring(11, 16);
+                break;
+            case 'datetime-seconds':
+                valueDate = valueDate?.substring(0, 19);
+                break;
+            case 'datetime-milli':
+                valueDate = valueDate?.substring(0, 23);
+                break;
+            case 'date':
+            default:
+                valueDate =
+                    this.valueCache.year && this.valueCache.month && this.valueCache.year
+                        ? valueDate?.substring(0, 10)
+                        : undefined;
+                break;
+        }
 
-            super.writeValue(valueDate);
+        super.writeValue(valueDate);
+        if (change) {
             this.onChange(valueDate);
             this.update.emit(valueDate);
         }
+    }
+
+    private focusNext(id: string) {
+        document.querySelector<HTMLInputElement>(`#${id} ~ input`)?.focus();
     }
 }

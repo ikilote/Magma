@@ -1,13 +1,16 @@
-import { ComponentRef } from '@angular/core';
+import { ComponentRef, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { MagmaInputDate } from './input-date.component';
+import { MockNgControl } from './input-text.component.spec';
 
 describe('MagmaInputDate', () => {
     let component: MagmaInputDate;
     let fixture: ComponentFixture<MagmaInputDate>;
     let componentRef: ComponentRef<MagmaInputDate>;
+    let debugElement: DebugElement;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -18,7 +21,17 @@ describe('MagmaInputDate', () => {
         component = fixture.componentInstance;
         component.refreshTrigger.set(false);
         componentRef = fixture.componentRef;
+        debugElement = fixture.debugElement;
         fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
+
+    it('should render element with type div', () => {
+        // @ts-ignore
+        expect(component.inputElement.tagName).toBe('DIV');
     });
 
     describe('Localization & Placeholders', () => {
@@ -112,6 +125,15 @@ describe('MagmaInputDate', () => {
 
             component.focus(event, false, 'year');
             expect(input.value).toBe('0026');
+        });
+
+        it('should pad year to 3 digits on blur', () => {
+            const input = document.createElement('input');
+            input.value = '26';
+            const event = { target: input } as any;
+
+            component.focus(event, false, 'milli');
+            expect(input.value).toBe('026');
         });
 
         it('should trim values longer than expected size', () => {
@@ -472,18 +494,6 @@ describe('MagmaInputDate', () => {
     });
 
     describe('placeholderCompute()', () => {
-        // const mockLanguages = {
-        //     fr: 'jj/mm/aaaa hh:mm:ss:sss', // French
-        //     en: { format: 'mm/dd/yyyy hh:mm:ss:sss', type: 'mdy' }, // English
-        //     zh: { format: 'yyyy/mm/dd hh:mm:ss:sss', type: 'ymd' }, // Chinese
-        // };
-
-        // const dateRegex = {
-        //     dmy: /(?<dd>\S{2})(?<s1>[\/\-. ]+)(?<mm>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-        //     ymd: /(?<yyyy>\S{4})(?<s2>[\/\-. ]+)(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-        //     mdy: /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-        // };
-
         it('should use the provided language parameter (Exact match)', () => {
             component.placeholderCompute('fr');
 
@@ -676,6 +686,39 @@ describe('MagmaInputDate', () => {
 
             // @ts-ignore
             expect(component._type()).toBe('date');
+        });
+    });
+
+    describe('NgControl', () => {
+        it('should update input value on blur', () => {
+            const inputElement = debugElement.query(By.css('.day')).nativeElement;
+            inputElement.value = '3';
+            spyOn(component, 'onTouched');
+            spyOn(component, 'validate');
+
+            component.ngOnInit();
+            component.ngControl = new MockNgControl() as unknown as NgControl;
+
+            inputElement.dispatchEvent(new Event('blur'));
+            fixture.detectChanges();
+            expect(inputElement.value).toBe('03');
+            expect(component.onTouched).toHaveBeenCalled();
+            expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);
+        });
+
+        it('should dateClose value on blur', () => {
+            const inputElement = debugElement.query(By.css('.day')).nativeElement;
+            inputElement.value = '3';
+            spyOn(component, 'onTouched');
+            spyOn(component, 'validate');
+
+            component.ngControl = new MockNgControl() as unknown as NgControl;
+            component.dateClose('2015-12-12');
+
+            fixture.detectChanges();
+            expect(inputElement.value).toBe('12');
+            expect(component.onTouched).toHaveBeenCalled();
+            expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);
         });
     });
 });

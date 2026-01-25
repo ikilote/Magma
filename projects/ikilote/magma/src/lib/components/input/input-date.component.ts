@@ -1,17 +1,15 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnChanges,
-  SimpleChanges,
-  booleanAttribute,
-  computed,
-  input,
-  viewChildren,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    OnChanges,
+    SimpleChanges,
+    booleanAttribute,
+    computed,
+    input,
+    viewChildren,
 } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
-
-import Bowser from 'bowser';
 
 import { MagmaInputCommon } from './input-common';
 
@@ -156,7 +154,7 @@ export class MagmaInputDate
     protected override counter = counter++;
 
     readonly type = input<MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli'>();
-    protected readonly _type = computed(() => (types.includes(this.type()) ? (this.type() ?? 'date') : 'date'));
+    protected readonly _type = computed(() => (types.includes(this.type()) ? this.type() : 'date'));
     readonly hideDatePicker = input(false, { transform: booleanAttribute });
     readonly lang = input<string>();
 
@@ -237,7 +235,7 @@ export class MagmaInputDate
     }
 
     private valueCacheSubstring(value: string, a: number, b: number): number {
-        return value ? +(value?.substring(a, b) ?? 0) || 0 : 0;
+        return value ? +value?.substring(a, b) || 0 : 0;
     }
 
     override writeValue(value: any): void {
@@ -306,14 +304,6 @@ export class MagmaInputDate
         this.onTouched();
         if (this.ngControl?.control) {
             this.validate(this.ngControl.control);
-        }
-    }
-
-    open(event: MouseEvent) {
-        const browser = Bowser.parse(window.navigator.userAgent);
-        if (browser.engine.name === 'Blink') {
-            event.preventDefault();
-            this.datePicker()[0]?.open(event);
         }
     }
 

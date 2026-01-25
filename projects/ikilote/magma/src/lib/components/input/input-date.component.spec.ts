@@ -2,8 +2,6 @@ import { ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import Bowser from 'bowser';
-
 import { MagmaInputDate } from './input-date.component';
 
 describe('MagmaInputDate', () => {
@@ -421,33 +419,263 @@ describe('MagmaInputDate', () => {
                 expect(component._value).toBe('9999-12-31T23:59:59');
             }));
         });
+
+        [
+            { type: 'month', value: 2, updated: '02', filed: 'typeMonth' },
+            { type: 'day', value: 4, updated: '04', filed: 'typeDay' },
+            { type: 'hours', value: 6, updated: '06', filed: 'typeHours' },
+            { type: 'minutes', value: 9, updated: '09', filed: 'typeMinutes' },
+            { type: 'seconds', value: 9, updated: '09', filed: 'typeSeconds' },
+        ].forEach(e => {
+            it(`should clamp Input (${e.type}) and update input value`, fakeAsync(() => {
+                updateInputs('datetime-milli');
+
+                // @ts-ignore
+                const i = input[e.filed] as HTMLInputElement;
+
+                i.valueAsNumber = e.value;
+
+                // @ts-ignore
+                component.lockFocus = true;
+                component.updateDate({ target: i } as any, e.type as any);
+
+                tick();
+
+                expect(i.value).toBe(e.updated);
+            }));
+
+            [
+                { type: 'month', value: 2, updated: '02', filed: 'typeMonth' },
+                { type: 'day', value: 4, updated: '04', filed: 'typeDay' },
+                { type: 'hours', value: 6, updated: '06', filed: 'typeHours' },
+                { type: 'minutes', value: 9, updated: '09', filed: 'typeMinutes' },
+                { type: 'seconds', value: 9, updated: '09', filed: 'typeSeconds' },
+            ].forEach(e => {
+                it(`should change Input (${e.type}) and update input value`, fakeAsync(() => {
+                    updateInputs('datetime-milli');
+
+                    // @ts-ignore
+                    const i = input[e.filed] as HTMLInputElement;
+
+                    i.valueAsNumber = e.value;
+
+                    // @ts-ignore
+                    component.lockFocus = true;
+                    component.changeDate({ target: i } as any, e.type as any);
+
+                    tick();
+
+                    expect(i.value).toBe(e.updated);
+                }));
+            });
+        });
     });
 
-    describe('Browser & Picker Logic', () => {
-        it('should open picker only on Blink engines', () => {
-            const event = new MouseEvent('click');
-            spyOn(event, 'preventDefault');
+    describe('placeholderCompute()', () => {
+        // const mockLanguages = {
+        //     fr: 'jj/mm/aaaa hh:mm:ss:sss', // French
+        //     en: { format: 'mm/dd/yyyy hh:mm:ss:sss', type: 'mdy' }, // English
+        //     zh: { format: 'yyyy/mm/dd hh:mm:ss:sss', type: 'ymd' }, // Chinese
+        // };
 
-            // Mock Bowser to return Blink
-            spyOn(Bowser, 'parse').and.returnValue({ engine: { name: 'Blink' } } as any);
+        // const dateRegex = {
+        //     dmy: /(?<dd>\S{2})(?<s1>[\/\-. ]+)(?<mm>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+        //     ymd: /(?<yyyy>\S{4})(?<s2>[\/\-. ]+)(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+        //     mdy: /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+        // };
 
-            const mockPicker = { open: jasmine.createSpy('open') };
-            spyOn(component, 'datePicker').and.returnValue([mockPicker] as any);
+        it('should use the provided language parameter (Exact match)', () => {
+            component.placeholderCompute('fr');
 
-            component.open(event);
-
-            expect(event.preventDefault).toHaveBeenCalled();
-            expect(mockPicker.open).toHaveBeenCalled();
+            expect(component.orderType).toBe('dmy');
+            // @ts-ignore
+            expect(component.placeholderInfos).toEqual({
+                dd: 'jj',
+                s1: '/',
+                mm: 'mm',
+                s2: '/',
+                yyyy: 'aaaa',
+                s3: ' ',
+                hh: 'hh',
+                h1: ':',
+                min: 'mm',
+                h2: ':',
+                sec: 'ss',
+                h3: ':',
+                mmm: 'sss',
+            } as any);
         });
 
-        it('should NOT open picker on non-Blink engines (e.g. Gecko)', () => {
-            const event = new MouseEvent('click');
-            spyOn(Bowser, 'parse').and.returnValue({ engine: { name: 'Gecko' } } as any);
-            const mockPicker = { open: jasmine.createSpy('open') };
-            spyOn(component, 'datePicker').and.returnValue([mockPicker] as any);
+        it('should find a partial match (e.g., fr-CA should match fr)', () => {
+            component.placeholderCompute('fr-CA');
 
-            component.open(event);
-            expect(mockPicker.open).not.toHaveBeenCalled();
+            expect(component.orderType).toBe('ymd');
+            // @ts-ignore
+            expect(component.placeholderInfos).toEqual({
+                dd: 'jj',
+                s1: '-',
+                mm: 'mm',
+                s2: '-',
+                yyyy: 'aaaa',
+                s3: ' ',
+                hh: 'hh',
+                h1: ':',
+                min: 'mm',
+                h2: ':',
+                sec: 'ss',
+                h3: ':',
+                mmm: 'sss',
+            } as any);
+        });
+
+        it('should handle format as a string and default to type dmy', () => {
+            // For 'ja', format is just a string 'YYYY/MM/DD'
+            component.placeholderCompute('ja');
+
+            expect(component.orderType).toBe('ymd');
+            // @ts-ignore
+            expect(component.placeholderInfos).toEqual({
+                dd: 'dd',
+                s1: '/',
+                mm: 'mm',
+                s2: '/',
+                yyyy: 'yyyy',
+                s3: ' ',
+                hh: 'hh',
+                h1: ':',
+                min: 'mm',
+                h2: ':',
+                sec: 'ss',
+                h3: ':',
+                mmm: 'sss',
+            } as any);
+        });
+
+        it('should fallback to English if the language is not found', () => {
+            component.placeholderCompute('xyz'); // Non-existent
+
+            expect(component.orderType).toBe('mdy'); // 'en' type in mock
+            // @ts-ignore
+            expect(component.placeholderInfos.mm).toBe('mm');
+        });
+
+        it('should fallback to English if the language is not found', () => {
+            // @ts-ignore
+            spyOnProperty(navigator, 'language', 'get').and.returnValue('');
+
+            component.placeholderCompute(); // Non-existent
+
+            expect(component.orderType).toBe('mdy'); // 'en' type in mock
+            // @ts-ignore
+            expect(component.placeholderInfos.mm).toBe('mm');
+        });
+    });
+
+    describe('Private methods', () => {
+        it('should select element on focusNext', () => {
+            spyOn(document, 'querySelector');
+
+            // @ts-ignore
+            component.focusNext('test');
+
+            expect(document.querySelector).toHaveBeenCalledWith('#test ~ input');
+        });
+
+        it('should return 0 with invalide value for valueCacheSubstring', () => {
+            // @ts-ignore
+            const value = component.valueCacheSubstring('aaaa-bb-cc', 0, 4);
+
+            expect(value).toBe(0);
+        });
+
+        it('should select element on focusNext', () => {
+            // @ts-ignore
+            component.dateClose('2024-12-12');
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.valueCache).toEqual({
+                year: 2024,
+                month: 12,
+                day: 12,
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+                milli: 0,
+            });
+        });
+    });
+
+    describe('Value', () => {
+        it('should cache date empty when no value', () => {
+            componentRef.setInput('value', '');
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.valueCache).toEqual({
+                year: 0,
+                month: 0,
+                day: 0,
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+                milli: 0,
+            });
+        });
+
+        it('should cache date empty when partial date', () => {
+            componentRef.setInput('value', '2015-12-31');
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.valueCache).toEqual({
+                year: 2015,
+                month: 12,
+                day: 31,
+                hours: 0,
+                minutes: 0,
+                seconds: 0,
+                milli: 0,
+            });
+        });
+
+        it('should cache date empty when complete date', () => {
+            componentRef.setInput('value', '2015-12-31T12:15:30.015');
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.valueCache).toEqual({
+                year: 2015,
+                month: 12,
+                day: 31,
+                hours: 12,
+                minutes: 15,
+                seconds: 30,
+                milli: 15,
+            });
+        });
+    });
+
+    describe('Type', () => {
+        it('should force type to data if empty', () => {
+            componentRef.setInput('type', '');
+
+            // @ts-ignore
+            expect(component._type()).toBe('date');
+        });
+
+        it('should force type to data if undefined', () => {
+            componentRef.setInput('type', undefined);
+
+            // @ts-ignore
+            expect(component._type()).toBe('date');
+        });
+
+        it('should force type to data if not existing', () => {
+            componentRef.setInput('type', 'datetime');
+
+            // @ts-ignore
+            expect(component._type()).toBe('date');
         });
     });
 });

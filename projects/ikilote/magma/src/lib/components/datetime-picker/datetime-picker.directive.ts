@@ -1,18 +1,16 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
-    ComponentRef,
-    Directive,
-    ElementRef,
-    HostListener,
-    OnChanges,
-    OnDestroy,
-    OutputRefSubscription,
-    SimpleChanges,
-    booleanAttribute,
-    inject,
-    input,
-    output,
+  ComponentRef,
+  Directive,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+  OutputRefSubscription,
+  booleanAttribute,
+  inject,
+  input,
+  output
 } from '@angular/core';
 
 import { MagmaDatetimePickerComponent, MagmaDatetimePickerDays, MagmaDatetimeType } from './datetime-picker.component';
@@ -34,7 +32,7 @@ const connectedPosition: ConnectedPosition[] = [
     },
     hostDirectives: [MagmaClickEnterDirective],
 })
-export class MagmaDatetimePicker implements OnDestroy, OnChanges {
+export class MagmaDatetimePicker implements OnDestroy {
     private readonly overlay = inject(Overlay);
     private readonly element = inject(ElementRef<HTMLElement>);
     private readonly click = inject(MagmaClickEnterDirective);
@@ -60,12 +58,6 @@ export class MagmaDatetimePicker implements OnDestroy, OnChanges {
         this.click.clickEnter.subscribe(event => {
             this.open(event);
         });
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes['datetimePickerAlpha']) {
-            MagmaDatetimePicker._component?.setInput('alpha', changes['datetimePickerAlpha'].currentValue);
-        }
     }
 
     async open(event?: Event) {

@@ -1,0 +1,136 @@
+:host {
+    display: grid;
+    --grid: 'month-year time' 'table time';
+    grid-template: var(--grid);
+    justify-content: center;
+    align-items: center;
+    gap: 5px 15px;
+    width: min-content;
+
+    &.only-date {
+        --grid: 'month-year' 'table';
+    }
+
+    &.only-time {
+        --grid: ' time ';
+    }
+
+    &.embedded {
+        transition-duration: 0s;
+        box-shadow: 2px 2px 5px;
+        background-color: var(--neutralA);
+        padding: 10px;
+    }
+}
+
+.hide {
+    visibility: hidden;
+}
+
+.mouths-list {
+    width: 120px;
+}
+
+.month-year {
+    display: flex;
+    grid-area: month-year;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+
+    span {
+        flex: 1;
+        line-height: 25px;
+        text-align: center;
+
+        &:not([role]) {
+            visibility: hidden;
+        }
+    }
+}
+
+.table {
+    display: grid;
+    grid-template-columns: repeat(7, 30px);
+    grid-area: table;
+    justify-content: center;
+    gap: 2px;
+
+    &.week-number {
+        grid-template-columns: repeat(8, 30px);
+    }
+
+    .head,
+    .day {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid transparent;
+        background-color: var(--neutral9);
+        height: 30px;
+    }
+
+    .head {
+        pointer-events: none;
+        font-weight: bold;
+    }
+
+    .day {
+        color: var(--neutral7);
+
+        &.current-month {
+            background-color: var(--neutral8);
+            color: var(--neutral2);
+        }
+
+        &.today {
+            background-color: var(--neutral7);
+            color: var(--primary3);
+            font-weight: bold;
+        }
+
+        &.weekend {
+            font-weight: bold;
+
+            &.current-month {
+                color: var(--primary4);
+            }
+        }
+
+        &.selected {
+            background-color: var(--primary5);
+            color: var(--neutralB);
+        }
+
+        &[role]:hover {
+            background-color: var(--primary6);
+            color: var(--neutral0);
+        }
+
+        &.disabled {
+            background-color: transparent;
+        }
+    }
+
+    .week {
+        justify-content: right;
+        padding-right: 5px;
+        font-size: smaller;
+    }
+}
+
+.time {
+    display: flex;
+    grid-area: time;
+    align-items: center;
+    gap: 5px;
+
+    select {
+        width: 35px;
+    }
+
+    input {
+        width: 60px;
+        text-align: right;
+    }
+}

@@ -1,4 +1,4 @@
-import { DurationTime, addDuration, toISODate } from './date';
+import { DurationTime, addDuration, getWeek, toISODate } from './date';
 
 describe('toISODate', () => {
     // Test for string input
@@ -160,5 +160,134 @@ describe('addDuration', () => {
         const startDate = new Date('2023-01-01T12:00:00Z');
         const result = addDuration(0, DurationTime.HOUR, startDate);
         expect(result).toEqual(startDate);
+    });
+});
+
+describe('getWeek', () => {
+    /**
+     * ISO 8601 Rules Summary:
+     * - Week 1 is the week with the first Thursday of the year.
+     * - Weeks always start on Monday.
+     * - Dec 31st can be Week 1 of the next year.
+     * - Jan 1st can be Week 52/53 of the previous year.
+     */
+
+    describe('Reported Issue (2012-2013 Transition)', () => {
+        it('should return Week 1 for 2012-12-31 (Monday)', () => {
+            // Dec 31, 2012 is a Monday.
+            // The following Thursday is Jan 3, 2013, making this Week 1 of 2013.
+            const date = new Date(2012, 11, 31);
+            expect(getWeek(date)).toBe(1);
+        });
+
+        it('should return Week 52 for 2012-01-01 (Sunday)', () => {
+            // Jan 1, 2012 is a Sunday.
+            // It belongs to the last week of 2011.
+            const date = new Date(2012, 0, 1);
+            expect(getWeek(date)).toBe(52);
+        });
+    });
+
+    describe('Years with 53 Weeks', () => {
+        it('should handle 2015 (Year ends on Thursday, has 53 weeks)', () => {
+            expect(getWeek(new Date(2015, 11, 27))).toBe(52); // Sunday
+            expect(getWeek(new Date(2015, 11, 28))).toBe(53); // Monday
+            expect(getWeek(new Date(2015, 11, 31))).toBe(53); // Thursday
+            expect(getWeek(new Date(2016, 0, 1))).toBe(53); // Friday (still ISO 2015)
+            expect(getWeek(new Date(2016, 0, 3))).toBe(53); // Sunday (still ISO 2015)
+            expect(getWeek(new Date(2016, 0, 4))).toBe(1); // Monday (Start of ISO 2016)
+        });
+
+        it('should handle 2020 (Leap year ending on Thursday, has 53 weeks)', () => {
+            expect(getWeek(new Date(2020, 11, 28))).toBe(53);
+            expect(getWeek(new Date(2020, 11, 31))).toBe(53);
+            expect(getWeek(new Date(2021, 0, 3))).toBe(53);
+            expect(getWeek(new Date(2021, 0, 4))).toBe(1);
+        });
+    });
+
+    describe('Transitions where Jan 1st is Week 1', () => {
+        it('should handle 2014-2015 transition (Jan 1st is Thursday)', () => {
+            // If Jan 1st is a Thursday, that week is Week 1.
+            const dec29 = new Date(2014, 11, 29); // Monday
+            expect(getWeek(dec29)).toBe(1);
+        });
+    });
+
+    describe('Leap Year Mid-Year Check', () => {
+        it('should calculate correct week after Feb 29th', () => {
+            // Feb 29, 2024 is a Thursday.
+            const leapDay = new Date(2024, 1, 29);
+            expect(getWeek(leapDay)).toBe(9);
+
+            // March 1st, 2024 is a Friday.
+            const dayAfter = new Date(2024, 2, 1);
+            expect(getWeek(dayAfter)).toBe(9);
+        });
+    });
+
+    describe('Custom Parameters (Locales)', () => {
+        // 2025
+
+        it('should support Monday as start of week (ISO Style)', () => {
+            expect(getWeek(new Date(2025, 11, 28), { dowOffset: 'Monday' })).toBe(52);
+            expect(getWeek(new Date(2025, 11, 29), { dowOffset: 'Monday' })).toBe(1);
+            expect(getWeek(new Date(2025, 11, 31), { dowOffset: 'Monday' })).toBe(1);
+            expect(getWeek(new Date(2026, 0, 1), { dowOffset: 'Monday' })).toBe(1);
+            expect(getWeek(new Date(2026, 0, 4), { dowOffset: 'Monday' })).toBe(1);
+            expect(getWeek(new Date(2026, 0, 5), { dowOffset: 'Monday' })).toBe(2);
+        });
+
+        it('should support Sunday as start of week (US Style)', () => {
+            expect(getWeek(new Date(2025, 11, 27), { dowOffset: 'Sunday' })).toBe(52);
+            expect(getWeek(new Date(2025, 11, 28), { dowOffset: 'Sunday' })).toBe(53);
+            expect(getWeek(new Date(2025, 11, 31), { dowOffset: 'Sunday' })).toBe(53);
+            expect(getWeek(new Date(2026, 0, 1), { dowOffset: 'Sunday' })).toBe(53);
+            expect(getWeek(new Date(2026, 0, 3), { dowOffset: 'Sunday' })).toBe(53);
+            expect(getWeek(new Date(2026, 0, 4), { dowOffset: 'Sunday' })).toBe(1);
+        });
+
+        it('should support Saturday as start of week', () => {
+            expect(getWeek(new Date(2025, 11, 26), { dowOffset: 'Saturday' })).toBe(51);
+            expect(getWeek(new Date(2025, 11, 27), { dowOffset: 'Saturday' })).toBe(52);
+            expect(getWeek(new Date(2025, 11, 31), { dowOffset: 'Saturday' })).toBe(52);
+            expect(getWeek(new Date(2026, 0, 1), { dowOffset: 'Saturday' })).toBe(52);
+            expect(getWeek(new Date(2026, 0, 2), { dowOffset: 'Saturday' })).toBe(52);
+            expect(getWeek(new Date(2026, 0, 3), { dowOffset: 'Saturday' })).toBe(1);
+        });
+
+        // 2026
+
+        it('should support Monday as start of week (ISO Style)', () => {
+            expect(getWeek(new Date(2026, 11, 27), { dowOffset: 'Monday' })).toBe(52);
+            expect(getWeek(new Date(2026, 11, 28), { dowOffset: 'Monday' })).toBe(53);
+            expect(getWeek(new Date(2026, 11, 31), { dowOffset: 'Monday' })).toBe(53);
+            expect(getWeek(new Date(2027, 0, 1), { dowOffset: 'Monday' })).toBe(53);
+            expect(getWeek(new Date(2027, 0, 3), { dowOffset: 'Monday' })).toBe(53);
+            expect(getWeek(new Date(2027, 0, 4), { dowOffset: 'Monday' })).toBe(1);
+        });
+
+        it('should support Sunday as start of week (US Style)', () => {
+            expect(getWeek(new Date(2026, 11, 26), { dowOffset: 'Sunday' })).toBe(51);
+            expect(getWeek(new Date(2026, 11, 28), { dowOffset: 'Sunday' })).toBe(52);
+            expect(getWeek(new Date(2026, 11, 31), { dowOffset: 'Sunday' })).toBe(52);
+            expect(getWeek(new Date(2027, 0, 1), { dowOffset: 'Sunday' })).toBe(52);
+            expect(getWeek(new Date(2027, 0, 2), { dowOffset: 'Sunday' })).toBe(52);
+            expect(getWeek(new Date(2027, 0, 3), { dowOffset: 'Sunday' })).toBe(1);
+        });
+
+        it('should support Saturday as start of week', () => {
+            expect(getWeek(new Date(2026, 11, 25), { dowOffset: 'Saturday' })).toBe(51);
+            expect(getWeek(new Date(2026, 11, 26), { dowOffset: 'Saturday' })).toBe(52);
+            expect(getWeek(new Date(2026, 11, 31), { dowOffset: 'Saturday' })).toBe(52);
+            expect(getWeek(new Date(2027, 0, 1), { dowOffset: 'Saturday' })).toBe(52);
+            expect(getWeek(new Date(2027, 0, 2), { dowOffset: 'Saturday' })).toBe(1);
+        });
+    });
+
+    describe('Edge test', () => {
+        it('should support bad dowOffset name', () => {
+            expect(getWeek(new Date(2026, 11, 27), { dowOffset: 'Error' as any })).toBe(52);
+        });
     });
 });

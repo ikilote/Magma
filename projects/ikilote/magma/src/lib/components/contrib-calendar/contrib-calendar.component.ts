@@ -11,6 +11,8 @@ export interface ContribCalendarDay<date = string | Date> {
 export type ContribCalendar<date = string | Date> = ContribCalendarDay<date>[];
 export type MagmaContribCalendarSteps = { value: number; color: string }[];
 
+export type MagmaContribCalendarDays = 'Monday' | 'Sunday' | 'Saturday' | undefined;
+
 @Directive({ selector: 'mg-contrib-calendar-desc' })
 export class MagmaContribCalendarDesc {}
 
@@ -25,22 +27,22 @@ export class MagmaContribCalendarDesc {}
     },
 })
 export class MagmaContribCalendar {
-    lang = input<string | undefined>();
+    readonly lang = input<string | undefined>();
 
-    min = input<string | number | Date | undefined>();
+    readonly min = input<string | number | Date | undefined>();
 
-    max = input<string | number | Date | undefined>();
+    readonly max = input<string | number | Date | undefined>();
 
-    calendar = input.required<ContribCalendar>();
+    readonly calendar = input.required<ContribCalendar>();
 
-    steps = input<MagmaContribCalendarSteps>([
+    readonly steps = input<MagmaContribCalendarSteps>([
         { value: 1, color: 'var(--contrib-calendar-tile-color-lvl1)' },
         { value: 6, color: 'var(--contrib-calendar-tile-color-lvl2)' },
         { value: 11, color: 'var(--contrib-calendar-tile-color-lvl3)' },
         { value: 16, color: 'var(--contrib-calendar-tile-color-lvl4)' },
     ]);
 
-    firstDayOfWeek = input<'Monday' | 'Sunday' | 'Saturday' | undefined>();
+    readonly firstDayOfWeek = input<MagmaContribCalendarDays>();
 
     protected computedDays = computed(() =>
         Array.from({ length: 7 }, (_, i) => {
@@ -49,7 +51,7 @@ export class MagmaContribCalendar {
         }),
     );
 
-    private getFirstGet(day: 'Monday' | 'Sunday' | 'Saturday' | undefined) {
+    private getFirstGet(day: MagmaContribCalendarDays) {
         switch (day) {
             case 'Sunday':
                 return -1;

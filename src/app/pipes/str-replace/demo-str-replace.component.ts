@@ -16,13 +16,13 @@ export class DemoStrReplaceComponent {
         `{{ 'Test---Test' | strReplace: replace : '/' }}`,
     ];
 
-    codeTs = `import { ArrayFilterPipe } from '@ikilote/magma';
+    codeTs = `import { StrReplacePipe } from '@ikilote/magma';
 
 @Component({
     selector: 'demo-test',
     templateUrl: './demo-test.component.html',
     styleUrl: './demo-test.component.scss',
-    imports: [ArrayFilterPipe],
+    imports: [StrReplacePipe],
 })
 export class TestComponent {
     replace = /-+/g;

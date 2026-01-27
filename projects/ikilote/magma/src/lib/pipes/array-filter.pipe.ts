@@ -6,7 +6,7 @@ import { isEmpty } from '../utils/other';
  * Equivalent of `<array>.filter`
  *
  * Examples of usage:
- * - `{{ ['a', 'b', 'c'] | filter: myFilter  }}` → `['b', 'c']`\
+ * - `{{ ['a', 'b', 'c'] | arrayFilter: myFilter  }}` → `['b', 'c']`\
  *  in component:\
  *  `myFilter(value => value !== "a")`
  */

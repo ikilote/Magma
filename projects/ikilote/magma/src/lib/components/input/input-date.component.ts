@@ -1,13 +1,13 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    OnChanges,
-    SimpleChanges,
-    booleanAttribute,
-    computed,
-    input,
-    viewChildren,
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnChanges,
+  SimpleChanges,
+  booleanAttribute,
+  computed,
+  input,
+  viewChildren,
 } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -154,7 +154,7 @@ export class MagmaInputDate
     protected override counter = counter++;
 
     readonly type = input<MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli'>();
-    protected readonly _type = computed(() => (types.includes(this.type()) ? this.type() : 'date'));
+    protected readonly _type = computed(() => (types.includes(this.type()) ? this.type() : 'date')!);
     readonly hideDatePicker = input(false, { transform: booleanAttribute });
     readonly lang = input<string>();
 
@@ -241,7 +241,9 @@ export class MagmaInputDate
     override writeValue(value: any): void {
         this.updateValueCache(value);
         super.writeValue(value);
+        // force refresh input
         this.refreshTrigger.set(null);
+        this.refreshTrigger.set(false);
     }
 
     placeholderCompute(lang?: string) {
@@ -298,7 +300,7 @@ export class MagmaInputDate
         }
     }
 
-    dateClose(date: string) {
+    datePickerClose(date: string) {
         this.onChange(date);
         this.writeValue(date);
         this.onTouched();

@@ -600,7 +600,7 @@ describe('MagmaInputDate', () => {
 
         it('should select element on focusNext', () => {
             // @ts-ignore
-            component.dateClose('2024-12-12');
+            component.datePickerClose('2024-12-12');
             fixture.detectChanges();
 
             // @ts-ignore
@@ -713,7 +713,7 @@ describe('MagmaInputDate', () => {
             spyOn(component, 'validate');
 
             component.ngControl = new MockNgControl() as unknown as NgControl;
-            component.dateClose('2015-12-12');
+            component.datePickerClose('2015-12-12');
 
             fixture.detectChanges();
             expect(inputElement.value).toBe('12');

@@ -101,7 +101,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     protected readonly seconds = computed<number>(() => this.getDate().getUTCSeconds());
     protected readonly milli = computed<number>(() => this.getDate().getUTCMilliseconds());
     protected readonly past = signal(10);
-    protected readonly futur = signal(10);
+    protected readonly future = signal(10);
 
     protected readonly uid = `datetime-picker-${index++}`;
     protected onscroll = false;
@@ -115,7 +115,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
             year = Math.max(min, year);
         }
 
-        let end = year + this.past() + this.futur();
+        let end = year + this.past() + this.future();
         if (max) {
             end = Math.min(max, end);
         }
@@ -154,25 +154,27 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         }).filter(e => !e.hide);
     });
 
-    protected prevMonth = computed(() => {
+    protected prevMonthHide = computed(() => {
         const currentDate = this.date();
         const minDate = this.minDate();
 
         return (
-            minDate &&
-            currentDate.getUTCFullYear() === minDate.getUTCFullYear() &&
-            minDate.getUTCMonth() === currentDate.getUTCMonth()
+            (minDate &&
+                currentDate.getUTCFullYear() === minDate.getUTCFullYear() &&
+                minDate.getUTCMonth() === currentDate.getUTCMonth()) ??
+            false
         );
     });
 
-    protected nextMonth = computed(() => {
+    protected nextMonthHide = computed(() => {
         const currentDate = this.date();
         const maxDate = this.maxDate();
 
         return (
-            maxDate &&
-            currentDate.getUTCFullYear() === maxDate.getUTCFullYear() &&
-            maxDate.getUTCMonth() === currentDate.getUTCMonth()
+            (maxDate &&
+                currentDate.getUTCFullYear() === maxDate.getUTCFullYear() &&
+                maxDate.getUTCMonth() === currentDate.getUTCMonth()) ??
+            false
         );
     });
 
@@ -257,7 +259,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
             if (event.way === 'up') {
                 this.past.update(value => value + 10);
             } else {
-                this.futur.update(value => value + 10);
+                this.future.update(value => value + 10);
             }
             this.onscroll = false;
         }, 50);

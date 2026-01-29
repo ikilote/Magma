@@ -303,14 +303,16 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         }
 
         if (move) {
-            const list = Array.from(this.element.nativeElement.querySelectorAll<HTMLDivElement>('.day'));
+            const list = Array.from(this.element.nativeElement.querySelectorAll<HTMLDivElement>('.day.click-enter'));
             const index = list.findIndex(e => e.classList.contains('selected'));
             const pos = index + move;
             if (list[pos]) {
                 list[pos].click();
             } else {
-                this.updateDate(addDuration(move < 0 ? -1 : 1, DurationTime.DAY, this.date()));
+                this.updateDate(addDuration(move, DurationTime.DAY, this.date()));
             }
+            // block scroll
+            event.preventDefault();
         }
     }
 
@@ -383,7 +385,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
                 value = date.toISOString();
                 break;
             case 'time':
-                value = date.toISOString().replace(/.*T/, '');
+                value = date.toISOString().replace(/.*T/, '').substring(0, 5);
                 break;
             default:
                 value = date.toISOString().replace(/T.*/, '');

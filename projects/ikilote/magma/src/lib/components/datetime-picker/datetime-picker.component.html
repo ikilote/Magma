@@ -41,6 +41,7 @@
         }
 
         <div
+          [id]="'date-' + (day.date.toISOString() | string: 'substring' : 0 : 10)"
           class="day"
           [class.today]="day.isToday"
           [class.current-month]="day.isCurrentMonth"

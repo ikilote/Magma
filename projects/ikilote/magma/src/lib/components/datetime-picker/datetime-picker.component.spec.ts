@@ -1,5 +1,7 @@
+import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { By } from '@angular/platform-browser';
 
 import { DateInfo, MagmaDatetimePickerComponent } from './datetime-picker.component';
 
@@ -9,6 +11,7 @@ describe('MagmaDatetimePickerComponent', () => {
     let component: MagmaDatetimePickerComponent;
     let fixture: ComponentFixture<MagmaDatetimePickerComponent>;
     let loggerMock: any;
+    let debugElement: DebugElement;
 
     beforeEach(async () => {
         loggerMock = jasmine.createSpyObj('Logger', ['info', 'error']);
@@ -20,6 +23,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
         fixture = TestBed.createComponent(MagmaDatetimePickerComponent);
         component = fixture.componentInstance;
+        debugElement = fixture.debugElement;
         fixture.detectChanges();
     });
 
@@ -131,16 +135,49 @@ describe('MagmaDatetimePickerComponent', () => {
         expect(spy).toHaveBeenCalledWith('2025-05-15');
     }));
 
-    it('should update time components and emit change', () => {
-        const spy = spyOn(component.datetimeChange, 'emit');
-        fixture.componentRef.setInput('type', 'datetime-seconds');
-        fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
-        fixture.detectChanges();
+    [
+        { method: 'updateYear', value: 2026, toBe: '2026-01-01T10:00:00.000Z' },
+        { method: 'updateMonth', value: 6, toBe: '2025-06-01T10:00:00.000Z' },
+        { method: 'updateDay', value: 14, toBe: '2025-01-14T10:00:00.000Z' },
+        { method: 'updateHours', value: 14, toBe: '2025-01-01T14:00:00.000Z' },
+        { method: 'updateMinutes', value: 30, toBe: '2025-01-01T10:30:00.000Z' },
+        { method: 'updateSeconds', value: 45, toBe: '2025-01-01T10:00:45.000Z' },
+        { method: 'updateMilli', value: 555, toBe: '2025-01-01T10:00:00.555Z' },
+    ].forEach(test => {
+        it('should update time components and emit change: ' + test.method, () => {
+            const spy = spyOn(component.datetimeChange, 'emit');
+            fixture.componentRef.setInput('type', 'datetime-milli');
+            fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
+            fixture.detectChanges();
 
-        component['updateHours'](14);
-        expect(spy).toHaveBeenCalled();
-        const emittedValue = spy.calls.mostRecent().args[0];
-        expect(emittedValue).toContain('14:00:00');
+            // @ts-ignore
+            component[test.method](test.value);
+            expect(spy).toHaveBeenCalled();
+            const emittedValue = spy.calls.mostRecent().args[0];
+            expect(emittedValue).toBe(test.toBe);
+        });
+    });
+
+    [
+        { type: 'datetime-local', toBe: '2025-01-01T10:00' },
+        { type: 'datetime-seconds', toBe: '2025-01-01T10:00:00' },
+        { type: 'datetime-milli', toBe: '2025-01-01T10:00:00.000Z' },
+        { type: 'time', toBe: '10:00' },
+        { type: 'date', toBe: '2025-01-01' },
+        { type: '', toBe: '2025-01-01' },
+    ].forEach(test => {
+        it('should update date and emit change: ' + test.type, () => {
+            const spy = spyOn(component.datetimeChange, 'emit');
+            fixture.componentRef.setInput('type', test.type);
+            fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
+            fixture.detectChanges();
+
+            // @ts-ignore
+            component.updateDate(component.date());
+            expect(spy).toHaveBeenCalled();
+            const emittedValue = spy.calls.mostRecent().args[0];
+            expect(emittedValue).toBe(test.toBe);
+        });
     });
 
     it('should navigate months with left() and right()', () => {
@@ -156,23 +193,101 @@ describe('MagmaDatetimePickerComponent', () => {
         expect(component.month()).toBe(5);
     });
 
-    it('should handle keyboard navigation (ArrowRight)', () => {
-        fixture.componentRef.setInput('value', '2025-05-01');
-        fixture.detectChanges();
+    [
+        // series 1
+        { arrow: 'ArrowRight', date: '2025-05-01', toBe: '2025-05-02' },
+        { arrow: 'ArrowLeft', date: '2025-05-01', toBe: '2025-04-30' },
+        { arrow: 'ArrowUp', date: '2025-05-01', toBe: '2025-04-24' },
+        { arrow: 'ArrowDown', date: '2025-05-01', toBe: '2025-05-08' },
+        // series 2
+        { arrow: 'ArrowRight', date: '2025-08-31', toBe: '2025-09-01' },
+        { arrow: 'ArrowLeft', date: '2025-08-31', toBe: '2025-08-30' },
+        { arrow: 'ArrowUp', date: '2025-08-31', toBe: '2025-08-24' },
+        { arrow: 'ArrowDown', date: '2025-08-31', toBe: '2025-09-07' },
+    ].forEach(test => {
+        it('should handle keyboard navigation:' + test.arrow, () => {
+            fixture.componentRef.setInput('value', test.date);
+            fixture.detectChanges();
 
-        // Mocking the element selection for the keyboard move logic
-        const dummyDay = document.createElement('div');
-        dummyDay.classList.add('day', 'selected');
-        const nextDay = document.createElement('div');
-        nextDay.classList.add('day');
+            // @ts-ignore
+            spyOn(component, 'updateDate');
 
-        spyOn(fixture.nativeElement, 'querySelectorAll').and.returnValue([dummyDay, nextDay]);
-        const clickSpy = spyOn(nextDay, 'click');
+            const inputElement = debugElement.query(By.css('#date-' + test.date)).nativeElement;
+            expect(inputElement).toBeDefined();
 
-        const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-        component['move'](event);
+            const target = debugElement.query(By.css('#date-' + test.toBe));
+            if (target) {
+                const targetElement = target.nativeElement;
+                const clickSpy = spyOn(targetElement, 'click');
+                expect(targetElement).toBeDefined();
 
-        expect(clickSpy).toHaveBeenCalled();
+                // test
+                const event = new KeyboardEvent('keydown', { key: test.arrow });
+                component['move'](event);
+
+                // control click
+                expect(clickSpy).toHaveBeenCalled();
+
+                // @ts-ignore
+                expect(component.updateDate).not.toHaveBeenCalled();
+            } else {
+                // test
+                const event = new KeyboardEvent('keydown', { key: test.arrow });
+                component['move'](event);
+
+                // @ts-ignore
+                expect(component.updateDate).toHaveBeenCalledWith(new Date(test.toBe));
+            }
+        });
+    });
+
+    [
+        // series 1
+        { arrow: 'ArrowRight', date: '2025-05-01', toBe: '2025-05-02' },
+        { arrow: 'ArrowLeft', date: '2025-05-01', toBe: '2025-04-30' },
+        { arrow: 'ArrowUp', date: '2025-05-01', toBe: '2025-04-24' },
+        { arrow: 'ArrowDown', date: '2025-05-01', toBe: '2025-05-08' },
+        // series 2
+        { arrow: 'ArrowRight', date: '2025-08-31', toBe: '2025-09-01' },
+        { arrow: 'ArrowLeft', date: '2025-08-31', toBe: '2025-08-30' },
+        { arrow: 'ArrowUp', date: '2025-08-31', toBe: '2025-08-24' },
+        { arrow: 'ArrowDown', date: '2025-08-31', toBe: '2025-09-07' },
+    ].forEach(test => {
+        it('should handle keyboard navigation (readonly):' + test.arrow, () => {
+            fixture.componentRef.setInput('readonly', true);
+            fixture.componentRef.setInput('value', test.date);
+            fixture.detectChanges();
+
+            // @ts-ignore
+            spyOn(component, 'updateDate');
+
+            const inputElement = debugElement.query(By.css('#date-' + test.date)).nativeElement;
+            expect(inputElement).toBeDefined();
+
+            const target = debugElement.query(By.css('#date-' + test.toBe));
+            if (target) {
+                const targetElement = target.nativeElement;
+                const clickSpy = spyOn(targetElement, 'click');
+                expect(targetElement).toBeDefined();
+
+                // test
+                const event = new KeyboardEvent('keydown', { key: test.arrow });
+                component['move'](event);
+
+                // control click
+                expect(clickSpy).not.toHaveBeenCalled();
+
+                // @ts-ignore
+                expect(component.updateDate).not.toHaveBeenCalled();
+            } else {
+                // test
+                const event = new KeyboardEvent('keydown', { key: test.arrow });
+                component['move'](event);
+
+                // @ts-ignore
+                expect(component.updateDate).not.toHaveBeenCalled();
+            }
+        });
     });
 
     it('should load more years on scroll up', fakeAsync(() => {

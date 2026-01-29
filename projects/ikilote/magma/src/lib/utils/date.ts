@@ -50,10 +50,12 @@ export function addDuration(
 }
 
 /**
- * Returns the week number for this date.
- * @param int dowOffset the day of week the week"starts" on for your locale - it can be from 0 to 6.
+ * Calculate the week number for this date.
+ * @param date the date
+ * @param param.dowOffset the day of week the week"starts" on for your locale - it can be from 0 to 6.
  * If dowOffset is 1 (Monday). Default is Monday (ISO 8601).
- * @return int the week returned is the ISO 8601 week number
+ * @param param.firstWeekContainsDay number of days for the first week
+ * @return the week returned is the ISO 8601 week number
  */
 export function getWeek(
     date: Date,
@@ -83,4 +85,15 @@ export function getWeek(
     const weekNumber = 1 + Math.round(diffInMs / 604800000);
 
     return weekNumber;
+}
+
+const isoRegex = /^\d{4}-\d{2}-\d{2}(T\d{2}:\d{2}:\d{2}(\.\d{3})?(Z|(\+|-)\d{2}:\d{2})?)?$/;
+
+/**
+ * Validates if a string follows the ISO 8601 format.
+ * Matches: YYYY-MM-DD or YYYY-MM-DDTHH:mm:ss or YYYY-MM-DDTHH:mm:ss.sssZ
+ * @params value
+ */
+export function isISODate(value: string): boolean {
+    return isoRegex.test(value);
 }

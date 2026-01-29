@@ -21,7 +21,7 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
 import { RepeatForPipe } from '../../pipes/repeat-for.pipe';
 import { StringPipe } from '../../pipes/string.pipe';
 import { Logger } from '../../services/logger';
-import { DurationTime, WeekDay, addDuration, getWeek } from '../../utils/date';
+import { DurationTime, WeekDay, addDuration, getWeek, isISODate } from '../../utils/date';
 import { MagmaInputSelect } from '../input/input-select.component';
 import { MagmaInput } from '../input/input.component';
 
@@ -186,14 +186,6 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         ),
     );
 
-    protected h = computed(() =>
-        Array.from({ length: 7 }, (_, i) =>
-            new Date(2024, 0, this.getFirstGet(this.firstDayOfWeek()) + i + 1).toLocaleString(this.lang() || 'en', {
-                weekday: 'narrow',
-            }),
-        ),
-    );
-
     protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
         const date = this.getDate();
         const year = date.getUTCFullYear();
@@ -269,8 +261,8 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         this.selected.set(true);
 
         if (this.date().getUTCMonth() + 1 !== date.month) {
-            this.updateMonth(date.month);
-            this.updateDay(date.day);
+            this.updateMonth(date.month, false);
+            this.updateDay(date.day, false);
             this.updateDate(this.date());
         } else {
             this.updateDay(date.day);
@@ -322,16 +314,20 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         this.updateDate(date);
     }
 
-    protected updateMonth(value: number) {
+    protected updateMonth(value: number, update = true) {
         const date = this.date();
         date.setUTCMonth(value - 1);
-        this.updateDate(date);
+        if (update) {
+            this.updateDate(date);
+        }
     }
 
-    protected updateDay(value: number) {
+    protected updateDay(value: number, update = true) {
         const date = this.date();
         date.setUTCDate(value);
-        this.updateDate(date);
+        if (update) {
+            this.updateDate(date);
+        }
     }
 
     protected updateHours(value: number) {
@@ -427,32 +423,30 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         return this.max() ? new Date(this.max()!) : null;
     }
 
-    private getDateValue(value: string | number | Date | undefined) {
+    private getDateValue(value: string | number | Date | undefined): Date {
         if (value) {
             if (value instanceof Date) {
                 return value;
             } else if (value === 'number') {
                 return new Date(value);
-            } else if (typeof value === 'string') {
-                return (
-                    new Date(
-                        Date.UTC(
-                            this.valueDateSubstring(value, 0, 4),
-                            Math.max(this.valueDateSubstring(value, 5, 7) - 1),
-                            this.valueDateSubstring(value, 8, 10),
-                            this.valueDateSubstring(value, 11, 13),
-                            this.valueDateSubstring(value, 14, 16),
-                            this.valueDateSubstring(value, 17, 19),
-                            this.valueDateSubstring(value, 20, 23),
-                        ),
-                    ) || new Date()
+            } else if (typeof value === 'string' && isISODate(value)) {
+                return new Date(
+                    Date.UTC(
+                        this.valueDateSubstring(value, 0, 4),
+                        Math.max(this.valueDateSubstring(value, 5, 7) - 1, 0),
+                        this.valueDateSubstring(value, 8, 10),
+                        this.valueDateSubstring(value, 11, 13),
+                        this.valueDateSubstring(value, 14, 16),
+                        this.valueDateSubstring(value, 17, 19),
+                        this.valueDateSubstring(value, 20, 23),
+                    ),
                 );
             }
         }
         return new Date();
     }
 
-    private valueDateSubstring(value: string, a: number, b: number): number {
-        return value ? +(value?.substring(a, b) ?? 0) || 0 : 0;
+    private valueDateSubstring(value: string, start: number, end: number): number {
+        return +value?.substring(start, end);
     }
 }

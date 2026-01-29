@@ -56,7 +56,8 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('value', `${currentYear}-01-01`);
         fixture.detectChanges();
 
-        const years = (component as any).yearsList();
+        // @ts-ignore
+        const years = component.yearsList();
         expect(years[0].value).toBe(currentYear - 10);
         expect(years[years.length - 1].value).toBe(currentYear + 10);
     });
@@ -67,7 +68,8 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('max', `${currentYear + 2}-01-01`);
         fixture.detectChanges();
 
-        const years = (component as any).yearsList();
+        // @ts-ignore
+        const years = component.yearsList();
         expect(years[0].value).toBe(currentYear - 2);
         expect(years[years.length - 1].value).toBe(currentYear + 2);
     });
@@ -347,5 +349,266 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.detectChanges();
         const table = fixture.nativeElement.querySelector('.table');
         expect(table.classList).toContain('week-number');
+    });
+
+    describe('select() method', () => {
+        it('should set the selected signal to true', () => {
+            const dateInfo = { month: 1, day: 10 } as DateInfo;
+            // @ts-ignore Accessing protected method via any
+            component.select(dateInfo);
+            // @ts-ignore
+            expect(component.selected()).toBeTrue();
+        });
+
+        it('should only update the day if the month is the same as the current date', () => {
+            // Setup component with a specific date (January)
+            fixture.componentRef.setInput('value', '2026-01-01');
+            fixture.detectChanges();
+
+            const updateDaySpy = spyOn<any>(component, 'updateDay').and.callThrough();
+            const updateMonthSpy = spyOn<any>(component, 'updateMonth').and.callThrough();
+            const updateDateSpy = spyOn<any>(component, 'updateDate').and.callThrough();
+
+            const dateInfo = { month: 1, day: 15 } as DateInfo;
+
+            // @ts-ignore
+            component.select(dateInfo);
+
+            expect(updateDaySpy).toHaveBeenCalledWith(15);
+            expect(updateMonthSpy).not.toHaveBeenCalled();
+            expect(updateDateSpy).toHaveBeenCalled();
+        });
+
+        it('should update month, day, and date if the selected month is different', () => {
+            // Setup component in January
+            fixture.componentRef.setInput('value', '2026-01-01');
+            fixture.detectChanges();
+
+            const updateDaySpy = spyOn<any>(component, 'updateDay').and.callThrough();
+            const updateMonthSpy = spyOn<any>(component, 'updateMonth').and.callThrough();
+            const updateDateSpy = spyOn<any>(component, 'updateDate').and.callThrough();
+
+            // Simulate selecting a day from February (e.g., end of the grid)
+            const dateInfo = { month: 2, day: 1 } as DateInfo;
+
+            // @ts-ignore
+            component.select(dateInfo);
+
+            expect(updateMonthSpy).toHaveBeenCalledWith(2, false);
+            expect(updateDaySpy).toHaveBeenCalledWith(1, false);
+            expect(updateDateSpy).toHaveBeenCalled();
+        });
+
+        it('should attempt to focus the element with ".selected" class after 10ms', fakeAsync(() => {
+            const dateInfo = { month: 1, day: 10 } as DateInfo;
+
+            // Create a dummy element in the template to be found by the querySelector
+            const dummyElement = document.createElement('div');
+            dummyElement.classList.add('selected');
+            // We need to provide a tabIndex so it's focusable
+            dummyElement.tabIndex = 0;
+
+            spyOn(component.element.nativeElement, 'querySelector').and.returnValue(dummyElement);
+            const focusSpy = spyOn(dummyElement, 'focus');
+
+            // @ts-ignore
+            component.select(dateInfo);
+
+            // Before 10ms
+            tick(5);
+            expect(focusSpy).not.toHaveBeenCalled();
+
+            // At/After 10ms
+            tick(5);
+            expect(focusSpy).toHaveBeenCalled();
+        }));
+
+        it('should not throw an error if the .selected element is not found in the DOM', fakeAsync(() => {
+            const dateInfo = { month: 1, day: 10 } as DateInfo;
+
+            // Return null to simulate element not being rendered yet or missing
+            spyOn(component.element.nativeElement, 'querySelector').and.returnValue(null);
+
+            expect(() => {
+                // @ts-ignore
+                component.select(dateInfo);
+                tick(10);
+            }).not.toThrow();
+        }));
+    });
+
+    describe('getFirstGet() - Week start offset', () => {
+        it('should return -1 when the day is Sunday', () => {
+            // @ts-ignore - Accessing private method
+            const result = component.getFirstGet('Sunday');
+            expect(result).toBe(-1);
+        });
+
+        it('should return -2 when the day is Saturday', () => {
+            // @ts-ignore - Accessing private method
+            const result = component.getFirstGet('Saturday');
+            expect(result).toBe(-2);
+        });
+
+        it('should return 0 when the day is Monday (default behavior)', () => {
+            // @ts-ignore - Accessing private method
+            const result = component.getFirstGet('Monday');
+            expect(result).toBe(0);
+        });
+
+        it('should return 0 when the day is undefined', () => {
+            // @ts-ignore - Accessing private method
+            const result = component.getFirstGet(undefined);
+            expect(result).toBe(0);
+        });
+    });
+
+    describe('getDate()', () => {
+        it('should return the computed date when it is within min/max boundaries', () => {
+            const minLimit = new Date(2026, 0, 1);
+            const maxLimit = new Date(2026, 0, 31);
+            const midDate = '2026-01-15';
+
+            // Set source inputs to update the computed 'date' signal
+            fixture.componentRef.setInput('min', minLimit);
+            fixture.componentRef.setInput('max', maxLimit);
+            fixture.componentRef.setInput('value', midDate);
+            fixture.detectChanges();
+
+            // @ts-ignore - Accessing protected method
+            const result = component.getDate();
+            expect(result.getTime()).toBe(new Date(midDate).getTime());
+        });
+
+        it('should clamp to minDate if the current value is too early', () => {
+            const minLimit = new Date(2026, 0, 10);
+            const tooEarly = '2026-01-05';
+
+            fixture.componentRef.setInput('min', minLimit);
+            fixture.componentRef.setInput('value', tooEarly);
+            fixture.detectChanges();
+
+            // @ts-ignore
+            const result = component.getDate();
+            expect(result.getTime()).toBe(minLimit.getTime());
+        });
+
+        it('should clamp to maxDate if the current value is too late', () => {
+            const maxLimit = new Date(2026, 0, 20);
+            const tooLate = '2026-01-25';
+
+            fixture.componentRef.setInput('max', maxLimit);
+            fixture.componentRef.setInput('value', tooLate);
+            fixture.detectChanges();
+
+            // @ts-ignore
+            const result = component.getDate();
+            expect(result.getTime()).toBe(maxLimit.getTime());
+        });
+
+        it('should return the raw date signal if no min/max boundaries are provided', () => {
+            const targetDate = '2026-05-20';
+
+            fixture.componentRef.setInput('min', undefined);
+            fixture.componentRef.setInput('max', undefined);
+            fixture.componentRef.setInput('value', targetDate);
+            fixture.detectChanges();
+
+            // @ts-ignore
+            const result = component.getDate();
+            expect(result.getTime()).toBe(new Date(targetDate).getTime());
+        });
+    });
+
+    describe('getDateValue parsing logic', () => {
+        beforeEach(() => {
+            // Mocking the system date to Jan 1st, 2026 for consistent fallback tests
+            jasmine.clock().install();
+            jasmine.clock().mockDate(new Date(Date.UTC(2026, 0, 1)));
+        });
+
+        afterEach(() => {
+            jasmine.clock().uninstall();
+        });
+
+        it('should return the current date (mocked) if value is undefined or null', () => {
+            // @ts-ignore
+            const result = component.getDateValue(undefined);
+            expect(result.toISOString()).toBe('2026-01-01T00:00:00.000Z');
+
+            // @ts-ignore
+            const resultNull = component.getDateValue(null);
+            expect(resultNull.toISOString()).toBe('2026-01-01T00:00:00.000Z');
+        });
+
+        it('should return the exact same Date object if an instance of Date is passed', () => {
+            const inputDate = new Date(Date.UTC(2024, 5, 20));
+
+            // @ts-ignore
+            const result = component.getDateValue(inputDate);
+
+            expect(result).toBe(inputDate); // Checks reference equality
+            expect(result.getUTCDate()).toBe(20);
+        });
+
+        it('should handle the literal string "number" as per current logic', () => {
+            // @ts-ignore - This tests the (value === 'number') branch in your code
+            const result = component.getDateValue('number');
+            // new Date('number') results in an Invalid Date
+            expect(result.toString()).toBe('Invalid Date');
+        });
+
+        it('should parse a complete ISO string into a UTC Date object', () => {
+            const isoString = '2025-10-31T12:45:30.500Z';
+            // @ts-ignore
+            const result: Date = component.getDateValue(isoString);
+
+            expect(result.getUTCFullYear()).toBe(2025);
+            expect(result.getUTCMonth()).toBe(9); // October is 9
+            expect(result.getUTCDate()).toBe(31);
+            expect(result.getUTCHours()).toBe(12);
+            expect(result.getUTCMinutes()).toBe(45);
+            expect(result.getUTCSeconds()).toBe(30);
+            expect(result.getUTCMilliseconds()).toBe(500);
+        });
+
+        it('should handle partial date strings by filling missing components with 0', () => {
+            const partial = '2025-05-15';
+            // @ts-ignore
+            const result: Date = component.getDateValue(partial);
+
+            expect(result.getUTCFullYear()).toBe(2025);
+            expect(result.getUTCMonth()).toBe(4); // May
+            expect(result.getUTCDate()).toBe(15);
+            // Time components should be 0 because substring results in empty/non-numeric
+            expect(result.getUTCHours()).toBe(0);
+            expect(result.getUTCMinutes()).toBe(0);
+        });
+
+        it('should prevent negative month values using Math.max', () => {
+            // If string is '2025-00-01', (0 - 1) is -1, Math.max should return 0
+            const invalidMonth = '2025-00-01';
+            // @ts-ignore
+            const result: Date = component.getDateValue(invalidMonth);
+            expect(result.getUTCMonth()).toBe(0); // January
+        });
+
+        it('should return a Date object even for totally malformed strings', () => {
+            const malformed = 'NotADate';
+            // @ts-ignore
+            const result = component.getDateValue(malformed);
+
+            // getValueDateSubstring will try to '+' an empty substring or NaN string
+            // The resulting Date might be 'Invalid Date' or year 0, but it must be a Date instance
+            expect(result).toEqual(new Date());
+        });
+
+        it('should correctly parse milliseconds at the end of the string', () => {
+            const withMilli = '2025-01-01T00:00:00.999Z';
+
+            // @ts-ignore
+            const result: Date = component.getDateValue(withMilli);
+            expect(result.getUTCMilliseconds()).toBe(999);
+        });
     });
 });

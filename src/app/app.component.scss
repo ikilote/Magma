@@ -74,19 +74,6 @@ ul {
             &.active {
                 background: var(--neutral9);
             }
-
-            &::after {
-                margin-left: 5px;
-                font-variant-position: super;
-            }
-            &.new::after {
-                content: 'new';
-                color: var(--success5);
-            }
-            &.update::after {
-                content: 'update';
-                color: var(--warn5);
-            }
         }
 
         li a {

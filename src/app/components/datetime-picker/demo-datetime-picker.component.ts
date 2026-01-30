@@ -182,6 +182,15 @@ export class DemoBlockComponent { }`;
         if (this.ctrlForm.value.day) {
             attrs['firstDayOfWeek'] = this.ctrlForm.value.day;
         }
+        if (this.ctrlForm.value.weekend) {
+            attrs['weekend'] = JSON.stringify(this.ctrlForm.value.weekend).replaceAll('"', "'");
+        }
+        if (this.ctrlForm.value.hideWeekendStyle) {
+            attrs['hideWeekendStyle'] = null;
+        }
+        if (this.ctrlForm.value.hideWeekNumber) {
+            attrs['hideWeekNumber'] = null;
+        }
 
         attrs['(datetimeChange)'] = 'datetimeChange($event)';
 
@@ -221,7 +230,16 @@ export class DemoBlockComponent { }`;
             attrs['datetimePickerLang'] = this.ctrlFormPopup.value.lang;
         }
         if (this.ctrlFormPopup.value.day) {
-            attrs['datetimeFirstDayOfWeek'] = this.ctrlFormPopup.value.day;
+            attrs['datetimePickerFirstDayOfWeek'] = this.ctrlFormPopup.value.day;
+        }
+        if (this.ctrlForm.value.weekend) {
+            attrs['datetimePickerWeekend'] = JSON.stringify(this.ctrlForm.value.weekend).replaceAll('"', "'");
+        }
+        if (this.ctrlForm.value.hideWeekendStyle) {
+            attrs['datetimePickerHideWeekendStyle'] = null;
+        }
+        if (this.ctrlForm.value.hideWeekNumber) {
+            attrs['datetimePickerHideWeekNumber'] = null;
         }
 
         attrs['(datetimeChange)'] = 'datetimeChange($event)';

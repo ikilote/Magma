@@ -60,10 +60,18 @@ describe('StringPipe', () => {
         });
     });
 
+    describe('Length String Methods', () => {
+        it('should convert string to upper case using "length"', () => {
+            const result = pipe.transform('hello', 'length');
+            expect(result).toBe(5);
+        });
+    });
+
     describe('Edge Cases', () => {
         it('should handle null/undefined by converting them to strings "null"/"undefined"', () => {
             expect(pipe.transform(null, 'toUpperCase')).toBe('NULL');
             expect(pipe.transform(undefined, 'toUpperCase')).toBe('UNDEFINED');
+            expect(pipe.transform(undefined, 'length')).toBe(9);
         });
     });
 });

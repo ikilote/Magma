@@ -3,6 +3,8 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
+import { Select2Data } from 'ng-select2-component';
+
 import {
     FormBuilderExtended,
     MagmaDatetimePicker,
@@ -14,6 +16,7 @@ import {
     MagmaInputDate,
     MagmaInputElement,
     MagmaInputSelect,
+    WeekDay,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { dateTypes, days, langues } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -49,6 +52,9 @@ export class DemoDatetimePickerComponent {
         min: FormControl<string>;
         max: FormControl<string>;
         day: FormControl<MagmaDatetimePickerDays>;
+        weekend: FormControl<WeekDay[]>;
+        hideWeekendStyle: FormControl<boolean>;
+        hideWeekNumber: FormControl<boolean>;
     }>;
     ctrlFormPopup: FormGroup<{
         datetime: FormControl<string>;
@@ -59,6 +65,9 @@ export class DemoDatetimePickerComponent {
         min: FormControl<string>;
         max: FormControl<string>;
         day: FormControl<MagmaDatetimePickerDays>;
+        weekend: FormControl<WeekDay[]>;
+        hideWeekendStyle: FormControl<boolean>;
+        hideWeekNumber: FormControl<boolean>;
     }>;
 
     datetimeChangeValue = '';
@@ -90,6 +99,16 @@ export class DemoBlockComponent { }`;
 })
 export class DemoBlockComponent { }`;
 
+    weekdays: Select2Data = [
+        { label: 'Monday', value: 'Monday' },
+        { label: 'Tuesday', value: 'Tuesday' },
+        { label: 'Wednesday', value: 'Wednesday' },
+        { label: 'Thursday', value: 'Thursday' },
+        { label: 'Friday', value: 'Friday' },
+        { label: 'Saturday', value: 'Saturday' },
+        { label: 'Sunday', value: 'Sunday' },
+    ];
+
     constructor() {
         this.ctrlForm = this.fb.groupWithError({
             datetime: { default: '' },
@@ -99,6 +118,9 @@ export class DemoBlockComponent { }`;
             min: { default: '' },
             max: { default: '' },
             day: { default: '' as MagmaDatetimePickerDays },
+            weekend: { default: ['Saturday', 'Sunday'] as WeekDay[] },
+            hideWeekendStyle: { default: false },
+            hideWeekNumber: { default: false },
         });
         this.ctrlFormPopup = this.fb.groupWithError({
             datetime: { default: '' },
@@ -109,6 +131,9 @@ export class DemoBlockComponent { }`;
             min: { default: '' },
             max: { default: '' },
             day: { default: '' as MagmaDatetimePickerDays },
+            weekend: { default: ['Saturday', 'Sunday'] as WeekDay[] },
+            hideWeekendStyle: { default: false },
+            hideWeekNumber: { default: false },
         });
         this.codeGeneration();
         this.codeGenerationPopup();

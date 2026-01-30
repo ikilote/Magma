@@ -1,21 +1,22 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
-  ComponentRef,
-  Directive,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OutputRefSubscription,
-  booleanAttribute,
-  inject,
-  input,
-  output
+    ComponentRef,
+    Directive,
+    ElementRef,
+    HostListener,
+    OnDestroy,
+    OutputRefSubscription,
+    booleanAttribute,
+    inject,
+    input,
+    output,
 } from '@angular/core';
 
 import { MagmaDatetimePickerComponent, MagmaDatetimePickerDays, MagmaDatetimeType } from './datetime-picker.component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
+import { WeekDay } from '../../utils/date';
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -45,6 +46,9 @@ export class MagmaDatetimePicker implements OnDestroy {
     readonly datetimePickerMin = input<string | number | Date | undefined>();
     readonly datetimePickerMax = input<string | number | Date | undefined>();
     readonly datetimePickerFirstDayOfWeek = input<MagmaDatetimePickerDays>();
+    readonly datetimePickerWeekend = input<WeekDay[]>(['Sunday', 'Saturday']);
+    readonly datetimePickerhideWeekendStyle = input(false, { transform: booleanAttribute });
+    readonly datetimePickerHideWeekNumber = input(false, { transform: booleanAttribute });
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaDatetimePickerComponent>;
@@ -88,6 +92,9 @@ export class MagmaDatetimePicker implements OnDestroy {
         component.setInput('min', this.datetimePickerMin());
         component.setInput('max', this.datetimePickerMax());
         component.setInput('firstDayOfWeek', this.datetimePickerFirstDayOfWeek());
+        component.setInput('weekend', this.datetimePickerWeekend());
+        component.setInput('hideWeekendStyle', this.datetimePickerhideWeekendStyle());
+        component.setInput('hideWeekNumber', this.datetimePickerHideWeekNumber());
         component.setInput('embedded', true);
 
         this.updateEmit = component.instance.datetimeChange.subscribe(value => {

@@ -611,4 +611,146 @@ describe('MagmaDatetimePickerComponent', () => {
             expect(result.getUTCMilliseconds()).toBe(999);
         });
     });
+
+    describe('computedDaysOfMonth', () => {
+        beforeEach(() => {
+            jasmine.clock().install();
+            // Mock "today" to February 15, 2026
+            jasmine.clock().mockDate(new Date(Date.UTC(2026, 1, 15)));
+        });
+
+        afterEach(() => {
+            jasmine.clock().uninstall();
+        });
+
+        it('should generate a grid starting from the previous month if the 1st is not the start of the week', () => {
+            // February 1st, 2026 is a Sunday.
+            // If start of week is Monday (default), the grid should start on Jan 26th.
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.componentRef.setInput('firstDayOfWeek', 'Monday');
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+
+            expect(grid[0].date.getUTCDate()).toBe(26);
+            expect(grid[0].month).toBe(1); // January
+            expect(grid[0].isCurrentMonth).toBeFalse();
+        });
+
+        it('should handle different start of week (Sunday)', () => {
+            // Feb 1st, 2026 is a Sunday.
+            // If start of week is Sunday, the grid should start exactly on Feb 1st.
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.componentRef.setInput('firstDayOfWeek', 'Sunday');
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+
+            expect(grid[0].date.getUTCDate()).toBe(1);
+            expect(grid[0].month).toBe(2);
+            expect(grid[0].isCurrentMonth).toBeTrue();
+        });
+
+        it('should handle different start of week (Saturday)', () => {
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.componentRef.setInput('firstDayOfWeek', 'Saturday');
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+
+            // If week starts Saturday, and Feb 1st is Sunday, grid starts Jan 31st (Saturday)
+            expect(grid[0].date.getUTCDate()).toBe(31);
+            expect(grid[0].month).toBe(1);
+        });
+
+        it('should correctly identify "isToday"', () => {
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+            const todayElement = grid.find(d => d.day === 15 && d.month === 2);
+
+            expect(todayElement?.isToday).toBeTrue();
+        });
+
+        it('should disable days outside the min/max range', () => {
+            fixture.componentRef.setInput('value', '2026-02-15');
+            fixture.componentRef.setInput('min', '2026-02-10');
+            fixture.componentRef.setInput('max', '2026-02-20');
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+
+            const day9 = grid.find(d => d.day === 9 && d.month === 2);
+            const day15 = grid.find(d => d.day === 15 && d.month === 2);
+            const day21 = grid.find(d => d.day === 21 && d.month === 2);
+
+            expect(day9?.disabled).toBeTrue();
+            expect(day15?.disabled).toBeFalse();
+            expect(day21?.disabled).toBeTrue();
+        });
+
+        it('should correctly flag weekends based on input', () => {
+            fixture.componentRef.setInput('value', '2026-02-01');
+            // Saturday and Sunday are default weekends
+            fixture.componentRef.setInput('weekend', ['Saturday', 'Sunday']);
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+
+            // Feb 1st 2026 is Sunday
+            const sunday = grid.find(d => d.day === 1 && d.month === 2);
+            // Feb 2nd 2026 is Monday
+            const monday = grid.find(d => d.day === 2 && d.month === 2);
+
+            expect(sunday?.weekend).toBeTrue();
+            expect(monday?.weekend).toBeFalse();
+        });
+
+        it('should not flag weekends if hideWeekendStyle is true', () => {
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.componentRef.setInput('hideWeekendStyle', true);
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+            const sunday = grid.find(d => d.day === 1 && d.month === 2);
+
+            expect(sunday?.weekend).toBeFalse();
+        });
+
+        it('should compute week numbers if not hidden', () => {
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.componentRef.setInput('hideWeekNumber', false);
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+
+            // Check if weekNumber is a number and not null
+            expect(typeof grid[0].weekNumber).toBe('number');
+        });
+
+        it('should return null for week numbers if hideWeekNumber is true', () => {
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.componentRef.setInput('hideWeekNumber', true);
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+            expect(grid[0].weekNumber).toBeNull();
+        });
+
+        it('should complete the last week of the grid even if it belongs to the next month', () => {
+            // February 2026 ends on Saturday the 28th.
+            // If week starts Monday, it must include Sunday March 1st to finish the row.
+            fixture.componentRef.setInput('value', '2026-02-01');
+            fixture.componentRef.setInput('firstDayOfWeek', 'Monday');
+            fixture.detectChanges();
+
+            const grid = component['computedDaysOfMonth']()[0];
+            const lastDay = grid[grid.length - 1];
+
+            expect(lastDay.month).toBe(3); // March
+            expect(lastDay.day).toBe(1);
+            expect(lastDay.isCurrentMonth).toBeFalse();
+        });
+    });
 });

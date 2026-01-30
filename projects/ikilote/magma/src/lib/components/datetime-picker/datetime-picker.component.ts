@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    OnChanges,
-    SimpleChanges,
-    booleanAttribute,
-    computed,
-    inject,
-    input,
-    output,
-    signal,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnChanges,
+  SimpleChanges,
+  booleanAttribute,
+  computed,
+  inject,
+  input,
+  output,
+  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -81,7 +81,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     readonly readonly = input(false, { transform: booleanAttribute });
     readonly firstDayOfWeek = input<MagmaDatetimePickerDays>();
     readonly weekend = input<WeekDay[]>(['Sunday', 'Saturday']);
-    readonly hideWeekend = input(false, { transform: booleanAttribute });
+    readonly hideWeekendStyle = input(false, { transform: booleanAttribute });
     readonly hideWeekNumber = input(false, { transform: booleanAttribute });
 
     // output
@@ -95,7 +95,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     protected readonly selected = signal<boolean>(false);
     protected readonly year = computed<number>(() => this.getDate().getUTCFullYear());
     protected readonly month = computed<number>(() => this.getDate().getUTCMonth() + 1);
-    protected readonly day = computed<number>(() => this.getDate().getUTCDate());
+    // note: day is not necessary
     protected readonly hours = computed<number>(() => this.getDate().getUTCHours());
     protected readonly minutes = computed<number>(() => this.getDate().getUTCMinutes());
     protected readonly seconds = computed<number>(() => this.getDate().getUTCSeconds());
@@ -224,7 +224,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
                 isCurrentMonth: currentLoopDate.getUTCMonth() === month,
                 isToday: today.toDateString() === currentLoopDate.toDateString(),
                 disabled: (min ? datetime < min : false) || (max ? datetime > max : false),
-                weekend: !this.hideWeekend() ? this.weekend().includes(WEEK[date.getUTCDay()]) : false,
+                weekend: !this.hideWeekendStyle() ? this.weekend().includes(WEEK[date.getUTCDay()]) : false,
                 weekNumber: !this.hideWeekNumber() ? getWeek(date, { dowOffset: this.firstDayOfWeek() }) : null,
             });
 

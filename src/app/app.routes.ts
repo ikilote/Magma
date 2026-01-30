@@ -254,6 +254,11 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./pipes/str-replace/demo-str-replace.component').then(m => m.DemoStrReplaceComponent),
             },
+            {
+                path: 'string',
+                pathMatch: 'full',
+                loadComponent: () => import('./pipes/string/demo-string.component').then(m => m.DemoStringComponent),
+            },
         ],
     },
     {

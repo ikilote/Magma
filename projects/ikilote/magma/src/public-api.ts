@@ -72,6 +72,7 @@ export * from './lib/pipes/math.pipe';
 export * from './lib/pipes/num-format.pipe';
 export * from './lib/pipes/repeat-for.pipe';
 export * from './lib/pipes/str-replace.pipe';
+export * from './lib/pipes/string.pipe';
 
 // services
 export * from './lib/services/cache';

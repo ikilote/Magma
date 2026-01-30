@@ -51,6 +51,7 @@ export const menu = [
             { routerLink: '/pipe/num-format', label: 'numFormat' },
             { routerLink: '/pipe/repeat-for', label: 'repeatFor' },
             { routerLink: '/pipe/str-replace', label: 'strReplace' },
+            { routerLink: '/pipe/string', label: 'string', status: 'new' },
         ],
     },
     {

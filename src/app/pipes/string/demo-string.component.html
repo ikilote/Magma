@@ -1,0 +1,95 @@
+<h1>string</h1>
+
+<p>All String method: <code>"string".xxxx()</code></p>
+
+<h2>Examples</h2>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>toLowerCase</h3>
+    <code>{{ 'test-TEST-test' | string: 'toLowerCase' }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: toLowerCase },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>toUpperCase</h3>
+    <code>{{ 'test-TEST-test' | string: 'toUpperCase' }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: toUpperCase },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>length</h3>
+    <code>{{ 'test-TEST-test' | string: 'length' }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: length },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>startsWith</h3>
+    <code>{{ 'test-TEST-test' | string: 'startsWith' : 'test-' }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: startsWith },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>substring</h3>
+    <code>{{ 'test-TEST-test' | string: 'substring' : 0 : 10 }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: substring },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</section>
+
+<section>
+  <div class="s-4 s-12-m">
+    <h3>padStart</h3>
+    <code>{{ 'test-TEST-test' | string: 'padStart' : 49 : 'test-' }}</code>
+  </div>
+  <div class="s-f">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: padStart },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</section>

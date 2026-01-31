@@ -13,7 +13,9 @@ export class DemoNumFormatComponent {
     default = `{{ 1555.55 | numFormat: '#,##0.0000' }}
 {{ 1555.55 | numFormat: '#,##0' }}
 {{ 1555.55 | numFormat: '###0' }}
-{{ 51555.55 | numFormat: '###,###0.00' }}`;
+{{ 51555.55 | numFormat: '###,###0.00' }}
+{{ 51555.555 | numFormat: '###,##0.00' : 'fr' }}
+{{ 51555.555 | numFormat: '###,##0.00' : 'fr' : 'trunc' }}`;
 
     option = `{{ 51555.55 | numFormat: { style: 'currency', currency: 'EUR' } : 'fr-FR' }}`;
 

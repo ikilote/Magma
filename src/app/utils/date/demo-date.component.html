@@ -21,6 +21,23 @@
   <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
 </div>
 
+<h2 class="new">isISODate</h2>
+
+<div>
+  <div class="s-3 s-12-m" [formGroup]="ctrlFormTest">
+    <mg-input class="s-12">
+      <mg-input-label>Date</mg-input-label>
+      <mg-input-text formControlName="test" />
+    </mg-input>
+
+    <div class="s-12">
+      isISODate: <code>{{ testStringDate(ctrlFormTest.value.test!) ? 'Valid' : 'Invalid' }}</code>
+    </div>
+  </div>
+
+  <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsTest }]" /></div>
+</div>
+
 <h2>addDuration</h2>
 
 <div>
@@ -65,4 +82,39 @@
   </div>
 
   <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsDate }]" /></div>
+</div>
+
+<h2 class="new">getWeek</h2>
+
+<div>
+  <div class="s-3 s-12-m" [formGroup]="ctrlFormWeek">
+    <mg-input class="s-12">
+      <mg-input-label>Date</mg-input-label>
+      <mg-input-text formControlName="date" maxlength="10" />
+    </mg-input>
+    <mg-input class="s-12">
+      <mg-input-label>dowOffset</mg-input-label>
+      <mg-input-radio formControlName="dowOffset" value="Monday">Monday (ISO)</mg-input-radio>
+      <mg-input-radio formControlName="dowOffset" value="Sunday">Sunday</mg-input-radio>
+      <mg-input-radio formControlName="dowOffset" value="Saturday">Saturday</mg-input-radio>
+      <mg-input-desc>By defaut : ISO</mg-input-desc>
+    </mg-input>
+    <mg-input class="s-12">
+      <mg-input-label>firstWeekContainsDay</mg-input-label>
+      <mg-input-radio formControlName="firstWeekContainsDay" [value]="1">1</mg-input-radio>
+      <mg-input-radio formControlName="firstWeekContainsDay" [value]="4">4 (ISO)</mg-input-radio>
+      <mg-input-desc>By defaut : ISO</mg-input-desc>
+    </mg-input>
+
+    <div class="s-12">
+      <div>
+        Result:
+        <code>{{
+          getWeek(ctrlFormWeek.value.date!, ctrlFormWeek.value.dowOffset!, ctrlFormWeek.value.firstWeekContainsDay!)
+        }}</code>
+      </div>
+    </div>
+  </div>
+
+  <div class="s-9 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsWeek }]" /></div>
 </div>

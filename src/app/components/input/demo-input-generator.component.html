@@ -49,7 +49,7 @@
           <mg-input-radio formControlName="type" value="radio">radio</mg-input-radio>
           <mg-input-radio formControlName="type" value="select">select</mg-input-radio>
           <mg-input-radio formControlName="type" value="color">color</mg-input-radio>
-          <mg-input-radio formControlName="type" value="date">date</mg-input-radio>
+          <mg-input-radio formControlName="type" value="date" class="update">date</mg-input-radio>
         </mg-input>
         <mg-input class="s-12">
           <mg-input-label>Type of access value</mg-input-label>
@@ -64,11 +64,11 @@
       <div>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>Disabled</mg-input-label>
-          <mg-input-checkbox formControlName="disabled" mode="toggle"></mg-input-checkbox>
+          <mg-input-checkbox formControlName="disabled" mode="toggle" />
         </mg-input>
         <mg-input class="s-3 s-6-m">
           <mg-input-label>Readonly</mg-input-label>
-          <mg-input-checkbox formControlName="readonly" mode="toggle"></mg-input-checkbox>
+          <mg-input-checkbox formControlName="readonly" mode="toggle" />
         </mg-input>
         @if (
           formGenerator.value.type === 'number' ||
@@ -117,7 +117,7 @@
         @if (formGenerator.value.type === 'number') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>ForceMinMax</mg-input-label>
-            <mg-input-checkbox formControlName="forceMinMax" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="forceMinMax" mode="toggle" />
             <mg-input-desc>Force min-max value on type</mg-input-desc>
           </mg-input>
           <mg-input class="s-3 s-6-m">
@@ -127,33 +127,33 @@
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>ShowArrows</mg-input-label>
-            <mg-input-checkbox formControlName="showArrows" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="showArrows" mode="toggle" />
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>noDecimal</mg-input-label>
-            <mg-input-checkbox formControlName="noDecimal" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="noDecimal" mode="toggle" />
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>noNegative</mg-input-label>
-            <mg-input-checkbox formControlName="noNegative" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="noNegative" mode="toggle" />
           </mg-input>
         }
         @if (formGenerator.value.type === 'color') {
           <mg-input class="s-4 s-6-m">
             <mg-input-label>Show alpha</mg-input-label>
-            <mg-input-checkbox formControlName="alpha" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="alpha" mode="toggle" />
           </mg-input>
           <mg-input class="s-4 s-6-m">
             <mg-input-label>Show clear button</mg-input-label>
-            <mg-input-checkbox formControlName="clearButton" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="clearButton" mode="toggle" />
           </mg-input>
           <mg-input class="s-4 s-6-m">
             <mg-input-label>Palette</mg-input-label>
-            <mg-input-checkbox formControlName="palette" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="palette" mode="toggle" />
           </mg-input>
           <mg-input class="s-4 s-6-m">
             <mg-input-label>Texts</mg-input-label>
-            <mg-input-checkbox formControlName="texts" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="texts" mode="toggle" />
           </mg-input>
         }
         @if (formGenerator.value.type === 'textarea' || formGenerator.value.type === 'text') {
@@ -171,11 +171,11 @@
           }
           <mg-input class="s-4 s-6-m">
             <mg-input-label>autosize</mg-input-label>
-            <mg-input-checkbox formControlName="autosize" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="autosize" mode="toggle" />
           </mg-input>
           <mg-input class="s-4 s-6-m">
             <mg-input-label>monospace</mg-input-label>
-            <mg-input-checkbox formControlName="monospace" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="monospace" mode="toggle" />
           </mg-input>
           <div class="break"></div>
           <mg-input class="s-4 s-6-m">
@@ -201,16 +201,25 @@
         @if (formGenerator.value.type === 'text') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>clearCross</mg-input-label>
-            <mg-input-checkbox formControlName="clearCross" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="clearCross" mode="toggle" />
           </mg-input>
         }
         @if (formGenerator.value.type === 'password') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>eye</mg-input-label>
-            <mg-input-checkbox formControlName="eye" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="eye" mode="toggle" />
           </mg-input>
         }
-
+        @if (formGenerator.value.type === 'date') {
+          <mg-input class="s-3 s-6-m">
+            <mg-input-label>hideDatePicker</mg-input-label>
+            <mg-input-checkbox formControlName="hideDatePicker" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-3 s-6-m">
+            <mg-input-label>type</mg-input-label>
+            <mg-input-select formControlName="typeDate" [data]="typesDate" />
+          </mg-input>
+        }
         @if (
           formGenerator.value.type === 'number' ||
           formGenerator.value.type === 'text' ||
@@ -219,22 +228,22 @@
         ) {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Datalist</mg-input-label>
-            <mg-input-checkbox formControlName="datalist" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="datalist" mode="toggle" />
           </mg-input>
         }
         @if (formGenerator.value.type === 'checkbox') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Multiple</mg-input-label>
-            <mg-input-checkbox formControlName="multiple" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="multiple" mode="toggle" />
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Mode toggle</mg-input-label>
-            <mg-input-checkbox formControlName="toggle" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="toggle" mode="toggle" />
           </mg-input>
           @if (!formGenerator.value.multiple) {
             <mg-input class="s-3 s-6-m">
               <mg-input-label>Force array value</mg-input-label>
-              <mg-input-checkbox formControlName="arrayValue" mode="toggle"></mg-input-checkbox>
+              <mg-input-checkbox formControlName="arrayValue" mode="toggle" />
             </mg-input>
           }
         }
@@ -280,11 +289,11 @@
         @if (formGenerator.value.type === 'select') {
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Multiple</mg-input-label>
-            <mg-input-checkbox formControlName="multiple" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="multiple" mode="toggle" />
           </mg-input>
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Overlay</mg-input-label>
-            <mg-input-checkbox formControlName="overlay" mode="toggle"></mg-input-checkbox>
+            <mg-input-checkbox formControlName="overlay" mode="toggle" />
           </mg-input>
           <div class="s-12">
             This component extends
@@ -348,9 +357,10 @@
             <mg-input-date
               [(ngModel)]="valueDate"
               (ngModelChange)="codeGeneration()"
-              [maxlength]="formGenerator.value.maxLength ?? null"
+              [type]="formGenerator.value.typeDate"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
+              [hideDatePicker]="formGenerator.value.hideDatePicker ?? false"
             />
           }
           @case ('password') {

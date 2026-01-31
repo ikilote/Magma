@@ -5,6 +5,7 @@ describe('NumFormatPipe', () => {
 
     beforeEach(() => {
         pipe = new NumFormatPipe();
+        NumFormatPipe.lang = 'en';
     });
 
     // --- Basic Tests ---
@@ -106,6 +107,21 @@ describe('NumFormatPipe', () => {
     it('should format decimal numbers using Intl.NumberFormatOptions', () => {
         const result = pipe.transform(1234.567, { maximumFractionDigits: 1 });
         expect(result).toBe('1,234.6');
+    });
+
+    it('should format decimal numbers using a string pattern and a custom language (e.g., "fr")', () => {
+        const result = pipe.transform(1234.567, '#,##0.00', 'fr');
+        expect(result).toBe('1 234,57');
+    });
+
+    it('should format decimal numbers using a string pattern and a custom language (e.g., "ja")', () => {
+        const result = pipe.transform(1234567.89, '#,###0.00', 'ja');
+        expect(result).toBe('123,4567.89');
+    });
+
+    it('should format decimal numbers using a string pattern and using trunc mode', () => {
+        const result = pipe.transform(1234.567, '#,##0.00', undefined, 'trunc');
+        expect(result).toBe('1,234.56');
     });
 
     // --- Edge Case Tests ---

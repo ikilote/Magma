@@ -31,10 +31,16 @@ code > pre {
     overflow: auto;
 }
 
-sup.new {
+.new::after {
+    margin-inline-start: 5px;
+    content: 'new';
     color: var(--success5);
+    font-variant-position: super;
 }
 
-sup.update {
+.update::after {
+    margin-inline-start: 5px;
+    content: 'update';
     color: var(--warn5);
+    font-variant-position: super;
 }

@@ -1,0 +1,87 @@
+@if (type() === 'date' || type() === 'datetime-local' || type() !== 'time') {
+  <div class="month-year">
+    <span (clickEnter)="left()" [disabled]="readonly()" class="icon-left" [class.hide]="prevMonthHide()"></span>
+    <mg-input class="mouths-list">
+      <mg-input-select
+        [data]="monthsList()"
+        [ngModel]="month()"
+        (ngModelChange)="updateMonth($event)"
+        [readonly]="readonly()"
+      />
+    </mg-input>
+    <mg-input class="mouths-years">
+      <mg-input-select
+        [data]="yearsList()"
+        [ngModel]="year()"
+        (ngModelChange)="updateYear($event)"
+        [readonly]="readonly()"
+        infiniteScroll
+        infiniteScrollThrottle="5"
+        (scroll)="scroll($event)"
+      />
+    </mg-input>
+    <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="nextMonthHide()"></span>
+  </div>
+  <div class="table" [class.week-number]="!hideWeekNumber()" (keydown)="move($event)">
+    @if (!hideWeekNumber()) {
+      <div class="head"></div>
+    }
+
+    @for (day of computedDays(); track $index) {
+      <div class="head">
+        {{ day }}
+      </div>
+    }
+    @for (mouth of computedDaysOfMonth(); track $index) {
+      @for (day of mouth; track $index; let i = $index) {
+        @if (!hideWeekNumber() && day.weekNumber && day.weekNumber !== mouth[i - 1]?.weekNumber) {
+          <div class="day week">
+            {{ day.weekNumber }}
+          </div>
+        }
+
+        <div
+          [id]="'date-' + (day.date.toISOString() | string: 'substring' : 0 : 10)"
+          class="day"
+          [class.today]="day.isToday"
+          [class.current-month]="day.isCurrentMonth"
+          [class.selected]="day.day === date().getUTCDate() && day.month - 1 === date().getUTCMonth() && selected()"
+          [class.disabled]="day.disabled"
+          [class.weekend]="day.weekend"
+          (clickEnter)="select(day)"
+          [disabled]="readonly() || day.disabled"
+        >
+          {{ day.day }}
+        </div>
+      }
+    }
+  </div>
+}
+@if (type() === 'time' || type()?.startsWith('datetime')) {
+  <div class="time">
+    <select size="9" [ngModel]="hours()" (ngModelChange)="updateHours($event)">
+      @for (hour of 24 | repeatFor: true; track $index) {
+        <option [value]="$index">{{ $index | string: 'padStart' : 2 : '0' }}</option>
+      }
+    </select>
+    <span>:</span>
+    <select size="9" [ngModel]="minutes()" (ngModelChange)="updateMinutes($event)">
+      @for (minute of 60 | repeatFor: true; track $index) {
+        <option [value]="$index">{{ $index | string: 'padStart' : 2 : '0' }}</option>
+      }
+    </select>
+
+    @if (type() === 'datetime-seconds' || type() === 'datetime-milli') {
+      <span>:</span>
+      <select size="9" [ngModel]="seconds()" (ngModelChange)="updateSeconds($event)">
+        @for (seconds of 60 | repeatFor: true; track $index) {
+          <option [value]="$index">{{ $index | string: 'padStart' : 2 : '0' }}</option>
+        }
+      </select>
+    }
+    @if (type() === 'datetime-milli') {
+      <span>:</span>
+      <input type="number" [ngModel]="milli()" (ngModelChange)="updateMilli($event)" min="0" max="999" />
+    }
+  </div>
+}

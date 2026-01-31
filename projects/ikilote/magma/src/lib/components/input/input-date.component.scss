@@ -5,3 +5,69 @@
     width: -webkit-fill-available;
     width: fill-available;
 }
+
+input[type='date']::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.picker-hide,
+.picker-icon {
+    --click-enter-hover-background: var(--input-background);
+    --click-enter-hover-filter: none;
+
+    display: flex;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    justify-content: center;
+    align-items: center;
+    z-index: 52;
+    background: var(--input-background);
+    width: 26px;
+    height: 26px;
+    color: var(--text-color);
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+    appearance: textfield;
+}
+
+.date {
+    display: flex;
+    justify-content: flex-start;
+
+    input {
+        margin: 0 2px;
+        border: 0;
+        background: transparent;
+        padding: 0;
+        text-align: right;
+
+        &.day,
+        &.month,
+        &.hours,
+        &.minutes,
+        &.seconds {
+            width: 23px;
+        }
+        &.year {
+            width: 43px;
+        }
+        &.milli {
+            width: 33px;
+        }
+    }
+}

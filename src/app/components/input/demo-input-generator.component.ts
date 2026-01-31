@@ -8,6 +8,7 @@ import { Select2Data } from 'ng-select2-component';
 
 import {
     FormBuilderExtended,
+    MagmaDatetimeType,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputColor,
@@ -21,6 +22,7 @@ import {
     MagmaInputText,
     MagmaInputTextarea,
 } from '../../../../projects/ikilote/magma/src/public-api';
+import { dateTypes } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 import { palette, texts } from '../color-picker/demo-color-picker.component';
 
@@ -104,8 +106,11 @@ export class DemoInputGeneratorComponent {
         subLabel3: FormControl<string>;
         subValue3: FormControl<string>;
         alignMode: FormControl<'row' | 'column'>;
+
         // radio / checkbox / select
         multiple: FormControl<boolean>;
+
+        // select
         overlay: FormControl<boolean>;
 
         // checkbox
@@ -122,6 +127,10 @@ export class DemoInputGeneratorComponent {
         noDecimal: FormControl<boolean>;
         noNegative: FormControl<boolean>;
 
+        // date
+        typeDate: FormControl<MagmaDatetimeType>;
+        hideDatePicker: FormControl<boolean>;
+
         // color
         alpha: FormControl<boolean>;
         clearButton: FormControl<boolean>;
@@ -132,7 +141,7 @@ export class DemoInputGeneratorComponent {
     valueText = 'Test';
     valueTextarea = 'Test';
     valuePassword = '';
-    valueDate = '2012-12-12';
+    valueDate = '2012-12-25';
     valueNumber = 20;
     valueRange = 20;
     valueCheckbox = ['value2'];
@@ -170,6 +179,8 @@ export class DemoInputGeneratorComponent {
         { value: 'row', label: 'row' },
         { value: 'column', label: 'column' },
     ];
+
+    typesDate = dateTypes;
 
     constructor(fbe: FormBuilderExtended) {
         this.formGenerator = fbe.groupWithError({
@@ -222,6 +233,7 @@ export class DemoInputGeneratorComponent {
             alignMode: { default: 'row' as 'row' | 'column' },
             // radio / checkbox / select
             multiple: { default: false },
+            // select
             overlay: { default: false },
             // checkbox
             toggle: { default: false },
@@ -235,6 +247,9 @@ export class DemoInputGeneratorComponent {
             formater: { default: '#,##0' },
             noDecimal: { default: false },
             noNegative: { default: false },
+            // date
+            hideDatePicker: { default: false },
+            typeDate: { default: '' as MagmaDatetimeType },
             // color
             alpha: { default: false },
             clearButton: { default: false },
@@ -579,6 +594,14 @@ export class DemoInputGeneratorComponent {
         if (type === 'textarea' || type === 'text') {
             if (fgValue.maxLength || fgValue.maxLength === 0) {
                 attrInput['maxlength'] = fgValue.maxLength;
+            }
+        }
+        if (type === 'date') {
+            if (fgValue.typeDate) {
+                attrInput['type'] = fgValue.typeDate;
+            }
+            if (fgValue.hideDatePicker) {
+                attrInput['hideDatePicker'] = null;
             }
         }
         if (type === 'text') {

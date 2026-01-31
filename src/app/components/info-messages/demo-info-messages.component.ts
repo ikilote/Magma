@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Select2Data } from 'ng-select2-component';
 
 import {
+    ArrayFilterPipe,
     FormBuilderExtended,
     InfoMessageComponent,
     MagmaInput,
@@ -56,6 +57,7 @@ export class ContextTestComponent {
         MagmaInputTextarea,
         MagmaInputSelect,
         MagmaInputCheckbox,
+        ArrayFilterPipe,
         CodeTabsComponent,
     ],
 })
@@ -96,6 +98,8 @@ export class DemoInfoMessageComponent {
 
         this.codeGenerator();
     }
+
+    filter = (e: string) => !!e;
 
     sendMessage() {
         if (this.formGroup.value.component) {

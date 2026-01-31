@@ -3,17 +3,17 @@ import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Va
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
-import { Select2Data } from 'ng-select2-component';
-
 import {
     FormBuilderExtended,
     MagmaContribCalendar,
+    MagmaContribCalendarDays,
     MagmaInput,
     MagmaInputDate,
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputSelect,
 } from '../../../../projects/ikilote/magma/src/public-api';
+import { days, langues } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
@@ -35,44 +35,14 @@ export class DemoContribCalendarComponent {
     private readonly fbe = inject(FormBuilderExtended);
     private readonly fb = inject(FormBuilder);
 
-    langues: Select2Data = [
-        { value: '', label: '(empty)' },
-        { value: 'en', label: 'English' },
-        { value: 'fr', label: 'French' },
-        { value: 'es', label: 'Spanish' },
-        { value: 'de', label: 'German' },
-        { value: 'it', label: 'Italian' },
-        { value: 'pt', label: 'Portuguese' },
-        { value: 'ru', label: 'Russian' },
-        { value: 'zh', label: 'Chinese' },
-        { value: 'ja', label: 'Japanese' },
-        { value: 'ar', label: 'Arabic' },
-        { value: 'hi', label: 'Hindi' },
-        { value: 'nl', label: 'Dutch' },
-        { value: 'sv', label: 'Swedish' },
-        { value: 'fi', label: 'Finnish' },
-        { value: 'da', label: 'Danish' },
-        { value: 'no', label: 'Norwegian' },
-        { value: 'pl', label: 'Polish' },
-        { value: 'tr', label: 'Turkish' },
-        { value: 'ko', label: 'Korean' },
-        { value: 'vi', label: 'Vietnamese' },
-        { value: 'th', label: 'Thai' },
-        { value: 'id', label: 'Indonesian' },
-    ];
-
-    days: Select2Data = [
-        { value: '', label: '(empty)' },
-        { value: 'Monday', label: 'Monday' },
-        { value: 'Sunday', label: 'Sunday' },
-        { value: 'Saturday', label: 'Saturday' },
-    ];
+    langues = langues;
+    days = days;
 
     ctrlForm: FormGroup<{
         lang: FormControl<string>;
         min: FormControl<string>;
         max: FormControl<string>;
-        day: FormControl<'Monday' | 'Sunday' | 'Saturday'>;
+        day: FormControl<MagmaContribCalendarDays>;
     }>;
     formArray: FormGroup;
 
@@ -84,7 +54,7 @@ export class DemoContribCalendarComponent {
             lang: { default: '' },
             min: { default: '' },
             max: { default: '' },
-            day: { default: '' as 'Monday' | 'Sunday' | 'Saturday' },
+            day: { default: '' as MagmaContribCalendarDays },
         });
 
         this.ctrlForm.valueChanges.subscribe(() => {

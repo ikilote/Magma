@@ -9,6 +9,8 @@ export * from './lib/components/color-picker/color-picker.directive';
 export * from './lib/components/context-menu/context-menu.component';
 export * from './lib/components/context-menu/context-menu.directive';
 export * from './lib/components/contrib-calendar/contrib-calendar.component';
+export * from './lib/components/datetime-picker/datetime-picker.component';
+export * from './lib/components/datetime-picker/datetime-picker.directive';
 export * from './lib/components/dialog/dialog.component';
 export * from './lib/components/ellipsis-button/ellipsis-button.component';
 export * from './lib/components/ellipsis-button/ellipsis-button.module';
@@ -70,6 +72,7 @@ export * from './lib/pipes/math.pipe';
 export * from './lib/pipes/num-format.pipe';
 export * from './lib/pipes/repeat-for.pipe';
 export * from './lib/pipes/str-replace.pipe';
+export * from './lib/pipes/string.pipe';
 
 // services
 export * from './lib/services/cache';

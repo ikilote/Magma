@@ -59,7 +59,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     );
     _id = computed<string>(() => this.id() || this.uid());
 
-    get inputElement(): HTMLInputElement | HTMLTextAreaElement | Select2 | undefined {
+    get inputElement(): HTMLInputElement | HTMLTextAreaElement | Select2 | HTMLElement | undefined {
         return undefined;
     }
 

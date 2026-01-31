@@ -351,6 +351,7 @@ body {
     --select2-search-border-color: var(--input-border-color);
     --select2-search-background: var(--text-color);
     --select2-selection-line-height: 31px;
+    --select2-selection-readonly-background: var(--input-background);
 
     --select2-selection-choice-line-height: 25px;
     --select2-selection-choice-background: var(--primary7);

@@ -1,17 +1,179 @@
 @if (!onError()) {
-  <input
-    #input
-    [type]="type()"
-    [name]="_name()"
-    [id]="_id() + '-input'"
-    [value]="_value ?? ''"
-    [disabled]="disabled()"
-    [readonly]="readonly()"
-    (change)="changeValue($event)"
-    (input)="inputValue($event)"
-    (focus)="focus(true)"
-    (blur)="focus(false)"
-  />
+  <div class="input date" #input>
+    @if (_type().startsWith('date')) {
+      @let typeDay = 'day';
+      <input
+        #inputDay
+        type="number"
+        [name]="_name() + '-' + typeDay"
+        [id]="_id() + '-' + typeDay + '-input'"
+        [class]="typeDay"
+        [value]="_day()"
+        min="0"
+        max="31"
+        maxlength="2"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, typeDay)"
+        (input)="updateDate($event, typeDay)"
+        (focus)="focus($event, true, typeDay)"
+        (blur)="focus($event, false, typeDay)"
+        [placeholder]="placeholderInfos?.dd"
+      />
+      <span>{{ placeholderInfos?.s1 }}</span>
+      @let typeMonth = 'month';
+      <input
+        #inputMouth
+        type="number"
+        [name]="_name() + '-' + typeMonth"
+        [id]="_id() + '-' + typeMonth + '-input'"
+        [class]="typeMonth"
+        [value]="_month()"
+        min="0"
+        max="12"
+        maxlength="2"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, typeMonth)"
+        (input)="updateDate($event, typeMonth)"
+        (focus)="focus($event, true, typeMonth)"
+        (blur)="focus($event, false, typeMonth)"
+        [placeholder]="placeholderInfos?.mm"
+      />
+      <span>{{ placeholderInfos?.s2 }}</span>
+      @let typeYear = 'year';
+      <input
+        #inputYear
+        type="number"
+        [name]="_name() + '-' + typeYear"
+        [id]="_id() + '-' + typeYear + '-input'"
+        [class]="typeYear"
+        [value]="_year()"
+        min="0"
+        max="9999"
+        maxlength="4"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, typeYear)"
+        (input)="updateDate($event, typeYear)"
+        (focus)="focus($event, true, typeYear)"
+        (blur)="focus($event, false, typeYear)"
+        [placeholder]="placeholderInfos?.yyyy"
+      />
+    }
+    <span>{{ placeholderInfos?.s3 }}</span>
+    @if (_type().includes('time')) {
+      @let typeHours = 'hours';
+      <input
+        #inputHours
+        type="number"
+        [name]="_name() + '-' + typeHours"
+        [id]="_id() + '-' + typeHours + '-input'"
+        [class]="typeHours"
+        [value]="_hours()"
+        min="0"
+        max="23"
+        maxlength="2"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, typeHours)"
+        (input)="updateDate($event, typeHours)"
+        (focus)="focus($event, true, typeHours)"
+        (blur)="focus($event, false, typeHours)"
+        [placeholder]="placeholderInfos?.hh"
+      />
+      <span>{{ placeholderInfos?.h1 }}</span>
+      @let typeMinutes = 'minutes';
+      <input
+        #inputMinutes
+        type="number"
+        [name]="_name() + '-' + typeMinutes"
+        [id]="_id() + '-' + typeMinutes + '-input'"
+        [class]="typeMinutes"
+        [value]="_minutes()"
+        min="0"
+        max="59"
+        maxlength="2"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, typeMinutes)"
+        (input)="updateDate($event, typeMinutes)"
+        (focus)="focus($event, true, typeMinutes)"
+        (blur)="focus($event, false, typeMinutes)"
+        [placeholder]="placeholderInfos?.min"
+      />
+    }
+    @if (_type().includes('seconds') || _type().includes('milli')) {
+      <span>{{ placeholderInfos?.h2 }}</span>
+      @let typeSeconds = 'seconds';
+      <input
+        #inputSeconds
+        type="number"
+        [name]="_name() + '-' + typeSeconds"
+        [id]="_id() + '-' + typeSeconds + '-input'"
+        [class]="typeSeconds"
+        [value]="_seconds()"
+        min="0"
+        max="59"
+        maxlength="2"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
+        (change)="changeDate($event, typeSeconds)"
+        (input)="updateDate($event, typeSeconds)"
+        (focus)="focus($event, true, typeSeconds)"
+        (blur)="focus($event, false, typeSeconds)"
+        [placeholder]="placeholderInfos?.sec"
+      />
+    }
+    @if (_type().includes('milli')) {
+      <span>{{ placeholderInfos?.h3 }}</span>
+      @let typeMilli = 'milli';
+      <input
+        #inputMilli
+        type="number"
+        [name]="_name() + '-' + typeMilli"
+        [id]="_id() + '-' + typeMilli + '-input'"
+        [class]="typeMilli"
+        [value]="_milli()"
+        min="0"
+        max="999"
+        maxlength="3"
+        [disabled]="disabled()"
+        [readonly]="readonly()"
+        (change)="changeDate($event, typeMilli)"
+        (input)="updateDate($event, typeMilli)"
+        (focus)="focus($event, true, typeMilli)"
+        (blur)="focus($event, false, typeMilli)"
+        [placeholder]="placeholderInfos?.mmm"
+      />
+    }
+  </div>
+
+  @if (!hideDatePicker()) {
+    <span
+      class="picker-icon"
+      [datetimePicker]="_value"
+      [datetimePickerType]="type()"
+      (datetimeClose)="datePickerClose($event)"
+      stop-propagation
+      stopKeydown
+      >📅</span
+    >
+  } @else {
+    <span class="picker-hide"></span>
+  }
 } @else {
   Error
 }

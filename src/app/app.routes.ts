@@ -23,6 +23,14 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'datetime-picker',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/datetime-picker/demo-datetime-picker.component').then(
+                        m => m.DemoDatetimePickerComponent,
+                    ),
+            },
+            {
                 path: 'light-dark',
                 pathMatch: 'full',
                 loadComponent: () =>
@@ -245,6 +253,11 @@ export const routes: Routes = [
                 pathMatch: 'full',
                 loadComponent: () =>
                     import('./pipes/str-replace/demo-str-replace.component').then(m => m.DemoStrReplaceComponent),
+            },
+            {
+                path: 'string',
+                pathMatch: 'full',
+                loadComponent: () => import('./pipes/string/demo-string.component').then(m => m.DemoStringComponent),
             },
         ],
     },

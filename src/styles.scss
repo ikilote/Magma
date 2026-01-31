@@ -31,14 +31,16 @@ code > pre {
     overflow: auto;
 }
 
-.new::after {
+.new:dir(ltr)::after,
+.new:dir(rtl)::before {
     margin-inline-start: 5px;
     content: 'new';
     color: var(--success5);
     font-variant-position: super;
 }
 
-.update::after {
+.update:dir(ltr)::after,
+.update:dir(rtl)::before {
     margin-inline-start: 5px;
     content: 'update';
     color: var(--warn5);

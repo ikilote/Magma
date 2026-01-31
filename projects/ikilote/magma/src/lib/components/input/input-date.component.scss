@@ -23,10 +23,10 @@ input[type='date']::-webkit-calendar-picker-indicator {
     display: flex;
     position: absolute;
     top: 3px;
-    right: 3px;
     justify-content: center;
     align-items: center;
     z-index: 52;
+    inset-inline-end: 3px;
     background: var(--input-background);
     width: 26px;
     height: 26px;

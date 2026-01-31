@@ -22,6 +22,7 @@ input:checked + label::before {
         & + label {
             &::before {
                 top: var(--top);
+                margin-inline-end: 0;
                 border-radius: calc(var(--height) / 2);
                 background: var(--input-background);
                 width: var(--width);
@@ -32,8 +33,8 @@ input:checked + label::before {
                 display: block;
                 position: absolute;
                 top: calc(var(--top) + 2px);
-                left: 3px;
-                transition: left 0.2s;
+                transition: inset-inline-start 0.2s;
+                inset-inline-start: 3px;
                 border-radius: 50%;
                 background-color: var(--input-item-color);
                 width: calc(var(--height) - 4px);
@@ -43,7 +44,7 @@ input:checked + label::before {
         }
 
         &:checked + ::after {
-            left: calc(var(--width) - var(--height) + 1px);
+            inset-inline-start: calc(var(--width) - var(--height) + 1px);
             background-color: var(--input-item-active-color);
         }
 

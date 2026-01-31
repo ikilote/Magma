@@ -148,12 +148,53 @@ describe('MagmaInputDate', () => {
 
     describe('Keyboard Events', () => {
         it('should lock focus when Arrow keys are pressed', () => {
-            const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
-            component.keydown(event);
-            expect((component as any).lockFocus).toBeTrue();
+            component.keydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+            // @ts-ignore
+            expect(component.lockFocus).toBeTrue();
 
             component.keyup(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
-            expect((component as any).lockFocus).toBeFalse();
+            // @ts-ignore
+            expect(component.lockFocus).toBeFalse();
+        });
+
+        it('should lock focus when ArrowLeft keys are pressed', () => {
+            // @ts-ignore
+            spyOn(component, 'focusNext');
+            // @ts-ignore
+            spyOn(component, 'focusPrev');
+
+            const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+            // @ts-ignore
+            Object.defineProperty(event, 'target', {
+                value: { id: 'test' },
+                enumerable: true,
+            });
+
+            component.keydown(event);
+            // @ts-ignore
+            expect(component.focusNext).not.toHaveBeenCalled();
+            // @ts-ignore
+            expect(component.focusPrev).toHaveBeenCalled();
+        });
+
+        it('should lock focus when ArrowRight keys are pressed', () => {
+            // @ts-ignore directive
+            spyOn(component, 'focusNext');
+            // @ts-ignore
+            spyOn(component, 'focusPrev');
+
+            const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+            // @ts-ignore
+            Object.defineProperty(event, 'target', {
+                value: { id: 'test' },
+                enumerable: true,
+            });
+
+            component.keydown(event);
+            // @ts-ignore
+            expect(component.focusNext).toHaveBeenCalled();
+            // @ts-ignore
+            expect(component.focusPrev).not.toHaveBeenCalled();
         });
     });
 
@@ -588,7 +629,40 @@ describe('MagmaInputDate', () => {
             // @ts-ignore
             component.focusNext('test');
 
-            expect(document.querySelector).toHaveBeenCalledWith('#test ~ input');
+            expect(document.querySelector).toHaveBeenCalledWith('#test + * + input');
+        });
+
+        it('should select element on focusNext and select', () => {
+            const inputDayElement = debugElement.query(By.css('.day')).nativeElement;
+            const inputMonthElement = debugElement.query(By.css('.month')).nativeElement;
+
+            spyOn(inputMonthElement, 'select');
+
+            // @ts-ignore
+            component.focusNext(inputDayElement.id);
+
+            expect(inputMonthElement.select).toHaveBeenCalled();
+        });
+
+        it('should select element on focusPrev', () => {
+            spyOn(document, 'querySelector');
+
+            // @ts-ignore
+            component.focusPrev('test');
+
+            expect(document.querySelector).toHaveBeenCalledWith('input:has(+ * + #test)');
+        });
+
+        it('should select element on focusPrev and select', () => {
+            const inputDayElement = debugElement.query(By.css('.day')).nativeElement;
+            const inputMonthElement = debugElement.query(By.css('.month')).nativeElement;
+
+            spyOn(inputDayElement, 'select');
+
+            // @ts-ignore
+            component.focusPrev(inputMonthElement.id);
+
+            expect(inputDayElement.select).toHaveBeenCalled();
         });
 
         it('should return 0 with invalide value for valueCacheSubstring', () => {

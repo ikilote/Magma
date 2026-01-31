@@ -11,10 +11,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class StringPipe implements PipeTransform {
     transform(value: any, name: string, ...args: any[]): any {
-        if (name === 'length') {
-            return `${value}`.length;
-        } else {
-            return (`${value}` as any)[name]?.(...args);
-        }
+        return name !== 'length' ? (`${value}` as any)[name]?.(...args) : `${value}`.length;
     }
 }

@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnChanges,
-  SimpleChanges,
-  booleanAttribute,
-  computed,
-  input,
-  viewChildren,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    OnChanges,
+    SimpleChanges,
+    booleanAttribute,
+    computed,
+    input,
+    viewChildren,
 } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -292,10 +292,12 @@ export class MagmaInputDate
                 size = 4;
             }
 
-            if (element?.value.length < size) {
-                element.value = `${+element.value}`.padStart(size, '0');
-            } else if (element?.value.length > size) {
-                element.value = `${+element.value}`;
+            if (element.value) {
+                if (element?.value.length < size) {
+                    element.value = `${+element.value}`.padStart(size, '0');
+                } else if (element?.value.length > size) {
+                    element.value = `${+element.value}`;
+                }
             }
         }
     }
@@ -310,8 +312,15 @@ export class MagmaInputDate
     }
 
     keydown(event: KeyboardEvent) {
-        if (event.key.includes('Arrow')) {
+        if (event.key.startsWith('Arrow')) {
             this.lockFocus = true;
+        }
+        if (event.key === 'ArrowLeft') {
+            this.focusPrev((event.target as HTMLInputElement).id);
+            event.preventDefault();
+        } else if (event.key === 'ArrowRight') {
+            this.focusNext((event.target as HTMLInputElement).id);
+            event.preventDefault();
         }
     }
 
@@ -395,7 +404,7 @@ export class MagmaInputDate
                     padStart = 3;
                     break;
             }
-            if (this.lockFocus) {
+            if (this.lockFocus && input.value) {
                 input.value = input.value.padStart(padStart, '0');
             }
             if (next) {
@@ -453,6 +462,18 @@ export class MagmaInputDate
     }
 
     private focusNext(id: string) {
-        document.querySelector<HTMLInputElement>(`#${id} ~ input`)?.focus();
+        this.selectInput(`#${id} + * + input`);
+    }
+
+    private focusPrev(id: string) {
+        this.selectInput(`input:has(+ * + #${id})`);
+    }
+
+    private selectInput(rule: string) {
+        const element = document.querySelector<HTMLInputElement>(rule);
+        if (element) {
+            element.focus();
+            element.select();
+        }
     }
 }

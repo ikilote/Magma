@@ -432,13 +432,14 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
 @Component({
     template: `
         <mg-input [arrayValue]="arrayValue">
-            <mg-input-checkbox value="option1" name="test-group" />
+            <mg-input-checkbox value="option1" [returnValue]="returnValue" name="test-group" />
         </mg-input>
     `,
     imports: [MagmaInput, MagmaInputCheckbox],
 })
 class TestHostComponentSimple {
     arrayValue = false;
+    returnValue = false;
 }
 
 describe('MagmaInput with mono MagmaInputCheckbox', () => {
@@ -498,6 +499,45 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
 
         expect(checkboxComponents[0]['testChecked']).toBeTrue();
         expect(checkboxComponents[0].getValue()).toEqual(['option1']);
+    });
+
+    it('should getValue with returnValue is false', () => {
+        fixture.componentInstance.returnValue = false;
+
+        checkboxComponents[0]._change();
+
+        fixture.detectChanges();
+
+        expect(checkboxComponents[0]['testChecked']).toBeTrue();
+        expect(checkboxComponents[0].getValue()).toEqual(true);
+    });
+
+    it('should getValue with returnValue is true', () => {
+        fixture.componentInstance.returnValue = true;
+
+        checkboxComponents[0]._change();
+
+        fixture.detectChanges();
+
+        expect(checkboxComponents[0]['testChecked']).toBeTrue();
+        expect(checkboxComponents[0].getValue()).toEqual('option1');
+    });
+
+    it('should getValue with returnValue is true and not check', () => {
+        fixture.componentInstance.returnValue = true;
+
+        fixture.detectChanges();
+
+        expect(checkboxComponents[0]['testChecked']).toBeUndefined();
+        expect(checkboxComponents[0].getValue()).toEqual(null);
+
+        checkboxComponents[0]._change();
+        checkboxComponents[0]._change();
+
+        fixture.detectChanges();
+
+        expect(checkboxComponents[0]['testChecked']).toBeFalse();
+        expect(checkboxComponents[0].getValue()).toEqual(null);
     });
 
     it('should emit update event when checkbox state changes', () => {

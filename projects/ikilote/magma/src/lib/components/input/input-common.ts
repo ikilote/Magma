@@ -109,7 +109,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
         }
     }
 
-    getValue() {
+    getValue(): any {
         return this._value;
     }
 

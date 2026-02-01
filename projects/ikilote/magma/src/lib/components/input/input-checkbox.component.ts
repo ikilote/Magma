@@ -1,15 +1,15 @@
 import {
-  AfterContentChecked,
-  ChangeDetectionStrategy,
-  Component,
-  DoCheck,
-  ElementRef,
-  SimpleChanges,
-  booleanAttribute,
-  computed,
-  input,
-  output,
-  viewChildren,
+    AfterContentChecked,
+    ChangeDetectionStrategy,
+    Component,
+    DoCheck,
+    ElementRef,
+    SimpleChanges,
+    booleanAttribute,
+    computed,
+    input,
+    output,
+    viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -37,9 +37,10 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     protected override counter = counter++;
     protected override _baseValue = 'checked';
 
-    override readonly value = input();
+    override readonly value = input<any>();
     readonly checked = input(false, { transform: booleanAttribute });
     readonly mode = input<'checkbox' | 'toggle'>();
+    readonly returnValue = input(false, { transform: booleanAttribute });
 
     testChecked: boolean | undefined;
     override readonly placeholder: any = undefined; // not for checkbox
@@ -123,14 +124,14 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
         }
     }
 
-    override getValue() {
+    override getValue(): any {
         if (this.host && (this.host.arrayValue() || this.host.inputs().length > 1)) {
             return this.host
                 .inputs()
                 .filter(item => item.componentName === this.componentName && (item as MagmaInputCheckbox).testChecked)
                 .map(item => item.value());
         } else {
-            return this.host?.forceValue?.() ? (this.testChecked ? this.value() : null) : this.testChecked;
+            return this.returnValue() ? (this.testChecked ? this.value() : null) : this.testChecked;
         }
     }
 }

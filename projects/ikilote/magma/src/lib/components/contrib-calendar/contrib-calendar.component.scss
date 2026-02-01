@@ -20,10 +20,10 @@
 .day {
     display: grid;
     position: sticky;
-    left: 0;
     grid: subgrid / subgrid;
     grid-auto-flow: column;
     grid-row: 2 / span 7;
+    inset-inline-start: 0;
     background: var(--contrib-calendar-day-background);
     font-size: var(--contrib-calendar-day-font-size);
     line-height: calc(var(--contrib-calendar-day-font-size) + 2px);

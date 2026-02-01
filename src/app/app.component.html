@@ -14,8 +14,17 @@
         <ng-container [ngTemplateOutlet]="groupTemplate" [ngTemplateOutletContext]="{ lvl: 1, groupItem: group }" />
       }
     </nav>
-    <div class="light-dark">
-      <mg-light-dark />
+    <div class="info">
+      <div class="dir">
+        <mg-input forceValue>
+          <mg-input-before>LTR</mg-input-before>
+          <mg-input-checkbox value="rtl" mode="toggle" [(ngModel)]="dir" />
+          <mg-input-after>RTL</mg-input-after>
+        </mg-input>
+      </div>
+      <div class="light-dark">
+        <mg-light-dark />
+      </div>
     </div>
   </div>
 </aside>

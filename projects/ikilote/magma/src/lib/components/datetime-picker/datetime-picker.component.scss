@@ -23,6 +23,12 @@
     }
 }
 
+.icon-right:dir(rtl),
+.icon-left:dir(rtl) {
+    position: relative;
+    transform: rotate(180deg);
+}
+
 .hide {
     visibility: hidden;
 }

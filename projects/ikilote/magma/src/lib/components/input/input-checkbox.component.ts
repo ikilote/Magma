@@ -1,15 +1,15 @@
 import {
-    AfterContentChecked,
-    ChangeDetectionStrategy,
-    Component,
-    DoCheck,
-    ElementRef,
-    SimpleChanges,
-    booleanAttribute,
-    computed,
-    input,
-    output,
-    viewChildren,
+  AfterContentChecked,
+  ChangeDetectionStrategy,
+  Component,
+  DoCheck,
+  ElementRef,
+  SimpleChanges,
+  booleanAttribute,
+  computed,
+  input,
+  output,
+  viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -130,7 +130,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
                 .filter(item => item.componentName === this.componentName && (item as MagmaInputCheckbox).testChecked)
                 .map(item => item.value());
         } else {
-            return this.testChecked;
+            return this.host?.forceValue?.() ? (this.testChecked ? this.value() : null) : this.testChecked;
         }
     }
 }

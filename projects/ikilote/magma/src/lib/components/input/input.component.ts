@@ -6,7 +6,6 @@ import {
     Component,
     OnChanges,
     SimpleChanges,
-    booleanAttribute,
     computed,
     contentChildren,
     inject,
@@ -37,7 +36,8 @@ export class MagmaInput implements OnChanges, AfterContentChecked {
     forId = signal<string | undefined>(undefined);
 
     /** for checkbox */
-    readonly arrayValue = input(false, { transform: booleanAttribute });
+    readonly typeValue = input<'default' | 'value' | 'array'>('default');
+    readonly returnValue = input<'default' | 'value' | 'boolean'>('default');
     /** for checkbox & radio */
     readonly alignMode = input<'row' | 'column'>('row');
 
@@ -53,17 +53,18 @@ export class MagmaInput implements OnChanges, AfterContentChecked {
     readonly inputs = contentChildren(MagmaInputCommon);
 
     ngOnChanges(changes: SimpleChanges): void {
-        if (changes['arrayValue'] && this.inputs()[0]?.componentName === 'input-checkbox') {
+        if ((changes['typeValue'] || changes['returnValue']) && this.inputs()[0]?.componentName === 'input-checkbox') {
             this.inputs()[0].onChange(this.inputs()[0].getValue());
         }
     }
 
     ngAfterContentChecked(): void {
         if (this.inputs()?.length) {
-            this.inputs().forEach(e => {
-                e.host ??= this;
+            this.inputs().forEach((element, index) => {
+                element.host ??= this;
+                element.index = index;
                 // force to update computed name
-                e.refreshTrigger?.set(null);
+                element.refreshTrigger?.set(null);
             });
         }
     }

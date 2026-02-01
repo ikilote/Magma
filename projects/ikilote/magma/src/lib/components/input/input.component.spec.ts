@@ -20,7 +20,13 @@ class MockNgControl {}
 
 @Component({
     template: `
-        <mg-input [id]="'test-id'" [arrayValue]="arrayValue" [alignMode]="alignMode" [id]="id">
+        <mg-input
+            [id]="'test-id'"
+            [typeValue]="arraytypeValueValue"
+            [returnValue]="returnValue"
+            [alignMode]="alignMode"
+            [id]="id"
+        >
             <mg-input-label>Test Label</mg-input-label>
             <mg-input-checkbox></mg-input-checkbox>
             <mg-input-error>Error Message</mg-input-error>
@@ -31,7 +37,8 @@ class MockNgControl {}
 })
 class TestHostComponent {
     alignMode = '';
-    arrayValue = true;
+    typeValue = 'default';
+    returnValue = 'default';
     id = '';
 }
 
@@ -66,10 +73,6 @@ describe('MagmaInput', () => {
         expect(component._id()).toMatch(/mg-input-\d+/);
     });
 
-    it('should set arrayValue correctly', () => {
-        expect(component.arrayValue()).toBeTrue();
-    });
-
     it('should set alignMode correctly', () => {
         fixture.componentInstance.alignMode = 'column';
         fixture.detectChanges();
@@ -83,12 +86,12 @@ describe('MagmaInput', () => {
         expect(component._id()).toBe('test');
     });
 
-    it('should call onChange on arrayValue change for checkbox', () => {
+    it('should call onChange on typeValue change for checkbox', () => {
         const mockInputCommon = new MockMagmaInputCommon();
         (component as any)['inputs'] = signal([mockInputCommon]);
 
         component.ngOnChanges({
-            arrayValue: { currentValue: true, previousValue: false, firstChange: false, isFirstChange: () => false },
+            typeValue: { currentValue: true, previousValue: false, firstChange: false, isFirstChange: () => false },
         });
         expect(mockInputCommon.onChange).toHaveBeenCalledWith(true);
     });

@@ -16,7 +16,8 @@ class MockMagmaInput {
     validate = jasmine.createSpy('validate');
     ngControl = { control: { errors: null } };
     cd = { detectChanges: jasmine.createSpy('detectChanges') };
-    arrayValue = jasmine.createSpy('arrayValue').and.returnValue(false);
+    typeValue = jasmine.createSpy('typeValue').and.returnValue('default');
+    returnValue = jasmine.createSpy('returnValue').and.returnValue('default');
     inputs = jasmine.createSpy('inputs').and.returnValue([]);
     forId = signal<string | undefined>(undefined);
 }
@@ -172,7 +173,7 @@ describe('MagmaInputCheckbox', () => {
         const mockCheckbox1 = { componentName: 'input-checkbox', testChecked: true, value: () => 'value1' };
         const mockCheckbox2 = { componentName: 'input-checkbox', testChecked: false, value: () => 'value2' };
         mockHost.inputs.and.returnValue([mockCheckbox1, mockCheckbox2]);
-        mockHost.arrayValue.and.returnValue(true);
+        mockHost.typeValue.and.returnValue('array');
 
         const result = component.getValue();
         expect(result).toEqual(['value1']);
@@ -295,7 +296,7 @@ describe('MagmaInputCheckbox', () => {
 
 @Component({
     template: `
-        <mg-input>
+        <mg-input [returnValue]="returnValue">
             <mg-input-checkbox value="option1" name="test-group" />
             <mg-input-checkbox value="option2" name="test-group" />
             <mg-input-checkbox value="option3" name="test-group" />
@@ -303,7 +304,9 @@ describe('MagmaInputCheckbox', () => {
     `,
     imports: [MagmaInput, MagmaInputCheckbox],
 })
-class TestHostComponent {}
+class TestHostComponent {
+    returnValue = 'default';
+}
 
 describe('MagmaInput with multiple MagmaInputCheckbox', () => {
     let fixture: ComponentFixture<TestHostComponent>;
@@ -333,85 +336,181 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
         expect(checkboxComponents.length).toBe(3);
     });
 
-    it('should update host value when a checkbox is checked', () => {
-        checkboxComponents[0]._change();
+    describe('Default', () => {
+        it('should update host value when a checkbox is checked', () => {
+            checkboxComponents[0]._change();
 
-        fixture.detectChanges();
+            fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
-        expect(checkboxComponents[1]['testChecked']).toBeUndefined();
-        expect(checkboxComponents[2]['testChecked']).toBeUndefined();
+            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[1]['testChecked']).toBeUndefined();
+            expect(checkboxComponents[2]['testChecked']).toBeUndefined();
 
-        expect(checkboxComponents[0].getValue()).toEqual(['option1']);
-        expect(checkboxComponents[1].getValue()).toEqual(['option1']);
-        expect(checkboxComponents[2].getValue()).toEqual(['option1']);
+            expect(checkboxComponents[0].getValue()).toEqual(['option1']);
+            expect(checkboxComponents[1].getValue()).toEqual(['option1']);
+            expect(checkboxComponents[2].getValue()).toEqual(['option1']);
+        });
+
+        it('should update host value when multiple checkboxes are checked', () => {
+            checkboxComponents[0]._change();
+            checkboxComponents[1]._change();
+
+            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBeUndefined();
+
+            expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option2']);
+            expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option2']);
+            expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option2']);
+        });
+
+        it('should remove value from host when a checkbox is unchecked', () => {
+            // Check all checkboxes first
+            checkboxComponents.forEach(checkbox => checkbox._change());
+            expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option2', 'option3']);
+            expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option2', 'option3']);
+            expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option2', 'option3']);
+
+            // Uncheck the first checkbox
+            checkboxComponents[0]._change();
+            expect(checkboxComponents[0]['testChecked']).toBeFalse();
+            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBeTrue();
+
+            expect(checkboxComponents[0].getValue()).toEqual(['option2', 'option3']);
+            expect(checkboxComponents[1].getValue()).toEqual(['option2', 'option3']);
+            expect(checkboxComponents[2].getValue()).toEqual(['option2', 'option3']);
+        });
+
+        it('should update checkbox state when host value changes', () => {
+            checkboxComponents[0].writeValue(['option1', 'option3']);
+            fixture.detectChanges();
+
+            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[1]['testChecked']).toBeUndefined();
+            expect(checkboxComponents[2]['testChecked']).toBeTrue();
+
+            expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option3']);
+            expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option3']);
+            expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option3']);
+        });
+
+        it('should update checkbox state when host value changes 2 times', () => {
+            checkboxComponents[0].writeValue(['option1', 'option3']);
+            fixture.detectChanges();
+            checkboxComponents[0].writeValue(['option2']);
+            fixture.detectChanges();
+
+            expect(checkboxComponents[0]['testChecked']).toBeFalse();
+            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBeFalse();
+
+            expect(checkboxComponents[0].getValue()).toEqual(['option2']);
+            expect(checkboxComponents[1].getValue()).toEqual(['option2']);
+            expect(checkboxComponents[2].getValue()).toEqual(['option2']);
+        });
+
+        it('should emit update event when checkbox state changes', () => {
+            spyOn(checkboxComponents[0].update, 'emit');
+
+            checkboxComponents[0]._change();
+
+            expect(checkboxComponents[0].update.emit).toHaveBeenCalledWith(['option1']);
+        });
     });
 
-    it('should update host value when multiple checkboxes are checked', () => {
-        checkboxComponents[0]._change();
-        checkboxComponents[1]._change();
+    describe('Boolean', () => {
+        beforeEach(() => {
+            fixture.componentInstance.returnValue = 'boolean';
+            fixture.detectChanges();
+        });
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
-        expect(checkboxComponents[1]['testChecked']).toBeTrue();
-        expect(checkboxComponents[2]['testChecked']).toBeUndefined();
+        it('should update host value when a checkbox is checked', () => {
+            checkboxComponents[0]._change();
 
-        expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option2']);
-        expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option2']);
-        expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option2']);
-    });
+            fixture.detectChanges();
 
-    it('should remove value from host when a checkbox is unchecked', () => {
-        // Check all checkboxes first
-        checkboxComponents.forEach(checkbox => checkbox._change());
-        expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option2', 'option3']);
-        expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option2', 'option3']);
-        expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option2', 'option3']);
+            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[1]['testChecked']).toBeUndefined();
+            expect(checkboxComponents[2]['testChecked']).toBeUndefined();
 
-        // Uncheck the first checkbox
-        checkboxComponents[0]._change();
-        expect(checkboxComponents[0]['testChecked']).toBeFalse();
-        expect(checkboxComponents[1]['testChecked']).toBeTrue();
-        expect(checkboxComponents[2]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0].getValue()).toEqual([true, false, false]);
+            expect(checkboxComponents[1].getValue()).toEqual([true, false, false]);
+            expect(checkboxComponents[2].getValue()).toEqual([true, false, false]);
+        });
 
-        expect(checkboxComponents[0].getValue()).toEqual(['option2', 'option3']);
-        expect(checkboxComponents[1].getValue()).toEqual(['option2', 'option3']);
-        expect(checkboxComponents[2].getValue()).toEqual(['option2', 'option3']);
-    });
+        it('should update host value when multiple checkboxes are checked', () => {
+            checkboxComponents[0]._change();
+            checkboxComponents[1]._change();
 
-    it('should update checkbox state when host value changes', () => {
-        checkboxComponents[0].writeValue(['option1', 'option3']);
-        fixture.detectChanges();
+            fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
-        expect(checkboxComponents[1]['testChecked']).toBeUndefined();
-        expect(checkboxComponents[2]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBeUndefined();
 
-        expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option3']);
-        expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option3']);
-        expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option3']);
-    });
+            expect(checkboxComponents[0].getValue()).toEqual([true, true, false]);
+            expect(checkboxComponents[1].getValue()).toEqual([true, true, false]);
+            expect(checkboxComponents[2].getValue()).toEqual([true, true, false]);
+        });
 
-    it('should update checkbox state when host value changes 2 times', () => {
-        checkboxComponents[0].writeValue(['option1', 'option3']);
-        fixture.detectChanges();
-        checkboxComponents[0].writeValue(['option2']);
-        fixture.detectChanges();
+        it('should remove value from host when a checkbox is unchecked', () => {
+            // Check all checkboxes first
+            checkboxComponents.forEach(checkbox => checkbox._change());
+            fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeFalse();
-        expect(checkboxComponents[1]['testChecked']).toBeTrue();
-        expect(checkboxComponents[2]['testChecked']).toBeFalse();
+            expect(checkboxComponents[0].getValue()).toEqual([true, true, true]);
+            expect(checkboxComponents[1].getValue()).toEqual([true, true, true]);
+            expect(checkboxComponents[2].getValue()).toEqual([true, true, true]);
 
-        expect(checkboxComponents[0].getValue()).toEqual(['option2']);
-        expect(checkboxComponents[1].getValue()).toEqual(['option2']);
-        expect(checkboxComponents[2].getValue()).toEqual(['option2']);
-    });
+            // Uncheck the first checkbox
+            checkboxComponents[0]._change();
+            fixture.detectChanges();
 
-    it('should emit update event when checkbox state changes', () => {
-        spyOn(checkboxComponents[0].update, 'emit');
+            expect(checkboxComponents[0]['testChecked']).toBeFalse();
+            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBeTrue();
 
-        checkboxComponents[0]._change();
+            expect(checkboxComponents[0].getValue()).toEqual([false, true, true]);
+            expect(checkboxComponents[1].getValue()).toEqual([false, true, true]);
+            expect(checkboxComponents[2].getValue()).toEqual([false, true, true]);
+        });
 
-        expect(checkboxComponents[0].update.emit).toHaveBeenCalledWith(['option1']);
+        it('should update checkbox state when host value changes', () => {
+            checkboxComponents[0].writeValue([true, false, true]);
+            fixture.detectChanges();
+
+            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[1]['testChecked']).toBeFalsy();
+            expect(checkboxComponents[2]['testChecked']).toBeTrue();
+
+            expect(checkboxComponents[0].getValue()).toEqual([true, false, true]);
+            expect(checkboxComponents[1].getValue()).toEqual([true, false, true]);
+            expect(checkboxComponents[2].getValue()).toEqual([true, false, true]);
+        });
+
+        it('should update checkbox state when host value changes 2 times', () => {
+            checkboxComponents[0].writeValue([true, false, true]);
+            fixture.detectChanges();
+            checkboxComponents[0].writeValue([false, true, false]);
+            fixture.detectChanges();
+
+            expect(checkboxComponents[0]['testChecked']).toBeFalse();
+            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBeFalse();
+
+            expect(checkboxComponents[0].getValue()).toEqual([false, true, false]);
+            expect(checkboxComponents[1].getValue()).toEqual([false, true, false]);
+            expect(checkboxComponents[2].getValue()).toEqual([false, true, false]);
+        });
+
+        it('should emit update event when checkbox state changes', () => {
+            spyOn(checkboxComponents[0].update, 'emit');
+
+            checkboxComponents[0]._change();
+
+            expect(checkboxComponents[0].update.emit).toHaveBeenCalledWith([true, false, false]);
+        });
     });
 
     it('should have correct name attribute on all checkbox inputs', () => {
@@ -431,15 +530,15 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
 
 @Component({
     template: `
-        <mg-input [arrayValue]="arrayValue">
-            <mg-input-checkbox value="option1" [returnValue]="returnValue" name="test-group" />
+        <mg-input [returnValue]="returnValue" [typeValue]="typeValue">
+            <mg-input-checkbox value="option1" name="test-group" />
         </mg-input>
     `,
     imports: [MagmaInput, MagmaInputCheckbox],
 })
 class TestHostComponentSimple {
-    arrayValue = false;
-    returnValue = false;
+    returnValue = 'default';
+    typeValue = 'default';
 }
 
 describe('MagmaInput with mono MagmaInputCheckbox', () => {
@@ -479,8 +578,8 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
         expect(checkboxComponents[0].getValue()).toEqual(true);
     });
 
-    it('should emit update event when checkbox state changes with arrayValue is true', () => {
-        fixture.componentInstance.arrayValue = true;
+    it('should emit update event when checkbox state changes with typeValue is "array"', () => {
+        fixture.componentInstance.typeValue = 'array';
 
         spyOn(checkboxComponents[0].update, 'emit');
 
@@ -490,8 +589,8 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
         expect(checkboxComponents[0].update.emit).toHaveBeenCalledWith(true);
     });
 
-    it('should update host value when a checkbox is checked with arrayValue is true', () => {
-        fixture.componentInstance.arrayValue = true;
+    it('should update host value when a checkbox is checked with typeValue is "array"', () => {
+        fixture.componentInstance.typeValue = 'array';
 
         checkboxComponents[0]._change();
 
@@ -501,8 +600,8 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
         expect(checkboxComponents[0].getValue()).toEqual(['option1']);
     });
 
-    it('should getValue with returnValue is false', () => {
-        fixture.componentInstance.returnValue = false;
+    it('should getValue with returnValue is "boolean"', () => {
+        fixture.componentInstance.returnValue = 'boolean';
 
         checkboxComponents[0]._change();
 
@@ -510,10 +609,17 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
 
         expect(checkboxComponents[0]['testChecked']).toBeTrue();
         expect(checkboxComponents[0].getValue()).toEqual(true);
+
+        checkboxComponents[0]._change();
+
+        fixture.detectChanges();
+
+        expect(checkboxComponents[0]['testChecked']).toBeFalse();
+        expect(checkboxComponents[0].getValue()).toEqual(false);
     });
 
-    it('should getValue with returnValue is true', () => {
-        fixture.componentInstance.returnValue = true;
+    it('should getValue with returnValue is "value"', () => {
+        fixture.componentInstance.returnValue = 'value';
 
         checkboxComponents[0]._change();
 
@@ -521,15 +627,22 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
 
         expect(checkboxComponents[0]['testChecked']).toBeTrue();
         expect(checkboxComponents[0].getValue()).toEqual('option1');
+
+        checkboxComponents[0]._change();
+
+        fixture.detectChanges();
+
+        expect(checkboxComponents[0]['testChecked']).toBeFalse();
+        expect(checkboxComponents[0].getValue()).toEqual(null);
     });
 
-    it('should getValue with returnValue is true and not check', () => {
-        fixture.componentInstance.returnValue = true;
+    it('should getValue with returnValue is "boolean" and not check', () => {
+        fixture.componentInstance.returnValue = 'boolean';
 
         fixture.detectChanges();
 
         expect(checkboxComponents[0]['testChecked']).toBeUndefined();
-        expect(checkboxComponents[0].getValue()).toEqual(null);
+        expect(checkboxComponents[0].getValue()).toBeFalse();
 
         checkboxComponents[0]._change();
         checkboxComponents[0]._change();
@@ -537,7 +650,7 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
         fixture.detectChanges();
 
         expect(checkboxComponents[0]['testChecked']).toBeFalse();
-        expect(checkboxComponents[0].getValue()).toEqual(null);
+        expect(checkboxComponents[0].getValue()).toBeFalse();
     });
 
     it('should emit update event when checkbox state changes', () => {

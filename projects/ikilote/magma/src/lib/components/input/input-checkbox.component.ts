@@ -1,15 +1,15 @@
 import {
-    AfterContentChecked,
-    ChangeDetectionStrategy,
-    Component,
-    DoCheck,
-    ElementRef,
-    SimpleChanges,
-    booleanAttribute,
-    computed,
-    input,
-    output,
-    viewChildren,
+  AfterContentChecked,
+  ChangeDetectionStrategy,
+  Component,
+  DoCheck,
+  ElementRef,
+  SimpleChanges,
+  booleanAttribute,
+  computed,
+  input,
+  output,
+  viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -40,7 +40,6 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     override readonly value = input<any>();
     readonly checked = input(false, { transform: booleanAttribute });
     readonly mode = input<'checkbox' | 'toggle'>();
-    readonly returnValue = input(false, { transform: booleanAttribute });
 
     testChecked: boolean | undefined;
     override readonly placeholder: any = undefined; // not for checkbox
@@ -84,30 +83,43 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     }
 
     override writeValue(value: any): void {
-        this.testChecked =
-            this.host && (this.host.arrayValue() || this.host.inputs().length > 1) && Array.isArray(value)
-                ? value.includes(this.value())
-                : this.value()
-                  ? value === this.value()
-                  : value === true;
+        if (this.host) {
+            this.testChecked =
+                (this.host.typeValue() === 'array' || this.host.inputs().length > 1) && Array.isArray(value)
+                    ? // array value
+                      this.host.returnValue() === 'boolean'
+                        ? value[this.index] === true
+                        : value.includes(this.value())
+                    : // mono value
+                      this.host.returnValue() !== 'value' && typeof value === 'boolean'
+                      ? value === true
+                      : value === this.value();
 
-        // update all other checkboxes in the group
-        if (this.host && (this.host.arrayValue() || this.host.inputs().length > 1)) {
-            this.host
-                .inputs()
-                .filter(item => item.componentName === this.componentName && item !== this)
-                .forEach(item => {
-                    if (item instanceof MagmaInputCheckbox) {
-                        item['_value'] = this._value;
-                        if (item.testChecked && !value.includes(item.value())) {
-                            item.testChecked = false;
-                        } else if (!item.testChecked && value.includes(item.value())) {
-                            item.testChecked = true;
+            // update all other checkboxes in the group
+            if (this.host.typeValue() === 'array' || this.host.inputs().length > 1) {
+                this.host
+                    .inputs()
+                    .filter(item => item.componentName === this.componentName && item !== this)
+                    .forEach(item => {
+                        if (item instanceof MagmaInputCheckbox) {
+                            item['_value'] = this._value;
+                            if (this.host?.returnValue() === 'boolean') {
+                                if (item.testChecked && !value[item.index]) {
+                                    item.testChecked = false;
+                                } else if (!item.testChecked && value[item.index]) {
+                                    item.testChecked = true;
+                                }
+                            } else {
+                                if (item.testChecked && !value.includes(item.value())) {
+                                    item.testChecked = false;
+                                } else if (!item.testChecked && value.includes(item.value())) {
+                                    item.testChecked = true;
+                                }
+                            }
                         }
-                    }
-                });
+                    });
+            }
         }
-
         super.writeValue(this.getValue());
     }
 
@@ -125,13 +137,25 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     }
 
     override getValue(): any {
-        if (this.host && (this.host.arrayValue() || this.host.inputs().length > 1)) {
-            return this.host
-                .inputs()
-                .filter(item => item.componentName === this.componentName && (item as MagmaInputCheckbox).testChecked)
-                .map(item => item.value());
+        if (this.host && (this.host.typeValue() === 'array' || this.host.inputs().length > 1)) {
+            if (this.host?.returnValue() === 'boolean') {
+                this._value = this.host.inputs().map(item => (item as MagmaInputCheckbox).testChecked ?? false);
+            } else {
+                this._value = this.host
+                    .inputs()
+                    .filter(
+                        item => item.componentName === this.componentName && (item as MagmaInputCheckbox).testChecked,
+                    )
+                    .map(item => item.value());
+            }
         } else {
-            return this.returnValue() ? (this.testChecked ? this.value() : null) : this.testChecked;
+            this._value =
+                this.host && this.host.returnValue() === 'value'
+                    ? this.testChecked
+                        ? this.value()
+                        : null
+                    : (this.testChecked ?? false);
         }
+        return super.getValue();
     }
 }

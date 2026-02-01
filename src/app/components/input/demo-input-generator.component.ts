@@ -115,7 +115,8 @@ export class DemoInputGeneratorComponent {
 
         // checkbox
         toggle: FormControl<boolean>;
-        arrayValue: FormControl<boolean>;
+        typeValue: FormControl<'default' | 'value' | 'array'>;
+        returnValue: FormControl<'default' | 'value' | 'boolean'>;
 
         // number
         showArrows: FormControl<boolean>;
@@ -179,6 +180,16 @@ export class DemoInputGeneratorComponent {
         { value: 'row', label: 'row' },
         { value: 'column', label: 'column' },
     ];
+    typeValue: Select2Data = [
+        { value: 'default', label: 'default' },
+        { value: 'value', label: 'value' },
+        { value: 'array', label: 'array' },
+    ];
+    returnValue: Select2Data = [
+        { value: 'default', label: 'default' },
+        { value: 'value', label: 'value' },
+        { value: 'boolean', label: 'boolean' },
+    ];
 
     typesDate = dateTypes;
 
@@ -237,7 +248,8 @@ export class DemoInputGeneratorComponent {
             overlay: { default: false },
             // checkbox
             toggle: { default: false },
-            arrayValue: { default: false },
+            typeValue: { default: 'default' as 'default' | 'value' | 'array' },
+            returnValue: { default: 'default' as 'default' | 'value' | 'boolean' },
             // number
             showArrows: { default: false },
             step: { default: 0, emptyOnInit: true },
@@ -275,8 +287,11 @@ export class DemoInputGeneratorComponent {
         const attrs: Json2htmlAttr = json.attrs!;
 
         if (value.type === 'checkbox') {
-            if (value.arrayValue) {
-                attrInput['arrayValue'] = null;
+            if (value.typeValue) {
+                attrInput['typeValue'] = value.typeValue;
+            }
+            if (value.returnValue) {
+                attrInput['returnValue'] = value.returnValue;
             }
         }
 
@@ -424,10 +439,18 @@ export class DemoInputGeneratorComponent {
             if (value.type == 'number') {
                 type = value.type;
             } else if (value.type === 'checkbox') {
-                if (value.multiple || value.arrayValue) {
-                    type = 'string[]';
+                if (value.multiple || value.typeValue === 'array') {
+                    if (value.returnValue === 'boolean') {
+                        type = 'boolean[]';
+                    } else {
+                        type = 'string[]';
+                    }
                 } else {
-                    type = 'boolean';
+                    if (value.returnValue === 'value') {
+                        type = 'string';
+                    } else {
+                        type = 'boolean';
+                    }
                 }
             }
 

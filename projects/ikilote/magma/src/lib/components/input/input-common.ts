@@ -53,6 +53,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     protected readonly uid = computed<string>(() => `${this.componentName}-${this.counter}`);
 
     refreshTrigger = signal<any>(false);
+    index = 0;
 
     _name = computed<string>(
         () => this.refreshTrigger() || this.formControlName() || this.name() || this.id() || this.uid(),

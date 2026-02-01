@@ -16,9 +16,9 @@
     </nav>
     <div class="info">
       <div class="dir">
-        <mg-input>
+        <mg-input returnValue="value">
           <mg-input-before>LTR</mg-input-before>
-          <mg-input-checkbox value="rtl" returnValue mode="toggle" [(ngModel)]="dir" />
+          <mg-input-checkbox value="rtl" mode="toggle" [(ngModel)]="dir" />
           <mg-input-after>RTL</mg-input-after>
         </mg-input>
       </div>

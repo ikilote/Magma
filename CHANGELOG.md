@@ -1,5 +1,37 @@
 # Changelog of @ikilote/magma
 
+## 1.3.0 (2026-02-01)
+
+### 🫢 Breaking
+
+- **input-date**: has been completely rewritten based on Firefox.
+- **input** : `arrayValue` is remove for **checkbox**. See `typeValue` & `returnValue`
+
+### ✅ New
+
+- **Datetime picker**: new component
+    - can be used as a component or a directive
+    - is used for **input-date**
+- **RTL/LTR**: is now supported without breaking the component rendering
+- **input**:
+    - for **checkbox**, new parameter :
+        - add `typeValue`:
+            - `default`: one value (`returnValue`) / multiple values (`returnValue`)
+            - `value`: one value (`returnValue`) / multiple values (array of `returnValue`)
+            - `array`: one value (array of `returnValue`)
+        - add `returnValue`:
+            - `default`: one value (`boolean`) / multiple values (`value`)
+            - `value`: force `value`
+            - `boolean`: force `boolean`
+- **pipes**
+    - `string`: to asset string methods
+- **Utils**
+    - `getWeek()` : calculate week number (ISO and other)
+
+### 🎦 Demo
+
+- add button **RTL/LTR** in menu
+
 ## 1.2.0 (2025-12-29)
 
 > Note: replace `styleUrls` by `styleUrl`

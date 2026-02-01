@@ -28,14 +28,14 @@
     }
 
     &.show-arrows::after {
-        right: 22px;
+        inset-inline-end: 22px;
     }
 }
 /*  Chrome, Edge, Opera */
 
 @supports selector(::-webkit-scrollbar) {
     :host.show-arrows::after {
-        right: 19px;
+        inset-inline-end: 19px;
     }
 }
 
@@ -43,7 +43,7 @@
 
 @supports (background: -webkit-named-image(i)) {
     :host.show-arrows::after {
-        right: 20px;
+        inset-inline-end: 20px;
     }
 }
 
@@ -51,7 +51,7 @@
 
 @media only screen and (hover: none) and (pointer: coarse) {
     :host.show-arrows::after {
-        right: 4px;
+        inset-inline-end: 4px;
     }
 }
 

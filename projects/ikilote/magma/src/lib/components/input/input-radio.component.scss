@@ -14,9 +14,9 @@ input {
             display: inline-block;
             position: absolute;
             top: var(--input-mark-top);
-            left: 0px;
             box-sizing: border-box;
             margin-inline-end: 5px;
+            inset-inline-start: 0px;
             outline: 2px solid transparent;
             border: 1px solid var(--input-border-color);
             border-radius: 50%;

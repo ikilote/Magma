@@ -22,7 +22,6 @@ input:checked + label::before {
         & + label {
             &::before {
                 top: var(--top);
-                margin-inline-end: 0;
                 border-radius: calc(var(--height) / 2);
                 background: var(--input-background);
                 width: var(--width);

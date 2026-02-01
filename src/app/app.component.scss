@@ -119,9 +119,9 @@ main {
         .aside-content {
             position: relative;
             position: fixed;
-            left: -90%;
             z-index: 1;
-            transition: left 0.5s;
+            transition: inset-inline-start 0.5s;
+            inset-inline-start: -90%;
             box-shadow: 0 0 0 0 #0000;
             width: 90%;
         }
@@ -129,14 +129,14 @@ main {
 
     :host.mobile-menu-open aside {
         .aside-content {
-            left: 0;
+            inset-inline-start: 0;
             box-shadow: 0 0 10vw 10vw #0008;
         }
 
         .backdrop {
             position: absolute;
             top: 0;
-            left: 0;
+            inset-inline-start: 0;
             background: #0004;
             width: 100vw;
             height: 100%;
@@ -150,7 +150,7 @@ main {
     main .mobile-menu {
         position: relative;
         top: 15px;
-        float: right;
+        float: inline-end;
     }
 
     ul li a {

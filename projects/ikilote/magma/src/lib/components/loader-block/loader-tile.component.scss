@@ -1,6 +1,7 @@
 :host {
     --width: 0 0 150px;
     --height: 150px;
+    --angle: 125deg;
     flex: var(--width);
 
     animation-duration: 3s;
@@ -11,7 +12,7 @@
     border-radius: 5px;
     background: var(--loading-item-color);
     background-image: linear-gradient(
-        125deg,
+        var(--angle),
         transparent 45%,
         rgba(var(--loading-item-animation-color) / 0.05) 46%,
         rgba(var(--loading-item-animation-color) / 0.05) 48%,
@@ -24,6 +25,11 @@
     );
     background-size: 1500px 700px;
     height: var(--height);
+
+    &:dir(rtl) {
+        --angle: 45deg;
+        animation-name: lighting-rtl;
+    }
 }
 
 @keyframes lighting {
@@ -32,5 +38,14 @@
     }
     100% {
         background-position: 3200px 0;
+    }
+}
+
+@keyframes lighting-rtl {
+    0% {
+        background-position: 3200px 0;
+    }
+    100% {
+        background-position: -100px 0;
     }
 }

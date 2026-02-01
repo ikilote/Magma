@@ -6,7 +6,7 @@
         --space: 8px;
         display: inline-block;
         position: relative;
-        left: 0;
+        inset-inline-start: 0;
         border-radius: 50%;
         background-color: var(--button-default-color);
         width: var(--size);

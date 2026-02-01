@@ -15,11 +15,11 @@
     & > div {
         display: flex;
         position: absolute;
-        right: 8px;
         bottom: 2px;
         justify-content: end;
         align-items: end;
         gap: 8px;
+        inset-inline-end: 8px;
         pointer-events: none;
         font-size: 11px;
     }

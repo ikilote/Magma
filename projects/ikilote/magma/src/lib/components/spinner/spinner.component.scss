@@ -9,7 +9,6 @@
     height: var(--height);
 }
 div {
-    position: absolute;
     transform: rotate(calc(var(--index) * 30deg));
     transform-origin: calc(var(--height) / 2) calc(var(--height) / 2);
     animation: spinner 1.2s linear infinite;
@@ -19,7 +18,7 @@ div {
         display: block;
         position: absolute;
         top: 0;
-        left: calc(var(--height) / 2 - var(--width) / 2);
+        inset-inline-start: calc(var(--height) / 2 - var(--width) / 2);
         border-radius: 20%;
         border-radius: var(--radius);
         background: var(--spinner-color);

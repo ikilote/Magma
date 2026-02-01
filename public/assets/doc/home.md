@@ -16,7 +16,7 @@ Mini Angular component library for Ikilote galaxy projects:
 Install in project:
 
 ```sh
-npm i @ikilote/magma colorjs.io ng-select2-component
+npm i @ikilote/magma
 ```
 
 Required in `package.json`
@@ -53,4 +53,3 @@ Add in `style.css`
 <a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Branches 100% (1030/1030)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221) </a>
 <a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Functions 100% (571/571)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221) </a>
 <a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Lines 100% (2285/2285)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221) </a>
-

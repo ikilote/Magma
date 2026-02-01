@@ -111,7 +111,7 @@ See : [Demo](https://magma.ikilote.net/)
 Install in project:
 
 ```sh
-npm i @ikilote/magma colorjs.io ng-select2-component
+npm i @ikilote/magma
 ```
 
 Required in `package.json`

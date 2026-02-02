@@ -211,7 +211,8 @@ textarea {
     opacity: 0.5;
 }
 
-:where(input:not([type='checkbox'], [type='radio']), .input, textarea, select):focus {
+:where(input:not([type='checkbox'], [type='radio']), .input, textarea, select):focus,
+.input:focus-within {
     outline-color: var(--input-focus-border-color);
 }
 

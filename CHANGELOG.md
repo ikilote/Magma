@@ -16,9 +16,9 @@
 - **input**:
     - for **checkbox**, new parameter :
         - add `typeValue`:
-            - `default`: one value (`returnValue`) / multiple values (`returnValue`)
+            - `default`: one value (`returnValue`) / multiple values (array of `returnValue`)
             - `value`: one value (`returnValue`) / multiple values (array of `returnValue`)
-            - `array`: one value (array of `returnValue`)
+            - `array`: force array of `returnValue`
         - add `returnValue`:
             - `default`: one value (`boolean`) / multiple values (`value`)
             - `value`: force `value`
@@ -27,6 +27,11 @@
     - `string`: to asset string methods
 - **Utils**
     - `getWeek()` : calculate week number (ISO and other)
+
+### 🐞 Fix
+
+- **pipes**
+    - `number`: support langage with string pattern
 
 ### 🎦 Demo
 

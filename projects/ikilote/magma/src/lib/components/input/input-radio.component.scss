@@ -50,7 +50,7 @@ label {
     position: relative;
     padding-inline-start: calc(var(--size) + 6px);
     padding-inline-end: 5px;
-    line-height: 31px;
+    line-height: 30px;
 
     &.empty {
         padding-inline-start: calc(var(--size) - 6px);

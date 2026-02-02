@@ -26,12 +26,18 @@
     font-weight: 600;
     font-size: 90%;
 }
+
 .content {
     display: flex;
     grid-area: content;
-    flex-direction: var(--align);
+    flex-direction: var(--align, row);
     align-items: baseline;
     align-self: baseline;
+
+    &.column {
+        --align: column;
+        align-items: flex-start;
+    }
 }
 
 .bottom {

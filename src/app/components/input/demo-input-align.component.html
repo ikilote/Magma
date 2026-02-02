@@ -121,6 +121,19 @@
 
     Test
 
+    <mg-input alignMode="column">
+      <mg-input-label>Label ({{ radio }})</mg-input-label>
+      <mg-input-radio [(ngModel)]="radio" value="red">red</mg-input-radio>
+      <mg-input-radio [(ngModel)]="radio" value="blue">blue</mg-input-radio>
+      <mg-input-radio [(ngModel)]="radio" value="yellow">yellow</mg-input-radio>
+      <mg-input-desc
+        >Desc<br />
+        test</mg-input-desc
+      >
+    </mg-input>
+
+    Test
+
     <mg-input>
       <mg-input-label>Label ({{ checkbox1.getValue() }} / {{ checkbox2.getValue() }})</mg-input-label>
       <mg-input-checkbox value="red" #checkbox1>red</mg-input-checkbox>

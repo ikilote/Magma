@@ -1,3 +1,7 @@
 :host ::ng-deep :is(code, code *) {
     font-family: 'Courier New', Courier, monospace;
 }
+
+:host {
+    direction: ltr;
+}

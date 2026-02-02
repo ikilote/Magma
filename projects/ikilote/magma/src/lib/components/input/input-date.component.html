@@ -152,6 +152,8 @@
         maxlength="3"
         [disabled]="disabled()"
         [readonly]="readonly()"
+        (keyup)="keyup($event)"
+        (keydown)="keydown($event)"
         (change)="changeDate($event, typeMilli)"
         (input)="updateDate($event, typeMilli)"
         (focus)="focus($event, true, typeMilli)"

@@ -111,11 +111,21 @@ describe('MagmaInput', () => {
         expect(labelElement.nativeElement.getAttribute('for')).toBe('test');
     });
 
+    it('should set align style not based on alignMode', () => {
+        fixture.detectChanges();
+        const contentElement = debugElement.query(By.css('.content'));
+        expect(contentElement.nativeElement.classList).toContain('row');
+
+        fixture.componentInstance.alignMode = 'row';
+        fixture.detectChanges();
+        expect(contentElement.nativeElement.classList).toContain('row');
+    });
+
     it('should set align style based on alignMode', () => {
         fixture.componentInstance.alignMode = 'column';
         fixture.detectChanges();
         const contentElement = debugElement.query(By.css('.content'));
-        expect(contentElement.nativeElement.style.getPropertyValue('--align')).toBe('column');
+        expect(contentElement.nativeElement.classList).toContain('column');
     });
 
     it('should display error message if _errorMessage is set', () => {

@@ -15,24 +15,24 @@ span {
     height: 33px;
 
     &:focus {
-        box-shadow: inset 0 0 0 1px var(--neutralB);
+        box-shadow: inset 0 0 0 1px var(--neutral000);
     }
 
     &.empty {
         background: linear-gradient(
             45deg,
-            var(--neutralA) 10px,
-            var(--alert5) 10px,
-            var(--alert5) 11px,
-            var(--neutralA) 11px,
-            var(--neutralA) 25px,
-            var(--alert5) 25px,
-            var(--alert5) 26px,
-            var(--neutralA) 26px,
-            var(--neutralA) 40px,
-            var(--alert5) 40px,
-            var(--alert5) 41px,
-            var(--neutralA) 41px
+            var(--neutral050) 10px,
+            var(--alert500) 10px,
+            var(--alert500) 11px,
+            var(--neutral050) 11px,
+            var(--neutral050) 25px,
+            var(--alert500) 25px,
+            var(--alert500) 26px,
+            var(--neutral050) 26px,
+            var(--neutral050) 40px,
+            var(--alert500) 40px,
+            var(--alert500) 41px,
+            var(--neutral050) 41px
         );
     }
 }

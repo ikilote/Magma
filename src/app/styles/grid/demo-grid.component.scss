@@ -4,10 +4,10 @@
 
 :host.show-border {
     div:has(> .break) {
-        border: 1px dotted var(--alert4);
+        border: 1px dotted var(--alert600);
 
         & > div:not(.break, .sub) {
-            border: 1px dashed var(--neutral2);
+            border: 1px dashed var(--neutral800);
         }
     }
 }

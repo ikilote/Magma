@@ -4,19 +4,19 @@ body.light-mode {
 
     /* MARK: palettes light */
     --primaryH: 190;
-    --L: 0%;
-    --L0: 10%;
-    --L1: 20%;
-    --L2: 30%;
-    --L3: 40%;
-    --L4: 50%;
-    --L5: 60%;
-    --L6: 70%;
-    --L7: 80%;
-    --L8: 85%;
-    --L9: 90%;
-    --LA: 95%;
-    --LB: 100%;
+    --L000: 100%; /* Pur blanc */
+    --L050: 95%; /* Ancien LA */
+    --L100: 90%; /* Ancien L9 */
+    --L200: 85%; /* Ancien L8 */
+    --L300: 80%; /* Ancien L7 */
+    --L400: 70%; /* Ancien L6 */
+    --L500: 60%; /* Ancien L5 */
+    --L600: 50%; /* Ancien L4 */
+    --L700: 40%; /* Ancien L3 */
+    --L800: 30%; /* Ancien L2 */
+    --L900: 20%; /* Ancien L1 */
+    --L950: 10%; /* Ancien L0 */
+    --L990: 0%; /* Ancien L */
 
     /* MARK: loader-tile */
     --loading-item-animation-color: 0 0 0;
@@ -27,19 +27,19 @@ body.dark-mode {
 
     /* MARK: palettes dark */
     --primaryH: 210;
-    --L: 100%;
-    --L0: 95%;
-    --L1: 80%;
-    --L2: 70%;
-    --L3: 60%;
-    --L4: 50%;
-    --L5: 40%;
-    --L6: 35%;
-    --L7: 20%;
-    --L8: 10%;
-    --L9: 6%;
-    --LA: 5%;
-    --LB: 0%;
+    --L000: 0%; /* Pur noir */
+    --L050: 5%; /* Ancien LA */
+    --L100: 6%; /* Ancien L9 */
+    --L200: 10%; /* Ancien L8 */
+    --L300: 20%; /* Ancien L7 */
+    --L400: 35%; /* Ancien L6 */
+    --L500: 40%; /* Ancien L5 */
+    --L600: 50%; /* Ancien L4 */
+    --L700: 60%; /* Ancien L3 */
+    --L800: 70%; /* Ancien L2 */
+    --L900: 80%; /* Ancien L1 */
+    --L950: 95%; /* Ancien L0 */
+    --L990: 100%; /* Ancien L */
 
     /* MARK: loader-tile */
     --loading-item-animation-color: 255 255 255;
@@ -47,256 +47,264 @@ body.dark-mode {
 
 body {
     /* MARK: palettes */
-    --primary0: hsl(var(--primaryH), 5%, var(--L0));
-    --primary1: hsl(var(--primaryH), 15%, var(--L1));
-    --primary2: hsl(var(--primaryH), 15%, var(--L2));
-    --primary3: hsl(var(--primaryH), 15%, var(--L3));
-    --primary4: hsl(var(--primaryH), 15%, var(--L4));
-    --primary5: hsl(var(--primaryH), 15%, var(--L5));
-    --primary6: hsl(var(--primaryH), 15%, var(--L6));
-    --primary7: hsl(var(--primaryH), 15%, var(--L7));
-    --primary8: hsl(var(--primaryH), 15%, var(--L8));
-    --primary9: hsl(var(--primaryH), 15%, var(--L9));
-    --primaryA: hsl(var(--primaryH), 5%, var(--LA));
-    --neutral: hsl(0, 0%, var(--L));
-    --neutral0: hsl(0, 0%, var(--L0));
-    --neutral1: hsl(0, 0%, var(--L1));
-    --neutral2: hsl(0, 0%, var(--L2));
-    --neutral3: hsl(0, 0%, var(--L3));
-    --neutral4: hsl(0, 0%, var(--L4));
-    --neutral5: hsl(0, 0%, var(--L5));
-    --neutral6: hsl(0, 0%, var(--L6));
-    --neutral7: hsl(0, 0%, var(--L7));
-    --neutral8: hsl(0, 0%, var(--L8));
-    --neutral9: hsl(0, 0%, var(--L9));
-    --neutralA: hsl(0, 0%, var(--LA));
-    --neutralB: hsl(0, 0%, var(--LB));
-    --alert0: hsl(0, 5%, var(--L0));
-    --alert1: hsl(0, 15%, var(--L1));
-    --alert2: hsl(0, 25%, var(--L2));
-    --alert3: hsl(0, 45%, var(--L3));
-    --alert4: hsl(0, 55%, var(--L4));
-    --alert5: hsl(0, 75%, var(--L5));
-    --alert6: hsl(0, 65%, var(--L6));
-    --alert7: hsl(0, 55%, var(--L7));
-    --alert8: hsl(0, 45%, var(--L8));
-    --alert9: hsl(0, 25%, var(--L9));
-    --alertA: hsl(0, 5%, var(--LA));
-    --warn0: hsl(15, 5%, var(--L0));
-    --warn1: hsl(15, 15%, var(--L1));
-    --warn2: hsl(15, 25%, var(--L2));
-    --warn3: hsl(15, 45%, var(--L3));
-    --warn4: hsl(15, 55%, var(--L4));
-    --warn5: hsl(15, 75%, var(--L5));
-    --warn6: hsl(15, 65%, var(--L6));
-    --warn7: hsl(15, 55%, var(--L7));
-    --warn8: hsl(15, 45%, var(--L8));
-    --warn9: hsl(15, 25%, var(--L9));
-    --warnA: hsl(15, 5%, var(--LA));
-    --success0: hsl(120, 5%, var(--L0));
-    --success1: hsl(120, 15%, var(--L1));
-    --success2: hsl(120, 25%, var(--L2));
-    --success3: hsl(120, 45%, var(--L3));
-    --success4: hsl(120, 55%, var(--L4));
-    --success5: hsl(120, 55%, var(--L5));
-    --success6: hsl(120, 65%, var(--L6));
-    --success7: hsl(120, 55%, var(--L7));
-    --success8: hsl(120, 45%, var(--L8));
-    --success9: hsl(120, 25%, var(--L9));
-    --successA: hsl(120, 5%, var(--LA));
+    --primary050: hsl(var(--primaryH), 5%, var(--L050));
+    --primary100: hsl(var(--primaryH), 15%, var(--L100));
+    --primary200: hsl(var(--primaryH), 15%, var(--L200));
+    --primary300: hsl(var(--primaryH), 15%, var(--L300));
+    --primary400: hsl(var(--primaryH), 15%, var(--L400));
+    --primary500: hsl(var(--primaryH), 15%, var(--L500));
+    --primary600: hsl(var(--primaryH), 15%, var(--L600));
+    --primary700: hsl(var(--primaryH), 15%, var(--L700));
+    --primary800: hsl(var(--primaryH), 15%, var(--L800));
+    --primary900: hsl(var(--primaryH), 15%, var(--L900));
+    --primary950: hsl(var(--primaryH), 5%, var(--L950));
+
+    /* --- NEUTRAL  --- */
+    --neutral000: hsl(0, 0%, var(--L000));
+    --neutral050: hsl(0, 0%, var(--L050));
+    --neutral100: hsl(0, 0%, var(--L100));
+    --neutral200: hsl(0, 0%, var(--L200));
+    --neutral300: hsl(0, 0%, var(--L300));
+    --neutral400: hsl(0, 0%, var(--L400));
+    --neutral500: hsl(0, 0%, var(--L500));
+    --neutral600: hsl(0, 0%, var(--L600));
+    --neutral700: hsl(0, 0%, var(--L700));
+    --neutral800: hsl(0, 0%, var(--L800));
+    --neutral900: hsl(0, 0%, var(--L900));
+    --neutral950: hsl(0, 0%, var(--L950));
+    --neutral990: hsl(0, 0%, var(--L990));
+
+    /* --- ALERT  --- */
+    --alert050: hsl(0, 5%, var(--L050));
+    --alert100: hsl(0, 15%, var(--L100));
+    --alert200: hsl(0, 25%, var(--L200));
+    --alert300: hsl(0, 45%, var(--L300));
+    --alert400: hsl(0, 55%, var(--L400));
+    --alert500: hsl(0, 75%, var(--L500));
+    --alert600: hsl(0, 65%, var(--L600));
+    --alert700: hsl(0, 55%, var(--L700));
+    --alert800: hsl(0, 45%, var(--L800));
+    --alert900: hsl(0, 25%, var(--L900));
+    --alert950: hsl(0, 5%, var(--L950));
+
+    /* --- WARN   --- */
+    --warn050: hsl(15, 5%, var(--L050));
+    --warn100: hsl(15, 15%, var(--L100));
+    --warn200: hsl(15, 25%, var(--L200));
+    --warn300: hsl(15, 45%, var(--L300));
+    --warn400: hsl(15, 55%, var(--L400));
+    --warn500: hsl(15, 75%, var(--L500));
+    --warn600: hsl(15, 65%, var(--L600));
+    --warn700: hsl(15, 55%, var(--L700));
+    --warn800: hsl(15, 45%, var(--L800));
+    --warn900: hsl(15, 25%, var(--L900));
+    --warn950: hsl(15, 5%, var(--L950));
+
+    /* --- SUCCESS   --- */
+    --success050: hsl(120, 5%, var(--L050));
+    --success100: hsl(120, 15%, var(--L100));
+    --success200: hsl(120, 25%, var(--L200));
+    --success300: hsl(120, 45%, var(--L300));
+    --success400: hsl(120, 55%, var(--L400));
+    --success500: hsl(120, 55%, var(--L500));
+    --success600: hsl(120, 65%, var(--L600));
+    --success700: hsl(120, 55%, var(--L700));
+    --success800: hsl(120, 45%, var(--L800));
+    --success900: hsl(120, 25%, var(--L900));
+    --success950: hsl(120, 5%, var(--L950));
 
     /* MARK: global */
-    --background: var(--primaryA);
-    --text-color: var(--primary0);
-    --color-mode-border-color: var(--primary0);
+    --background: var(--primary050);
+    --text-color: var(--primary950);
+    --color-mode-border-color: var(--primary950);
     --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
     --font-mono:
         'Roboto Mono', 'FreeMono', 'Liberation Mono', 'Ubuntu Mono', 'Courier New', 'Droid Sans Mono', Courier,
         monospace;
-    --input-focus-color: var(--neutral0);
+    --input-focus-color: var(--neutral950);
 
     /* MARK: context-menu */
-    --context-menu-background: var(--primary8);
-    --context-menu-item: var(--primary7);
-    --context-menu-item-hover: var(--primary6);
+    --context-menu-background: var(--primary200);
+    --context-menu-item: var(--primary300);
+    --context-menu-item-hover: var(--primary400);
 
     /* MARK: ellipsis-button */
-    --context-button-list-background: var(--primary8);
-    --ellipsis-item-background: var(--primary7);
-    --ellipsis-item-hover-background: var(--primary6);
+    --context-button-list-background: var(--primary200);
+    --ellipsis-item-background: var(--primary300);
+    --ellipsis-item-hover-background: var(--primary400);
 
     /* MARK: default button */
-    --button-default-border-color: var(--neutral5);
-    --button-default-background: var(--neutral7);
-    --button-default-box-shadow: var(--neutral5);
-    --button-default-color: var(--neutral0);
-    --button-default-hover-border-color: var(--neutral9);
-    --button-default-hover-background: var(--neutral6);
-    --button-default-hover-box-shadow: var(--neutral7);
+    --button-default-border-color: var(--neutral500);
+    --button-default-background: var(--neutral300);
+    --button-default-box-shadow: var(--neutral500);
+    --button-default-color: var(--neutral950);
+    --button-default-hover-border-color: var(--neutral100);
+    --button-default-hover-background: var(--neutral400);
+    --button-default-hover-box-shadow: var(--neutral300);
     --button-default-focus-border-color: var(--input-focus-color);
 
     /* MARK: primary button */
-    --button-primary-border-color: var(--primary7);
-    --button-primary-background: var(--primary6);
-    --button-primary-box-shadow: var(--primaryA);
-    --button-primary-color: var(--primary0);
-    --button-primary-hover-border-color: var(--primary9);
-    --button-primary-hover-background: var(--primary6);
-    --button-primary-hover-box-shadow: var(--primary7);
+    --button-primary-border-color: var(--primary300);
+    --button-primary-background: var(--primary400);
+    --button-primary-box-shadow: var(--primary050);
+    --button-primary-color: var(--primary950);
+    --button-primary-hover-border-color: var(--primary100);
+    --button-primary-hover-background: var(--primary400);
+    --button-primary-hover-box-shadow: var(--primary300);
     --button-primary-focus-border-color: var(--input-focus-color);
 
     /* MARK: warn button */
-    --button-warn-border-color: var(--alert7);
-    --button-warn-background: var(--alert8);
-    --button-warn-box-shadow: var(--alertA);
-    --button-warn-color: var(--alert0);
-    --button-warn-hover-border-color: var(--alert9);
-    --button-warn-hover-background: var(--alert6);
-    --button-warn-hover-box-shadow: var(--alert7);
-    --button-warn-focus-border-color: var(--alert5);
+    --button-warn-border-color: var(--alert300);
+    --button-warn-background: var(--alert200);
+    --button-warn-box-shadow: var(--alert050);
+    --button-warn-color: var(--alert950);
+    --button-warn-hover-border-color: var(--alert100);
+    --button-warn-hover-background: var(--alert400);
+    --button-warn-hover-box-shadow: var(--alert300);
+    --button-warn-focus-border-color: var(--alert500);
 
     /* MARK: link */
-    --link-color: var(--primary3);
-    --link-hover-color: var(--primary0);
+    --link-color: var(--primary700);
+    --link-hover-color: var(--primary950);
     --link-focus-border-color: var(--input-focus-color);
 
     /* MARK: dialog */
-    --dialog-backdrop-background: color-mix(in hsl, var(--primaryA) 60%, transparent);
-    --dialog-backdrop-background-no-filter: color-mix(in hsl, var(--primaryA) 70%, transparent);
-    --dialog-background: var(--neutral8);
-    --dialog-shadow-color: color-mix(in hsl, var(--neutralA) 30%, transparent);
-    --dialog-close-shadow-color: var(--neutral5);
-    --dialog-close-background: var(--neutral7);
-    --dialog-close-background-hover: var(--neutral5);
+    --dialog-backdrop-background: color-mix(in hsl, var(--primary050) 60%, transparent);
+    --dialog-backdrop-background-no-filter: color-mix(in hsl, var(--primary050) 70%, transparent);
+    --dialog-background: var(--neutral200);
+    --dialog-shadow-color: color-mix(in hsl, var(--neutral050) 30%, transparent);
+    --dialog-close-shadow-color: var(--neutral500);
+    --dialog-close-background: var(--neutral300);
+    --dialog-close-background-hover: var(--neutral500);
 
     /* MARK: input */
-    --input-border-color: var(--primary4);
-    --input-background: var(--primary8);
-    --input-background-affix: var(--primary7);
+    --input-border-color: var(--primary600);
+    --input-background: var(--primary200);
+    --input-background-affix: var(--primary300);
     --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
-    --input-item-color: var(--primary6);
-    --input-item-active-color: var(--primary3);
+    --input-item-color: var(--primary400);
+    --input-item-active-color: var(--primary700);
     --input-focus-border-color: var(--input-focus-color);
-    --input-color-shadow: var(--neutralA);
-    --input-checked-color: var(--primary5);
+    --input-color-shadow: var(--neutral050);
+    --input-checked-color: var(--primary500);
     --input-textarea-min-height: 33px;
     --input-textarea-max-height: 500px;
     --input-textarea-limit-size: 16px;
-    --input-textarea-limit-background: var(--neutral6);
-    --input-textarea-limit-color: var(--primary4);
-    --input-textarea-limit-border: 1px solid var(--neutral6);
-    --input-error-color: var(--alert3);
+    --input-textarea-limit-background: var(--neutral400);
+    --input-textarea-limit-color: var(--primary600);
+    --input-textarea-limit-border: 1px solid var(--neutral400);
+    --input-error-color: var(--alert700);
     --input-line-height: 21px;
     --input-mark-top: -2px;
-    --input-placeholder-color: var(--primary4);
+    --input-placeholder-color: var(--primary600);
 
     /* MARK: item content-box */
-    --content-title-text-color: var(--neutral);
-    --content-box-border: var(--neutral7);
-    --content-box-background: var(--neutral8);
-    --content-box-color: var(--neutral9);
+    --content-title-text-color: var(--neutral990);
+    --content-box-border: var(--neutral300);
+    --content-box-background: var(--neutral200);
+    --content-box-color: var(--neutral100);
     --content-box-text-background: #000000bf;
     --content-box-over-text: #fff;
-    --tile-add-file-background: var(--neutral8);
-    --tile-add-file-color: var(--neutral3);
+    --tile-add-file-background: var(--neutral200);
+    --tile-add-file-color: var(--neutral700);
     --tile-info-text-color: #fff;
     --tile-info-border-color: #fff;
     --tile-info-border-color2: #000;
     --tile-info-background: #fff5;
 
     /* MARK: tabs */
-    --tabs-line-color: var(--neutral6);
-    --tab-border-color: var(--neutral6);
-    --tab-text-color: var(--neutral4);
-    --tab-select-border-color: var(--neutral4);
-    --tab-text-border-color: var(--neutral0);
-    --tab-hover-border-color: var(--neutral0);
+    --tabs-line-color: var(--neutral400);
+    --tab-border-color: var(--neutral400);
+    --tab-text-color: var(--neutral600);
+    --tab-select-border-color: var(--neutral600);
+    --tab-text-border-color: var(--neutral950);
+    --tab-hover-border-color: var(--neutral950);
 
     /* MARK: scrollbar */
-    --scrollbar-color: var(--primary6);
-    --scrollbar-color-hover: var(--primary4);
+    --scrollbar-color: var(--primary400);
+    --scrollbar-color-hover: var(--primary600);
     --scrollbar-width: thin;
 
     /* MARK: message */
     --info-message-top: 50px;
     --info-message-max-width: 300px;
-    --info-message-border-color: var(--neutral1);
-    --info-message-background: var(--neutral5);
-    --info-message-box-shadow-color: var(--neutralB);
-    --info-message-progress-background: var(--neutral1);
-    --error-message-border-color: var(--alert3);
-    --error-message-background: var(--alert7);
-    --error-message-box-shadow-color: var(--neutralB);
-    --error-message-progress-background: var(--alert5);
-    --warn-message-border-color: var(--warn3);
-    --warn-message-background: var(--warn7);
-    --warn-message-box-shadow-color: var(--neutralB);
-    --warn-message-progress-background: var(--warn5);
-    --success-message-border-color: var(--success3);
-    --success-message-background: var(--success7);
-    --success-message-box-shadow-color: var(--neutralB);
-    --success-message-progress-background: var(--success5);
-    --tip-message-border-color: var(--primary3);
-    --tip-message-background: var(--primary7);
-    --tip-message-box-shadow-color: var(--neutralB);
-    --tip-message-progress-background: var(--primary5);
+    --info-message-border-color: var(--neutral900);
+    --info-message-background: var(--neutral500);
+    --info-message-box-shadow-color: var(--neutral000);
+    --info-message-progress-background: var(--neutral900);
+    --error-message-border-color: var(--alert700);
+    --error-message-background: var(--alert300);
+    --error-message-box-shadow-color: var(--neutral000);
+    --error-message-progress-background: var(--alert500);
+    --warn-message-border-color: var(--warn700);
+    --warn-message-background: var(--warn300);
+    --warn-message-box-shadow-color: var(--neutral000);
+    --warn-message-progress-background: var(--warn500);
+    --success-message-border-color: var(--success700);
+    --success-message-background: var(--success300);
+    --success-message-box-shadow-color: var(--neutral000);
+    --success-message-progress-background: var(--success500);
+    --tip-message-border-color: var(--primary700);
+    --tip-message-background: var(--primary300);
+    --tip-message-box-shadow-color: var(--neutral000);
+    --tip-message-progress-background: var(--primary500);
 
     /* MARK: grid */
     --grid-cell-padding: 6px;
 
     /* MARK: block */
     --block-radius: 3px;
-    --block-border: 1px solid var(--primary5);
-    --block-shadow: 0 0 24px 2px var(--primary8);
+    --block-border: 1px solid var(--primary500);
+    --block-shadow: 0 0 24px 2px var(--primary200);
     --block-margin: 12px;
 
     /* MARK: block */
     --message-radius: 3px;
-    --message-color: var(--primary0);
-    --message-border-color: var(--primary5);
+    --message-color: var(--primary950);
+    --message-border-color: var(--primary500);
     --message-border-width: 1px;
     --message-border-style: solid;
-    --message-shadow: 0 0 24px 2px var(--primary8);
+    --message-shadow: 0 0 24px 2px var(--primary200);
     --message-margin: 12px;
     --message-gap: 12px;
     --message-marquee-size: 20px;
-    --message-background: var(--primaryA);
-    --info-message-color: var(--neutral8);
-    --info-message-border-color: var(--neutral3);
-    --info-message-background: var(--neutral5);
-    --success-message-color: var(--success2);
-    --success-message-border-color: var(--success5);
-    --success-message-background: var(--success7);
-    --warn-message-color: var(--warn2);
-    --warn-message-border-color: var(--warn5);
-    --warn-message-background: var(--warn7);
-    --error-message-color: var(--alert2);
-    --error-message-border-color: var(--alert5);
-    --error-message-error-background: var(--alert7);
-    --tip-message-color: var(---primary2);
-    --tip-message-border-color: var(--primary5);
-    --tip-message-background: var(--primary7);
+    --message-background: var(--primary050);
+    --info-message-color: var(--neutral200);
+    --info-message-border-color: var(--neutral700);
+    --info-message-background: var(--neutral500);
+    --success-message-color: var(--success800);
+    --success-message-border-color: var(--success500);
+    --success-message-background: var(--success300);
+    --warn-message-color: var(--warn800);
+    --warn-message-border-color: var(--warn500);
+    --warn-message-background: var(--warn300);
+    --error-message-color: var(--alert800);
+    --error-message-border-color: var(--alert500);
+    --error-message-error-background: var(--alert300);
+    --tip-message-color: var(---primary800);
+    --tip-message-border-color: var(--primary500);
+    --tip-message-background: var(--primary300);
 
     /* MARK: table */
-    --table-header-background: var(--neutral9);
-    --table-header-background-hover: var(--neutral8);
-    --table-header-sortable-cell: var(--neutral7);
-    --table-line-hover-background: var(--neutral7);
-    --table-selected-text: var(--alert2);
+    --table-header-background: var(--neutral100);
+    --table-header-background-hover: var(--neutral200);
+    --table-header-sortable-cell: var(--neutral300);
+    --table-line-hover-background: var(--neutral300);
+    --table-selected-text: var(--alert800);
 
     /* MARK: tooltip */
-    --tooltip-text-color: var(--neutral0);
-    --tooltip-background: color-mix(in hsl, var(--primary8) 93%, transparent);
-    --tooltip-shadow-color: var(--neutralB);
-    --tooltip-border-color: var(--primary8);
+    --tooltip-text-color: var(--neutral950);
+    --tooltip-background: color-mix(in hsl, var(--primary200) 93%, transparent);
+    --tooltip-shadow-color: var(--neutral000);
+    --tooltip-border-color: var(--primary200);
     --tooltip-cursor: help;
 
     /* MARK: page */
-    --page-item-text-color: var(--neutral1);
-    --page-item-border-color: var(--neutral5);
-    --page-item-current-test-color: var(--primary3);
-    --page-item-current-background: var(--primary8);
-    --page-item-hover-background: var(--neutral7);
+    --page-item-text-color: var(--neutral900);
+    --page-item-border-color: var(--neutral500);
+    --page-item-current-test-color: var(--primary700);
+    --page-item-current-background: var(--primary200);
+    --page-item-hover-background: var(--neutral300);
 
     /* MARK: walkthrough */
     --walkthrough-backdrop: rgba(0, 0, 0, 0.7);
@@ -305,32 +313,32 @@ body {
     --click-enter-hover-background: none;
     --click-enter-hover-cursor: pointer;
     --click-enter-hover-filter: brightness(0.8);
-    --click-enter-block-hover-background: var(--neutral8);
+    --click-enter-block-hover-background: var(--neutral200);
 
     /* MARK: spinner */
-    --spinner-color: var(--neutral0);
+    --spinner-color: var(--neutral950);
 
     /* MARK: loader */
-    --loader-background: color-mix(in hsl, var(--neutralA) 23%, transparent);
-    --loader-text-color: var(--neutral0);
-    --loader-text-shadow-color: var(--neutralB);
+    --loader-background: color-mix(in hsl, var(--neutral050) 23%, transparent);
+    --loader-text-color: var(--neutral950);
+    --loader-text-shadow-color: var(--neutral000);
     --loader-progress-background: #0b0b0b80;
     --loader-progress-bar-background: #fff;
 
     /* MARK: loader-tile */
-    --loading-item-color: var(--primary8);
+    --loading-item-color: var(--primary200);
 
     /* MARK: contrib-calendar */
     --contrib-calendar-day-font-size: 12px;
-    --contrib-calendar-day-background: var(--neutralA);
+    --contrib-calendar-day-background: var(--neutral050);
     --contrib-calendar-month-font-size: 12px;
     --contrib-calendar-tile-size: 15px;
-    --contrib-calendar-tile-color-even: var(--neutral9);
-    --contrib-calendar-tile-color-odd: var(--neutral8);
-    --contrib-calendar-tile-color-lvl1: var(--success7);
-    --contrib-calendar-tile-color-lvl2: var(--success6);
-    --contrib-calendar-tile-color-lvl3: var(--success5);
-    --contrib-calendar-tile-color-lvl4: var(--success4);
+    --contrib-calendar-tile-color-even: var(--neutral100);
+    --contrib-calendar-tile-color-odd: var(--neutral200);
+    --contrib-calendar-tile-color-lvl1: var(--success300);
+    --contrib-calendar-tile-color-lvl2: var(--success400);
+    --contrib-calendar-tile-color-lvl3: var(--success500);
+    --contrib-calendar-tile-color-lvl4: var(--success600);
 
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
@@ -345,18 +353,18 @@ body {
     --select2-dropdown-border-color: var(--input-border-color);
     --select2-option-text-color: var(--text-color);
     --select2-option-selected-text-color: var(--text-color);
-    --select2-option-selected-background: var(--primary5);
+    --select2-option-selected-background: var(--primary500);
     --select2-option-highlighted-text-color: var(--text-color);
-    --select2-option-highlighted-background: var(--primary6);
+    --select2-option-highlighted-background: var(--primary400);
     --select2-search-border-color: var(--input-border-color);
     --select2-search-background: var(--text-color);
     --select2-selection-line-height: 31px;
     --select2-selection-readonly-background: var(--input-background);
 
     --select2-selection-choice-line-height: 25px;
-    --select2-selection-choice-background: var(--primary7);
-    --select2-selection-choice-border-color: var(--primary5);
+    --select2-selection-choice-background: var(--primary300);
+    --select2-selection-choice-border-color: var(--primary500);
     --select2-selection-choice-text-color: var(--text-color);
-    --select2-selection-choice-close-color: var(--primary2);
-    --select2-selection-choice-hover-close-color: var(--primary0);
+    --select2-selection-choice-close-color: var(--primary800);
+    --select2-selection-choice-hover-close-color: var(--primary950);
 }

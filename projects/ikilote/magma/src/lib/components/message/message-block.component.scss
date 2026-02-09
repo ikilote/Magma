@@ -16,7 +16,7 @@
         background-image: linear-gradient(
             var(--rotate),
             transparent 50%,
-            color-mix(in srgb, transparent, var(--neutralB) 5%) 70%,
+            color-mix(in srgb, transparent, var(--neutral000) 5%) 70%,
             var(--message-border-color) 70%
         );
         width: var(--message-marquee-size);

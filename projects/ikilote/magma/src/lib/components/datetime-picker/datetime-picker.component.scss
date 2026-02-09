@@ -18,7 +18,7 @@
     &.embedded {
         transition-duration: 0s;
         box-shadow: 2px 2px 5px;
-        background-color: var(--neutralA);
+        background-color: var(--neutral050);
         padding: 10px;
     }
 }
@@ -72,7 +72,7 @@
         justify-content: center;
         align-items: center;
         border: 1px solid transparent;
-        background-color: var(--neutral9);
+        background-color: var(--neutral100);
         height: 30px;
     }
 
@@ -82,16 +82,16 @@
     }
 
     .day {
-        color: var(--neutral7);
+        color: var(--neutral300);
 
         &.current-month {
-            background-color: var(--neutral8);
-            color: var(--neutral2);
+            background-color: var(--neutral200);
+            color: var(--neutral800);
         }
 
         &.today {
-            background-color: var(--neutral7);
-            color: var(--primary3);
+            background-color: var(--neutral300);
+            color: var(--primary700);
             font-weight: bold;
         }
 
@@ -99,18 +99,18 @@
             font-weight: bold;
 
             &.current-month {
-                color: var(--primary4);
+                color: var(--primary600);
             }
         }
 
         &.selected {
-            background-color: var(--primary5);
-            color: var(--neutralB);
+            background-color: var(--primary500);
+            color: var(--neutral000);
         }
 
         &[role]:hover {
-            background-color: var(--primary6);
-            color: var(--neutral0);
+            background-color: var(--primary400);
+            color: var(--neutral950);
         }
 
         &.disabled {

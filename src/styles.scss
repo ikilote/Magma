@@ -17,7 +17,7 @@ app-root {
 
 code:not(:has(> pre)) {
     border-radius: 3px;
-    background-color: var(--neutral8);
+    background-color: var(--neutral200);
     padding: 2px;
     font-family: 'Courier New', Courier, monospace;
 
@@ -35,7 +35,7 @@ code > pre {
 .new:dir(rtl)::before {
     margin-inline-start: 5px;
     content: 'new';
-    color: var(--success5);
+    color: var(--success500);
     font-variant-position: super;
 }
 
@@ -43,6 +43,6 @@ code > pre {
 .update:dir(rtl)::before {
     margin-inline-start: 5px;
     content: 'update';
-    color: var(--warn5);
+    color: var(--warn500);
     font-variant-position: super;
 }

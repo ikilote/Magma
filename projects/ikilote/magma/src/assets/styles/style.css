@@ -170,7 +170,7 @@ input::file-selector-button:focus {
 }
 
 input:not(:focus-visible):invalid {
-    text-decoration: underline wavy var(--alert5);
+    text-decoration: underline wavy var(--alert500);
 }
 
 input::placeholder {
@@ -217,7 +217,7 @@ textarea {
 }
 
 input:where([type='range'], [type='checkbox'], [type='radio']) {
-    accent-color: var(--primary5);
+    accent-color: var(--primary500);
 }
 
 .select2-container-dropdown {

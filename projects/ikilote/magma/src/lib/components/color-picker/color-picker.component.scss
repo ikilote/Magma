@@ -14,7 +14,7 @@
     &.embedded {
         transition-duration: 0s;
         box-shadow: 2px 2px 5px;
-        background-color: var(--neutralA);
+        background-color: var(--neutral050);
         padding: 10px;
     }
 
@@ -59,7 +59,7 @@
 .color-view {
     position: relative;
     grid-area: color-view;
-    border: 1px solid var(--neutral);
+    border: 1px solid var(--neutral990);
     background: conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left /
         15px 15px repeat;
     width: 150px;
@@ -88,7 +88,7 @@
     position: relative;
     cursor: crosshair;
     margin: calc((var(--cursor-size) - 2px) / -2);
-    outline: 1px solid var(--neutral);
+    outline: 1px solid var(--neutral990);
     outline-offset: -3px;
     width: calc(100% + var(--cursor-size) - 2px);
     height: calc(100% + var(--cursor-size) - 2px);
@@ -151,7 +151,7 @@ input[type='range'] {
 
     input[type='range']::-webkit-slider-runnable-track {
         appearance: none;
-        border: 1px solid var(--neutral);
+        border: 1px solid var(--neutral990);
         border-radius: 0;
         background-color: transparent;
         width: 20px;
@@ -173,7 +173,7 @@ input[type='range'] {
     input[type='range']::-webkit-slider-thumb {
         appearance: none;
         margin-inline-start: -6px;
-        border: 1px solid var(--neutral);
+        border: 1px solid var(--neutral990);
         border-radius: 0;
         width: 30px;
         height: 5px;
@@ -203,7 +203,7 @@ input[type='range'] {
 /* Firefox */
 @supports selector(::-moz-range-track) {
     input[type='range']::-moz-range-track {
-        border: 1px solid var(--neutral);
+        border: 1px solid var(--neutral990);
         border-radius: 0;
         width: 20px;
         height: 100%;
@@ -219,7 +219,7 @@ input[type='range'] {
 
     input[type='range']::-moz-range-thumb {
         appearance: none;
-        border: 1px solid var(--neutral);
+        border: 1px solid var(--neutral990);
         border-radius: 0;
         width: 30px;
         height: 5px;
@@ -246,13 +246,13 @@ input[type='range'] {
         all: revert;
         cursor: pointer;
         margin: 0;
-        border: 1px solid var(--neutral);
+        border: 1px solid var(--neutral990);
         background-color: var(--color);
         padding: 0;
         height: 30px;
 
         &:hover {
-            border: 1px solid var(--neutral5);
+            border: 1px solid var(--neutral500);
         }
 
         &.selected {

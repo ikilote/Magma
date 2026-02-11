@@ -101,6 +101,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Grid
     - Responsive
 - Palette
+- LTR & RTL
 
 # Demo
 
@@ -164,10 +165,16 @@ Required for start test
 export CHROME_BIN=chromium
 ```
 
-test for lib
+Test for lib
 
 ```sh
 npm run test:lib
+```
+
+Update coverage badges:
+
+```sh
+npm run update-coverage-badges
 ```
 
 ## Coverage

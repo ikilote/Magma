@@ -1,7 +1,4 @@
 :host {
-    --thumb-height: 18px;
-    --thumb-width: 18px;
-
     .tab-hsl {
         display: grid;
         grid-template:
@@ -14,7 +11,7 @@
     &.embedded {
         transition-duration: 0s;
         box-shadow: 2px 2px 5px;
-        background-color: var(--neutral050);
+        background-color: var(--color-picker-embedded-background);
         padding: 10px;
     }
 
@@ -59,14 +56,14 @@
 .color-view {
     position: relative;
     grid-area: color-view;
-    border: 1px solid var(--neutral990);
+    border: var(--color-picker-color-view-border);
     background: conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left /
         15px 15px repeat;
     width: 150px;
 
     &::before {
         display: block;
-        background: var(--background);
+        background: var(--color-picker-color-view-background);
         height: 100%;
         content: '';
     }
@@ -88,8 +85,8 @@
     position: relative;
     cursor: crosshair;
     margin: calc((var(--cursor-size) - 2px) / -2);
-    outline: 1px solid var(--neutral990);
-    outline-offset: -3px;
+    outline: var(--color-picker-color-cursor-zone-outline);
+    outline-offset: var(--color-picker-color-cursor-zone-offset);
     width: calc(100% + var(--cursor-size) - 2px);
     height: calc(100% + var(--cursor-size) - 2px);
 }
@@ -151,7 +148,7 @@ input[type='range'] {
 
     input[type='range']::-webkit-slider-runnable-track {
         appearance: none;
-        border: 1px solid var(--neutral990);
+        border: var(--color-picker-color-range-track-border);
         border-radius: 0;
         background-color: transparent;
         width: 20px;
@@ -173,7 +170,7 @@ input[type='range'] {
     input[type='range']::-webkit-slider-thumb {
         appearance: none;
         margin-inline-start: -6px;
-        border: 1px solid var(--neutral990);
+        border: var(--color-picker-color-range-thumb-border);
         border-radius: 0;
         width: 30px;
         height: 5px;
@@ -203,7 +200,7 @@ input[type='range'] {
 /* Firefox */
 @supports selector(::-moz-range-track) {
     input[type='range']::-moz-range-track {
-        border: 1px solid var(--neutral990);
+        border: var(--color-picker-color-range-track-border);
         border-radius: 0;
         width: 20px;
         height: 100%;
@@ -219,7 +216,7 @@ input[type='range'] {
 
     input[type='range']::-moz-range-thumb {
         appearance: none;
-        border: 1px solid var(--neutral990);
+        border: var(--color-picker-color-range-thumb-border);
         border-radius: 0;
         width: 30px;
         height: 5px;
@@ -238,7 +235,7 @@ input[type='range'] {
 
 .palette {
     display: grid;
-    grid-template-columns: repeat(9, 1fr);
+    grid-template-columns: repeat(var(--color-picker-color-palette-item-by-line), 1fr);
     gap: 1px;
     margin-bottom: 10px;
 
@@ -246,19 +243,19 @@ input[type='range'] {
         all: revert;
         cursor: pointer;
         margin: 0;
-        border: 1px solid var(--neutral990);
-        background-color: var(--color);
+        border: var(--color-picker-color-palette-item-border);
+        background: var(--color);
         padding: 0;
-        height: 30px;
+        height: var(--color-picker-color-palette-item-height);
 
         &:hover {
-            border: 1px solid var(--neutral500);
+            border: var(--color-picker-color-palette-item-border-hover);
         }
 
         &.selected {
             z-index: 1;
-            outline: 3px solid #040404;
-            outline-offset: -1px;
+            outline: var(--color-picker-color-palette-item-outline-selected);
+            outline-offset: var(--color-picker-color-palette-item-outline-offset);
         }
     }
 }

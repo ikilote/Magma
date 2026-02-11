@@ -18,7 +18,7 @@
     &.embedded {
         transition-duration: 0s;
         box-shadow: 2px 2px 5px;
-        background-color: var(--neutral050);
+        background: var(--datetime-picker-embedded-background);
         padding: 10px;
     }
 }
@@ -72,26 +72,27 @@
         justify-content: center;
         align-items: center;
         border: 1px solid transparent;
-        background-color: var(--neutral100);
         height: 30px;
     }
 
     .head {
+        background: var(--datetime-picker-head-background);
         pointer-events: none;
         font-weight: bold;
     }
 
     .day {
-        color: var(--neutral300);
+        background: var(--datetime-picker-day-background);
+        color: var(--datetime-picker-day-color);
 
         &.current-month {
-            background-color: var(--neutral200);
-            color: var(--neutral800);
+            background: var(--datetime-picker-day-current-month-background);
+            color: var(--datetime-picker-day-current-month-color);
         }
 
         &.today {
-            background-color: var(--neutral300);
-            color: var(--primary700);
+            background: var(--datetime-picker-day-today-background);
+            color: var(-datetime-picker-day-today-text);
             font-weight: bold;
         }
 
@@ -99,22 +100,22 @@
             font-weight: bold;
 
             &.current-month {
-                color: var(--primary600);
+                color: var(--datetime-picker-day-weekend-current-month-text);
             }
         }
 
         &.selected {
-            background-color: var(--primary500);
-            color: var(--neutral000);
+            background: var(--datetime-picker-day-selected-background);
+            color: var(--datetime-picker-day-selected-color);
         }
 
         &[role]:hover {
-            background-color: var(--primary400);
-            color: var(--neutral950);
+            background: var(--datetime-picker-day-selectable-background);
+            color: var(--datetime-picker-day-selectable-color);
         }
 
         &.disabled {
-            background-color: transparent;
+            background: var(--datetime-picker-day-disabled-background);
         }
     }
 

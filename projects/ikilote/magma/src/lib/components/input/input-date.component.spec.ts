@@ -532,6 +532,33 @@ describe('MagmaInputDate', () => {
                 }));
             });
         });
+
+        [
+            { type: 'year', value: 0, updated: 0, filed: 'typeYear', out: '' },
+            { type: 'month', value: 0, updated: 0, filed: 'typeMonth', out: '' },
+            { type: 'day', value: 0, updated: 0, filed: 'typeDay', out: '' },
+            { type: 'hours', value: 0, updated: 0, filed: 'typeHours', out: '9999-12-31T00:59:59.999' },
+            { type: 'minutes', value: 0, updated: 0, filed: 'typeMinutes', out: '9999-12-31T23:00:59.999' },
+            { type: 'seconds', value: 0, updated: 0, filed: 'typeSeconds', out: '9999-12-31T23:59:00.999' },
+            { type: 'milli', value: 0, updated: 0, filed: 'typeMilli', out: '9999-12-31T23:59:59.000' },
+        ].forEach(e => {
+            it(`should clamp Input (${e.type}) value is empty with type datetime-milli`, fakeAsync(() => {
+                updateInputs('datetime-milli');
+
+                // @ts-ignore
+                const i = input[e.filed] as HTMLInputElement;
+
+                i.valueAsNumber = e.value;
+
+                component.updateDate({ target: i } as any, e.type as any);
+
+                tick();
+                expect(i.valueAsNumber).toBe(e.updated);
+
+                // @ts-ignore
+                expect(component._value).toBe(e.out);
+            }));
+        });
     });
 
     describe('placeholderCompute()', () => {

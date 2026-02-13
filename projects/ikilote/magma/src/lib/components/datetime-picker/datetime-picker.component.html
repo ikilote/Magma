@@ -32,6 +32,7 @@
         {{ day }}
       </div>
     }
+    @let dateTmpl = date();
     @for (mouth of computedDaysOfMonth(); track $index) {
       @for (day of mouth; track $index; let i = $index) {
         @if (!hideWeekNumber() && day.weekNumber && day.weekNumber !== mouth[i - 1]?.weekNumber) {
@@ -45,7 +46,9 @@
           class="day"
           [class.today]="day.isToday"
           [class.current-month]="day.isCurrentMonth"
-          [class.selected]="day.day === date().getUTCDate() && day.month - 1 === date().getUTCMonth() && selected()"
+          [class.selected]="
+            dateTmpl && day.day === dateTmpl.getUTCDate() && day.month - 1 === dateTmpl.getUTCMonth() && selected()
+          "
           [class.disabled]="day.disabled"
           [class.weekend]="day.weekend"
           (clickEnter)="select(day)"

@@ -477,7 +477,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             // @ts-ignore - Accessing protected method
             const result = component.getDate();
-            expect(result.getTime()).toBe(new Date(midDate).getTime());
+            expect(result?.getTime()).toBe(new Date(midDate).getTime());
         });
 
         it('should clamp to minDate if the current value is too early', () => {
@@ -490,7 +490,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             // @ts-ignore
             const result = component.getDate();
-            expect(result.getTime()).toBe(minLimit.getTime());
+            expect(result?.getTime()).toBe(minLimit.getTime());
         });
 
         it('should clamp to maxDate if the current value is too late', () => {
@@ -503,7 +503,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             // @ts-ignore
             const result = component.getDate();
-            expect(result.getTime()).toBe(maxLimit.getTime());
+            expect(result?.getTime()).toBe(maxLimit.getTime());
         });
 
         it('should return the raw date signal if no min/max boundaries are provided', () => {
@@ -516,7 +516,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             // @ts-ignore
             const result = component.getDate();
-            expect(result.getTime()).toBe(new Date(targetDate).getTime());
+            expect(result?.getTime()).toBe(new Date(targetDate).getTime());
         });
     });
 
@@ -534,11 +534,11 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should return the current date (mocked) if value is undefined or null', () => {
             // @ts-ignore
             const result = component.getDateValue(undefined);
-            expect(result.toISOString()).toBe('2026-01-01T00:00:00.000Z');
+            expect(result?.toISOString()).toBe(undefined);
 
             // @ts-ignore
             const resultNull = component.getDateValue(null);
-            expect(resultNull.toISOString()).toBe('2026-01-01T00:00:00.000Z');
+            expect(resultNull?.toISOString()).toBe(undefined);
         });
 
         it('should return the exact same Date object if an instance of Date is passed', () => {
@@ -548,14 +548,14 @@ describe('MagmaDatetimePickerComponent', () => {
             const result = component.getDateValue(inputDate);
 
             expect(result).toBe(inputDate); // Checks reference equality
-            expect(result.getUTCDate()).toBe(20);
+            expect(result?.getUTCDate()).toBe(20);
         });
 
         it('should handle the literal string "number" as per current logic', () => {
             // @ts-ignore - This tests the (value === 'number') branch in your code
             const result = component.getDateValue('number');
             // new Date('number') results in an Invalid Date
-            expect(result.toString()).toBe('Invalid Date');
+            expect(result?.toString()).toBe('Invalid Date');
         });
 
         it('should parse a complete ISO string into a UTC Date object', () => {
@@ -600,7 +600,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             // getValueDateSubstring will try to '+' an empty substring or NaN string
             // The resulting Date might be 'Invalid Date' or year 0, but it must be a Date instance
-            expect(result).toEqual(new Date());
+            expect(result).toEqual(undefined);
         });
 
         it('should correctly parse milliseconds at the end of the string', () => {

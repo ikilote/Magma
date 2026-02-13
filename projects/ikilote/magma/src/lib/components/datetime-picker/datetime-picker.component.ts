@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  OnChanges,
-  SimpleChanges,
-  booleanAttribute,
-  computed,
-  inject,
-  input,
-  output,
-  signal,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    OnChanges,
+    SimpleChanges,
+    booleanAttribute,
+    computed,
+    inject,
+    input,
+    output,
+    signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -91,15 +91,15 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     // internal signals
 
     protected readonly dateValue = signal<Date | null>(null);
-    protected readonly date = computed<Date>(() => this.getDateValue(this.dateValue() ?? this.value()));
+    protected readonly date = computed<Date | undefined>(() => this.getDateValue(this.dateValue() ?? this.value()));
     protected readonly selected = signal<boolean>(false);
-    protected readonly year = computed<number>(() => this.getDate().getUTCFullYear());
-    protected readonly month = computed<number>(() => this.getDate().getUTCMonth() + 1);
+    protected readonly year = computed<number | undefined>(() => (this.getDate() ?? new Date()).getUTCFullYear());
+    protected readonly month = computed<number | undefined>(() => (this.getDate() ?? new Date()).getUTCMonth() + 1);
     // note: day is not necessary
-    protected readonly hours = computed<number>(() => this.getDate().getUTCHours());
-    protected readonly minutes = computed<number>(() => this.getDate().getUTCMinutes());
-    protected readonly seconds = computed<number>(() => this.getDate().getUTCSeconds());
-    protected readonly milli = computed<number>(() => this.getDate().getUTCMilliseconds());
+    protected readonly hours = computed<number | undefined>(() => this.getDate()?.getUTCHours());
+    protected readonly minutes = computed<number | undefined>(() => this.getDate()?.getUTCMinutes());
+    protected readonly seconds = computed<number | undefined>(() => this.getDate()?.getUTCSeconds());
+    protected readonly milli = computed<number | undefined>(() => this.getDate()?.getUTCMilliseconds());
     protected readonly past = signal(10);
     protected readonly future = signal(10);
 
@@ -110,7 +110,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         const min = this.minDate()?.getUTCFullYear();
         const max = this.maxDate()?.getUTCFullYear();
 
-        let year = new Date(this.date()).getUTCFullYear() - this.past();
+        let year = (this.date() ? new Date(this.date()!) : new Date()).getUTCFullYear() - this.past();
         if (min) {
             year = Math.max(min, year);
         }
@@ -128,7 +128,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     });
 
     protected monthsList = computed<Select2Data>(() => {
-        const currentDate = this.date();
+        const currentDate = this.date() ?? new Date();
         const minDate = this.minDate();
         const maxDate = this.maxDate();
 
@@ -155,7 +155,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     });
 
     protected prevMonthHide = computed(() => {
-        const currentDate = this.date();
+        const currentDate = this.date() ?? new Date();
         const minDate = this.minDate();
 
         return (
@@ -167,7 +167,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     });
 
     protected nextMonthHide = computed(() => {
-        const currentDate = this.date();
+        const currentDate = this.date() ?? new Date();
         const maxDate = this.maxDate();
 
         return (
@@ -187,7 +187,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     );
 
     protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
-        const date = this.getDate();
+        const date = this.getDate() ?? new Date();
         const year = date.getUTCFullYear();
         const month = date.getUTCMonth();
 
@@ -260,10 +260,12 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     protected select(date: DateInfo) {
         this.selected.set(true);
 
-        if (this.date().getUTCMonth() + 1 !== date.month) {
+        const valueDate = this.date();
+
+        if (valueDate && valueDate.getUTCMonth() + 1 !== date.month) {
             this.updateMonth(date.month, false);
             this.updateDay(date.day, false);
-            this.updateDate(this.date());
+            this.updateDate(valueDate);
         } else {
             this.updateDay(date.day);
         }
@@ -310,60 +312,78 @@ export class MagmaDatetimePickerComponent implements OnChanges {
 
     protected updateYear(value: number) {
         const date = this.date();
-        date.setUTCFullYear(value);
-        this.updateDate(date);
+        if (date) {
+            date.setUTCFullYear(value);
+            this.updateDate(date);
+        }
     }
 
     protected updateMonth(value: number, update = true) {
         const date = this.date();
-        date.setUTCMonth(value - 1);
-        if (update) {
-            this.updateDate(date);
+        if (date) {
+            date.setUTCMonth(value - 1);
+            if (update) {
+                this.updateDate(date);
+            }
         }
     }
 
     protected updateDay(value: number, update = true) {
         const date = this.date();
-        date.setUTCDate(value);
-        if (update) {
-            this.updateDate(date);
+        if (date) {
+            date.setUTCDate(value);
+            if (update) {
+                this.updateDate(date);
+            }
         }
     }
 
     protected updateHours(value: number) {
         const date = this.date();
-        date.setUTCHours(value);
-        this.updateDate(date);
+        if (date) {
+            date.setUTCHours(value);
+            this.updateDate(date);
+        }
     }
 
     protected updateMinutes(value: number) {
         const date = this.date();
-        date.setUTCMinutes(value);
-        this.updateDate(date);
+        if (date) {
+            date.setUTCMinutes(value);
+            this.updateDate(date);
+        }
     }
 
     protected updateSeconds(value: number) {
         const date = this.date();
-        date.setUTCSeconds(value);
-        this.updateDate(date);
+        if (date) {
+            date.setUTCSeconds(value);
+            this.updateDate(date);
+        }
     }
 
     protected updateMilli(value: number) {
         const date = this.date();
-        date.setUTCMilliseconds(value);
-        this.updateDate(date);
+        if (date) {
+            date.setUTCMilliseconds(value);
+            this.updateDate(date);
+        }
     }
 
     protected left() {
         const date = this.date();
-        date.setUTCMonth(date.getMonth() - 1);
-        this.updateDate(date);
+        if (date) {
+            date.setUTCMonth(date.getMonth() - 1);
+            this.updateDate(date);
+        }
     }
 
     protected right() {
         const date = this.date();
-        date.setUTCMonth(date.getMonth() + 1);
-        this.updateDate(date);
+        if (date) {
+            date.setUTCMonth(date.getMonth() + 1);
+            this.updateDate(date);
+        }
     }
 
     protected updateDate(date: Date) {
@@ -406,13 +426,15 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         const minDate = this.minDate();
         const maxDate = this.maxDate();
 
-        if (minDate && this.date().getTime() < minDate.getTime()) {
+        const date = this.date();
+
+        if (minDate && date && date.getTime() < minDate.getTime()) {
             return minDate;
         }
-        if (maxDate && this.date().getTime() > maxDate.getTime()) {
+        if (maxDate && date && date.getTime() > maxDate.getTime()) {
             return maxDate;
         }
-        return this.date();
+        return date;
     }
 
     private minDate(): Date | null {
@@ -423,7 +445,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         return this.max() ? new Date(this.max()!) : null;
     }
 
-    private getDateValue(value: string | number | Date | undefined): Date {
+    private getDateValue(value: string | number | Date | undefined): Date | undefined {
         if (value) {
             if (value instanceof Date) {
                 return value;
@@ -443,7 +465,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
                 );
             }
         }
-        return new Date();
+        return undefined;
     }
 
     private valueDateSubstring(value: string, start: number, end: number): number {

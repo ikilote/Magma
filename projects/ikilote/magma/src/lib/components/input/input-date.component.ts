@@ -129,6 +129,8 @@ const dateRegex = {
     mdy: /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
 };
 
+const dateFields = ['day', 'month', 'year'];
+
 type fieldName = 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'milli';
 
 @Component({
@@ -339,7 +341,8 @@ export class MagmaInputDate
         const input = event.target as HTMLInputElement;
         const value = input?.valueAsNumber;
         let padStart = 2;
-        if (value) {
+        const dateType = dateFields.includes(type);
+        if ((dateType && value) || (!dateType && input?.value.match(/\d+/))) {
             let next = false;
             switch (type) {
                 case 'day':
@@ -414,23 +417,28 @@ export class MagmaInputDate
             this.valueCache[type] = input.valueAsNumber;
 
             this.updateValueWithCache();
+        } else {
+            this.valueCache[type] = 0;
         }
     }
 
     private updateValueWithCache(change = true) {
-        let valueDate = toISODate(
-            new Date(
-                Date.UTC(
-                    this.valueCache.year,
-                    this.valueCache.month - 1,
-                    this.valueCache.day,
-                    this.valueCache.hours,
-                    this.valueCache.minutes,
-                    this.valueCache.seconds,
-                    this.valueCache.milli,
-                ),
-            ),
-        );
+        let valueDate =
+            this.valueCache.day || this.valueCache.month || this.valueCache.day
+                ? toISODate(
+                      new Date(
+                          Date.UTC(
+                              this.valueCache.year,
+                              this.valueCache.month - 1,
+                              this.valueCache.day,
+                              this.valueCache.hours,
+                              this.valueCache.minutes,
+                              this.valueCache.seconds,
+                              this.valueCache.milli,
+                          ),
+                      ),
+                  )
+                : undefined;
 
         switch (this.type()) {
             case 'datetime-local':

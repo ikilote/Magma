@@ -7,15 +7,15 @@ body.light-mode {
     --L000: 100%;
     --L050: 95%;
     --L100: 90%;
-    --L200: 85%;
-    --L300: 80%;
-    --L400: 70%;
-    --L500: 60%;
-    --L600: 50%;
-    --L700: 40%;
-    --L800: 30%;
-    --L900: 20%;
-    --L950: 10%;
+    --L200: 80%;
+    --L300: 70%;
+    --L400: 55%;
+    --L500: 40%;
+    --L600: 30%;
+    --L700: 20%;
+    --L800: 15%;
+    --L900: 10%;
+    --L950: 5%;
     --L990: 0%;
 
     /* MARK: loader-tile */
@@ -136,6 +136,8 @@ body {
     --ellipsis-item-hover-background: var(--primary400);
 
     /* MARK: default button */
+    --button-disabled-opacity: 0.25;
+
     --button-default-border-color: var(--neutral500);
     --button-default-background: var(--neutral300);
     --button-default-box-shadow: var(--neutral500);

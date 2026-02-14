@@ -57,7 +57,7 @@ button {
     max-width: 100%;
 
     &:disabled {
-        opacity: 0.25;
+        opacity: var(--button-disabled-opacity);
         cursor: default;
 
         --button-default-hover-border-color: var(--button-default-border-color);

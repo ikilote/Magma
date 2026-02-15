@@ -84,8 +84,37 @@
 <mg-dialog #dialogTabs closeBackdrop closeButton>
   <h2>Test in dialog</h2>
   <mg-tabs>
-    <mg-tab-title id="tab1">Test</mg-tab-title>
+    <mg-tab-title id="tab1">Test 1</mg-tab-title>
     <mg-tab-content id="tab1">
+      <div limitFocus>
+        <p>
+          <button class="hide">Test 0</button>
+          <button>Test 1</button>
+          <button limitFocusFirst="1">Test 2</button>
+          <button class="hide">Test 3</button>
+          <button>Test 4</button>
+        </p>
+        <p>
+          <mg-input>
+            <mg-input-label>Test 5</mg-input-label>
+            <mg-input-text />
+          </mg-input>
+        </p>
+        <p>
+          <mg-input>
+            <mg-input-label>Test 6</mg-input-label>
+            <mg-input-textarea />
+          </mg-input>
+          <button tabIndex="-1">Test 7</button>
+          <button class="hidden">Test 8</button>
+          <span class="hide">
+            <button>Test 9</button>
+          </span>
+        </p>
+      </div>
+    </mg-tab-content>
+    <mg-tab-title id="tab2">Test 2</mg-tab-title>
+    <mg-tab-content id="tab2">
       <div limitFocus>
         <p>
           <button class="hide">Test 0</button>

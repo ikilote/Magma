@@ -93,12 +93,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
 
     private keydown(event: KeyboardEvent, listElement: HTMLElement[]) {
         if (event.key === 'Tab') {
-            const list = listElement.filter(
-                e =>
-                    getComputedStyle(e).display !== 'none' &&
-                    getComputedStyle(e).visibility !== 'hidden' &&
-                    e.tabIndex !== -1,
-            );
+            const list = listElement.filter(e => this.filter(e));
             const firstFocusableElement = list[0];
             const lastFocusableElement = list[list.length - 1];
 
@@ -116,7 +111,19 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             } else if (!list.find(e => e === document.activeElement)) {
                 firstFocusableElement.focus();
             }
+            event.stopPropagation();
         }
+    }
+
+    private filter(e: HTMLElement) {
+        return (
+            getComputedStyle(e).display !== 'none' &&
+            getComputedStyle(e).display !== 'contents' &&
+            getComputedStyle(e).contentVisibility !== 'hidden' &&
+            getComputedStyle(e).visibility !== 'hidden' &&
+            e.checkVisibility() &&
+            e.tabIndex !== -1
+        );
     }
 
     private mutations(mutationsList: MutationRecord[], listElement: HTMLElement[], div: HTMLDivElement) {

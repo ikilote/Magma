@@ -278,8 +278,14 @@ describe('MagmaLimitFocusDirective', () => {
             focusableElements = (limitFocusDirective as any).firstLastFocusableElement(containerElement);
 
             // Create mock event
-            mockEvent = { key: 'Tab', shiftKey: false, preventDefault: () => {} } as KeyboardEvent;
+            mockEvent = {
+                key: 'Tab',
+                shiftKey: false,
+                preventDefault: () => {},
+                stopPropagation: () => {},
+            } as KeyboardEvent;
             spyOn(mockEvent, 'preventDefault');
+            spyOn(mockEvent, 'stopPropagation');
 
             // Spy on focus method for all focusable elements
             focusableElements.forEach(el => {
@@ -368,12 +374,7 @@ describe('MagmaLimitFocusDirective', () => {
             fixture.detectChanges();
 
             // Get filtered list
-            const filteredElements = focusableElements.filter(
-                e =>
-                    getComputedStyle(e).display !== 'none' &&
-                    getComputedStyle(e).visibility !== 'hidden' &&
-                    e.tabIndex !== -1,
-            );
+            const filteredElements = focusableElements.filter(limitFocusDirective['filter']);
 
             // Verify only visible, enabled elements remain
             expect(filteredElements.length).toBe(3); // input2 and button2

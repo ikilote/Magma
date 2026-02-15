@@ -1,10 +1,10 @@
 import { Component, viewChild } from '@angular/core';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
-import { MagmaDialog } from '@ikilote/magma';
 
 import {
     MagmaBlock,
+    MagmaDialog,
     MagmaInput,
     MagmaInputElement,
     MagmaInputText,

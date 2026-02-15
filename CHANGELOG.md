@@ -1,5 +1,69 @@
 # Changelog of @ikilote/magma
 
+## 1.4.0 (2026-02-15)
+
+### 🫢 Breaking
+
+Modify the CSS variable numbering:
+
+> ```css
+> /* PRIMARY */
+> --primary0 → --primary050
+> --primary1 → --primary100
+> --primary2 → --primary200
+> ...
+> --primary8 → --primary800
+> --primary9 → --primary900
+> --primaryA → --primary950
+> /* NEUTRAL */
+> --neutral → --neutral000
+> --neutral0 → --neutral050
+> --neutral1 → --neutral100
+> --neutral2 → --neutral200
+> ...
+> --neutral8 → --neutral800
+> --neutral9 → --neutral900
+> --neutralA → --neutral950
+> --neutralB → --neutral990
+> /* ALERT */
+> --alert0 → --alert050
+> --alert1 → --alert100
+> --alert2 → --alert200
+> ...
+> --alert8 → --alert800
+> --alert9 → --alert900
+> --alertA → --alert950
+> /* WARN */
+> --warn0 → --warn050
+> --warn1 → --warn100
+> --warn2 → --warn200
+> ...
+> --warn8 → --warn800
+> --warn9 → --warn900
+> --warnA → --warn950
+> /* SUCCESS */
+> --success0 → --success050
+> --success1 → --success100
+> --success2 → --success200
+> ...
+> --success8 → --success800
+> --success9 → --success900
+> --successA → --success950
+> ```
+
+### 🐞 Fix
+
+- Improve contrast with **light theme**
+- **input**:
+    - fix alignment class
+    - **Input-date**:
+        - improve invalide date
+        - improve focus
+        - fix milli with keyboard
+    - Chromium: fix align (radio/checkbox)
+- **RTL**: fix column mode with **radio/checkbox**
+- **Focus limit** with a multiple contexts
+
 ## 1.3.0 (2026-02-01)
 
 ### 🫢 Breaking

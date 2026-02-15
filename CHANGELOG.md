@@ -8,48 +8,74 @@ Modify the CSS variable numbering:
 
 > ```css
 > /* PRIMARY */
-> --primary0 → --primary050
-> --primary1 → --primary100
-> --primary2 → --primary200
-> ...
-> --primary8 → --primary800
-> --primary9 → --primary900
-> --primaryA → --primary950
+> --primary950 → --primary950
+> --primary900 → --primary900
+> --primary800 → --primary800
+> --primary700 → --primary700
+> --primary600 → --primary600
+> --primary500 → --primary500
+> --primary400 → --primary400
+> --primary300 → --primary300
+> --primary200 → --primary200
+> --primary100 → --primary100
+> --primary050 → --primary050
+> --primary000 → --primary000
+>
 > /* NEUTRAL */
-> --neutral → --neutral000
-> --neutral0 → --neutral050
-> --neutral1 → --neutral100
-> --neutral2 → --neutral200
-> ...
-> --neutral8 → --neutral800
-> --neutral9 → --neutral900
-> --neutralA → --neutral950
-> --neutralB → --neutral990
+> --neutral950 → --neutral950
+> --neutral900 → --neutral900
+> --neutral800 → --neutral800
+> --neutral700 → --neutral700
+> --neutral600 → --neutral600
+> --neutral500 → --neutral500
+> --neutral400 → --neutral400
+> --neutral300 → --neutral300
+> --neutral200 → --neutral200
+> --neutral100 → --neutral100
+> --neutral050 → --neutral050
+> --neutral000 → --neutral000
+>
 > /* ALERT */
-> --alert0 → --alert050
-> --alert1 → --alert100
-> --alert2 → --alert200
-> ...
-> --alert8 → --alert800
-> --alert9 → --alert900
-> --alertA → --alert950
-> /* WARN */
-> --warn0 → --warn050
-> --warn1 → --warn100
-> --warn2 → --warn200
-> ...
-> --warn8 → --warn800
-> --warn9 → --warn900
-> --warnA → --warn950
+> --alert950 → --alert950
+> --alert900 → --alert900
+> --alert800 → --alert800
+> --alert700 → --alert700
+> --alert600 → --alert600
+> --alert500 → --alert500
+> --alert400 → --alert400
+> --alert300 → --alert300
+> --alert200 → --alert200
+> --alert100 → --alert100
+> --alert050 → --alert050
+>
 > /* SUCCESS */
-> --success0 → --success050
-> --success1 → --success100
-> --success2 → --success200
-> ...
-> --success8 → --success800
-> --success9 → --success900
-> --successA → --success950
+> --success950 → --success950
+> --success900 → --success900
+> --success800 → --success800
+> --success700 → --success700
+> --success600 → --success600
+> --success500 → --success500
+> --success400 → --success400
+> --success300 → --success300
+> --success200 → --success200
+> --success100 → --success100
+> --success050 → --success050
+>
+> /*  WARN */
+> --warn950 → --warn950
+> --warn900 → --warn900
+> --warn800 → --warn800
+> --warn700 → --warn700
+> --warn600 → --warn600
+> --warn500 → --warn500
+> --warn400 → --warn400
+> --warn300 → --warn300
+> --warn200 → --warn200
+> --warn100 → --warn100
+> --warn050 → --warn050
 > ```
+
+Migration assistance: [migrate-colors.js](https://git.ikilote.net/-/project/58/uploads/4b9ee6e7fc521066c7dbb7ced1561cab/migrate-colors.js)
 
 ### 🐞 Fix
 
@@ -60,8 +86,9 @@ Modify the CSS variable numbering:
         - improve invalide date
         - improve focus
         - fix milli with keyboard
-    - Chromium: fix align (radio/checkbox)
-- **RTL**: fix column mode with **radio/checkbox**
+    - **radio/checkbox** :
+        - Chromium: fix align (radio/checkbox)
+        - **RTL**: fix column mode
 - **Focus limit** with a multiple contexts
 
 ## 1.3.0 (2026-02-01)

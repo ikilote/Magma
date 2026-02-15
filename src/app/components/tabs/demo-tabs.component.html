@@ -64,3 +64,19 @@
     </div>
   </section>
 }
+
+<h2>Other test</h2>
+
+<mg-block>
+  <button (click)="dialog.open()">Dialog</button>
+</mg-block>
+
+<mg-dialog #dialog closeBackdrop closeButton>
+  <h2>Test in dialog</h2>
+  <mg-tabs>
+    <mg-tab-title id="test1">test1</mg-tab-title>
+    <mg-tab-content id="test1">Content 1</mg-tab-content>
+    <mg-tab-title id="test2">test2</mg-tab-title>
+    <mg-tab-content id="test2">Content 2</mg-tab-content>
+  </mg-tabs>
+</mg-dialog>

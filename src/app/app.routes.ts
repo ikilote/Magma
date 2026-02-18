@@ -141,6 +141,12 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./components/walkthrough/demo-walkthrough.component').then(m => m.DemoWalkthroughComponent),
             },
+            {
+                path: 'window',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/window/demo-window.component').then(m => m.DemoWindowComponent),
+            },
         ],
     },
     {

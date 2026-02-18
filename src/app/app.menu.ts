@@ -25,6 +25,7 @@ export const menu = [
             { routerLink: '/component/table', label: 'Table' },
             { routerLink: '/component/tabs', label: 'Tabs' },
             { routerLink: '/component/walkthrough', label: 'Walkthrough' },
+            { routerLink: '/component/window', label: 'Window' },
         ],
     },
     {

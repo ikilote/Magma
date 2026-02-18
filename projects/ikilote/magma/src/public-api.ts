@@ -52,6 +52,7 @@ export * from './lib/components/tabs/tabs.component';
 export * from './lib/components/tabs/tabs.module';
 export * from './lib/components/walkthrough/walkthrough-step.directive';
 export * from './lib/components/walkthrough/walkthrough.component';
+export * from './lib/components/window/window.component';
 
 // directives
 export * from './lib/directives/click-enter.directive';

@@ -81,6 +81,7 @@ export * from './lib/services/form-builder-extended';
 export * from './lib/services/light-dark';
 export * from './lib/services/logger';
 export * from './lib/services/messages';
+export * from './lib/services/windows';
 
 // utils
 export * from './lib/utils/array';

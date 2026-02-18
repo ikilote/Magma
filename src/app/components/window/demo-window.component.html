@@ -1,5 +1,6 @@
-<h1>Dialog</h1>
+<h1>Window</h1>
 
+<h2>Component</h2>
 @if (ctrlForm) {
   <section>
     <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
@@ -29,7 +30,7 @@
       </p> -->
     </form>
     <div class="s-4 s-4-l s-12-s">
-      <button (click)="window.open()">Open dialog</button>
+      <button (click)="window.open()">Open window</button>
 
       <mg-window #window>
         <p>Content window</p>
@@ -54,3 +55,11 @@
     </div>
   </section>
 }
+
+<h2>Service</h2>
+<section>
+  <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm"></form>
+  <div class="s-4 s-4-l s-12-s">
+    <button (click)="openWindow()">Open window with TestWindowComponent component</button>
+  </div>
+</section>

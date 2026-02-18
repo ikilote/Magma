@@ -4,14 +4,20 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
 import {
+    AbstractWindowComponent,
     FormBuilderExtended,
-    MagmaInput,
-    MagmaInputCheckbox,
-    MagmaInputElement,
-    MagmaInputText,
     MagmaWindow,
+    MagmaWindows,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
+
+@Component({
+    template: `<div></div>
+        <button (click)="close()">Close</button>`,
+    styleUrl: './demo-window.component.scss',
+    imports: [],
+})
+export class TestWindowComponent extends AbstractWindowComponent {}
 
 @Component({
     selector: 'demo-window',
@@ -21,14 +27,15 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         CodeTabsComponent,
         ReactiveFormsModule,
         MagmaWindow,
-        MagmaInput,
-        MagmaInputElement,
-        MagmaInputCheckbox,
-        MagmaInputText,
+        // MagmaInput,
+        // MagmaInputElement,
+        // MagmaInputCheckbox,
+        // MagmaInputText,
     ],
 })
 export class DemoWindowComponent {
     readonly fb = inject(FormBuilderExtended);
+    readonly windows = inject(MagmaWindows);
 
     ctrlForm: FormGroup<{
         closeButton: FormControl<boolean>;
@@ -61,6 +68,10 @@ export class DemoBlockComponent { }`;
         this.ctrlForm.valueChanges.subscribe(() => {
             this.codeGeneration();
         });
+    }
+
+    openWindow() {
+        this.windows.openWindow(TestWindowComponent);
     }
 
     codeGeneration() {

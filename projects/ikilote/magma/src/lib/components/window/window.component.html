@@ -2,6 +2,10 @@
   <div cdkDrag class="content" role="dialog" limitFocus>
     <div>
       <ng-content />
+      @let comp = component();
+      @if (comp) {
+        <ng-container [ngComponentOutlet]="comp.component" [ngComponentOutletInputs]="withContext(comp.inputs)" />
+      }
     </div>
   </div>
 }

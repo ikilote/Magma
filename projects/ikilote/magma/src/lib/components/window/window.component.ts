@@ -1,16 +1,7 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NgComponentOutlet } from '@angular/common';
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    Component,
-    Directive,
-    Type,
-    input,
-    output,
-    signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, Type, input, output, signal } from '@angular/core';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
 import { MagmaWindows } from '../../services/windows';
@@ -28,7 +19,6 @@ export abstract class AbstractWindowComponent {
     context = input.required<MagmaWindows>();
 
     close() {
-        console.log(this);
         this.context()?.removeWindow(this.parent().component()!);
     }
 }
@@ -41,17 +31,13 @@ export abstract class AbstractWindowComponent {
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, MagmaLimitFocusDirective, NgComponentOutlet],
 })
-export class MagmaWindow implements AfterViewInit {
+export class MagmaWindow {
     isOpen = signal(false);
 
     component = input<MagmaWindowInfos>();
     context = input<MagmaWindows>();
 
     readonly onClose = output();
-
-    ngAfterViewInit(): void {
-        console.log('component', this.component);
-    }
 
     open() {
         this.isOpen.set(true);

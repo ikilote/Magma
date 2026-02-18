@@ -881,6 +881,18 @@ pre.mono {
     background-color: var(--walkthrough-backdrop);
 }
 
+/* -------------------- windows -----------------------------------------------------------
+    MARK: Windows
+*/
+
+.cdk-overlay-pane.overlay-window {
+    pointer-events: none;
+
+    mg-window > div {
+        pointer-events: all;
+    }
+}
+
 /* -------------------- fixes ------------------------------------------------------------
     MARK: Fixes
 */

@@ -31,7 +31,6 @@ export class MagmaWindows {
 
     removeWindowById(id: String) {
         const index = this.windows.findIndex(w => w.id === id);
-        console.log(index);
         if (index > -1) {
             this.windows.splice(index, 1)[0]?.overlayRef?.dispose();
         }

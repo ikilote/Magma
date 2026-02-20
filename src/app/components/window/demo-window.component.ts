@@ -3,9 +3,14 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
+import { Select2Data } from 'ng-select2-component';
+
 import {
     AbstractWindowComponent,
     FormBuilderExtended,
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputSelect,
     MagmaWindow,
     MagmaWindows,
 } from '../../../../projects/ikilote/magma/src/public-api';
@@ -23,15 +28,7 @@ export class TestWindowComponent extends AbstractWindowComponent {}
     selector: 'demo-window',
     templateUrl: './demo-window.component.html',
     styleUrl: './demo-window.component.scss',
-    imports: [
-        CodeTabsComponent,
-        ReactiveFormsModule,
-        MagmaWindow,
-        // MagmaInput,
-        // MagmaInputElement,
-        // MagmaInputCheckbox,
-        // MagmaInputText,
-    ],
+    imports: [CodeTabsComponent, ReactiveFormsModule, MagmaWindow, MagmaInput, MagmaInputElement, MagmaInputSelect],
 })
 export class DemoWindowComponent {
     readonly fb = inject(FormBuilderExtended);
@@ -43,6 +40,15 @@ export class DemoWindowComponent {
         title: FormControl<string>;
         label: FormControl<string>;
     }>;
+
+    ctrlFormZone: FormGroup<{
+        position: FormControl<'default' | 'center'>;
+    }>;
+
+    position: Select2Data = [
+        { label: 'default', value: 'default' },
+        { label: 'center', value: 'center' },
+    ];
 
     codeHtml = '';
     codeTs = `import { MagmaWindow } from '@ikilote/magma';
@@ -64,6 +70,9 @@ export class DemoBlockComponent { }`;
             title: { default: '' },
             label: { default: '' },
         });
+        this.ctrlFormZone = this.fb.groupWithError({
+            position: { default: 'default' as 'default' | 'center' },
+        });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
             this.codeGeneration();
@@ -71,7 +80,7 @@ export class DemoBlockComponent { }`;
     }
 
     openWindow() {
-        this.windows.openWindow(TestWindowComponent);
+        this.windows.openWindow(TestWindowComponent, { position: this.ctrlFormZone.value.position });
     }
 
     codeGeneration() {

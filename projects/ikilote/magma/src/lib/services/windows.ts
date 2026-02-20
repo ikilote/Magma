@@ -20,8 +20,17 @@ export class MagmaWindows {
     component?: ComponentRef<MagmaWindowsZone>;
     overlayRef?: OverlayRef;
 
-    openWindow(component: Type<any>, inputs: Record<string, any> = {}, id?: string) {
-        const infos = { component, inputs, id: id || 'window-' + index++, index: 0, open: true };
+    openWindow(
+        component: Type<any>,
+        params?: { inputs?: Record<string, any>; id?: string; position?: 'default' | 'center' },
+    ) {
+        const infos: MagmaWindowInfos = {
+            component,
+            inputs: params?.inputs ?? {},
+            id: params?.id || 'window-' + index++,
+            index: 0,
+            position: params?.position,
+        };
         infos.index = this.windows.push(infos);
 
         if (this.overlayRef === undefined) {

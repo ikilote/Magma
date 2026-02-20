@@ -1,6 +1,6 @@
 @for (window of windows(); track window) {
   <mg-window
-    [isOpen]="window.open"
+    [isOpen]="true"
     [component]="window"
     (mousedown)="select(window)"
     [style.z-index]="window.index"

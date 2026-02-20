@@ -1,7 +1,20 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Directive, Type, input, model, output } from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component,
+    Directive,
+    ElementRef,
+    Type,
+    inject,
+    input,
+    model,
+    output,
+    signal,
+    viewChildren,
+} from '@angular/core';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
 
@@ -11,7 +24,7 @@ export type MagmaWindowInfos = {
     overlayRef?: OverlayRef;
     id: string;
     index: number;
-    open: boolean;
+    position?: 'default' | 'center';
 };
 
 @Directive()
@@ -33,12 +46,26 @@ export abstract class AbstractWindowComponent {
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, MagmaLimitFocusDirective, NgComponentOutlet],
 })
-export class MagmaWindow {
+export class MagmaWindow implements AfterViewInit {
+    private readonly elementRef = inject(ElementRef);
+    private readonly cdkDrag = viewChildren(CdkDrag);
+
     isOpen = model(false);
 
     component = input<MagmaWindowInfos>();
 
+    center = signal(false);
+
     readonly onClose = output();
+
+    ngAfterViewInit(): void {
+        if (this.component()?.position === 'center') {
+            this.cdkDrag()[0].freeDragPosition = {
+                x: (window.innerWidth - this.elementRef.nativeElement.clientWidth) / 2,
+                y: (window.innerHeight - this.elementRef.nativeElement.clientHeight) / 2,
+            };
+        }
+    }
 
     open() {
         this.isOpen.set(true);

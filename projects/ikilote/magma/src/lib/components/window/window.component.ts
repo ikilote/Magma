@@ -1,25 +1,25 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Directive, Type, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Directive, Type, input, model, output } from '@angular/core';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
-import { MagmaWindows } from '../../services/windows';
 
 export type MagmaWindowInfos = {
     component: Type<any>;
     inputs?: Record<string, any>;
     overlayRef?: OverlayRef;
     id: string;
+    index: number;
+    open: boolean;
 };
 
 @Directive()
 export abstract class AbstractWindowComponent {
     parent = input.required<MagmaWindow>();
-    context = input.required<MagmaWindows>();
 
     close() {
-        this.context()?.removeWindow(this.parent().component()!);
+        this.parent().onClose.emit();
     }
 }
 
@@ -27,15 +27,16 @@ export abstract class AbstractWindowComponent {
     selector: 'mg-window',
     templateUrl: './window.component.html',
     styleUrl: './window.component.scss',
-    host: {},
+    host: {
+        '[style.--index]': 'component()?.index || 0',
+    },
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, MagmaLimitFocusDirective, NgComponentOutlet],
 })
 export class MagmaWindow {
-    isOpen = signal(false);
+    isOpen = model(false);
 
     component = input<MagmaWindowInfos>();
-    context = input<MagmaWindows>();
 
     readonly onClose = output();
 
@@ -49,6 +50,6 @@ export class MagmaWindow {
     }
 
     protected withContext(inputs?: Record<string, any>) {
-        return { ...inputs, ...{ parent: this, context: this.context() } };
+        return { ...inputs, ...{ parent: this } };
     }
 }

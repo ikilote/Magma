@@ -1,10 +1,11 @@
-import { Overlay } from '@angular/cdk/overlay';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Injectable, Type, inject } from '@angular/core';
+import { ComponentRef, Injectable, Type, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { MagmaWindow, MagmaWindowInfos } from '../../public-api';
+import { MagmaWindowInfos } from '../../public-api';
+import { MagmaWindowsZone } from '../components/window/windows-zone.component';
 
 let index = 0;
 
@@ -16,13 +17,20 @@ export class MagmaWindows {
 
     readonly onAddWindow = new Subject<MagmaWindowInfos>();
 
-    openWindow(component: Type<any>, inputs: Record<string, any> = {}, id?: string) {
-        const info = { component, inputs, id: id || 'window-' + index++ };
-        this.windows.push(info);
+    component?: ComponentRef<MagmaWindowsZone>;
+    overlayRef?: OverlayRef;
 
-        this.init(info);
-        this.onAddWindow.next(info);
-        return info;
+    openWindow(component: Type<any>, inputs: Record<string, any> = {}, id?: string) {
+        const infos = { component, inputs, id: id || 'window-' + index++, index: 0, open: true };
+        infos.index = this.windows.push(infos);
+
+        if (this.overlayRef === undefined) {
+            this.init();
+        }
+
+        this.onAddWindow.next(infos);
+        this.component?.instance.cd.detectChanges();
+        return infos;
     }
 
     removeWindow(window: MagmaWindowInfos) {
@@ -31,23 +39,27 @@ export class MagmaWindows {
 
     removeWindowById(id: String) {
         const index = this.windows.findIndex(w => w.id === id);
-        if (index > -1) {
-            this.windows.splice(index, 1)[0]?.overlayRef?.dispose();
+        if (index !== -1) {
+            this.windows.splice(index, 1);
+            if (this.windows.length === 0) {
+                this.overlayRef?.dispose();
+                this.overlayRef = undefined;
+                this.component = undefined;
+            }
         }
     }
 
-    private init(infos: MagmaWindowInfos) {
+    private init() {
         const overlayRef = this.overlay.create({
             hasBackdrop: false,
             panelClass: 'overlay-window',
             scrollStrategy: this.overlay.scrollStrategies.block(),
-            positionStrategy: this.overlay.position().global().right(),
+            positionStrategy: this.overlay.position().global(),
         });
-        const userProfilePortal = new ComponentPortal(MagmaWindow);
-        const component = overlayRef.attach(userProfilePortal);
-        component.setInput('component', infos);
-        component.setInput('context', this);
-        component.instance.open();
-        infos.overlayRef = overlayRef;
+        const userProfilePortal = new ComponentPortal(MagmaWindowsZone);
+        this.component = overlayRef.attach(userProfilePortal);
+        this.component.setInput('windows', this.windows);
+        this.component.setInput('context', this);
+        this.overlayRef = overlayRef;
     }
 }

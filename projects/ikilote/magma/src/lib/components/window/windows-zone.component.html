@@ -1,0 +1,9 @@
+@for (window of windows(); track window) {
+  <mg-window
+    [isOpen]="window.open"
+    [component]="window"
+    (mousedown)="select(window)"
+    [style.z-index]="window.index"
+    (onClose)="remove(window)"
+  />
+}

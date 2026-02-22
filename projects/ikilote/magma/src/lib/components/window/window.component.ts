@@ -51,6 +51,7 @@ export abstract class AbstractWindowComponent {
 })
 export class MagmaWindow extends ResizeElement implements AfterViewInit {
     private readonly elementRef = inject(ElementRef);
+
     private readonly cdkDrag = viewChildren(CdkDrag);
     private readonly elementWin = viewChildren<ElementRef<HTMLDivElement>>('element');
 
@@ -83,7 +84,6 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
     }
 
     drag(drag: CdkDragEnd) {
-        console.log('drag', drag, this.elementRef.nativeElement);
         const { x, y } = drag.distance;
         this.x = [this.x[0] + x, this.elementRef.nativeElement.offsetWidth];
         this.y = [this.y[0] + y, this.elementRef.nativeElement.offsetHeight];
@@ -99,11 +99,18 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
     }
 
     override update(resize: ResizeDirection, data: [number, number]): void {
-        console.log(resize, data);
         const element = this.elementWin()[0]?.nativeElement;
 
         switch (resize) {
             case 'left':
+                if (data[0] > 15 && element) {
+                    const size = this.x[0] - data[0] + this.x[1];
+                    element.style.width = size + 'px';
+                    if (size === element.offsetWidth) {
+                        this.x = [data[0], element.offsetWidth];
+                        this.cdkDrag()[0].setFreeDragPosition({ x: data[0], y: this.y[0] });
+                    }
+                }
                 break;
             case 'right':
                 if (data[1] > 15 && element) {
@@ -112,6 +119,12 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
                 }
                 break;
             case 'top':
+                const size = this.y[0] - data[0] + this.y[1];
+                element.style.height = size + 'px';
+                if (size === element.offsetHeight) {
+                    this.y = [data[0], element.offsetHeight];
+                    this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: data[0] });
+                }
                 break;
             case 'bottom':
                 if (data[1] > 15 && element) {

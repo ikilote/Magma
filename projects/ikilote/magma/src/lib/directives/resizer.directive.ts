@@ -63,7 +63,6 @@ export class MagmaResize {
     mouseoverWindow(event: MouseEvent) {
         const resizeActive = this.resizeActive;
         const resize = this.resize;
-        console.log('resize', resize);
         const host = this.resizerHost();
 
         if (host && resizeActive && resize) {
@@ -74,18 +73,15 @@ export class MagmaResize {
 
             let data: [number, number] | undefined;
             const itemSource = resizeActive.itemSource;
-            console.log('itemSource', itemSource);
 
             if (resize === 'top') {
                 data = [Math.max(itemSource.y[0] - changeY, 0), itemSource.y[1]];
             } else if (resize === 'bottom') {
                 data = [itemSource.y[0], Math.min(itemSource.y[1] - changeY, host.heightElementNumber - 1)];
-                console.log('>>>', itemSource.y[1], changeY, host.heightElementNumber);
             } else if (resize === 'left') {
                 data = [Math.max(itemSource.x[0] - changeX, 0), itemSource.x[1]];
             } else if (resize === 'right') {
                 data = [itemSource.x[0], Math.min(itemSource.x[1] - changeX, host.widthElementNumber - 1)];
-                console.log('>>>', itemSource.x[1], changeX, host.widthElementNumber);
             }
 
             if (data) {

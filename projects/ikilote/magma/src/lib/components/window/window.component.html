@@ -1,6 +1,16 @@
 @if (isOpen()) {
-  <div cdkDrag class="content" role="dialog" limitFocus>
+  <div
+    #element
+    class="content"
+    role="dialog"
+    cdkDrag
+    (cdkDragEnded)="drag($event)"
+    limitFocus
+    [resizer]="this"
+    [resizerHost]="this.resizerHost()"
+  >
     <div>
+      <div>x:{{ x }}, y:{{ y }}</div>
       <ng-content />
       @let comp = component();
       @if (comp) {

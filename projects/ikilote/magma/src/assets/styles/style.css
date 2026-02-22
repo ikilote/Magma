@@ -893,6 +893,14 @@ pre.mono {
     }
 }
 
+.ew-resize {
+    cursor: ew-resize;
+}
+
+.ns-resize {
+    cursor: ns-resize;
+}
+
 /* -------------------- fixes ------------------------------------------------------------
     MARK: Fixes
 */

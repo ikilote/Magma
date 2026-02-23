@@ -1,16 +1,16 @@
 @if (isOpen()) {
+  @let comp = component();
   <div
     #element
     class="content"
     role="dialog"
     cdkDrag
     (cdkDragEnded)="drag($event)"
-    cdkDragBoundary="zone-windows"
+    [cdkDragBoundary]="comp?.zoneSelector || 'body'"
     limitFocus
     [resizer]="this"
     [resizerHost]="this.resizerHost()"
   >
-    @let comp = component();
     <div class="window-main">
       @if (comp && comp.bar?.active) {
         <div class="window-title-bar" cdkDragHandle>

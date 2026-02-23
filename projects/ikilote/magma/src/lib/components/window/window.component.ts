@@ -28,6 +28,7 @@ export type MagmaWindowInfos = {
     id: string;
     index: number;
     position?: 'default' | 'center';
+    zoneSelector?: string;
     bar?: {
         active?: boolean;
         title?: string;
@@ -75,13 +76,15 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
 
     ngAfterViewInit(): void {
         const element = this.elementRef.nativeElement;
+        const component = this.component();
+        const zone = component?.zoneSelector ? document.querySelector<HTMLElement>(component.zoneSelector) : null;
 
-        if (this.component()?.position === 'center') {
-            const x = (window.innerWidth - element.offsetWidth) / 2;
-            const y = (window.innerHeight - element.offsetHeight) / 2;
+        if (component?.position === 'center') {
+            const x = ((zone?.offsetWidth ?? window.innerWidth) - element.offsetWidth) / 2;
+            const y = ((zone?.offsetHeight ?? window.innerHeight) - element.offsetHeight) / 2;
             this.x = [x, element.offsetWidth];
             this.y = [y, element.offsetHeight];
-            this.cdkDrag()[0].freeDragPosition = { x, y };
+            this.cdkDrag()[0].setFreeDragPosition({ x, y });
         } else {
             this.x[1] = element.offsetWidth;
             this.y[1] = element.offsetHeight;
@@ -90,8 +93,12 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
 
     drag(drag: CdkDragEnd) {
         const { x, y } = drag.distance;
-        this.x = [this.x[0] + x, this.elementRef.nativeElement.offsetWidth];
-        this.y = [this.y[0] + y, this.elementRef.nativeElement.offsetHeight];
+        const element = this.elementRef.nativeElement;
+        this.x = [Math.min(Math.max(this.x[0] + x, 0), window.innerWidth - element.offsetWidth), element.offsetWidth];
+        this.y = [
+            Math.min(Math.max(this.y[0] + y, 0), window.innerHeight - element.offsetHeight),
+            element.offsetHeight,
+        ];
     }
 
     open() {

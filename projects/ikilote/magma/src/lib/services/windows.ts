@@ -39,6 +39,7 @@ export class MagmaWindows {
             // default
             inputs: {},
             id: 'window-' + index++,
+            zoneSelector: 'mg-windows-zone',
             ...params,
         };
         infos.index = this.windows.push(infos);

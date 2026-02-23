@@ -16,7 +16,7 @@
       @if (comp && comp.bar?.active) {
         <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="this.fullscreen()">
           @if (comp.bar && comp.bar.title) {
-            <div>{{ comp.bar.title }} (x:{{ x }}, y:{{ y }}) {{ comp?.zoneSelector }}</div>
+            <div>{{ comp.bar.title }} (x:{{ x }}, y:{{ y }}) {{ comp?.zoneSelector }} | {{ comp.index }}</div>
           }
           @if (comp.bar && comp.bar.buttons) {
             <div class="window-title-buttons">

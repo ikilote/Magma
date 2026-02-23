@@ -893,6 +893,10 @@ pre.mono {
         pointer-events: all;
     }
 
+    &:has(mg-window > :is(.ew-resize, .ns-resize)) {
+        pointer-events: all;
+    }
+
     .content {
         max-width: 100dvw;
         max-height: 100dvh;
@@ -901,10 +905,12 @@ pre.mono {
 
 .ew-resize {
     cursor: ew-resize;
+    user-select: none;
 }
 
 .ns-resize {
     cursor: ns-resize;
+    user-select: none;
 }
 
 /* -------------------- fixes ------------------------------------------------------------

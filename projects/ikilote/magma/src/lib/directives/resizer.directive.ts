@@ -42,6 +42,8 @@ export class MagmaResize {
         itemSource: ResizeElement;
     };
 
+    private timer: any;
+
     @HostListener('mousedown', ['$event'])
     mousedown(event: MouseEvent) {
         if (this.resize) {
@@ -84,6 +86,10 @@ export class MagmaResize {
                 data = [itemSource.x[0], Math.min(itemSource.x[1] - changeX, host.widthElementNumber - 1)];
             }
 
+            if (this.resize) {
+                clearTimeout(this.timer);
+            }
+
             if (data) {
                 this.resizer().animation = false;
                 this.resizer().update(resize, data);
@@ -111,9 +117,27 @@ export class MagmaResize {
                 this.resize = undefined;
             }
 
+            if (this.resize) {
+                clearTimeout(this.timer);
+            }
+
             if (this.cdkDrag) {
                 this.cdkDrag.disabled = this.resize !== undefined;
             }
+        }
+    }
+
+    @HostListener('mouseout')
+    mouseout() {
+        console.log('  mouseout');
+        if (this.resize) {
+            this.timer = setTimeout(() => {
+                this.resize = undefined;
+                this.resizeActive = undefined;
+                if (this.cdkDrag) {
+                    this.cdkDrag.disabled = false;
+                }
+            }, 50);
         }
     }
 }

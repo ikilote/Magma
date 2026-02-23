@@ -42,7 +42,7 @@ export class MagmaWindows {
             zoneSelector: 'mg-windows-zone',
             ...params,
         };
-        infos.index = this.windows.push(infos);
+        infos.index = this.windows.push(infos) - 1;
 
         if (this.overlayRef === undefined) {
             this.init();

@@ -1,4 +1,4 @@
-import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd, CdkDragHandle } from '@angular/cdk/drag-drop';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NgComponentOutlet } from '@angular/common';
 import {
@@ -28,6 +28,11 @@ export type MagmaWindowInfos = {
     id: string;
     index: number;
     position?: 'default' | 'center';
+    bar?: {
+        active?: boolean;
+        title?: string;
+        buttons?: boolean;
+    };
 };
 
 @Directive()
@@ -47,7 +52,7 @@ export abstract class AbstractWindowComponent {
         '[style.--index]': 'component()?.index || 0',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CdkDrag, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize],
+    imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize],
 })
 export class MagmaWindow extends ResizeElement implements AfterViewInit {
     private readonly elementRef = inject(ElementRef);
@@ -93,6 +98,8 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
         this.isOpen.set(true);
     }
 
+    change() {}
+
     close() {
         this.isOpen.set(false);
         this.onClose.emit();
@@ -121,7 +128,7 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
             case 'top':
                 const size = this.y[0] - data[0] + this.y[1];
                 element.style.height = size + 'px';
-                if (size === element.offsetHeight) {
+                if (data[0] > 15 && size === element.offsetHeight) {
                     this.y = [data[0], element.offsetHeight];
                     this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: data[0] });
                 }
@@ -131,7 +138,6 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
                     element.style.height = data[1] + 'px';
                     this.y = [this.y[0], element.offsetHeight];
                 }
-
                 break;
         }
     }

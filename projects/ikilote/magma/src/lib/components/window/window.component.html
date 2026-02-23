@@ -5,14 +5,27 @@
     role="dialog"
     cdkDrag
     (cdkDragEnded)="drag($event)"
+    cdkDragBoundary="zone-windows"
     limitFocus
     [resizer]="this"
     [resizerHost]="this.resizerHost()"
   >
-    <div>
-      <div>x:{{ x }}, y:{{ y }}</div>
+    @let comp = component();
+    <div class="window-main">
+      @if (comp && comp.bar?.active) {
+        <div class="window-title-bar" cdkDragHandle>
+          @if (comp.bar && comp.bar.title) {
+            <div>{{ comp.bar.title }} (x:{{ x }}, y:{{ y }})</div>
+          }
+          @if (comp.bar && comp.bar.buttons) {
+            <div class="window-title-buttons">
+              <button (click)="change()"><span class="icon-fullscreen"></span></button>
+              <button (click)="close()"><span class="icon-remove"></span></button>
+            </div>
+          }
+        </div>
+      }
       <ng-content />
-      @let comp = component();
       @if (comp) {
         <ng-container [ngComponentOutlet]="comp.component" [ngComponentOutletInputs]="withContext(comp.inputs)" />
       }

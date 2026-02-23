@@ -22,14 +22,24 @@ export class MagmaWindows {
 
     openWindow(
         component: Type<any>,
-        params?: { inputs?: Record<string, any>; id?: string; position?: 'default' | 'center' },
+        params?: {
+            inputs?: Record<string, any>;
+            id?: string;
+            position?: 'default' | 'center';
+            bar?: {
+                active?: boolean;
+                title?: string;
+                buttons?: boolean;
+            };
+        },
     ) {
         const infos: MagmaWindowInfos = {
             component,
-            inputs: params?.inputs ?? {},
-            id: params?.id || 'window-' + index++,
             index: 0,
-            position: params?.position,
+            // default
+            inputs: {},
+            id: 'window-' + index++,
+            ...params,
         };
         infos.index = this.windows.push(infos);
 

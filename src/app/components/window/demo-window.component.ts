@@ -80,7 +80,10 @@ export class DemoBlockComponent { }`;
     }
 
     openWindow() {
-        this.windows.openWindow(TestWindowComponent, { position: this.ctrlFormZone.value.position });
+        this.windows.openWindow(TestWindowComponent, {
+            position: this.ctrlFormZone.value.position,
+            bar: { active: true, title: 'TEST', buttons: true },
+        });
     }
 
     codeGeneration() {

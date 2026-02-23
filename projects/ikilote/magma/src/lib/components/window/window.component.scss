@@ -35,28 +35,34 @@
     }
 }
 
-.close {
-    position: absolute;
-    top: 1px;
-    justify-content: center;
-    z-index: 2;
-    inset-inline-end: -4px;
-    box-shadow: 2px -2px 11px -5px var(--dialog-close-shadow-color) inset;
-    border-width: 0;
-    border-start-start-radius: 0;
-    border-start-end-radius: 0;
-    border-end-start-radius: 50%;
-    border-end-end-radius: 0;
-    background: var(--dialog-close-background);
-    padding: 2px 10px;
-    width: 45px;
+.window-main {
+    width: 100%;
+}
 
-    &:hover {
-        background: var(--dialog-close-background-hover);
-    }
+.window-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: var(--neutral300);
+    padding-left: 5px;
+    width: 100%;
+}
 
-    &:focus {
-        outline: 2px solid var(--button-default-focus-border-color);
+.window-title-buttons {
+    display: flex;
+    gap: 3px;
+    padding: 2px;
+
+    button {
+        all: unset;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        background-color: var(--neutral400);
+        width: 24px;
+        height: 24px;
     }
 }
 

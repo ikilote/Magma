@@ -70,6 +70,8 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
 
     readonly onClose = output();
 
+    protected fullscreen = signal(false);
+
     constructor() {
         super({ x: [0, 0], y: [0, 0] });
     }
@@ -77,7 +79,7 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
     ngAfterViewInit(): void {
         const element = this.elementRef.nativeElement;
         const component = this.component();
-        const zone = component?.zoneSelector ? document.querySelector<HTMLElement>(component.zoneSelector) : null;
+        const zone = this.getZone();
 
         if (component?.position === 'center') {
             const x = ((zone?.offsetWidth ?? window.innerWidth) - element.offsetWidth) / 2;
@@ -86,8 +88,8 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
             this.y = [y, element.offsetHeight];
             this.cdkDrag()[0].setFreeDragPosition({ x, y });
         } else {
-            this.x[1] = element.offsetWidth;
-            this.y[1] = element.offsetHeight;
+            this.x = [this.x[0], element.offsetWidth];
+            this.y = [this.y[0], element.offsetHeight];
         }
     }
 
@@ -105,11 +107,32 @@ export class MagmaWindow extends ResizeElement implements AfterViewInit {
         this.isOpen.set(true);
     }
 
-    change() {}
+    change() {
+        this.fullscreen.set(!this.fullscreen());
+        const element = this.elementWin()[0]?.nativeElement;
+
+        if (this.fullscreen()) {
+            this.cdkDrag()[0].setFreeDragPosition({ x: 0, y: 0 });
+
+            const zone = this.getZone();
+            console.log(zone?.offsetWidth, zone?.offsetHeight);
+            element.style.width = (zone?.offsetWidth ?? window.innerWidth) + 'px';
+            element.style.height = (zone?.offsetHeight ?? window.innerHeight) + 'px';
+        } else {
+            this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: this.y[0] });
+            element.style.width = this.x[1] + 'px';
+            element.style.height = this.y[1] + 'px';
+        }
+    }
 
     close() {
         this.isOpen.set(false);
         this.onClose.emit();
+    }
+
+    private getZone() {
+        const component = this.component();
+        return component?.zoneSelector ? document.querySelector<HTMLElement>(component.zoneSelector) : null;
     }
 
     override update(resize: ResizeDirection, data: [number, number]): void {

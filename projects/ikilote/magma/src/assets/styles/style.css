@@ -886,10 +886,16 @@ pre.mono {
 */
 
 .cdk-overlay-pane.overlay-window {
+    width: 100%;
     pointer-events: none;
 
     mg-window > div {
         pointer-events: all;
+    }
+
+    .content {
+        max-width: 100dvw;
+        max-height: 100dvh;
     }
 }
 

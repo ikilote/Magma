@@ -5,6 +5,7 @@
     class="content"
     role="dialog"
     cdkDrag
+    [cdkDragDisabled]="this.fullscreen()"
     (cdkDragEnded)="drag($event)"
     [cdkDragBoundary]="comp?.zoneSelector || 'body'"
     limitFocus
@@ -13,13 +14,19 @@
   >
     <div class="window-main">
       @if (comp && comp.bar?.active) {
-        <div class="window-title-bar" cdkDragHandle>
+        <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="this.fullscreen()">
           @if (comp.bar && comp.bar.title) {
-            <div>{{ comp.bar.title }} (x:{{ x }}, y:{{ y }})</div>
+            <div>{{ comp.bar.title }} (x:{{ x }}, y:{{ y }}) {{ comp?.zoneSelector }}</div>
           }
           @if (comp.bar && comp.bar.buttons) {
             <div class="window-title-buttons">
-              <button (click)="change()"><span class="icon-fullscreen"></span></button>
+              <button (click)="change()">
+                @if (fullscreen()) {
+                  <span class="icon-minimize-2"></span>
+                } @else {
+                  <span class="icon-fullscreen"></span>
+                }
+              </button>
               <button (click)="close()"><span class="icon-remove"></span></button>
             </div>
           }

@@ -19,7 +19,8 @@ import {
 import { MagmaWindowsZone } from './windows-zone.component';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
-import { MagmaResize, ResizeDirection, ResizeElement } from '../../directives/resizer.directive';
+import { MagmaResizeElement, ResizeDirection } from '../../directives/resizer';
+import { MagmaResize } from '../../directives/resizer.directive';
 
 export type MagmaWindowInfos = {
     component: Type<any>;
@@ -55,22 +56,21 @@ export abstract class AbstractWindowComponent {
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize],
 })
-export class MagmaWindow extends ResizeElement implements AfterViewInit {
-    private readonly elementRef = inject(ElementRef);
+export class MagmaWindow extends MagmaResizeElement implements AfterViewInit {
+    protected readonly elementRef = inject(ElementRef);
 
-    private readonly cdkDrag = viewChildren(CdkDrag);
-    private readonly elementWin = viewChildren<ElementRef<HTMLDivElement>>('element');
+    protected readonly cdkDrag = viewChildren(CdkDrag);
+    protected readonly elementWin = viewChildren<ElementRef<HTMLDivElement>>('element');
 
     readonly isOpen = model(false);
 
     readonly component = input<MagmaWindowInfos>();
     readonly resizerHost = input<MagmaWindowsZone>();
 
-    readonly center = signal(false);
-
     readonly onClose = output();
 
-    protected fullscreen = signal(false);
+    protected readonly center = signal(false);
+    protected readonly fullscreen = signal(false);
 
     constructor() {
         super({ x: [0, 0], y: [0, 0] });

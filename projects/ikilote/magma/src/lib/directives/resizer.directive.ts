@@ -1,26 +1,7 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 
-export type ResizeDirection = 'left' | 'right' | 'top' | 'bottom';
-
-export class ResizeElement {
-    animation = true;
-    x: [number, number];
-    y: [number, number];
-
-    constructor(params: { x: [number, number]; y: [number, number] }) {
-        this.x = params.x;
-        this.y = params.y;
-    }
-
-    update(_resize: ResizeDirection, _data: [number, number]) {}
-}
-
-export interface HostElement {
-    widthElementNumber: number;
-    heightElementNumber: number;
-    elementSize: number; // px
-}
+import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from './resizer';
 
 @Directive({
     selector: '[resizer]',
@@ -33,13 +14,13 @@ export class MagmaResize {
     private readonly ref = inject<ElementRef<HTMLElement>>(ElementRef);
     private readonly cdkDrag = inject(CdkDrag, { optional: true });
 
-    resizer = input.required<ResizeElement>();
-    resizerHost = input<HostElement>();
+    readonly resizer = input.required<MagmaResizeElement>();
+    readonly resizerHost = input<MagmaResizeHostElement>();
 
     resize?: ResizeDirection;
     resizeActive?: {
         mousePosInit: [number, number];
-        itemSource: ResizeElement;
+        itemSource: MagmaResizeElement;
     };
 
     private timer: any;
@@ -49,7 +30,7 @@ export class MagmaResize {
         if (this.resize) {
             this.resizeActive = {
                 mousePosInit: [event.x, event.y],
-                itemSource: new ResizeElement({ x: [...this.resizer().x], y: [...this.resizer().y] }),
+                itemSource: new MagmaResizeElement({ x: [...this.resizer().x], y: [...this.resizer().y] }),
             };
         }
     }

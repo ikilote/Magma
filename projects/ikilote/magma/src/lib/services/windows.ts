@@ -4,7 +4,7 @@ import { ComponentRef, Injectable, Type, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { MagmaWindowInfos } from '../../public-api';
+import { MagmaWindowInfos } from '../components/window/window.component';
 import { MagmaWindowsZone } from '../components/window/windows-zone.component';
 
 let index = 0;

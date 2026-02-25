@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, input } 
 
 import { MagmaWindow, MagmaWindowInfos } from './window.component';
 
-import { HostElement } from '../../directives/resizer.directive';
+import { MagmaResizeHostElement } from '../../directives/resizer';
 import { MagmaWindows } from '../../services/windows';
 
 @Component({
@@ -12,10 +12,10 @@ import { MagmaWindows } from '../../services/windows';
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaWindow],
 })
-export class MagmaWindowsZone implements HostElement {
+export class MagmaWindowsZone implements MagmaResizeHostElement {
+    protected readonly windows = input.required<MagmaWindowInfos[]>();
+    protected readonly context = input<MagmaWindows>();
     readonly cd = inject(ChangeDetectorRef);
-    readonly windows = input.required<MagmaWindowInfos[]>();
-    readonly context = input<MagmaWindows>();
 
     heightElementNumber = window.innerHeight;
     widthElementNumber = window.innerWidth;

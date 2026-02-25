@@ -3,32 +3,7 @@
 <h2>Component</h2>
 @if (ctrlForm) {
   <section>
-    <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
-      <!-- <p>
-        <mg-input>
-          <mg-input-label>closeButton</mg-input-label>
-          <mg-input-checkbox formControlName="closeButton" mode="toggle">enabled</mg-input-checkbox>
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>closeBackdrop</mg-input-label>
-          <mg-input-checkbox formControlName="closeBackdrop" mode="toggle">enabled</mg-input-checkbox>
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>title</mg-input-label>
-          <mg-input-text formControlName="title" />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>label (ARIA if no title)</mg-input-label>
-          <mg-input-text formControlName="label" />
-        </mg-input>
-      </p> -->
-    </form>
+    <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm"></form>
     <div class="s-4 s-4-l s-12-s">
       <button (click)="window.open()">Open window</button>
 
@@ -61,30 +36,26 @@
   <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlFormZone">
     <p>
       <mg-input>
-        <mg-input-label>closeButton</mg-input-label>
+        <mg-input-label>Position</mg-input-label>
         <mg-input-select formControlName="position" [data]="position">enabled</mg-input-select>
+      </mg-input>
+    </p>
+    <p>
+      <mg-input class="s-4" id="bar-i">
+        <mg-input-label>Bar</mg-input-label>
+        <mg-input-checkbox formControlName="bar" id="bar">Active</mg-input-checkbox>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>title</mg-input-label>
+        <mg-input-text formControlName="barTitle" />
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>buttons</mg-input-label>
+        <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
       </mg-input>
     </p>
   </form>
 
-  <!--<p>
-        <mg-input>
-          <mg-input-label>closeBackdrop</mg-input-label>
-          <mg-input-checkbox formControlName="closeBackdrop" mode="toggle">enabled</mg-input-checkbox>
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>title</mg-input-label>
-          <mg-input-text formControlName="title" />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>label (ARIA if no title)</mg-input-label>
-          <mg-input-text formControlName="label" />
-        </mg-input>
-      </p> -->
   <div class="s-4 s-4-l s-12-s">
     <button (click)="openWindow()">Open window with TestWindowComponent component</button>
   </div>

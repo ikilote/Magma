@@ -9,8 +9,10 @@ import {
     AbstractWindowComponent,
     FormBuilderExtended,
     MagmaInput,
+    MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputSelect,
+    MagmaInputText,
     MagmaWindow,
     MagmaWindows,
 } from '../../../../projects/ikilote/magma/src/public-api';
@@ -28,21 +30,28 @@ export class TestWindowComponent extends AbstractWindowComponent {}
     selector: 'demo-window',
     templateUrl: './demo-window.component.html',
     styleUrl: './demo-window.component.scss',
-    imports: [CodeTabsComponent, ReactiveFormsModule, MagmaWindow, MagmaInput, MagmaInputElement, MagmaInputSelect],
+    imports: [
+        CodeTabsComponent,
+        ReactiveFormsModule,
+        MagmaWindow,
+        MagmaInput,
+        MagmaInputElement,
+        MagmaInputSelect,
+        MagmaInputCheckbox,
+        MagmaInputText,
+    ],
 })
 export class DemoWindowComponent {
     readonly fb = inject(FormBuilderExtended);
     readonly windows = inject(MagmaWindows);
 
-    ctrlForm: FormGroup<{
-        closeButton: FormControl<boolean>;
-        closeBackdrop: FormControl<boolean>;
-        title: FormControl<string>;
-        label: FormControl<string>;
-    }>;
+    ctrlForm: FormGroup<{}>;
 
     ctrlFormZone: FormGroup<{
         position: FormControl<'default' | 'center'>;
+        bar: FormControl<boolean>;
+        barTitle: FormControl<string>;
+        barButtons: FormControl<boolean>;
     }>;
 
     position: Select2Data = [
@@ -64,14 +73,12 @@ export class DemoWindowComponent {
 export class DemoBlockComponent { }`;
 
     constructor() {
-        this.ctrlForm = this.fb.groupWithError({
-            closeButton: { default: true },
-            closeBackdrop: { default: false },
-            title: { default: '' },
-            label: { default: '' },
-        });
+        this.ctrlForm = this.fb.groupWithError({});
         this.ctrlFormZone = this.fb.groupWithError({
             position: { default: 'default' as 'default' | 'center' },
+            bar: { default: true },
+            barTitle: { default: 'Title' },
+            barButtons: { default: true },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -82,7 +89,11 @@ export class DemoBlockComponent { }`;
     openWindow() {
         this.windows.openWindow(TestWindowComponent, {
             position: this.ctrlFormZone.value.position,
-            bar: { active: true, title: 'TEST', buttons: true },
+            bar: {
+                active: this.ctrlFormZone.value.bar,
+                title: this.ctrlFormZone.value.barTitle,
+                buttons: this.ctrlFormZone.value.barButtons,
+            },
         });
     }
 
@@ -110,22 +121,6 @@ export class DemoBlockComponent { }`;
         const attrs: Json2htmlAttr = json.attrs!;
 
         // tag attr
-
-        if (this.ctrlForm.value.closeButton) {
-            attrs['closeButton'] = null;
-        }
-
-        if (this.ctrlForm.value.closeBackdrop) {
-            attrs['closeBackdrop'] = null;
-        }
-
-        if (this.ctrlForm.value.title) {
-            attrs['title'] = this.ctrlForm.value.title;
-        }
-
-        if (this.ctrlForm.value.label) {
-            attrs['label'] = this.ctrlForm.value.label;
-        }
 
         this.codeHtml = new Json2html(json).toString();
     }

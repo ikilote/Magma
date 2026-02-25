@@ -22,12 +22,9 @@ import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive
 import { MagmaResizeElement, ResizeDirection } from '../../directives/resizer';
 import { MagmaResize } from '../../directives/resizer.directive';
 
-export type MagmaWindowInfos = {
-    component: Type<any>;
+export interface MagmaWindowInitParams {
     inputs?: Record<string, any>;
-    overlayRef?: OverlayRef;
-    id: string;
-    index: number;
+    id?: string;
     position?: 'default' | 'center' | { x: number; y: number };
     zoneSelector?: string;
     bar?: {
@@ -35,7 +32,18 @@ export type MagmaWindowInfos = {
         title?: string;
         buttons?: boolean;
     };
-};
+    size?: {
+        width?: { min?: string; init?: string; max?: string };
+        height?: { min?: string; init?: string; max?: string };
+    };
+}
+
+export interface MagmaWindowInfos extends MagmaWindowInitParams {
+    component: Type<any>;
+    id: string;
+    overlayRef?: OverlayRef;
+    index: number;
+}
 
 @Directive()
 export abstract class AbstractWindowComponent {

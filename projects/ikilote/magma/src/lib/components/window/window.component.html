@@ -4,13 +4,19 @@
     #element
     class="content"
     role="dialog"
+    limitFocus
     cdkDrag
     [cdkDragDisabled]="this.fullscreen()"
     (cdkDragEnded)="drag($event)"
     [cdkDragBoundary]="comp?.zoneSelector || 'body'"
-    limitFocus
     [resizer]="this"
     [resizerHost]="this.resizerHost()"
+    [style.width]="component()?.size?.width?.init"
+    [style.min-width]="component()?.size?.width?.min"
+    [style.max-width]="component()?.size?.width?.max"
+    [style.height]="component()?.size?.height?.init"
+    [style.min-height]="component()?.size?.height?.min"
+    [style.max-height]="component()?.size?.height?.max"
   >
     <div class="window-main">
       @if (comp && comp.bar?.active) {

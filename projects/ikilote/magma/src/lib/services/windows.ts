@@ -4,7 +4,7 @@ import { ComponentRef, Injectable, Type, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { MagmaWindowInfos } from '../components/window/window.component';
+import { MagmaWindowInfos, MagmaWindowInitParams } from '../components/window/window.component';
 import { MagmaWindowsZone } from '../components/window/windows-zone.component';
 
 let index = 0;
@@ -20,19 +20,7 @@ export class MagmaWindows {
     component?: ComponentRef<MagmaWindowsZone>;
     overlayRef?: OverlayRef;
 
-    openWindow(
-        component: Type<any>,
-        params?: {
-            inputs?: Record<string, any>;
-            id?: string;
-            position?: 'default' | 'center' | { x: number; y: number };
-            bar?: {
-                active?: boolean;
-                title?: string;
-                buttons?: boolean;
-            };
-        },
-    ) {
+    openWindow(component: Type<any>, params?: MagmaWindowInitParams) {
         const infos: MagmaWindowInfos = {
             component,
             index: 0,

@@ -35,15 +35,25 @@
 <section>
   <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlFormZone">
     <p>
-      <mg-input>
+      <mg-input class="s-4">
         <mg-input-label>Position</mg-input-label>
         <mg-input-select formControlName="position" [data]="position">enabled</mg-input-select>
       </mg-input>
+      @if (ctrlFormZone.value.position === 'define') {
+        <mg-input class="s-4">
+          <mg-input-prefix>x</mg-input-prefix>
+          <mg-input-number formControlName="posX" />
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-prefix>y</mg-input-prefix>
+          <mg-input-number formControlName="posY" />
+        </mg-input>
+      }
     </p>
     <p>
-      <mg-input class="s-4" id="bar-i">
+      <mg-input class="s-4">
         <mg-input-label>Bar</mg-input-label>
-        <mg-input-checkbox formControlName="bar" id="bar">Active</mg-input-checkbox>
+        <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
       </mg-input>
       <mg-input class="s-4">
         <mg-input-label>title</mg-input-label>

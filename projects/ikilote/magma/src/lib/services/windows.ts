@@ -25,7 +25,7 @@ export class MagmaWindows {
         params?: {
             inputs?: Record<string, any>;
             id?: string;
-            position?: 'default' | 'center';
+            position?: 'default' | 'center' | { x: number; y: number };
             bar?: {
                 active?: boolean;
                 title?: string;

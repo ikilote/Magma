@@ -28,7 +28,7 @@ export type MagmaWindowInfos = {
     overlayRef?: OverlayRef;
     id: string;
     index: number;
-    position?: 'default' | 'center';
+    position?: 'default' | 'center' | { x: number; y: number };
     zoneSelector?: string;
     bar?: {
         active?: boolean;
@@ -72,6 +72,8 @@ export class MagmaWindow extends MagmaResizeElement implements AfterViewInit {
     protected readonly center = signal(false);
     protected readonly fullscreen = signal(false);
 
+    private retry = false;
+
     constructor() {
         super({ x: [0, 0], y: [0, 0] });
     }
@@ -87,6 +89,23 @@ export class MagmaWindow extends MagmaResizeElement implements AfterViewInit {
             this.x = [x, element.offsetWidth];
             this.y = [y, element.offsetHeight];
             this.cdkDrag()[0].setFreeDragPosition({ x, y });
+
+            if ((x < 0 || y < 0) && !this.retry) {
+                // retry when size is invalide
+                setTimeout(() => {
+                    this.ngAfterViewInit();
+                });
+                this.retry = true;
+            }
+        } else if (
+            component?.position &&
+            typeof component.position === 'object' &&
+            'x' in component.position &&
+            'y' in component.position
+        ) {
+            this.x = [component.position.x, element.offsetWidth];
+            this.y = [component.position.y, element.offsetHeight];
+            this.cdkDrag()[0].setFreeDragPosition(component.position);
         } else {
             this.x = [this.x[0], element.offsetWidth];
             this.y = [this.y[0], element.offsetHeight];

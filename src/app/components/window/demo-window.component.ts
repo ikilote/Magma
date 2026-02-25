@@ -11,6 +11,7 @@ import {
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputElement,
+    MagmaInputNumber,
     MagmaInputSelect,
     MagmaInputText,
     MagmaWindow,
@@ -39,6 +40,7 @@ export class TestWindowComponent extends AbstractWindowComponent {}
         MagmaInputSelect,
         MagmaInputCheckbox,
         MagmaInputText,
+        MagmaInputNumber,
     ],
 })
 export class DemoWindowComponent {
@@ -48,7 +50,9 @@ export class DemoWindowComponent {
     ctrlForm: FormGroup<{}>;
 
     ctrlFormZone: FormGroup<{
-        position: FormControl<'default' | 'center'>;
+        position: FormControl<'default' | 'center' | 'define'>;
+        posX: FormControl<number>;
+        posY: FormControl<number>;
         bar: FormControl<boolean>;
         barTitle: FormControl<string>;
         barButtons: FormControl<boolean>;
@@ -57,6 +61,7 @@ export class DemoWindowComponent {
     position: Select2Data = [
         { label: 'default', value: 'default' },
         { label: 'center', value: 'center' },
+        { label: '{x, y}', value: 'define' },
     ];
 
     codeHtml = '';
@@ -75,7 +80,9 @@ export class DemoBlockComponent { }`;
     constructor() {
         this.ctrlForm = this.fb.groupWithError({});
         this.ctrlFormZone = this.fb.groupWithError({
-            position: { default: 'default' as 'default' | 'center' },
+            position: { default: 'default' as 'default' | 'center' | 'define' },
+            posX: { default: 0 },
+            posY: { default: 0 },
             bar: { default: true },
             barTitle: { default: 'Title' },
             barButtons: { default: true },
@@ -88,7 +95,10 @@ export class DemoBlockComponent { }`;
 
     openWindow() {
         this.windows.openWindow(TestWindowComponent, {
-            position: this.ctrlFormZone.value.position,
+            position:
+                this.ctrlFormZone.value.position === 'define'
+                    ? { x: this.ctrlFormZone.value.posX ?? 0, y: this.ctrlFormZone.value.posY ?? 0 }
+                    : this.ctrlFormZone.value.position,
             bar: {
                 active: this.ctrlFormZone.value.bar,
                 title: this.ctrlFormZone.value.barTitle,

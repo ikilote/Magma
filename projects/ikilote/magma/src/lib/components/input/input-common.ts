@@ -135,41 +135,39 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
 
     validate(control: AbstractControl): ValidationErrors | null {
         if (control.touched) {
-            setTimeout(() => {
-                let errorMessage: string | undefined = undefined;
-                if (control.errors !== null) {
-                    const key = Object.keys(control.errors)[0];
-                    const data = (control as any).controlData?.[key];
-                    const paramsData = (control as any).controlParamsData;
-                    const defaultMessage = (control as any).controlData?.message;
+            let errorMessage: string | undefined = undefined;
+            if (control.errors !== null) {
+                const key = Object.keys(control.errors)[0];
+                const data = (control as any).controlData?.[key];
+                const paramsData = (control as any).controlParamsData;
+                const defaultMessage = (control as any).controlData?.message;
 
-                    if (data || defaultMessage) {
-                        const message = (data as ParamsMessagesControlMessage<any>)?.message ?? defaultMessage;
-                        errorMessage =
-                            typeof message === 'function'
-                                ? message({
-                                      type: key as any,
-                                      errorData: control.errors[key],
-                                      state: data?.state,
-                                      data: data?.data,
-                                      params: paramsData,
-                                  })
-                                : message;
+                if (data || defaultMessage) {
+                    const message = (data as ParamsMessagesControlMessage<any>)?.message ?? defaultMessage;
+                    errorMessage =
+                        typeof message === 'function'
+                            ? message({
+                                  type: key as any,
+                                  errorData: control.errors[key],
+                                  state: data?.state,
+                                  data: data?.data,
+                                  params: paramsData,
+                              })
+                            : message;
 
-                        if (data && errorMessage?.includes('{')) {
-                            [...errorMessage.matchAll(/\{([^}]+)\}/g)].forEach(([tag, keyName]) => {
-                                errorMessage = errorMessage!.replace(
-                                    tag,
-                                    (control as any)[keyName]?.state ??
-                                        control.errors?.[key]?.[keyName] ??
-                                        paramsData[keyName],
-                                );
-                            });
-                        }
+                    if (data && errorMessage?.includes('{')) {
+                        [...errorMessage.matchAll(/\{([^}]+)\}/g)].forEach(([tag, keyName]) => {
+                            errorMessage = errorMessage!.replace(
+                                tag,
+                                (control as any)[keyName]?.state ??
+                                    control.errors?.[key]?.[keyName] ??
+                                    paramsData[keyName],
+                            );
+                        });
                     }
                 }
-                this.host?._errorMessage.set(errorMessage ?? null);
-            });
+            }
+            this.host?._errorMessage.set(errorMessage ?? null);
         }
         return null;
     }

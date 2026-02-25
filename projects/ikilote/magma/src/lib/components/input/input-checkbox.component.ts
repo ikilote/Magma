@@ -1,15 +1,15 @@
 import {
-  AfterContentChecked,
-  ChangeDetectionStrategy,
-  Component,
-  DoCheck,
-  ElementRef,
-  SimpleChanges,
-  booleanAttribute,
-  computed,
-  input,
-  output,
-  viewChildren,
+    AfterContentChecked,
+    ChangeDetectionStrategy,
+    Component,
+    DoCheck,
+    ElementRef,
+    SimpleChanges,
+    booleanAttribute,
+    computed,
+    input,
+    output,
+    viewChildren,
 } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -83,44 +83,47 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     }
 
     override writeValue(value: any): void {
-        if (this.host) {
-            this.testChecked =
-                (this.host.typeValue() === 'array' || this.host.inputs().length > 1) && Array.isArray(value)
-                    ? // array value
-                      this.host.returnValue() === 'boolean'
-                        ? value[this.index] === true
-                        : value.includes(this.value())
-                    : // mono value
-                      this.host.returnValue() !== 'value' && typeof value === 'boolean'
-                      ? value === true
-                      : value === this.value();
+        // required for host
+        setTimeout(() => {
+            if (this.host) {
+                this.testChecked =
+                    (this.host.typeValue() === 'array' || this.host.inputs().length > 1) && Array.isArray(value)
+                        ? // array value
+                          this.host.returnValue() === 'boolean'
+                            ? value[this.index] === true
+                            : value.includes(this.value())
+                        : // mono value
+                          this.host.returnValue() !== 'value' && typeof value === 'boolean'
+                          ? value === true
+                          : value === this.value();
 
-            // update all other checkboxes in the group
-            if (this.host.typeValue() === 'array' || this.host.inputs().length > 1) {
-                this.host
-                    .inputs()
-                    .filter(item => item.componentName === this.componentName && item !== this)
-                    .forEach(item => {
-                        if (item instanceof MagmaInputCheckbox) {
-                            item['_value'] = this._value;
-                            if (this.host?.returnValue() === 'boolean') {
-                                if (item.testChecked && !value[item.index]) {
-                                    item.testChecked = false;
-                                } else if (!item.testChecked && value[item.index]) {
-                                    item.testChecked = true;
-                                }
-                            } else {
-                                if (item.testChecked && !value.includes(item.value())) {
-                                    item.testChecked = false;
-                                } else if (!item.testChecked && value.includes(item.value())) {
-                                    item.testChecked = true;
+                // update all other checkboxes in the group
+                if (this.host.typeValue() === 'array' || this.host.inputs().length > 1) {
+                    this.host
+                        .inputs()
+                        .filter(item => item.componentName === this.componentName && item !== this)
+                        .forEach(item => {
+                            if (item instanceof MagmaInputCheckbox) {
+                                item['_value'] = this._value;
+                                if (this.host?.returnValue() === 'boolean') {
+                                    if (item.testChecked && !value[item.index]) {
+                                        item.testChecked = false;
+                                    } else if (!item.testChecked && value[item.index]) {
+                                        item.testChecked = true;
+                                    }
+                                } else {
+                                    if (item.testChecked && !value.includes(item.value())) {
+                                        item.testChecked = false;
+                                    } else if (!item.testChecked && value.includes(item.value())) {
+                                        item.testChecked = true;
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                }
             }
-        }
-        super.writeValue(this.getValue());
+            super.writeValue(this.getValue());
+        });
     }
 
     _change() {

@@ -34,6 +34,7 @@
 <h2>Service</h2>
 <section>
   <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlFormZone">
+    <h3>Options</h3>
     <p>
       <mg-input class="s-12">
         <mg-input-label>Component</mg-input-label>
@@ -111,7 +112,10 @@
     </p>
   </form>
 
-  <div class="s-4 s-4-l s-12-s">
+  <div class="s-8 s-12-s">
+    <h3>Test</h3>
     <button (click)="openWindow()">Open window with TestWindowComponent component</button>
+    <h3>Code</h3>
+    <code-tabs [code]="[{ type: 'ts', code: codeTsZone }]" />
   </div>
 </section>

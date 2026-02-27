@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
+import { Json2Js, Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 
 import { Select2Data } from 'ng-select2-component';
 
@@ -60,8 +60,8 @@ export class Test2WindowComponent extends AbstractWindowComponent {}
     ],
 })
 export class DemoWindowComponent {
-    readonly fb = inject(FormBuilderExtended);
-    readonly windows = inject(MagmaWindows);
+    protected readonly fb = inject(FormBuilderExtended);
+    protected readonly windows = inject(MagmaWindows);
 
     ctrlForm: FormGroup<{}>;
 
@@ -105,6 +105,7 @@ export class DemoWindowComponent {
     ],
 })
 export class DemoBlockComponent { }`;
+    codeTsZone = '';
 
     constructor() {
         this.ctrlForm = this.fb.groupWithError({});
@@ -125,8 +126,12 @@ export class DemoBlockComponent { }`;
             lock: { default: false },
         });
         this.codeGeneration();
+        this.codeGenerationZone();
         this.ctrlForm.valueChanges.subscribe(() => {
             this.codeGeneration();
+        });
+        this.ctrlFormZone.valueChanges.subscribe(() => {
+            this.codeGenerationZone();
         });
     }
 
@@ -183,5 +188,53 @@ export class DemoBlockComponent { }`;
         // tag attr
 
         this.codeHtml = new Json2html(json).toString();
+    }
+
+    codeGenerationZone() {
+        const param = {
+            position:
+                this.ctrlFormZone.value.position === 'define'
+                    ? { x: this.ctrlFormZone.value.posX ?? 0, y: this.ctrlFormZone.value.posY ?? 0 }
+                    : this.ctrlFormZone.value.position,
+            bar: {
+                active: this.ctrlFormZone.value.bar,
+                title: this.ctrlFormZone.value.barTitle,
+                buttons: this.ctrlFormZone.value.barButtons,
+            },
+            size: {
+                lock: this.ctrlFormZone.value.lock || undefined,
+                width: {
+                    min: this.ctrlFormZone.value.minWidth || undefined,
+                    max: this.ctrlFormZone.value.maxWidth || undefined,
+                    init: this.ctrlFormZone.value.width || undefined,
+                },
+                height: {
+                    min: this.ctrlFormZone.value.minHeight || undefined,
+                    max: this.ctrlFormZone.value.maxHeight || undefined,
+                    init: this.ctrlFormZone.value.height || undefined,
+                },
+            },
+        };
+
+        this.codeTsZone = `import { MagmaWindows } from '@ikilote/magma';
+
+@Component({
+    selector: 'my-component',
+    templateUrl: './my-component.component.html',
+    styleUrl: './my-component.component.scss',
+})
+export class DemoBlockComponent {
+    protected  readonly windows = inject(MagmaWindows);
+
+    openWindow() {
+        this.windows.openWindow(
+            ${this.ctrlFormZone.value.component.name.replace('_', '')},
+            ${new Json2Js(param, {
+                tabAdded: 3,
+                tabAddedExceptFirst: true,
+            }).toString()}
+        );
+    }
+}`;
     }
 }

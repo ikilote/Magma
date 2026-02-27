@@ -11,18 +11,21 @@
     [cdkDragBoundary]="comp?.zoneSelector || 'body'"
     [resizer]="this"
     [resizerHost]="this.resizerHost()"
-    [style.width]="component()?.size?.width?.init"
-    [style.min-width]="component()?.size?.width?.min"
-    [style.max-width]="component()?.size?.width?.max"
-    [style.height]="component()?.size?.height?.init"
-    [style.min-height]="component()?.size?.height?.min"
-    [style.max-height]="component()?.size?.height?.max"
+    [resizerDisabled]="!this.resizerHost() || comp?.size?.lock"
+    [style.width]="comp?.size?.width?.init"
+    [style.min-width]="comp?.size?.width?.min"
+    [style.max-width]="comp?.size?.width?.max"
+    [style.height]="comp?.size?.height?.init"
+    [style.min-height]="comp?.size?.height?.min"
+    [style.max-height]="comp?.size?.height?.max"
   >
     <div class="window-main">
       @if (comp && comp.bar?.active) {
         <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="this.fullscreen()">
           @if (comp.bar && comp.bar.title) {
-            <div>{{ comp.bar.title }} (x:{{ x }}, y:{{ y }}) {{ comp?.zoneSelector }} | {{ comp.index }}</div>
+            <div class="window-title-text">
+              {{ comp.bar.title }} (x:{{ x }}, y:{{ y }}) {{ comp?.zoneSelector }} | {{ comp.index }}
+            </div>
           }
           @if (comp.bar && comp.bar.buttons) {
             <div class="window-title-buttons">

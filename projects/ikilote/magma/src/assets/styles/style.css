@@ -913,6 +913,19 @@ pre.mono {
     user-select: none;
 }
 
+.ew-resize,
+.ns-resize {
+    &::before {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        content: '';
+    }
+}
+
 /* -------------------- fixes ------------------------------------------------------------
     MARK: Fixes
 */

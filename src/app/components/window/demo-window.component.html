@@ -56,9 +56,9 @@
         </mg-input>
       }
     </p>
+    <h4>Title bar</h4>
     <p>
       <mg-input class="s-4">
-        <mg-input-label>Bar</mg-input-label>
         <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
       </mg-input>
       <mg-input class="s-4">
@@ -70,6 +70,7 @@
         <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
       </mg-input>
     </p>
+    <h4>Window size</h4>
     <p>
       <mg-input class="s-4">
         <mg-input-label>width</mg-input-label>
@@ -99,9 +100,13 @@
         <mg-input-desc>px, %, etc.</mg-input-desc>
       </mg-input>
       <mg-input class="s-4">
-        <mg-input-label>max-height</mg-input-label>
         <mg-input-text formControlName="maxHeight" />
         <mg-input-desc>px, %, etc.</mg-input-desc>
+      </mg-input>
+    </p>
+    <p>
+      <mg-input class="s-4">
+        <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
       </mg-input>
     </p>
   </form>

@@ -52,6 +52,12 @@
     width: 100%;
 }
 
+.window-title-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .window-title-buttons {
     display: flex;
     gap: 3px;

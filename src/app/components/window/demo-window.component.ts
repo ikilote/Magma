@@ -79,6 +79,7 @@ export class DemoWindowComponent {
         height: FormControl<string>;
         minHeight: FormControl<string>;
         maxHeight: FormControl<string>;
+        lock: FormControl<boolean>;
     }>;
 
     position: Select2Data = [
@@ -121,6 +122,7 @@ export class DemoBlockComponent { }`;
             height: { default: '' },
             minHeight: { default: '' },
             maxHeight: { default: '' },
+            lock: { default: false },
         });
         this.codeGeneration();
         this.ctrlForm.valueChanges.subscribe(() => {
@@ -140,6 +142,7 @@ export class DemoBlockComponent { }`;
                 buttons: this.ctrlFormZone.value.barButtons,
             },
             size: {
+                lock: this.ctrlFormZone.value.lock || undefined,
                 width: {
                     min: this.ctrlFormZone.value.minWidth || undefined,
                     max: this.ctrlFormZone.value.maxWidth || undefined,

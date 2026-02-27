@@ -33,6 +33,7 @@ export interface MagmaWindowInitParams {
         buttons?: boolean;
     };
     size?: {
+        lock?: boolean;
         width?: { min?: string; init?: string; max?: string };
         height?: { min?: string; init?: string; max?: string };
     };
@@ -142,7 +143,6 @@ export class MagmaWindow extends MagmaResizeElement implements AfterViewInit {
             this.cdkDrag()[0].setFreeDragPosition({ x: 0, y: 0 });
 
             const zone = this.getZone();
-            console.log(zone?.offsetWidth, zone?.offsetHeight);
             element.style.width = (zone?.offsetWidth ?? window.innerWidth) + 'px';
             element.style.height = (zone?.offsetHeight ?? window.innerHeight) + 'px';
         } else {

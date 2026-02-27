@@ -1,0 +1,91 @@
+<h1>Windows</h1>
+
+<section>
+  <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlFormZone">
+    <h3>Options</h3>
+    <p>
+      <mg-input class="s-12">
+        <mg-input-label>Component</mg-input-label>
+        <mg-input-select formControlName="component" [data]="component" />
+      </mg-input>
+    </p>
+    <p>
+      <mg-input class="s-4">
+        <mg-input-label>Position</mg-input-label>
+        <mg-input-select formControlName="position" [data]="position" />
+      </mg-input>
+      @if (ctrlFormZone.value.position === 'define') {
+        <mg-input class="s-4">
+          <mg-input-prefix>x</mg-input-prefix>
+          <mg-input-number formControlName="posX" />
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-prefix>y</mg-input-prefix>
+          <mg-input-number formControlName="posY" />
+        </mg-input>
+      }
+    </p>
+    <h4>Title bar</h4>
+    <p>
+      <mg-input class="s-4">
+        <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>title</mg-input-label>
+        <mg-input-text formControlName="barTitle" />
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>buttons</mg-input-label>
+        <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
+      </mg-input>
+    </p>
+    <h4>Window size</h4>
+    <p>
+      <mg-input class="s-4">
+        <mg-input-label>width</mg-input-label>
+        <mg-input-text formControlName="width" />
+        <mg-input-desc>px, %, etc.</mg-input-desc>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>min-width</mg-input-label>
+        <mg-input-text formControlName="minWidth" />
+        <mg-input-desc>px, %, etc.</mg-input-desc>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>max-width</mg-input-label>
+        <mg-input-text formControlName="maxWidth" />
+        <mg-input-desc>px, %, etc.</mg-input-desc>
+      </mg-input>
+    </p>
+    <p>
+      <mg-input class="s-4">
+        <mg-input-label>height</mg-input-label>
+        <mg-input-text formControlName="height" />
+        <mg-input-desc>px, %, etc.</mg-input-desc>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-label>min-height</mg-input-label>
+        <mg-input-text formControlName="minHeight" />
+        <mg-input-desc>px, %, etc.</mg-input-desc>
+      </mg-input>
+      <mg-input class="s-4">
+        <mg-input-text formControlName="maxHeight" />
+        <mg-input-desc>px, %, etc.</mg-input-desc>
+      </mg-input>
+    </p>
+    <p>
+      <mg-input class="s-4">
+        <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
+      </mg-input>
+    </p>
+  </form>
+
+  <div class="s-8 s-12-s">
+    <h3>Test</h3>
+    <button (click)="openWindow()">
+      Open <code>mg-window</code> with “{{ ctrlFormZone.value.component.name.replace('_', '') }}” component
+    </button>
+    <h3>Code</h3>
+    <code-tabs [code]="[{ type: 'ts', code: codeTsZone }]" />
+  </div>
+</section>

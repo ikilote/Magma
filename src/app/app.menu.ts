@@ -25,7 +25,7 @@ export const menu = [
             { routerLink: '/component/table', label: 'Table' },
             { routerLink: '/component/tabs', label: 'Tabs' },
             { routerLink: '/component/walkthrough', label: 'Walkthrough' },
-            { routerLink: '/component/window', label: 'Window' },
+            { routerLink: '/component/window', label: 'Window', status: 'new' },
         ],
     },
     {
@@ -60,6 +60,7 @@ export const menu = [
         items: [
             { routerLink: '/service/cache', label: 'Cache' },
             { routerLink: '/service/form-builder-extended', label: 'FormBuilderExtended' },
+            { routerLink: '/service/windows', label: 'Windows', status: 'new' },
         ],
     },
     {

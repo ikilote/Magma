@@ -283,6 +283,12 @@ export const routes: Routes = [
                         m => m.DemoFormBuilderExtended,
                     ),
             },
+            {
+                path: 'windows',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./services/windows/demo-windows.component').then(m => m.DemoWindowsComponent),
+            },
         ],
     },
     {

@@ -1,9 +1,9 @@
 <mg-tabs>
   @for (item of code(); track $index) {
-    <mg-tab-title [id]="item.type">{{ item.type }}</mg-tab-title>
+    <mg-tab-title [id]="item.title ?? item.type">{{ item.title ?? item.type }}</mg-tab-title>
   }
   @for (item of code(); track $index) {
-    <mg-tab-content [id]="item.type">
+    <mg-tab-content [id]="item.title ?? item.type">
       @let code = item.code;
       @if (typeof code === 'string') {
         <button (click)="clipboard(code)">copy</button>

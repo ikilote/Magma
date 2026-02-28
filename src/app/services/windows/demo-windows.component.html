@@ -82,10 +82,14 @@
 
   <div class="s-8 s-12-s">
     <h3>Test</h3>
-    <button (click)="openWindow()">
-      Open <code>mg-window</code> with “{{ ctrlFormZone.value.component.name.replace('_', '') }}” component
-    </button>
+    @let componentName = ctrlFormZone.value.component.name | string: 'replace' : '_' : '';
+    <button (click)="openWindow()">Open <code>mg-window</code> with “{{ componentName }}” component</button>
     <h3>Code</h3>
-    <code-tabs [code]="[{ type: 'ts', code: codeTsZone }]" />
+    <code-tabs
+      [code]="[
+        { type: 'ts', code: codeTsZone },
+        { type: 'ts', title: 'component', code: codeComponent[componentName] },
+      ]"
+    />
   </div>
 </section>

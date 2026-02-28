@@ -15,6 +15,7 @@ import {
     MagmaInputSelect,
     MagmaInputText,
     MagmaWindows,
+    StringPipe,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -55,6 +56,7 @@ export class Test2WindowComponent extends AbstractWindowComponent {}
         MagmaInputCheckbox,
         MagmaInputText,
         MagmaInputNumber,
+        StringPipe,
     ],
 })
 export class DemoWindowsComponent {
@@ -90,6 +92,29 @@ export class DemoWindowsComponent {
     ];
 
     codeTsZone = '';
+    codeComponent: Record<string, string> = {
+        TestWindowComponent: `@Component({
+    template: \`<p><button (click)="close()">Close</button></p>\`,
+})
+export class TestWindowComponent extends AbstractWindowComponent {}`,
+        Test2WindowComponent: `@Component({
+    template: \`<p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+        magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+        laborum.
+    </p>\`,
+    styles: [
+        \`
+            :host {
+                overflow: auto;
+            }
+        \`,
+    ],
+})
+export class Test2WindowComponent extends AbstractWindowComponent {}`,
+    };
 
     constructor() {
         this.ctrlFormZone = this.fb.groupWithError({

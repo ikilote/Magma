@@ -91,7 +91,9 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     // internal signals
 
     protected readonly dateValue = signal<Date | null>(null);
-    protected readonly date = computed<Date | undefined>(() => this.getDateValue(this.dateValue() ?? this.value()));
+    protected readonly date = computed<Date | undefined>(
+        () => this.getDateValue(this.dateValue() ?? this.value()) ?? new Date(),
+    );
     protected readonly selected = signal<boolean>(false);
     protected readonly year = computed<number | undefined>(() => (this.getDate() ?? new Date()).getUTCFullYear());
     protected readonly month = computed<number | undefined>(() => (this.getDate() ?? new Date()).getUTCMonth() + 1);
@@ -372,6 +374,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
 
     protected left() {
         const date = this.date();
+        console.log(date);
         if (date) {
             date.setUTCMonth(date.getMonth() - 1);
             this.updateDate(date);

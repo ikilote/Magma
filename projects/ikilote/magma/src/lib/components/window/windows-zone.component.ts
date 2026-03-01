@@ -5,6 +5,12 @@ import { MagmaWindow, MagmaWindowInfos } from './window.component';
 import { MagmaResizeHostElement } from '../../directives/resizer';
 import { MagmaWindows } from '../../services/windows';
 
+/**
+ * This component is necessary for the `Windows` service to function but can hardly be used in another context,
+ * so it is not present in `public-api`.
+ *
+ * Please use: `mg-windows-container`
+ */
 @Component({
     selector: 'mg-windows-zone',
     templateUrl: './windows-zone.component.html',

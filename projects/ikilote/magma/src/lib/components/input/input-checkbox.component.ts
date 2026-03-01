@@ -114,7 +114,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
                                 } else {
                                     if (item.testChecked && !value.includes(item.value())) {
                                         item.testChecked = false;
-                                    } else if (!item.testChecked && value.includes(item.value())) {
+                                    } else if (!item.testChecked && value?.includes(item.value())) {
                                         item.testChecked = true;
                                     }
                                 }

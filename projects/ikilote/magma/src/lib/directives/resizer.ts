@@ -1,3 +1,5 @@
+import { MagmaWindow, MagmaWindowInfos } from '../../public-api';
+
 export type ResizeDirection = 'left' | 'right' | 'top' | 'bottom';
 
 export class MagmaResizeElement {
@@ -17,4 +19,7 @@ export interface MagmaResizeHostElement {
     widthElementNumber: number;
     heightElementNumber: number;
     elementSize: number; // px
+
+    select(window: MagmaWindowInfos | MagmaWindow): void;
+    remove(window: MagmaWindowInfos | MagmaWindow): void;
 }

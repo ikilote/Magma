@@ -8,26 +8,27 @@
     cdkDrag
     [cdkDragDisabled]="this.fullscreen()"
     (cdkDragEnded)="drag($event)"
-    [cdkDragBoundary]="comp?.zoneSelector || 'body'"
+    [cdkDragBoundary]="zoneSelector() || comp?.zoneSelector || 'body'"
     [resizer]="this"
     [resizerHost]="this.resizerHost()"
     [resizerDisabled]="!this.resizerHost() || comp?.size?.lock"
-    [style.width]="comp?.size?.width?.init"
-    [style.min-width]="comp?.size?.width?.min"
-    [style.max-width]="comp?.size?.width?.max"
-    [style.height]="comp?.size?.height?.init"
-    [style.min-height]="comp?.size?.height?.min"
-    [style.max-height]="comp?.size?.height?.max"
+    [style.width]="width() || comp?.size?.width?.init"
+    [style.min-width]="minWidth() || comp?.size?.width?.min"
+    [style.max-width]="maxWidth() || comp?.size?.width?.max"
+    [style.height]="height() || comp?.size?.height?.init"
+    [style.min-height]="minHeight() || comp?.size?.height?.min"
+    [style.max-height]="maxHeight() || comp?.size?.height?.max"
+    (ngInit)="winInit()"
   >
     <div class="window-main">
-      @if (comp && comp.bar?.active) {
+      @if (bar() || comp?.bar?.active) {
         <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="this.fullscreen()">
-          @if (comp.bar && comp.bar.title) {
+          @if (barTitle() || comp?.bar?.title) {
             <div class="window-title-text">
-              {{ comp.bar.title }} (x:{{ x }}, y:{{ y }}) {{ comp?.zoneSelector }} | {{ comp.index }}
+              {{ barTitle() || comp?.bar?.title }}
             </div>
           }
-          @if (comp.bar && comp.bar.buttons) {
+          @if (barButtons() || comp?.bar?.buttons) {
             <div class="window-title-buttons">
               <button (click)="change()">
                 @if (fullscreen()) {

@@ -53,6 +53,7 @@ export * from './lib/components/tabs/tabs.module';
 export * from './lib/components/walkthrough/walkthrough-step.directive';
 export * from './lib/components/walkthrough/walkthrough.component';
 export * from './lib/components/window/window.component';
+export * from './lib/components/window/windows-container.component';
 
 // directives
 export * from './lib/directives/click-enter.directive';
@@ -60,6 +61,7 @@ export * from './lib/directives/click-outside.directive';
 export * from './lib/directives/limit-focus.directive';
 export * from './lib/directives/ng-init.directive';
 export * from './lib/directives/ng-model-change-debounced.directive';
+export * from './lib/directives/resizer.directive';
 export * from './lib/directives/sortable.directive';
 export * from './lib/directives/stop-propagation.directive';
 export * from './lib/directives/textarea-autosize.directive';

@@ -1,31 +1,124 @@
-<h1>Window</h1>
+<mg-windows-container>
+  <h1>Window</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm"></form>
-    <div class="s-4 s-4-l s-12-s">
-      <button (click)="window.open()">Open window</button>
-
-      <mg-window #window>
-        <p>Content window</p>
+  @if (ctrlForm) {
+    <section>
+      <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
+        <h3>Options</h3>
         <p>
-          <button (click)="window.close()">Close</button>
-        </p>
-        <p>
-          @let l = [0];
-          @for (b of l; track $index) {
-            <button (click)="l.push(0)">Add</button>
+          <mg-input class="s-4">
+            <mg-input-label>Position</mg-input-label>
+            <mg-input-select formControlName="position" [data]="position" />
+          </mg-input>
+          @if (ctrlForm.value.position === 'define') {
+            <mg-input class="s-4">
+              <mg-input-prefix>x</mg-input-prefix>
+              <mg-input-number formControlName="posX" />
+              <mg-input-suffix>px</mg-input-suffix>
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-prefix>y</mg-input-prefix>
+              <mg-input-number formControlName="posY" /><mg-input-suffix>px</mg-input-suffix>
+            </mg-input>
           }
         </p>
-      </mg-window>
-    </div>
-    <div class="s-4 s-12-l">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-}
+        <h4>Title bar</h4>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>title</mg-input-label>
+            <mg-input-text formControlName="barTitle" />
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>buttons</mg-input-label>
+            <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
+          </mg-input>
+        </p>
+        <h4>Window size</h4>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-label>width</mg-input-label>
+            <mg-input-text formControlName="width" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>min-width</mg-input-label>
+            <mg-input-text formControlName="minWidth" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>max-width</mg-input-label>
+            <mg-input-text formControlName="maxWidth" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+        </p>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-label>height</mg-input-label>
+            <mg-input-text formControlName="height" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>min-height</mg-input-label>
+            <mg-input-text formControlName="minHeight" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-text formControlName="maxHeight" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+        </p>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
+          </mg-input>
+        </p>
+      </form>
+      <div class="s-4 s-4-l s-12-s">
+        <button (click)="window.isOpen() ? window.close() : window.open()">
+          {{ window.isOpen() ? 'Close' : 'Open' }} window
+        </button>
+
+        <mg-window
+          #window
+          zoneSelector="mg-windows-container"
+          [position]="
+            ctrlForm.value.position === 'define'
+              ? { x: ctrlForm.value.posX ?? 0, y: ctrlForm.value.posY ?? 0 }
+              : ctrlForm.value.position
+          "
+          [bar]="ctrlForm.value.bar"
+          [bar-title]="ctrlForm.value.barTitle"
+          [bar-buttons]="ctrlForm.value.barButtons"
+          [width]="ctrlForm.value.width"
+          [min-width]="ctrlForm.value.minWidth"
+          [max-width]="ctrlForm.value.maxWidth"
+          [height]="ctrlForm.value.height"
+          [min-height]="ctrlForm.value.minHeight"
+          [max-height]="ctrlForm.value.maxHeight"
+        >
+          <p>Content window</p>
+          <p>
+            <button (click)="window.close()">Close</button>
+          </p>
+          <p>
+            @let l = [0];
+            @for (b of l; track $index) {
+              <button (click)="l.push(0)">Add</button>
+            }
+          </p>
+        </mg-window>
+      </div>
+      <div class="s-4 s-12-l">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </section>
+  }
+</mg-windows-container>

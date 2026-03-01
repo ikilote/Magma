@@ -1,13 +1,17 @@
-import { CdkDrag, CdkDragEnd, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd, CdkDragHandle, Point } from '@angular/cdk/drag-drop';
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NgComponentOutlet } from '@angular/common';
 import {
-    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     Directive,
     ElementRef,
+    HostListener,
+    OnChanges,
+    OnInit,
+    SimpleChanges,
     Type,
+    booleanAttribute,
     inject,
     input,
     model,
@@ -16,10 +20,9 @@ import {
     viewChildren,
 } from '@angular/core';
 
-import { MagmaWindowsZone } from './windows-zone.component';
-
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
-import { MagmaResizeElement, ResizeDirection } from '../../directives/resizer';
+import { MagmaNgInitDirective } from '../../directives/ng-init.directive';
+import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from '../../directives/resizer';
 import { MagmaResize } from '../../directives/resizer.directive';
 
 export interface MagmaWindowInitParams {
@@ -60,64 +63,98 @@ export abstract class AbstractWindowComponent {
     templateUrl: './window.component.html',
     styleUrl: './window.component.scss',
     host: {
-        '[style.--index]': 'component()?.index || 0',
+        '[style.--index]': 'component()?.index || index || 1',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize],
+    imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })
-export class MagmaWindow extends MagmaResizeElement implements AfterViewInit {
+export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges {
     protected readonly elementRef = inject(ElementRef);
 
     protected readonly cdkDrag = viewChildren(CdkDrag);
     protected readonly elementWin = viewChildren<ElementRef<HTMLDivElement>>('element');
 
-    readonly isOpen = model(false);
-
+    /** for mg-container-zone */
     readonly component = input<MagmaWindowInfos>();
-    readonly resizerHost = input<MagmaWindowsZone>();
+
+    /** for mg-container-container */
+    index = 0;
+    readonly zoneSelector = input<string>();
+    readonly position = input<'default' | 'center' | { x: number; y: number }>();
+    readonly bar = input(undefined, { transform: booleanAttribute });
+    readonly barTitle = input<string>(undefined, { alias: 'bar-title' });
+    readonly barButtons = input(undefined, { alias: 'bar-buttons', transform: booleanAttribute });
+    readonly width = input<string>();
+    readonly minWidth = input<string>(undefined, { alias: 'min-width' });
+    readonly maxWidth = input<string>(undefined, { alias: 'max-width' });
+    readonly height = input<string>();
+    readonly minHeight = input<string>(undefined, { alias: 'min-height' });
+    readonly maxHeight = input<string>(undefined, { alias: 'max-height' });
+
+    readonly resizerHost = model<MagmaResizeHostElement>();
+    readonly isOpen = model(false);
 
     readonly onClose = output();
 
     protected readonly center = signal(false);
     protected readonly fullscreen = signal(false);
 
-    private retry = false;
+    private initPosition: Point = { x: 0, y: 0 };
 
     constructor() {
         super({ x: [0, 0], y: [0, 0] });
     }
 
-    ngAfterViewInit(): void {
+    ngOnChanges(changes: SimpleChanges): void {
+        if (changes['position']) {
+            this.updatePosition();
+        }
+    }
+
+    ngOnInit(): void {
+        let { x, y } = this.currentPosition();
+        this.initPosition = { x, y };
+        this.updatePosition();
+    }
+
+    currentPosition() {
+        const rectZone = this.getZone()?.getBoundingClientRect();
         const element = this.elementRef.nativeElement;
-        const component = this.component();
+        const rectElem = element.getBoundingClientRect();
+
+        let x = 0;
+        let y = 0;
+
+        if (rectZone) {
+            x = rectZone.left - rectElem.left;
+            y = rectZone.top - rectElem.top;
+        }
+
+        return { x, y };
+    }
+
+    updatePosition() {
+        const element = this.elementRef.nativeElement;
         const zone = this.getZone();
 
-        if (component?.position === 'center') {
-            const x = ((zone?.offsetWidth ?? window.innerWidth) - element.offsetWidth) / 2;
-            const y = ((zone?.offsetHeight ?? window.innerHeight) - element.offsetHeight) / 2;
+        const position = this.position() || this.component()?.position;
+
+        let { x, y } = this.initPosition;
+
+        if (position === 'center') {
+            x += ((zone?.offsetWidth ?? window.innerWidth) - element.offsetWidth) / 2;
+            y += ((zone?.offsetHeight ?? window.innerHeight) - element.offsetHeight) / 2;
             this.x = [x, element.offsetWidth];
             this.y = [y, element.offsetHeight];
-            this.cdkDrag()[0].setFreeDragPosition({ x, y });
-
-            if ((x < 0 || y < 0) && !this.retry) {
-                // retry when size is invalide
-                setTimeout(() => {
-                    this.ngAfterViewInit();
-                });
-                this.retry = true;
-            }
-        } else if (
-            component?.position &&
-            typeof component.position === 'object' &&
-            'x' in component.position &&
-            'y' in component.position
-        ) {
-            this.x = [component.position.x, element.offsetWidth];
-            this.y = [component.position.y, element.offsetHeight];
-            this.cdkDrag()[0].setFreeDragPosition(component.position);
+            this.cdkDrag()?.[0]?.setFreeDragPosition({ x, y });
+        } else if (position && typeof position === 'object' && 'x' in position && 'y' in position) {
+            this.x = [x + position.x, element.offsetWidth];
+            this.y = [y + position.y, element.offsetHeight];
+            this.cdkDrag()?.[0]?.setFreeDragPosition({ x: x + position.x, y: y + position.y });
         } else {
-            this.x = [this.x[0], element.offsetWidth];
-            this.y = [this.y[0], element.offsetHeight];
+            this.x = [0, element.offsetWidth];
+            this.y = [y, element.offsetHeight];
+            this.cdkDrag()?.[0]?.setFreeDragPosition({ x: 0, y: 0 });
         }
     }
 
@@ -133,6 +170,12 @@ export class MagmaWindow extends MagmaResizeElement implements AfterViewInit {
 
     open() {
         this.isOpen.set(true);
+    }
+
+    winInit() {
+        setTimeout(() => {
+            this.updatePosition();
+        });
     }
 
     change() {
@@ -153,13 +196,24 @@ export class MagmaWindow extends MagmaResizeElement implements AfterViewInit {
     }
 
     close() {
+        if (!this.component()) {
+            this.resizerHost()?.remove(this);
+        }
         this.isOpen.set(false);
         this.onClose.emit();
     }
 
+    @HostListener('mousedown')
+    mousedown() {
+        if (!this.component()) {
+            this.resizerHost()?.select(this);
+        }
+    }
+
     private getZone() {
         const component = this.component();
-        return component?.zoneSelector ? document.querySelector<HTMLElement>(component.zoneSelector) : null;
+        const zoneSelector = this.zoneSelector() || component?.zoneSelector;
+        return zoneSelector ? document.querySelector<HTMLElement>(zoneSelector) : null;
     }
 
     override update(resize: ResizeDirection, data: [number, number]): void {

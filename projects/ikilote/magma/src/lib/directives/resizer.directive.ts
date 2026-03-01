@@ -1,4 +1,4 @@
-import { CdkDrag } from '@angular/cdk/drag-drop';
+import { CdkDrag, Point } from '@angular/cdk/drag-drop';
 import { Directive, ElementRef, HostListener, booleanAttribute, inject, input } from '@angular/core';
 
 import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from './resizer';
@@ -17,6 +17,7 @@ export class MagmaResize {
     readonly resizer = input.required<MagmaResizeElement>();
     readonly resizerHost = input<MagmaResizeHostElement>();
     readonly resizerDisabled = input(false, { transform: booleanAttribute });
+    readonly resizerInit = input<Point>({ x: 0, y: 0 });
 
     resize?: ResizeDirection;
     resizeActive?: {
@@ -60,11 +61,11 @@ export class MagmaResize {
                 const itemSource = resizeActive.itemSource;
 
                 if (resize === 'top') {
-                    data = [Math.max(itemSource.y[0] - changeY, 0), itemSource.y[1]];
+                    data = [Math.max(itemSource.y[0] - changeY, this.resizerInit().y), itemSource.y[1]];
                 } else if (resize === 'bottom') {
                     data = [itemSource.y[0], Math.min(itemSource.y[1] - changeY, host.heightElementNumber - 1)];
                 } else if (resize === 'left') {
-                    data = [Math.max(itemSource.x[0] - changeX, 0), itemSource.x[1]];
+                    data = [Math.max(itemSource.x[0] - changeX, this.resizerInit().x), itemSource.x[1]];
                 } else if (resize === 'right') {
                     data = [itemSource.x[0], Math.min(itemSource.x[1] - changeX, host.widthElementNumber - 1)];
                 }

@@ -19,7 +19,7 @@ import { MagmaResizeHostElement } from '../../directives/resizer';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaWindowsContainer implements MagmaResizeHostElement, AfterContentChecked {
-    protected readonly windows = contentChildren(MagmaWindow);
+    protected readonly windows = contentChildren(MagmaWindow, { descendants: true });
 
     protected readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
     readonly cd = inject(ChangeDetectorRef);

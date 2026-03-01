@@ -6,12 +6,13 @@
     role="dialog"
     limitFocus
     cdkDrag
-    [cdkDragDisabled]="this.fullscreen()"
+    [cdkDragDisabled]="fullscreen()"
     (cdkDragEnded)="drag($event)"
     [cdkDragBoundary]="zoneSelector() || comp?.zoneSelector || 'body'"
     [resizer]="this"
-    [resizerHost]="this.resizerHost()"
-    [resizerDisabled]="!this.resizerHost() || comp?.size?.lock"
+    [resizerInit]="initPosition"
+    [resizerHost]="resizerHost()"
+    [resizerDisabled]="comp?.size?.lock"
     [style.width]="width() || comp?.size?.width?.init"
     [style.min-width]="minWidth() || comp?.size?.width?.min"
     [style.max-width]="maxWidth() || comp?.size?.width?.max"

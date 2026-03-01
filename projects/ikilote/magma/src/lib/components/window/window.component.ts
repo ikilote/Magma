@@ -99,7 +99,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     protected readonly center = signal(false);
     protected readonly fullscreen = signal(false);
 
-    private initPosition: Point = { x: 0, y: 0 };
+    protected initPosition: Point = { x: 0, y: 0 };
 
     constructor() {
         super({ x: [0, 0], y: [0, 0] });
@@ -153,17 +153,27 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             this.cdkDrag()?.[0]?.setFreeDragPosition({ x: x + position.x, y: y + position.y });
         } else {
             this.x = [0, element.offsetWidth];
-            this.y = [y, element.offsetHeight];
+            this.y = [0, element.offsetHeight];
             this.cdkDrag()?.[0]?.setFreeDragPosition({ x: 0, y: 0 });
         }
     }
 
     drag(drag: CdkDragEnd) {
         const { x, y } = drag.distance;
-        const element = this.elementRef.nativeElement;
-        this.x = [Math.min(Math.max(this.x[0] + x, 0), window.innerWidth - element.offsetWidth), element.offsetWidth];
+        const element = this.elementWin()[0].nativeElement;
+        const zone = this.getZone();
+        this.x = [
+            Math.min(
+                Math.max(this.x[0] + x, this.initPosition.x),
+                (zone?.offsetWidth ?? window.innerWidth) - element.offsetWidth + this.initPosition.x,
+            ),
+            element.offsetWidth,
+        ];
         this.y = [
-            Math.min(Math.max(this.y[0] + y, 0), window.innerHeight - element.offsetHeight),
+            Math.min(
+                Math.max(this.y[0] + y, this.initPosition.y),
+                (zone?.offsetHeight ?? window.innerHeight) - element.offsetHeight + this.initPosition.y,
+            ),
             element.offsetHeight,
         ];
     }
@@ -183,7 +193,8 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         const element = this.elementWin()[0]?.nativeElement;
 
         if (this.fullscreen()) {
-            this.cdkDrag()[0].setFreeDragPosition({ x: 0, y: 0 });
+            let { x, y } = this.initPosition;
+            this.cdkDrag()[0].setFreeDragPosition({ x, y });
 
             const zone = this.getZone();
             element.style.width = (zone?.offsetWidth ?? window.innerWidth) + 'px';
@@ -196,9 +207,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     }
 
     close() {
-        if (!this.component()) {
-            this.resizerHost()?.remove(this);
-        }
+        this.resizerHost()?.remove(this);
         this.isOpen.set(false);
         this.onClose.emit();
     }
@@ -221,7 +230,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
         switch (resize) {
             case 'left':
-                if (data[0] > 15 && element) {
+                if (data[0] > this.initPosition.x && element) {
                     const size = this.x[0] - data[0] + this.x[1];
                     element.style.width = size + 'px';
                     if (size === element.offsetWidth) {
@@ -231,7 +240,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
                 }
                 break;
             case 'right':
-                if (data[1] > 15 && element) {
+                if (data[1] > 0 && element) {
                     element.style.width = data[1] + 'px';
                     this.x = [this.x[0], element.offsetWidth];
                 }
@@ -239,13 +248,13 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             case 'top':
                 const size = this.y[0] - data[0] + this.y[1];
                 element.style.height = size + 'px';
-                if (data[0] > 15 && size === element.offsetHeight) {
+                if (data[0] > this.initPosition.y && size === element.offsetHeight) {
                     this.y = [data[0], element.offsetHeight];
                     this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: data[0] });
                 }
                 break;
             case 'bottom':
-                if (data[1] > 15 && element) {
+                if (data[1] > 0 && element) {
                     element.style.height = data[1] + 'px';
                     this.y = [this.y[0], element.offsetHeight];
                 }

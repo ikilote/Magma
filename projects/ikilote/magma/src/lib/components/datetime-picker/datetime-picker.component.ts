@@ -91,12 +91,10 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     // internal signals
 
     protected readonly dateValue = signal<Date | null>(null);
-    protected readonly date = computed<Date | undefined>(
-        () => this.getDateValue(this.dateValue() ?? this.value()) ?? new Date(),
-    );
+    protected readonly date = computed<Date>(() => this.getDateValue(this.dateValue() ?? this.value()) ?? new Date());
     protected readonly selected = signal<boolean>(false);
-    protected readonly year = computed<number | undefined>(() => (this.getDate() ?? new Date()).getUTCFullYear());
-    protected readonly month = computed<number | undefined>(() => (this.getDate() ?? new Date()).getUTCMonth() + 1);
+    protected readonly year = computed<number | undefined>(() => this.getDate().getUTCFullYear());
+    protected readonly month = computed<number | undefined>(() => this.getDate().getUTCMonth() + 1);
     // note: day is not necessary
     protected readonly hours = computed<number | undefined>(() => this.getDate()?.getUTCHours());
     protected readonly minutes = computed<number | undefined>(() => this.getDate()?.getUTCMinutes());
@@ -112,7 +110,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
         const min = this.minDate()?.getUTCFullYear();
         const max = this.maxDate()?.getUTCFullYear();
 
-        let year = (this.date() ? new Date(this.date()!) : new Date()).getUTCFullYear() - this.past();
+        let year = new Date(this.date()).getUTCFullYear() - this.past();
         if (min) {
             year = Math.max(min, year);
         }
@@ -130,7 +128,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     });
 
     protected monthsList = computed<Select2Data>(() => {
-        const currentDate = this.date() ?? new Date();
+        const currentDate = this.date();
         const minDate = this.minDate();
         const maxDate = this.maxDate();
 
@@ -157,7 +155,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     });
 
     protected prevMonthHide = computed(() => {
-        const currentDate = this.date() ?? new Date();
+        const currentDate = this.date();
         const minDate = this.minDate();
 
         return (
@@ -169,7 +167,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     });
 
     protected nextMonthHide = computed(() => {
-        const currentDate = this.date() ?? new Date();
+        const currentDate = this.date();
         const maxDate = this.maxDate();
 
         return (
@@ -189,7 +187,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
     );
 
     protected computedDaysOfMonth = computed<DateInfo[][]>(() => {
-        const date = this.getDate() ?? new Date();
+        const date = this.getDate();
         const year = date.getUTCFullYear();
         const month = date.getUTCMonth();
 

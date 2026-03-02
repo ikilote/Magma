@@ -63,11 +63,23 @@ export class MagmaResize {
                 if (resize === 'top') {
                     data = [Math.max(itemSource.y[0] - changeY, this.resizerInit().y), itemSource.y[1]];
                 } else if (resize === 'bottom') {
-                    data = [itemSource.y[0], Math.min(itemSource.y[1] - changeY, host.heightElementNumber - 1)];
+                    data = [
+                        itemSource.y[0],
+                        Math.min(
+                            itemSource.y[1] - changeY,
+                            host.heightElementNumber + this.resizerInit().y - itemSource.y[0],
+                        ),
+                    ];
                 } else if (resize === 'left') {
                     data = [Math.max(itemSource.x[0] - changeX, this.resizerInit().x), itemSource.x[1]];
                 } else if (resize === 'right') {
-                    data = [itemSource.x[0], Math.min(itemSource.x[1] - changeX, host.widthElementNumber - 1)];
+                    data = [
+                        itemSource.x[0],
+                        Math.min(
+                            itemSource.x[1] - changeX,
+                            host.widthElementNumber + this.resizerInit().x - itemSource.x[0],
+                        ),
+                    ];
                 }
 
                 if (this.resize) {

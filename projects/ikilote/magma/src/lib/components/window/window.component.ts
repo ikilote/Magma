@@ -240,7 +240,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
                 }
                 break;
             case 'right':
-                if (data[1] > 0 && element) {
+                if (data[1] > this.initPosition.x && element) {
                     element.style.width = data[1] + 'px';
                     this.x = [this.x[0], element.offsetWidth];
                 }
@@ -254,7 +254,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
                 }
                 break;
             case 'bottom':
-                if (data[1] > 0 && element) {
+                if (data[1] > this.initPosition.y && element) {
                     element.style.height = data[1] + 'px';
                     this.y = [this.y[0], element.offsetHeight];
                 }

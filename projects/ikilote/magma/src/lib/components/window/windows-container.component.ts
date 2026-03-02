@@ -24,11 +24,13 @@ export class MagmaWindowsContainer implements MagmaResizeHostElement, AfterConte
     protected readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
     readonly cd = inject(ChangeDetectorRef);
 
-    heightElementNumber = this.element.nativeElement.offsetHeight;
-    widthElementNumber = this.element.nativeElement.offsetWidth;
+    heightElementNumber = 0;
+    widthElementNumber = 0;
     elementSize = 1;
 
     ngAfterContentChecked(): void {
+        this.heightElementNumber = this.element.nativeElement.offsetHeight;
+        this.widthElementNumber = this.element.nativeElement.offsetWidth;
         const win = this.windows();
         if (win?.length) {
             win.forEach((element, index) => {

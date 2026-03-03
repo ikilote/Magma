@@ -1,5 +1,5 @@
 import { Component, DebugElement, signal } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -82,35 +82,38 @@ describe('MagmaInputCheckbox', () => {
         expect(inputElement.checked).toBeFalse();
     });
 
-    it('should update testChecked and call detectChanges on writeValue (value)', () => {
+    it('should update testChecked and call detectChanges on writeValue (value)', fakeAsync(() => {
         spyOn(component['cd'], 'detectChanges');
 
         fixture.componentRef.setInput('value', 'test-value');
         component.writeValue('test-value');
+        tick();
 
         expect(component['testChecked']).toBeTrue();
         expect(component['cd'].detectChanges).toHaveBeenCalled();
-    });
+    }));
 
-    it('should update testChecked and call detectChanges on writeValue (true)', () => {
+    it('should update testChecked and call detectChanges on writeValue (true)', fakeAsync(() => {
         spyOn(component['cd'], 'detectChanges');
 
         component.writeValue(true);
+        tick();
 
         expect(component['testChecked']).toBeTrue();
         expect(component['cd'].detectChanges).toHaveBeenCalled();
-    });
+    }));
 
-    it('should update testChecked and call detectChanges on writeValue (array)', () => {
+    it('should update testChecked and call detectChanges on writeValue (array)', fakeAsync(() => {
         spyOn(component['cd'], 'detectChanges');
         (component.host as any).inputs = signal([component, component]);
 
         fixture.componentRef.setInput('value', 'test-value');
         component.writeValue(['test-value']);
+        tick();
 
         expect(component['testChecked']).toBeTrue();
         expect(component['cd'].detectChanges).toHaveBeenCalled();
-    });
+    }));
 
     it('should update testChecked on ngOnChanges', () => {
         const changes = {
@@ -382,9 +385,10 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             expect(checkboxComponents[2].getValue()).toEqual(['option2', 'option3']);
         });
 
-        it('should update checkbox state when host value changes', () => {
+        it('should update checkbox state when host value changes', fakeAsync(() => {
             checkboxComponents[0].writeValue(['option1', 'option3']);
             fixture.detectChanges();
+            tick();
 
             expect(checkboxComponents[0]['testChecked']).toBeTrue();
             expect(checkboxComponents[1]['testChecked']).toBeUndefined();
@@ -393,13 +397,14 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option3']);
             expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option3']);
             expect(checkboxComponents[2].getValue()).toEqual(['option1', 'option3']);
-        });
+        }));
 
-        it('should update checkbox state when host value changes 2 times', () => {
+        it('should update checkbox state when host value changes 2 times', fakeAsync(() => {
             checkboxComponents[0].writeValue(['option1', 'option3']);
             fixture.detectChanges();
             checkboxComponents[0].writeValue(['option2']);
             fixture.detectChanges();
+            tick();
 
             expect(checkboxComponents[0]['testChecked']).toBeFalse();
             expect(checkboxComponents[1]['testChecked']).toBeTrue();
@@ -408,7 +413,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             expect(checkboxComponents[0].getValue()).toEqual(['option2']);
             expect(checkboxComponents[1].getValue()).toEqual(['option2']);
             expect(checkboxComponents[2].getValue()).toEqual(['option2']);
-        });
+        }));
 
         it('should emit update event when checkbox state changes', () => {
             spyOn(checkboxComponents[0].update, 'emit');
@@ -476,9 +481,10 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             expect(checkboxComponents[2].getValue()).toEqual([false, true, true]);
         });
 
-        it('should update checkbox state when host value changes', () => {
+        it('should update checkbox state when host value changes', fakeAsync(() => {
             checkboxComponents[0].writeValue([true, false, true]);
             fixture.detectChanges();
+            tick();
 
             expect(checkboxComponents[0]['testChecked']).toBeTrue();
             expect(checkboxComponents[1]['testChecked']).toBeFalsy();
@@ -487,13 +493,14 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             expect(checkboxComponents[0].getValue()).toEqual([true, false, true]);
             expect(checkboxComponents[1].getValue()).toEqual([true, false, true]);
             expect(checkboxComponents[2].getValue()).toEqual([true, false, true]);
-        });
+        }));
 
-        it('should update checkbox state when host value changes 2 times', () => {
+        it('should update checkbox state when host value changes 2 times', fakeAsync(() => {
             checkboxComponents[0].writeValue([true, false, true]);
             fixture.detectChanges();
             checkboxComponents[0].writeValue([false, true, false]);
             fixture.detectChanges();
+            tick();
 
             expect(checkboxComponents[0]['testChecked']).toBeFalse();
             expect(checkboxComponents[1]['testChecked']).toBeTrue();
@@ -502,7 +509,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             expect(checkboxComponents[0].getValue()).toEqual([false, true, false]);
             expect(checkboxComponents[1].getValue()).toEqual([false, true, false]);
             expect(checkboxComponents[2].getValue()).toEqual([false, true, false]);
-        });
+        }));
 
         it('should emit update event when checkbox state changes', () => {
             spyOn(checkboxComponents[0].update, 'emit');

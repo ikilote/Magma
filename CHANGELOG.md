@@ -22,6 +22,7 @@ Modify the CSS variable numbering:
 > --primaryB → --primary000
 >
 > /* NEUTRAL */
+> --neutral  → --neutral990
 > --neutral0 → --neutral950
 > --neutral1 → --neutral900
 > --neutral2 → --neutral800

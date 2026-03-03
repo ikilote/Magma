@@ -53,10 +53,9 @@ describe('StringPipe', () => {
             expect(result).toBe('TRUE');
         });
 
-        it('should return undefined if an invalid method name is provided', () => {
-            // Because of the optional chaining (?.) in the pipe
+        it('should return same string if an invalid method name is provided', () => {
             const result = pipe.transform('test', 'nonExistentMethod');
-            expect(result).toBeUndefined();
+            expect(result).toBe('test');
         });
     });
 

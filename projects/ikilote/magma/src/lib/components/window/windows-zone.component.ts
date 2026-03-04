@@ -19,9 +19,10 @@ import { MagmaWindows } from '../../services/windows';
     imports: [MagmaWindow],
 })
 export class MagmaWindowsZone implements MagmaResizeHostElement {
+    readonly cd = inject(ChangeDetectorRef);
+
     protected readonly windows = input.required<MagmaWindowInfos[]>();
     protected readonly context = input<MagmaWindows>();
-    readonly cd = inject(ChangeDetectorRef);
 
     heightElementNumber = window.innerHeight;
     widthElementNumber = window.innerWidth;

@@ -160,7 +160,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
     drag(drag: CdkDragEnd) {
         const { x, y } = drag.distance;
-        const element = this.elementWin()[0].nativeElement;
+        const element = this.elementWin()?.[0].nativeElement;
         const zone = this.getZone();
         this.x = [
             Math.min(

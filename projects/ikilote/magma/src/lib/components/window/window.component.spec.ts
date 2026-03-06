@@ -1,4 +1,4 @@
-import { CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -179,6 +179,94 @@ describe('MagmaWindow', () => {
             expect(mockElement.style.height).toBe('150px');
             expect(component['y'][0]).toBe(50);
         });
+
+        it('should call updatePosition when position change', () => {
+            spyOn(component, 'updatePosition');
+            fixture.componentRef.setInput('position', 'center');
+            fixture.detectChanges();
+            expect(component.updatePosition).toHaveBeenCalledWith();
+        });
+
+        it('should not call updatePosition with other input', () => {
+            spyOn(component, 'updatePosition');
+            fixture.componentRef.setInput('bar', 'false');
+            fixture.detectChanges();
+            expect(component.updatePosition).not.toHaveBeenCalledWith();
+        });
+    });
+
+    describe('getZone() - Boundary Selection', () => {
+        let zoneElement: HTMLElement;
+
+        beforeEach(() => {
+            // Create a dummy zone element in the real DOM for querySelector to find
+            zoneElement = document.createElement('div');
+            zoneElement.id = 'test-zone';
+            document.body.appendChild(zoneElement);
+        });
+
+        afterEach(() => {
+            // Clean up the DOM to avoid polluting other tests
+            if (zoneElement.parentNode) {
+                document.body.removeChild(zoneElement);
+            }
+        });
+
+        it('should return the element if zoneSelector input is provided', () => {
+            fixture.componentRef.setInput('zoneSelector', '#test-zone');
+
+            const result = component['getZone']();
+
+            expect(result).toBe(zoneElement);
+        });
+
+        it('should return the element from the component infos if zoneSelector input is missing', () => {
+            fixture.componentRef.setInput('zoneSelector', undefined);
+            fixture.componentRef.setInput('component', {
+                zoneSelector: '#test-zone',
+                id: 'win-1',
+            } as any);
+
+            const result = component['getZone']();
+
+            expect(result).toBe(zoneElement);
+        });
+
+        it('should prioritize the direct zoneSelector input over the component infos', () => {
+            // Create a second zone
+            const specificZone = document.createElement('div');
+            specificZone.id = 'specific-zone';
+            document.body.appendChild(specificZone);
+
+            fixture.componentRef.setInput('zoneSelector', '#specific-zone');
+            fixture.componentRef.setInput('component', {
+                zoneSelector: '#test-zone',
+            } as any);
+
+            const result = component['getZone']();
+
+            expect(result).toBe(specificZone);
+
+            // Cleanup specific zone
+            document.body.removeChild(specificZone);
+        });
+
+        it('should return null if no selector is provided', () => {
+            fixture.componentRef.setInput('zoneSelector', undefined);
+            fixture.componentRef.setInput('component', undefined);
+
+            const result = component['getZone']();
+
+            expect(result).toBeNull();
+        });
+
+        it('should return null if the selector does not match any element', () => {
+            fixture.componentRef.setInput('zoneSelector', '#non-existent-id');
+
+            const result = component['getZone']();
+
+            expect(result).toBeNull();
+        });
     });
 
     describe('Title Bar', () => {
@@ -264,11 +352,112 @@ describe('MagmaWindow', () => {
     });
 
     describe('Initial Position', () => {
-        it('should center the window if position is center', () => {
-            fixture.componentRef.setInput('position', 'center');
+        it('should use zone when zone is define', () => {
+            // @ts-ignore
+            spyOn(component, 'getZone').and.returnValue({
+                getBoundingClientRect: () => ({ left: 0, top: 0 }),
+            });
+            // @ts-ignore
+            component.elementRef = {
+                nativeElement: { getBoundingClientRect: () => ({ left: 0, top: 0 }) },
+            };
             component.ngOnInit();
-            expect(component.x[0]).toBeGreaterThan(0);
-            expect(component.y[0]).toBeGreaterThan(0);
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.initPosition).toEqual({ x: 0, y: 0 });
+            expect(component.x[0]).toBe(0);
+            expect(component.y[0]).toBe(0);
+        });
+
+        it('should use zone when zone is define and change element position', () => {
+            // @ts-ignore
+            spyOn(component, 'getZone').and.returnValue({
+                getBoundingClientRect: () => ({ left: 0, top: 0 }),
+            });
+            // @ts-ignore
+            component.elementRef = {
+                nativeElement: { getBoundingClientRect: () => ({ left: 250, top: 350 }) },
+            };
+            component.ngOnInit();
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.initPosition).toEqual({ x: -250, y: -350 });
+            expect(component.x[0]).toBe(0);
+            expect(component.y[0]).toBe(0);
+        });
+
+        it('should position is center', () => {
+            fixture.componentRef.setInput('position', 'center');
+            // @ts-ignore
+            spyOn(component, 'getZone').and.returnValue({
+                getBoundingClientRect: () => ({ left: 0, top: 0 }),
+                offsetWidth: 500,
+                offsetHeight: 500,
+            });
+            // @ts-ignore
+            component.elementRef = {
+                nativeElement: {
+                    getBoundingClientRect: () => ({ left: 250, top: 350 }),
+                    offsetWidth: 100,
+                    offsetHeight: 100,
+                },
+            };
+            component.ngOnInit();
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.initPosition).toEqual({ x: -250, y: -350 });
+            expect(component.x[0]).toBe(-50);
+            expect(component.y[0]).toBe(-150);
+        });
+
+        it('should position is center when no zone', () => {
+            fixture.componentRef.setInput('position', 'center');
+            spyOnProperty(window, 'innerWidth').and.returnValue(500);
+            spyOnProperty(window, 'innerHeight').and.returnValue(500);
+
+            // @ts-ignore
+            component.elementRef = {
+                nativeElement: {
+                    getBoundingClientRect: () => ({ left: 250, top: 350 }),
+                    offsetWidth: 100,
+                    offsetHeight: 100,
+                },
+            };
+            component.ngOnInit();
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.initPosition).toEqual({ x: 0, y: 0 });
+            expect(component.x[0]).toBe(200);
+            expect(component.y[0]).toBe(200);
+        });
+
+        it('should position is {x, y}', () => {
+            fixture.componentRef.setInput('position', { x: 10, y: 20 });
+            // @ts-ignore
+            spyOn(component, 'getZone').and.returnValue({
+                getBoundingClientRect: () => ({ left: 0, top: 0 }),
+                offsetWidth: 500,
+                offsetHeight: 500,
+            });
+            // @ts-ignore
+            component.elementRef = {
+                nativeElement: {
+                    getBoundingClientRect: () => ({ left: 250, top: 350 }),
+                    offsetWidth: 100,
+                    offsetHeight: 100,
+                },
+            };
+            component.ngOnInit();
+            fixture.detectChanges();
+
+            // @ts-ignore
+            expect(component.initPosition).toEqual({ x: -250, y: -350 });
+            expect(component.x[0]).toBe(-240);
+            expect(component.y[0]).toBe(-330);
         });
     });
 
@@ -282,6 +471,82 @@ describe('MagmaWindow', () => {
 
             // Instead of the complete object, we just check the call
             expect(mockResizeHost.select).toHaveBeenCalled();
+        });
+    });
+
+    describe('change() - Fullscreen Toggling', () => {
+        let mockElement: HTMLDivElement;
+        let dragSpy: jasmine.SpyObj<CdkDrag>;
+
+        beforeEach(() => {
+            // 1. Create the mock element and the spy for CdkDrag
+            mockElement = document.createElement('div');
+            dragSpy = jasmine.createSpyObj('CdkDrag', ['setFreeDragPosition']);
+
+            // 2. Mock the signals (elementWin and cdkDrag)
+            // @ts-ignore
+            spyOn(component, 'elementWin').and.returnValue([{ nativeElement: mockElement }] as any);
+            // @ts-ignore
+            spyOn(component, 'cdkDrag').and.returnValue([dragSpy] as any);
+
+            // 3. Mock getZone to return fixed dimensions for the test
+            spyOn<any>(component, 'getZone').and.returnValue({
+                offsetWidth: 1920,
+                offsetHeight: 1080,
+            });
+
+            // 4. Set initial position
+            component['initPosition'] = { x: 0, y: 0 };
+        });
+
+        it('should enter fullscreen: maximize size and reset position to initPosition', () => {
+            // Ensure we start in windowed mode
+            component['fullscreen'].set(false);
+
+            component.change();
+
+            // Verify state change
+            expect(component['fullscreen']()).toBeTrue();
+
+            // Verify it moved to the container's top-left (initPosition)
+            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 0, y: 0 });
+
+            // Verify styles match the zone dimensions we mocked
+            expect(mockElement.style.width).toBe('1920px');
+            expect(mockElement.style.height).toBe('1080px');
+        });
+
+        it('should exit fullscreen: restore saved window coordinates and dimensions', () => {
+            // 1. Setup: Start in fullscreen with specific saved "windowed" values
+            component['fullscreen'].set(true);
+
+            // Stored coordinates: pos(50, 60), size(400x300)
+            component['x'] = [50, 400];
+            component['y'] = [60, 300];
+
+            // 2. Act
+            component.change();
+
+            // 3. Assert
+            expect(component['fullscreen']()).toBeFalse();
+
+            // Verify it restored the Drag position to our stored x[0] and y[0]
+            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 50, y: 60 });
+
+            // Verify it restored the Element size to our stored x[1] and y[1]
+            expect(mockElement.style.width).toBe('400px');
+            expect(mockElement.style.height).toBe('300px');
+        });
+
+        it('should use window dimensions if getZone returns null', () => {
+            // Mock getZone to return null to test the fallback (window.innerWidth)
+            (component as any).getZone.and.returnValue(null);
+            component['fullscreen'].set(false);
+
+            component.change();
+
+            expect(mockElement.style.width).toBe(window.innerWidth + 'px');
+            expect(mockElement.style.height).toBe(window.innerHeight + 'px');
         });
     });
 });

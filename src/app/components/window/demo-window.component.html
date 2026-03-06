@@ -71,12 +71,12 @@
           </mg-input>
         </p>
         <p>
-          <mg-input class="s-4">
+          <mg-input class="s-2">
             <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
           </mg-input>
         </p>
       </form>
-      <div class="s-4 s-4-l s-12-s">
+      <div class="s-2 s-6-l s-12-s">
         <button (click)="window.isOpen() ? window.close() : window.open()">
           {{ window.isOpen() ? 'Close' : 'Open' }} window
         </button>
@@ -111,7 +111,7 @@
           </p>
         </mg-window>
       </div>
-      <div class="s-4 s-12-l">
+      <div class="s-6 s-12-l">
         <code-tabs
           [code]="[
             { type: 'html', code: codeHtml },

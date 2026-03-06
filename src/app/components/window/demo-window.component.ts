@@ -101,29 +101,88 @@ export class DemoBlockComponent { }`;
     }
 
     codeGeneration() {
-        // tag root
+        const attr: Json2htmlAttr = { '#window': null, zoneSelector: 'mg-windows-container' };
 
         const json: Json2htmlRef = {
-            tag: 'mg-window',
-            attrs: { '#window': null },
+            tag: 'mg-window-container',
             body: [
                 {
-                    tag: 'p',
-                    body: 'Content window',
-                },
-                {
-                    tag: 'p',
-                    body: {
-                        tag: 'button',
-                        attrs: { '(click)': 'window.close()' },
-                        body: 'Close',
-                    },
+                    tag: 'mg-window',
+                    attrs: attr,
+                    body: [
+                        {
+                            tag: 'p',
+                            body: 'Content window',
+                        },
+                        {
+                            tag: 'p',
+                            body: {
+                                tag: 'button',
+                                attrs: { '(click)': 'window.close()' },
+                                body: 'Close',
+                            },
+                        },
+                        {
+                            tag: 'p',
+                            body: [
+                                {
+                                    annotation: 'let',
+                                    value: 'l = [0]',
+                                },
+                                {
+                                    annotation: 'let',
+                                    conditional: 'b of l; track $index',
+                                    body: {
+                                        tag: 'button',
+                                        attrs: { '(click)': 'l.push(0)' },
+                                        body: 'Add',
+                                    },
+                                },
+                            ],
+                        },
+                    ],
                 },
             ],
         };
-        const attrs: Json2htmlAttr = json.attrs!;
 
-        // tag attr
+        // dynamic tag attr
+
+        if (this.ctrlForm.value.position === 'define') {
+            attr['[position]'] = `{x: ${this.ctrlForm.value.posX ?? 0}, y: ${this.ctrlForm.value.posY ?? 0} }`;
+        } else {
+            attr['position'] = this.ctrlForm.value.position;
+        }
+
+        if (this.ctrlForm.value.bar) {
+            attr['bar'] = null;
+
+            if (this.ctrlForm.value.barTitle) {
+                attr['bar-title'] = this.ctrlForm.value.barTitle;
+            }
+            if (this.ctrlForm.value.barButtons) {
+                attr['bar-buttons'] = null;
+            }
+        }
+
+        if (this.ctrlForm.value.width) {
+            attr['width'] = this.ctrlForm.value.width;
+        }
+        if (this.ctrlForm.value.minWidth) {
+            attr['min-width'] = this.ctrlForm.value.minWidth;
+        }
+        if (this.ctrlForm.value.maxWidth) {
+            attr['max-width'] = this.ctrlForm.value.maxWidth;
+        }
+
+        if (this.ctrlForm.value.height) {
+            attr['height'] = this.ctrlForm.value.height;
+        }
+        if (this.ctrlForm.value.minHeight) {
+            attr['min-height'] = this.ctrlForm.value.minHeight;
+        }
+        if (this.ctrlForm.value.maxHeight) {
+            attr['max-height'] = this.ctrlForm.value.maxHeight;
+        }
 
         this.codeHtml = new Json2html(json).toString();
     }

@@ -1,5 +1,35 @@
 # Changelog of @ikilote/magma
 
+## 1.5.0 (2026-03-07)
+
+### 🐞 Fix
+
+- **Color picker**: fix color-view
+- **Datetime-picker**: fix init date
+- **Input**: fix setTimeout for checkbox
+
+### ✅ New
+
+- **Window**
+    - `mg-window` component
+        - `mg-window-container` container for windows
+        - `position` : initial position
+        - `bar` : title bar with close and fullscreen buttons
+        - `size` : initial size and limits
+        - resizable or not
+    - `Windows` service to create windows with parameters
+        - `position` : initial position
+        - `bar` : title bar with close and fullscreen buttons
+        - `size` : initial size and limits
+        - resizable or not
+- **string** pipe to use string methods
+
+### 🎦 Demo
+
+- Add page for **mg-window** component
+- Add page for **MagmaWindows** wervice
+- Add page for **string** pipe
+
 ## 1.4.0 (2026-02-15)
 
 ### 🫢 Breaking

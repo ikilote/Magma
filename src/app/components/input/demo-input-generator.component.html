@@ -45,11 +45,11 @@
           <mg-input-radio formControlName="type" value="password">password</mg-input-radio>
           <mg-input-radio formControlName="type" value="number">number</mg-input-radio>
           <mg-input-radio formControlName="type" value="range">range</mg-input-radio>
-          <mg-input-radio formControlName="type" value="checkbox" class="update">checkbox</mg-input-radio>
+          <mg-input-radio formControlName="type" value="checkbox">checkbox</mg-input-radio>
           <mg-input-radio formControlName="type" value="radio">radio</mg-input-radio>
           <mg-input-radio formControlName="type" value="select">select</mg-input-radio>
           <mg-input-radio formControlName="type" value="color">color</mg-input-radio>
-          <mg-input-radio formControlName="type" value="date" class="update">date</mg-input-radio>
+          <mg-input-radio formControlName="type" value="date">date</mg-input-radio>
         </mg-input>
         <mg-input class="s-12">
           <mg-input-label>Type of access value</mg-input-label>
@@ -242,12 +242,12 @@
           </mg-input>
           @if (!formGenerator.value.multiple) {
             <mg-input class="s-3 s-6-m">
-              <mg-input-label class="new">typeValue</mg-input-label>
+              <mg-input-label>typeValue</mg-input-label>
               <mg-input-select formControlName="typeValue" [data]="typeValue" />
             </mg-input>
           }
           <mg-input class="s-3 s-6-m">
-            <mg-input-label class="new">returnValue</mg-input-label>
+            <mg-input-label>returnValue</mg-input-label>
             <mg-input-select formControlName="returnValue" [data]="returnValue" />
           </mg-input>
         }

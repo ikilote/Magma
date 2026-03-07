@@ -82,7 +82,7 @@
 
   <div class="s-8 s-12-s">
     <h3>Test</h3>
-    @let componentName = ctrlFormZone.value.component.name | string: 'replace' : '_' : '';
+    @let componentName = ctrlFormZone.value.component.className | string: 'replace' : '_' : '';
     <button (click)="openWindow()">Open <code>mg-window</code> with “{{ componentName }}” component</button>
     <h3>Code</h3>
     <code-tabs

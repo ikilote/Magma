@@ -23,7 +23,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     template: `<p><button (click)="close()">Close</button></p>`,
     styles: [``],
 })
-export class TestWindowComponent extends AbstractWindowComponent {}
+export class TestWindowComponent extends AbstractWindowComponent {
+    static className = 'TestWindowComponent'; // for prod build
+}
 
 @Component({
     template: `<p>
@@ -41,7 +43,9 @@ export class TestWindowComponent extends AbstractWindowComponent {}
         `,
     ],
 })
-export class Test2WindowComponent extends AbstractWindowComponent {}
+export class Test2WindowComponent extends AbstractWindowComponent {
+    static className = 'Test2WindowComponent'; // for prod build
+}
 
 @Component({
     selector: 'demo-windows',
@@ -205,7 +209,7 @@ export class DemoBlockComponent {
 
     openWindow() {
         this.windows.openWindow(
-            ${this.ctrlFormZone.value.component.name.replace('_', '')},
+            ${this.ctrlFormZone.value.component.className.replace('_', '')},
             ${new Json2Js(param, {
                 tabAdded: 3,
                 tabAddedExceptFirst: true,

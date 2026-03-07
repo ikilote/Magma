@@ -262,7 +262,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         }
     }
 
-    protected withContext(inputs?: Record<string, any>) {
+    protected withContext(inputs?: Record<string, any>): Record<string, any> & { parent: MagmaWindow } {
         return { ...inputs, ...{ parent: this } };
     }
 }

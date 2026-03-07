@@ -231,8 +231,8 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         // value calculation
         this.rangeHue = 360 - (hls.h || 0);
         this.rangeAlpha = hls.alpha;
-        this.rangeSature = 100 - hls.s;
-        this.rangeLight = 100 - (100 * hls.l) / (100 - hls.s / 2);
+        this.rangeSature = 100 - (hls.s ?? 0);
+        this.rangeLight = 100 - (100 * (hls.l ?? 0)) / (100 - (hls.s ?? 0) / 2);
 
         // position calculation
         const { clientWidth, clientHeight } = this.zone().nativeElement;

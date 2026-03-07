@@ -10,7 +10,16 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'string',
 })
 export class StringPipe implements PipeTransform {
-    transform(value: any, name: string, ...args: any[]): any {
-        return name !== 'length' ? (`${value}` as any)[name]?.(...args) : `${value}`.length;
+    transform(value: any, name: 'length'): number;
+    transform(value: any, name: string, ...args: any[]): string;
+    transform(value: any, name: string, ...args: any[]): string | number {
+        const strValue = String(value);
+
+        if (name === 'length') {
+            return strValue.length;
+        }
+
+        const method = (strValue as any)[name];
+        return typeof method === 'function' ? method.apply(strValue, args) : strValue;
     }
 }

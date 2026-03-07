@@ -881,6 +881,51 @@ pre.mono {
     background-color: var(--walkthrough-backdrop);
 }
 
+/* -------------------- windows -----------------------------------------------------------
+    MARK: Windows
+*/
+
+.cdk-overlay-pane.overlay-window {
+    width: 100%;
+    pointer-events: none;
+
+    mg-window > div {
+        pointer-events: all;
+    }
+
+    &:has(mg-window > :is(.ew-resize, .ns-resize)) {
+        pointer-events: all;
+    }
+
+    .content {
+        max-width: 100dvw;
+        max-height: 100dvh;
+    }
+}
+
+.ew-resize {
+    cursor: ew-resize;
+    user-select: none;
+}
+
+.ns-resize {
+    cursor: ns-resize;
+    user-select: none;
+}
+
+.ew-resize,
+.ns-resize {
+    &::before {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        background-color: transparent;
+        width: 100%;
+        height: 100%;
+        content: '';
+    }
+}
+
 /* -------------------- fixes ------------------------------------------------------------
     MARK: Fixes
 */

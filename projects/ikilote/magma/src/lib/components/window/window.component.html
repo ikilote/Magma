@@ -1,0 +1,52 @@
+@if (isOpen()) {
+  @let comp = component();
+  <div
+    #element
+    class="content"
+    role="dialog"
+    limitFocus
+    cdkDrag
+    [cdkDragDisabled]="fullscreen()"
+    (cdkDragEnded)="drag($event)"
+    [cdkDragBoundary]="zoneSelector() || comp?.zoneSelector || 'body'"
+    [resizer]="this"
+    [resizerInit]="initPosition"
+    [resizerHost]="resizerHost()"
+    [resizerDisabled]="comp?.size?.lock"
+    [style.width]="width() || comp?.size?.width?.init"
+    [style.min-width]="minWidth() || comp?.size?.width?.min"
+    [style.max-width]="maxWidth() || comp?.size?.width?.max"
+    [style.height]="height() || comp?.size?.height?.init"
+    [style.min-height]="minHeight() || comp?.size?.height?.min"
+    [style.max-height]="maxHeight() || comp?.size?.height?.max"
+    (ngInit)="winInit()"
+  >
+    <div class="window-main">
+      @if (bar() || comp?.bar?.active) {
+        <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="this.fullscreen()">
+          @if (barTitle() || comp?.bar?.title) {
+            <div class="window-title-text">
+              {{ barTitle() || comp?.bar?.title }}
+            </div>
+          }
+          @if (barButtons() || comp?.bar?.buttons) {
+            <div class="window-title-buttons">
+              <button class="bar-resize" (click)="change()">
+                @if (fullscreen()) {
+                  <span class="icon-minimize-2"></span>
+                } @else {
+                  <span class="icon-fullscreen"></span>
+                }
+              </button>
+              <button class="bar-close" (click)="close()"><span class="icon-remove"></span></button>
+            </div>
+          }
+        </div>
+      }
+      <ng-content />
+      @if (comp) {
+        <ng-container [ngComponentOutlet]="comp.component" [ngComponentOutletInputs]="withContext(comp.inputs)" />
+      }
+    </div>
+  </div>
+}

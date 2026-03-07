@@ -141,6 +141,12 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./components/walkthrough/demo-walkthrough.component').then(m => m.DemoWalkthroughComponent),
             },
+            {
+                path: 'window',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/window/demo-window.component').then(m => m.DemoWindowComponent),
+            },
         ],
     },
     {
@@ -276,6 +282,12 @@ export const routes: Routes = [
                     import('./services/form-builder-extended/demo-form-builder-extended.component').then(
                         m => m.DemoFormBuilderExtended,
                     ),
+            },
+            {
+                path: 'windows',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./services/windows/demo-windows.component').then(m => m.DemoWindowsComponent),
             },
         ],
     },

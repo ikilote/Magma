@@ -1,0 +1,223 @@
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { Component, DebugElement } from '@angular/core';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+
+import { MagmaResize } from './resizer.directive';
+
+// Host component mock for testing purposes
+@Component({
+    template: `
+        <div style="position: relative;">
+            <div
+                style="width: 100px; height: 100px; position: absolute;"
+                resizer
+                [resizer]="mockResizer"
+                [resizerHost]="mockHost"
+                [resizerDisabled]="isDisabled"
+                [resizerInit]="{ x: 0, y: 0 }"
+            ></div>
+        </div>
+    `,
+    standalone: true,
+    imports: [MagmaResize],
+})
+class TestComponent {
+    isDisabled = false;
+    mockResizer = {
+        x: [0, 10],
+        y: [0, 10],
+        animation: true,
+        update: jasmine.createSpy('update'),
+    } as any;
+
+    mockHost = {
+        elementSize: 10,
+        widthElementNumber: 100,
+        heightElementNumber: 100,
+    } as any;
+}
+
+describe('MagmaResize Directive', () => {
+    let fixture: ComponentFixture<TestComponent>;
+    let component: TestComponent;
+    let directiveEl: DebugElement;
+    let directiveInstance: MagmaResize;
+    let cdkDragSpy: jasmine.SpyObj<CdkDrag>;
+
+    beforeEach(async () => {
+        // Create a spy for the optional CdkDrag dependency
+        cdkDragSpy = jasmine.createSpyObj('CdkDrag', ['disabled']);
+
+        await TestBed.configureTestingModule({
+            imports: [TestComponent],
+            providers: [{ provide: CdkDrag, useValue: cdkDragSpy }],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
+        directiveEl = fixture.debugElement.query(By.directive(MagmaResize));
+        directiveInstance = directiveEl.injector.get(MagmaResize);
+
+        fixture.detectChanges();
+    });
+
+    it('should create an instance', () => {
+        expect(directiveInstance).toBeTruthy();
+    });
+
+    // --- EDGE DETECTION TESTS ---
+
+    describe('Edge Detection', () => {
+        it('should detect the left edge', () => {
+            const event = new MouseEvent('mousemove', { clientX: 2, clientY: 50 });
+            directiveEl.nativeElement.dispatchEvent(event);
+            fixture.detectChanges();
+
+            expect(directiveInstance.resize).toBe('left');
+            expect(directiveEl.nativeElement.classList.contains('ew-resize')).toBeTrue();
+            expect(cdkDragSpy.disabled).toBeTrue();
+        });
+
+        it('should detect the right edge', () => {
+            const rect = directiveEl.nativeElement.getBoundingClientRect();
+            // Component width is 100px. 100 - 98 = 2px (which is < 5px threshold)
+            const event = new MouseEvent('mousemove', { clientX: rect.left + 98, clientY: rect.top + 50 });
+            directiveEl.nativeElement.dispatchEvent(event);
+            fixture.detectChanges();
+
+            expect(directiveInstance.resize).toBe('right');
+            expect(directiveEl.nativeElement.classList.contains('ew-resize')).toBeTrue();
+        });
+
+        it('should detect the top edge', () => {
+            const rect = directiveEl.nativeElement.getBoundingClientRect();
+
+            const event = new MouseEvent('mousemove', { clientX: rect.left + 50, clientY: rect.top + 2 });
+            directiveEl.nativeElement.dispatchEvent(event);
+            fixture.detectChanges();
+
+            expect(directiveInstance.resize).toBe('top');
+            expect(directiveEl.nativeElement.classList.contains('ns-resize')).toBeTrue();
+        });
+
+        it('should detect the bottom edge', () => {
+            const rect = directiveEl.nativeElement.getBoundingClientRect();
+            const event = new MouseEvent('mousemove', { clientX: rect.left + 50, clientY: rect.top + 98 });
+            directiveEl.nativeElement.dispatchEvent(event);
+            fixture.detectChanges();
+
+            expect(directiveInstance.resize).toBe('bottom');
+        });
+
+        it('should reset resize state when mouse is in the center', () => {
+            const rect = directiveEl.nativeElement.getBoundingClientRect();
+            const event = new MouseEvent('mousemove', { clientX: rect.left + 50, clientY: rect.top + 50 });
+            directiveEl.nativeElement.dispatchEvent(event);
+            fixture.detectChanges();
+
+            expect(directiveInstance.resize).toBeUndefined();
+            expect(cdkDragSpy.disabled).toBeFalse();
+        });
+    });
+
+    // --- RESIZING LOGIC TESTS ---
+
+    describe('Resizing Calculations', () => {
+        const initiateResize = (direction: 'left' | 'right' | 'top' | 'bottom', startX: number, startY: number) => {
+            // 1. Manually set the detected edge
+            directiveInstance.resize = direction;
+            // 2. Trigger mousedown to lock the active resize state
+            const event = new MouseEvent('mousedown', { clientX: startX, clientY: startY });
+            directiveEl.nativeElement.dispatchEvent(event);
+        };
+
+        it('should update dimensions when dragging the right edge', fakeAsync(() => {
+            initiateResize('right', 100, 100);
+
+            const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
+            window.dispatchEvent(moveEvent);
+            tick(10); // Wait for the animation setTimeout
+
+            // Move: 20px upwards. changeX = (100 - 120) / 10 = -2.
+            // Logic: itemSource.x[1] - (-2) = 12
+            expect(component.mockResizer.update).toHaveBeenCalledWith('right', [0, 12]);
+            expect(component.mockResizer.animation).toBeTrue();
+        }));
+
+        it('should clamp the top dimension to resizerInit.y', fakeAsync(() => {
+            initiateResize('top', 100, 100);
+
+            // Move: 50px upwards. changeY = (100 - 50) / 10 = 5.
+            // Logic: itemSource.y[0] - 5 = -5.
+            // Since resizerInit.y is 0, it should use Math.max(-5, 0) = 0.
+            const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 50 });
+            window.dispatchEvent(moveEvent);
+            tick(10); // Wait for the animation setTimeout
+
+            expect(component.mockResizer.update).toHaveBeenCalledWith('top', [0, 10]);
+        }));
+
+        it('should update dimensions when dragging the left edge', fakeAsync(() => {
+            initiateResize('left', 100, 100);
+
+            const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
+            window.dispatchEvent(moveEvent);
+            tick(10); // Wait for the animation setTimeout
+
+            // Move: 50px upwards. changeX = (100 - 120) / 10 = -2.
+            // Logic: itemSource.x[0] - (-2) = 2
+            expect(component.mockResizer.update).toHaveBeenCalledWith('left', [2, 10]);
+            expect(component.mockResizer.animation).toBeTrue();
+        }));
+
+        it('should update dimensions when dragging the bottom edge', fakeAsync(() => {
+            initiateResize('bottom', 100, 100);
+
+            const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 120 });
+            window.dispatchEvent(moveEvent);
+            tick(10); // Wait for the animation setTimeout
+
+            // Move: 20px upwards. changeY = (100 - 120) / 10 = -2.
+            // Logic: itemSource.y[1] - (-2) = 12
+            expect(component.mockResizer.update).toHaveBeenCalledWith('bottom', [0, 12]);
+            expect(component.mockResizer.animation).toBeTrue();
+        }));
+
+        it('should ignore interactions when resizerDisabled is true', () => {
+            component.isDisabled = true;
+            fixture.detectChanges();
+
+            const event = new MouseEvent('mousedown', { clientX: 2, clientY: 50 });
+            directiveInstance.resize = 'left';
+            directiveEl.nativeElement.dispatchEvent(event);
+
+            expect(directiveInstance.resizeActive).toBeUndefined();
+        });
+    });
+
+    // --- CLEANUP & TIMEOUT TESTS ---
+
+    describe('Lifecycle & Cleanup', () => {
+        it('should reset active resize state on window mouseup', () => {
+            directiveInstance.resize = 'left';
+            directiveInstance.resizeActive = { mousePosInit: [0, 0], itemSource: {} as any };
+
+            window.dispatchEvent(new MouseEvent('mouseup'));
+
+            expect(directiveInstance.resizeActive).toBeUndefined();
+        });
+
+        it('should reset resize direction after a delay on mouseout', fakeAsync(() => {
+            directiveInstance.resize = 'left';
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mouseout'));
+
+            // State should persist immediately because of the 50ms timer
+            expect(directiveInstance.resize).toBe('left');
+
+            tick(50);
+            expect(directiveInstance.resize).toBeUndefined();
+            expect(cdkDragSpy.disabled).toBeFalse();
+        }));
+    });
+});

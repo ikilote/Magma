@@ -63,7 +63,7 @@ export abstract class AbstractWindowComponent {
     templateUrl: './window.component.html',
     styleUrl: './window.component.scss',
     host: {
-        '[style.--index]': 'component()?.index || index || 1',
+        '[style.--index]': 'component()?.index || index || 0',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],

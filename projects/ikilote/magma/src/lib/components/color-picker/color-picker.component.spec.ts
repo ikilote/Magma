@@ -191,6 +191,74 @@ describe('MagmaColorPickerComponent', () => {
         expect(component['pos'].y).toBe(90);
     });
 
+    describe('updateWithHLS (edge tests)', () => {
+        let mockColor: any;
+
+        beforeEach(() => {
+            // Mock the native element dimensions to ensure consistent coordinate calculations
+            // (110 - 10) results in a 100px working area for easier assertions
+            component.zone().nativeElement.style = 'width:110px; height: 110px';
+
+            // Spy on the final side-effect method
+            spyOn(component as any, 'updateColor');
+        });
+
+        it('should handle null hue (h) by defaulting to 0', () => {
+            mockColor = {
+                toGamut: () => mockColor,
+                to: () => ({ h: null, s: 0.5, l: 0.5, alpha: 1 }),
+            };
+
+            (component as any).updateWithHLS(mockColor);
+
+            // 360 - 0 = 360
+            expect(component['rangeHue']).toBe(360);
+            expect((component as any).updateColor).toHaveBeenCalled();
+        });
+
+        it('should handle null saturation (s) by defaulting to 0', () => {
+            mockColor = {
+                toGamut: () => mockColor,
+                to: () => ({ h: 180, s: null, l: 50, alpha: 1 }),
+            };
+
+            (component as any).updateWithHLS(mockColor);
+
+            // 100 - 0 = 100
+            expect(component['rangeSature']).toBe(100);
+            // Formula: 100 - (100 * 0.5) / (100 - 0 / 2) = 100 - 50 = 50
+            expect(component['rangeLight']).toBe(50);
+        });
+
+        it('should handle null lightness (l) by defaulting to 0', () => {
+            mockColor = {
+                toGamut: () => mockColor,
+                to: () => ({ h: 180, s: 50, l: null, alpha: 1 }),
+            };
+
+            (component as any).updateWithHLS(mockColor);
+
+            // 100 - (100 * 0) / (...) = 100
+            expect(component['rangeLight']).toBe(100);
+            // X position calculation: ((110 - 10) * 100) / 100 = 100
+            expect(component['pos'].x).toBe(100);
+        });
+
+        it('should use default values (0) when all HSL properties are missing or undefined', () => {
+            mockColor = {
+                toGamut: () => mockColor,
+                to: () => ({ h: undefined, s: undefined, l: undefined, alpha: 0 }),
+            };
+
+            (component as any).updateWithHLS(mockColor);
+
+            expect(component['rangeHue']).toBe(360);
+            expect(component['rangeAlpha']).toBe(0);
+            expect(component['rangeSature']).toBe(100);
+            expect(component['rangeLight']).toBe(100);
+        });
+    });
+
     it('should start drag', () => {
         expect(component['startDrag']).toBeFalse();
 

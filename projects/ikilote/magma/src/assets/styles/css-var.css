@@ -375,6 +375,14 @@ body {
     --contrib-calendar-tile-color-lvl3: var(--success500);
     --contrib-calendar-tile-color-lvl4: var(--success600);
 
+    /* MARK: window */
+    --window-background: var(--dialog-background);
+    --window-shadow-color: var(--dialog-shadow-color);
+    --window-bar-button-background: var(--neutral400);
+    --window-bar-button-focus-outline: 2px solid var(--neutral900);
+    --window-bar-button-focus-offset: 1px;
+    --window-bar-button-size: 24px;
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--input-focus-border-color);

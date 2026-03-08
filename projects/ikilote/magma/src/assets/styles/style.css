@@ -926,6 +926,25 @@ pre.mono {
     }
 }
 
+/* -------------------- animation ----------------------------------------------------------
+    MARK: animation
+*/
+
+@keyframes fadeInScale {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    99% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: none; /* fix position for fixed */
+        opacity: 1;
+    }
+}
+
 /* -------------------- fixes ------------------------------------------------------------
     MARK: Fixes
 */

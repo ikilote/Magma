@@ -1,6 +1,14 @@
 import { MagmaWindow, MagmaWindowInfos } from '../../public-api';
 
-export type ResizeDirection = 'left' | 'right' | 'top' | 'bottom';
+export type ResizeDirection =
+    | 'left'
+    | 'right'
+    | 'top'
+    | 'bottom'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-right'
+    | 'bottom-left';
 
 export class MagmaResizeElement {
     animation = true;

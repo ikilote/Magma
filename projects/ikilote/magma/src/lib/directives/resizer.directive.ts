@@ -8,6 +8,8 @@ import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from './r
     host: {
         '[class.ew-resize]': "resize === 'left' || resize === 'right'",
         '[class.ns-resize]': "resize === 'top' || resize === 'bottom'",
+        '[class.nw-resize]': "resize === 'top-left' || resize === 'bottom-right'",
+        '[class.ne-resize]': "resize === 'top-right' || resize === 'bottom-left'",
     },
 })
 export class MagmaResize {
@@ -48,50 +50,57 @@ export class MagmaResize {
     mouseoverWindow(event: MouseEvent) {
         if (!this.resizerDisabled()) {
             const resizeActive = this.resizeActive;
-            const resize = this.resize;
+            const resizes = this.resize?.split('-') as ResizeDirection[];
             const host = this.resizerHost();
 
-            if (host && resizeActive && resize) {
-                const [changeX, changeY] = [
-                    Math.round((resizeActive.mousePosInit[0] - event.x) / host.elementSize),
-                    Math.round((resizeActive.mousePosInit[1] - event.y) / host.elementSize),
-                ];
+            if (resizes) {
+                for (const resize of resizes) {
+                    if (host && resizeActive && resize) {
+                        const [changeX, changeY] = [
+                            Math.round((resizeActive.mousePosInit[0] - event.x) / host.elementSize),
+                            Math.round((resizeActive.mousePosInit[1] - event.y) / host.elementSize),
+                        ];
 
-                let data: [number, number] | undefined;
-                const itemSource = resizeActive.itemSource;
+                        let data: [number, number] | undefined;
+                        const itemSource = resizeActive.itemSource;
 
-                if (resize === 'top') {
-                    data = [Math.max(itemSource.y[0] - changeY, this.resizerInit().y), itemSource.y[1]];
-                } else if (resize === 'bottom') {
-                    data = [
-                        itemSource.y[0],
-                        Math.min(
-                            itemSource.y[1] - changeY,
-                            host.heightElementNumber + this.resizerInit().y - itemSource.y[0],
-                        ),
-                    ];
-                } else if (resize === 'left') {
-                    data = [Math.max(itemSource.x[0] - changeX, this.resizerInit().x), itemSource.x[1]];
-                } else if (resize === 'right') {
-                    data = [
-                        itemSource.x[0],
-                        Math.min(
-                            itemSource.x[1] - changeX,
-                            host.widthElementNumber + this.resizerInit().x - itemSource.x[0],
-                        ),
-                    ];
-                }
+                        if (resize === 'top') {
+                            data = [Math.max(itemSource.y[0] - changeY, this.resizerInit().y), itemSource.y[1]];
+                        }
+                        if (resize === 'bottom') {
+                            data = [
+                                itemSource.y[0],
+                                Math.min(
+                                    itemSource.y[1] - changeY,
+                                    host.heightElementNumber + this.resizerInit().y - itemSource.y[0],
+                                ),
+                            ];
+                        }
+                        if (resize === 'left') {
+                            data = [Math.max(itemSource.x[0] - changeX, this.resizerInit().x), itemSource.x[1]];
+                        }
+                        if (resize === 'right') {
+                            data = [
+                                itemSource.x[0],
+                                Math.min(
+                                    itemSource.x[1] - changeX,
+                                    host.widthElementNumber + this.resizerInit().x - itemSource.x[0],
+                                ),
+                            ];
+                        }
 
-                if (this.resize) {
-                    clearTimeout(this.timer);
-                }
+                        if (this.resize) {
+                            clearTimeout(this.timer);
+                        }
 
-                if (data) {
-                    this.resizer().animation = false;
-                    this.resizer().update(resize, data);
-                    setTimeout(() => {
-                        this.resizer().animation = true;
-                    }, 10);
+                        if (data) {
+                            this.resizer().animation = false;
+                            this.resizer().update(resize, data);
+                            setTimeout(() => {
+                                this.resizer().animation = true;
+                            }, 10);
+                        }
+                    }
                 }
             }
         }
@@ -107,9 +116,21 @@ export class MagmaResize {
             const y = event.clientY - rect.top;
 
             if (x < 5) {
-                this.resize = 'left';
+                if (y < 5) {
+                    this.resize = 'top-left';
+                } else if (element.offsetHeight - y < 5) {
+                    this.resize = 'bottom-left';
+                } else {
+                    this.resize = 'left';
+                }
             } else if (element.offsetWidth - x < 5) {
-                this.resize = 'right';
+                if (y < 5) {
+                    this.resize = 'top-right';
+                } else if (element.offsetHeight - y < 5) {
+                    this.resize = 'bottom-right';
+                } else {
+                    this.resize = 'right';
+                }
             } else if (y < 5) {
                 this.resize = 'top';
             } else if (element.offsetHeight - y < 5) {
@@ -125,6 +146,7 @@ export class MagmaResize {
             if (this.cdkDrag) {
                 this.cdkDrag.disabled = this.resize !== undefined;
             }
+            event.stopPropagation();
         }
     }
 

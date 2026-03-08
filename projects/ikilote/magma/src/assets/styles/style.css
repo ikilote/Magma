@@ -905,16 +905,22 @@ pre.mono {
 
 .ew-resize {
     cursor: ew-resize;
-    user-select: none;
 }
-
 .ns-resize {
     cursor: ns-resize;
-    user-select: none;
 }
-
+.ne-resize {
+    cursor: nesw-resize;
+}
+.nw-resize {
+    cursor: nwse-resize;
+}
 .ew-resize,
-.ns-resize {
+.ns-resize,
+.ne-resize,
+.nw-resize {
+    user-select: none;
+
     &::before {
         display: block;
         position: absolute;

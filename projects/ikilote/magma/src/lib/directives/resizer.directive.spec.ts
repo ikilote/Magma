@@ -3,6 +3,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { ResizeDirection } from './resizer';
 import { MagmaResize } from './resizer.directive';
 
 // Host component mock for testing purposes
@@ -69,45 +70,27 @@ describe('MagmaResize Directive', () => {
     // --- EDGE DETECTION TESTS ---
 
     describe('Edge Detection', () => {
-        it('should detect the left edge', () => {
-            const event = new MouseEvent('mousemove', { clientX: 2, clientY: 50 });
-            directiveEl.nativeElement.dispatchEvent(event);
-            fixture.detectChanges();
+        // Component width is 100px. (which is < 5px threshold)
+        [
+            { x: 2, y: 15, resize: 'left', class: 'ew-resize' },
+            { x: 2, y: 2, resize: 'top-left', class: 'nw-resize' },
+            { x: 2, y: 98, resize: 'bottom-left', class: 'ne-resize' },
+            { x: 98, y: 50, resize: 'right', class: 'ew-resize' },
+            { x: 98, y: 2, resize: 'top-right', class: 'ne-resize' },
+            { x: 98, y: 98, resize: 'bottom-right', class: 'nw-resize' },
+            { x: 50, y: 2, resize: 'top', class: 'ns-resize' },
+            { x: 50, y: 98, resize: 'bottom', class: 'ns-resize' },
+        ].forEach(data => {
+            it(`should detect the ${data.resize} edge`, () => {
+                const rect = directiveEl.nativeElement.getBoundingClientRect();
+                const event = new MouseEvent('mousemove', { clientX: rect.left + data.x, clientY: rect.top + data.y });
+                directiveEl.nativeElement.dispatchEvent(event);
+                fixture.detectChanges();
 
-            expect(directiveInstance.resize).toBe('left');
-            expect(directiveEl.nativeElement.classList.contains('ew-resize')).toBeTrue();
-            expect(cdkDragSpy.disabled).toBeTrue();
-        });
-
-        it('should detect the right edge', () => {
-            const rect = directiveEl.nativeElement.getBoundingClientRect();
-            // Component width is 100px. 100 - 98 = 2px (which is < 5px threshold)
-            const event = new MouseEvent('mousemove', { clientX: rect.left + 98, clientY: rect.top + 50 });
-            directiveEl.nativeElement.dispatchEvent(event);
-            fixture.detectChanges();
-
-            expect(directiveInstance.resize).toBe('right');
-            expect(directiveEl.nativeElement.classList.contains('ew-resize')).toBeTrue();
-        });
-
-        it('should detect the top edge', () => {
-            const rect = directiveEl.nativeElement.getBoundingClientRect();
-
-            const event = new MouseEvent('mousemove', { clientX: rect.left + 50, clientY: rect.top + 2 });
-            directiveEl.nativeElement.dispatchEvent(event);
-            fixture.detectChanges();
-
-            expect(directiveInstance.resize).toBe('top');
-            expect(directiveEl.nativeElement.classList.contains('ns-resize')).toBeTrue();
-        });
-
-        it('should detect the bottom edge', () => {
-            const rect = directiveEl.nativeElement.getBoundingClientRect();
-            const event = new MouseEvent('mousemove', { clientX: rect.left + 50, clientY: rect.top + 98 });
-            directiveEl.nativeElement.dispatchEvent(event);
-            fixture.detectChanges();
-
-            expect(directiveInstance.resize).toBe('bottom');
+                expect(directiveInstance.resize).toBe(data.resize as ResizeDirection);
+                expect(directiveEl.nativeElement.classList.contains(data.class)).toBeTrue();
+                expect(cdkDragSpy.disabled).toBeTrue();
+            });
         });
 
         it('should reset resize state when mouse is in the center', () => {

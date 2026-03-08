@@ -50,7 +50,7 @@ Add in `style.css`
 ## Coverage
 
 <a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Statements 100% (2612/2612)](https://test.ikilote.net/badge-custom.php?label=Statements&value=100%25&valueBgColor=4D9221) </a>
-<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Branches 99.74% (1155/1158)](https://test.ikilote.net/badge-custom.php?label=Branches&value=99.74%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Branches 100% (1158/1158)](https://test.ikilote.net/badge-custom.php?label=Branches&value=100%25&valueBgColor=4D9221) </a>
 <a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Functions 100% (616/616)](https://test.ikilote.net/badge-custom.php?label=Functions&value=100%25&valueBgColor=4D9221) </a>
 <a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![Lines 100% (2542/2542)](https://test.ikilote.net/badge-custom.php?label=Lines&value=100%25&valueBgColor=4D9221) </a>
 

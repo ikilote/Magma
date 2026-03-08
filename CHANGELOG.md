@@ -1,12 +1,14 @@
 # Changelog of @ikilote/magma
 
-## 1.5.0 (2026-03-07)
+## 1.5.1 (2026-03-08)
 
 ### 🐞 Fix
 
-- **Color picker**: fix color-view
-- **Datetime-picker**: fix init date
-- **Input**: fix setTimeout for checkbox
+- **Window**:
+    - fix z-index
+    - fix styles (CSS variables, focus, animation)
+
+## 1.5.0 (2026-03-07)
 
 ### ✅ New
 
@@ -23,6 +25,12 @@
         - `size` : initial size and limits
         - resizable or not
 - **string** pipe to use string methods
+
+### 🐞 Fix
+
+- **Color picker**: fix color-view
+- **Datetime-picker**: fix init date
+- **Input**: fix setTimeout for checkbox
 
 ### 🎦 Demo
 

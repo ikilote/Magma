@@ -1,5 +1,11 @@
 # Changelog of @ikilote/magma
 
+## 1.5.2 (2026-03-08)
+
+### ✅ New
+
+- **resizer** : add angle support
+
 ## 1.5.1 (2026-03-08)
 
 ### 🐞 Fix

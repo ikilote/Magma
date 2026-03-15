@@ -6,13 +6,13 @@
     role="dialog"
     limitFocus
     cdkDrag
-    [cdkDragDisabled]="fullscreen()"
+    [cdkDragDisabled]="fullscreen() || fixed() || comp?.fixed"
     (cdkDragEnded)="drag($event)"
     [cdkDragBoundary]="zoneSelector() || comp?.zoneSelector || 'body'"
     [resizer]="this"
     [resizerInit]="initPosition"
     [resizerHost]="resizerHost()"
-    [resizerDisabled]="comp?.size?.lock"
+    [resizerDisabled]="comp?.size?.lock || fixed() || comp?.fixed"
     [style.width]="width() || comp?.size?.width?.init"
     [style.min-width]="minWidth() || comp?.size?.width?.min"
     [style.max-width]="maxWidth() || comp?.size?.width?.max"
@@ -23,7 +23,7 @@
   >
     <div class="window-main">
       @if (bar() || comp?.bar?.active) {
-        <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="this.fullscreen()">
+        <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="fullscreen() || fixed() || comp?.fixed">
           @if (barTitle() || comp?.bar?.title) {
             <div class="window-title-text">
               {{ barTitle() || comp?.bar?.title }}

@@ -549,4 +549,47 @@ describe('MagmaWindow', () => {
             expect(mockElement.style.height).toBe(window.innerHeight + 'px');
         });
     });
+
+    describe('Fixed & Over', () => {
+        it('should window not over', () => {
+            fixture.componentRef.setInput('over', false);
+
+            fixture.detectChanges();
+
+            // Assert
+            expect(window.getComputedStyle(component['elementRef'].nativeElement).getPropertyValue('--index')).toBe(
+                '0',
+            );
+        });
+
+        it('should window over', () => {
+            fixture.componentRef.setInput('over', true);
+
+            fixture.detectChanges();
+
+            // Assert
+            expect(window.getComputedStyle(component['elementRef'].nativeElement).getPropertyValue('--index')).toBe(
+                '1000',
+            );
+        });
+
+        it('should window not fixed', () => {
+            fixture.componentRef.setInput('fixed', false);
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.detectChanges();
+
+            // Assert
+
+            expect(component['cdkDrag']()?.[0]?.disabled).toBe(false);
+        });
+
+        it('should window fixed', () => {
+            fixture.componentRef.setInput('fixed', true);
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.detectChanges();
+
+            // Assert
+            expect(component['cdkDrag']()?.[0]?.disabled).toBe(true);
+        });
+    });
 });

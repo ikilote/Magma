@@ -30,6 +30,8 @@ export interface MagmaWindowInitParams {
     id?: string;
     position?: 'default' | 'center' | { x: number; y: number };
     zoneSelector?: string;
+    over?: boolean;
+    fixed?: boolean;
     bar?: {
         active?: boolean;
         title?: string;
@@ -63,7 +65,7 @@ export abstract class AbstractWindowComponent {
     templateUrl: './window.component.html',
     styleUrl: './window.component.scss',
     host: {
-        '[style.--index]': 'component()?.index || index || 0',
+        '[style.--index]': '(component()?.index || index || 0) + (over() || component()?.over ? 1000 : 0)',
     },
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
@@ -90,6 +92,8 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly height = input<string>();
     readonly minHeight = input<string>(undefined, { alias: 'min-height' });
     readonly maxHeight = input<string>(undefined, { alias: 'max-height' });
+    readonly fixed = input(undefined, { transform: booleanAttribute });
+    readonly over = input(undefined, { transform: booleanAttribute });
 
     readonly resizerHost = model<MagmaResizeHostElement>();
     readonly isOpen = model(false);

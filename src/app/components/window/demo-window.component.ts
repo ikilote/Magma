@@ -54,6 +54,8 @@ export class DemoWindowComponent {
         minHeight: FormControl<string>;
         maxHeight: FormControl<string>;
         lock: FormControl<boolean>;
+        fixed: FormControl<boolean>;
+        over: FormControl<boolean>;
     }>;
 
     position: Select2Data = [
@@ -92,6 +94,8 @@ export class DemoBlockComponent { }`;
             minHeight: { default: '' },
             maxHeight: { default: '' },
             lock: { default: false },
+            fixed: { default: false },
+            over: { default: false },
         });
 
         this.codeGeneration();
@@ -182,6 +186,13 @@ export class DemoBlockComponent { }`;
         }
         if (this.ctrlForm.value.maxHeight) {
             attr['max-height'] = this.ctrlForm.value.maxHeight;
+        }
+
+        if (this.ctrlForm.value.over) {
+            attr['over'] = this.ctrlForm.value.over;
+        }
+        if (this.ctrlForm.value.fixed) {
+            attr['fixed'] = this.ctrlForm.value.fixed;
         }
 
         this.codeHtml = new Json2html(json).toString();

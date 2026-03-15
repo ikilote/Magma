@@ -72,8 +72,14 @@
           </mg-input>
         </p>
         <p>
-          <mg-input class="s-2">
+          <mg-input class="s-4">
             <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="fixed">fixed</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="over">over</mg-input-checkbox>
           </mg-input>
         </p>
       </form>
@@ -99,6 +105,8 @@
           [height]="ctrlForm.value.height"
           [min-height]="ctrlForm.value.minHeight"
           [max-height]="ctrlForm.value.maxHeight"
+          [fixed]="ctrlForm.value.fixed"
+          [over]="ctrlForm.value.over"
         >
           <p>Content window</p>
           <p>

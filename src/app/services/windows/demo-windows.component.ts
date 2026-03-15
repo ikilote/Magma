@@ -82,6 +82,8 @@ export class DemoWindowsComponent {
         minHeight: FormControl<string>;
         maxHeight: FormControl<string>;
         lock: FormControl<boolean>;
+        fixed: FormControl<boolean>;
+        over: FormControl<boolean>;
     }>;
 
     position: Select2Data = [
@@ -136,6 +138,8 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
             minHeight: { default: '' },
             maxHeight: { default: '' },
             lock: { default: false },
+            fixed: { default: false },
+            over: { default: false },
         });
         this.codeGenerationZone();
 
@@ -168,6 +172,8 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                     init: this.ctrlFormZone.value.height || undefined,
                 },
             },
+            fixed: this.ctrlFormZone.value.fixed,
+            over: this.ctrlFormZone.value.over,
         });
     }
 
@@ -195,6 +201,8 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                     init: this.ctrlFormZone.value.height || undefined,
                 },
             },
+            fixed: this.ctrlFormZone.value.fixed,
+            over: this.ctrlFormZone.value.over,
         };
 
         this.codeTsZone = `import { MagmaWindows } from '@ikilote/magma';

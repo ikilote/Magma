@@ -1,5 +1,5 @@
 import { Component, DebugElement, contentChildren } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaTabTitle } from './tab-title.component';
@@ -139,10 +139,10 @@ describe('MagmaTabTitle', () => {
         expect(tabTitleComponent.onclick).toHaveBeenCalled();
     });
 
-    it('should call update on clickEnter event', fakeAsync(() => {
+    it('should call update on clickEnter event', async () => {
         const clickDirective = tabTitleElement.injector.get(MagmaClickEnterDirective);
         clickDirective.clickEnter.emit(new MouseEvent('click'));
-        tick();
+        await vi.runAllTicks();
         expect(tabsComponent.update).toHaveBeenCalled();
-    }));
+    });
 });

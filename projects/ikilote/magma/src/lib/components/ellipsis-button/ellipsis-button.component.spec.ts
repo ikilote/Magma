@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaEllipsisButton } from './ellipsis-button.component';
@@ -42,22 +42,22 @@ describe('MagmaEllipsisButton (integration)', () => {
         expect(hostComponent).toBeTruthy();
     });
 
-    it('should open and close the menu when clicking the button', fakeAsync(() => {
+    it('should open and close the menu when clicking the button', async () => {
         const button = fixture.debugElement.query(By.css('button'));
         expect(button).toBeTruthy();
 
         button.triggerEventHandler('click', null);
         fixture.detectChanges();
 
-        tick();
+        await vi.runAllTicks();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        tick();
+        await vi.runAllTicks();
 
         fixture.detectChanges();
 
         // @ts-expect-error
         expect(ellipsisButtonElement.isOpen()).toBe(false);
-    }));
+    });
 
     it('should trigger actions when clicking on items', () => {
         vi.spyOn(hostComponent, 'onAction');
@@ -75,7 +75,7 @@ describe('MagmaEllipsisButton (integration)', () => {
         expect(hostComponent.onAction).toHaveBeenCalledWith('1');
     });
 
-    it('should focus the button after closing the menu', fakeAsync(() => {
+    it('should focus the button after closing the menu', async () => {
         const buttonElement = fixture.debugElement.query(By.css('button')).nativeElement;
         vi.spyOn(buttonElement, 'focus');
 
@@ -83,12 +83,12 @@ describe('MagmaEllipsisButton (integration)', () => {
         button.triggerEventHandler('click', null);
         fixture.detectChanges();
 
-        tick();
+        await vi.runAllTicks();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        tick();
+        await vi.runAllTicks();
 
         fixture.detectChanges();
 
         expect(buttonElement.focus).toHaveBeenCalled();
-    }));
+    });
 });

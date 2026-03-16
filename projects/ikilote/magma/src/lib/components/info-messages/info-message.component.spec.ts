@@ -1,6 +1,6 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { InfoMessageComponent } from './info-message.component';
@@ -90,17 +90,17 @@ describe('InfoMessageComponent', () => {
         expect(component.click).toHaveBeenCalled();
     });
 
-    it('should call click to close', fakeAsync(() => {
+    it('should call click to close', () => {
         vi.spyOn(component, 'close');
         component.click();
         fixture.detectChanges();
         expect(fixture.nativeElement.classList[0]).toEqual('close');
-        tick(700);
+        vi.advanceTimersByTime(700);
         expect(component.close).toHaveBeenCalled();
-    }));
+    });
 
-    it('should correct value for withContext', fakeAsync(() => {
+    it('should correct value for withContext', () => {
         expect(component.withContext()).toEqual({ context: component } as any);
         expect(component.withContext({ test: 1 })).toEqual({ test: 1, context: component } as any);
-    }));
+    });
 });

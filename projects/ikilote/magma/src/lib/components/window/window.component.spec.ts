@@ -1,6 +1,6 @@
 import { CdkDrag, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import type { Mocked, MockedObject } from 'vitest';
@@ -50,18 +50,18 @@ describe('MagmaWindow', () => {
             expect(component.onClose.emit).toHaveBeenCalled();
         });
 
-        it('should render and initialize when isOpen is true', fakeAsync(() => {
+        it('should render and initialize when isOpen is true', async () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.detectChanges();
 
             // simulate ngInit (directive MagmaNgInit in template   )
             component.winInit();
-            tick(); // for setTimeout in winInit
+            await vi.runAllTicks(); // for setTimeout in winInit
 
             const content = fixture.debugElement.query(By.css('.content'));
             expect(content).not.toBeNull();
             expect(component['isOpen']()).toBe(true);
-        }));
+        });
 
         it('should not render anything if isOpen is false', () => {
             fixture.componentRef.setInput('isOpen', false);
@@ -112,11 +112,11 @@ describe('MagmaWindow', () => {
         let mockElement: HTMLDivElement;
         let dragSpy: MockedObject<any>;
 
-        beforeEach(fakeAsync(() => {
+        beforeEach(async () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.detectChanges();
             component.winInit();
-            tick();
+            await vi.runAllTicks();
 
             mockElement = document.createElement('div');
             mockElement.style.width = '200px';
@@ -141,7 +141,7 @@ describe('MagmaWindow', () => {
             component['x'] = [0, 0];
             component['y'] = [0, 0];
             component['initPosition'] = { x: 0, y: 0 };
-        }));
+        });
 
         it('should update LEFT: increases width and shifts X position', () => {
             component['x'] = [100, 200];
@@ -338,7 +338,7 @@ describe('MagmaWindow', () => {
     });
 
     describe('Dynamic Component', () => {
-        it('should render dynamic component if provided', fakeAsync(() => {
+        it('should render dynamic component if provided', async () => {
             const mockComponentInfo = {
                 component: TestComponent, // A real little component
                 id: 'test',
@@ -347,7 +347,7 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.componentRef.setInput('component', mockComponentInfo);
             fixture.detectChanges();
-            tick(); // Allow time for the outlet to initialize
+            await vi.runAllTicks(); // Allow time for the outlet to initialize
             fixture.detectChanges();
 
             const button1 = fixture.debugElement.query(By.css('mg-test button'));
@@ -357,7 +357,7 @@ describe('MagmaWindow', () => {
             vi.spyOn(component.onClose, 'emit');
             button1.nativeElement.click();
             expect(component.onClose.emit).toHaveBeenCalled();
-        }));
+        });
     });
 
     describe('Initial Position', () => {

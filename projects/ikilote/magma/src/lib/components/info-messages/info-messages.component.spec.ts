@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Subject } from 'rxjs';
@@ -53,16 +53,16 @@ describe('InfoMessagesComponent', () => {
         expect(infoMessages.length).toBe(0);
     });
 
-    it('should display messages after they are added', fakeAsync(() => {
+    it('should display messages after they are added', async () => {
         messagesService.addMessage('Message 1', { type: MagmaMessageType.info, time: '1s' });
         messagesService.addMessage('Message 2', { type: MagmaMessageType.info, time: '1s' });
 
         fixture.detectChanges();
-        tick();
+        await vi.runAllTicks();
 
         const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
         expect(infoMessages.length).toBe(2);
-    }));
+    });
 
     it('should call removeMessage and testDispose when destruct is called', () => {
         const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
@@ -88,10 +88,10 @@ describe('InfoMessagesComponent', () => {
         expect(infoMessages.length).toBe(0);
     });
 
-    it('should trigger change detection when a message is added', fakeAsync(() => {
+    it('should trigger change detection when a message is added', async () => {
         vi.spyOn(component['cd'], 'detectChanges');
         messagesService.onAddMessage.next();
-        tick();
+        await vi.runAllTicks();
         expect(component['cd'].detectChanges).toHaveBeenCalled();
-    }));
+    });
 });

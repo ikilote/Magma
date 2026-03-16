@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaClickEnterDirective } from './click-enter.directive';
@@ -89,33 +89,33 @@ describe('MagmaClickEnterDirective', () => {
             expect(component.onClickEnter).not.toHaveBeenCalled();
         });
 
-        it('should emit event on Enter key press when not disabled', fakeAsync(() => {
+        it('should emit event on Enter key press when not disabled', async () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            tick();
+            await vi.runAllTicks();
 
             expect(component.onClickEnter).toHaveBeenCalledTimes(1);
             expect(component.onClickEnter).toHaveBeenCalledWith(keyboardEvent);
-        }));
+        });
 
-        it('should not emit event on Enter key press when disabled', fakeAsync(() => {
+        it('should not emit event on Enter key press when disabled', async () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
             disabledElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            tick();
+            await vi.runAllTicks();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
-        }));
+        });
 
-        it('should not emit event on other key presses', fakeAsync(() => {
+        it('should not emit event on other key presses', async () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            tick();
+            await vi.runAllTicks();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
-        }));
+        });
     });
 
     describe('Disabled Input', () => {
@@ -154,7 +154,7 @@ describe('MagmaClickEnterDirective', () => {
             expect(emittedEvent).toBe(clickEvent);
         });
 
-        it('should emit event through output when Enter is pressed', fakeAsync(() => {
+        it('should emit event through output when Enter is pressed', async () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
             const directiveInstance = clickableElement.injector.get(MagmaClickEnterDirective);
 
@@ -165,9 +165,9 @@ describe('MagmaClickEnterDirective', () => {
 
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            tick();
+            await vi.runAllTicks();
 
             expect(emittedEvent).toBe(keyboardEvent);
-        }));
+        });
     });
 });

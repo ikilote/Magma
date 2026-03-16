@@ -1,5 +1,5 @@
 import { Component, DebugElement, ElementRef, forwardRef, viewChildren } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -193,19 +193,19 @@ describe('MagmaSortableModule', () => {
             expect(input).toBe('');
         });
 
-        it('should register input listener on initialization with input element', fakeAsync(() => {
+        it('should register input listener on initialization with input element', async () => {
             const inputElement = document.createElement('input');
             inputElement.type = 'text';
             component.sortableFilterInput = inputElement;
             fixture.detectChanges();
             sortableDirective.ngOnInit();
             inputElement.dispatchEvent(new Event('input'));
-            tick();
+            await vi.runAllTicks();
             const inputListener = sortableDirective['inputListener'];
             const input = sortableDirective['input'];
             expect(typeof inputListener).toBe('function');
             expect(input).toBe('');
-        }));
+        });
 
         it('should register input listener on initialization with input element and filter function', () => {
             const inputElement = document.createElement('input');

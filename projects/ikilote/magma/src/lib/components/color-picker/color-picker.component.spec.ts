@@ -1,6 +1,6 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { SimpleChanges } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import Color from 'colorjs.io';
@@ -78,12 +78,12 @@ describe('MagmaColorPickerComponent', () => {
         expect(component['rangeSature']).toBe(56);
     });
 
-    it('should update color when tab changes to HSL', fakeAsync(() => {
+    it('should update color when tab changes to HSL', () => {
         component['hexa'] = '#ff0000';
         component.tabChange('hsl');
-        tick(10);
+        vi.advanceTimersByTime(10);
         expect(component['hexa']).toBe('#f00');
-    }));
+    });
 
     it('should update hexa when a palette color is clicked', () => {
         component['updateHex']('#00ff00');

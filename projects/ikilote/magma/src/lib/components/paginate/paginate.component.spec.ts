@@ -1,5 +1,5 @@
 import { SimpleChanges } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 
@@ -127,17 +127,17 @@ describe('MagmaPagination', () => {
         expect(params).toEqual({ page: 2, sort: 'asc' });
     });
 
-    it('should update page on external update event', fakeAsync(() => {
+    it('should update page on external update event', async () => {
         fixture.componentRef.setInput('linkId', 'test-link');
         fixture.detectChanges();
 
         const spy = vi.spyOn(component, 'update');
         MagmaPagination['onPageUpdate'].next({ id: 'test-link', page: 4, component: {} as MagmaPagination });
-        tick();
+        await vi.runAllTicks();
         fixture.detectChanges();
 
         expect(spy).toHaveBeenCalledWith(4, false);
-    }));
+    });
 
     it('should update method with an external update event', () => {
         const spy = vi.spyOn(MagmaPagination['onPageUpdate'], 'next');

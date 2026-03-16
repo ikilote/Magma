@@ -1,6 +1,6 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { Component, DebugElement, input } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { ContextMenuData, ContextMenuMode } from './context-menu.component';
@@ -51,100 +51,100 @@ describe('MagmaContextMenu Integration', () => {
         event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
     });
 
-    it('should open context menu on right-click', fakeAsync(() => {
+    it('should open context menu on right-click', async () => {
         vi.spyOn(event, 'preventDefault');
         vi.spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         expect(event.preventDefault).toHaveBeenCalled();
         expect(event.stopPropagation).toHaveBeenCalled();
         expect(MagmaContextMenu._overlayRef).toBeDefined();
-    }));
+    });
 
-    it('should open context menu on right-click', fakeAsync(() => {
+    it('should open context menu on right-click', async () => {
         vi.spyOn(event, 'preventDefault');
         vi.spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         expect(event.preventDefault).toHaveBeenCalled();
         expect(event.stopPropagation).toHaveBeenCalled();
         expect(MagmaContextMenu._overlayRef).toBeDefined();
-    }));
+    });
 
-    it('should close context menu on backdrop click', fakeAsync(() => {
+    it('should close context menu on backdrop click', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
-        tick();
+        await vi.runAllTicks();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
-    }));
+    });
 
-    it('should not open context menu if disabled', fakeAsync(() => {
+    it('should not open context menu if disabled', async () => {
         fixture.componentInstance.disabled = true;
         fixture.detectChanges();
 
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         expect(document.querySelector('.cdk-overlay-backdrop')).toBeNull();
-    }));
+    });
 
-    it('should close context menu on window contextmenu event', fakeAsync(() => {
+    it('should close context menu on window contextmenu event', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         const windowEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(windowEvent, 'preventDefault');
         vi.spyOn(windowEvent, 'stopPropagation');
         window.dispatchEvent(windowEvent);
-        tick();
+        await vi.runAllTicks();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
         expect(windowEvent.preventDefault).toHaveBeenCalled();
         expect(windowEvent.stopPropagation).toHaveBeenCalled();
-    }));
+    });
 
-    it('should close context menu on auxclick event', fakeAsync(() => {
+    it('should close context menu on auxclick event', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         const auxEvent = new MouseEvent('auxclick', { button: 1, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
         window.dispatchEvent(auxEvent);
-        tick();
+        await vi.runAllTicks();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
-    }));
+    });
 
-    it('should call action when menu item is clicked', fakeAsync(() => {
+    it('should call action when menu item is clicked', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         const actionSpy = vi.spyOn(directiveElement.componentInstance.menuData.contextMenu[0], 'action');
         document.querySelector('context-menu ul li:first-child')?.dispatchEvent(new Event('click'));
-        tick();
+        await vi.runAllTicks();
         expect(actionSpy).toHaveBeenCalledWith('test-data');
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
-    }));
+    });
 
-    it('should call onContextMenuContext when middle click on context-menu component', fakeAsync(() => {
+    it('should call onContextMenuContext when middle click on context-menu component', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         const auxEvent = new MouseEvent('auxclick', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
         document.querySelector('context-menu')?.dispatchEvent(auxEvent);
-        tick();
+        await vi.runAllTicks();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
-    }));
+    });
 
-    it('should call onContextMenuContext when contextmenu event on context-menu component', fakeAsync(() => {
+    it('should call onContextMenuContext when contextmenu event on context-menu component', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        tick();
+        await vi.runAllTicks();
         const auxEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
         document.querySelector('context-menu')?.dispatchEvent(auxEvent);
-        tick();
+        await vi.runAllTicks();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
-    }));
+    });
 });

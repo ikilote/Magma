@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -66,7 +66,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             component.onDebouncedChange.mockClear();
         });
 
-        it('should emit debounced value after debounce time', fakeAsync(() => {
+        it('should emit debounced value after debounce time', () => {
             // Change the value
             component.value = 'test';
             fixture.detectChanges();
@@ -75,21 +75,21 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             expect(component.onDebouncedChange).not.toHaveBeenCalled();
 
             // Advance time by debounce time
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
 
             // Should emit after debounce time
             expect(component.onDebouncedChange).toHaveBeenCalledWith('test');
             expect(component.onDebouncedChange).toHaveBeenCalledTimes(1);
-        }));
+        });
 
-        it('should not emit if value does not change', fakeAsync(() => {
+        it('should not emit if value does not change', () => {
             // Set initial value
             component.value = 'test';
             fixture.detectChanges();
 
             // Advance time by debounce time
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
 
             // First emission
@@ -103,38 +103,38 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             fixture.detectChanges();
 
             // Advance time by debounce time
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
 
             // Should not emit again for same value
             expect(component.onDebouncedChange).not.toHaveBeenCalled();
-        }));
+        });
 
-        it('should debounce multiple rapid changes', fakeAsync(() => {
+        it('should debounce multiple rapid changes', () => {
             // First change
             component.value = 'test1';
             fixture.detectChanges();
 
             // Second change before debounce time
-            tick(200);
+            vi.advanceTimersByTime(200);
             component.value = 'test2';
             fixture.detectChanges();
 
             // Third change before debounce time
-            tick(200);
+            vi.advanceTimersByTime(200);
             component.value = 'test3';
             fixture.detectChanges();
 
             // Advance to debounce time from last change
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
 
             // Should emit only the last value after debounce time
             expect(component.onDebouncedChange).toHaveBeenCalledTimes(1);
             expect(component.onDebouncedChange).toHaveBeenCalledWith('test3');
-        }));
+        });
 
-        it('should use custom debounce time', fakeAsync(() => {
+        it('should use custom debounce time', () => {
             // Set custom debounce time
             component.debounceTime = 1000;
             fixture.detectChanges();
@@ -144,16 +144,16 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             fixture.detectChanges();
 
             // Should not emit before custom debounce time
-            tick(500);
+            vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).not.toHaveBeenCalled();
 
             // Should emit after custom debounce time
-            tick(1000); // Total 1000ms
+            vi.advanceTimersByTime(1000); // Total 1000ms
             fixture.detectChanges();
             expect(component.onDebouncedChange).toHaveBeenCalledWith('test');
-        }));
+        });
 
-        it('should skip initial value', fakeAsync(() => {
+        it('should skip initial value', () => {
             // Initial value is set in the component
             // We should verify that the first emission is skipped
             // Reset the spy to ignore any calls during initialization
@@ -164,64 +164,64 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             fixture.detectChanges();
 
             // Should emit after debounce time
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
 
             // Should emit only once (initial value was skipped)
             expect(component.onDebouncedChange).toHaveBeenCalledTimes(1);
             expect(component.onDebouncedChange).toHaveBeenCalledWith('new value');
-        }));
+        });
     });
 
     describe('Edge cases', () => {
-        it('should handle null values', fakeAsync(() => {
+        it('should handle null values', () => {
             // Set to null
             // @ts-ignore - Testing undefined input
             component.value = null;
             fixture.detectChanges();
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
             expect(component.onDebouncedChange).toHaveBeenCalledWith(null);
-        }));
+        });
 
-        it('should handle undefined values', fakeAsync(() => {
+        it('should handle undefined values', () => {
             // Set to undefined
             // @ts-ignore - Testing undefined input
             component.value = undefined;
             fixture.detectChanges();
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
             expect(component.onDebouncedChange).toHaveBeenCalledWith(undefined);
-        }));
+        });
 
-        it('should handle empty string', fakeAsync(() => {
+        it('should handle empty string', () => {
             // initial value is '', if set to '', Angular does not detect any change
             component.value = '1';
             fixture.detectChanges();
             component.value = '';
             fixture.detectChanges();
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
             expect(component.onDebouncedChange).toHaveBeenCalledWith(component.value);
-        }));
+        });
 
-        it('should handle number values', fakeAsync(() => {
+        it('should handle number values', () => {
             // @ts-ignore - Testing undefined input
             component.value = 42;
             fixture.detectChanges();
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
             expect(component.onDebouncedChange).toHaveBeenCalledWith(42);
-        }));
+        });
     });
 
     describe('distinctUntilChanged behavior', () => {
-        it('should not emit if value changes to the same value', fakeAsync(() => {
+        it('should not emit if value changes to the same value', () => {
             // Set initial value
             component.value = 'test';
             fixture.detectChanges();
             // Wait for initial debounce
-            tick(500);
+            vi.advanceTimersByTime(500);
             fixture.detectChanges();
             // Reset spy
             component.onDebouncedChange.mockClear();
@@ -229,13 +229,13 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             component.value = 'different';
             fixture.detectChanges();
             // Change back to original value before debounce completes
-            tick(200);
+            vi.advanceTimersByTime(200);
             component.value = 'test';
             fixture.detectChanges();
             // Wait for debounce time
-            tick(300);
+            vi.advanceTimersByTime(300);
             // Should not emit because final value is same as previous emitted value
             expect(component.onDebouncedChange).not.toHaveBeenCalled();
-        }));
+        });
     });
 });

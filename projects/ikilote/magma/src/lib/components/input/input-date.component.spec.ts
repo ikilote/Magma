@@ -1,5 +1,5 @@
 import { ComponentRef, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -244,7 +244,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: true },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-milli`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-milli`, async () => {
                 updateInputs('datetime-milli');
 
                 // @ts-ignore
@@ -256,7 +256,7 @@ describe('MagmaInputDate', () => {
 
                 component.updateDate({ target: i } as any, e.type as any);
 
-                tick();
+                await vi.runAllTicks();
                 expect(i.valueAsNumber).toBe(e.updated);
 
                 if (e.focus) {
@@ -269,7 +269,7 @@ describe('MagmaInputDate', () => {
 
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31T23:59:59.999');
-            }));
+            });
         });
 
         [
@@ -281,7 +281,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type time`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type time`, async () => {
                 updateInputs('time');
 
                 // @ts-ignore
@@ -293,7 +293,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.runAllTicks();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -311,7 +311,7 @@ describe('MagmaInputDate', () => {
                 }
                 // @ts-ignore
                 expect(component._value).toBe('23:59');
-            }));
+            });
         });
 
         [
@@ -323,7 +323,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type date`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type date`, async () => {
                 updateInputs('date');
 
                 // @ts-ignore
@@ -335,7 +335,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.runAllTicks();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -353,7 +353,7 @@ describe('MagmaInputDate', () => {
                 }
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31');
-            }));
+            });
         });
 
         [
@@ -365,7 +365,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type date`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type date`, async () => {
                 updateInputs('date');
 
                 // @ts-ignore
@@ -377,7 +377,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.runAllTicks();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -395,7 +395,7 @@ describe('MagmaInputDate', () => {
                 }
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31');
-            }));
+            });
         });
 
         [
@@ -407,7 +407,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-local`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-local`, async () => {
                 updateInputs('datetime-local');
 
                 // @ts-ignore
@@ -419,7 +419,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.runAllTicks();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -438,7 +438,7 @@ describe('MagmaInputDate', () => {
 
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31T23:59');
-            }));
+            });
         });
 
         [
@@ -450,7 +450,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: true, present: true },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-seconds`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-seconds`, async () => {
                 updateInputs('datetime-seconds');
 
                 // @ts-ignore
@@ -462,7 +462,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.runAllTicks();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -480,7 +480,7 @@ describe('MagmaInputDate', () => {
                 }
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31T23:59:59');
-            }));
+            });
         });
 
         [
@@ -490,7 +490,7 @@ describe('MagmaInputDate', () => {
             { type: 'minutes', value: 9, updated: '09', filed: 'typeMinutes' },
             { type: 'seconds', value: 9, updated: '09', filed: 'typeSeconds' },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and update input value`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and update input value`, async () => {
                 updateInputs('datetime-milli');
 
                 // @ts-ignore
@@ -502,10 +502,10 @@ describe('MagmaInputDate', () => {
                 component.lockFocus = true;
                 component.updateDate({ target: i } as any, e.type as any);
 
-                tick();
+                await vi.runAllTicks();
 
                 expect(i.value).toBe(e.updated);
-            }));
+            });
 
             [
                 { type: 'month', value: 2, updated: '02', filed: 'typeMonth' },
@@ -514,7 +514,7 @@ describe('MagmaInputDate', () => {
                 { type: 'minutes', value: 9, updated: '09', filed: 'typeMinutes' },
                 { type: 'seconds', value: 9, updated: '09', filed: 'typeSeconds' },
             ].forEach(e => {
-                it(`should change Input (${e.type}) and update input value`, fakeAsync(() => {
+                it(`should change Input (${e.type}) and update input value`, async () => {
                     updateInputs('datetime-milli');
 
                     // @ts-ignore
@@ -526,10 +526,10 @@ describe('MagmaInputDate', () => {
                     component.lockFocus = true;
                     component.changeDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.runAllTicks();
 
                     expect(i.value).toBe(e.updated);
-                }));
+                });
             });
         });
 
@@ -542,7 +542,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 0, updated: 0, filed: 'typeSeconds', out: '9999-12-31T23:59:00.999' },
             { type: 'milli', value: 0, updated: 0, filed: 'typeMilli', out: '9999-12-31T23:59:59.000' },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) value is empty with type datetime-milli`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) value is empty with type datetime-milli`, async () => {
                 updateInputs('datetime-milli');
 
                 // @ts-ignore
@@ -552,12 +552,12 @@ describe('MagmaInputDate', () => {
 
                 component.updateDate({ target: i } as any, e.type as any);
 
-                tick();
+                await vi.runAllTicks();
                 expect(i.valueAsNumber).toBe(e.updated);
 
                 // @ts-ignore
                 expect(component._value).toBe(e.out);
-            }));
+            });
         });
     });
 

@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaDialog } from './dialog.component';
@@ -155,16 +155,16 @@ describe('MagmaDialog usage', () => {
         expect(dialogComponent.isOpen()).toBe(false);
     });
 
-    it('should close when ESC key is pressed', fakeAsync(() => {
+    it('should close when ESC key is pressed', async () => {
         wrapperComponent.closeButton = true;
         dialogComponent.open();
         fixture.detectChanges();
         const event = new KeyboardEvent('keydown', { key: 'Escape' });
         window.dispatchEvent(event);
-        tick();
+        await vi.runAllTicks();
         fixture.detectChanges();
         expect(dialogComponent.isOpen()).toBe(false);
-    }));
+    });
 
     it('should close when clicking on body with if closeBackdrop is true', () => {
         wrapperComponent.closeBackdrop = true;

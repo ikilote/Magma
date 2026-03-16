@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, NgControl } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -116,22 +116,22 @@ describe('MagmaInputCommon', () => {
         expect(directive['setHostLabelId']).toHaveBeenCalled();
     });
 
-    it('should update value and trigger animation on writeValue', fakeAsync(() => {
+    it('should update value and trigger animation on writeValue', async () => {
         vi.spyOn(directive as any, 'initAnimation');
         directive.writeValue('test value');
-        tick();
+        await vi.runAllTicks();
         expect(directive.getValue()).toBe('test value');
         expect(directive['initAnimation']).toHaveBeenCalled();
-    }));
+    });
 
-    it('should set error message on validate', fakeAsync(() => {
+    it('should set error message on validate', async () => {
         mockNgControl.control.touched = true;
         mockNgControl.control.errors = { required: true } as any;
         (mockNgControl.control as any).controlData = { required: { message: 'Required field' } };
         directive.validate(mockNgControl.control as AbstractControl);
-        tick();
+        await vi.runAllTicks();
         expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
-    }));
+    });
 
     describe('validate', () => {
         beforeEach(() => {
@@ -144,14 +144,14 @@ describe('MagmaInputCommon', () => {
             expect(mockHost._errorMessage.set).not.toHaveBeenCalled();
         });
 
-        it('should not set error message if control has no errors', fakeAsync(() => {
+        it('should not set error message if control has no errors', async () => {
             mockNgControl.control.touched = true;
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith(null);
-        }));
+        });
 
-        it('should set error message with function message', fakeAsync(() => {
+        it('should set error message with function message', async () => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = { required: true } as any;
             (mockNgControl.control as any).controlData = {
@@ -161,12 +161,12 @@ describe('MagmaInputCommon', () => {
             };
 
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Custom message for required');
-        }));
+        });
 
-        it('should set error message with string message', fakeAsync(() => {
+        it('should set error message with string message', async () => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = { required: true } as any;
             (mockNgControl.control as any).controlData = {
@@ -174,12 +174,12 @@ describe('MagmaInputCommon', () => {
             };
 
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
-        }));
+        });
 
-        it('should replace placeholders in error message with controlParamsData', fakeAsync(() => {
+        it('should replace placeholders in error message with controlParamsData', async () => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = { minlength: { requiredLength: 5, actualLength: 3 } } as any;
             (mockNgControl.control as any).controlData = {
@@ -190,12 +190,12 @@ describe('MagmaInputCommon', () => {
             (mockNgControl.control as any).controlParamsData = { requiredLength: 5, actualLength: 3 };
 
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Minimum length is 5, got 3');
-        }));
+        });
 
-        it('should replace placeholders in error message with controlParamsData default params', fakeAsync(() => {
+        it('should replace placeholders in error message with controlParamsData default params', async () => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = { minlength: { requiredLength: 5, actualLength: 3 } } as any;
             (mockNgControl.control as any).controlData = {
@@ -206,12 +206,12 @@ describe('MagmaInputCommon', () => {
             (mockNgControl.control as any).controlParamsData = { minlength: 3 };
 
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Minimum length is 3');
-        }));
+        });
 
-        it('should handle multiple errors and use the first one', fakeAsync(() => {
+        it('should handle multiple errors and use the first one', async () => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = {
                 required: true,
@@ -223,12 +223,12 @@ describe('MagmaInputCommon', () => {
             };
 
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
-        }));
+        });
 
-        it('should handle multiple errors and use the first one', fakeAsync(() => {
+        it('should handle multiple errors and use the first one', async () => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = {
                 required: true,
@@ -240,12 +240,12 @@ describe('MagmaInputCommon', () => {
             };
 
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Required field');
-        }));
+        });
 
-        it('should handle default message error and use the first one', fakeAsync(() => {
+        it('should handle default message error and use the first one', async () => {
             mockNgControl.control.touched = true;
             mockNgControl.control.errors = {
                 required: true,
@@ -256,35 +256,35 @@ describe('MagmaInputCommon', () => {
             };
 
             directive.validate(mockNgControl.control as AbstractControl);
-            tick();
+            await vi.runAllTicks();
 
             expect(mockHost._errorMessage.set).toHaveBeenCalledWith('Invalid field');
-        }));
+        });
     });
 
     describe('placeholderAnimated', () => {
-        it('should placeholder not start animation if only text', fakeAsync(() => {
+        it('should placeholder not start animation if only text', () => {
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
             fixture.componentRef.setInput('placeholder', 'test');
             fixture.detectChanges();
             expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
-        }));
+        });
 
-        it('should start placeholder animation if value is empty', fakeAsync(() => {
+        it('should start placeholder animation if value is empty', async () => {
             vi.spyOn(directive as any, 'startPlaceholderAnimation');
             fixture.componentRef.setInput('placeholderAnimated', 'test');
             directive.writeValue('');
-            tick();
+            await vi.runAllTicks();
             expect(directive['startPlaceholderAnimation']).toHaveBeenCalled();
-        }));
+        });
 
-        it('should stop placeholder animation if value is not empty', fakeAsync(() => {
+        it('should stop placeholder animation if value is not empty', async () => {
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
             fixture.componentRef.setInput('placeholderAnimated', 'test');
             directive.writeValue('test');
-            tick();
+            await vi.runAllTicks();
             expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
-        }));
+        });
 
         it('should start placeholder animation with correct parameters', () => {
             vi.spyOn(directive as any, 'inPlaceholderAnimation');
@@ -295,16 +295,16 @@ describe('MagmaInputCommon', () => {
             expect(directive['inPlaceholderAnimation']).toHaveBeenCalledWith(100, 2, 50, '|');
         });
 
-        it('should placeholder not start animation if only text', fakeAsync(() => {
+        it('should placeholder not start animation if only text', () => {
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
             vi.spyOn(directive.placeholderDisplay as any, 'set');
 
             fixture.componentRef.setInput('placeholder', 'test|test2');
             fixture.detectChanges();
             expect(directive['placeholderTimer']).toBe(undefined);
-        }));
+        });
 
-        it('should init initAnimation', fakeAsync(() => {
+        it('should init initAnimation', () => {
             vi.spyOn(directive as any, 'initAnimation');
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
 
@@ -315,9 +315,9 @@ describe('MagmaInputCommon', () => {
 
             expect(directive['initAnimation']).toHaveBeenCalledTimes(3); // 2 times by init
             expect(directive['stopPlaceholderAnimation']).not.toHaveBeenCalled();
-        }));
+        });
 
-        it('should init initAnimation', fakeAsync(() => {
+        it('should init initAnimation', () => {
             vi.spyOn(directive as any, 'initAnimation');
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
 
@@ -328,7 +328,7 @@ describe('MagmaInputCommon', () => {
 
             expect(directive['initAnimation']).toHaveBeenCalledTimes(2); // 2 times by init
             expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
-        }));
+        });
     });
 
     describe('inPlaceholderAnimation', () => {
@@ -347,63 +347,63 @@ describe('MagmaInputCommon', () => {
             });
         });
 
-        it('should start animation and update placeholder display', fakeAsync(() => {
+        it('should start animation and update placeholder display', () => {
             directive['inPlaceholderAnimation'](10, 1, 10, '|');
             const timerId = directive['placeholderTimer']!;
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('T');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('Te');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('Tes');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('Test');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(Timing['timers'][timerId]).toBeUndefined();
             expect(directive['placeholderTimer']).toBeUndefined();
-        }));
+        });
 
-        it('should handle separator correctly', fakeAsync(() => {
+        it('should handle separator correctly', () => {
             fixture.componentRef.setInput('placeholder', 'Test|Placeholder');
 
             directive['inPlaceholderAnimation'](10, 1, 10, '|');
             const timerId = directive['placeholderTimer']!;
 
-            tick(40);
+            vi.advanceTimersByTime(40);
             expect(directive.placeholderDisplay()).toBe('Test');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('P');
 
             Timing.stop(timerId);
-        }));
+        });
 
-        it('should restart animation when repeat > 1', fakeAsync(() => {
+        it('should restart animation when repeat > 1', () => {
             fixture.componentRef.setInput('placeholder', 'Test');
             directive['inPlaceholderAnimation'](10, 2, 10, '|');
             const timerId = directive['placeholderTimer']!;
 
-            tick(50);
+            vi.advanceTimersByTime(50);
             expect(directive.placeholderDisplay()).toBe('Test');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('');
 
-            tick(10);
+            vi.advanceTimersByTime(10);
             expect(directive.placeholderDisplay()).toBe('T');
 
             Timing.stop(timerId);
-        }));
+        });
 
-        it('should stop animation when stopPlaceholderAnimation is called', fakeAsync(() => {
+        it('should stop animation when stopPlaceholderAnimation is called', () => {
             fixture.componentRef.setInput('placeholder', 'Test|Placeholder');
             directive['inPlaceholderAnimation'](10, 1, 10, '|');
             const timerId = directive['placeholderTimer']!;
@@ -413,21 +413,21 @@ describe('MagmaInputCommon', () => {
             expect(Timing['timers'][timerId]).toBeUndefined();
             expect(directive['placeholderTimer']).toBeUndefined();
             expect(directive.placeholderDisplay()).toBe('Placeholder');
-        }));
+        });
 
-        it('should handle spaces in placeholder text', fakeAsync(() => {
+        it('should handle spaces in placeholder text', () => {
             fixture.componentRef.setInput('placeholder', 'Test Placeholder');
             directive['inPlaceholderAnimation'](10, 1, 10, '|');
             const timerId = directive['placeholderTimer']!;
 
-            tick(100);
+            vi.advanceTimersByTime(100);
             expect(directive.placeholderDisplay()).toBe('Test Placeh');
 
-            tick(100);
+            vi.advanceTimersByTime(100);
             expect(directive.placeholderDisplay()).toBe('Test Placeholder');
 
             Timing.stop(timerId);
-        }));
+        });
     });
 
     describe('infoPlaceholderAnimation', () => {

@@ -1,5 +1,5 @@
 import { Component, ElementRef, viewChild } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import type { Mock } from 'vitest';
@@ -113,7 +113,7 @@ describe('MagmaLimitFocusDirective', () => {
         expect(document.activeElement).toBe(button1);
     });
 
-    it('should trap focus inside the container', fakeAsync(() => {
+    it('should trap focus inside the container', async () => {
         input1.focus();
         fixture.detectChanges();
         expect(document.activeElement).toBe(input1);
@@ -130,10 +130,10 @@ describe('MagmaLimitFocusDirective', () => {
         fixture.detectChanges();
         expect(document.activeElement).toBe(input1);
 
-        tick();
-    }));
+        await vi.runAllTicks();
+    });
 
-    it('should handle dynamic content changes', fakeAsync(() => {
+    it('should handle dynamic content changes', async () => {
         // Start by focusing the first input
         input1.focus();
         fixture.detectChanges();
@@ -142,7 +142,7 @@ describe('MagmaLimitFocusDirective', () => {
         // Simulate pressing Tab to move focus to the next element
         simulateTab();
         expect(document.activeElement).toBe(button1);
-        tick();
+        await vi.runAllTicks();
 
         // Add a new focusable element dynamically
         const newButton = document.createElement('button');
@@ -156,21 +156,21 @@ describe('MagmaLimitFocusDirective', () => {
 
         expect(document.activeElement).toBe(input2);
 
-        tick();
+        await vi.runAllTicks();
 
         // Simulate pressing Tab again to move focus to the next element
         simulateTab();
         expect(document.activeElement).toBe(button2);
 
-        tick();
+        await vi.runAllTicks();
 
         // Simulate pressing Tab again to move focus to the newly added button
         simulateTab();
 
         expect(document.activeElement).toBe(newButton);
 
-        tick();
-    }));
+        await vi.runAllTicks();
+    });
 
     it('should restore focus to the origin element on destroy', () => {
         const originElement = document.createElement('button');
@@ -411,16 +411,16 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
         fixture.detectChanges();
     });
 
-    it('should intercept keydown', fakeAsync(async () => {
+    it('should intercept keydown', async () => {
         limitFocusDirective['keydown'] = vi.fn();
 
-        tick();
+        await vi.runAllTicks();
         await fixture.whenStable();
 
         divRef.nativeElement.dispatchEvent(new KeyboardEvent('keydown'));
 
         expect(limitFocusDirective['keydown']).toHaveBeenCalled();
-    }));
+    });
 
     it('should detect mutation (attr)', async () => {
         setTimeout(() => {

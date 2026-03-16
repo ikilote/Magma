@@ -1,6 +1,6 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import type { Mocked } from 'vitest';
@@ -118,20 +118,20 @@ describe('MagmaResize Directive', () => {
             directiveEl.nativeElement.dispatchEvent(event);
         };
 
-        it('should update dimensions when dragging the right edge', fakeAsync(() => {
+        it('should update dimensions when dragging the right edge', () => {
             initiateResize('right', 100, 100);
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             // Move: 20px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[1] - (-2) = 12
             expect(component.mockResizer.update).toHaveBeenCalledWith('right', [0, 12]);
             expect(component.mockResizer.animation).toBe(true);
-        }));
+        });
 
-        it('should clamp the top dimension to resizerInit.y', fakeAsync(() => {
+        it('should clamp the top dimension to resizerInit.y', () => {
             initiateResize('top', 100, 100);
 
             // Move: 50px upwards. changeY = (100 - 50) / 10 = 5.
@@ -139,36 +139,36 @@ describe('MagmaResize Directive', () => {
             // Since resizerInit.y is 0, it should use Math.max(-5, 0) = 0.
             const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 50 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             expect(component.mockResizer.update).toHaveBeenCalledWith('top', [0, 10]);
-        }));
+        });
 
-        it('should update dimensions when dragging the left edge', fakeAsync(() => {
+        it('should update dimensions when dragging the left edge', () => {
             initiateResize('left', 100, 100);
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             // Move: 50px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[0] - (-2) = 2
             expect(component.mockResizer.update).toHaveBeenCalledWith('left', [2, 10]);
             expect(component.mockResizer.animation).toBe(true);
-        }));
+        });
 
-        it('should update dimensions when dragging the bottom edge', fakeAsync(() => {
+        it('should update dimensions when dragging the bottom edge', () => {
             initiateResize('bottom', 100, 100);
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 120 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             // Move: 20px upwards. changeY = (100 - 120) / 10 = -2.
             // Logic: itemSource.y[1] - (-2) = 12
             expect(component.mockResizer.update).toHaveBeenCalledWith('bottom', [0, 12]);
             expect(component.mockResizer.animation).toBe(true);
-        }));
+        });
 
         it('should ignore interactions when resizerDisabled is true', () => {
             component.isDisabled = true;
@@ -194,16 +194,16 @@ describe('MagmaResize Directive', () => {
             expect(directiveInstance.resizeActive).toBeUndefined();
         });
 
-        it('should reset resize direction after a delay on mouseout', fakeAsync(() => {
+        it('should reset resize direction after a delay on mouseout', () => {
             directiveInstance.resize = 'left';
             directiveEl.nativeElement.dispatchEvent(new MouseEvent('mouseout'));
 
             // State should persist immediately because of the 50ms timer
             expect(directiveInstance.resize).toBe('left');
 
-            tick(50);
+            vi.advanceTimersByTime(50);
             expect(directiveInstance.resize).toBeUndefined();
             expect(cdkDragSpy.disabled).toBe(false);
-        }));
+        });
     });
 });

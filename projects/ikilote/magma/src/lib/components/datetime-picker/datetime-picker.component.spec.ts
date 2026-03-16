@@ -1,5 +1,5 @@
 import { DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
@@ -119,7 +119,7 @@ describe('MagmaDatetimePickerComponent', () => {
         expect(component.nextMonthHide()).toBe(false);
     });
 
-    it('should emit ISO date on select()', fakeAsync(() => {
+    it('should emit ISO date on select()', () => {
         const spy = vi.spyOn(component.datetimeChange, 'emit');
         const testDate = new Date(Date.UTC(2025, 4, 15)); // 15 May 2025
         const info: DateInfo = {
@@ -135,10 +135,10 @@ describe('MagmaDatetimePickerComponent', () => {
 
         component['dateValue'].set(testDate);
         component['select'](info);
-        tick(20); // for setTimeout focus logic
+        vi.advanceTimersByTime(20); // for setTimeout focus logic
 
         expect(spy).toHaveBeenCalledWith('2025-05-15');
-    }));
+    });
 
     [
         { method: 'updateYear', value: 2026, toBe: '2026-01-01T10:00:00.000Z' },
@@ -295,31 +295,31 @@ describe('MagmaDatetimePickerComponent', () => {
         });
     });
 
-    it('should load more years on scroll up', fakeAsync(() => {
+    it('should load more years on scroll up', () => {
         // @ts-ignore
         const initialPast = component.past();
         const event: any = { way: 'up' };
 
         component['scroll'](event);
-        tick(100); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.past()).toBe(initialPast + 10);
-    }));
+    });
 
-    it('should load more years on scroll down', fakeAsync(() => {
+    it('should load more years on scroll down', () => {
         // @ts-ignore
         const initialFuture = component.future();
         const event: any = { way: 'down' };
 
         component['scroll'](event);
-        tick(100); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.future()).toBe(initialFuture + 10);
-    }));
+    });
 
-    it('should not load more years on scroll up', fakeAsync(() => {
+    it('should not load more years on scroll up', () => {
         // @ts-ignore
         const initialPast = component.past();
         const event: any = { way: 'up' };
@@ -327,13 +327,13 @@ describe('MagmaDatetimePickerComponent', () => {
         // @ts-ignore
         component.onscroll = true;
         component['scroll'](event);
-        tick(100); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.past()).toBe(initialPast);
-    }));
+    });
 
-    it('should not load more years on scroll down', fakeAsync(() => {
+    it('should not load more years on scroll down', () => {
         // @ts-ignore
         const initialFuture = component.future();
         const event: any = { way: 'down' };
@@ -341,11 +341,11 @@ describe('MagmaDatetimePickerComponent', () => {
         // @ts-ignore
         component.onscroll = true;
         component['scroll'](event);
-        tick(100); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.future()).toBe(initialFuture);
-    }));
+    });
 
     it('should show week numbers if hideWeekNumber is false', () => {
         fixture.componentRef.setInput('hideWeekNumber', false);
@@ -402,7 +402,7 @@ describe('MagmaDatetimePickerComponent', () => {
             expect(updateDateSpy).toHaveBeenCalled();
         });
 
-        it('should attempt to focus the element with ".selected" class after 10ms', fakeAsync(() => {
+        it('should attempt to focus the element with ".selected" class after 10ms', () => {
             const dateInfo = { month: 1, day: 10 } as DateInfo;
 
             // Create a dummy element in the template to be found by the querySelector
@@ -418,15 +418,15 @@ describe('MagmaDatetimePickerComponent', () => {
             component.select(dateInfo);
 
             // Before 10ms
-            tick(5);
+            vi.advanceTimersByTime(5);
             expect(focusSpy).not.toHaveBeenCalled();
 
             // At/After 10ms
-            tick(5);
+            vi.advanceTimersByTime(5);
             expect(focusSpy).toHaveBeenCalled();
-        }));
+        });
 
-        it('should not throw an error if the .selected element is not found in the DOM', fakeAsync(() => {
+        it('should not throw an error if the .selected element is not found in the DOM', () => {
             const dateInfo = { month: 1, day: 10 } as DateInfo;
 
             // Return null to simulate element not being rendered yet or missing
@@ -435,9 +435,9 @@ describe('MagmaDatetimePickerComponent', () => {
             expect(() => {
                 // @ts-ignore
                 component.select(dateInfo);
-                tick(10);
+                vi.advanceTimersByTime(10);
             }).not.toThrow();
-        }));
+        });
     });
 
     describe('getFirstGet() - Week start offset', () => {

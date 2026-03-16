@@ -3,6 +3,8 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import type { Mocked } from 'vitest';
+
 import { ResizeDirection } from './resizer';
 import { MagmaResize } from './resizer.directive';
 
@@ -12,7 +14,6 @@ import { MagmaResize } from './resizer.directive';
         <div style="position: relative;">
             <div
                 style="width: 100px; height: 100px; position: absolute;"
-                resizer
                 [resizer]="mockResizer"
                 [resizerHost]="mockHost"
                 [resizerDisabled]="isDisabled"
@@ -29,7 +30,7 @@ class TestComponent {
         x: [0, 10],
         y: [0, 10],
         animation: true,
-        update: jasmine.createSpy('update'),
+        update: vi.fn(),
     } as any;
 
     mockHost = {
@@ -44,11 +45,13 @@ describe('MagmaResize Directive', () => {
     let component: TestComponent;
     let directiveEl: DebugElement;
     let directiveInstance: MagmaResize;
-    let cdkDragSpy: jasmine.SpyObj<CdkDrag>;
+    let cdkDragSpy: Mocked<CdkDrag>;
 
     beforeEach(async () => {
         // Create a spy for the optional CdkDrag dependency
-        cdkDragSpy = jasmine.createSpyObj('CdkDrag', ['disabled']);
+        cdkDragSpy = {
+            disabled: vi.fn().mockName('CdkDrag.disabled'),
+        } as unknown as Mocked<CdkDrag>;
 
         await TestBed.configureTestingModule({
             imports: [TestComponent],
@@ -88,8 +91,8 @@ describe('MagmaResize Directive', () => {
                 fixture.detectChanges();
 
                 expect(directiveInstance.resize).toBe(data.resize as ResizeDirection);
-                expect(directiveEl.nativeElement.classList.contains(data.class)).toBeTrue();
-                expect(cdkDragSpy.disabled).toBeTrue();
+                expect(directiveEl.nativeElement.classList.contains(data.class)).toBe(true);
+                expect(cdkDragSpy.disabled).toBe(true);
             });
         });
 
@@ -100,7 +103,7 @@ describe('MagmaResize Directive', () => {
             fixture.detectChanges();
 
             expect(directiveInstance.resize).toBeUndefined();
-            expect(cdkDragSpy.disabled).toBeFalse();
+            expect(cdkDragSpy.disabled).toBe(false);
         });
     });
 
@@ -125,7 +128,7 @@ describe('MagmaResize Directive', () => {
             // Move: 20px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[1] - (-2) = 12
             expect(component.mockResizer.update).toHaveBeenCalledWith('right', [0, 12]);
-            expect(component.mockResizer.animation).toBeTrue();
+            expect(component.mockResizer.animation).toBe(true);
         }));
 
         it('should clamp the top dimension to resizerInit.y', fakeAsync(() => {
@@ -151,7 +154,7 @@ describe('MagmaResize Directive', () => {
             // Move: 50px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[0] - (-2) = 2
             expect(component.mockResizer.update).toHaveBeenCalledWith('left', [2, 10]);
-            expect(component.mockResizer.animation).toBeTrue();
+            expect(component.mockResizer.animation).toBe(true);
         }));
 
         it('should update dimensions when dragging the bottom edge', fakeAsync(() => {
@@ -164,7 +167,7 @@ describe('MagmaResize Directive', () => {
             // Move: 20px upwards. changeY = (100 - 120) / 10 = -2.
             // Logic: itemSource.y[1] - (-2) = 12
             expect(component.mockResizer.update).toHaveBeenCalledWith('bottom', [0, 12]);
-            expect(component.mockResizer.animation).toBeTrue();
+            expect(component.mockResizer.animation).toBe(true);
         }));
 
         it('should ignore interactions when resizerDisabled is true', () => {
@@ -200,7 +203,7 @@ describe('MagmaResize Directive', () => {
 
             tick(50);
             expect(directiveInstance.resize).toBeUndefined();
-            expect(cdkDragSpy.disabled).toBeFalse();
+            expect(cdkDragSpy.disabled).toBe(false);
         }));
     });
 });

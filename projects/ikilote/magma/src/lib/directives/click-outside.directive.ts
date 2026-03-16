@@ -4,7 +4,7 @@ import { Directive, ElementRef, HostListener, inject, output } from '@angular/co
     selector: '[clickOutside]',
 })
 export class MagmaClickOutsideDirective {
-    readonly clickOutside = output();
+    readonly clickOutside = output<Event>();
 
     private readonly elementRef = inject(ElementRef);
 
@@ -12,7 +12,7 @@ export class MagmaClickOutsideDirective {
     onClick(event: Event) {
         const clickedInside = this.elementRef.nativeElement.contains(event.target);
         if (!clickedInside) {
-            this.clickOutside.emit();
+            this.clickOutside.emit(event);
         }
     }
 

@@ -2,6 +2,8 @@ import { Component, ElementRef, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import type { Mock } from 'vitest';
+
 import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective, focusRules } from './limit-focus.directive';
 
 /** Function to simulate Tab and actually move focus */
@@ -185,7 +187,7 @@ describe('MagmaLimitFocusDirective', () => {
     describe('mutations function', () => {
         it('should update focusable elements list when childList changes', () => {
             // Spy on firstLastFocusableElement method
-            const spy = spyOn(limitFocusDirective as any, 'firstLastFocusableElement').and.callThrough();
+            const spy = vi.spyOn(limitFocusDirective as any, 'firstLastFocusableElement');
 
             // Create a MutationRecord for childList change
             const mutation = {
@@ -213,7 +215,7 @@ describe('MagmaLimitFocusDirective', () => {
 
         it('should update focusable elements list when attributes change', () => {
             // Spy on firstLastFocusableElement method
-            const spy = spyOn(limitFocusDirective as any, 'firstLastFocusableElement').and.callThrough();
+            const spy = vi.spyOn(limitFocusDirective as any, 'firstLastFocusableElement');
 
             // Create a MutationRecord for attribute change
             const mutation = {
@@ -241,7 +243,7 @@ describe('MagmaLimitFocusDirective', () => {
 
         it('should not update focusable elements list for other mutation types', () => {
             // Spy on firstLastFocusableElement method
-            const spy = spyOn(limitFocusDirective as any, 'firstLastFocusableElement');
+            const spy = vi.spyOn(limitFocusDirective as any, 'firstLastFocusableElement');
 
             // Create a MutationRecord for a different type
             const mutation = {
@@ -271,7 +273,7 @@ describe('MagmaLimitFocusDirective', () => {
         let focusableElements: HTMLElement[];
         let mockEvent: any;
 
-        let focusSpy: jasmine.Spy;
+        let focusSpy: Mock;
 
         beforeEach(() => {
             // Get the list of focusable elements
@@ -284,19 +286,19 @@ describe('MagmaLimitFocusDirective', () => {
                 preventDefault: () => {},
                 stopPropagation: () => {},
             } as KeyboardEvent;
-            spyOn(mockEvent, 'preventDefault');
-            spyOn(mockEvent, 'stopPropagation');
+            vi.spyOn(mockEvent, 'preventDefault');
+            vi.spyOn(mockEvent, 'stopPropagation');
 
             // Spy on focus method for all focusable elements
             focusableElements.forEach(el => {
-                focusSpy = spyOn(el, 'focus').and.callThrough();
+                focusSpy = vi.spyOn(el, 'focus');
             });
         });
 
         it('should prevent default and focus last element when Shift+Tab from first element', () => {
             mockEvent.shiftKey = true;
             // Mock active element as first element
-            spyOnProperty(document, 'activeElement', 'get').and.returnValue(input1);
+            vi.spyOn(document, 'activeElement', 'get').mockReturnValue(input1);
 
             // Call keydown directly
             limitFocusDirective['keydown'](mockEvent, focusableElements);
@@ -309,7 +311,7 @@ describe('MagmaLimitFocusDirective', () => {
 
         it('should prevent default and focus first element when Tab from last element', () => {
             // Mock active element as last element
-            spyOnProperty(document, 'activeElement', 'get').and.returnValue(button2);
+            vi.spyOn(document, 'activeElement', 'get').mockReturnValue(button2);
 
             // Call keydown directly
             limitFocusDirective['keydown'](mockEvent, focusableElements);
@@ -325,7 +327,7 @@ describe('MagmaLimitFocusDirective', () => {
 
             // Mock active element as non-focusable element
             const nonFocusableElement = document.createElement('div');
-            spyOnProperty(document, 'activeElement', 'get').and.returnValue(nonFocusableElement);
+            vi.spyOn(document, 'activeElement', 'get').mockReturnValue(nonFocusableElement);
 
             // Call keydown directly
             limitFocusDirective['keydown'](mockEvent, focusableElements);
@@ -337,7 +339,7 @@ describe('MagmaLimitFocusDirective', () => {
         it('should focus last element when Shift+Tab from non-focusable element', () => {
             // Mock active element as non-focusable element
             const nonFocusableElement = document.createElement('div');
-            spyOnProperty(document, 'activeElement', 'get').and.returnValue(nonFocusableElement);
+            vi.spyOn(document, 'activeElement', 'get').mockReturnValue(nonFocusableElement);
 
             // Call keydown directly
             limitFocusDirective['keydown'](mockEvent, focusableElements);
@@ -358,7 +360,7 @@ describe('MagmaLimitFocusDirective', () => {
 
         it('should not prevent default when Tab is pressed but active element is in the list', () => {
             // Mock active element as element in the middle of the list
-            spyOnProperty(document, 'activeElement', 'get').and.returnValue(button1);
+            vi.spyOn(document, 'activeElement', 'get').mockReturnValue(button1);
 
             // Call keydown directly
             limitFocusDirective['keydown'](mockEvent, focusableElements);
@@ -404,13 +406,13 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
         divRef = { nativeElement: div } as unknown as ElementRef<HTMLDivElement>;
         (limitFocusDirective as any)['focusElement'] = divRef;
 
-        limitFocusDirective['mutations'] = jasmine.createSpy('mutations');
+        limitFocusDirective['mutations'] = vi.fn();
 
         fixture.detectChanges();
     });
 
     it('should intercept keydown', fakeAsync(async () => {
-        limitFocusDirective['keydown'] = jasmine.createSpy('keydown');
+        limitFocusDirective['keydown'] = vi.fn();
 
         tick();
         await fixture.whenStable();
@@ -420,30 +422,28 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
         expect(limitFocusDirective['keydown']).toHaveBeenCalled();
     }));
 
-    it('should detect mutation (attr)', done => {
+    it('should detect mutation (attr)', async () => {
         setTimeout(() => {
             divRef.nativeElement.setAttribute('test', 'test');
 
             setTimeout(() => {
                 expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
-                done();
             }, 10);
         }, 10);
     });
 
-    it('should detect mutation (childList)', done => {
+    it('should detect mutation (childList)', async () => {
         setTimeout(() => {
             const button = document.createElement('button');
             divRef.nativeElement.append(button);
 
             setTimeout(() => {
                 expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
-                done();
             }, 10);
         }, 10);
     });
 
-    it('should detect mutation (childList & subtree)', done => {
+    it('should detect mutation (childList & subtree)', async () => {
         setTimeout(() => {
             const button = document.createElement('button');
             divRef.nativeElement.append(button);
@@ -453,7 +453,6 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
 
                 setTimeout(() => {
                     expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(2);
-                    done();
                 }, 10);
             }, 10);
         }, 10);

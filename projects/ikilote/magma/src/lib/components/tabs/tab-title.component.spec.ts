@@ -12,10 +12,10 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
     template: `<ng-content select="mg-tab-title" />`,
 })
 class MockMagmaTabs {
-    update = jasmine.createSpy('update');
+    update = vi.fn();
     // Mock for tabpanel() which returns an object with a nativeElement that has a focus method
-    tabpanel = jasmine.createSpy('tabpanel').and.returnValue({
-        nativeElement: { focus: jasmine.createSpy('focus') },
+    tabpanel = vi.fn().mockReturnValue({
+        nativeElement: { focus: vi.fn() },
     });
     // Simulate the array of title components for focus tests
     titles = contentChildren(MagmaTabTitle);
@@ -70,18 +70,18 @@ describe('MagmaTabTitle', () => {
     it('should apply "selected" class when selected is true', () => {
         tabTitleComponent.selected.set(true);
         fixture.detectChanges();
-        expect(tabTitleElement.nativeElement.classList.contains('selected')).toBeTrue();
+        expect(tabTitleElement.nativeElement.classList.contains('selected')).toBe(true);
     });
 
     it('should call onclick in ngOnInit if selected is true', () => {
-        spyOn(tabTitleComponent, 'onclick');
+        vi.spyOn(tabTitleComponent, 'onclick');
         tabTitleComponent.selected.set(true);
         tabTitleComponent.ngOnInit();
         expect(tabTitleComponent.onclick).toHaveBeenCalled();
     });
 
     it('should call onclick in ngOnChanges if selected changes to true', () => {
-        spyOn(tabTitleComponent, 'onclick');
+        vi.spyOn(tabTitleComponent, 'onclick');
         tabTitleComponent.selected.set(true);
         tabTitleComponent.ngOnChanges({
             selected: {
@@ -102,7 +102,7 @@ describe('MagmaTabTitle', () => {
 
     it('should focus previous tab on focusRight', () => {
         const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
+        vi.spyOn(previousTab, 'focus');
 
         tabsComponent.titles()[0].focusRight();
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);
@@ -110,7 +110,7 @@ describe('MagmaTabTitle', () => {
 
     it('should focus previous tab on focusRight', () => {
         const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
+        vi.spyOn(previousTab, 'focus');
 
         tabsComponent.titles()[2].focusRight();
         expect(tabsComponent.titles()[2].element.nativeElement).toBe(document.activeElement);
@@ -118,7 +118,7 @@ describe('MagmaTabTitle', () => {
 
     it('should focus previous tab on focusLeft', () => {
         const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
+        vi.spyOn(previousTab, 'focus');
 
         tabsComponent.titles()[0].focusLeft();
         expect(tabsComponent.titles()[0].element.nativeElement).toBe(document.activeElement);
@@ -126,14 +126,14 @@ describe('MagmaTabTitle', () => {
 
     it('should focus previous tab on focusLeft', () => {
         const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
+        vi.spyOn(previousTab, 'focus');
 
         tabsComponent.titles()[2].focusLeft();
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);
     });
 
     it('should call onclick on clickEnter event', () => {
-        spyOn(tabTitleComponent, 'onclick');
+        vi.spyOn(tabTitleComponent, 'onclick');
         const clickDirective = tabTitleElement.injector.get(MagmaClickEnterDirective);
         clickDirective.clickEnter.emit(new MouseEvent('click'));
         expect(tabTitleComponent.onclick).toHaveBeenCalled();

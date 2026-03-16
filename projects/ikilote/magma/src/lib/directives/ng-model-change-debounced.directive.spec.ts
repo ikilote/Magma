@@ -21,7 +21,7 @@ import { MagmaNgModelChangeDebouncedDirective } from './ng-model-change-debounce
 class TestComponent {
     value: any = '';
     debounceTime = 500;
-    onDebouncedChange = jasmine.createSpy('onDebouncedChange');
+    onDebouncedChange = vi.fn();
 }
 
 describe('MagmaNgModelChangeDebouncedDirective', () => {
@@ -63,7 +63,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
 
     describe('Debounced emission', () => {
         beforeEach(() => {
-            component.onDebouncedChange.calls.reset();
+            component.onDebouncedChange.mockClear();
         });
 
         it('should emit debounced value after debounce time', fakeAsync(() => {
@@ -96,7 +96,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             expect(component.onDebouncedChange).toHaveBeenCalledTimes(1);
 
             // Reset spy
-            component.onDebouncedChange.calls.reset();
+            component.onDebouncedChange.mockClear();
 
             // Set same value again
             component.value = 'test';
@@ -157,7 +157,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             // Initial value is set in the component
             // We should verify that the first emission is skipped
             // Reset the spy to ignore any calls during initialization
-            component.onDebouncedChange.calls.reset();
+            component.onDebouncedChange.mockClear();
 
             // Change the value
             component.value = 'new value';
@@ -224,7 +224,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             tick(500);
             fixture.detectChanges();
             // Reset spy
-            component.onDebouncedChange.calls.reset();
+            component.onDebouncedChange.mockClear();
             // Change to different value
             component.value = 'different';
             fixture.detectChanges();

@@ -4,6 +4,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 
 import Color from 'colorjs.io';
+import type { Mocked } from 'vitest';
 
 import { MagmaColorPickerComponent, magmaColorPickerPalette } from './color-picker.component';
 
@@ -13,10 +14,12 @@ import { MagmaTabs } from '../tabs/tabs.component';
 describe('MagmaColorPickerComponent', () => {
     let component: MagmaColorPickerComponent;
     let fixture: ComponentFixture<MagmaColorPickerComponent>;
-    let loggerSpy: jasmine.SpyObj<Logger>;
+    let loggerSpy: Mocked<Logger>;
 
     beforeEach(async () => {
-        loggerSpy = jasmine.createSpyObj('Logger', ['log']);
+        loggerSpy = {
+            log: vi.fn().mockName('Logger.log'),
+        } as unknown as Mocked<Logger>;
 
         await TestBed.configureTestingModule({
             imports: [MagmaColorPickerComponent],
@@ -54,13 +57,13 @@ describe('MagmaColorPickerComponent', () => {
     });
 
     it('should emit colorChange when color is updated', () => {
-        spyOn(component.colorChange, 'emit');
+        vi.spyOn(component.colorChange, 'emit');
         component['updateHex']('#ff0000');
         expect(component.colorChange.emit).toHaveBeenCalledWith('#f00');
     });
 
     it('should update position and color on click', () => {
-        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: jasmine.createSpy() };
+        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: vi.fn() };
         component.zone().nativeElement.style = 'width:100px; height: 100px';
         component['click'](mockEvent as unknown as MouseEvent);
         expect(component['rangeLight']).toBe(56);
@@ -135,7 +138,7 @@ describe('MagmaColorPickerComponent', () => {
 
     it('should not update color if readonly is true', () => {
         fixture.componentRef.setInput('alpha', true);
-        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: jasmine.createSpy() };
+        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: vi.fn() };
         component['click'](mockEvent as unknown as MouseEvent);
         expect(component['rangeLight']).toBe(16);
     });
@@ -200,7 +203,7 @@ describe('MagmaColorPickerComponent', () => {
             component.zone().nativeElement.style = 'width:110px; height: 110px';
 
             // Spy on the final side-effect method
-            spyOn(component as any, 'updateColor');
+            vi.spyOn(component as any, 'updateColor');
         });
 
         it('should handle null hue (h) by defaulting to 0', () => {
@@ -260,10 +263,10 @@ describe('MagmaColorPickerComponent', () => {
     });
 
     it('should start drag', () => {
-        expect(component['startDrag']).toBeFalse();
+        expect(component['startDrag']).toBe(false);
 
         component['dragStart']();
-        expect(component['startDrag']).toBeTrue();
+        expect(component['startDrag']).toBe(true);
     });
 
     describe('Palette && Datalist', () => {

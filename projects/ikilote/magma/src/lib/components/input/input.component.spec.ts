@@ -5,15 +5,15 @@ import { By } from '@angular/platform-browser';
 
 import { MagmaInputCheckbox } from './input-checkbox.component';
 import { MagmaInputElement } from './input-element.component';
-import { MagmaInput } from './input.component';
+import { MagmaInput, MagmaInputAlignMode, MagmaInputReturnValue, MagmaInputTypeValue } from './input.component';
 
-@Component({ selector: 'mg-input-checkbox' })
+@Component({ selector: 'mg-input-checkbox', template: '' })
 class MockMagmaInputCommon {
     host: MagmaInput | null = null;
     refreshTrigger = signal(undefined);
     componentName = 'input-checkbox';
-    getValue = jasmine.createSpy('getValue').and.returnValue(true);
-    onChange = jasmine.createSpy('onChange');
+    getValue = vi.fn().mockReturnValue(true);
+    onChange = vi.fn();
 }
 
 class MockNgControl {}
@@ -22,7 +22,7 @@ class MockNgControl {}
     template: `
         <mg-input
             [id]="'test-id'"
-            [typeValue]="arraytypeValueValue"
+            [typeValue]="typeValue"
             [returnValue]="returnValue"
             [alignMode]="alignMode"
             [id]="id"
@@ -36,9 +36,9 @@ class MockNgControl {}
     imports: [MagmaInput, MagmaInputElement, MagmaInputCheckbox],
 })
 class TestHostComponent {
-    alignMode = '';
-    typeValue = 'default';
-    returnValue = 'default';
+    alignMode = '' as unknown as MagmaInputAlignMode;
+    typeValue = 'default' as MagmaInputTypeValue;
+    returnValue = 'default' as MagmaInputReturnValue;
     id = '';
 }
 

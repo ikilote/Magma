@@ -5,20 +5,20 @@ import { By } from '@angular/platform-browser';
 
 import { MagmaInputCheckbox } from './input-checkbox.component';
 import { MockNgControl } from './input-text.component.spec';
-import { MagmaInput } from './input.component';
+import { MagmaInput, MagmaInputReturnValue, MagmaInputTypeValue } from './input.component';
 
 class MockMagmaInput {
-    _id = jasmine.createSpy('_id');
+    _id = vi.fn();
     _value: any = '';
-    onChange = jasmine.createSpy('onChange');
-    onTouched = jasmine.createSpy('onTouched');
-    update = { emit: jasmine.createSpy('emit') };
-    validate = jasmine.createSpy('validate');
+    onChange = vi.fn();
+    onTouched = vi.fn();
+    update = { emit: vi.fn() };
+    validate = vi.fn();
     ngControl = { control: { errors: null } };
-    cd = { detectChanges: jasmine.createSpy('detectChanges') };
-    typeValue = jasmine.createSpy('typeValue').and.returnValue('default');
-    returnValue = jasmine.createSpy('returnValue').and.returnValue('default');
-    inputs = jasmine.createSpy('inputs').and.returnValue([]);
+    cd = { detectChanges: vi.fn() };
+    typeValue = vi.fn().mockReturnValue('default');
+    returnValue = vi.fn().mockReturnValue('default');
+    inputs = vi.fn().mockReturnValue([]);
     forId = signal<string | undefined>(undefined);
 }
 
@@ -72,46 +72,46 @@ describe('MagmaInputCheckbox', () => {
         component['testChecked'] = true;
         fixture.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
-        expect(inputElement.checked).toBeTrue();
+        expect(inputElement.checked).toBe(true);
     });
 
     it('should not set checked attribute on input if testChecked is false', () => {
         component['testChecked'] = false;
         fixture.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
-        expect(inputElement.checked).toBeFalse();
+        expect(inputElement.checked).toBe(false);
     });
 
     it('should update testChecked and call detectChanges on writeValue (value)', fakeAsync(() => {
-        spyOn(component['cd'], 'detectChanges');
+        vi.spyOn(component['cd'], 'detectChanges');
 
         fixture.componentRef.setInput('value', 'test-value');
         component.writeValue('test-value');
         tick();
 
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
         expect(component['cd'].detectChanges).toHaveBeenCalled();
     }));
 
     it('should update testChecked and call detectChanges on writeValue (true)', fakeAsync(() => {
-        spyOn(component['cd'], 'detectChanges');
+        vi.spyOn(component['cd'], 'detectChanges');
 
         component.writeValue(true);
         tick();
 
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
         expect(component['cd'].detectChanges).toHaveBeenCalled();
     }));
 
     it('should update testChecked and call detectChanges on writeValue (array)', fakeAsync(() => {
-        spyOn(component['cd'], 'detectChanges');
+        vi.spyOn(component['cd'], 'detectChanges');
         (component.host as any).inputs = signal([component, component]);
 
         fixture.componentRef.setInput('value', 'test-value');
         component.writeValue(['test-value']);
         tick();
 
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
         expect(component['cd'].detectChanges).toHaveBeenCalled();
     }));
 
@@ -125,20 +125,20 @@ describe('MagmaInputCheckbox', () => {
             },
         };
         component.ngOnChanges(changes);
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
     });
 
     it('should toggle testChecked and call methods on _change', () => {
-        spyOn(component, 'onChange');
-        spyOn(component.update, 'emit');
-        spyOn(component.itemUpdate, 'emit');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component.update, 'emit');
+        vi.spyOn(component.itemUpdate, 'emit');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component['testChecked'] = false;
         component._change();
 
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
         expect(component.onChange).toHaveBeenCalled();
         expect(component.update.emit).toHaveBeenCalled();
         expect(component.itemUpdate.emit).toHaveBeenCalled();
@@ -147,11 +147,11 @@ describe('MagmaInputCheckbox', () => {
     });
 
     it('should toggle testChecked and call methods on _change', () => {
-        spyOn(component, 'onChange');
-        spyOn(component.update, 'emit');
-        spyOn(component.itemUpdate, 'emit');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component.update, 'emit');
+        vi.spyOn(component.itemUpdate, 'emit');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -159,7 +159,7 @@ describe('MagmaInputCheckbox', () => {
         component['testChecked'] = false;
         component._change();
 
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
         expect(component.onChange).toHaveBeenCalled();
         expect(component.update.emit).toHaveBeenCalled();
         expect(component.itemUpdate.emit).toHaveBeenCalled();
@@ -169,14 +169,14 @@ describe('MagmaInputCheckbox', () => {
 
     it('should return correct value from getValue for single checkbox', () => {
         component['testChecked'] = true;
-        expect(component.getValue()).toBeTrue();
+        expect(component.getValue()).toBe(true);
     });
 
     it('should return correct value from getValue for multiple checkboxes', () => {
         const mockCheckbox1 = { componentName: 'input-checkbox', testChecked: true, value: () => 'value1' };
         const mockCheckbox2 = { componentName: 'input-checkbox', testChecked: false, value: () => 'value2' };
-        mockHost.inputs.and.returnValue([mockCheckbox1, mockCheckbox2]);
-        mockHost.typeValue.and.returnValue('array');
+        mockHost.inputs.mockReturnValue([mockCheckbox1, mockCheckbox2]);
+        mockHost.typeValue.mockReturnValue('array');
 
         const result = component.getValue();
         expect(result).toEqual(['value1']);
@@ -193,21 +193,21 @@ describe('MagmaInputCheckbox', () => {
         fixture.componentRef.setInput('disabled', true);
         fixture.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
-        expect(inputElement.disabled).toBeTrue();
+        expect(inputElement.disabled).toBe(true);
     });
 
     it('should set input to readonly if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
         fixture.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
-        expect(inputElement.readOnly).toBeTrue();
+        expect(inputElement.readOnly).toBe(true);
     });
 
     it('should add toggle-switch class if mode is toggle', () => {
         fixture.componentRef.setInput('mode', 'toggle');
         fixture.detectChanges();
         const hostElement = debugElement.nativeElement;
-        expect(hostElement.classList.contains('toggle-switch')).toBeTrue();
+        expect(hostElement.classList.contains('toggle-switch')).toBe(true);
     });
 
     describe('ngDoCheck', () => {
@@ -233,7 +233,7 @@ describe('MagmaInputCheckbox', () => {
         });
 
         it('should not call setHostLabelId if there are multiple checkboxes', () => {
-            spyOn(component['cd'], 'detectChanges');
+            vi.spyOn(component['cd'], 'detectChanges');
             mockHost.forId.set('different-id');
             (component.host as any).inputs = signal([component, component]);
             mockLabelRef.nativeElement.innerHTML = '';
@@ -245,7 +245,7 @@ describe('MagmaInputCheckbox', () => {
         });
 
         it('should not call setHostLabelId if label has content', () => {
-            spyOn(component['cd'], 'detectChanges');
+            vi.spyOn(component['cd'], 'detectChanges');
             mockHost.forId.set('different-id');
             (component.host as any).inputs = signal([component]);
             mockLabelRef.nativeElement.innerHTML = 'Some content';
@@ -257,11 +257,11 @@ describe('MagmaInputCheckbox', () => {
         });
 
         it('should set host forId to undefined for multiple checkboxes with label content', () => {
-            spyOn(component['cd'], 'detectChanges');
+            vi.spyOn(component['cd'], 'detectChanges');
             mockHost.forId.set('some-id');
             (component.host as any).inputs = signal([component, component]);
             mockLabelRef.nativeElement.innerHTML = 'Some content';
-            spyOn(mockHost.forId, 'set');
+            vi.spyOn(mockHost.forId, 'set');
 
             component.ngDoCheck();
 
@@ -270,11 +270,11 @@ describe('MagmaInputCheckbox', () => {
         });
 
         it('should set host forId to undefined for single checkbox with label content', () => {
-            spyOn(component['cd'], 'detectChanges');
+            vi.spyOn(component['cd'], 'detectChanges');
             mockHost.forId.set('some-id');
             (component.host as any).inputs = signal([component]);
             mockLabelRef.nativeElement.innerHTML = 'Some content';
-            spyOn(mockHost.forId, 'set');
+            vi.spyOn(mockHost.forId, 'set');
 
             component.ngDoCheck();
 
@@ -283,11 +283,11 @@ describe('MagmaInputCheckbox', () => {
         });
 
         it('should not modify host forId if no conditions are met', () => {
-            spyOn(component['cd'], 'detectChanges');
+            vi.spyOn(component['cd'], 'detectChanges');
             mockHost.forId.set(undefined);
             (component.host as any).inputs = signal([component]);
             mockLabelRef.nativeElement.innerHTML = '';
-            spyOn(mockHost.forId, 'set');
+            vi.spyOn(mockHost.forId, 'set');
 
             component.ngDoCheck();
 
@@ -308,7 +308,7 @@ describe('MagmaInputCheckbox', () => {
     imports: [MagmaInput, MagmaInputCheckbox],
 })
 class TestHostComponent {
-    returnValue = 'default';
+    returnValue = 'default' as MagmaInputReturnValue;
 }
 
 describe('MagmaInput with multiple MagmaInputCheckbox', () => {
@@ -345,7 +345,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
 
             fixture.detectChanges();
 
-            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(true);
             expect(checkboxComponents[1]['testChecked']).toBeUndefined();
             expect(checkboxComponents[2]['testChecked']).toBeUndefined();
 
@@ -358,8 +358,8 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             checkboxComponents[0]._change();
             checkboxComponents[1]._change();
 
-            expect(checkboxComponents[0]['testChecked']).toBeTrue();
-            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(true);
+            expect(checkboxComponents[1]['testChecked']).toBe(true);
             expect(checkboxComponents[2]['testChecked']).toBeUndefined();
 
             expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option2']);
@@ -376,9 +376,9 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
 
             // Uncheck the first checkbox
             checkboxComponents[0]._change();
-            expect(checkboxComponents[0]['testChecked']).toBeFalse();
-            expect(checkboxComponents[1]['testChecked']).toBeTrue();
-            expect(checkboxComponents[2]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(false);
+            expect(checkboxComponents[1]['testChecked']).toBe(true);
+            expect(checkboxComponents[2]['testChecked']).toBe(true);
 
             expect(checkboxComponents[0].getValue()).toEqual(['option2', 'option3']);
             expect(checkboxComponents[1].getValue()).toEqual(['option2', 'option3']);
@@ -390,9 +390,9 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             fixture.detectChanges();
             tick();
 
-            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(true);
             expect(checkboxComponents[1]['testChecked']).toBeUndefined();
-            expect(checkboxComponents[2]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBe(true);
 
             expect(checkboxComponents[0].getValue()).toEqual(['option1', 'option3']);
             expect(checkboxComponents[1].getValue()).toEqual(['option1', 'option3']);
@@ -406,9 +406,9 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             fixture.detectChanges();
             tick();
 
-            expect(checkboxComponents[0]['testChecked']).toBeFalse();
-            expect(checkboxComponents[1]['testChecked']).toBeTrue();
-            expect(checkboxComponents[2]['testChecked']).toBeFalse();
+            expect(checkboxComponents[0]['testChecked']).toBe(false);
+            expect(checkboxComponents[1]['testChecked']).toBe(true);
+            expect(checkboxComponents[2]['testChecked']).toBe(false);
 
             expect(checkboxComponents[0].getValue()).toEqual(['option2']);
             expect(checkboxComponents[1].getValue()).toEqual(['option2']);
@@ -416,7 +416,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
         }));
 
         it('should emit update event when checkbox state changes', () => {
-            spyOn(checkboxComponents[0].update, 'emit');
+            vi.spyOn(checkboxComponents[0].update, 'emit');
 
             checkboxComponents[0]._change();
 
@@ -435,7 +435,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
 
             fixture.detectChanges();
 
-            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(true);
             expect(checkboxComponents[1]['testChecked']).toBeUndefined();
             expect(checkboxComponents[2]['testChecked']).toBeUndefined();
 
@@ -450,8 +450,8 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
 
             fixture.detectChanges();
 
-            expect(checkboxComponents[0]['testChecked']).toBeTrue();
-            expect(checkboxComponents[1]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(true);
+            expect(checkboxComponents[1]['testChecked']).toBe(true);
             expect(checkboxComponents[2]['testChecked']).toBeUndefined();
 
             expect(checkboxComponents[0].getValue()).toEqual([true, true, false]);
@@ -472,9 +472,9 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             checkboxComponents[0]._change();
             fixture.detectChanges();
 
-            expect(checkboxComponents[0]['testChecked']).toBeFalse();
-            expect(checkboxComponents[1]['testChecked']).toBeTrue();
-            expect(checkboxComponents[2]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(false);
+            expect(checkboxComponents[1]['testChecked']).toBe(true);
+            expect(checkboxComponents[2]['testChecked']).toBe(true);
 
             expect(checkboxComponents[0].getValue()).toEqual([false, true, true]);
             expect(checkboxComponents[1].getValue()).toEqual([false, true, true]);
@@ -486,9 +486,9 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             fixture.detectChanges();
             tick();
 
-            expect(checkboxComponents[0]['testChecked']).toBeTrue();
+            expect(checkboxComponents[0]['testChecked']).toBe(true);
             expect(checkboxComponents[1]['testChecked']).toBeFalsy();
-            expect(checkboxComponents[2]['testChecked']).toBeTrue();
+            expect(checkboxComponents[2]['testChecked']).toBe(true);
 
             expect(checkboxComponents[0].getValue()).toEqual([true, false, true]);
             expect(checkboxComponents[1].getValue()).toEqual([true, false, true]);
@@ -502,9 +502,9 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             fixture.detectChanges();
             tick();
 
-            expect(checkboxComponents[0]['testChecked']).toBeFalse();
-            expect(checkboxComponents[1]['testChecked']).toBeTrue();
-            expect(checkboxComponents[2]['testChecked']).toBeFalse();
+            expect(checkboxComponents[0]['testChecked']).toBe(false);
+            expect(checkboxComponents[1]['testChecked']).toBe(true);
+            expect(checkboxComponents[2]['testChecked']).toBe(false);
 
             expect(checkboxComponents[0].getValue()).toEqual([false, true, false]);
             expect(checkboxComponents[1].getValue()).toEqual([false, true, false]);
@@ -512,7 +512,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
         }));
 
         it('should emit update event when checkbox state changes', () => {
-            spyOn(checkboxComponents[0].update, 'emit');
+            vi.spyOn(checkboxComponents[0].update, 'emit');
 
             checkboxComponents[0]._change();
 
@@ -544,8 +544,8 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
     imports: [MagmaInput, MagmaInputCheckbox],
 })
 class TestHostComponentSimple {
-    returnValue = 'default';
-    typeValue = 'default';
+    returnValue = 'default' as MagmaInputReturnValue;
+    typeValue = 'default' as MagmaInputTypeValue;
 }
 
 describe('MagmaInput with mono MagmaInputCheckbox', () => {
@@ -581,18 +581,18 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
 
         fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
+        expect(checkboxComponents[0]['testChecked']).toBe(true);
         expect(checkboxComponents[0].getValue()).toEqual(true);
     });
 
     it('should emit update event when checkbox state changes with typeValue is "array"', () => {
         fixture.componentInstance.typeValue = 'array';
 
-        spyOn(checkboxComponents[0].update, 'emit');
+        vi.spyOn(checkboxComponents[0].update, 'emit');
 
         checkboxComponents[0]._change();
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
+        expect(checkboxComponents[0]['testChecked']).toBe(true);
         expect(checkboxComponents[0].update.emit).toHaveBeenCalledWith(true);
     });
 
@@ -603,7 +603,7 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
 
         fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
+        expect(checkboxComponents[0]['testChecked']).toBe(true);
         expect(checkboxComponents[0].getValue()).toEqual(['option1']);
     });
 
@@ -614,14 +614,14 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
 
         fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
+        expect(checkboxComponents[0]['testChecked']).toBe(true);
         expect(checkboxComponents[0].getValue()).toEqual(true);
 
         checkboxComponents[0]._change();
 
         fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeFalse();
+        expect(checkboxComponents[0]['testChecked']).toBe(false);
         expect(checkboxComponents[0].getValue()).toEqual(false);
     });
 
@@ -632,14 +632,14 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
 
         fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeTrue();
+        expect(checkboxComponents[0]['testChecked']).toBe(true);
         expect(checkboxComponents[0].getValue()).toEqual('option1');
 
         checkboxComponents[0]._change();
 
         fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeFalse();
+        expect(checkboxComponents[0]['testChecked']).toBe(false);
         expect(checkboxComponents[0].getValue()).toEqual(null);
     });
 
@@ -649,19 +649,19 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
         fixture.detectChanges();
 
         expect(checkboxComponents[0]['testChecked']).toBeUndefined();
-        expect(checkboxComponents[0].getValue()).toBeFalse();
+        expect(checkboxComponents[0].getValue()).toBe(false);
 
         checkboxComponents[0]._change();
         checkboxComponents[0]._change();
 
         fixture.detectChanges();
 
-        expect(checkboxComponents[0]['testChecked']).toBeFalse();
-        expect(checkboxComponents[0].getValue()).toBeFalse();
+        expect(checkboxComponents[0]['testChecked']).toBe(false);
+        expect(checkboxComponents[0].getValue()).toBe(false);
     });
 
     it('should emit update event when checkbox state changes', () => {
-        spyOn(checkboxComponents[0].update, 'emit');
+        vi.spyOn(checkboxComponents[0].update, 'emit');
 
         checkboxComponents[0]._change();
 

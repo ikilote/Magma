@@ -10,8 +10,8 @@ import { Timing } from '../../utils/timing';
 
 class MockMagmaInput {
     forId = signal<string | undefined>(undefined);
-    _errorMessage = { set: jasmine.createSpy('set') };
-    cd = { detectChanges: jasmine.createSpy('detectChanges') };
+    _errorMessage = { set: vi.fn() };
+    cd = { detectChanges: vi.fn() };
 }
 
 class MockNgControl {
@@ -19,10 +19,10 @@ class MockNgControl {
 }
 
 class MockLogger {
-    log = jasmine.createSpy('log');
+    log = vi.fn();
 }
 
-@Component({ selector: 'test-input-common' })
+@Component({ selector: 'test-input-common', template: '' })
 class TestMagmaInputCommon extends MagmaInputCommon<string> {}
 
 describe('MagmaInputCommon', () => {
@@ -59,7 +59,7 @@ describe('MagmaInputCommon', () => {
 
     describe('registerOnChange', () => {
         it('should set onChange callback', () => {
-            const mockFn = jasmine.createSpy('onChange');
+            const mockFn = vi.fn();
             directive.registerOnChange(mockFn);
             expect(directive.onChange).toBe(mockFn);
         });
@@ -67,7 +67,7 @@ describe('MagmaInputCommon', () => {
 
     describe('registerOnTouched', () => {
         it('should set onTouched callback', () => {
-            const mockFn = jasmine.createSpy('onTouched');
+            const mockFn = vi.fn();
             directive.registerOnTouched(mockFn);
             expect(directive.onTouched).toBe(mockFn);
         });
@@ -89,14 +89,14 @@ describe('MagmaInputCommon', () => {
     });
 
     it('should set host and ngControl on ngOnInit', () => {
-        spyOn(directive as any, 'setHostLabelId');
+        vi.spyOn(directive as any, 'setHostLabelId');
         directive.ngOnInit();
         expect(directive.host).toBe(mockHost as any);
         expect(directive['setHostLabelId']).toHaveBeenCalled();
     });
 
     it('should call writeValue on value change', () => {
-        spyOn(directive, 'writeValue');
+        vi.spyOn(directive, 'writeValue');
         directive.ngOnChanges({
             value: {
                 currentValue: 'new value',
@@ -109,7 +109,7 @@ describe('MagmaInputCommon', () => {
     });
 
     it('should call setHostLabelId on id change', () => {
-        spyOn(directive as any, 'setHostLabelId');
+        vi.spyOn(directive as any, 'setHostLabelId');
         directive.ngOnChanges({
             id: { currentValue: 'new-id', previousValue: 'old-id', firstChange: false, isFirstChange: () => false },
         });
@@ -117,7 +117,7 @@ describe('MagmaInputCommon', () => {
     });
 
     it('should update value and trigger animation on writeValue', fakeAsync(() => {
-        spyOn(directive as any, 'initAnimation');
+        vi.spyOn(directive as any, 'initAnimation');
         directive.writeValue('test value');
         tick();
         expect(directive.getValue()).toBe('test value');
@@ -264,14 +264,14 @@ describe('MagmaInputCommon', () => {
 
     describe('placeholderAnimated', () => {
         it('should placeholder not start animation if only text', fakeAsync(() => {
-            spyOn(directive as any, 'stopPlaceholderAnimation');
+            vi.spyOn(directive as any, 'stopPlaceholderAnimation');
             fixture.componentRef.setInput('placeholder', 'test');
             fixture.detectChanges();
             expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
         }));
 
         it('should start placeholder animation if value is empty', fakeAsync(() => {
-            spyOn(directive as any, 'startPlaceholderAnimation');
+            vi.spyOn(directive as any, 'startPlaceholderAnimation');
             fixture.componentRef.setInput('placeholderAnimated', 'test');
             directive.writeValue('');
             tick();
@@ -279,7 +279,7 @@ describe('MagmaInputCommon', () => {
         }));
 
         it('should stop placeholder animation if value is not empty', fakeAsync(() => {
-            spyOn(directive as any, 'stopPlaceholderAnimation');
+            vi.spyOn(directive as any, 'stopPlaceholderAnimation');
             fixture.componentRef.setInput('placeholderAnimated', 'test');
             directive.writeValue('test');
             tick();
@@ -287,7 +287,7 @@ describe('MagmaInputCommon', () => {
         }));
 
         it('should start placeholder animation with correct parameters', () => {
-            spyOn(directive as any, 'inPlaceholderAnimation');
+            vi.spyOn(directive as any, 'inPlaceholderAnimation');
 
             fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
 
@@ -296,8 +296,8 @@ describe('MagmaInputCommon', () => {
         });
 
         it('should placeholder not start animation if only text', fakeAsync(() => {
-            spyOn(directive as any, 'stopPlaceholderAnimation');
-            spyOn(directive.placeholderDisplay as any, 'set');
+            vi.spyOn(directive as any, 'stopPlaceholderAnimation');
+            vi.spyOn(directive.placeholderDisplay as any, 'set');
 
             fixture.componentRef.setInput('placeholder', 'test|test2');
             fixture.detectChanges();
@@ -305,8 +305,8 @@ describe('MagmaInputCommon', () => {
         }));
 
         it('should init initAnimation', fakeAsync(() => {
-            spyOn(directive as any, 'initAnimation');
-            spyOn(directive as any, 'stopPlaceholderAnimation');
+            vi.spyOn(directive as any, 'initAnimation');
+            vi.spyOn(directive as any, 'stopPlaceholderAnimation');
 
             fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
             fixture.detectChanges();
@@ -318,8 +318,8 @@ describe('MagmaInputCommon', () => {
         }));
 
         it('should init initAnimation', fakeAsync(() => {
-            spyOn(directive as any, 'initAnimation');
-            spyOn(directive as any, 'stopPlaceholderAnimation');
+            vi.spyOn(directive as any, 'initAnimation');
+            vi.spyOn(directive as any, 'stopPlaceholderAnimation');
 
             fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
             fixture.detectChanges();
@@ -454,7 +454,7 @@ describe('MagmaInputCommon', () => {
 
     describe('stopPlaceholderAnimation', () => {
         it('should stop timer and reset placeholder', () => {
-            spyOn(Timing, 'stop');
+            vi.spyOn(Timing, 'stop');
             directive['placeholderTimer'] = 123;
             fixture.componentRef.setInput('placeholder', 'Test|Placeholder');
             directive['stopPlaceholderAnimation']('|');

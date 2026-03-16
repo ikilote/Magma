@@ -24,11 +24,11 @@ import { MagmaWalkthroughStep } from './walkthrough-step.directive';
     imports: [MagmaWalkthroughStep],
 })
 class TestHostComponent {
-    onStart = jasmine.createSpy('onStart');
-    onClickElement = jasmine.createSpy('onClickElement');
-    onClickNext = jasmine.createSpy('onClickNext');
-    onClickPrevious = jasmine.createSpy('onClickPrevious');
-    onClickClose = jasmine.createSpy('onClickClose');
+    onStart = vi.fn();
+    onClickElement = vi.fn();
+    onClickNext = vi.fn();
+    onClickPrevious = vi.fn();
+    onClickClose = vi.fn();
 
     template = viewChild.required(MagmaWalkthroughStep);
 }
@@ -60,8 +60,8 @@ describe('MagmaWalkthroughStep', () => {
         expect(directive.previousButtonName()).toBe('Previous');
         expect(directive.nextButtonName()).toBe('Next');
         expect(directive.closeButtonName()).toBe('Close');
-        expect(directive.close()).toBeTrue();
-        expect(directive.showElement()).toBeTrue();
+        expect(directive.close()).toBe(true);
+        expect(directive.showElement()).toBe(true);
     });
 
     it('should emit start event', () => {

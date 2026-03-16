@@ -27,7 +27,7 @@ describe('FormBuilderExtended', () => {
 
         // Spy on the static method if it exists, or just ensure the mock logic is understood
         // If MagmaValidators is a Class with static methods:
-        spyOn(MagmaValidators, 'inList').and.callFake(MockMagmaValidators.inList);
+        vi.spyOn(MagmaValidators, 'inList').mockImplementation(MockMagmaValidators.inList);
     });
 
     it('should be created', () => {
@@ -47,16 +47,16 @@ describe('FormBuilderExtended', () => {
 
             const form = service.groupWithError(config);
 
-            expect(form instanceof FormGroup).toBeTrue();
+            expect(form instanceof FormGroup).toBe(true);
             const ctrl = form.get('username');
 
-            expect(ctrl instanceof FormControl).toBeTrue();
+            expect(ctrl instanceof FormControl).toBe(true);
             expect(ctrl?.value).toBe('John');
 
             // Check metadata (Monkey Patching)
             expect((ctrl as any)?.controlData).toBeDefined();
             expect((ctrl as any)?.controlData.required.message).toBe('Req');
-            expect((ctrl as any)?.controlParamsData.required).toBeTrue();
+            expect((ctrl as any)?.controlParamsData.required).toBe(true);
         });
 
         it('should create a simple FormControl with emptyOnInit', () => {
@@ -72,10 +72,10 @@ describe('FormBuilderExtended', () => {
 
             const form = service.groupWithError(config);
 
-            expect(form instanceof FormGroup).toBeTrue();
+            expect(form instanceof FormGroup).toBe(true);
             const ctrl = form.get('value');
 
-            expect(ctrl instanceof FormControl).toBeTrue();
+            expect(ctrl instanceof FormControl).toBe(true);
             expect(ctrl?.value).toBeNull();
             expect(ctrl?.errors).toBeDefined();
         });
@@ -154,48 +154,48 @@ describe('FormBuilderExtended', () => {
             });
 
             it('minLength', () => {
-                expect(form.get('name')?.valid).toBeFalse();
-                expect(form.get('name')?.hasError('minlength')).toBeTrue();
+                expect(form.get('name')?.valid).toBe(false);
+                expect(form.get('name')?.hasError('minlength')).toBe(true);
             });
 
             it('maxLength', () => {
-                expect(form.get('domain')?.valid).toBeFalse();
-                expect(form.get('domain')?.hasError('maxlength')).toBeTrue();
+                expect(form.get('domain')?.valid).toBe(false);
+                expect(form.get('domain')?.hasError('maxlength')).toBe(true);
             });
 
             it('min', () => {
-                expect(form.get('age')?.valid).toBeFalse();
-                expect(form.get('age')?.hasError('min')).toBeTrue();
+                expect(form.get('age')?.valid).toBe(false);
+                expect(form.get('age')?.hasError('min')).toBe(true);
             });
 
             it('max', () => {
-                expect(form.get('size')?.valid).toBeFalse();
-                expect(form.get('size')?.hasError('max')).toBeTrue();
+                expect(form.get('size')?.valid).toBe(false);
+                expect(form.get('size')?.hasError('max')).toBe(true);
             });
 
             it('pattern', () => {
-                expect(form.get('code')?.valid).toBeFalse();
-                expect(form.get('code')?.hasError('pattern')).toBeTrue();
+                expect(form.get('code')?.valid).toBe(false);
+                expect(form.get('code')?.hasError('pattern')).toBe(true);
             });
 
             it('email', () => {
-                expect(form.get('email')?.valid).toBeFalse();
-                expect(form.get('email')?.hasError('email')).toBeTrue();
+                expect(form.get('email')?.valid).toBe(false);
+                expect(form.get('email')?.hasError('email')).toBe(true);
             });
 
             it('test', () => {
-                expect(form.get('test')?.valid).toBeFalse();
-                expect(form.get('test')?.hasError('custom')).toBeTrue();
+                expect(form.get('test')?.valid).toBe(false);
+                expect(form.get('test')?.hasError('custom')).toBe(true);
             });
 
             it('testList', () => {
-                expect(form.get('testList')?.valid).toBeFalse();
-                expect(form.get('testList')?.hasError('custom')).toBeTrue();
+                expect(form.get('testList')?.valid).toBe(false);
+                expect(form.get('testList')?.hasError('custom')).toBe(true);
             });
 
             it('testList ok', () => {
-                expect(form.get('testTrue')?.valid).toBeTrue();
-                expect(form.get('testTrue')?.hasError('custom')).toBeFalse();
+                expect(form.get('testTrue')?.valid).toBe(true);
+                expect(form.get('testTrue')?.hasError('custom')).toBe(false);
             });
         });
 
@@ -211,8 +211,8 @@ describe('FormBuilderExtended', () => {
                 address: nestedGroup, // Passing existing FormGroup
             });
 
-            expect(form.get('name') instanceof FormControl).toBeTrue();
-            expect(form.get('address') instanceof FormGroup).toBeTrue();
+            expect(form.get('name') instanceof FormControl).toBe(true);
+            expect(form.get('address') instanceof FormGroup).toBe(true);
             expect(form.get('address')).toBe(nestedGroup as any); // Same reference
             expect(form.get('address')?.value).toEqual({ city: 'Paris' });
         });
@@ -223,7 +223,7 @@ describe('FormBuilderExtended', () => {
                 tags: arr,
             });
 
-            expect(form.get('tags') instanceof FormArray).toBeTrue();
+            expect(form.get('tags') instanceof FormArray).toBe(true);
             expect(form.get('tags')).toBe(arr);
         });
     });
@@ -247,16 +247,16 @@ describe('FormBuilderExtended', () => {
                 ]),
             });
 
-            expect(form.touched).toBeFalse();
-            expect(form.get('nested')?.touched).toBeFalse();
-            expect(form.get('nested.field2')?.touched).toBeFalse();
+            expect(form.touched).toBe(false);
+            expect(form.get('nested')?.touched).toBe(false);
+            expect(form.get('nested.field2')?.touched).toBe(false);
 
             service.validateForm(form);
 
-            expect(form.touched).toBeTrue();
-            expect(form.get('field1')?.touched).toBeTrue();
-            expect(form.get('nested')?.touched).toBeTrue();
-            expect(form.get('nested.field2')?.touched).toBeTrue();
+            expect(form.touched).toBe(true);
+            expect(form.get('field1')?.touched).toBe(true);
+            expect(form.get('nested')?.touched).toBe(true);
+            expect(form.get('nested.field2')?.touched).toBe(true);
         });
     });
 });

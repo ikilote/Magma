@@ -32,15 +32,15 @@ describe('MagmaLoader', () => {
     });
 
     it('should not be loading by default', () => {
-        expect(component.loading()).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeFalse();
+        expect(component.loading()).toBe(false);
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(false);
     });
 
     it('should set loading to true when start() is called', () => {
         component.start();
         fixture.detectChanges();
-        expect(component.loading()).toBeTrue();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeTrue();
+        expect(component.loading()).toBe(true);
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(true);
     });
 
     it('should set loading to false when stop() is called', () => {
@@ -48,18 +48,18 @@ describe('MagmaLoader', () => {
         fixture.detectChanges();
         component.stop();
         fixture.detectChanges();
-        expect(component.loading()).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeFalse();
+        expect(component.loading()).toBe(false);
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(false);
     });
 
     it('should add/remove loading class based on loading state', () => {
         component.start();
         fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeTrue();
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(true);
 
         component.stop();
         fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeFalse();
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(false);
     });
 });
 

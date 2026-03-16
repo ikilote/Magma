@@ -56,11 +56,11 @@ describe('MagmaEllipsisButton (integration)', () => {
         fixture.detectChanges();
 
         // @ts-expect-error
-        expect(ellipsisButtonElement.isOpen()).toBeFalse();
+        expect(ellipsisButtonElement.isOpen()).toBe(false);
     }));
 
     it('should trigger actions when clicking on items', () => {
-        spyOn(hostComponent, 'onAction');
+        vi.spyOn(hostComponent, 'onAction');
 
         const button = fixture.debugElement.query(By.css('button'));
         button.triggerEventHandler('click', null);
@@ -77,7 +77,7 @@ describe('MagmaEllipsisButton (integration)', () => {
 
     it('should focus the button after closing the menu', fakeAsync(() => {
         const buttonElement = fixture.debugElement.query(By.css('button')).nativeElement;
-        spyOn(buttonElement, 'focus');
+        vi.spyOn(buttonElement, 'focus');
 
         const button = fixture.debugElement.query(By.css('button'));
         button.triggerEventHandler('click', null);

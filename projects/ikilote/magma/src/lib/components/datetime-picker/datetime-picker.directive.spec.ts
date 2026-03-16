@@ -78,7 +78,7 @@ describe('MagmaDatetimePicker Directive', () => {
     });
 
     it('should open overlay on click (via ClickEnterDirective)', fakeAsync(() => {
-        const spy = spyOn(directive, 'open').and.callThrough();
+        const spy = vi.spyOn(directive, 'open');
         const span = fixture.debugElement.query(By.css('.test')).nativeElement;
 
         span.click();
@@ -137,7 +137,7 @@ describe('MagmaDatetimePicker Directive', () => {
     }));
 
     it('should emit datetimeChange when component value changes', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance, 'onDatetimeChange');
+        const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeChange');
         directive.open();
         tick();
 
@@ -149,7 +149,7 @@ describe('MagmaDatetimePicker Directive', () => {
     }));
 
     it('should emit datetimeClose only if value has changed on backdrop click', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance, 'onDatetimeClose');
+        const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeClose');
         directive.open();
         tick();
 
@@ -166,7 +166,7 @@ describe('MagmaDatetimePicker Directive', () => {
     }));
 
     it('should NOT emit datetimeClose if value is identical on backdrop click', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance, 'onDatetimeClose');
+        const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeClose');
         directive.open();
         tick();
 
@@ -178,7 +178,7 @@ describe('MagmaDatetimePicker Directive', () => {
     }));
 
     it('should open overlay on space key', fakeAsync(() => {
-        const spy = spyOn(directive, 'open').and.callThrough();
+        const spy = vi.spyOn(directive, 'open');
         directiveElement.triggerEventHandler('keydown.space', {});
         tick();
         expect(spy).toHaveBeenCalled();
@@ -187,7 +187,7 @@ describe('MagmaDatetimePicker Directive', () => {
     it('should unsubscribe and dispose on destroy', fakeAsync(() => {
         directive.open();
         tick();
-        const disposeSpy = spyOn(MagmaDatetimePicker._overlayRef!, 'dispose').and.callThrough();
+        const disposeSpy = vi.spyOn(MagmaDatetimePicker._overlayRef!, 'dispose');
 
         directive.ngOnDestroy();
 

@@ -1,22 +1,26 @@
 import { CommonModule } from '@angular/common';
 import {
-    AfterContentChecked,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    OnChanges,
-    SimpleChanges,
-    computed,
-    contentChildren,
-    inject,
-    input,
-    signal,
+  AfterContentChecked,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnChanges,
+  SimpleChanges,
+  computed,
+  contentChildren,
+  inject,
+  input,
+  signal,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
 let counter = 0;
+
+export type MagmaInputTypeValue = 'default' | 'value' | 'array';
+export type MagmaInputReturnValue = 'default' | 'value' | 'boolean';
+export type MagmaInputAlignMode = 'row' | 'column';
 
 @Component({
     selector: 'mg-input',
@@ -36,10 +40,10 @@ export class MagmaInput implements OnChanges, AfterContentChecked {
     forId = signal<string | undefined>(undefined);
 
     /** for checkbox */
-    readonly typeValue = input<'default' | 'value' | 'array'>('default');
-    readonly returnValue = input<'default' | 'value' | 'boolean'>('default');
+    readonly typeValue = input<MagmaInputTypeValue>('default');
+    readonly returnValue = input<MagmaInputReturnValue>('default');
     /** for checkbox & radio */
-    readonly alignMode = input<'row' | 'column'>('row');
+    readonly alignMode = input<MagmaInputAlignMode>('row');
 
     protected counter = counter++;
     protected uid = computed<string>(() => `mg-input-${this.counter}`);

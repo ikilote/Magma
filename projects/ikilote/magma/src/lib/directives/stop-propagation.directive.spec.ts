@@ -24,10 +24,10 @@ import { MagmaStopPropagationDirective } from './stop-propagation.directive';
 class TestComponent {
     stopKeydown = false;
     stopClick = false;
-    onKeydown = jasmine.createSpy('onKeydown');
-    onClick = jasmine.createSpy('onClick');
-    onInnerKeydown = jasmine.createSpy('onInnerKeydown');
-    onInnerClick = jasmine.createSpy('onInnerClick');
+    onKeydown = vi.fn();
+    onClick = vi.fn();
+    onInnerKeydown = vi.fn();
+    onInnerClick = vi.fn();
 }
 
 describe('MagmaStopPropagationDirective', () => {
@@ -127,7 +127,7 @@ describe('MagmaStopPropagationDirective', () => {
 
                 // Test keydown
                 const keydownEvent = new KeyboardEvent('keydown');
-                spyOn(keydownEvent, 'stopPropagation');
+                vi.spyOn(keydownEvent, 'stopPropagation');
                 innerElement.nativeElement.dispatchEvent(keydownEvent, {
                     bubbles: true,
                     cancelable: true,
@@ -138,12 +138,12 @@ describe('MagmaStopPropagationDirective', () => {
                 expect(component.onKeydown).not.toHaveBeenCalled();
 
                 // Reset spies
-                component.onKeydown.calls.reset();
-                component.onInnerKeydown.calls.reset();
+                component.onKeydown.mockClear();
+                component.onInnerKeydown.mockClear();
 
                 // Test click
                 const clickEvent = new MouseEvent('click');
-                spyOn(clickEvent, 'stopPropagation');
+                vi.spyOn(clickEvent, 'stopPropagation');
                 innerElement.nativeElement.dispatchEvent(clickEvent, {
                     bubbles: true,
                     cancelable: true,
@@ -161,7 +161,7 @@ describe('MagmaStopPropagationDirective', () => {
 
                 // Test keydown
                 const keydownEvent = new KeyboardEvent('keydown');
-                spyOn(keydownEvent, 'stopPropagation');
+                vi.spyOn(keydownEvent, 'stopPropagation');
                 innerElement.nativeElement.dispatchEvent(keydownEvent, {
                     bubbles: true,
                     cancelable: true,
@@ -172,14 +172,14 @@ describe('MagmaStopPropagationDirective', () => {
                 expect(component.onKeydown).not.toHaveBeenCalled();
 
                 // Reset spies
-                component.onKeydown.calls.reset();
-                component.onInnerKeydown.calls.reset();
-                component.onClick.calls.reset();
-                component.onInnerClick.calls.reset();
+                component.onKeydown.mockClear();
+                component.onInnerKeydown.mockClear();
+                component.onClick.mockClear();
+                component.onInnerClick.mockClear();
 
                 // Test click
                 const clickEvent = new MouseEvent('click');
-                spyOn(clickEvent, 'stopPropagation');
+                vi.spyOn(clickEvent, 'stopPropagation');
                 innerElement.nativeElement.dispatchEvent(clickEvent, {
                     bubbles: true,
                     cancelable: true,
@@ -199,7 +199,7 @@ describe('MagmaStopPropagationDirective', () => {
             fixture.detectChanges();
 
             const keydownEvent = new KeyboardEvent('keydown');
-            spyOn(keydownEvent, 'stopPropagation');
+            vi.spyOn(keydownEvent, 'stopPropagation');
 
             directive.block(keydownEvent);
 
@@ -212,7 +212,7 @@ describe('MagmaStopPropagationDirective', () => {
             fixture.detectChanges();
 
             const clickEvent = new MouseEvent('click');
-            spyOn(clickEvent, 'stopPropagation');
+            vi.spyOn(clickEvent, 'stopPropagation');
 
             directive.block(clickEvent);
 
@@ -226,8 +226,8 @@ describe('MagmaStopPropagationDirective', () => {
 
             const keydownEvent = new KeyboardEvent('keydown');
             const clickEvent = new MouseEvent('click');
-            spyOn(keydownEvent, 'stopPropagation');
-            spyOn(clickEvent, 'stopPropagation');
+            vi.spyOn(keydownEvent, 'stopPropagation');
+            vi.spyOn(clickEvent, 'stopPropagation');
 
             directive.block(keydownEvent);
             directive.block(clickEvent);

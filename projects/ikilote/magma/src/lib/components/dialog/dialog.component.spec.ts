@@ -25,13 +25,13 @@ describe('MagmaDialog', () => {
     });
 
     it('should be closed by default', () => {
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
     });
 
     it('should open when open() is called', () => {
         component.open();
         fixture.detectChanges();
-        expect(component.isOpen()).toBeTrue();
+        expect(component.isOpen()).toBe(true);
     });
 
     it('should close when close() is called', () => {
@@ -39,11 +39,11 @@ describe('MagmaDialog', () => {
         fixture.detectChanges();
         component.close();
         fixture.detectChanges();
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
     });
 
     it('should emit onClose when closed', () => {
-        spyOn(component.onClose, 'emit');
+        vi.spyOn(component.onClose, 'emit');
         component.open();
         fixture.detectChanges();
         component.close();
@@ -52,7 +52,7 @@ describe('MagmaDialog', () => {
 });
 
 @Component({
-    imports: [MagmaDialog, MagmaLimitFocusDirective],
+    imports: [MagmaDialog],
     template: `
         <mg-dialog
             [closeButton]="closeButton"
@@ -73,7 +73,7 @@ class TestWrapperComponent {
     label = 'Dialog Label';
     title = 'Dialog Title';
     id = 'dialog-1';
-    onClose = jasmine.createSpy('onClose');
+    onClose = vi.fn();
 }
 
 describe('MagmaDialog usage', () => {
@@ -152,7 +152,7 @@ describe('MagmaDialog usage', () => {
         const closeButton = debugElement.query(By.css('.close'));
         closeButton.triggerEventHandler('click', {});
         fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeFalse();
+        expect(dialogComponent.isOpen()).toBe(false);
     });
 
     it('should close when ESC key is pressed', fakeAsync(() => {
@@ -163,7 +163,7 @@ describe('MagmaDialog usage', () => {
         window.dispatchEvent(event);
         tick();
         fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeFalse();
+        expect(dialogComponent.isOpen()).toBe(false);
     }));
 
     it('should close when clicking on body with if closeBackdrop is true', () => {
@@ -173,7 +173,7 @@ describe('MagmaDialog usage', () => {
         const backdrop = debugElement.query(By.css('.content'));
         backdrop.triggerEventHandler('click', { stopPropagation: () => {} });
         fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeTrue();
+        expect(dialogComponent.isOpen()).toBe(true);
     });
 
     it('should close when clicking on backdrop if closeBackdrop is true', () => {
@@ -182,7 +182,7 @@ describe('MagmaDialog usage', () => {
         fixture.detectChanges();
         dialogComponent.onClick({ stopPropagation: () => {} } as MouseEvent);
         fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeFalse();
+        expect(dialogComponent.isOpen()).toBe(false);
     });
 
     it('should close when clicking on backdrop if closeBackdrop is false', () => {
@@ -191,6 +191,6 @@ describe('MagmaDialog usage', () => {
         fixture.detectChanges();
         dialogComponent.onClick({ stopPropagation: () => {} } as MouseEvent);
         fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeTrue();
+        expect(dialogComponent.isOpen()).toBe(true);
     });
 });

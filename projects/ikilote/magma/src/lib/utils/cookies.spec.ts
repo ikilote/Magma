@@ -2,7 +2,9 @@ import { getCookie, removeCookie, setCookie } from './cookies';
 
 describe('Cookie Utilities', () => {
     // Mock document.cookie
-    let cookieStore: { [key: string]: string } = {};
+    let cookieStore: {
+        [key: string]: string;
+    } = {};
     let cookieString: string = '';
 
     // Mock Date object
@@ -14,13 +16,13 @@ describe('Cookie Utilities', () => {
         cookieString = '';
 
         // Mock document.cookie getter and setter
-        spyOnProperty(document, 'cookie', 'get').and.callFake(() => {
+        vi.spyOn(document, 'cookie', 'get').mockImplementation(() => {
             return Object.entries(cookieStore)
                 .map(([k, v]) => `${k}=${v}`)
                 .join('; ');
         });
 
-        spyOnProperty(document, 'cookie', 'set').and.callFake((value: string) => {
+        vi.spyOn(document, 'cookie', 'set').mockImplementation((value: string) => {
             cookieString = value;
             const [cookiePart] = value.split(';');
             const [name, valuePart] = cookiePart.split('=');
@@ -94,7 +96,7 @@ describe('Cookie Utilities', () => {
         it('should set a cookie with custom expiration and path', () => {
             // Override the toUTCString method for this test
             const mockDate = new (window as any).Date();
-            spyOn(mockDate, 'toUTCString').and.returnValue('Fri, 08 Jan 2025 00:00:00 GMT');
+            vi.spyOn(mockDate, 'toUTCString').mockReturnValue('Fri, 08 Jan 2025 00:00:00 GMT');
 
             setCookie('testCookie', 'testValue', 7, '/custom-path');
 

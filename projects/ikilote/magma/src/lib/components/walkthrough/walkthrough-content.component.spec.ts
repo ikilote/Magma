@@ -40,7 +40,7 @@ import { MagmaWalkthrough } from './walkthrough.component';
 })
 class TestHostComponent {
     walkthrough = viewChild.required(MagmaWalkthrough);
-    call = jasmine.createSpy('call');
+    call = vi.fn();
     showElement = false;
 }
 
@@ -81,7 +81,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
 
             const contentComponent = walkthrough.overlayComponent!;
             expect(contentComponent).toBeTruthy();
-            expect(contentComponent instanceof MagmaWalkthroughContent).toBeTrue();
+            expect(contentComponent instanceof MagmaWalkthroughContent).toBe(true);
         }));
 
         it('should display correct content for first step', fakeAsync(() => {
@@ -205,8 +205,8 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
                 },
             });
 
-            expect(contentComponent?.['top']()).toBeFalse();
-            expect(contentComponent?.['right']()).toBeFalse();
+            expect(contentComponent?.['top']()).toBe(false);
+            expect(contentComponent?.['right']()).toBe(false);
         }));
 
         it('should handle escape key with not action event', fakeAsync(() => {
@@ -214,8 +214,8 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
-            spyOn(walkthrough.overlayComponent!, 'close');
-            spyOn(walkthrough.overlayComponent!, 'next');
+            vi.spyOn(walkthrough.overlayComponent!, 'close');
+            vi.spyOn(walkthrough.overlayComponent!, 'next');
 
             // Simulate escape key press
             const event = new KeyboardEvent('keydown', { key: 'Escape' });
@@ -233,8 +233,8 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
-            spyOn(walkthrough.overlayComponent!, 'close');
-            spyOn(walkthrough.overlayComponent!, 'next');
+            vi.spyOn(walkthrough.overlayComponent!, 'close');
+            vi.spyOn(walkthrough.overlayComponent!, 'next');
 
             // Simulate escape key press
             const event = new KeyboardEvent('keydown', { key: 'Escape' });
@@ -252,8 +252,8 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             tick();
             fixture.detectChanges();
 
-            spyOn(walkthrough.overlayComponent!, 'close');
-            spyOn(walkthrough.overlayComponent!, 'next');
+            vi.spyOn(walkthrough.overlayComponent!, 'close');
+            vi.spyOn(walkthrough.overlayComponent!, 'next');
 
             // Simulate escape key press
             const event = new KeyboardEvent('keydown', { key: 'Escape' });
@@ -295,7 +295,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             const contentComponent = walkthrough.overlayComponent!;
             const clonedElement = contentComponent?.['elementContent']().nativeElement?.querySelector('.target');
 
-            spyOn(steps[0].clickElement, 'emit');
+            vi.spyOn(steps[0].clickElement, 'emit');
             clonedElement?.dispatchEvent(new Event('click'));
             tick();
 
@@ -308,7 +308,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             fixture.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
-            spyOn(contentComponent as any, 'resize');
+            vi.spyOn(contentComponent as any, 'resize');
             window.dispatchEvent(new Event('resize'));
             tick(10);
             expect(contentComponent['resize']).toHaveBeenCalled();

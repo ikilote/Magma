@@ -52,7 +52,7 @@ describe('MagmaPagination', () => {
         component.ngDoCheck();
 
         expect(component.pages.length).toBe(5);
-        expect(component.pages.every(p => !p.separator)).toBeTrue();
+        expect(component.pages.every(p => !p.separator)).toBe(true);
     });
 
     it('should generate pages with separators for large total', () => {
@@ -92,7 +92,7 @@ describe('MagmaPagination', () => {
     });
 
     it('should update current page on link click (call update)', () => {
-        spyOn(component, 'update');
+        vi.spyOn(component, 'update');
         const links = fixture.debugElement.queryAll(By.css('a'));
         const secondLink = links[1];
         secondLink.nativeElement.click();
@@ -116,7 +116,7 @@ describe('MagmaPagination', () => {
         fixture.detectChanges();
 
         expect(component.currentPage).toBe(3);
-        expect(component.pages.find(p => p.current)).toEqual(jasmine.objectContaining({ page: 3 }));
+        expect(component.pages.find(p => p.current)).toEqual(expect.objectContaining({ page: 3 }));
     });
 
     it('should return correct query params for page', () => {
@@ -131,7 +131,7 @@ describe('MagmaPagination', () => {
         fixture.componentRef.setInput('linkId', 'test-link');
         fixture.detectChanges();
 
-        const spy = spyOn(component, 'update');
+        const spy = vi.spyOn(component, 'update');
         MagmaPagination['onPageUpdate'].next({ id: 'test-link', page: 4, component: {} as MagmaPagination });
         tick();
         fixture.detectChanges();
@@ -140,7 +140,7 @@ describe('MagmaPagination', () => {
     }));
 
     it('should update method with an external update event', () => {
-        const spy = spyOn(MagmaPagination['onPageUpdate'], 'next');
+        const spy = vi.spyOn(MagmaPagination['onPageUpdate'], 'next');
 
         fixture.detectChanges();
 

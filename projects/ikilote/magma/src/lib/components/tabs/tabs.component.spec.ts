@@ -46,8 +46,8 @@ describe('MagmaTabs - Integration', () => {
 
     it('should display the content of the first tab by default', () => {
         const contents = testHost.tabs().content();
-        expect(contents[0].selected()).toBeTrue();
-        expect(contents[1].selected()).toBeFalse();
+        expect(contents[0].selected()).toBe(true);
+        expect(contents[1].selected()).toBe(false);
 
         expect(tabMagmaTabContent[0].nativeElement.textContent).toBe('Content 1');
         expect(tabMagmaTabContent[1].nativeElement.textContent).toBe('');
@@ -58,8 +58,8 @@ describe('MagmaTabs - Integration', () => {
         fixture.detectChanges();
 
         const contents = testHost.tabs().content();
-        expect(contents[0].selected()).toBeFalse();
-        expect(contents[1].selected()).toBeTrue();
+        expect(contents[0].selected()).toBe(false);
+        expect(contents[1].selected()).toBe(true);
 
         expect(tabMagmaTabContent[0].nativeElement.textContent).toBe('');
         expect(tabMagmaTabContent[1].nativeElement.textContent).toBe('Content 2');
@@ -73,8 +73,8 @@ describe('MagmaTabs - Integration', () => {
         fixture.detectChanges();
 
         const contents = testHost.tabs().content();
-        expect(contents[0].selected()).toBeTrue();
-        expect(contents[1].selected()).toBeFalse();
+        expect(contents[0].selected()).toBe(true);
+        expect(contents[1].selected()).toBe(false);
 
         expect(tabMagmaTabContent[0].nativeElement.textContent).toBe('Content 1');
         expect(tabMagmaTabContent[1].nativeElement.textContent).toBe('');

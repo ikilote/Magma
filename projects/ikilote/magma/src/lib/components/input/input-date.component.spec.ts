@@ -150,18 +150,18 @@ describe('MagmaInputDate', () => {
         it('should lock focus when Arrow keys are pressed', () => {
             component.keydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
             // @ts-ignore
-            expect(component.lockFocus).toBeTrue();
+            expect(component.lockFocus).toBe(true);
 
             component.keyup(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
             // @ts-ignore
-            expect(component.lockFocus).toBeFalse();
+            expect(component.lockFocus).toBe(false);
         });
 
         it('should lock focus when ArrowLeft keys are pressed', () => {
             // @ts-ignore
-            spyOn(component, 'focusNext');
+            vi.spyOn(component, 'focusNext');
             // @ts-ignore
-            spyOn(component, 'focusPrev');
+            vi.spyOn(component, 'focusPrev');
 
             const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
             // @ts-ignore
@@ -179,9 +179,9 @@ describe('MagmaInputDate', () => {
 
         it('should lock focus when ArrowRight keys are pressed', () => {
             // @ts-ignore directive
-            spyOn(component, 'focusNext');
+            vi.spyOn(component, 'focusNext');
             // @ts-ignore
-            spyOn(component, 'focusPrev');
+            vi.spyOn(component, 'focusPrev');
 
             const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
             // @ts-ignore
@@ -252,7 +252,7 @@ describe('MagmaInputDate', () => {
 
                 i.valueAsNumber = e.value;
                 // @ts-ignore
-                spyOn(component, 'focusNext');
+                vi.spyOn(component, 'focusNext');
 
                 component.updateDate({ target: i } as any, e.type as any);
 
@@ -289,7 +289,7 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
@@ -303,9 +303,9 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
@@ -331,7 +331,7 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
@@ -345,9 +345,9 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
@@ -373,7 +373,7 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
@@ -387,9 +387,9 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
@@ -415,7 +415,7 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
@@ -429,9 +429,9 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
@@ -458,7 +458,7 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
@@ -472,9 +472,9 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
@@ -639,7 +639,7 @@ describe('MagmaInputDate', () => {
 
         it('should fallback to English if the language is not found', () => {
             // @ts-ignore
-            spyOnProperty(navigator, 'language', 'get').and.returnValue('');
+            vi.spyOn(navigator, 'language', 'get').mockReturnValue('');
 
             component.placeholderCompute(); // Non-existent
 
@@ -651,7 +651,7 @@ describe('MagmaInputDate', () => {
 
     describe('Private methods', () => {
         it('should select element on focusNext', () => {
-            spyOn(document, 'querySelector');
+            vi.spyOn(document, 'querySelector');
 
             // @ts-ignore
             component.focusNext('test');
@@ -663,7 +663,7 @@ describe('MagmaInputDate', () => {
             const inputDayElement = debugElement.query(By.css('.day')).nativeElement;
             const inputMonthElement = debugElement.query(By.css('.month')).nativeElement;
 
-            spyOn(inputMonthElement, 'select');
+            vi.spyOn(inputMonthElement, 'select');
 
             // @ts-ignore
             component.focusNext(inputDayElement.id);
@@ -672,7 +672,7 @@ describe('MagmaInputDate', () => {
         });
 
         it('should select element on focusPrev', () => {
-            spyOn(document, 'querySelector');
+            vi.spyOn(document, 'querySelector');
 
             // @ts-ignore
             component.focusPrev('test');
@@ -684,7 +684,7 @@ describe('MagmaInputDate', () => {
             const inputDayElement = debugElement.query(By.css('.day')).nativeElement;
             const inputMonthElement = debugElement.query(By.css('.month')).nativeElement;
 
-            spyOn(inputDayElement, 'select');
+            vi.spyOn(inputDayElement, 'select');
 
             // @ts-ignore
             component.focusPrev(inputMonthElement.id);
@@ -794,8 +794,8 @@ describe('MagmaInputDate', () => {
         it('should update input value on blur', () => {
             const inputElement = debugElement.query(By.css('.day')).nativeElement;
             inputElement.value = '3';
-            spyOn(component, 'onTouched');
-            spyOn(component, 'validate');
+            vi.spyOn(component, 'onTouched');
+            vi.spyOn(component, 'validate');
 
             component.ngOnInit();
             component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -810,8 +810,8 @@ describe('MagmaInputDate', () => {
         it('should dateClose value on blur', () => {
             const inputElement = debugElement.query(By.css('.day')).nativeElement;
             inputElement.value = '3';
-            spyOn(component, 'onTouched');
-            spyOn(component, 'validate');
+            vi.spyOn(component, 'onTouched');
+            vi.spyOn(component, 'validate');
 
             component.ngControl = new MockNgControl() as unknown as NgControl;
             component.datePickerClose('2015-12-12');

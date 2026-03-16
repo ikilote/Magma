@@ -64,7 +64,7 @@ describe('MagmaTooltipDirective', () => {
 
     describe('mouse events', () => {
         it('should create tooltip on mouseenter after delay', fakeAsync(() => {
-            spyOn(directive as any, 'createTooltip');
+            vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
             tick(200); // Wait for entry delay
 
@@ -72,7 +72,7 @@ describe('MagmaTooltipDirective', () => {
         }));
 
         it('should cancel tooltip creation if mouseleave before delay', fakeAsync(() => {
-            spyOn(directive as any, 'createTooltip');
+            vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
             tick(100); // Half of entry delay
             divElement.triggerEventHandler('mouseleave', {});
@@ -82,7 +82,7 @@ describe('MagmaTooltipDirective', () => {
         }));
 
         it('should destroy tooltip on mouseleave', fakeAsync(() => {
-            spyOn(directive, 'ngOnDestroy');
+            vi.spyOn(directive, 'ngOnDestroy');
             divElement.triggerEventHandler('mouseenter', {});
             tick(200); // Wait for tooltip creation
             divElement.triggerEventHandler('mouseleave', {});
@@ -142,7 +142,7 @@ describe('MagmaTooltipDirective', () => {
             tick(200); // Wait for creation
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
-            spyOn(overlayRef!, 'dispose');
+            vi.spyOn(overlayRef!, 'dispose');
 
             tick(500); // Wait for display delay
 
@@ -157,7 +157,7 @@ describe('MagmaTooltipDirective', () => {
             tick(200);
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
-            spyOn(overlayRef!, 'dispose');
+            vi.spyOn(overlayRef!, 'dispose');
 
             tick(1000); // Wait longer than default delay
 
@@ -170,7 +170,7 @@ describe('MagmaTooltipDirective', () => {
             component.entryDelay = 500;
             fixture.detectChanges();
 
-            spyOn(directive as any, 'createTooltip');
+            vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
             tick(500);
 
@@ -185,7 +185,7 @@ describe('MagmaTooltipDirective', () => {
             tick(200);
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
-            spyOn(overlayRef!, 'dispose');
+            vi.spyOn(overlayRef!, 'dispose');
 
             tick(2000);
             expect(overlayRef!.dispose).toHaveBeenCalled();

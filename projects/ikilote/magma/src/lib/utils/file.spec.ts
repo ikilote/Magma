@@ -1,15 +1,17 @@
+import type { Mock } from 'vitest';
+
 import { blobToBase64, downloadFile, normalizeFileName, ulrToBase64 } from './file';
 
 describe('downloadFile', () => {
-    let createElementSpy: jasmine.Spy;
-    let createObjectURLSpy: jasmine.Spy;
-    let clickSpy: jasmine.Spy;
+    let createElementSpy: Mock;
+    let createObjectURLSpy: Mock;
+    let clickSpy: Mock;
 
     beforeEach(() => {
-        createElementSpy = spyOn(document, 'createElement').and.callThrough();
-        createObjectURLSpy = spyOn(URL, 'createObjectURL').and.returnValue('mock-url');
-        clickSpy = jasmine.createSpy('click');
-        spyOn(URL, 'revokeObjectURL');
+        createElementSpy = vi.spyOn(document, 'createElement');
+        createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockReturnValue('mock-url');
+        clickSpy = vi.fn();
+        vi.spyOn(URL, 'revokeObjectURL');
     });
 
     it('should create a download link with a Blob if content is not a data URL', () => {
@@ -54,13 +56,13 @@ describe('blobToBase64', () => {
         const mockBlob = new Blob(['test'], { type: 'text/plain' });
         const mockResult = 'data:text/plain;base64,dGVzdA==';
         const mockReader = {
-            readAsDataURL: jasmine.createSpy('readAsDataURL'),
+            readAsDataURL: vi.fn(),
             result: mockResult,
             onloadend: null as (() => void) | null,
             onerror: null as (() => void) | null,
         };
 
-        spyOn(window, 'FileReader').and.returnValue(mockReader as unknown as FileReader);
+        vi.spyOn(window, 'FileReader').mockReturnValue(mockReader as unknown as FileReader);
 
         // Call the function
         const promise = blobToBase64(mockBlob);
@@ -84,11 +86,11 @@ describe('blobToBase64', () => {
         // mocks
         const mockBlob = new Blob(['test'], { type: 'text/plain' });
         const mockReader = {
-            readAsDataURL: jasmine.createSpy('readAsDataURL'),
+            readAsDataURL: vi.fn(),
             onloadend: null as (() => void) | null,
             onerror: null as (() => void) | null,
         };
-        spyOn(window, 'FileReader').and.returnValue(mockReader as unknown as FileReader);
+        vi.spyOn(window, 'FileReader').mockReturnValue(mockReader as unknown as FileReader);
 
         // Call the function
         const promise = blobToBase64(mockBlob);
@@ -101,12 +103,12 @@ describe('blobToBase64', () => {
         }, 0);
 
         // Await and verify the promise is rejected
-        await expectAsync(promise).toBeRejectedWithError('Failed to read blob as base64');
+        await expect(promise).rejects.toThrowError('Failed to read blob as base64');
     });
 });
 
 describe('ulrToBase64', () => {
-    let mockFetch: jasmine.Spy;
+    let mockFetch: Mock;
     let mockBlob: Blob;
     let mockReader: any;
 
@@ -114,13 +116,13 @@ describe('ulrToBase64', () => {
         mockBlob = new Blob(['mock-image-data'], { type: 'image/png' });
 
         mockReader = {
-            readAsDataURL: jasmine.createSpy('readAsDataURL'),
+            readAsDataURL: vi.fn(),
             result: null, // Default to null, will be overridden in tests
             onloadend: null as (() => void) | null,
             onerror: null as (() => void) | null,
         };
 
-        mockFetch = spyOn(window, 'fetch').and.returnValue(
+        mockFetch = vi.spyOn(window, 'fetch').mockReturnValue(
             Promise.resolve({
                 ok: true,
                 status: 200,
@@ -128,7 +130,7 @@ describe('ulrToBase64', () => {
             } as unknown as Response),
         );
 
-        spyOn(window, 'FileReader').and.returnValue(mockReader);
+        vi.spyOn(window, 'FileReader').mockReturnValue(mockReader);
     });
 
     it('should convert a URL to base64 and resolve with base64 data', async () => {
@@ -144,7 +146,7 @@ describe('ulrToBase64', () => {
 
         const result = await promise;
         expect(result).toBe('data:image/png;base64,mock-base64-data');
-        expect(mockFetch).toHaveBeenCalledWith('http://example.com/image.png', jasmine.any(Object));
+        expect(mockFetch).toHaveBeenCalledWith('http://example.com/image.png', expect.any(Object));
         expect(mockReader.readAsDataURL).toHaveBeenCalledWith(mockBlob);
     });
 
@@ -163,7 +165,7 @@ describe('ulrToBase64', () => {
         const result = await promise;
 
         expect(result).toEqual(mockArrayBuffer);
-        expect(mockFetch).toHaveBeenCalledWith('http://example.com/image.png', jasmine.any(Object));
+        expect(mockFetch).toHaveBeenCalledWith('http://example.com/image.png', expect.any(Object));
         expect(mockReader.readAsDataURL).toHaveBeenCalledWith(mockBlob);
     });
 
@@ -178,24 +180,24 @@ describe('ulrToBase64', () => {
             }
         }, 0);
 
-        await expectAsync(promise).toBeRejectedWith('Image error');
+        await expect(promise).rejects.toEqual('Image error');
     });
 
     it('should reject on HTTP error', async () => {
-        mockFetch.and.returnValue(
+        mockFetch.mockReturnValue(
             Promise.resolve({
                 ok: false,
                 status: 404,
             } as unknown as Response),
         );
 
-        await expectAsync(ulrToBase64('http://example.com/image.png')).toBeRejectedWith('HTTP-Error: 404');
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('HTTP-Error: 404');
     });
 
     it('should reject on CORS error', async () => {
-        mockFetch.and.returnValue(Promise.reject('HTTP-Error: CORS'));
+        mockFetch.mockReturnValue(Promise.reject('HTTP-Error: CORS'));
 
-        await expectAsync(ulrToBase64('http://example.com/image.png')).toBeRejectedWith('HTTP-Error: CORS');
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('HTTP-Error: CORS');
     });
 
     it('should reject with "Image error" if FileReader fails', async () => {
@@ -207,7 +209,7 @@ describe('ulrToBase64', () => {
             }
         }, 0);
 
-        await expectAsync(promise).toBeRejectedWith('Image error');
+        await expect(promise).rejects.toEqual('Image error');
     });
 });
 

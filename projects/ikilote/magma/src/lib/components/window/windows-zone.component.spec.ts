@@ -54,7 +54,7 @@ describe('MagmaWindowsZone', () => {
         });
 
         it('should trigger select when a window emits mousedown', () => {
-            spyOn(component, 'select');
+            vi.spyOn(component, 'select');
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
 
             windowEl.triggerEventHandler('mousedown', null);
@@ -65,7 +65,9 @@ describe('MagmaWindowsZone', () => {
 
     describe('Removal Logic', () => {
         it('should delegate removal to MagmaWindows service if context is provided', () => {
-            const serviceSpy = jasmine.createSpyObj('MagmaWindows', ['removeWindow']);
+            const serviceSpy = {
+                removeWindow: vi.fn().mockName('MagmaWindows.removeWindow'),
+            };
             fixture.componentRef.setInput('context', serviceSpy);
 
             component.remove(mockWindows[0]);
@@ -85,7 +87,7 @@ describe('MagmaWindowsZone', () => {
         });
 
         it('should trigger removal when mg-window emits onClose', () => {
-            spyOn(component, 'remove');
+            vi.spyOn(component, 'remove');
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
 
             windowEl.triggerEventHandler('onClose', null);

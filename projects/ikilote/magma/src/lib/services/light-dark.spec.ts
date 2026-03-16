@@ -1,26 +1,33 @@
 import { Renderer2, RendererFactory2 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 
+import type { Mocked } from 'vitest';
+
 import { LightDark } from './light-dark';
 
 describe('LightDark', () => {
     let service: LightDark;
-    let mockRenderer: jasmine.SpyObj<Renderer2>;
-    let mockRendererFactory: jasmine.SpyObj<RendererFactory2>;
+    let mockRenderer: Mocked<Renderer2>;
+    let mockRendererFactory: Mocked<RendererFactory2>;
     let mockMatchMedia: any;
 
     beforeEach(() => {
         // Create mocks for Renderer2 and RendererFactory2
-        mockRenderer = jasmine.createSpyObj('Renderer2', ['addClass', 'removeClass']);
-        mockRendererFactory = jasmine.createSpyObj('RendererFactory2', ['createRenderer']);
-        mockRendererFactory.createRenderer.and.returnValue(mockRenderer);
+        mockRenderer = {
+            addClass: vi.fn().mockName('Renderer2.addClass'),
+            removeClass: vi.fn().mockName('Renderer2.removeClass'),
+        } as unknown as Mocked<Renderer2>;
+        mockRendererFactory = {
+            createRenderer: vi.fn().mockName('RendererFactory2.createRenderer'),
+        } as unknown as Mocked<RendererFactory2>;
+        mockRendererFactory.createRenderer.mockReturnValue(mockRenderer);
 
         // Mock matchMedia and its addEventListener
         mockMatchMedia = {
             matches: false,
-            addEventListener: jasmine.createSpy('addEventListener'),
+            addEventListener: vi.fn(),
         };
-        spyOn(window, 'matchMedia').and.returnValue(mockMatchMedia);
+        vi.spyOn(window, 'matchMedia').mockReturnValue(mockMatchMedia);
 
         // Manually create the service and inject the mocks
         service = TestBed.inject(LightDark);
@@ -47,24 +54,24 @@ describe('LightDark', () => {
         });
 
         it('should call changeThemeClass on init', () => {
-            spyOn(service as any, 'changeThemeClass');
+            vi.spyOn(service as any, 'changeThemeClass');
             service.init();
             expect((service as any).changeThemeClass).toHaveBeenCalled();
         });
 
         it('should only initialize once', () => {
-            spyOn(service as any, 'changeThemeClass');
+            vi.spyOn(service as any, 'changeThemeClass');
             service.init();
             service.init();
             expect((service as any).changeThemeClass).toHaveBeenCalledTimes(1);
         });
 
         it('should update browserLightDark and call changeThemeClass when system theme changes: dark', () => {
-            spyOn(service as any, 'changeThemeClass');
+            vi.spyOn(service as any, 'changeThemeClass');
             service.init();
 
             // Get the callback function from addEventListener
-            const listener = mockMatchMedia.addEventListener.calls.mostRecent().args[1];
+            const listener = vi.mocked(mockMatchMedia.addEventListener).mock.lastCall[1];
 
             // Simulate a change event
             const mockEvent = { matches: true };
@@ -75,11 +82,11 @@ describe('LightDark', () => {
         });
 
         it('should update browserLightDark and call changeThemeClass when system theme changes: light', () => {
-            spyOn(service as any, 'changeThemeClass');
+            vi.spyOn(service as any, 'changeThemeClass');
             service.init();
 
             // Get the callback function from addEventListener
-            const listener = mockMatchMedia.addEventListener.calls.mostRecent().args[1];
+            const listener = vi.mocked(mockMatchMedia.addEventListener).mock.lastCall[1];
 
             // Simulate a change event
             const mockEvent = { matches: false };
@@ -92,7 +99,7 @@ describe('LightDark', () => {
 
     describe('set', () => {
         it('should set userLightDark and call changeThemeClass', () => {
-            spyOn(service as any, 'changeThemeClass');
+            vi.spyOn(service as any, 'changeThemeClass');
             service.set('dark');
             expect((service as any).userLightDark).toBe('dark');
             expect((service as any).changeThemeClass).toHaveBeenCalled();
@@ -117,14 +124,14 @@ describe('LightDark', () => {
 
     describe('changeThemeClass', () => {
         it('should add "light-mode" class if current theme is light', () => {
-            spyOn(service, 'isLight').and.returnValue(true);
+            vi.spyOn(service, 'isLight').mockReturnValue(true);
             service.changeThemeClass();
             expect(mockRenderer.addClass).toHaveBeenCalledWith(document.body, 'light-mode');
             expect(mockRenderer.removeClass).toHaveBeenCalledWith(document.body, 'dark-mode');
         });
 
         it('should add "dark-mode" class if current theme is dark', () => {
-            spyOn(service, 'isLight').and.returnValue(false);
+            vi.spyOn(service, 'isLight').mockReturnValue(false);
             service.changeThemeClass();
             expect(mockRenderer.addClass).toHaveBeenCalledWith(document.body, 'dark-mode');
             expect(mockRenderer.removeClass).toHaveBeenCalledWith(document.body, 'light-mode');
@@ -133,13 +140,13 @@ describe('LightDark', () => {
 
     describe('toggleTheme', () => {
         it('should toggle userLightDark from light to dark', () => {
-            spyOn(service, 'isLight').and.returnValue(true);
+            vi.spyOn(service, 'isLight').mockReturnValue(true);
             service.toggleTheme();
             expect((service as any).userLightDark).toBe('dark');
         });
 
         it('should toggle userLightDark from dark to light', () => {
-            spyOn(service, 'isLight').and.returnValue(false);
+            vi.spyOn(service, 'isLight').mockReturnValue(false);
             service.toggleTheme();
             expect((service as any).userLightDark).toBe('light');
         });
@@ -147,13 +154,13 @@ describe('LightDark', () => {
 
     describe('isLight', () => {
         it('should return true if current theme is light', () => {
-            spyOn(service, 'currentTheme').and.returnValue('light');
-            expect(service.isLight()).toBeTrue();
+            vi.spyOn(service, 'currentTheme').mockReturnValue('light');
+            expect(service.isLight()).toBe(true);
         });
 
         it('should return false if current theme is dark', () => {
-            spyOn(service, 'currentTheme').and.returnValue('dark');
-            expect(service.isLight()).toBeFalse();
+            vi.spyOn(service, 'currentTheme').mockReturnValue('dark');
+            expect(service.isLight()).toBe(false);
         });
     });
 });

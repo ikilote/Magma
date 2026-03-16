@@ -52,8 +52,8 @@ describe('MagmaContextMenu Integration', () => {
     });
 
     it('should open context menu on right-click', fakeAsync(() => {
-        spyOn(event, 'preventDefault');
-        spyOn(event, 'stopPropagation');
+        vi.spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         expect(event.preventDefault).toHaveBeenCalled();
@@ -62,8 +62,8 @@ describe('MagmaContextMenu Integration', () => {
     }));
 
     it('should open context menu on right-click', fakeAsync(() => {
-        spyOn(event, 'preventDefault');
-        spyOn(event, 'stopPropagation');
+        vi.spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         expect(event.preventDefault).toHaveBeenCalled();
@@ -92,8 +92,8 @@ describe('MagmaContextMenu Integration', () => {
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         const windowEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
-        spyOn(windowEvent, 'preventDefault');
-        spyOn(windowEvent, 'stopPropagation');
+        vi.spyOn(windowEvent, 'preventDefault');
+        vi.spyOn(windowEvent, 'stopPropagation');
         window.dispatchEvent(windowEvent);
         tick();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
@@ -105,8 +105,8 @@ describe('MagmaContextMenu Integration', () => {
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         const auxEvent = new MouseEvent('auxclick', { button: 1, clientX: 200, clientY: 200 });
-        spyOn(auxEvent, 'preventDefault');
-        spyOn(auxEvent, 'stopPropagation');
+        vi.spyOn(auxEvent, 'preventDefault');
+        vi.spyOn(auxEvent, 'stopPropagation');
         window.dispatchEvent(auxEvent);
         tick();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
@@ -117,7 +117,7 @@ describe('MagmaContextMenu Integration', () => {
     it('should call action when menu item is clicked', fakeAsync(() => {
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
-        const actionSpy = spyOn(directiveElement.componentInstance.menuData.contextMenu[0], 'action');
+        const actionSpy = vi.spyOn(directiveElement.componentInstance.menuData.contextMenu[0], 'action');
         document.querySelector('context-menu ul li:first-child')?.dispatchEvent(new Event('click'));
         tick();
         expect(actionSpy).toHaveBeenCalledWith('test-data');
@@ -128,8 +128,8 @@ describe('MagmaContextMenu Integration', () => {
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         const auxEvent = new MouseEvent('auxclick', { button: 2, clientX: 200, clientY: 200 });
-        spyOn(auxEvent, 'preventDefault');
-        spyOn(auxEvent, 'stopPropagation');
+        vi.spyOn(auxEvent, 'preventDefault');
+        vi.spyOn(auxEvent, 'stopPropagation');
         document.querySelector('context-menu')?.dispatchEvent(auxEvent);
         tick();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
@@ -140,8 +140,8 @@ describe('MagmaContextMenu Integration', () => {
         directiveElement.triggerEventHandler('contextmenu', event);
         tick();
         const auxEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
-        spyOn(auxEvent, 'preventDefault');
-        spyOn(auxEvent, 'stopPropagation');
+        vi.spyOn(auxEvent, 'preventDefault');
+        vi.spyOn(auxEvent, 'stopPropagation');
         document.querySelector('context-menu')?.dispatchEvent(auxEvent);
         tick();
         expect(auxEvent.preventDefault).toHaveBeenCalled();

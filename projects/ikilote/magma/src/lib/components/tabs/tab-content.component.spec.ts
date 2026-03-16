@@ -26,14 +26,14 @@ describe('MagmaTabContent', () => {
     });
 
     it('should have selected set to false by default', () => {
-        expect(component.selected()).toBeFalse();
+        expect(component.selected()).toBe(false);
     });
 
     it('should update selected state', () => {
         component.selected.set(true);
         fixture.detectChanges();
 
-        expect(component.selected()).toBeTrue();
+        expect(component.selected()).toBe(true);
     });
 
     it('should set the correct id attribute', () => {

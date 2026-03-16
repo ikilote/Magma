@@ -11,26 +11,26 @@ import { MagmaWalkthrough } from './walkthrough.component';
 
 class MockOverlayRef {
     backdropClick = () => of({});
-    dispose = jasmine.createSpy('dispose');
-    updatePosition = jasmine.createSpy('updatePosition');
+    dispose = vi.fn();
+    updatePosition = vi.fn();
     getConfig = () => ({ positionStrategy: new MockFlexibleConnectedPositionStrategy() });
-    attach = jasmine.createSpy('attach').and.returnValue(new MockComponentRef());
+    attach = vi.fn().mockReturnValue(new MockComponentRef());
 }
 
 class MockFlexibleConnectedPositionStrategy {
-    setOrigin = jasmine.createSpy('setOrigin');
-    apply = jasmine.createSpy('apply');
-    reapplyLastPosition = jasmine.createSpy('reapplyLastPosition');
+    setOrigin = vi.fn();
+    apply = vi.fn();
+    reapplyLastPosition = vi.fn();
     positionChanges = of({});
 }
 
 class MockComponentRef {
-    instance = { clone: { click: jasmine.createSpy('click') } };
-    setInput = jasmine.createSpy('setInput');
+    instance = { clone: { click: vi.fn() } };
+    setInput = vi.fn();
 }
 
 class MockOverlay {
-    create = jasmine.createSpy('create').and.returnValue(new MockOverlayRef());
+    create = vi.fn().mockReturnValue(new MockOverlayRef());
     position = () => ({
         flexibleConnectedTo: () => ({
             withPositions: () => new MockFlexibleConnectedPositionStrategy(),
@@ -75,8 +75,8 @@ describe('MagmaWalkthrough', () => {
 
     it('should start walkthrough and create overlay', fakeAsync(() => {
         const mockElement = document.querySelector('.target');
-        spyOn(document, 'querySelector').and.returnValue(mockElement);
-        spyOn(mockElement as any, 'scrollIntoView');
+        vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
+        vi.spyOn(mockElement as any, 'scrollIntoView');
 
         component.start({ group: 'test' });
 
@@ -88,12 +88,12 @@ describe('MagmaWalkthrough', () => {
             block: 'center',
             inline: 'center',
         });
-        expect((component as any).overlayRef.attach).toHaveBeenCalledWith(jasmine.any(ComponentPortal));
+        expect((component as any).overlayRef.attach).toHaveBeenCalledWith(expect.any(ComponentPortal));
     }));
 
     it('should handle backdrop click actions', fakeAsync(() => {
         const mockElement = document.querySelector('.target');
-        spyOn(document, 'querySelector').and.returnValue(mockElement);
+        vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
         component.start({ group: 'test' });
         tick();
 
@@ -113,7 +113,7 @@ describe('MagmaWalkthrough', () => {
     it('should change step and update overlay', fakeAsync(() => {
         const mockElement = document.querySelector('.target');
         const mockElement2 = document.querySelector('.target2');
-        spyOn(document, 'querySelector').and.callFake((selector: string) =>
+        vi.spyOn(document, 'querySelector').mockImplementation((selector: string) =>
             selector === '.target' ? mockElement : mockElement2,
         );
 
@@ -124,14 +124,14 @@ describe('MagmaWalkthrough', () => {
         tick();
 
         expect((component as any)['positionStrategy'].setOrigin).toHaveBeenCalledWith(mockElement2);
-        expect((component as any)['content'].setInput).toHaveBeenCalledWith('portal', jasmine.any(Object));
+        expect((component as any)['content'].setInput).toHaveBeenCalledWith('portal', expect.any(Object));
         expect((component as any)['content'].setInput).toHaveBeenCalledWith('element', mockElement2);
     }));
 
     it('should change step (close) and update overlay', fakeAsync(() => {
         const mockElement = document.querySelector('.target');
         const mockElement2 = document.querySelector('.target2');
-        spyOn(document, 'querySelector').and.callFake((selector: string) =>
+        vi.spyOn(document, 'querySelector').mockImplementation((selector: string) =>
             selector === '.target' ? mockElement : mockElement2,
         );
 
@@ -147,7 +147,7 @@ describe('MagmaWalkthrough', () => {
 
     it('should close overlay and clean references', fakeAsync(() => {
         const mockElement = document.querySelector('.target');
-        spyOn(document, 'querySelector').and.returnValue(mockElement);
+        vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
 
         component.start({ group: 'test' });
         tick();
@@ -159,7 +159,7 @@ describe('MagmaWalkthrough', () => {
     }));
 
     it('should not start if target element is not found', fakeAsync(() => {
-        spyOn(document, 'querySelector').and.returnValue(null);
+        vi.spyOn(document, 'querySelector').mockReturnValue(null);
         component.start({ group: 'test' });
         tick();
         expect(overlay.create).not.toHaveBeenCalled();
@@ -172,7 +172,7 @@ describe('MagmaWalkthrough', () => {
             group: () => 'test',
         } as unknown as MagmaWalkthroughStep;
 
-        spyOn(component, 'close' as any);
+        vi.spyOn(component, 'close' as any);
 
         (component as any)['overlayRef'] = new MockOverlayRef();
         (component as any)['overlayRef'].backdropClick().subscribe(() => {
@@ -193,7 +193,7 @@ describe('MagmaWalkthrough', () => {
             group: () => 'test',
         } as unknown as MagmaWalkthroughStep;
 
-        spyOn(component, 'changeStep' as any);
+        vi.spyOn(component, 'changeStep' as any);
 
         (component as any)['overlayRef'] = new MockOverlayRef();
         (component as any)['overlayRef'].backdropClick().subscribe(() => {
@@ -216,7 +216,7 @@ clickElementOrigin is true', fakeAsync(() => {
         } as unknown as MagmaWalkthroughStep;
 
         component['content'] = {
-            instance: { clone: { click: jasmine.createSpy('click') } },
+            instance: { clone: { click: vi.fn() } },
         } as unknown as ComponentRef<MagmaWalkthroughContent>;
 
         (component as any)['overlayRef'] = new MockOverlayRef();
@@ -240,7 +240,7 @@ clickElementOrigin is true', fakeAsync(() => {
         } as unknown as MagmaWalkthroughStep;
 
         component['content'] = {
-            instance: { clone: { click: jasmine.createSpy('click') } },
+            instance: { clone: { click: vi.fn() } },
         } as unknown as ComponentRef<MagmaWalkthroughContent>;
 
         (component as any)['overlayRef'] = new MockOverlayRef();
@@ -258,8 +258,8 @@ clickElementOrigin is true', fakeAsync(() => {
     it('should do nothing if backdropAction is not defined or does not match any case', fakeAsync(() => {
         component['portal'] = { backdropAction: () => undefined } as unknown as MagmaWalkthroughStep;
 
-        spyOn(component, 'close' as any);
-        spyOn(component, 'changeStep' as any);
+        vi.spyOn(component, 'close' as any);
+        vi.spyOn(component, 'changeStep' as any);
 
         (component as any)['overlayRef'] = new MockOverlayRef();
         (component as any)['overlayRef'].backdropClick().subscribe(() => {

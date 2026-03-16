@@ -7,7 +7,7 @@ describe('clipboardWrite', () => {
     beforeEach(() => {
         // Create a mock for `navigator.clipboard`
         const mockClipboard = {
-            writeText: jasmine.createSpy('writeText').and.returnValue(Promise.resolve()),
+            writeText: vi.fn().mockReturnValue(Promise.resolve()),
         };
 
         // Redefine the `navigator` property of `window` to make it writable
@@ -29,15 +29,15 @@ describe('clipboardWrite', () => {
 
     it('should resolve the promise if writeText succeeds', async () => {
         // Call the function
-        await expectAsync(clipboardWrite('test')).toBeResolved();
+        await expect(clipboardWrite('test')).resolves.not.toThrow();
         // Verify that `writeText` was called with the correct text
         expect(window.navigator.clipboard.writeText).toHaveBeenCalledWith('test');
     });
 
     it('should reject the promise if writeText fails', async () => {
         // Mock `writeText` to return a rejected promise
-        (window as any).navigator.clipboard.writeText.and.returnValue(Promise.reject());
+        (window as any).navigator.clipboard.writeText.mockReturnValue(Promise.reject());
         // Verify that the promise is rejected
-        await expectAsync(clipboardWrite('test')).toBeRejected();
+        await expect(clipboardWrite('test')).rejects.toThrow();
     });
 });

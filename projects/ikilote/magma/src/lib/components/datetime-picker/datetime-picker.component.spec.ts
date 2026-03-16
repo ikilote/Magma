@@ -14,7 +14,10 @@ describe('MagmaDatetimePickerComponent', () => {
     let debugElement: DebugElement;
 
     beforeEach(async () => {
-        loggerMock = jasmine.createSpyObj('Logger', ['info', 'error']);
+        loggerMock = {
+            info: vi.fn().mockName('Logger.info'),
+            error: vi.fn().mockName('Logger.error'),
+        };
 
         await TestBed.configureTestingModule({
             imports: [MagmaDatetimePickerComponent, FormsModule],
@@ -79,9 +82,9 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('min', '2025-05-01');
         fixture.detectChanges();
         // @ts-ignore
-        expect(component.prevMonthHide()).toBeTrue();
+        expect(component.prevMonthHide()).toBe(true);
         // @ts-ignore
-        expect(component.nextMonthHide()).toBeFalse();
+        expect(component.nextMonthHide()).toBe(false);
     });
 
     it('should disable nextMonth signal when current month is maxDate month', () => {
@@ -89,9 +92,9 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('max', '2025-05-01');
         fixture.detectChanges();
         // @ts-ignore
-        expect(component.prevMonthHide()).toBeFalse();
+        expect(component.prevMonthHide()).toBe(false);
         // @ts-ignore
-        expect(component.nextMonthHide()).toBeTrue();
+        expect(component.nextMonthHide()).toBe(true);
     });
 
     it('should disable prevMonth & nextMonth signal when current month is minDate & maxDate month', () => {
@@ -100,9 +103,9 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('max', '2025-05-31');
         fixture.detectChanges();
         // @ts-ignore
-        expect(component.prevMonthHide()).toBeTrue();
+        expect(component.prevMonthHide()).toBe(true);
         // @ts-ignore
-        expect(component.nextMonthHide()).toBeTrue();
+        expect(component.nextMonthHide()).toBe(true);
     });
 
     it('should not disable prevMonth & nextMonth signal when current month is minDate & maxDate month', () => {
@@ -111,13 +114,13 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('max', '2025-06-30');
         fixture.detectChanges();
         // @ts-ignore
-        expect(component.prevMonthHide()).toBeFalse();
+        expect(component.prevMonthHide()).toBe(false);
         // @ts-ignore
-        expect(component.nextMonthHide()).toBeFalse();
+        expect(component.nextMonthHide()).toBe(false);
     });
 
     it('should emit ISO date on select()', fakeAsync(() => {
-        const spy = spyOn(component.datetimeChange, 'emit');
+        const spy = vi.spyOn(component.datetimeChange, 'emit');
         const testDate = new Date(Date.UTC(2025, 4, 15)); // 15 May 2025
         const info: DateInfo = {
             date: testDate,
@@ -147,7 +150,7 @@ describe('MagmaDatetimePickerComponent', () => {
         { method: 'updateMilli', value: 555, toBe: '2025-01-01T10:00:00.555Z' },
     ].forEach(test => {
         it('should update time components and emit change: ' + test.method, () => {
-            const spy = spyOn(component.datetimeChange, 'emit');
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
             fixture.componentRef.setInput('type', 'datetime-milli');
             fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
             fixture.detectChanges();
@@ -155,7 +158,7 @@ describe('MagmaDatetimePickerComponent', () => {
             // @ts-ignore
             component[test.method](test.value);
             expect(spy).toHaveBeenCalled();
-            const emittedValue = spy.calls.mostRecent().args[0];
+            const emittedValue = vi.mocked(spy).mock.lastCall?.[0];
             expect(emittedValue).toBe(test.toBe);
         });
     });
@@ -169,7 +172,7 @@ describe('MagmaDatetimePickerComponent', () => {
         { type: '', toBe: '2025-01-01' },
     ].forEach(test => {
         it('should update date and emit change: ' + test.type, () => {
-            const spy = spyOn(component.datetimeChange, 'emit');
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
             fixture.componentRef.setInput('type', test.type);
             fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
             fixture.detectChanges();
@@ -177,7 +180,7 @@ describe('MagmaDatetimePickerComponent', () => {
             // @ts-ignore
             component.updateDate(component.date());
             expect(spy).toHaveBeenCalled();
-            const emittedValue = spy.calls.mostRecent().args[0];
+            const emittedValue = vi.mocked(spy).mock.lastCall?.[0];
             expect(emittedValue).toBe(test.toBe);
         });
     });
@@ -212,7 +215,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.detectChanges();
 
             // @ts-ignore
-            spyOn(component, 'updateDate');
+            vi.spyOn(component, 'updateDate');
 
             const inputElement = debugElement.query(By.css('#date-' + test.date)).nativeElement;
             expect(inputElement).toBeDefined();
@@ -220,7 +223,7 @@ describe('MagmaDatetimePickerComponent', () => {
             const target = debugElement.query(By.css('#date-' + test.toBe));
             if (target) {
                 const targetElement = target.nativeElement;
-                const clickSpy = spyOn(targetElement, 'click');
+                const clickSpy = vi.spyOn(targetElement, 'click');
                 expect(targetElement).toBeDefined();
 
                 // test
@@ -261,7 +264,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.detectChanges();
 
             // @ts-ignore
-            spyOn(component, 'updateDate');
+            vi.spyOn(component, 'updateDate');
 
             const inputElement = debugElement.query(By.css('#date-' + test.date)).nativeElement;
             expect(inputElement).toBeDefined();
@@ -269,7 +272,7 @@ describe('MagmaDatetimePickerComponent', () => {
             const target = debugElement.query(By.css('#date-' + test.toBe));
             if (target) {
                 const targetElement = target.nativeElement;
-                const clickSpy = spyOn(targetElement, 'click');
+                const clickSpy = vi.spyOn(targetElement, 'click');
                 expect(targetElement).toBeDefined();
 
                 // test
@@ -357,7 +360,7 @@ describe('MagmaDatetimePickerComponent', () => {
             // @ts-ignore Accessing protected method via any
             component.select(dateInfo);
             // @ts-ignore
-            expect(component.selected()).toBeTrue();
+            expect(component.selected()).toBe(true);
         });
 
         it('should only update the day if the month is the same as the current date', () => {
@@ -365,9 +368,9 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', '2026-01-01');
             fixture.detectChanges();
 
-            const updateDaySpy = spyOn<any>(component, 'updateDay').and.callThrough();
-            const updateMonthSpy = spyOn<any>(component, 'updateMonth').and.callThrough();
-            const updateDateSpy = spyOn<any>(component, 'updateDate').and.callThrough();
+            const updateDaySpy = vi.spyOn<any, any>(component, 'updateDay');
+            const updateMonthSpy = vi.spyOn<any, any>(component, 'updateMonth');
+            const updateDateSpy = vi.spyOn<any, any>(component, 'updateDate');
 
             const dateInfo = { month: 1, day: 15 } as DateInfo;
 
@@ -384,9 +387,9 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', '2026-01-01');
             fixture.detectChanges();
 
-            const updateDaySpy = spyOn<any>(component, 'updateDay').and.callThrough();
-            const updateMonthSpy = spyOn<any>(component, 'updateMonth').and.callThrough();
-            const updateDateSpy = spyOn<any>(component, 'updateDate').and.callThrough();
+            const updateDaySpy = vi.spyOn<any, any>(component, 'updateDay');
+            const updateMonthSpy = vi.spyOn<any, any>(component, 'updateMonth');
+            const updateDateSpy = vi.spyOn<any, any>(component, 'updateDate');
 
             // Simulate selecting a day from February (e.g., end of the grid)
             const dateInfo = { month: 2, day: 1 } as DateInfo;
@@ -408,8 +411,8 @@ describe('MagmaDatetimePickerComponent', () => {
             // We need to provide a tabIndex so it's focusable
             dummyElement.tabIndex = 0;
 
-            spyOn(component.element.nativeElement, 'querySelector').and.returnValue(dummyElement);
-            const focusSpy = spyOn(dummyElement, 'focus');
+            vi.spyOn(component.element.nativeElement, 'querySelector').mockReturnValue(dummyElement);
+            const focusSpy = vi.spyOn(dummyElement, 'focus');
 
             // @ts-ignore
             component.select(dateInfo);
@@ -427,7 +430,7 @@ describe('MagmaDatetimePickerComponent', () => {
             const dateInfo = { month: 1, day: 10 } as DateInfo;
 
             // Return null to simulate element not being rendered yet or missing
-            spyOn(component.element.nativeElement, 'querySelector').and.returnValue(null);
+            vi.spyOn(component.element.nativeElement, 'querySelector').mockReturnValue(null);
 
             expect(() => {
                 // @ts-ignore
@@ -523,12 +526,12 @@ describe('MagmaDatetimePickerComponent', () => {
     describe('getDateValue parsing logic', () => {
         beforeEach(() => {
             // Mocking the system date to Jan 1st, 2026 for consistent fallback tests
-            jasmine.clock().install();
-            jasmine.clock().mockDate(new Date(Date.UTC(2026, 0, 1)));
+            vi.useFakeTimers();
+            vi.setSystemTime(new Date(Date.UTC(2026, 0, 1)));
         });
 
         afterEach(() => {
-            jasmine.clock().uninstall();
+            vi.useRealTimers();
         });
 
         it('should return the current date (mocked) if value is undefined or null', () => {
@@ -614,13 +617,13 @@ describe('MagmaDatetimePickerComponent', () => {
 
     describe('computedDaysOfMonth', () => {
         beforeEach(() => {
-            jasmine.clock().install();
+            vi.useFakeTimers();
             // Mock "today" to February 15, 2026
-            jasmine.clock().mockDate(new Date(Date.UTC(2026, 1, 15)));
+            vi.setSystemTime(new Date(Date.UTC(2026, 1, 15)));
         });
 
         afterEach(() => {
-            jasmine.clock().uninstall();
+            vi.useRealTimers();
         });
 
         it('should generate a grid starting from the previous month if the 1st is not the start of the week', () => {
@@ -634,7 +637,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             expect(grid[0].date.getUTCDate()).toBe(26);
             expect(grid[0].month).toBe(1); // January
-            expect(grid[0].isCurrentMonth).toBeFalse();
+            expect(grid[0].isCurrentMonth).toBe(false);
         });
 
         it('should handle different start of week (Sunday)', () => {
@@ -648,7 +651,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             expect(grid[0].date.getUTCDate()).toBe(1);
             expect(grid[0].month).toBe(2);
-            expect(grid[0].isCurrentMonth).toBeTrue();
+            expect(grid[0].isCurrentMonth).toBe(true);
         });
 
         it('should handle different start of week (Saturday)', () => {
@@ -670,7 +673,7 @@ describe('MagmaDatetimePickerComponent', () => {
             const grid = component['computedDaysOfMonth']()[0];
             const todayElement = grid.find(d => d.day === 15 && d.month === 2);
 
-            expect(todayElement?.isToday).toBeTrue();
+            expect(todayElement?.isToday).toBe(true);
         });
 
         it('should disable days outside the min/max range', () => {
@@ -685,9 +688,9 @@ describe('MagmaDatetimePickerComponent', () => {
             const day15 = grid.find(d => d.day === 15 && d.month === 2);
             const day21 = grid.find(d => d.day === 21 && d.month === 2);
 
-            expect(day9?.disabled).toBeTrue();
-            expect(day15?.disabled).toBeFalse();
-            expect(day21?.disabled).toBeTrue();
+            expect(day9?.disabled).toBe(true);
+            expect(day15?.disabled).toBe(false);
+            expect(day21?.disabled).toBe(true);
         });
 
         it('should correctly flag weekends based on input', () => {
@@ -703,8 +706,8 @@ describe('MagmaDatetimePickerComponent', () => {
             // Feb 2nd 2026 is Monday
             const monday = grid.find(d => d.day === 2 && d.month === 2);
 
-            expect(sunday?.weekend).toBeTrue();
-            expect(monday?.weekend).toBeFalse();
+            expect(sunday?.weekend).toBe(true);
+            expect(monday?.weekend).toBe(false);
         });
 
         it('should not flag weekends if hideWeekendStyle is true', () => {
@@ -715,7 +718,7 @@ describe('MagmaDatetimePickerComponent', () => {
             const grid = component['computedDaysOfMonth']()[0];
             const sunday = grid.find(d => d.day === 1 && d.month === 2);
 
-            expect(sunday?.weekend).toBeFalse();
+            expect(sunday?.weekend).toBe(false);
         });
 
         it('should compute week numbers if not hidden', () => {
@@ -750,7 +753,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             expect(lastDay.month).toBe(3); // March
             expect(lastDay.day).toBe(1);
-            expect(lastDay.isCurrentMonth).toBeFalse();
+            expect(lastDay.isCurrentMonth).toBe(false);
         });
     });
 });

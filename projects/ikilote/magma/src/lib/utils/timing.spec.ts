@@ -1,12 +1,14 @@
+import type { Mock } from 'vitest';
+
 import { Timing, wait } from './timing';
 
 describe('Timing', () => {
     // Helper to track callback calls
-    let callbackSpy: jasmine.Spy;
+    let callbackSpy: Mock;
     let testId: number;
 
     beforeEach(() => {
-        callbackSpy = jasmine.createSpy('callback');
+        callbackSpy = vi.fn();
         testId = -1;
     });
 
@@ -86,8 +88,8 @@ describe('Timing', () => {
     describe('Edge Cases', () => {
         it('should handle multiple timers independently', async () => {
             // Test: Multiple timers run independently
-            const spy1 = jasmine.createSpy('callback1');
-            const spy2 = jasmine.createSpy('callback2');
+            const spy1 = vi.fn();
+            const spy2 = vi.fn();
             const id1 = Timing.start(spy1, 50);
             const id2 = Timing.start(spy2, 100);
             await wait(210);

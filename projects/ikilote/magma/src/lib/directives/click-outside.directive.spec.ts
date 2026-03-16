@@ -6,11 +6,11 @@ import { By } from '@angular/platform-browser';
 import { MagmaClickOutsideDirective } from './click-outside.directive';
 
 @Component({
-    template: ` <div clickOutside (clickOutside)="onClickOutside($event)">Test Element</div> `,
+    template: `<div clickOutside (clickOutside)="onClickOutside($event)">Test Element</div>`,
     imports: [MagmaClickOutsideDirective],
 })
 class TestComponent {
-    onClickOutside(_event: KeyboardEvent | MouseEvent) {
+    onClickOutside(_event: Event) {
         // This will be spied on in tests
     }
 }
@@ -29,7 +29,7 @@ describe('MagmaClickOutsideDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
 
-        spyOn(component, 'onClickOutside');
+        vi.spyOn(component, 'onClickOutside');
         element = fixture.debugElement.query(By.directive(MagmaClickOutsideDirective));
         directive = element.injector.get(MagmaClickOutsideDirective);
         fixture.detectChanges();
@@ -53,7 +53,7 @@ describe('MagmaClickOutsideDirective', () => {
             // Trigger the click handler
             directive.onClick(mockEvent);
 
-            expect(emitted).toBeTrue();
+            expect(emitted).toBe(true);
             expect(component.onClickOutside).toHaveBeenCalledTimes(1);
         });
 
@@ -70,7 +70,7 @@ describe('MagmaClickOutsideDirective', () => {
             // Trigger the click handler
             directive.onClick(mockEvent);
 
-            expect(emitted).toBeFalse();
+            expect(emitted).toBe(false);
             expect(component.onClickOutside).not.toHaveBeenCalled();
         });
 
@@ -91,7 +91,7 @@ describe('MagmaClickOutsideDirective', () => {
             // Trigger the click handler
             directive.onClick(mockEvent);
 
-            expect(emitted).toBeFalse();
+            expect(emitted).toBe(false);
             expect(component.onClickOutside).not.toHaveBeenCalled();
 
             // Clean up
@@ -119,7 +119,7 @@ describe('MagmaClickOutsideDirective', () => {
             // We need to manually call the handler since we're not using the real window
             directive.dialogClick(customEvent);
 
-            expect(emitted).toBeTrue();
+            expect(emitted).toBe(true);
             expect(component.onClickOutside).toHaveBeenCalledTimes(2);
         });
     });
@@ -127,7 +127,7 @@ describe('MagmaClickOutsideDirective', () => {
     describe('Window Click Listener', () => {
         it('should listen to window click events', () => {
             // Verify that the host listener is set up
-            const windowClickSpy = spyOn(directive, 'onClick');
+            const windowClickSpy = vi.spyOn(directive, 'onClick');
             window.dispatchEvent(new MouseEvent('click'));
 
             expect(windowClickSpy).toHaveBeenCalledTimes(1);
@@ -162,7 +162,7 @@ describe('MagmaClickOutsideDirective', () => {
             directive.onClick(mockEvent);
 
             // Should emit since null target is not contained in any element
-            expect(emitted).toBeTrue();
+            expect(emitted).toBe(true);
             expect(component.onClickOutside).toHaveBeenCalledTimes(1);
         });
 
@@ -180,7 +180,7 @@ describe('MagmaClickOutsideDirective', () => {
             directive.onClick(mockEvent);
 
             // Should emit since undefined target is not contained in any element
-            expect(emitted).toBeTrue();
+            expect(emitted).toBe(true);
             expect(component.onClickOutside).toHaveBeenCalledTimes(1);
         });
     });

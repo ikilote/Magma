@@ -62,10 +62,10 @@ describe('MagmaInputColor', () => {
     });
 
     it('should call onChange, writeValue, onTouched, and validate on colorClose', () => {
-        spyOn(component, 'onChange');
-        spyOn(component, 'writeValue');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component, 'writeValue');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
         component.inputDirective?.colorClose.emit('#FF0000');
         expect(component.onChange).toHaveBeenCalledWith('#FF0000');
         expect(component.writeValue).toHaveBeenCalledWith('#FF0000');
@@ -74,10 +74,10 @@ describe('MagmaInputColor', () => {
     });
 
     it('should call onChange, writeValue, onTouched, and validate on colorClose', () => {
-        spyOn(component, 'onChange');
-        spyOn(component, 'writeValue');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component, 'writeValue');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -100,7 +100,7 @@ describe('MagmaInputColor', () => {
         component.writeValue('');
         fixture.detectChanges();
         const spanElement = debugElement.query(By.css('.spanPicker')).nativeElement;
-        expect(spanElement.classList.contains('empty')).toBeTrue();
+        expect(spanElement.classList.contains('empty')).toBe(true);
         expect(component.inputElement?.value).toBe('');
     });
 
@@ -108,7 +108,7 @@ describe('MagmaInputColor', () => {
         component.writeValue('#FF0000');
         fixture.detectChanges();
         const spanElement = debugElement.query(By.css('.spanPicker')).nativeElement;
-        expect(spanElement.classList.contains('empty')).toBeFalse();
+        expect(spanElement.classList.contains('empty')).toBe(false);
         expect(component.inputElement?.value).toBe('#FF0000');
     });
 });

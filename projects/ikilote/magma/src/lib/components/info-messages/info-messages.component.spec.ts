@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { By } from '@angular/platform-browser';
 
 import { Subject } from 'rxjs';
+import type { MockedObject } from 'vitest';
 
 import { InfoMessageComponent } from './info-message.component';
 import { InfoMessagesComponent } from './info-messages.component';
@@ -11,13 +12,21 @@ import { MagmaMessageContent, MagmaMessageInfo, MagmaMessageType, MagmaMessages 
 describe('InfoMessagesComponent', () => {
     let fixture: ComponentFixture<InfoMessagesComponent>;
     let component: InfoMessagesComponent;
-    let messagesService: jasmine.SpyObj<MagmaMessages>;
+    let messagesService: MockedObject<MagmaMessages>;
 
     beforeEach(async () => {
         // Mock MagmaMessages service
-        const messagesSpy = jasmine.createSpyObj('MagmaMessages', ['removeMessage', 'testDispose'], {
-            messages: [],
-            addMessage: (message: MagmaMessageContent, options: { type?: MagmaMessageType; time?: string } = {}) => {
+        const messagesSpy = {
+            removeMessage: vi.fn().mockName('MagmaMessages.removeMessage'),
+            testDispose: vi.fn().mockName('MagmaMessages.testDispose'),
+            messages: [] as any[],
+            addMessage: (
+                message: MagmaMessageContent,
+                options: {
+                    type?: MagmaMessageType;
+                    time?: string;
+                } = {},
+            ) => {
                 messagesSpy.messages.push({
                     message,
                     type: options.type || MagmaMessageType.info,
@@ -26,7 +35,7 @@ describe('InfoMessagesComponent', () => {
                 messagesSpy.onAddMessage.next();
             },
             onAddMessage: new Subject<void>(),
-        });
+        };
 
         await TestBed.configureTestingModule({
             imports: [InfoMessagesComponent, InfoMessageComponent],
@@ -35,7 +44,7 @@ describe('InfoMessagesComponent', () => {
 
         fixture = TestBed.createComponent(InfoMessagesComponent);
         component = fixture.componentInstance;
-        messagesService = TestBed.inject(MagmaMessages) as jasmine.SpyObj<MagmaMessages>;
+        messagesService = TestBed.inject(MagmaMessages) as MockedObject<MagmaMessages>;
         fixture.detectChanges();
     });
 
@@ -80,7 +89,7 @@ describe('InfoMessagesComponent', () => {
     });
 
     it('should trigger change detection when a message is added', fakeAsync(() => {
-        spyOn(component['cd'], 'detectChanges');
+        vi.spyOn(component['cd'], 'detectChanges');
         messagesService.onAddMessage.next();
         tick();
         expect(component['cd'].detectChanges).toHaveBeenCalled();

@@ -19,8 +19,8 @@ describe('MagmaEllipsisItemComponent', () => {
 
     it('should call host.close() when clickEnter emits', () => {
         // @ts-expect-error
-        spyOn(component.action, 'emit');
-        const mockHost = { close: jasmine.createSpy('close') };
+        vi.spyOn(component.action, 'emit');
+        const mockHost = { close: vi.fn() };
         // @ts-expect-error
         component.host = mockHost;
         // @ts-expect-error
@@ -33,7 +33,7 @@ describe('MagmaEllipsisItemComponent', () => {
 
     it('should unsubscribe from clickEnter on ngOnDestroy', () => {
         // @ts-expect-error
-        spyOn(component.sub, 'unsubscribe');
+        vi.spyOn(component.sub, 'unsubscribe');
         component.ngOnDestroy();
         // @ts-expect-error
         expect(component.sub.unsubscribe).toHaveBeenCalled();

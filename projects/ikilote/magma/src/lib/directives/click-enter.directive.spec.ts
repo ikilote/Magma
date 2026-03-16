@@ -34,7 +34,7 @@ describe('MagmaClickEnterDirective', () => {
 
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
-        spyOn(component, 'onClickEnter');
+        vi.spyOn(component, 'onClickEnter');
         fixture.detectChanges();
 
         elements = fixture.debugElement.queryAll(By.directive(MagmaClickEnterDirective));
@@ -50,8 +50,8 @@ describe('MagmaClickEnterDirective', () => {
 
     describe('Host Bindings', () => {
         it('should add click-enter class to host element', () => {
-            expect(clickableElement.nativeElement.classList.contains('click-enter')).toBeTrue();
-            expect(disabledElement.nativeElement.classList.contains('click-enter')).toBeTrue();
+            expect(clickableElement.nativeElement.classList.contains('click-enter')).toBe(true);
+            expect(disabledElement.nativeElement.classList.contains('click-enter')).toBe(true);
         });
 
         it('should set tabindex to 0 when not disabled', () => {

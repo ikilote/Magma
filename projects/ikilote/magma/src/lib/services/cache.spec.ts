@@ -28,7 +28,7 @@ describe('MagmaCache', () => {
             const value = { data: 'new' };
             const expiredDate = new Date(Date.now() - 1000);
             (MagmaCache as any).cache[id] = { id, group, value, endDate: expiredDate }; // mock
-            const spy = spyOn(cache, 'clearById').and.callThrough();
+            const spy = vi.spyOn(cache, 'clearById');
             const result = await cache.request(id, group, mockObservable(value));
             expect(spy).toHaveBeenCalledWith(id);
             expect(result).toEqual(value);

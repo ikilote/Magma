@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import type { Mocked, MockedObject } from 'vitest';
+
 import { AbstractWindowComponent, MagmaWindow } from './window.component';
 
 import { MagmaResizeHostElement } from '../../directives/resizer';
@@ -13,10 +15,13 @@ class TestComponent extends AbstractWindowComponent {}
 describe('MagmaWindow', () => {
     let component: MagmaWindow;
     let fixture: ComponentFixture<MagmaWindow>;
-    let mockResizeHost: jasmine.SpyObj<MagmaResizeHostElement>;
+    let mockResizeHost: Mocked<MagmaResizeHostElement>;
 
     beforeEach(async () => {
-        mockResizeHost = jasmine.createSpyObj('MagmaResizeHostElement', ['select', 'remove']);
+        mockResizeHost = {
+            select: vi.fn().mockName('MagmaResizeHostElement.select'),
+            remove: vi.fn().mockName('MagmaResizeHostElement.remove'),
+        } as unknown as Mocked<MagmaResizeHostElement>;
 
         await TestBed.configureTestingModule({
             imports: [MagmaWindow],
@@ -34,14 +39,14 @@ describe('MagmaWindow', () => {
     describe('Open/Close', () => {
         it('should open the window', () => {
             component.open();
-            expect(component.isOpen()).toBeTrue();
+            expect(component.isOpen()).toBe(true);
         });
 
         it('should close the window and emit onClose', () => {
-            spyOn(component.onClose, 'emit');
+            vi.spyOn(component.onClose, 'emit');
             component.open();
             component.close();
-            expect(component.isOpen()).toBeFalse();
+            expect(component.isOpen()).toBe(false);
             expect(component.onClose.emit).toHaveBeenCalled();
         });
 
@@ -55,7 +60,7 @@ describe('MagmaWindow', () => {
 
             const content = fixture.debugElement.query(By.css('.content'));
             expect(content).not.toBeNull();
-            expect(component['isOpen']()).toBeTrue();
+            expect(component['isOpen']()).toBe(true);
         }));
 
         it('should not render anything if isOpen is false', () => {
@@ -70,7 +75,7 @@ describe('MagmaWindow', () => {
         beforeEach(() => {
             const mockEl = { nativeElement: document.createElement('div') };
             // @ts-ignore
-            spyOn(component, 'elementWin').and.returnValue([mockEl] as any);
+            vi.spyOn(component, 'elementWin').mockReturnValue([mockEl] as any);
         });
 
         it('should update position on drag', () => {
@@ -93,7 +98,7 @@ describe('MagmaWindow', () => {
             } as CdkDragEnd;
 
             // Mock the zone to avoid offsetWidth errors on null
-            spyOn<any>(component, 'getZone').and.returnValue({ offsetWidth: 1000, offsetHeight: 1000 });
+            vi.spyOn<any, any>(component, 'getZone').mockReturnValue({ offsetWidth: 1000, offsetHeight: 1000 });
 
             component.drag(mockDragEnd);
 
@@ -105,7 +110,7 @@ describe('MagmaWindow', () => {
 
     describe('Positioning & Resizing', () => {
         let mockElement: HTMLDivElement;
-        let dragSpy: jasmine.SpyObj<any>;
+        let dragSpy: MockedObject<any>;
 
         beforeEach(fakeAsync(() => {
             fixture.componentRef.setInput('isOpen', true);
@@ -121,14 +126,16 @@ describe('MagmaWindow', () => {
 
             document.body.appendChild(mockElement);
 
-            dragSpy = jasmine.createSpyObj('CdkDrag', ['setFreeDragPosition']);
+            dragSpy = {
+                setFreeDragPosition: vi.fn().mockName('CdkDrag.setFreeDragPosition'),
+            };
 
             // Mock signals: we simulate the return of ViewChildren/ViewChild
             // If they are signals, we mock the function itself
             // @ts-ignore
-            spyOn(component, 'elementWin').and.returnValue([{ nativeElement: mockElement }] as any);
+            vi.spyOn(component, 'elementWin').mockReturnValue([{ nativeElement: mockElement }] as any);
             // @ts-ignore
-            spyOn(component, 'cdkDrag').and.returnValue([dragSpy] as any);
+            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
             // Initialisation par défaut pour éviter les undefined
             component['x'] = [0, 0];
@@ -144,7 +151,7 @@ describe('MagmaWindow', () => {
 
             // Assert
             expect(mockElement.style.width).toBe('220px'); // 100 - 80 + 200
-            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith(jasmine.objectContaining({ x: 80 }));
+            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith(expect.objectContaining({ x: 80 }));
         });
 
         it('should update RIGHT: increases width and updates internal state', () => {
@@ -167,7 +174,7 @@ describe('MagmaWindow', () => {
 
             // Assert
             expect(mockElement.style.height).toBe('230px'); // 100 - 70 + 200
-            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith(jasmine.objectContaining({ y: 70 }));
+            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith(expect.objectContaining({ y: 70 }));
         });
 
         it('should update BOTTOM: increases height while keeping Y position static', () => {
@@ -181,14 +188,14 @@ describe('MagmaWindow', () => {
         });
 
         it('should call updatePosition when position change', () => {
-            spyOn(component, 'updatePosition');
+            vi.spyOn(component, 'updatePosition');
             fixture.componentRef.setInput('position', 'center');
             fixture.detectChanges();
             expect(component.updatePosition).toHaveBeenCalledWith();
         });
 
         it('should not call updatePosition with other input', () => {
-            spyOn(component, 'updatePosition');
+            vi.spyOn(component, 'updatePosition');
             fixture.componentRef.setInput('bar', 'false');
             fixture.detectChanges();
             expect(component.updatePosition).not.toHaveBeenCalledWith();
@@ -294,7 +301,7 @@ describe('MagmaWindow', () => {
             const button = fixture.debugElement.query(By.css('.window-title-buttons button'));
             button.triggerEventHandler('click', null);
             // @ts-ignore
-            expect(component.fullscreen()).toBeTrue();
+            expect(component.fullscreen()).toBe(true);
         });
 
         it('should display the title correctly', () => {
@@ -307,7 +314,7 @@ describe('MagmaWindow', () => {
 
             // Act
             changeButton.triggerEventHandler('click', null);
-            expect(component['fullscreen']()).toBeTrue();
+            expect(component['fullscreen']()).toBe(true);
 
             // Check icon change
             fixture.detectChanges();
@@ -315,8 +322,10 @@ describe('MagmaWindow', () => {
         });
 
         it('should emit onClose and call remove when close is clicked', () => {
-            const closeSpy = spyOn(component.onClose, 'emit');
-            const hostSpy = jasmine.createSpyObj('MagmaResizeHostElement', ['remove']);
+            const closeSpy = vi.spyOn(component.onClose, 'emit');
+            const hostSpy = {
+                remove: vi.fn().mockName('MagmaResizeHostElement.remove'),
+            };
             fixture.componentRef.setInput('resizerHost', hostSpy);
 
             const closeButton = fixture.debugElement.queryAll(By.css('button'))[1];
@@ -324,7 +333,7 @@ describe('MagmaWindow', () => {
 
             expect(closeSpy).toHaveBeenCalled();
             expect(hostSpy.remove).toHaveBeenCalledWith(component);
-            expect(component.isOpen()).toBeFalse();
+            expect(component.isOpen()).toBe(false);
         });
     });
 
@@ -345,7 +354,7 @@ describe('MagmaWindow', () => {
             expect(button1).not.toBeNull();
 
             // close
-            spyOn(component.onClose, 'emit');
+            vi.spyOn(component.onClose, 'emit');
             button1.nativeElement.click();
             expect(component.onClose.emit).toHaveBeenCalled();
         }));
@@ -354,9 +363,17 @@ describe('MagmaWindow', () => {
     describe('Initial Position', () => {
         it('should use zone when zone is define', () => {
             // @ts-ignore
-            spyOn(component, 'getZone').and.returnValue({
-                getBoundingClientRect: () => ({ left: 0, top: 0 }),
-            });
+            vi.spyOn(component, 'getZone').mockReturnValue({
+                getBoundingClientRect: () =>
+                    ({
+                        left: 0,
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: 0,
+                        height: 0,
+                    }) as DOMRect,
+            } as any);
             // @ts-ignore
             component.elementRef = {
                 nativeElement: { getBoundingClientRect: () => ({ left: 0, top: 0 }) },
@@ -372,9 +389,17 @@ describe('MagmaWindow', () => {
 
         it('should use zone when zone is define and change element position', () => {
             // @ts-ignore
-            spyOn(component, 'getZone').and.returnValue({
-                getBoundingClientRect: () => ({ left: 0, top: 0 }),
-            });
+            vi.spyOn(component, 'getZone').mockReturnValue({
+                getBoundingClientRect: () =>
+                    ({
+                        left: 0,
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: 0,
+                        height: 0,
+                    }) as DOMRect,
+            } as any);
             // @ts-ignore
             component.elementRef = {
                 nativeElement: { getBoundingClientRect: () => ({ left: 250, top: 350 }) },
@@ -391,11 +416,19 @@ describe('MagmaWindow', () => {
         it('should position is center', () => {
             fixture.componentRef.setInput('position', 'center');
             // @ts-ignore
-            spyOn(component, 'getZone').and.returnValue({
-                getBoundingClientRect: () => ({ left: 0, top: 0 }),
+            vi.spyOn(component, 'getZone').mockReturnValue({
+                getBoundingClientRect: () =>
+                    ({
+                        left: 0,
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: 0,
+                        height: 0,
+                    }) as DOMRect,
                 offsetWidth: 500,
                 offsetHeight: 500,
-            });
+            } as any);
             // @ts-ignore
             component.elementRef = {
                 nativeElement: {
@@ -415,8 +448,19 @@ describe('MagmaWindow', () => {
 
         it('should position is center when no zone', () => {
             fixture.componentRef.setInput('position', 'center');
-            spyOnProperty(window, 'innerWidth').and.returnValue(500);
-            spyOnProperty(window, 'innerHeight').and.returnValue(500);
+            // Mocking innerWidth
+            Object.defineProperty(window, 'innerWidth', {
+                writable: true,
+                configurable: true,
+                value: 500,
+            });
+
+            // Mocking innerHeight
+            Object.defineProperty(window, 'innerHeight', {
+                writable: true,
+                configurable: true,
+                value: 500,
+            });
 
             // @ts-ignore
             component.elementRef = {
@@ -438,11 +482,19 @@ describe('MagmaWindow', () => {
         it('should position is {x, y}', () => {
             fixture.componentRef.setInput('position', { x: 10, y: 20 });
             // @ts-ignore
-            spyOn(component, 'getZone').and.returnValue({
-                getBoundingClientRect: () => ({ left: 0, top: 0 }),
+            vi.spyOn(component, 'getZone').mockReturnValue({
+                getBoundingClientRect: () =>
+                    ({
+                        left: 0,
+                        top: 0,
+                        right: 0,
+                        bottom: 0,
+                        width: 0,
+                        height: 0,
+                    }) as DOMRect,
                 offsetWidth: 500,
                 offsetHeight: 500,
-            });
+            } as any);
             // @ts-ignore
             component.elementRef = {
                 nativeElement: {
@@ -476,21 +528,23 @@ describe('MagmaWindow', () => {
 
     describe('change() - Fullscreen Toggling', () => {
         let mockElement: HTMLDivElement;
-        let dragSpy: jasmine.SpyObj<CdkDrag>;
+        let dragSpy: Mocked<CdkDrag>;
 
         beforeEach(() => {
             // 1. Create the mock element and the spy for CdkDrag
             mockElement = document.createElement('div');
-            dragSpy = jasmine.createSpyObj('CdkDrag', ['setFreeDragPosition']);
+            dragSpy = {
+                setFreeDragPosition: vi.fn().mockName('CdkDrag.setFreeDragPosition'),
+            } as unknown as Mocked<CdkDrag>;
 
             // 2. Mock the signals (elementWin and cdkDrag)
             // @ts-ignore
-            spyOn(component, 'elementWin').and.returnValue([{ nativeElement: mockElement }] as any);
+            vi.spyOn(component, 'elementWin').mockReturnValue([{ nativeElement: mockElement }] as any);
             // @ts-ignore
-            spyOn(component, 'cdkDrag').and.returnValue([dragSpy] as any);
+            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
             // 3. Mock getZone to return fixed dimensions for the test
-            spyOn<any>(component, 'getZone').and.returnValue({
+            vi.spyOn<any, any>(component, 'getZone').mockReturnValue({
                 offsetWidth: 1920,
                 offsetHeight: 1080,
             });
@@ -506,7 +560,7 @@ describe('MagmaWindow', () => {
             component.change();
 
             // Verify state change
-            expect(component['fullscreen']()).toBeTrue();
+            expect(component['fullscreen']()).toBe(true);
 
             // Verify it moved to the container's top-left (initPosition)
             expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 0, y: 0 });
@@ -528,7 +582,7 @@ describe('MagmaWindow', () => {
             component.change();
 
             // 3. Assert
-            expect(component['fullscreen']()).toBeFalse();
+            expect(component['fullscreen']()).toBe(false);
 
             // Verify it restored the Drag position to our stored x[0] and y[0]
             expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 50, y: 60 });
@@ -540,7 +594,7 @@ describe('MagmaWindow', () => {
 
         it('should use window dimensions if getZone returns null', () => {
             // Mock getZone to return null to test the fallback (window.innerWidth)
-            (component as any).getZone.and.returnValue(null);
+            (component as any).getZone.mockReturnValue(null);
             component['fullscreen'].set(false);
 
             component.change();

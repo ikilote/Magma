@@ -63,11 +63,11 @@ describe('InfoMessageComponent', () => {
         fixture.componentRef.setInput('message', message);
         fixture.detectChanges();
 
-        expect(fixture.nativeElement.classList.contains('info')).toBeTrue();
+        expect(fixture.nativeElement.classList.contains('info')).toBe(true);
     });
 
     it('should emit destruct output on close', () => {
-        spyOn(component.destruct, 'emit');
+        vi.spyOn(component.destruct, 'emit');
         const message = {
             message: 'Hello World',
             type: MagmaMessageType.info,
@@ -82,7 +82,7 @@ describe('InfoMessageComponent', () => {
     });
 
     it('should call click on animationend', () => {
-        spyOn(component, 'click');
+        vi.spyOn(component, 'click');
         const progressDiv = fixture.debugElement.query(By.css('.progress'));
         progressDiv.triggerEventHandler('animationend', null);
         fixture.detectChanges();
@@ -91,7 +91,7 @@ describe('InfoMessageComponent', () => {
     });
 
     it('should call click to close', fakeAsync(() => {
-        spyOn(component, 'close');
+        vi.spyOn(component, 'close');
         component.click();
         fixture.detectChanges();
         expect(fixture.nativeElement.classList[0]).toEqual('close');

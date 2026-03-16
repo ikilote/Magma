@@ -64,7 +64,7 @@ describe('MagmaInputRange', () => {
     });
 
     it('should update value on change event', () => {
-        spyOn(component.update, 'emit');
+        vi.spyOn(component.update, 'emit');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = '75';
         inputElement.dispatchEvent(new Event('change'));
@@ -72,7 +72,7 @@ describe('MagmaInputRange', () => {
     });
 
     it('should update value on input event', () => {
-        spyOn(component, 'onChange');
+        vi.spyOn(component, 'onChange');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = '75';
         inputElement.dispatchEvent(new Event('input'));
@@ -90,13 +90,13 @@ describe('MagmaInputRange', () => {
         fixture.componentRef.setInput('disabled', true);
         fixture.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
-        expect(inputElement.disabled).toBeTrue();
+        expect(inputElement.disabled).toBe(true);
     });
 
     it('should disable input if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
         fixture.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
-        expect(inputElement.disabled).toBeTrue();
+        expect(inputElement.disabled).toBe(true);
     });
 });

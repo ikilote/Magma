@@ -1,4 +1,3 @@
-
 import { Component, DebugElement, ElementRef, forwardRef, viewChildren } from '@angular/core';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +13,7 @@ import { MagmaInputCommon } from '../components/input/input-common';
         <div [sortable]="sortable" [sortable-filter-input]="sortableFilterInput" [sortable-filter]="sortableFilter">
             <div [sort-rule]="sortRule" (clickEnter)="onClick()"></div>
             <ul>
-                @for (item of date; track item.name) {
+                @for (item of sortable; track item.name) {
                     <li>{{ item.name }} ({{ item.age }})</li>
                 }
             </ul>
@@ -65,8 +64,8 @@ describe('MagmaSortableModule', () => {
             sortableDirective.sortWithRule('name', 'asc');
             fixture.detectChanges();
 
-            expect(classList.contains('sort-asc')).toBeTrue();
-            expect(classList.contains('sort-desc')).toBeFalse();
+            expect(classList.contains('sort-asc')).toBe(true);
+            expect(classList.contains('sort-desc')).toBe(false);
         });
 
         it('should apply "sort-desc" class when current rule and order match', () => {
@@ -74,16 +73,16 @@ describe('MagmaSortableModule', () => {
             sortableDirective.sortWithRule('name', 'desc');
             fixture.detectChanges();
 
-            expect(classList.contains('sort-desc')).toBeTrue();
-            expect(classList.contains('sort-asc')).toBeFalse();
+            expect(classList.contains('sort-desc')).toBe(true);
+            expect(classList.contains('sort-asc')).toBe(false);
         });
 
         it('should apply "sort-desc" class when click on "sort-desc"', () => {
             componentInstance.sortRule = 'name';
             sortRuleDirectiveElement.nativeElement.click();
             fixture.detectChanges();
-            expect(classList.contains('sort-asc')).toBeTrue();
-            expect(classList.contains('sort-desc')).toBeFalse();
+            expect(classList.contains('sort-asc')).toBe(true);
+            expect(classList.contains('sort-desc')).toBe(false);
 
             expect(componentInstance.sortable).toEqual([
                 { name: 'Alice', age: 30 },
@@ -92,8 +91,8 @@ describe('MagmaSortableModule', () => {
 
             sortRuleDirectiveElement.nativeElement.click();
             fixture.detectChanges();
-            expect(classList.contains('sort-asc')).toBeFalse();
-            expect(classList.contains('sort-desc')).toBeTrue();
+            expect(classList.contains('sort-asc')).toBe(false);
+            expect(classList.contains('sort-desc')).toBe(true);
 
             expect(componentInstance.sortable).toEqual([
                 { name: 'Bob', age: 25 },
@@ -106,14 +105,14 @@ describe('MagmaSortableModule', () => {
         it('should apply "sort-cell" class when rule type is "none"', () => {
             componentInstance.sortRule = { type: 'none' };
             fixture.detectChanges();
-            expect(classList.contains('sort-cell')).toBeTrue();
+            expect(classList.contains('sort-cell')).toBe(true);
         });
 
         it('should apply "sort-cell" class when rule type is "none"', () => {
             componentInstance.sortRule = [{ type: 'none' }];
             fixture.detectChanges();
             sortRuleDirective.ngOnInit();
-            expect(classList.contains('sort-cell')).toBeTrue();
+            expect(classList.contains('sort-cell')).toBe(true);
         });
 
         it('should initialize with string rule', () => {
@@ -130,7 +129,7 @@ describe('MagmaSortableModule', () => {
             sortRuleDirective.ngOnInit();
 
             expect(sortableDirective.currentRule).toEqual({ attr: 'name', type: 'string', init: 'desc' });
-            expect(sortableDirective.currentRuleOrder).toBeFalse();
+            expect(sortableDirective.currentRuleOrder).toBe(false);
         });
 
         it('should initialize with array of object rule and init order', () => {
@@ -139,11 +138,11 @@ describe('MagmaSortableModule', () => {
             sortRuleDirective.ngOnInit();
 
             expect(sortableDirective.currentRule).toEqual([{ attr: 'name', type: 'string', init: 'desc' }]);
-            expect(sortableDirective.currentRuleOrder).toBeFalse();
+            expect(sortableDirective.currentRuleOrder).toBe(false);
         });
 
         it('should not initialize with "none" rule', () => {
-            spyOn(sortableDirective, 'sortWithRule');
+            vi.spyOn(sortableDirective, 'sortWithRule');
 
             componentInstance.sortRule = { type: 'none' };
             fixture.detectChanges();
@@ -157,7 +156,7 @@ describe('MagmaSortableModule', () => {
             fixture.detectChanges();
 
             const result = sortRuleDirective['isNone']();
-            expect(result).toBeTrue();
+            expect(result).toBe(true);
         });
 
         it('should return false for non-"none" rule', () => {
@@ -165,7 +164,7 @@ describe('MagmaSortableModule', () => {
             fixture.detectChanges();
 
             const result = sortRuleDirective['isNone']();
-            expect(result).toBeFalse();
+            expect(result).toBe(false);
         });
 
         it('should return init order for object rule', () => {
@@ -222,7 +221,7 @@ describe('MagmaSortableModule', () => {
         });
 
         it('should not call update if sortable is not initialized', () => {
-            spyOn(sortableDirective, 'update');
+            vi.spyOn(sortableDirective, 'update');
             fixture.detectChanges();
             componentInstance.sortable = [
                 { name: 'Foo', age: 30 },
@@ -232,7 +231,7 @@ describe('MagmaSortableModule', () => {
         });
 
         it('should call update once when sortable is initialized with input element and filter function', () => {
-            spyOn(sortableDirective, 'update');
+            vi.spyOn(sortableDirective, 'update');
             const inputElement = document.createElement('input');
             inputElement.type = 'text';
             component.sortableFilterInput = inputElement;
@@ -346,7 +345,7 @@ export class MockMagmaInputText extends MagmaInputCommon<any> {
         <div [sortable]="sortable" [sortable-filter-input]="test" [sortable-filter]="sortableFilter">
             <div [sort-rule]="sortRule" (clickEnter)="onClick()"></div>
             <ul>
-                @for (item of date; track item.name) {
+                @for (item of sortable; track item.name) {
                     <li>{{ item.name }} ({{ item.age }})</li>
                 }
             </ul>
@@ -389,7 +388,7 @@ describe('MagmaSortableModule + MagmaInput', () => {
     });
 
     it('should call update once when sortable is initialized with input element and filter function', () => {
-        spyOn(sortableDirective, 'update');
+        vi.spyOn(sortableDirective, 'update');
         component.sortableFilter = (key: string, item: any, index: number) => true;
         fixture.detectChanges();
         sortableDirective.ngOnInit();

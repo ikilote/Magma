@@ -51,7 +51,7 @@ describe('MagmaColorPicker Directive', () => {
 
     it('should open overlay on click', fakeAsync(() => {
         const event = new MouseEvent('click');
-        const eventSpy = spyOn(event, 'preventDefault');
+        const eventSpy = vi.spyOn(event, 'preventDefault');
         tick();
         document.querySelector('.test')?.dispatchEvent(event);
         expect(eventSpy).toHaveBeenCalled(); // in open
@@ -61,7 +61,7 @@ describe('MagmaColorPicker Directive', () => {
         fixture.componentInstance.disabled = true;
         fixture.detectChanges();
         const event = new MouseEvent('click');
-        const eventSpy = spyOn(event, 'preventDefault');
+        const eventSpy = vi.spyOn(event, 'preventDefault');
         tick();
         document.querySelector('.test')?.dispatchEvent(event);
         expect(eventSpy).not.toHaveBeenCalled(); // in open
@@ -96,7 +96,7 @@ describe('MagmaColorPicker Directive', () => {
     }));
 
     it('should emit colorChange on color selection', fakeAsync(() => {
-        spyOn(directive.colorChange, 'emit');
+        vi.spyOn(directive.colorChange, 'emit');
         directive.open();
         tick();
         const component = MagmaColorPicker._component;
@@ -106,7 +106,7 @@ describe('MagmaColorPicker Directive', () => {
     }));
 
     it('should emit colorClose on backdrop click if color changed', fakeAsync(() => {
-        spyOn(directive.colorClose, 'emit');
+        vi.spyOn(directive.colorClose, 'emit');
         directive.open();
         tick();
         const component = MagmaColorPicker._component;
@@ -119,7 +119,7 @@ describe('MagmaColorPicker Directive', () => {
 
     it('should open overlay on space key', fakeAsync(() => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
-        const openSpy = spyOn(directive, 'open');
+        const openSpy = vi.spyOn(directive, 'open');
         directiveElement.triggerEventHandler('keydown.space', new KeyboardEvent('keydown', { key: ' ' }));
         tick();
         expect(openSpy).toHaveBeenCalled();

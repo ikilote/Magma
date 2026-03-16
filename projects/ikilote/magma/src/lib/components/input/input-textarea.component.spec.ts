@@ -58,7 +58,7 @@ describe('MagmaInputTextarea', () => {
         fixture.componentRef.setInput('monospace', true);
         fixture.detectChanges();
         const hostElement = debugElement.nativeElement;
-        expect(hostElement.classList.contains('monospace')).toBeTrue();
+        expect(hostElement.classList.contains('monospace')).toBe(true);
     });
 
     it('should apply styles for height, maxHeight, and minHeight', () => {
@@ -73,7 +73,7 @@ describe('MagmaInputTextarea', () => {
     });
 
     it('should update value on change event', () => {
-        spyOn(component.update, 'emit');
+        vi.spyOn(component.update, 'emit');
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
         textareaElement.value = 'New text';
         textareaElement.dispatchEvent(new Event('change'));
@@ -81,7 +81,7 @@ describe('MagmaInputTextarea', () => {
     });
 
     it('should update value on input event', () => {
-        spyOn(component, 'onChange');
+        vi.spyOn(component, 'onChange');
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
         textareaElement.value = 'New text';
         textareaElement.dispatchEvent(new Event('input'));
@@ -89,8 +89,8 @@ describe('MagmaInputTextarea', () => {
     });
 
     it('should call onTouched and validate on blur', () => {
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -140,13 +140,13 @@ describe('MagmaInputTextarea', () => {
         fixture.componentRef.setInput('disabled', true);
         fixture.detectChanges();
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
-        expect(textareaElement.disabled).toBeTrue();
+        expect(textareaElement.disabled).toBe(true);
     });
 
     it('should disable textarea if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
         fixture.detectChanges();
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
-        expect(textareaElement.readOnly).toBeTrue();
+        expect(textareaElement.readOnly).toBe(true);
     });
 });

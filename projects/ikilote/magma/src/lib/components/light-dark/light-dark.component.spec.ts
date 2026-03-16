@@ -1,6 +1,8 @@
 import { SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import type { Mocked } from 'vitest';
+
 import { MagmaLightDark } from './light-dark.component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
@@ -9,12 +11,15 @@ import { LightDark, PreferenceInterfaceTheme } from '../../services/light-dark';
 describe('MagmaLightDark', () => {
     let component: MagmaLightDark;
     let fixture: ComponentFixture<MagmaLightDark>;
-    let lightDarkServiceMock: jasmine.SpyObj<LightDark>;
+    let lightDarkServiceMock: Mocked<LightDark>;
 
     beforeEach(async () => {
-        lightDarkServiceMock = jasmine.createSpyObj('LightDark', ['isLight', 'toggleTheme', 'changeThemeClass'], {
+        lightDarkServiceMock = {
+            isLight: vi.fn().mockName('LightDark.isLight'),
+            toggleTheme: vi.fn().mockName('LightDark.toggleTheme'),
+            changeThemeClass: vi.fn().mockName('LightDark.changeThemeClass'),
             currentTheme: () => 'light' as PreferenceInterfaceTheme,
-        });
+        } as unknown as Mocked<LightDark>;
 
         await TestBed.configureTestingModule({
             imports: [MagmaClickEnterDirective],
@@ -33,31 +38,31 @@ describe('MagmaLightDark', () => {
     it('should set clickEnter.disabled based on compact input', () => {
         fixture.componentRef.setInput('compact', false);
         fixture.detectChanges();
-        expect(component['clickEnter'].disabled).toBeTrue();
-        expect(fixture.nativeElement.classList.contains('compact')).toBeFalse();
+        expect(component['clickEnter'].disabled).toBe(true);
+        expect(fixture.nativeElement.classList.contains('compact')).toBe(false);
 
         fixture.componentRef.setInput('compact', true);
         fixture.detectChanges();
-        expect(component['clickEnter'].disabled).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('compact')).toBeTrue();
+        expect(component['clickEnter'].disabled).toBe(false);
+        expect(fixture.nativeElement.classList.contains('compact')).toBe(true);
     });
 
     it('should apply compact class if input is true', () => {
         fixture.componentRef.setInput('compact', true);
         fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('compact')).toBeTrue();
-        expect(component['clickEnter'].disabled).toBeFalse();
+        expect(fixture.nativeElement.classList.contains('compact')).toBe(true);
+        expect(component['clickEnter'].disabled).toBe(false);
 
         fixture.componentRef.setInput('compact', false);
         fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('compact')).toBeFalse();
-        expect(component['clickEnter'].disabled).toBeTrue();
+        expect(fixture.nativeElement.classList.contains('compact')).toBe(false);
+        expect(component['clickEnter'].disabled).toBe(true);
     });
 
     it('should update clickEnter.disabled when compact input changes', () => {
         fixture.componentRef.setInput('compact', false);
         fixture.detectChanges();
-        expect(component['clickEnter'].disabled).toBeTrue();
+        expect(component['clickEnter'].disabled).toBe(true);
 
         component.ngOnChanges({
             compact: {
@@ -67,14 +72,14 @@ describe('MagmaLightDark', () => {
                 isFirstChange: () => false,
             },
         } as SimpleChanges);
-        expect(component['clickEnter'].disabled).toBeFalse();
+        expect(component['clickEnter'].disabled).toBe(false);
     });
 
     it('should detect click only on toggle element when compact if input is false', () => {
-        spyOn(component.change, 'emit');
+        vi.spyOn(component.change, 'emit');
         fixture.componentRef.setInput('compact', false);
         fixture.detectChanges();
-        expect(component['clickEnter'].disabled).toBeTrue();
+        expect(component['clickEnter'].disabled).toBe(true);
         fixture.nativeElement.click();
 
         expect(lightDarkServiceMock.toggleTheme).not.toHaveBeenCalled();
@@ -106,7 +111,7 @@ describe('MagmaLightDark', () => {
     });
 
     it('should emit change event with current theme on click', () => {
-        spyOn(component.change, 'emit');
+        vi.spyOn(component.change, 'emit');
         component.click();
         fixture.detectChanges();
         expect(component.change.emit).toHaveBeenCalled();

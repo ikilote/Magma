@@ -256,7 +256,7 @@ describe('MagmaInputDate', () => {
 
                 component.updateDate({ target: i } as any, e.type as any);
 
-                await vi.runAllTicks();
+                await vi.useFakeTimers();
                 expect(i.valueAsNumber).toBe(e.updated);
 
                 if (e.focus) {
@@ -293,7 +293,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    await vi.runAllTicks();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -335,7 +335,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    await vi.runAllTicks();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -377,7 +377,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    await vi.runAllTicks();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -419,7 +419,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    await vi.runAllTicks();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -462,7 +462,7 @@ describe('MagmaInputDate', () => {
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    await vi.runAllTicks();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -502,7 +502,7 @@ describe('MagmaInputDate', () => {
                 component.lockFocus = true;
                 component.updateDate({ target: i } as any, e.type as any);
 
-                await vi.runAllTicks();
+                await vi.useFakeTimers();
 
                 expect(i.value).toBe(e.updated);
             });
@@ -526,7 +526,7 @@ describe('MagmaInputDate', () => {
                     component.lockFocus = true;
                     component.changeDate({ target: i } as any, e.type as any);
 
-                    await vi.runAllTicks();
+                    await vi.useFakeTimers();
 
                     expect(i.value).toBe(e.updated);
                 });
@@ -552,7 +552,7 @@ describe('MagmaInputDate', () => {
 
                 component.updateDate({ target: i } as any, e.type as any);
 
-                await vi.runAllTicks();
+                await vi.useFakeTimers();
                 expect(i.valueAsNumber).toBe(e.updated);
 
                 // @ts-ignore

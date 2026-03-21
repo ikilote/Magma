@@ -31,6 +31,8 @@ describe('MagmaTooltipDirective', () => {
     let overlay: Overlay;
 
     beforeEach(async () => {
+        vi.useFakeTimers();
+
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
         }).compileComponents();
@@ -45,6 +47,7 @@ describe('MagmaTooltipDirective', () => {
     });
 
     afterEach(() => {
+        vi.useRealTimers();
         // Clean up overlays after each test
         if (MagmaTooltipDirective._overlayRef) {
             MagmaTooltipDirective._overlayRef.dispose();
@@ -66,7 +69,7 @@ describe('MagmaTooltipDirective', () => {
         it('should create tooltip on mouseenter after delay', () => {
             vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200); // Wait for entry delay
+            vi.useFakeTimers({ advanceTimeDelta: 200 }); // Wait for entry delay
 
             expect(directive['createTooltip']).toHaveBeenCalled();
         });
@@ -74,9 +77,9 @@ describe('MagmaTooltipDirective', () => {
         it('should cancel tooltip creation if mouseleave before delay', () => {
             vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(100); // Half of entry delay
+            vi.useFakeTimers({ advanceTimeDelta: 100 }); // Half of entry delay
             divElement.triggerEventHandler('mouseleave', {});
-            vi.advanceTimersByTime(100); // Wait for remaining delay
+            vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for remaining delay
 
             expect(directive['createTooltip']).not.toHaveBeenCalled();
         });
@@ -84,7 +87,7 @@ describe('MagmaTooltipDirective', () => {
         it('should destroy tooltip on mouseleave', () => {
             vi.spyOn(directive, 'ngOnDestroy');
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200); // Wait for tooltip creation
+            vi.useFakeTimers({ advanceTimeDelta: 200 }); // Wait for tooltip creation
             divElement.triggerEventHandler('mouseleave', {});
 
             expect(directive.ngOnDestroy).toHaveBeenCalled();
@@ -94,7 +97,7 @@ describe('MagmaTooltipDirective', () => {
     describe('tooltip creation', () => {
         it('should create tooltip with correct text', () => {
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200); // Wait for entry delay
+            vi.useFakeTimers({ advanceTimeDelta: 200 }); // Wait for entry delay
 
             const tooltipComponent = MagmaTooltipDirective._component;
             expect(tooltipComponent).toBeTruthy();
@@ -106,7 +109,7 @@ describe('MagmaTooltipDirective', () => {
             fixture.detectChanges();
 
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200); // Wait for entry delay
+            vi.useFakeTimers({ advanceTimeDelta: 200 }); // Wait for entry delay
 
             const tooltipComponent = MagmaTooltipDirective._component;
             expect(tooltipComponent).toBeTruthy();
@@ -115,7 +118,7 @@ describe('MagmaTooltipDirective', () => {
 
         it('should set correct describedBy id', () => {
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200);
+            vi.useFakeTimers({ advanceTimeDelta: 200 });
 
             const tooltipComponent = MagmaTooltipDirective._component;
             const div = divElement.nativeElement;
@@ -126,7 +129,7 @@ describe('MagmaTooltipDirective', () => {
             component.describedBy = 'test';
             fixture.detectChanges();
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200);
+            vi.useFakeTimers({ advanceTimeDelta: 200 });
 
             const tooltipComponent = MagmaTooltipDirective._component;
             const div = divElement.nativeElement;
@@ -139,12 +142,12 @@ describe('MagmaTooltipDirective', () => {
             fixture.detectChanges();
 
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200); // Wait for creation
+            vi.useFakeTimers({ advanceTimeDelta: 200 }); // Wait for creation
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
             vi.spyOn(overlayRef!, 'dispose');
 
-            vi.advanceTimersByTime(500); // Wait for display delay
+            vi.useFakeTimers({ advanceTimeDelta: 500 }); // Wait for display delay
 
             expect(overlayRef!.dispose).toHaveBeenCalled();
         });
@@ -154,12 +157,12 @@ describe('MagmaTooltipDirective', () => {
             fixture.detectChanges();
 
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200);
+            vi.useFakeTimers({ advanceTimeDelta: 200 });
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
             vi.spyOn(overlayRef!, 'dispose');
 
-            vi.advanceTimersByTime(1000); // Wait longer than default delay
+            vi.useFakeTimers({ advanceTimeDelta: 1000 }); // Wait longer than default delay
 
             expect(overlayRef!.dispose).not.toHaveBeenCalled();
         });
@@ -172,7 +175,7 @@ describe('MagmaTooltipDirective', () => {
 
             vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(500);
+            vi.useFakeTimers({ advanceTimeDelta: 500 });
 
             expect(directive['createTooltip']).toHaveBeenCalled();
         });
@@ -182,12 +185,12 @@ describe('MagmaTooltipDirective', () => {
             fixture.detectChanges();
 
             divElement.triggerEventHandler('mouseenter', {});
-            vi.advanceTimersByTime(200);
+            vi.useFakeTimers({ advanceTimeDelta: 200 });
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
             vi.spyOn(overlayRef!, 'dispose');
 
-            vi.advanceTimersByTime(2000);
+            vi.useFakeTimers({ advanceTimeDelta: 2000 });
             expect(overlayRef!.dispose).toHaveBeenCalled();
         });
     });

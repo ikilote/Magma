@@ -87,7 +87,7 @@ describe('MagmaInputCheckbox', () => {
 
         fixture.componentRef.setInput('value', 'test-value');
         component.writeValue('test-value');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(component['testChecked']).toBe(true);
         expect(component['cd'].detectChanges).toHaveBeenCalled();
@@ -97,7 +97,7 @@ describe('MagmaInputCheckbox', () => {
         vi.spyOn(component['cd'], 'detectChanges');
 
         component.writeValue(true);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(component['testChecked']).toBe(true);
         expect(component['cd'].detectChanges).toHaveBeenCalled();
@@ -109,7 +109,7 @@ describe('MagmaInputCheckbox', () => {
 
         fixture.componentRef.setInput('value', 'test-value');
         component.writeValue(['test-value']);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(component['testChecked']).toBe(true);
         expect(component['cd'].detectChanges).toHaveBeenCalled();
@@ -388,7 +388,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
         it('should update checkbox state when host value changes', async () => {
             checkboxComponents[0].writeValue(['option1', 'option3']);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(checkboxComponents[0]['testChecked']).toBe(true);
             expect(checkboxComponents[1]['testChecked']).toBeUndefined();
@@ -404,7 +404,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             fixture.detectChanges();
             checkboxComponents[0].writeValue(['option2']);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(checkboxComponents[0]['testChecked']).toBe(false);
             expect(checkboxComponents[1]['testChecked']).toBe(true);
@@ -484,7 +484,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
         it('should update checkbox state when host value changes', async () => {
             checkboxComponents[0].writeValue([true, false, true]);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(checkboxComponents[0]['testChecked']).toBe(true);
             expect(checkboxComponents[1]['testChecked']).toBeFalsy();
@@ -500,7 +500,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             fixture.detectChanges();
             checkboxComponents[0].writeValue([false, true, false]);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(checkboxComponents[0]['testChecked']).toBe(false);
             expect(checkboxComponents[1]['testChecked']).toBe(true);

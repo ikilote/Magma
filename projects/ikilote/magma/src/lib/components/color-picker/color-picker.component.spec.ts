@@ -81,7 +81,7 @@ describe('MagmaColorPickerComponent', () => {
     it('should update color when tab changes to HSL', () => {
         component['hexa'] = '#ff0000';
         component.tabChange('hsl');
-        vi.advanceTimersByTime(10);
+        vi.useFakeTimers({ advanceTimeDelta: 10 });
         expect(component['hexa']).toBe('#f00');
     });
 

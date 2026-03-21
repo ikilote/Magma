@@ -80,7 +80,7 @@ describe('MagmaWalkthrough', () => {
 
         component.start({ group: 'test' });
 
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(overlay.create).toHaveBeenCalled();
         expect((mockElement as any).scrollIntoView).toHaveBeenCalledWith({
@@ -95,7 +95,7 @@ describe('MagmaWalkthrough', () => {
         const mockElement = document.querySelector('.target');
         vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
         component.start({ group: 'test' });
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         component['portal'] = {
             backdropAction: () => 'close',
@@ -118,10 +118,10 @@ describe('MagmaWalkthrough', () => {
         );
 
         component.start({ group: 'test' });
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         component.changeStep('second', 'test');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect((component as any)['positionStrategy'].setOrigin).toHaveBeenCalledWith(mockElement2);
         expect((component as any)['content'].setInput).toHaveBeenCalledWith('portal', expect.any(Object));
@@ -136,10 +136,10 @@ describe('MagmaWalkthrough', () => {
         );
 
         component.start({ group: 'test' });
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         component.changeStep();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(component['content']).toBeUndefined();
         expect(component['overlayRef']).toBeUndefined();
@@ -150,7 +150,7 @@ describe('MagmaWalkthrough', () => {
         vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
 
         component.start({ group: 'test' });
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         component.close();
 
@@ -161,7 +161,7 @@ describe('MagmaWalkthrough', () => {
     it('should not start if target element is not found', async () => {
         vi.spyOn(document, 'querySelector').mockReturnValue(null);
         component.start({ group: 'test' });
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(overlay.create).not.toHaveBeenCalled();
     });
 
@@ -181,7 +181,7 @@ describe('MagmaWalkthrough', () => {
 
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
 
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(component['close']).toHaveBeenCalled();
     });
@@ -202,7 +202,7 @@ describe('MagmaWalkthrough', () => {
 
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
 
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(component['changeStep']).toHaveBeenCalledWith('second', 'test');
     });
@@ -226,7 +226,7 @@ clickElementOrigin is true', async () => {
 
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
 
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect((component as any)['content'].instance.clone.click).toHaveBeenCalled();
     });
@@ -250,7 +250,7 @@ clickElementOrigin is true', async () => {
 
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
 
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect((component as any)['content'].instance.clone.click).toHaveBeenCalled();
     });
@@ -268,7 +268,7 @@ clickElementOrigin is true', async () => {
 
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
 
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(component['close']).not.toHaveBeenCalled();
         expect(component['changeStep']).not.toHaveBeenCalled();

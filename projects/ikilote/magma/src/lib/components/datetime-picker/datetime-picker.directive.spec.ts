@@ -82,7 +82,7 @@ describe('MagmaDatetimePicker Directive', () => {
         const span = fixture.debugElement.query(By.css('.test')).nativeElement;
 
         span.click();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(spy).toHaveBeenCalled();
         expect(MagmaDatetimePicker._overlayRef).toBeDefined();
@@ -93,7 +93,7 @@ describe('MagmaDatetimePicker Directive', () => {
         fixture.detectChanges();
 
         await directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(MagmaDatetimePicker._overlayRef).toBeDefined();
     });
@@ -103,7 +103,7 @@ describe('MagmaDatetimePicker Directive', () => {
         fixture.detectChanges();
 
         await directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(MagmaDatetimePicker._overlayRef).toBeUndefined();
     });
@@ -114,7 +114,7 @@ describe('MagmaDatetimePicker Directive', () => {
         fixture.detectChanges();
 
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         const componentInstance = MagmaDatetimePicker._component?.instance;
         expect(componentInstance).toBeDefined();
@@ -126,12 +126,12 @@ describe('MagmaDatetimePicker Directive', () => {
 
     it('should close overlay on escape key', async () => {
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(MagmaDatetimePicker._overlayRef).toBeDefined();
 
         const event = new KeyboardEvent('keydown', { key: 'Escape' });
         document.dispatchEvent(event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(MagmaDatetimePicker._overlayRef).toBeUndefined();
     });
@@ -139,11 +139,11 @@ describe('MagmaDatetimePicker Directive', () => {
     it('should emit datetimeChange when component value changes', async () => {
         const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeChange');
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         const component = MagmaDatetimePicker._component;
         component?.instance.datetimeChange.emit('2024-01-01');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(spy).toHaveBeenCalledWith('2024-01-01');
     });
@@ -151,15 +151,15 @@ describe('MagmaDatetimePicker Directive', () => {
     it('should emit datetimeClose only if value has changed on backdrop click', async () => {
         const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeClose');
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         const component = MagmaDatetimePicker._component;
         component?.instance.datetimeChange.emit('2024-01-01');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         const backdrop = document.querySelector('.overlay-backdrop') as HTMLElement;
         backdrop.click();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(spy).toHaveBeenCalledWith('2024-01-01');
         expect(MagmaDatetimePicker._overlayRef).toBeUndefined();
@@ -168,11 +168,11 @@ describe('MagmaDatetimePicker Directive', () => {
     it('should NOT emit datetimeClose if value is identical on backdrop click', async () => {
         const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeClose');
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         const backdrop = document.querySelector('.overlay-backdrop') as HTMLElement;
         backdrop.click();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         expect(spy).not.toHaveBeenCalled();
     });
@@ -180,13 +180,13 @@ describe('MagmaDatetimePicker Directive', () => {
     it('should open overlay on space key', async () => {
         const spy = vi.spyOn(directive, 'open');
         directiveElement.triggerEventHandler('keydown.space', {});
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(spy).toHaveBeenCalled();
     });
 
     it('should unsubscribe and dispose on destroy', async () => {
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const disposeSpy = vi.spyOn(MagmaDatetimePicker._overlayRef!, 'dispose');
 
         directive.ngOnDestroy();

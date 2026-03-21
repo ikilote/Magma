@@ -58,7 +58,7 @@ describe('InfoMessagesComponent', () => {
         messagesService.addMessage('Message 2', { type: MagmaMessageType.info, time: '1s' });
 
         fixture.detectChanges();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
 
         const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
         expect(infoMessages.length).toBe(2);
@@ -91,7 +91,7 @@ describe('InfoMessagesComponent', () => {
     it('should trigger change detection when a message is added', async () => {
         vi.spyOn(component['cd'], 'detectChanges');
         messagesService.onAddMessage.next();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(component['cd'].detectChanges).toHaveBeenCalled();
     });
 });

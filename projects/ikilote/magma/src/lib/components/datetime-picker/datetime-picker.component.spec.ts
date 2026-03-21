@@ -135,7 +135,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
         component['dateValue'].set(testDate);
         component['select'](info);
-        vi.advanceTimersByTime(20); // for setTimeout focus logic
+        vi.useFakeTimers({ advanceTimeDelta: 20 }); // for setTimeout focus logic
 
         expect(spy).toHaveBeenCalledWith('2025-05-15');
     });
@@ -301,7 +301,7 @@ describe('MagmaDatetimePickerComponent', () => {
         const event: any = { way: 'up' };
 
         component['scroll'](event);
-        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
+        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.past()).toBe(initialPast + 10);
@@ -313,7 +313,7 @@ describe('MagmaDatetimePickerComponent', () => {
         const event: any = { way: 'down' };
 
         component['scroll'](event);
-        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
+        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.future()).toBe(initialFuture + 10);
@@ -327,7 +327,7 @@ describe('MagmaDatetimePickerComponent', () => {
         // @ts-ignore
         component.onscroll = true;
         component['scroll'](event);
-        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
+        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.past()).toBe(initialPast);
@@ -341,7 +341,7 @@ describe('MagmaDatetimePickerComponent', () => {
         // @ts-ignore
         component.onscroll = true;
         component['scroll'](event);
-        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
+        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.future()).toBe(initialFuture);
@@ -418,11 +418,11 @@ describe('MagmaDatetimePickerComponent', () => {
             component.select(dateInfo);
 
             // Before 10ms
-            vi.advanceTimersByTime(5);
+            vi.useFakeTimers({ advanceTimeDelta: 5 });
             expect(focusSpy).not.toHaveBeenCalled();
 
             // At/After 10ms
-            vi.advanceTimersByTime(5);
+            vi.useFakeTimers({ advanceTimeDelta: 5 });
             expect(focusSpy).toHaveBeenCalled();
         });
 
@@ -435,7 +435,7 @@ describe('MagmaDatetimePickerComponent', () => {
             expect(() => {
                 // @ts-ignore
                 component.select(dateInfo);
-                vi.advanceTimersByTime(10);
+                vi.useFakeTimers({ advanceTimeDelta: 10 });
             }).not.toThrow();
         });
     });

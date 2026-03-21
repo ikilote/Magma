@@ -93,7 +93,7 @@ describe('MagmaClickEnterDirective', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(component.onClickEnter).toHaveBeenCalledTimes(1);
             expect(component.onClickEnter).toHaveBeenCalledWith(keyboardEvent);
@@ -103,7 +103,7 @@ describe('MagmaClickEnterDirective', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
             disabledElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
         });
@@ -112,7 +112,7 @@ describe('MagmaClickEnterDirective', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
         });
@@ -165,7 +165,7 @@ describe('MagmaClickEnterDirective', () => {
 
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
             fixture.detectChanges();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             expect(emittedEvent).toBe(keyboardEvent);
         });

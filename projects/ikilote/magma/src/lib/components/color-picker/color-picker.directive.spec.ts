@@ -52,7 +52,7 @@ describe('MagmaColorPicker Directive', () => {
     it('should open overlay on click', async () => {
         const event = new MouseEvent('click');
         const eventSpy = vi.spyOn(event, 'preventDefault');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         document.querySelector('.test')?.dispatchEvent(event);
         expect(eventSpy).toHaveBeenCalled(); // in open
     });
@@ -62,14 +62,14 @@ describe('MagmaColorPicker Directive', () => {
         fixture.detectChanges();
         const event = new MouseEvent('click');
         const eventSpy = vi.spyOn(event, 'preventDefault');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         document.querySelector('.test')?.dispatchEvent(event);
         expect(eventSpy).not.toHaveBeenCalled(); // in open
     });
 
     it('should create overlay with correct inputs', async () => {
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const overlayRef = MagmaColorPicker._overlayRef;
         const component = MagmaColorPicker._component;
         expect(overlayRef).toBeDefined();
@@ -80,40 +80,40 @@ describe('MagmaColorPicker Directive', () => {
 
     it('should close overlay on escape', async () => {
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(MagmaColorPicker._overlayRef).toBeDefined();
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(MagmaColorPicker._overlayRef).toBeUndefined();
     });
 
     it('should close overlay on backdrop click', async () => {
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(MagmaColorPicker._overlayRef).toBeUndefined();
     });
 
     it('should emit colorChange on color selection', async () => {
         vi.spyOn(directive.colorChange, 'emit');
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const component = MagmaColorPicker._component;
         component?.instance.colorChange.emit('#00ff00');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(directive.colorChange.emit).toHaveBeenCalledWith('#00ff00');
     });
 
     it('should emit colorClose on backdrop click if color changed', async () => {
         vi.spyOn(directive.colorClose, 'emit');
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const component = MagmaColorPicker._component;
         component?.instance.colorChange.emit('#00ff00');
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(directive.colorClose.emit).toHaveBeenCalledWith('#00ff00');
     });
 
@@ -121,14 +121,14 @@ describe('MagmaColorPicker Directive', () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
         const openSpy = vi.spyOn(directive, 'open');
         directiveElement.triggerEventHandler('keydown.space', new KeyboardEvent('keydown', { key: ' ' }));
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(openSpy).toHaveBeenCalled();
     });
 
     it('should update alpha input dynamically', async () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         fixture.componentInstance.alpha = true;
         fixture.detectChanges();
         const component = MagmaColorPicker._component;
@@ -138,7 +138,7 @@ describe('MagmaColorPicker Directive', () => {
     it('should clean up on destroy', async () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
         directive.open();
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         directive.ngOnDestroy();
         expect(MagmaColorPicker._overlayRef).toBeUndefined();
         expect(MagmaColorPicker._component).toBeUndefined();

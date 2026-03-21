@@ -123,7 +123,7 @@ describe('MagmaResize Directive', () => {
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
             window.dispatchEvent(moveEvent);
-            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
+            vi.useFakeTimers({ advanceTimeDelta: 10 }); // Wait for the animation setTimeout
 
             // Move: 20px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[1] - (-2) = 12
@@ -139,7 +139,7 @@ describe('MagmaResize Directive', () => {
             // Since resizerInit.y is 0, it should use Math.max(-5, 0) = 0.
             const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 50 });
             window.dispatchEvent(moveEvent);
-            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
+            vi.useFakeTimers({ advanceTimeDelta: 10 }); // Wait for the animation setTimeout
 
             expect(component.mockResizer.update).toHaveBeenCalledWith('top', [0, 10]);
         });
@@ -149,7 +149,7 @@ describe('MagmaResize Directive', () => {
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
             window.dispatchEvent(moveEvent);
-            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
+            vi.useFakeTimers({ advanceTimeDelta: 10 }); // Wait for the animation setTimeout
 
             // Move: 50px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[0] - (-2) = 2
@@ -162,7 +162,7 @@ describe('MagmaResize Directive', () => {
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 120 });
             window.dispatchEvent(moveEvent);
-            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
+            vi.useFakeTimers({ advanceTimeDelta: 10 }); // Wait for the animation setTimeout
 
             // Move: 20px upwards. changeY = (100 - 120) / 10 = -2.
             // Logic: itemSource.y[1] - (-2) = 12
@@ -201,7 +201,7 @@ describe('MagmaResize Directive', () => {
             // State should persist immediately because of the 50ms timer
             expect(directiveInstance.resize).toBe('left');
 
-            vi.advanceTimersByTime(50);
+            vi.useFakeTimers({ advanceTimeDelta: 50 });
             expect(directiveInstance.resize).toBeUndefined();
             expect(cdkDragSpy.disabled).toBe(false);
         });

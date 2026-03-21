@@ -133,7 +133,7 @@ describe('MagmaPagination', () => {
 
         const spy = vi.spyOn(component, 'update');
         MagmaPagination['onPageUpdate'].next({ id: 'test-link', page: 4, component: {} as MagmaPagination });
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         fixture.detectChanges();
 
         expect(spy).toHaveBeenCalledWith(4, false);

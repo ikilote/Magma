@@ -95,7 +95,7 @@ describe('InfoMessageComponent', () => {
         component.click();
         fixture.detectChanges();
         expect(fixture.nativeElement.classList[0]).toEqual('close');
-        vi.advanceTimersByTime(700);
+        vi.useFakeTimers({ advanceTimeDelta: 700 });
         expect(component.close).toHaveBeenCalled();
     });
 

@@ -161,7 +161,7 @@ describe('MagmaDialog usage', () => {
         fixture.detectChanges();
         const event = new KeyboardEvent('keydown', { key: 'Escape' });
         window.dispatchEvent(event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         fixture.detectChanges();
         expect(dialogComponent.isOpen()).toBe(false);
     });

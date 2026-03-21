@@ -200,7 +200,7 @@ describe('MagmaSortableModule', () => {
             fixture.detectChanges();
             sortableDirective.ngOnInit();
             inputElement.dispatchEvent(new Event('input'));
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
             const inputListener = sortableDirective['inputListener'];
             const input = sortableDirective['input'];
             expect(typeof inputListener).toBe('function');

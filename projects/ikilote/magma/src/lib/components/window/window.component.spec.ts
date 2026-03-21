@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import type { Mocked, MockedObject } from 'vitest';
+import type { Mocked } from 'vitest';
 
 import { AbstractWindowComponent, MagmaWindow } from './window.component';
 
@@ -11,6 +11,10 @@ import { MagmaResizeHostElement } from '../../directives/resizer';
 
 @Component({ selector: 'mg-test', template: `<button (click)="close()">close</button>` })
 class TestComponent extends AbstractWindowComponent {}
+
+class MockDragSpy {
+    setFreeDragPosition = vi.fn();
+}
 
 describe('MagmaWindow', () => {
     let component: MagmaWindow;
@@ -25,7 +29,13 @@ describe('MagmaWindow', () => {
 
         await TestBed.configureTestingModule({
             imports: [MagmaWindow],
-        }).compileComponents();
+        })
+            .overrideDirective(CdkDrag, {
+                add: {
+                    providers: [{ provide: CdkDrag, useClass: MockDragSpy }],
+                },
+            })
+            .compileComponents();
 
         fixture = TestBed.createComponent(MagmaWindow);
         component = fixture.componentInstance;
@@ -56,7 +66,7 @@ describe('MagmaWindow', () => {
 
             // simulate ngInit (directive MagmaNgInit in template   )
             component.winInit();
-            await vi.runAllTicks(); // for setTimeout in winInit
+            await vi.useFakeTimers(); // for setTimeout in winInit
 
             const content = fixture.debugElement.query(By.css('.content'));
             expect(content).not.toBeNull();
@@ -110,13 +120,12 @@ describe('MagmaWindow', () => {
 
     describe('Positioning & Resizing', () => {
         let mockElement: HTMLDivElement;
-        let dragSpy: MockedObject<any>;
 
         beforeEach(async () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.detectChanges();
             component.winInit();
-            await vi.runAllTicks();
+            await vi.useFakeTimers();
 
             mockElement = document.createElement('div');
             mockElement.style.width = '200px';
@@ -126,16 +135,10 @@ describe('MagmaWindow', () => {
 
             document.body.appendChild(mockElement);
 
-            dragSpy = {
-                setFreeDragPosition: vi.fn().mockName('CdkDrag.setFreeDragPosition'),
-            };
-
             // Mock signals: we simulate the return of ViewChildren/ViewChild
             // If they are signals, we mock the function itself
             // @ts-ignore
             vi.spyOn(component, 'elementWin').mockReturnValue([{ nativeElement: mockElement }] as any);
-            // @ts-ignore
-            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
             // Initialisation par défaut pour éviter les undefined
             component['x'] = [0, 0];
@@ -151,7 +154,9 @@ describe('MagmaWindow', () => {
 
             // Assert
             expect(mockElement.style.width).toBe('220px'); // 100 - 80 + 200
-            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith(expect.objectContaining({ x: 80 }));
+            expect(component?.['cdkDrag']()?.[0]?.setFreeDragPosition).toHaveBeenCalledWith(
+                expect.objectContaining({ x: 80 }),
+            );
         });
 
         it('should update RIGHT: increases width and updates internal state', () => {
@@ -174,7 +179,9 @@ describe('MagmaWindow', () => {
 
             // Assert
             expect(mockElement.style.height).toBe('230px'); // 100 - 70 + 200
-            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith(expect.objectContaining({ y: 70 }));
+            expect(component?.['cdkDrag']()?.[0]?.setFreeDragPosition).toHaveBeenCalledWith(
+                expect.objectContaining({ y: 70 }),
+            );
         });
 
         it('should update BOTTOM: increases height while keeping Y position static', () => {
@@ -347,7 +354,7 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.componentRef.setInput('component', mockComponentInfo);
             fixture.detectChanges();
-            await vi.runAllTicks(); // Allow time for the outlet to initialize
+            await vi.useFakeTimers(); // Allow time for the outlet to initialize
             fixture.detectChanges();
 
             const button1 = fixture.debugElement.query(By.css('mg-test button'));
@@ -528,14 +535,10 @@ describe('MagmaWindow', () => {
 
     describe('change() - Fullscreen Toggling', () => {
         let mockElement: HTMLDivElement;
-        let dragSpy: Mocked<CdkDrag>;
 
         beforeEach(() => {
             // 1. Create the mock element and the spy for CdkDrag
             mockElement = document.createElement('div');
-            dragSpy = {
-                setFreeDragPosition: vi.fn().mockName('CdkDrag.setFreeDragPosition'),
-            } as unknown as Mocked<CdkDrag>;
 
             // 2. Mock the signals (elementWin and cdkDrag)
             // @ts-ignore
@@ -563,7 +566,7 @@ describe('MagmaWindow', () => {
             expect(component['fullscreen']()).toBe(true);
 
             // Verify it moved to the container's top-left (initPosition)
-            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 0, y: 0 });
+            expect(component?.['cdkDrag']()?.[0]?.setFreeDragPosition).toHaveBeenCalledWith({ x: 0, y: 0 });
 
             // Verify styles match the zone dimensions we mocked
             expect(mockElement.style.width).toBe('1920px');
@@ -585,7 +588,7 @@ describe('MagmaWindow', () => {
             expect(component['fullscreen']()).toBe(false);
 
             // Verify it restored the Drag position to our stored x[0] and y[0]
-            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 50, y: 60 });
+            expect(component?.['cdkDrag']()?.[0]?.setFreeDragPosition).toHaveBeenCalledWith({ x: 50, y: 60 });
 
             // Verify it restored the Element size to our stored x[1] and y[1]
             expect(mockElement.style.width).toBe('400px');

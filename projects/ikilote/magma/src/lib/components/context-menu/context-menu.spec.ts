@@ -55,7 +55,7 @@ describe('MagmaContextMenu Integration', () => {
         vi.spyOn(event, 'preventDefault');
         vi.spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(event.preventDefault).toHaveBeenCalled();
         expect(event.stopPropagation).toHaveBeenCalled();
         expect(MagmaContextMenu._overlayRef).toBeDefined();
@@ -65,7 +65,7 @@ describe('MagmaContextMenu Integration', () => {
         vi.spyOn(event, 'preventDefault');
         vi.spyOn(event, 'stopPropagation');
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(event.preventDefault).toHaveBeenCalled();
         expect(event.stopPropagation).toHaveBeenCalled();
         expect(MagmaContextMenu._overlayRef).toBeDefined();
@@ -73,9 +73,9 @@ describe('MagmaContextMenu Integration', () => {
 
     it('should close context menu on backdrop click', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
     });
 
@@ -84,18 +84,18 @@ describe('MagmaContextMenu Integration', () => {
         fixture.detectChanges();
 
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(document.querySelector('.cdk-overlay-backdrop')).toBeNull();
     });
 
     it('should close context menu on window contextmenu event', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const windowEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(windowEvent, 'preventDefault');
         vi.spyOn(windowEvent, 'stopPropagation');
         window.dispatchEvent(windowEvent);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
         expect(windowEvent.preventDefault).toHaveBeenCalled();
         expect(windowEvent.stopPropagation).toHaveBeenCalled();
@@ -103,12 +103,12 @@ describe('MagmaContextMenu Integration', () => {
 
     it('should close context menu on auxclick event', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const auxEvent = new MouseEvent('auxclick', { button: 1, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
         window.dispatchEvent(auxEvent);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
@@ -116,34 +116,34 @@ describe('MagmaContextMenu Integration', () => {
 
     it('should call action when menu item is clicked', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const actionSpy = vi.spyOn(directiveElement.componentInstance.menuData.contextMenu[0], 'action');
         document.querySelector('context-menu ul li:first-child')?.dispatchEvent(new Event('click'));
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(actionSpy).toHaveBeenCalledWith('test-data');
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
     });
 
     it('should call onContextMenuContext when middle click on context-menu component', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const auxEvent = new MouseEvent('auxclick', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
         document.querySelector('context-menu')?.dispatchEvent(auxEvent);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
     });
 
     it('should call onContextMenuContext when contextmenu event on context-menu component', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         const auxEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
         document.querySelector('context-menu')?.dispatchEvent(auxEvent);
-        await vi.runAllTicks();
+        await vi.useFakeTimers();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
     });

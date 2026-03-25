@@ -27,7 +27,7 @@ describe('MagmaInputSelect', () => {
         component = fixture.componentInstance;
 
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -75,7 +75,7 @@ describe('MagmaInputSelect', () => {
             it(`should set ${name} correctly`, () => {
                 fixture.componentRef.setInput(name, value);
                 expect((component as any)[name]()).toEqual(value);
-                fixture.detectChanges();
+                fixture.changeDetectorRef.detectChanges();
                 expect((component.inputElement as any)[name]()).toEqual(value);
             });
         });
@@ -130,7 +130,7 @@ describe('MagmaInputSelect', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });

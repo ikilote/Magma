@@ -36,7 +36,7 @@ describe('MagmaTabs - Integration', () => {
 
         fixture = TestBed.createComponent(TestHostComponent);
         testHost = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         tabMagmaTabs = fixture.debugElement.query(By.directive(MagmaTabs));
         tags = tabMagmaTabs.componentInstance;
@@ -96,7 +96,7 @@ describe('MagmaTabs - Integration', () => {
 
     it('should next & prev button are not visible', () => {
         window.document.body.style = '';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const { clientWidth, scrollWidth, scrollLeft } = tags.tablist().nativeElement;
 
         expect(tags.prev()).toBe(false);

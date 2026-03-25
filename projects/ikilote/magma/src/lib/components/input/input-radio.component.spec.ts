@@ -24,7 +24,7 @@ describe('MagmaInputRadio', () => {
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
         fixture.componentRef.setInput('value', 'test-value');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -54,14 +54,14 @@ describe('MagmaInputRadio', () => {
 
     it('should set checked attribute on input if testChecked is true', () => {
         component['testChecked'] = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
         expect(inputElement.checked).toBe(true);
     });
 
     it('should not set checked attribute on input if testChecked is false', () => {
         component['testChecked'] = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
         expect(inputElement.checked).toBe(false);
     });
@@ -100,7 +100,7 @@ describe('MagmaInputRadio', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });
@@ -143,7 +143,7 @@ describe('MagmaInput with MagmaInputRadio', () => {
 
         fixture = TestBed.createComponent(TestHostComponent);
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {

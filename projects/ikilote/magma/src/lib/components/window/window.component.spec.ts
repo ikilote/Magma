@@ -44,7 +44,7 @@ describe('MagmaWindow', () => {
 
         fixture = TestBed.createComponent(MagmaWindow);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     afterEach(() => {
@@ -72,7 +72,7 @@ describe('MagmaWindow', () => {
 
         it('should render and initialize when isOpen is true', async () => {
             fixture.componentRef.setInput('isOpen', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // simulate ngInit (directive MagmaNgInit in template   )
             component.winInit();
@@ -85,7 +85,7 @@ describe('MagmaWindow', () => {
 
         it('should not render anything if isOpen is false', () => {
             fixture.componentRef.setInput('isOpen', false);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const content = fixture.debugElement.query(By.css('.content'));
             expect(content).toBeNull();
         });
@@ -110,7 +110,7 @@ describe('MagmaWindow', () => {
 
         it('should update internal coordinates after drag ends', () => {
             fixture.componentRef.setInput('isOpen', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const mockDragEnd = {
                 distance: { x: 50, y: 100 },
@@ -133,7 +133,7 @@ describe('MagmaWindow', () => {
 
         beforeEach(() => {
             fixture.componentRef.setInput('isOpen', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             component.winInit();
             vi.advanceTimersByTime(0);
 
@@ -166,9 +166,7 @@ describe('MagmaWindow', () => {
 
             // Assert
             expect(mockElement.style.width).toBe('220px'); // 100 - 80 + 200
-            expect(setFreeDragPositionSpy).toHaveBeenCalledWith(
-                expect.objectContaining({ x: 80 }),
-            );
+            expect(setFreeDragPositionSpy).toHaveBeenCalledWith(expect.objectContaining({ x: 80 }));
         });
 
         it('should update RIGHT: increases width and updates internal state', () => {
@@ -193,9 +191,7 @@ describe('MagmaWindow', () => {
 
             // Assert
             expect(mockElement.style.height).toBe('230px'); // 100 - 70 + 200
-            expect(setFreeDragPositionSpy).toHaveBeenCalledWith(
-                expect.objectContaining({ y: 70 }),
-            );
+            expect(setFreeDragPositionSpy).toHaveBeenCalledWith(expect.objectContaining({ y: 70 }));
         });
 
         it('should update BOTTOM: increases height while keeping Y position static', () => {
@@ -303,7 +299,7 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('bar', true);
             fixture.componentRef.setInput('bar-title', 'Test Window');
             fixture.componentRef.setInput('bar-buttons', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
         });
 
         it('should display title bar if bar is true', () => {
@@ -313,7 +309,7 @@ describe('MagmaWindow', () => {
 
         it('should display title bar if bar is false', () => {
             fixture.componentRef.setInput('bar', false);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const titleBar = fixture.debugElement.query(By.css('.window-title-bar'));
             expect(titleBar).toBeNull();
         });
@@ -338,7 +334,7 @@ describe('MagmaWindow', () => {
             expect(component['fullscreen']()).toBe(true);
 
             // Check icon change
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(fixture.debugElement.query(By.css('.icon-minimize-2'))).toBeTruthy();
         });
 
@@ -367,9 +363,9 @@ describe('MagmaWindow', () => {
 
             fixture.componentRef.setInput('isOpen', true);
             fixture.componentRef.setInput('component', mockComponentInfo);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             vi.advanceTimersByTime(0); // Allow time for the outlet to initialize
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const button1 = fixture.debugElement.query(By.css('mg-test button'));
             expect(button1).not.toBeNull();
@@ -400,7 +396,7 @@ describe('MagmaWindow', () => {
                 nativeElement: { getBoundingClientRect: () => ({ left: 0, top: 0 }) },
             };
             component.ngOnInit();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.initPosition).toEqual({ x: 0, y: 0 });
@@ -426,7 +422,7 @@ describe('MagmaWindow', () => {
                 nativeElement: { getBoundingClientRect: () => ({ left: 250, top: 350 }) },
             };
             component.ngOnInit();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
@@ -459,7 +455,7 @@ describe('MagmaWindow', () => {
                 },
             };
             component.ngOnInit();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
@@ -492,7 +488,7 @@ describe('MagmaWindow', () => {
                 },
             };
             component.ngOnInit();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.initPosition).toEqual({ x: 0, y: 0 });
@@ -525,7 +521,7 @@ describe('MagmaWindow', () => {
                 },
             };
             component.ngOnInit();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
@@ -538,7 +534,7 @@ describe('MagmaWindow', () => {
         it('should select window on mousedown', () => {
             // Ensure that the mock has been correctly passed to the component
             fixture.componentRef.setInput('resizerHost', mockResizeHost);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             component.mousedown();
 
@@ -627,7 +623,7 @@ describe('MagmaWindow', () => {
         it('should window not over', () => {
             fixture.componentRef.setInput('over', false);
 
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // Assert
             expect(window.getComputedStyle(component['elementRef'].nativeElement).getPropertyValue('--index')).toBe(
@@ -638,7 +634,7 @@ describe('MagmaWindow', () => {
         it('should window over', () => {
             fixture.componentRef.setInput('over', true);
 
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // Assert
             expect(window.getComputedStyle(component['elementRef'].nativeElement).getPropertyValue('--index')).toBe(
@@ -649,7 +645,7 @@ describe('MagmaWindow', () => {
         it('should window not fixed', () => {
             fixture.componentRef.setInput('fixed', false);
             fixture.componentRef.setInput('isOpen', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // Assert
 
@@ -659,7 +655,7 @@ describe('MagmaWindow', () => {
         it('should window fixed', () => {
             fixture.componentRef.setInput('fixed', true);
             fixture.componentRef.setInput('isOpen', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // Assert
             expect(component['cdkDrag']()?.[0]?.disabled).toBe(true);

@@ -42,7 +42,7 @@ describe('MagmaWalkthroughStep', () => {
 
         fixture = TestBed.createComponent(TestHostComponent);
         hostComponent = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         directive = hostComponent.template();
     });

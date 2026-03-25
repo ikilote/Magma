@@ -36,7 +36,7 @@ describe('MagmaTableCell', () => {
         fixture = TestBed.createComponent(MagmaTableCell);
         component = fixture.componentInstance;
         component.host = new MockHost() as unknown as MagmaTableRow; // mock host
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -45,7 +45,7 @@ describe('MagmaTableCell', () => {
 
     it('should set baseline class based on input', () => {
         fixture.componentRef.setInput('baseline', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.el.nativeElement.classList.contains('baseline')).toBe(true);
     });
 
@@ -90,13 +90,13 @@ describe('MagmaTableCell', () => {
 
     it('should add hover class when hover signal is true', () => {
         component.hover.set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.el.nativeElement.classList.contains('hover')).toBe(true);
     });
 
     it('should add hover class when hover signal is true', () => {
         component.hover.set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.el.nativeElement.classList.contains('hover')).toBe(true);
     });
 });

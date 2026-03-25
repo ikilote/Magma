@@ -26,7 +26,7 @@ describe('MagmaContribCalendar', () => {
         component = fixture.componentInstance;
 
         fixture.componentRef.setInput('calendar', mockCalendar);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     describe('private methods', () => {
@@ -164,7 +164,7 @@ describe('MagmaContribCalendar', () => {
 
         it('should use lang input for localization', () => {
             fixture.componentRef.setInput('lang', 'fr');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const days = component['computedDays']();
             expect(days[0]).toBe('L');
         });
@@ -172,19 +172,19 @@ describe('MagmaContribCalendar', () => {
         it('should adjust first day of week', () => {
             fixture.componentRef.setInput('lang', 'fr');
             fixture.componentRef.setInput('firstDayOfWeek', 'Sunday');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const daysSun = component['computedDays']();
             expect(daysSun[0]).toBe('D');
 
             fixture.componentRef.setInput('firstDayOfWeek', 'Saturday');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const daysSat = component['computedDays']();
             expect(daysSat[0]).toBe('S');
         });
 
         it('should use min input for min date', () => {
             fixture.componentRef.setInput('min', '2024-01-31');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const pos = component['firstPos']();
             expect(pos).toBe(3);
@@ -198,7 +198,7 @@ describe('MagmaContribCalendar', () => {
 
         it('should use max input for max date', () => {
             fixture.componentRef.setInput('max', '2024-01-31');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const pos = component['firstPos']();
             expect(pos).toBe(1);
@@ -217,7 +217,7 @@ describe('MagmaContribCalendar', () => {
                 { value: 12, color: 'var(--var3)' },
                 { value: 16, color: 'var(--var4)' },
             ]);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const color1 = component['getColor'](-1);
             expect(color1).toBe(undefined);

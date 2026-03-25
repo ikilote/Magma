@@ -33,7 +33,7 @@ describe('MagmaClickOutsideDirective', () => {
         vi.spyOn(component, 'onClickOutside');
         element = fixture.debugElement.query(By.directive(MagmaClickOutsideDirective));
         directive = element.injector.get(MagmaClickOutsideDirective);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create an instance', () => {

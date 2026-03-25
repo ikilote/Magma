@@ -46,7 +46,7 @@ describe('MagmaContextMenu Integration', () => {
         fixture = TestBed.createComponent(TestHostComponent);
         directiveElement = fixture.debugElement.query(By.directive(MagmaContextMenu));
         overlay = TestBed.inject(Overlay);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
     });

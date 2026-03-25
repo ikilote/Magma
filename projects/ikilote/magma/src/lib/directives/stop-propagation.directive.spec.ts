@@ -43,7 +43,7 @@ describe('MagmaStopPropagationDirective', () => {
 
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         innerElement = fixture.debugElement.query(By.directive(MagmaStopPropagationDirective));
         directive = innerElement.injector.get(MagmaStopPropagationDirective);

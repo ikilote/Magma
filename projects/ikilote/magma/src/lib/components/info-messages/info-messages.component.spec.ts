@@ -45,7 +45,11 @@ describe('InfoMessagesComponent', () => {
         fixture = TestBed.createComponent(InfoMessagesComponent);
         component = fixture.componentInstance;
         messagesService = TestBed.inject(MagmaMessages) as MockedObject<MagmaMessages>;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterAll(() => {
+        messagesService.clearMessages();
     });
 
     it('should not display any messages initially', () => {
@@ -57,7 +61,7 @@ describe('InfoMessagesComponent', () => {
         messagesService.addMessage('Message 1', { type: MagmaMessageType.info, time: '1s' });
         messagesService.addMessage('Message 2', { type: MagmaMessageType.info, time: '1s' });
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
         expect(infoMessages.length).toBe(2);
@@ -66,22 +70,22 @@ describe('InfoMessagesComponent', () => {
     it('should call removeMessage and testDispose when destruct is called', () => {
         const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
         messagesService.addMessage('Test', { type: MagmaMessageType.info, time: '1s' });
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.destruct(testMessage);
         expect(messagesService.removeMessage).toHaveBeenCalledWith(testMessage);
         expect(messagesService.testDispose).toHaveBeenCalled();
     });
 
-    it('should update the view after removing a message', () => {
+    it('should update the view after removing a message', async () => {
         const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
         // @ts-ignore: Access readonly property for testing
         messagesService.messages = [testMessage];
         messagesService.onAddMessage.next();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.destruct(testMessage);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
         expect(infoMessages.length).toBe(0);

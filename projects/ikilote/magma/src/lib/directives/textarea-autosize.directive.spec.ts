@@ -40,7 +40,7 @@ describe('MagmaTextareaAutosizeDirective', () => {
     });
 
     it('should initialize autosize when autosizeDisabled is false', () => {
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         vi.advanceTimersByTime(1);
 
         expect(textareaEl.nativeElement.style.overflow).toBe('hidden');
@@ -49,7 +49,7 @@ describe('MagmaTextareaAutosizeDirective', () => {
 
     it('should not initialize autosize when autosizeDisabled is true', () => {
         component.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         vi.advanceTimersByTime(1);
 
         expect(textareaEl.nativeElement.style.overflow).toBe('');
@@ -59,7 +59,7 @@ describe('MagmaTextareaAutosizeDirective', () => {
     it('should reinitialize autosize when autosizeDisabled changes from true to false', () => {
         // Initially disabled
         component.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         vi.advanceTimersByTime(1);
 
         // Enable autosize
@@ -73,7 +73,7 @@ describe('MagmaTextareaAutosizeDirective', () => {
 
     it('should destroy autosize when autosizeDisabled changes from false to true', () => {
         // Initially enabled
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         vi.advanceTimersByTime(1);
 
         // Disable autosize
@@ -86,7 +86,7 @@ describe('MagmaTextareaAutosizeDirective', () => {
     });
 
     it('should destroy autosize when component is destroyed', () => {
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         vi.advanceTimersByTime(1);
 
         fixture.destroy();

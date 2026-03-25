@@ -52,7 +52,7 @@ describe('MagmaSortableModule', () => {
             .query(By.directive(MagmaSortableDirective))
             .injector.get(MagmaSortableDirective);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         classList = sortRuleDirectiveElement.nativeElement.classList;
         componentInstance = sortRuleDirectiveElement.componentInstance;
@@ -80,7 +80,7 @@ describe('MagmaSortableModule', () => {
         it('should apply "sort-desc" class when click on "sort-desc"', () => {
             componentInstance.sortRule = 'name';
             sortRuleDirectiveElement.nativeElement.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(classList.contains('sort-asc')).toBe(true);
             expect(classList.contains('sort-desc')).toBe(false);
 
@@ -90,7 +90,7 @@ describe('MagmaSortableModule', () => {
             ]);
 
             sortRuleDirectiveElement.nativeElement.click();
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(classList.contains('sort-asc')).toBe(false);
             expect(classList.contains('sort-desc')).toBe(true);
 
@@ -186,7 +186,7 @@ describe('MagmaSortableModule', () => {
 
     describe('sortable', () => {
         it('should initialize with default values for inputListener and input', () => {
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const inputListener = sortableDirective['inputListener'];
             const input = sortableDirective['input'];
             expect(inputListener).toBe(undefined);
@@ -222,7 +222,7 @@ describe('MagmaSortableModule', () => {
 
         it('should not call update if sortable is not initialized', () => {
             vi.spyOn(sortableDirective, 'update');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             componentInstance.sortable = [
                 { name: 'Foo', age: 30 },
                 { name: 'Bar', age: 25 },
@@ -382,7 +382,7 @@ describe('MagmaSortableModule + MagmaInput', () => {
             .query(By.directive(MagmaSortableDirective))
             .injector.get(MagmaSortableDirective);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         componentInstance = sortRuleDirectiveElement.componentInstance;
     });

@@ -23,7 +23,7 @@ describe('InfoMessageComponent', () => {
 
         fixture = TestBed.createComponent(InfoMessageComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     afterEach(() => {
@@ -89,7 +89,7 @@ describe('InfoMessageComponent', () => {
         vi.spyOn(component, 'click');
         const progressDiv = fixture.debugElement.query(By.css('.progress'));
         progressDiv.nativeElement.dispatchEvent(new Event('animationend'));
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.click).toHaveBeenCalled();
     });

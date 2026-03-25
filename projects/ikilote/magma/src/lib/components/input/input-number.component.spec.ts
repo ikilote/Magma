@@ -23,7 +23,7 @@ describe('MagmaInputNumber', () => {
         fixture = TestBed.createComponent(MagmaInputNumber);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -173,7 +173,7 @@ describe('MagmaInputNumber', () => {
         vi.spyOn(component, 'onTouched');
         vi.spyOn(component, 'validate');
         inputElement.dispatchEvent(new Event('blur'));
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(inputElement.value).toBe('42');
         expect(component.onTouched).toHaveBeenCalled();
         expect(component.validate).not.toHaveBeenCalled();
@@ -190,7 +190,7 @@ describe('MagmaInputNumber', () => {
         component.ngControl = new MockNgControl() as unknown as NgControl;
 
         inputElement.dispatchEvent(new Event('blur'));
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(inputElement.value).toBe('42');
         expect(component.onTouched).toHaveBeenCalled();
         expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);
@@ -239,7 +239,7 @@ describe('MagmaInputNumber', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });

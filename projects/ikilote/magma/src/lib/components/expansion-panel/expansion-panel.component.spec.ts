@@ -30,7 +30,7 @@ describe('MagmaExpansionPanel', () => {
 
         fixture = TestBed.createComponent(TestHostComponent);
         component = fixture.debugElement.query(By.directive(MagmaExpansionPanel)).componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         details = fixture.debugElement.query(By.css('details'));
         summary = fixture.debugElement.query(By.css('summary'));
@@ -77,7 +77,7 @@ describe('MagmaExpansionPanel', () => {
     it('should emit update event with correct open state when clicking <summary>', () => {
         vi.spyOn(component.update, 'emit');
         summary.triggerEventHandler('click');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.update.emit).toHaveBeenCalledWith({
             open: true,
@@ -89,11 +89,11 @@ describe('MagmaExpansionPanel', () => {
         expect(details.nativeElement.hasAttribute('open')).toBe(false);
 
         summary.nativeElement.click();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(details.nativeElement.hasAttribute('open')).toBe(true);
 
         summary.nativeElement.click();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(details.nativeElement.hasAttribute('open')).toBe(false);
     });
 });

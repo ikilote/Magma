@@ -37,7 +37,7 @@ describe('MagmaTableGroup', () => {
         fixture = TestBed.createComponent(MagmaTableGroup);
         component = fixture.componentInstance;
         component.host = mockHost;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -46,13 +46,13 @@ describe('MagmaTableGroup', () => {
 
     it('should set sticky class based on input', () => {
         fixture.componentRef.setInput('sticky', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component['el'].nativeElement.classList.contains('sticky')).toBe(true);
     });
 
     it('should set baseline class based on input', () => {
         fixture.componentRef.setInput('baseline', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component['el'].nativeElement.classList.contains('baseline')).toBe(true);
     });
 

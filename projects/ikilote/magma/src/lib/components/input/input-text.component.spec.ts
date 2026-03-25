@@ -29,7 +29,7 @@ describe('MagmaInputText', () => {
         fixture = TestBed.createComponent(MagmaInputText);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -38,27 +38,27 @@ describe('MagmaInputText', () => {
 
     it('should set type correctly', () => {
         fixture.componentRef.setInput('type', 'email');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.type).toBe('email');
     });
 
     it('should set placeholder correctly', () => {
         fixture.componentRef.setInput('placeholder', 'Test Placeholder');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.placeholder).toBe('Test Placeholder');
     });
 
     it('should set clearCross correctly', () => {
         fixture.componentRef.setInput('clearCross', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.clearCross()).toBe(true);
     });
 
     it('should set maxlength correctly', () => {
         fixture.componentRef.setInput('maxlength', 50);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.maxLength).toBe(50);
     });
@@ -74,7 +74,7 @@ describe('MagmaInputText', () => {
             { label: 'Option 2', value: 'option2' },
             'Option 3',
         ]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const datalistElement = debugElement.query(By.css('datalist'));
         expect(datalistElement).toBeTruthy();
     });
@@ -85,7 +85,7 @@ describe('MagmaInputText', () => {
             { label: 'Option 2', value: 'option2' },
             'Option 3',
         ]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const options = debugElement.queryAll(By.css('option'));
         expect(options.length).toBe(3);
     });
@@ -93,7 +93,7 @@ describe('MagmaInputText', () => {
     it('should render clear icon if clearCross is true and input has value', () => {
         fixture.componentRef.setInput('clearCross', true);
         component.writeValue('test value');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const clearIcon = debugElement.query(By.css('.icon-remove'));
         expect(clearIcon).toBeTruthy();
     });
@@ -102,7 +102,7 @@ describe('MagmaInputText', () => {
         vi.spyOn(component, 'clearField');
         fixture.componentRef.setInput('clearCross', true);
         component.writeValue('test value');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const clearIcon = debugElement.query(By.css('.icon-remove'));
         clearIcon.triggerEventHandler('click', {});
         expect(component.clearField).toHaveBeenCalled();
@@ -179,7 +179,7 @@ describe('MagmaInputText', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });

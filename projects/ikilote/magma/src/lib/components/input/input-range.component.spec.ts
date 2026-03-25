@@ -22,7 +22,7 @@ describe('MagmaInputRange', () => {
         fixture = TestBed.createComponent(MagmaInputRange);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -51,14 +51,14 @@ describe('MagmaInputRange', () => {
 
     it('should render datalist if datalist is provided', () => {
         fixture.componentRef.setInput('datalist', [10, 20, 30]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const datalistElement = debugElement.query(By.css('datalist'));
         expect(datalistElement).toBeTruthy();
     });
 
     it('should render options in datalist', () => {
         fixture.componentRef.setInput('datalist', [10, 20, 30]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const options = debugElement.queryAll(By.css('option'));
         expect(options.length).toBe(3);
     });
@@ -81,21 +81,21 @@ describe('MagmaInputRange', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });
 
     it('should disable input if disabled is true', () => {
         fixture.componentRef.setInput('disabled', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.disabled).toBe(true);
     });
 
     it('should disable input if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.disabled).toBe(true);
     });

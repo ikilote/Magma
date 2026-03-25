@@ -41,7 +41,7 @@ describe('MagmaTooltipDirective', () => {
         directive = divElement.injector.get(MagmaTooltipDirective);
         overlay = TestBed.inject(Overlay);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     afterEach(() => {

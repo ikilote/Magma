@@ -27,7 +27,7 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture = TestBed.createComponent(MagmaDatetimePickerComponent);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -36,28 +36,28 @@ describe('MagmaDatetimePickerComponent', () => {
 
     it('should show date picker but not time picker by default', () => {
         fixture.componentRef.setInput('type', 'date');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(fixture.nativeElement.querySelector('.month-year')).toBeTruthy();
         expect(fixture.nativeElement.querySelector('.time')).toBeFalsy();
     });
 
     it('should show only time picker when type is "time"', () => {
         fixture.componentRef.setInput('type', 'time');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(fixture.nativeElement.querySelector('.month-year')).toBeFalsy();
         expect(fixture.nativeElement.querySelector('.time')).toBeTruthy();
     });
 
     it('should show milli input when type is "datetime-milli"', () => {
         fixture.componentRef.setInput('type', 'datetime-milli');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(fixture.nativeElement.querySelector('input[type="number"]')).toBeTruthy();
     });
 
     it('should compute the correct list of years', () => {
         const currentYear = new Date().getUTCFullYear();
         fixture.componentRef.setInput('value', `${currentYear}-01-01`);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         // @ts-ignore
         const years = component.yearsList();
@@ -69,7 +69,7 @@ describe('MagmaDatetimePickerComponent', () => {
         const currentYear = new Date().getUTCFullYear();
         fixture.componentRef.setInput('min', `${currentYear - 2}-01-01`);
         fixture.componentRef.setInput('max', `${currentYear + 2}-01-01`);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         // @ts-ignore
         const years = component.yearsList();
@@ -80,7 +80,7 @@ describe('MagmaDatetimePickerComponent', () => {
     it('should disable prevMonth signal when current month is minDate month', () => {
         fixture.componentRef.setInput('value', '2025-05-01');
         fixture.componentRef.setInput('min', '2025-05-01');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         // @ts-ignore
         expect(component.prevMonthHide()).toBe(true);
         // @ts-ignore
@@ -90,7 +90,7 @@ describe('MagmaDatetimePickerComponent', () => {
     it('should disable nextMonth signal when current month is maxDate month', () => {
         fixture.componentRef.setInput('value', '2025-05-01');
         fixture.componentRef.setInput('max', '2025-05-01');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         // @ts-ignore
         expect(component.prevMonthHide()).toBe(false);
         // @ts-ignore
@@ -101,7 +101,7 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('value', '2025-05-01');
         fixture.componentRef.setInput('min', '2025-05-01');
         fixture.componentRef.setInput('max', '2025-05-31');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         // @ts-ignore
         expect(component.prevMonthHide()).toBe(true);
         // @ts-ignore
@@ -112,7 +112,7 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('value', '2025-05-01');
         fixture.componentRef.setInput('min', '2025-04-01');
         fixture.componentRef.setInput('max', '2025-06-30');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         // @ts-ignore
         expect(component.prevMonthHide()).toBe(false);
         // @ts-ignore
@@ -155,7 +155,7 @@ describe('MagmaDatetimePickerComponent', () => {
             const spy = vi.spyOn(component.datetimeChange, 'emit');
             fixture.componentRef.setInput('type', 'datetime-milli');
             fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             component[test.method](test.value);
@@ -177,7 +177,7 @@ describe('MagmaDatetimePickerComponent', () => {
             const spy = vi.spyOn(component.datetimeChange, 'emit');
             fixture.componentRef.setInput('type', test.type);
             fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             component.updateDate(component.date());
@@ -189,7 +189,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
     it('should navigate months with left() and right()', () => {
         fixture.componentRef.setInput('value', '2025-05-01');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component['right']();
         // @ts-ignore
@@ -214,7 +214,7 @@ describe('MagmaDatetimePickerComponent', () => {
     ].forEach(test => {
         it('should handle keyboard navigation:' + test.arrow, () => {
             fixture.componentRef.setInput('value', test.date);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             vi.spyOn(component, 'updateDate');
@@ -263,7 +263,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should handle keyboard navigation (readonly):' + test.arrow, () => {
             fixture.componentRef.setInput('readonly', true);
             fixture.componentRef.setInput('value', test.date);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             vi.spyOn(component, 'updateDate');
@@ -359,7 +359,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
     it('should show week numbers if hideWeekNumber is false', () => {
         fixture.componentRef.setInput('hideWeekNumber', false);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const table = fixture.nativeElement.querySelector('.table');
         expect(table.classList).toContain('week-number');
     });
@@ -376,7 +376,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should only update the day if the month is the same as the current date', () => {
             // Setup component with a specific date (January)
             fixture.componentRef.setInput('value', '2026-01-01');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const updateDaySpy = vi.spyOn<any, any>(component, 'updateDay');
             const updateMonthSpy = vi.spyOn<any, any>(component, 'updateMonth');
@@ -395,7 +395,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should update month, day, and date if the selected month is different', () => {
             // Setup component in January
             fixture.componentRef.setInput('value', '2026-01-01');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const updateDaySpy = vi.spyOn<any, any>(component, 'updateDay');
             const updateMonthSpy = vi.spyOn<any, any>(component, 'updateMonth');
@@ -490,7 +490,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('min', minLimit);
             fixture.componentRef.setInput('max', maxLimit);
             fixture.componentRef.setInput('value', midDate);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore - Accessing protected method
             const result = component.getDate();
@@ -503,7 +503,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             fixture.componentRef.setInput('min', minLimit);
             fixture.componentRef.setInput('value', tooEarly);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             const result = component.getDate();
@@ -516,7 +516,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             fixture.componentRef.setInput('max', maxLimit);
             fixture.componentRef.setInput('value', tooLate);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             const result = component.getDate();
@@ -529,7 +529,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('min', undefined);
             fixture.componentRef.setInput('max', undefined);
             fixture.componentRef.setInput('value', targetDate);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             const result = component.getDate();
@@ -645,7 +645,7 @@ describe('MagmaDatetimePickerComponent', () => {
             // If start of week is Monday (default), the grid should start on Jan 26th.
             fixture.componentRef.setInput('value', '2026-02-01');
             fixture.componentRef.setInput('firstDayOfWeek', 'Monday');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
 
@@ -659,7 +659,7 @@ describe('MagmaDatetimePickerComponent', () => {
             // If start of week is Sunday, the grid should start exactly on Feb 1st.
             fixture.componentRef.setInput('value', '2026-02-01');
             fixture.componentRef.setInput('firstDayOfWeek', 'Sunday');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
 
@@ -671,7 +671,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should handle different start of week (Saturday)', () => {
             fixture.componentRef.setInput('value', '2026-02-01');
             fixture.componentRef.setInput('firstDayOfWeek', 'Saturday');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
 
@@ -682,7 +682,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
         it('should correctly identify "isToday"', () => {
             fixture.componentRef.setInput('value', '2026-02-01');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
             const todayElement = grid.find(d => d.day === 15 && d.month === 2);
@@ -694,7 +694,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', '2026-02-15');
             fixture.componentRef.setInput('min', '2026-02-10');
             fixture.componentRef.setInput('max', '2026-02-20');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
 
@@ -711,7 +711,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', '2026-02-01');
             // Saturday and Sunday are default weekends
             fixture.componentRef.setInput('weekend', ['Saturday', 'Sunday']);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
 
@@ -727,7 +727,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should not flag weekends if hideWeekendStyle is true', () => {
             fixture.componentRef.setInput('value', '2026-02-01');
             fixture.componentRef.setInput('hideWeekendStyle', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
             const sunday = grid.find(d => d.day === 1 && d.month === 2);
@@ -738,7 +738,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should compute week numbers if not hidden', () => {
             fixture.componentRef.setInput('value', '2026-02-01');
             fixture.componentRef.setInput('hideWeekNumber', false);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
 
@@ -749,7 +749,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should return null for week numbers if hideWeekNumber is true', () => {
             fixture.componentRef.setInput('value', '2026-02-01');
             fixture.componentRef.setInput('hideWeekNumber', true);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
             expect(grid[0].weekNumber).toBeNull();
@@ -760,7 +760,7 @@ describe('MagmaDatetimePickerComponent', () => {
             // If week starts Monday, it must include Sunday March 1st to finish the row.
             fixture.componentRef.setInput('value', '2026-02-01');
             fixture.componentRef.setInput('firstDayOfWeek', 'Monday');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const grid = component['computedDaysOfMonth']()[0];
             const lastDay = grid[grid.length - 1];

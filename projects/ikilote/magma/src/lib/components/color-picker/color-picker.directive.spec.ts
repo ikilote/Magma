@@ -33,7 +33,7 @@ describe('MagmaColorPicker Directive', () => {
         fixture = TestBed.createComponent(TestComponent);
         directiveElement = fixture.debugElement.query(By.directive(MagmaColorPicker));
         overlay = TestBed.inject(Overlay);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         spanElement = fixture.debugElement.query(By.css('.test'));
 
         directive = directiveElement.injector.get(MagmaColorPicker);
@@ -45,7 +45,7 @@ describe('MagmaColorPicker Directive', () => {
 
     it('should set tabIndex to -1 if disabled', () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(directiveElement.nativeElement.tabIndex).toBe(-1);
     });
 
@@ -59,7 +59,7 @@ describe('MagmaColorPicker Directive', () => {
 
     it('should not open overlay if disabled', async () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const event = new MouseEvent('click');
         const eventSpy = vi.spyOn(event, 'preventDefault');
         await fixture.whenStable();
@@ -128,9 +128,12 @@ describe('MagmaColorPicker Directive', () => {
     it('should update alpha input dynamically', async () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
         directive.open();
+        fixture.changeDetectorRef.detectChanges();
         await fixture.whenStable();
+
         fixture.componentInstance.alpha = true;
-        fixture.detectChanges();
+
+        fixture.changeDetectorRef.detectChanges();
         const component = MagmaColorPicker._component;
         expect(component?.instance.alpha()).toBe(true);
     });

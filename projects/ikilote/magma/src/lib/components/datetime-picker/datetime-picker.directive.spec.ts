@@ -48,7 +48,7 @@ describe('MagmaDatetimePicker Directive', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         directiveElement = fixture.debugElement.query(By.directive(MagmaDatetimePicker));
         directive = directiveElement.injector.get(MagmaDatetimePicker);
     });
@@ -67,13 +67,13 @@ describe('MagmaDatetimePicker Directive', () => {
 
     it('should set tabIndex to -1 if disabled', () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(directiveElement.nativeElement.tabIndex).toBe(-1);
     });
 
     it('should set tabIndex to 0 if enabled', () => {
         fixture.componentInstance.disabled = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(directiveElement.nativeElement.tabIndex).toBe(0);
     });
 
@@ -90,7 +90,7 @@ describe('MagmaDatetimePicker Directive', () => {
 
     it('should open overlay', async () => {
         fixture.componentInstance.disabled = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         await directive.open();
         await fixture.whenStable();
@@ -100,7 +100,7 @@ describe('MagmaDatetimePicker Directive', () => {
 
     it('should not open overlay if disabled', async () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         await directive.open();
         await fixture.whenStable();
@@ -111,7 +111,7 @@ describe('MagmaDatetimePicker Directive', () => {
     it('should pass correct inputs to the Picker Component', async () => {
         fixture.componentInstance.lang = 'en';
         fixture.componentInstance.type = 'datetime-local';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         directive.open();
         await fixture.whenStable();

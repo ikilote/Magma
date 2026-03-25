@@ -64,7 +64,7 @@ describe('MagmaResize Directive', () => {
         directiveInstance = directiveEl.injector.get(MagmaResize);
 
         vi.useFakeTimers();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     afterEach(() => {
@@ -93,7 +93,7 @@ describe('MagmaResize Directive', () => {
                 const rect = directiveEl.nativeElement.getBoundingClientRect();
                 const event = new MouseEvent('mousemove', { clientX: rect.left + data.x, clientY: rect.top + data.y });
                 directiveEl.nativeElement.dispatchEvent(event);
-                fixture.detectChanges();
+                fixture.changeDetectorRef.detectChanges();
 
                 expect(directiveInstance.resize).toBe(data.resize as ResizeDirection);
                 expect(directiveEl.nativeElement.classList.contains(data.class)).toBe(true);
@@ -105,7 +105,7 @@ describe('MagmaResize Directive', () => {
             const rect = directiveEl.nativeElement.getBoundingClientRect();
             const event = new MouseEvent('mousemove', { clientX: rect.left + 50, clientY: rect.top + 50 });
             directiveEl.nativeElement.dispatchEvent(event);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(directiveInstance.resize).toBeUndefined();
             expect(cdkDragSpy.disabled).toBe(false);

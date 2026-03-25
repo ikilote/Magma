@@ -23,14 +23,14 @@ describe('MagmaPagination', () => {
         fixture.componentRef.setInput('size', 10);
         fixture.componentRef.setInput('base', '/test');
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should show total if showTotal is true', () => {
         fixture.componentRef.setInput('showTotal', true);
         fixture.componentRef.setInput('textTotal', 'Test: %');
         fixture.componentRef.setInput('total', 100);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const totalDiv = fixture.debugElement.query(By.css('.total'));
         expect(totalDiv).toBeTruthy();
@@ -39,7 +39,7 @@ describe('MagmaPagination', () => {
 
     it('should not show total if showTotal is false', () => {
         fixture.componentRef.setInput('showTotal', false);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const totalDiv = fixture.debugElement.query(By.css('.total'));
         expect(totalDiv).toBeNull();
@@ -48,7 +48,7 @@ describe('MagmaPagination', () => {
     it('should generate correct pages for small total', () => {
         fixture.componentRef.setInput('total', 25);
         fixture.componentRef.setInput('size', 5);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.ngDoCheck();
 
         expect(component.pages.length).toBe(5);
@@ -59,7 +59,7 @@ describe('MagmaPagination', () => {
         fixture.componentRef.setInput('total', 1000);
         fixture.componentRef.setInput('size', 10);
         fixture.componentRef.setInput('page', 5);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.ngDoCheck();
 
         const separators = component.pages.filter(p => p.separator);
@@ -70,7 +70,7 @@ describe('MagmaPagination', () => {
         fixture.componentRef.setInput('textPage', 'Page %p of %t');
         fixture.componentRef.setInput('total', 100);
         fixture.componentRef.setInput('size', 10);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.ngDoCheck();
 
         const links = fixture.debugElement.queryAll(By.css('a'));
@@ -83,7 +83,7 @@ describe('MagmaPagination', () => {
 
     it('should set aria-current="page" for current page', () => {
         fixture.componentRef.setInput('page', 3);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.ngDoCheck();
 
         const currentLink = fixture.debugElement.query(By.css('a[aria-current="page"]'));
@@ -97,7 +97,7 @@ describe('MagmaPagination', () => {
         const secondLink = links[1];
         secondLink.nativeElement.click();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.update).toHaveBeenCalledWith(2, true);
     });
@@ -107,13 +107,13 @@ describe('MagmaPagination', () => {
         const secondLink = links[1];
         secondLink.nativeElement.click();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.currentPage).toBe(2);
     });
 
     it('should update current page and pages array', () => {
         component.update(3, false);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.currentPage).toBe(3);
         expect(component.pages.find(p => p.current)).toEqual(expect.objectContaining({ page: 3 }));
@@ -121,7 +121,7 @@ describe('MagmaPagination', () => {
 
     it('should return correct query params for page', () => {
         fixture.componentRef.setInput('queryParams', { sort: 'asc' });
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const params = component.pageQueryParams(2);
         expect(params).toEqual({ page: 2, sort: 'asc' });
@@ -129,12 +129,12 @@ describe('MagmaPagination', () => {
 
     it('should update page on external update event', async () => {
         fixture.componentRef.setInput('linkId', 'test-link');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const spy = vi.spyOn(component, 'update');
         MagmaPagination['onPageUpdate'].next({ id: 'test-link', page: 4, component: {} as MagmaPagination });
         await vi.useFakeTimers();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(spy).toHaveBeenCalledWith(4, false);
     });
@@ -142,7 +142,7 @@ describe('MagmaPagination', () => {
     it('should update method with an external update event', () => {
         const spy = vi.spyOn(MagmaPagination['onPageUpdate'], 'next');
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.update(2, false);
         expect(spy).not.toHaveBeenCalled();
@@ -151,7 +151,7 @@ describe('MagmaPagination', () => {
         expect(spy).not.toHaveBeenCalled();
 
         fixture.componentRef.setInput('linkId', 'test-link');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.update(4, false);
         expect(spy).not.toHaveBeenCalled();
@@ -168,7 +168,7 @@ describe('MagmaPagination', () => {
 
     it('should be empty', () => {
         fixture.componentRef.setInput('total', 0);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.ngDoCheck();
 
         const size = component.pages.length;
@@ -186,7 +186,7 @@ describe('MagmaPagination', () => {
         } as SimpleChanges);
         component.ngDoCheck();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.currentPage).toBe(1);
 
         component.ngOnChanges({
@@ -199,13 +199,13 @@ describe('MagmaPagination', () => {
         } as SimpleChanges);
         component.ngDoCheck();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.currentPage).toBe(10);
     });
 
     it('should update size with invalide value', () => {
         fixture.componentRef.setInput('size', 0);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.ngDoCheck();
 
         const currentPage = component.currentPage;

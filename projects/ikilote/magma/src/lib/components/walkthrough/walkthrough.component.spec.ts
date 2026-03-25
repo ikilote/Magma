@@ -66,7 +66,7 @@ describe('MagmaWalkthrough', () => {
         fixture = TestBed.createComponent(TestHostComponent);
         overlay = TestBed.inject(Overlay);
         component = fixture.debugElement.children[0].componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {

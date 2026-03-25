@@ -14,7 +14,7 @@ describe('MagmaBlock', () => {
 
         fixture = TestBed.createComponent(MagmaBlock);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -37,7 +37,7 @@ describe('MagmaBlock usage', () => {
         }).compileComponents();
 
         hostFixture = TestBed.createComponent(TestHostComponent);
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {

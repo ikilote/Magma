@@ -60,7 +60,7 @@ describe('MagmaTabTitle', () => {
         // mock host
         tabsComponent.titles().forEach(e => ((e as any)['tabs'] = tabsComponent));
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should set the correct id attribute', () => {
@@ -69,7 +69,7 @@ describe('MagmaTabTitle', () => {
 
     it('should apply "selected" class when selected is true', () => {
         tabTitleComponent.selected.set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(tabTitleElement.nativeElement.classList.contains('selected')).toBe(true);
     });
 

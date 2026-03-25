@@ -23,7 +23,7 @@ describe('MagmaInputTextarea', () => {
         fixture = TestBed.createComponent(MagmaInputTextarea);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -56,7 +56,7 @@ describe('MagmaInputTextarea', () => {
 
     it('should apply monospace class if monospace is true', () => {
         fixture.componentRef.setInput('monospace', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const hostElement = debugElement.nativeElement;
         expect(hostElement.classList.contains('monospace')).toBe(true);
     });
@@ -65,7 +65,7 @@ describe('MagmaInputTextarea', () => {
         fixture.componentRef.setInput('height', '200px');
         fixture.componentRef.setInput('maxHeight', '300px');
         fixture.componentRef.setInput('minHeight', '100px');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const hostElement = debugElement.nativeElement;
         expect(hostElement.style.getPropertyValue('--default')).toBe('200px');
         expect(hostElement.style.getPropertyValue('--max')).toBe('300px');
@@ -106,7 +106,7 @@ describe('MagmaInputTextarea', () => {
         fixture.componentRef.setInput('maxlength', 10);
         fixture.componentRef.setInput('displayLimit', 10);
         component.writeValue('1234567890');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const limitElement = debugElement.query(By.css('.limit'));
         expect(limitElement).toBeTruthy();
         const style = limitElement.nativeElement.style;
@@ -118,34 +118,34 @@ describe('MagmaInputTextarea', () => {
         fixture.componentRef.setInput('maxlength', 10);
         fixture.componentRef.setInput('displayLimit', 10);
         component.writeValue('123456789');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const limitElement = debugElement.query(By.css('.limit'));
         expect(limitElement).toBeFalsy();
     });
 
     it('should render input element with undefined attributes', () => {
         component.writeValue(undefined);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.inputElement.value).toBe('');
     });
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });
 
     it('should disable textarea if disabled is true', () => {
         fixture.componentRef.setInput('disabled', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
         expect(textareaElement.disabled).toBe(true);
     });
 
     it('should disable textarea if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
         expect(textareaElement.readOnly).toBe(true);
     });

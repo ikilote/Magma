@@ -24,7 +24,7 @@ describe('MagmaInputColor', () => {
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -43,7 +43,7 @@ describe('MagmaInputColor', () => {
             it(`should set ${name} correctly`, () => {
                 fixture.componentRef.setInput(name, value);
                 expect((component as any)[name]()).toEqual(value);
-                fixture.detectChanges();
+                fixture.changeDetectorRef.detectChanges();
                 expect(
                     (component.inputDirective as any)['colorPicker' + name[0].toUpperCase() + name.substring(1)](),
                 ).toEqual(value);
@@ -91,14 +91,14 @@ describe('MagmaInputColor', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = debugElement.query(By.css('div:contains("Error")'));
         expect(errorElement).toBeNull();
     });
 
     it('should apply empty class if _value is empty', () => {
         component.writeValue('');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const spanElement = debugElement.query(By.css('.spanPicker')).nativeElement;
         expect(spanElement.classList.contains('empty')).toBe(true);
         expect(component.inputElement?.value).toBe('');
@@ -106,7 +106,7 @@ describe('MagmaInputColor', () => {
 
     it('should not apply empty class if _value is not empty', () => {
         component.writeValue('#FF0000');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const spanElement = debugElement.query(By.css('.spanPicker')).nativeElement;
         expect(spanElement.classList.contains('empty')).toBe(false);
         expect(component.inputElement?.value).toBe('#FF0000');

@@ -19,7 +19,7 @@ describe('MagmaInputPassword', () => {
 
         fixture = TestBed.createComponent(MagmaInputPassword);
         component = fixture.debugElement.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -59,31 +59,31 @@ describe('MagmaInputPassword', () => {
 
     it('should render eye icon if eye is true', () => {
         fixture.componentRef.setInput('eye', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const iconElement = fixture.debugElement.query(By.css('.icon-moon, .icon-sun'));
         expect(iconElement).toBeTruthy();
     });
 
     it('should change input type to text when show is true ans click on eye', () => {
         fixture.componentRef.setInput('eye', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = fixture.debugElement.query(By.css('input'));
         const eyeElement = fixture.debugElement.query(By.css('.eye'));
         expect(inputElement.nativeElement.type).toBe('password');
 
         eyeElement.nativeElement.click();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(inputElement.nativeElement.type).toBe('text');
 
         eyeElement.nativeElement.click();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(inputElement.nativeElement.type).toBe('password');
     });
 
     it('should toggle password visibility on icon click', () => {
         vi.spyOn(component, 'toggleShowPassword');
         fixture.componentRef.setInput('eye', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const eyeElement = fixture.debugElement.query(By.css('.eye'));
         eyeElement.nativeElement.click();
         expect(component.toggleShowPassword).toHaveBeenCalled();
@@ -122,7 +122,7 @@ describe('MagmaInputPassword', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });

@@ -57,7 +57,7 @@ describe('MagmaNgInitDirective', () => {
             });
 
             // ngOnInit is automatically called during change detection
-            newFixture.detectChanges();
+            newFixture.changeDetectorRef.detectChanges();
 
             expect(newOutputEmitted).toBe(true);
             expect(newFixture.componentInstance.onInit).toHaveBeenCalledTimes(1);
@@ -85,7 +85,7 @@ describe('MagmaNgInitDirective', () => {
             });
 
             // ngOnInit is automatically called during change detection
-            newFixture.detectChanges();
+            newFixture.changeDetectorRef.detectChanges();
 
             expect(emitted).toBe(true);
             expect(newFixture.componentInstance.onInit).toHaveBeenCalledTimes(1);

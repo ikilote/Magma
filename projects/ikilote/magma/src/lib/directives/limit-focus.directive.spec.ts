@@ -81,7 +81,7 @@ describe('MagmaLimitFocusDirective', () => {
 
         const directiveEl = fixture.debugElement.query(By.directive(MagmaLimitFocusDirective));
         limitFocusDirective = directiveEl.injector.get(MagmaLimitFocusDirective);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create the directive', () => {
@@ -90,7 +90,7 @@ describe('MagmaLimitFocusDirective', () => {
 
     it('should focus the first focusable element with the lowest `limitFocusFirst` value', () => {
         limitFocusDirective.focus();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(document.activeElement).toBe(input2);
     });
 
@@ -104,30 +104,30 @@ describe('MagmaLimitFocusDirective', () => {
 
     it('should handle Tab key', () => {
         input1.focus();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         simulateTab();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(document.activeElement).toBe(button1);
     });
 
     it('should trap focus inside the container', async () => {
         input1.focus();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(document.activeElement).toBe(input1);
 
         simulateTab();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(document.activeElement).toBe(button1);
 
         // Simulate pressing Shift+Tab
         simulateTab(true);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(document.activeElement).toBe(input1);
 
         await fixture.whenStable();
@@ -136,7 +136,7 @@ describe('MagmaLimitFocusDirective', () => {
     it('should handle dynamic content changes', async () => {
         // Start by focusing the first input
         input1.focus();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(document.activeElement).toBe(input1);
 
         // Simulate pressing Tab to move focus to the next element
@@ -149,7 +149,7 @@ describe('MagmaLimitFocusDirective', () => {
         newButton.id = 'button3';
         newButton.textContent = 'Button 3';
         containerElement.appendChild(newButton);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         // Simulate pressing Tab again to move focus to the next element
         simulateTab();
@@ -176,7 +176,7 @@ describe('MagmaLimitFocusDirective', () => {
         const originElement = document.createElement('button');
         document.body.appendChild(originElement);
         originElement.focus();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         // Destroy the directive
         fixture.destroy();
@@ -373,7 +373,7 @@ describe('MagmaLimitFocusDirective', () => {
             // Hide one element and disable another
             input1.style.display = 'none';
             button1.disabled = true;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // Get filtered list
             const filteredElements = focusableElements.filter(limitFocusDirective['filter']);
@@ -408,7 +408,7 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
 
         limitFocusDirective['mutations'] = vi.fn();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should intercept keydown', async () => {

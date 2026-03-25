@@ -39,9 +39,9 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
 
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         vi.advanceTimersByTime(0);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         inputElement = fixture.debugElement.query(By.directive(NgModel));
         directive = inputElement.injector.get(MagmaNgModelChangeDebouncedDirective);
@@ -62,7 +62,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
 
         it('should use custom debounce time when provided', () => {
             component.debounceTime = 1000;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             vi.advanceTimersByTime(0);
             expect(directive.ngModelChangeDebounceTime()).toBe(1000);
         });
@@ -77,7 +77,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = 'test';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onDebouncedChange).not.toHaveBeenCalled();
 
@@ -91,7 +91,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = 'test';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).toHaveBeenCalledTimes(1);
@@ -101,7 +101,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             // Set same value again
             input.value = 'test';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).not.toHaveBeenCalled();
@@ -112,19 +112,19 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
 
             input.value = 'test1';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(200);
 
             input.value = 'test2';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(200);
 
             input.value = 'test3';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
 
@@ -134,13 +134,13 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
 
         it('should use custom debounce time', () => {
             component.debounceTime = 1000;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             vi.advanceTimersByTime(0);
 
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = 'test';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).not.toHaveBeenCalled();
@@ -155,7 +155,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = 'new value';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
 
@@ -169,7 +169,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = '';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             // ngModel converts empty input to empty string, not null
@@ -180,7 +180,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = '';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).toHaveBeenCalled();
@@ -190,14 +190,14 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = '1';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             component.onDebouncedChange.mockClear();
 
             input.value = '';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).toHaveBeenCalledWith('');
@@ -207,7 +207,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = '42';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).toHaveBeenCalledWith('42');
@@ -219,20 +219,20 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
             const input = inputElement.nativeElement as HTMLInputElement;
             input.value = 'test';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             component.onDebouncedChange.mockClear();
 
             input.value = 'different';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(200);
 
             input.value = 'test';
             input.dispatchEvent(new Event('input'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             vi.advanceTimersByTime(500);
             expect(component.onDebouncedChange).not.toHaveBeenCalled();

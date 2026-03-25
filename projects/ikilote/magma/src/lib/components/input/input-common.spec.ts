@@ -266,7 +266,7 @@ describe('MagmaInputCommon', () => {
         it('should placeholder not start animation if only text', () => {
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
             fixture.componentRef.setInput('placeholder', 'test');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
         });
 
@@ -300,31 +300,31 @@ describe('MagmaInputCommon', () => {
             vi.spyOn(directive.placeholderDisplay as any, 'set');
 
             fixture.componentRef.setInput('placeholder', 'test|test2');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(directive['placeholderTimer']).toBe(undefined);
         });
 
-        it('should init initAnimation', () => {
+        it('should init initAnimation (update)', () => {
             vi.spyOn(directive as any, 'initAnimation');
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
 
             fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             fixture.componentRef.setInput('placeholderAnimated', '200 2 50 |');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(directive['initAnimation']).toHaveBeenCalledTimes(3); // 2 times by init
             expect(directive['stopPlaceholderAnimation']).not.toHaveBeenCalled();
         });
 
-        it('should init initAnimation', () => {
+        it('should init initAnimation (reset)', () => {
             vi.spyOn(directive as any, 'initAnimation');
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
 
             fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             fixture.componentRef.setInput('placeholderAnimated', '');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(directive['initAnimation']).toHaveBeenCalledTimes(2); // 2 times by init
             expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();

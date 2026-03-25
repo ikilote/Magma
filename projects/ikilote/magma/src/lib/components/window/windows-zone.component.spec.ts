@@ -28,7 +28,7 @@ describe('MagmaWindowsZone', () => {
 
         // Using the modern setInput API for Signal inputs
         fixture.componentRef.setInput('windows', mockWindows);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create and initialize with browser dimensions', () => {

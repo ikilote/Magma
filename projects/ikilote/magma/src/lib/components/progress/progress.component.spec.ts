@@ -17,7 +17,7 @@ describe('MagmaProgress', () => {
 
         fixture = TestBed.createComponent(MagmaProgress);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -50,7 +50,7 @@ describe('MagmaProgress usage', () => {
         wrapperComponent = fixture.componentInstance;
         debugElement = fixture.debugElement;
         progressComponent = debugElement.query(By.directive(MagmaProgress)).componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {

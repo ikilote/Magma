@@ -35,7 +35,7 @@ describe('MagmaEllipsisButton (integration)', () => {
         hostComponent = fixture.componentInstance;
         ellipsisButtonElement = fixture.debugElement.query(By.directive(MagmaEllipsisButton)).componentInstance;
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -47,13 +47,13 @@ describe('MagmaEllipsisButton (integration)', () => {
         expect(button).toBeTruthy();
 
         button.triggerEventHandler('click', null);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         await fixture.whenStable();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
         await fixture.whenStable();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         // @ts-expect-error
         expect(ellipsisButtonElement.isOpen()).toBe(false);
@@ -64,13 +64,13 @@ describe('MagmaEllipsisButton (integration)', () => {
 
         const button = fixture.debugElement.query(By.css('button'));
         button.triggerEventHandler('click', null);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const items = fixture.debugElement.queryAll(By.directive(MagmaEllipsisItemComponent));
         expect(items.length).toBe(2);
 
         items[0].triggerEventHandler('clickEnter', null);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(hostComponent.onAction).toHaveBeenCalledWith('1');
     });
@@ -81,13 +81,13 @@ describe('MagmaEllipsisButton (integration)', () => {
 
         const button = fixture.debugElement.query(By.css('button'));
         button.triggerEventHandler('click', null);
-        fixture.detectChanges();
-
+        fixture.changeDetectorRef.detectChanges();
         await fixture.whenStable();
+
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        await fixture.whenStable();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+        await fixture.whenStable();
 
         expect(buttonElement.focus).toHaveBeenCalled();
     });

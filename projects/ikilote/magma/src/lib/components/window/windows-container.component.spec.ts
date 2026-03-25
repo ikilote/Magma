@@ -29,7 +29,7 @@ describe('MagmaWindowsContainer', () => {
 
         fixture = TestBed.createComponent(MagmaWindowsContainer);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {

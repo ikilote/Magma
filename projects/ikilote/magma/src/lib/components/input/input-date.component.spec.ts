@@ -22,7 +22,7 @@ describe('MagmaInputDate', () => {
         component.refreshTrigger.set(false);
         componentRef = fixture.componentRef;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -37,19 +37,19 @@ describe('MagmaInputDate', () => {
     describe('Localization & Placeholders', () => {
         it('should fallback to "en" if an unknown language is provided', () => {
             componentRef.setInput('lang', 'unknown-ZZ');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(component.orderType).toBe('mdy');
         });
 
         it('should correctly match partial language codes (e.g., "fr-CA" starts with "fr")', () => {
             componentRef.setInput('lang', 'fr-CA');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(component.orderType).toBe('ymd');
         });
 
         it('should set the correct regex groups for DMY (French)', () => {
             componentRef.setInput('lang', 'fr-FR');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const infos = (component as any).placeholderInfos;
             expect(infos.dd).toBe('jj');
             expect(infos.yyyy).toBe('aaaa');
@@ -211,7 +211,7 @@ describe('MagmaInputDate', () => {
 
         const updateInputs = async (type: string) => {
             componentRef.setInput('type', type);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             component.valueCache = {
@@ -702,7 +702,7 @@ describe('MagmaInputDate', () => {
         it('should select element on focusNext', () => {
             // @ts-ignore
             component.datePickerClose('2024-12-12');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -720,7 +720,7 @@ describe('MagmaInputDate', () => {
     describe('Value', () => {
         it('should cache date empty when no value', () => {
             componentRef.setInput('value', '');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -736,7 +736,7 @@ describe('MagmaInputDate', () => {
 
         it('should cache date empty when partial date', () => {
             componentRef.setInput('value', '2015-12-31');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -752,7 +752,7 @@ describe('MagmaInputDate', () => {
 
         it('should cache date empty when complete date', () => {
             componentRef.setInput('value', '2015-12-31T12:15:30.015');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -801,7 +801,7 @@ describe('MagmaInputDate', () => {
             component.ngControl = new MockNgControl() as unknown as NgControl;
 
             inputElement.dispatchEvent(new Event('blur'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(inputElement.value).toBe('03');
             expect(component.onTouched).toHaveBeenCalled();
             expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);
@@ -816,7 +816,7 @@ describe('MagmaInputDate', () => {
             component.ngControl = new MockNgControl() as unknown as NgControl;
             component.datePickerClose('2015-12-12');
 
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(inputElement.value).toBe('12');
             expect(component.onTouched).toHaveBeenCalled();
             expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);

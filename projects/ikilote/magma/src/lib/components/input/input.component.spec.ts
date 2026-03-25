@@ -62,7 +62,7 @@ describe('MagmaInput', () => {
         fixture = TestBed.createComponent(TestHostComponent);
         debugElement = fixture.debugElement.query(By.directive(MagmaInput));
         component = debugElement.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -105,7 +105,7 @@ describe('MagmaInput', () => {
 
     it('should render label with forId', async () => {
         component.forId.set('test');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const labelElement = debugElement.query(By.css('label'));
         expect(labelElement).toBeTruthy();
         expect(labelElement.nativeElement.getAttribute('for')).toBe('test');
@@ -130,7 +130,7 @@ describe('MagmaInput', () => {
 
     it('should display error message if _errorMessage is set', () => {
         component._errorMessage.set('Test Error');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = debugElement.query(By.css('.error'));
         expect(errorElement).toBeTruthy();
         expect(errorElement.nativeElement.textContent).toContain('Test Error');

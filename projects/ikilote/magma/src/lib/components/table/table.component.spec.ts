@@ -13,7 +13,7 @@ describe('MagmaTable', () => {
 
         fixture = TestBed.createComponent(MagmaTable);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         mockCell = {
             cell: { hover: { set: vi.fn() }, hoverLink: { set: vi.fn() } },
@@ -26,7 +26,7 @@ describe('MagmaTable', () => {
 
     it('should set baseline class based on input', () => {
         fixture.componentRef.setInput('baseline', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(fixture.nativeElement.classList.contains('baseline')).toBe(true);
     });
 

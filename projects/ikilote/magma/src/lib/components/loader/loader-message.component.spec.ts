@@ -23,7 +23,7 @@ describe('MagmaLoaderMessage', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should project content inside ng-content', () => {

@@ -35,7 +35,7 @@ describe('MagmaClickEnterDirective', () => {
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
         vi.spyOn(component, 'onClickEnter');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         elements = fixture.debugElement.queryAll(By.directive(MagmaClickEnterDirective));
         clickableElement = elements[0];
@@ -75,7 +75,7 @@ describe('MagmaClickEnterDirective', () => {
         it('should emit event on click when not disabled', () => {
             const clickEvent = new MouseEvent('click');
             clickableElement.nativeElement.dispatchEvent(clickEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).toHaveBeenCalledTimes(1);
             expect(component.onClickEnter).toHaveBeenCalledWith(clickEvent);
@@ -84,7 +84,7 @@ describe('MagmaClickEnterDirective', () => {
         it('should not emit event on click when disabled', () => {
             const clickEvent = new MouseEvent('click');
             disabledElement.nativeElement.dispatchEvent(clickEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
         });
@@ -92,7 +92,7 @@ describe('MagmaClickEnterDirective', () => {
         it('should emit event on Enter key press when not disabled', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).toHaveBeenCalledTimes(1);
             expect(component.onClickEnter).toHaveBeenCalledWith(keyboardEvent);
@@ -101,7 +101,7 @@ describe('MagmaClickEnterDirective', () => {
         it('should not emit event on Enter key press when disabled', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
             disabledElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
         });
@@ -109,7 +109,7 @@ describe('MagmaClickEnterDirective', () => {
         it('should not emit event on other key presses', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
         });
@@ -147,7 +147,7 @@ describe('MagmaClickEnterDirective', () => {
             });
 
             clickableElement.nativeElement.dispatchEvent(clickEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(emittedEvent).toBe(clickEvent);
         });
@@ -162,7 +162,7 @@ describe('MagmaClickEnterDirective', () => {
             });
 
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(emittedEvent).toBe(keyboardEvent);
         });

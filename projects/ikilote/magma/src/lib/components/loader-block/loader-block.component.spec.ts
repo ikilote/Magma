@@ -24,7 +24,7 @@ describe('MagmaLoaderBlock', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should project mg-loader-tile inside ng-content', () => {
@@ -61,7 +61,7 @@ describe('MagmaLoaderBlock', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent2);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should project multiple mg-loader-tile elements inside ng-content', () => {

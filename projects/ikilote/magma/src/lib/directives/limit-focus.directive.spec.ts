@@ -96,9 +96,9 @@ describe('MagmaLimitFocusDirective', () => {
 
     it('should focus the first focusable element with the lowest `limitFocusFirst` value value with change order', () => {
         hostComponent.limitFocus1 = 3;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         limitFocusDirective.focus();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(document.activeElement).toBe(button2);
     });
 
@@ -412,14 +412,14 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
     });
 
     it('should intercept keydown', async () => {
-        limitFocusDirective['keydown'] = vi.fn();
+        const keydownSpy = vi.fn();
+        divRef.nativeElement.addEventListener('keydown', keydownSpy);
 
         await fixture.whenStable();
-        await fixture.whenStable();
 
-        divRef.nativeElement.dispatchEvent(new KeyboardEvent('keydown'));
+        divRef.nativeElement.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true }));
 
-        expect(limitFocusDirective['keydown']).toHaveBeenCalled();
+        expect(keydownSpy).toHaveBeenCalled();
     });
 
     it('should detect mutation (attr)', async () => {

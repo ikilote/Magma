@@ -127,8 +127,8 @@
           "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/ikilote/magma/tsconfig.spec.json",
-            "runnerConfig": true,
-            "runner": "vitest"
+            "runner": "vitest",
+            "browsers": ["Chromium"]
           }
         }
       }

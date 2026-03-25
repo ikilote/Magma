@@ -53,12 +53,11 @@ describe('InfoMessagesComponent', () => {
         expect(infoMessages.length).toBe(0);
     });
 
-    it('should display messages after they are added', async () => {
+    it('should display messages after they are added', () => {
         messagesService.addMessage('Message 1', { type: MagmaMessageType.info, time: '1s' });
         messagesService.addMessage('Message 2', { type: MagmaMessageType.info, time: '1s' });
 
         fixture.detectChanges();
-        await vi.useFakeTimers();
 
         const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
         expect(infoMessages.length).toBe(2);
@@ -88,10 +87,9 @@ describe('InfoMessagesComponent', () => {
         expect(infoMessages.length).toBe(0);
     });
 
-    it('should trigger change detection when a message is added', async () => {
+    it('should trigger change detection when a message is added', () => {
         vi.spyOn(component['cd'], 'detectChanges');
         messagesService.onAddMessage.next();
-        await vi.useFakeTimers();
         expect(component['cd'].detectChanges).toHaveBeenCalled();
     });
 });

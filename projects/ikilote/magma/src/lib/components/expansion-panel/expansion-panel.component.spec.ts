@@ -38,26 +38,26 @@ describe('MagmaExpansionPanel', () => {
 
     it('should set the "open" attribute on <details> when open is true', () => {
         fixture.componentInstance.initialOpen = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(details.nativeElement.hasAttribute('open')).toBe(true);
     });
 
     it('should not set the "open" attribute on <details> when open is false', () => {
         fixture.componentInstance.initialOpen = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(details.nativeElement.hasAttribute('open')).toBe(false);
     });
 
     it('should set the "disabled" attribute and tabIndex=-1 on <summary> when disabled is true', () => {
         fixture.componentInstance.initialDisabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(summary.nativeElement.hasAttribute('disabled')).toBe(true);
         expect(summary.nativeElement.tabIndex).toBe(-1);
     });
 
     it('should not set the "disabled" attribute and tabIndex=0 on <summary> when disabled is false', () => {
         fixture.componentInstance.initialDisabled = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(summary.nativeElement.hasAttribute('disabled')).toBe(false);
         expect(summary.nativeElement.tabIndex).toBe(0);
     });

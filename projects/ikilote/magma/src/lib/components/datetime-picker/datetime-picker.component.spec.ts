@@ -120,6 +120,7 @@ describe('MagmaDatetimePickerComponent', () => {
     });
 
     it('should emit ISO date on select()', () => {
+        vi.useFakeTimers();
         const spy = vi.spyOn(component.datetimeChange, 'emit');
         const testDate = new Date(Date.UTC(2025, 4, 15)); // 15 May 2025
         const info: DateInfo = {
@@ -135,9 +136,10 @@ describe('MagmaDatetimePickerComponent', () => {
 
         component['dateValue'].set(testDate);
         component['select'](info);
-        vi.useFakeTimers({ advanceTimeDelta: 20 }); // for setTimeout focus logic
+        vi.advanceTimersByTime(20); // for setTimeout focus logic
 
         expect(spy).toHaveBeenCalledWith('2025-05-15');
+        vi.useRealTimers();
     });
 
     [
@@ -296,30 +298,35 @@ describe('MagmaDatetimePickerComponent', () => {
     });
 
     it('should load more years on scroll up', () => {
+        vi.useFakeTimers();
         // @ts-ignore
         const initialPast = component.past();
         const event: any = { way: 'up' };
 
         component['scroll'](event);
-        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.past()).toBe(initialPast + 10);
+        vi.useRealTimers();
     });
 
     it('should load more years on scroll down', () => {
+        vi.useFakeTimers();
         // @ts-ignore
         const initialFuture = component.future();
         const event: any = { way: 'down' };
 
         component['scroll'](event);
-        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.future()).toBe(initialFuture + 10);
+        vi.useRealTimers();
     });
 
     it('should not load more years on scroll up', () => {
+        vi.useFakeTimers();
         // @ts-ignore
         const initialPast = component.past();
         const event: any = { way: 'up' };
@@ -327,13 +334,15 @@ describe('MagmaDatetimePickerComponent', () => {
         // @ts-ignore
         component.onscroll = true;
         component['scroll'](event);
-        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.past()).toBe(initialPast);
+        vi.useRealTimers();
     });
 
     it('should not load more years on scroll down', () => {
+        vi.useFakeTimers();
         // @ts-ignore
         const initialFuture = component.future();
         const event: any = { way: 'down' };
@@ -341,10 +350,11 @@ describe('MagmaDatetimePickerComponent', () => {
         // @ts-ignore
         component.onscroll = true;
         component['scroll'](event);
-        vi.useFakeTimers({ advanceTimeDelta: 100 }); // Wait for setTimeout in scroll()
+        vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
         // @ts-ignore
         expect(component.future()).toBe(initialFuture);
+        vi.useRealTimers();
     });
 
     it('should show week numbers if hideWeekNumber is false', () => {
@@ -403,6 +413,7 @@ describe('MagmaDatetimePickerComponent', () => {
         });
 
         it('should attempt to focus the element with ".selected" class after 10ms', () => {
+            vi.useFakeTimers();
             const dateInfo = { month: 1, day: 10 } as DateInfo;
 
             // Create a dummy element in the template to be found by the querySelector
@@ -418,15 +429,17 @@ describe('MagmaDatetimePickerComponent', () => {
             component.select(dateInfo);
 
             // Before 10ms
-            vi.useFakeTimers({ advanceTimeDelta: 5 });
+            vi.advanceTimersByTime(5);
             expect(focusSpy).not.toHaveBeenCalled();
 
             // At/After 10ms
-            vi.useFakeTimers({ advanceTimeDelta: 5 });
+            vi.advanceTimersByTime(5);
             expect(focusSpy).toHaveBeenCalled();
+            vi.useRealTimers();
         });
 
         it('should not throw an error if the .selected element is not found in the DOM', () => {
+            vi.useFakeTimers();
             const dateInfo = { month: 1, day: 10 } as DateInfo;
 
             // Return null to simulate element not being rendered yet or missing
@@ -435,8 +448,9 @@ describe('MagmaDatetimePickerComponent', () => {
             expect(() => {
                 // @ts-ignore
                 component.select(dateInfo);
-                vi.useFakeTimers({ advanceTimeDelta: 10 });
+                vi.advanceTimersByTime(10);
             }).not.toThrow();
+            vi.useRealTimers();
         });
     });
 

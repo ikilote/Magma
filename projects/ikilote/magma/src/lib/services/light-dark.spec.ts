@@ -27,12 +27,25 @@ describe('LightDark', () => {
             matches: false,
             addEventListener: vi.fn(),
         };
-        vi.spyOn(window, 'matchMedia').mockReturnValue(mockMatchMedia);
+        // matchMedia may not exist in jsdom, so define it if needed
+        if (!window.matchMedia) {
+            (window as any).matchMedia = vi.fn().mockReturnValue(mockMatchMedia);
+        } else {
+            vi.spyOn(window, 'matchMedia').mockReturnValue(mockMatchMedia);
+        }
 
-        // Manually create the service and inject the mocks
+        TestBed.configureTestingModule({
+            providers: [
+                LightDark,
+                { provide: RendererFactory2, useValue: mockRendererFactory },
+            ],
+        });
+
         service = TestBed.inject(LightDark);
-        (service as any).rendererFactory = mockRendererFactory;
-        (service as any).renderer = mockRenderer;
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks();
     });
 
     describe('init', () => {

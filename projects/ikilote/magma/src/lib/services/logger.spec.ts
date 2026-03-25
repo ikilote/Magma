@@ -25,6 +25,7 @@ describe('Logger', () => {
     afterEach(() => {
         Logger.minLogLevel = 'info';
         Logger.suffix = '';
+        vi.restoreAllMocks();
     });
 
     // Log level filtering

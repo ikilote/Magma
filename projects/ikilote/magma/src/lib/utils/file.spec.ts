@@ -67,12 +67,13 @@ describe('blobToBase64', () => {
         // Call the function
         const promise = blobToBase64(mockBlob);
 
-        // Manually trigger the loadend event asynchronously
-        setTimeout(() => {
-            if (mockReader.onloadend) {
-                mockReader.onloadend();
-            }
-        }, 0);
+        // Manually trigger the loadend event via microtask
+        await new Promise<void>(resolve => {
+            queueMicrotask(() => {
+                mockReader.onloadend?.();
+                resolve();
+            });
+        });
 
         // Await the promise resolution
         const result = await promise;
@@ -95,12 +96,13 @@ describe('blobToBase64', () => {
         // Call the function
         const promise = blobToBase64(mockBlob);
 
-        // Manually trigger the onerror event asynchronously
-        setTimeout(() => {
-            if (mockReader.onerror) {
-                mockReader.onerror();
-            }
-        }, 0);
+        // Manually trigger the onerror event via microtask
+        await new Promise<void>(resolve => {
+            queueMicrotask(() => {
+                mockReader.onerror?.();
+                resolve();
+            });
+        });
 
         // Await and verify the promise is rejected
         await expect(promise).rejects.toThrowError('Failed to read blob as base64');
@@ -138,11 +140,12 @@ describe('ulrToBase64', () => {
 
         const promise = ulrToBase64('http://example.com/image.png');
 
-        setTimeout(() => {
-            if (mockReader.onloadend) {
-                mockReader.onloadend();
-            }
-        }, 0);
+        await new Promise<void>(resolve => {
+            queueMicrotask(() => {
+                mockReader.onloadend?.();
+                resolve();
+            });
+        });
 
         const result = await promise;
         expect(result).toBe('data:image/png;base64,mock-base64-data');
@@ -156,11 +159,12 @@ describe('ulrToBase64', () => {
 
         const promise = ulrToBase64('http://example.com/image.png');
 
-        setTimeout(() => {
-            if (mockReader.onloadend) {
-                mockReader.onloadend();
-            }
-        }, 0);
+        await new Promise<void>(resolve => {
+            queueMicrotask(() => {
+                mockReader.onloadend?.();
+                resolve();
+            });
+        });
 
         const result = await promise;
 
@@ -174,11 +178,12 @@ describe('ulrToBase64', () => {
 
         const promise = ulrToBase64('http://example.com/image.png');
 
-        setTimeout(() => {
-            if (mockReader.onloadend) {
-                mockReader.onloadend();
-            }
-        }, 0);
+        await new Promise<void>(resolve => {
+            queueMicrotask(() => {
+                mockReader.onloadend?.();
+                resolve();
+            });
+        });
 
         await expect(promise).rejects.toEqual('Image error');
     });
@@ -203,11 +208,12 @@ describe('ulrToBase64', () => {
     it('should reject with "Image error" if FileReader fails', async () => {
         const promise = ulrToBase64('http://example.com/image.png');
 
-        setTimeout(() => {
-            if (mockReader.onerror) {
-                mockReader.onerror();
-            }
-        }, 0);
+        await new Promise<void>(resolve => {
+            queueMicrotask(() => {
+                mockReader.onerror?.();
+                resolve();
+            });
+        });
 
         await expect(promise).rejects.toEqual('Image error');
     });

@@ -78,10 +78,10 @@ describe('MagmaColorPickerComponent', () => {
         expect(component['rangeSature']).toBe(56);
     });
 
-    it('should update color when tab changes to HSL', () => {
+    it('should update color when tab changes to HSL', async () => {
         component['hexa'] = '#ff0000';
         component.tabChange('hsl');
-        vi.useFakeTimers({ advanceTimeDelta: 10 });
+        await fixture.whenStable();
         expect(component['hexa']).toBe('#f00');
     });
 
@@ -101,7 +101,7 @@ describe('MagmaColorPickerComponent', () => {
         fixture.componentRef.setInput('color', '#ff000000');
         expect(component['rangeAlpha']).toBe(1);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         fixture.componentRef.setInput('alpha', false);
         expect(component['rangeAlpha']).toBe(0);
         // 'NG0953: Unexpected emit for destroyed `OutputRef`. The owning directive/component is destroyed.'
@@ -111,7 +111,7 @@ describe('MagmaColorPickerComponent', () => {
         fixture.componentRef.setInput('alpha', true);
         fixture.componentRef.setInput('color', '#ff000000');
         expect(component['rangeAlpha']).toBe(1);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const mockChange = { alpha: { currentValue: false } };
         component.ngOnChanges(mockChange as unknown as SimpleChanges);
@@ -124,7 +124,7 @@ describe('MagmaColorPickerComponent', () => {
     it('should change alpha input to true is false with ngOnChanges with invalid hexa', () => {
         fixture.componentRef.setInput('color', '#ff000000');
         fixture.componentRef.setInput('alpha', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         // force remove hexa
         component['hexa'] = '';
 

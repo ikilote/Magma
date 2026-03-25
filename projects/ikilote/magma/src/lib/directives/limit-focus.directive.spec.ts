@@ -130,7 +130,7 @@ describe('MagmaLimitFocusDirective', () => {
         fixture.detectChanges();
         expect(document.activeElement).toBe(input1);
 
-        await vi.useFakeTimers();
+        await fixture.whenStable();
     });
 
     it('should handle dynamic content changes', async () => {
@@ -142,7 +142,7 @@ describe('MagmaLimitFocusDirective', () => {
         // Simulate pressing Tab to move focus to the next element
         simulateTab();
         expect(document.activeElement).toBe(button1);
-        await vi.useFakeTimers();
+        await fixture.whenStable();
 
         // Add a new focusable element dynamically
         const newButton = document.createElement('button');
@@ -156,20 +156,20 @@ describe('MagmaLimitFocusDirective', () => {
 
         expect(document.activeElement).toBe(input2);
 
-        await vi.useFakeTimers();
+        await fixture.whenStable();
 
         // Simulate pressing Tab again to move focus to the next element
         simulateTab();
         expect(document.activeElement).toBe(button2);
 
-        await vi.useFakeTimers();
+        await fixture.whenStable();
 
         // Simulate pressing Tab again to move focus to the newly added button
         simulateTab();
 
         expect(document.activeElement).toBe(newButton);
 
-        await vi.useFakeTimers();
+        await fixture.whenStable();
     });
 
     it('should restore focus to the origin element on destroy', () => {
@@ -414,7 +414,7 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
     it('should intercept keydown', async () => {
         limitFocusDirective['keydown'] = vi.fn();
 
-        await vi.useFakeTimers();
+        await fixture.whenStable();
         await fixture.whenStable();
 
         divRef.nativeElement.dispatchEvent(new KeyboardEvent('keydown'));
@@ -423,38 +423,47 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
     });
 
     it('should detect mutation (attr)', async () => {
-        setTimeout(() => {
-            divRef.nativeElement.setAttribute('test', 'test');
-
+        await new Promise<void>(resolve => {
             setTimeout(() => {
-                expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
+                divRef.nativeElement.setAttribute('test', 'test');
+
+                setTimeout(() => {
+                    expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
+                    resolve();
+                }, 10);
             }, 10);
-        }, 10);
+        });
     });
 
     it('should detect mutation (childList)', async () => {
-        setTimeout(() => {
-            const button = document.createElement('button');
-            divRef.nativeElement.append(button);
-
+        await new Promise<void>(resolve => {
             setTimeout(() => {
-                expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
+                const button = document.createElement('button');
+                divRef.nativeElement.append(button);
+
+                setTimeout(() => {
+                    expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(1);
+                    resolve();
+                }, 10);
             }, 10);
-        }, 10);
+        });
     });
 
     it('should detect mutation (childList & subtree)', async () => {
-        setTimeout(() => {
-            const button = document.createElement('button');
-            divRef.nativeElement.append(button);
+        await new Promise<void>(resolve => {
             setTimeout(() => {
-                const div = document.createElement('div');
-                button.append(div);
-
+                const button = document.createElement('button');
+                divRef.nativeElement.append(button);
                 setTimeout(() => {
-                    expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(2);
+                    const div = document.createElement('div');
+                    button.append(div);
+
+                    setTimeout(() => {
+                        expect(limitFocusDirective['mutations']).toHaveBeenCalledTimes(2);
+                        resolve();
+                    }, 10);
                 }, 10);
             }, 10);
-        }, 10);
+        });
     });
 });

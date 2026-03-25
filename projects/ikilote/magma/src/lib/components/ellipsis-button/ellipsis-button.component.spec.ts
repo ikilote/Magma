@@ -49,9 +49,9 @@ describe('MagmaEllipsisButton (integration)', () => {
         button.triggerEventHandler('click', null);
         fixture.detectChanges();
 
-        await vi.useFakeTimers();
+        await fixture.whenStable();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        await vi.useFakeTimers();
+        await fixture.whenStable();
 
         fixture.detectChanges();
 
@@ -83,9 +83,9 @@ describe('MagmaEllipsisButton (integration)', () => {
         button.triggerEventHandler('click', null);
         fixture.detectChanges();
 
-        await vi.useFakeTimers();
+        await fixture.whenStable();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        await vi.useFakeTimers();
+        await fixture.whenStable();
 
         fixture.detectChanges();
 

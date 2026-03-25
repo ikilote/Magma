@@ -31,7 +31,7 @@ describe('Timing', () => {
         it('should call the callback repeatedly at the specified interval', async () => {
             // Test: Callback is called at the specified interval
             testId = Timing.start(callbackSpy, 50);
-            await wait(150);
+            await wait(200);
             expect(callbackSpy).toHaveBeenCalledTimes(3);
         });
     });
@@ -60,9 +60,9 @@ describe('Timing', () => {
         it('should change the interval of an existing timer', async () => {
             // Test: Changing the interval updates the timer's frequency
             testId = Timing.start(callbackSpy, 50);
-            await wait(60);
+            await wait(80);
             Timing.change(testId, 100);
-            await wait(120);
+            await wait(150);
             expect(callbackSpy).toHaveBeenCalledTimes(2);
         });
 

@@ -66,7 +66,7 @@ describe('MagmaWindow', () => {
 
             // simulate ngInit (directive MagmaNgInit in template   )
             component.winInit();
-            await vi.useFakeTimers(); // for setTimeout in winInit
+            await fixture.whenStable(); // for setTimeout in winInit
 
             const content = fixture.debugElement.query(By.css('.content'));
             expect(content).not.toBeNull();
@@ -125,7 +125,7 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.detectChanges();
             component.winInit();
-            await vi.useFakeTimers();
+            await fixture.whenStable();
 
             mockElement = document.createElement('div');
             mockElement.style.width = '200px';
@@ -197,14 +197,14 @@ describe('MagmaWindow', () => {
         it('should call updatePosition when position change', () => {
             vi.spyOn(component, 'updatePosition');
             fixture.componentRef.setInput('position', 'center');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(component.updatePosition).toHaveBeenCalledWith();
         });
 
         it('should not call updatePosition with other input', () => {
             vi.spyOn(component, 'updatePosition');
             fixture.componentRef.setInput('bar', 'false');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(component.updatePosition).not.toHaveBeenCalledWith();
         });
     });
@@ -354,7 +354,7 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.componentRef.setInput('component', mockComponentInfo);
             fixture.detectChanges();
-            await vi.useFakeTimers(); // Allow time for the outlet to initialize
+            await fixture.whenStable(); // Allow time for the outlet to initialize
             fixture.detectChanges();
 
             const button1 = fixture.debugElement.query(By.css('mg-test button'));

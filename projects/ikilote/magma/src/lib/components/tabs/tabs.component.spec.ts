@@ -44,6 +44,14 @@ describe('MagmaTabs - Integration', () => {
         tabMagmaTabContent = fixture.debugElement.queryAll(By.directive(MagmaTabContent));
     });
 
+    afterEach(() => {
+        if (tags.updateInterval) {
+            clearInterval(tags.updateInterval);
+            tags.updateInterval = undefined;
+        }
+        window.document.body.style.cssText = '';
+    });
+
     it('should display the content of the first tab by default', () => {
         const contents = testHost.tabs().content();
         expect(contents[0].selected()).toBe(true);
@@ -55,7 +63,7 @@ describe('MagmaTabs - Integration', () => {
 
     it('should display the content a selected tab', () => {
         tags.update('tab2');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const contents = testHost.tabs().content();
         expect(contents[0].selected()).toBe(false);
@@ -67,10 +75,10 @@ describe('MagmaTabs - Integration', () => {
 
     it('should display the content a selected an invalid tab', () => {
         tags.update('tab2');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         tags.update('invalid');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const contents = testHost.tabs().content();
         expect(contents[0].selected()).toBe(true);
@@ -101,7 +109,7 @@ describe('MagmaTabs - Integration', () => {
 
     it('should next/prev button is visible', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
         const { clientWidth, scrollWidth, scrollLeft } = tags.tablist().nativeElement;
@@ -114,7 +122,7 @@ describe('MagmaTabs - Integration', () => {
         expect(clientWidth).not.toBe(scrollWidth);
         expect(scrollLeft).toBe(0);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 15);
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
@@ -123,7 +131,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 100);
 
         const { scrollLeft: scrollLeft3 } = tags.tablist().nativeElement;
@@ -131,7 +139,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.prev()).toBe(false);
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(fixture.nativeElement.querySelector('.prev.show')).not.toBeNull();
         expect(fixture.nativeElement.querySelector('.next.show')).toBeNull();
 
@@ -143,7 +151,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(false);
         expect(tags.updateInterval).toBeDefined();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(false);
 
         expect(tags.updateInterval).toBeUndefined();
@@ -151,10 +159,10 @@ describe('MagmaTabs - Integration', () => {
 
     it('should next/prev button is visible', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 300);
 
         const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
@@ -163,9 +171,9 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, -100);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, -100);
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
@@ -177,10 +185,10 @@ describe('MagmaTabs - Integration', () => {
 
     it('should next hide when resize', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
         expect(scrollLeft).toBe(0);
@@ -189,7 +197,7 @@ describe('MagmaTabs - Integration', () => {
 
         window.document.body.style = 'width:300px';
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
         expect(scrollLeft2).toBe(0);
@@ -199,11 +207,11 @@ describe('MagmaTabs - Integration', () => {
 
     it('should prev hide when resize', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
         tags.moveTabs(true, 300);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
         expect(scrollLeft).toBe(48);
@@ -212,7 +220,7 @@ describe('MagmaTabs - Integration', () => {
 
         window.document.body.style = 'width:300px';
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
         expect(scrollLeft2).toBe(0);

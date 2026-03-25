@@ -56,14 +56,14 @@ describe('MagmaInputNumber', () => {
 
     it('should render datalist if datalist is provided', () => {
         fixture.componentRef.setInput('datalist', [1, 2, 3]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const datalistElement = debugElement.query(By.css('datalist'));
         expect(datalistElement).toBeTruthy();
     });
 
     it('should render options in datalist', () => {
         fixture.componentRef.setInput('datalist', [1, 2, 3]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const options = debugElement.queryAll(By.css('option'));
         expect(options.length).toBe(3);
     });

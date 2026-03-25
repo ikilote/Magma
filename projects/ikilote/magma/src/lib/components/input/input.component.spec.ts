@@ -75,14 +75,14 @@ describe('MagmaInput', () => {
 
     it('should set alignMode correctly', () => {
         fixture.componentInstance.alignMode = 'column';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.alignMode()).toBe('column');
     });
 
     it('should compute _id based on id or uid', () => {
         expect(component._id()).toMatch(/mg-input-\d+/);
         fixture.componentInstance.id = 'test';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component._id()).toBe('test');
     });
 
@@ -112,18 +112,18 @@ describe('MagmaInput', () => {
     });
 
     it('should set align style not based on alignMode', () => {
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const contentElement = debugElement.query(By.css('.content'));
         expect(contentElement.nativeElement.classList).toContain('row');
 
         fixture.componentInstance.alignMode = 'row';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(contentElement.nativeElement.classList).toContain('row');
     });
 
     it('should set align style based on alignMode', () => {
         fixture.componentInstance.alignMode = 'column';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const contentElement = debugElement.query(By.css('.content'));
         expect(contentElement.nativeElement.classList).toContain('column');
     });

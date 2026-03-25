@@ -107,14 +107,14 @@ describe('MagmaInputRadio', () => {
 
     it('should disable input if disabled is true', () => {
         fixture.componentRef.setInput('disabled', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
         expect(inputElement.disabled).toBe(true);
     });
 
     it('should set input to readonly if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
         expect(inputElement.readOnly).toBe(true);
     });

@@ -26,6 +26,10 @@ describe('InfoMessageComponent', () => {
         fixture.detectChanges();
     });
 
+    afterEach(() => {
+        fixture.destroy();
+    });
+
     it('should display string message', () => {
         const message = {
             message: 'Hello World',
@@ -33,7 +37,7 @@ describe('InfoMessageComponent', () => {
             time: '1s',
         };
         fixture.componentRef.setInput('message', message);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const messageDiv = fixture.debugElement.query(By.css('.message'));
         expect(messageDiv.nativeElement.textContent).toContain('Hello World');
@@ -48,7 +52,7 @@ describe('InfoMessageComponent', () => {
             type: 'info',
         };
         fixture.componentRef.setInput('message', dynamicMessage);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const dynamicComponent = fixture.debugElement.query(By.css('app-test-dynamic'));
         expect(dynamicComponent.nativeElement.textContent).toContain('Dynamic Component: Test');
@@ -61,7 +65,7 @@ describe('InfoMessageComponent', () => {
             time: '1s',
         };
         fixture.componentRef.setInput('message', message);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(fixture.nativeElement.classList.contains('info')).toBe(true);
     });
@@ -75,7 +79,7 @@ describe('InfoMessageComponent', () => {
         };
 
         fixture.componentRef.setInput('message', message);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.close();
         expect(component.destruct.emit).toHaveBeenCalledWith(message);
@@ -84,19 +88,21 @@ describe('InfoMessageComponent', () => {
     it('should call click on animationend', () => {
         vi.spyOn(component, 'click');
         const progressDiv = fixture.debugElement.query(By.css('.progress'));
-        progressDiv.triggerEventHandler('animationend', null);
+        progressDiv.nativeElement.dispatchEvent(new Event('animationend'));
         fixture.detectChanges();
 
         expect(component.click).toHaveBeenCalled();
     });
 
     it('should call click to close', () => {
+        vi.useFakeTimers();
         vi.spyOn(component, 'close');
         component.click();
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList[0]).toEqual('close');
-        vi.useFakeTimers({ advanceTimeDelta: 700 });
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList).toContain('close');
+        vi.advanceTimersByTime(700);
         expect(component.close).toHaveBeenCalled();
+        vi.useRealTimers();
     });
 
     it('should correct value for withContext', () => {

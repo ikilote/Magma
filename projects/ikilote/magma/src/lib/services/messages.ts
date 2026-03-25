@@ -45,6 +45,12 @@ export class MagmaMessages {
         this.messages.splice(this.messages.indexOf(message), 1);
     }
 
+    clearMessages() {
+        if (this.messages.length) {
+            this.messages.splice(0, this.messages.length);
+        }
+    }
+
     testDispose() {
         if (!this.messages.length) {
             this._overlayRef!.dispose();

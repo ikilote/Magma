@@ -114,6 +114,34 @@ describe('MagmaMessages', () => {
         });
     });
 
+    describe('clearMessages', () => {
+        it('should remove all messages from messages array', () => {
+            const message1: MagmaMessageInfo = {
+                message: 'Test message 1',
+                type: MagmaMessageType.info,
+                time: '3s',
+            };
+            const message2: MagmaMessageInfo = {
+                message: 'Test message 2',
+                type: MagmaMessageType.error,
+                time: '10s',
+            };
+            service.messages.push(message1);
+            service.messages.push(message2);
+            expect(service.messages).toHaveLength(2);
+
+            service.clearMessages();
+            expect(service.messages).toHaveLength(0);
+        });
+
+        it('should remove all messages from messages when array is empty', () => {
+            expect(service.messages).toHaveLength(0);
+
+            service.clearMessages();
+            expect(service.messages).toHaveLength(0);
+        });
+    });
+
     describe('testDispose', () => {
         it('should dispose overlay if no messages exist', () => {
             // Simulate an existing overlay by adding a message

@@ -147,12 +147,14 @@ describe('MagmaInputNumber', () => {
     });
 
     it('should add negative sign if not present', () => {
-        component.inputElement.value = '42';
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.value = '42';
         const event = new KeyboardEvent('keydown', { key: '-' });
+        Object.defineProperty(event, 'target', { value: inputElement });
         vi.spyOn(event, 'preventDefault');
         vi.spyOn(component, 'changeValue');
         component.keydown(event);
-        expect(component.inputElement.value).toBe('-42');
+        expect(inputElement.value).toBe('-42');
         expect(component.changeValue).toHaveBeenCalled();
     });
 

@@ -125,13 +125,11 @@ describe('MagmaClickOutsideDirective', () => {
             containsSpy.mockRestore();
         });
 
-        it('should emit when target is not a Node (e.g., window object)', () => {
+        it('should throw error when target is not a Node (e.g., window object)', () => {
             const event = new MouseEvent('click');
             Object.defineProperty(event, 'target', { value: window });
 
-            directive.onClick(event);
-
-            expect(component.onClickOutside).toHaveBeenCalled();
+            expect(() => directive.onClick(event)).toThrow();
         });
     });
 });

@@ -139,10 +139,12 @@ describe('MagmaTabTitle', () => {
         expect(tabTitleComponent.onclick).toHaveBeenCalled();
     });
 
-    it('should call update on clickEnter event', async () => {
+    it('should call update on clickEnter event', () => {
+        vi.useFakeTimers();
         const clickDirective = tabTitleElement.injector.get(MagmaClickEnterDirective);
         clickDirective.clickEnter.emit(new MouseEvent('click'));
-        await fixture.whenStable();
+        vi.advanceTimersByTime(0);
         expect(tabsComponent.update).toHaveBeenCalled();
+        vi.useRealTimers();
     });
 });

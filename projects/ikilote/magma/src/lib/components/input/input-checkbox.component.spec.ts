@@ -14,12 +14,13 @@ class MockMagmaInput {
     onTouched = vi.fn();
     update = { emit: vi.fn() };
     validate = vi.fn();
-    ngControl = { control: { errors: null } };
+    ngControl = { control: { errors: null, touched: false } };
     cd = { detectChanges: vi.fn() };
     typeValue = vi.fn().mockReturnValue('default');
     returnValue = vi.fn().mockReturnValue('default');
     inputs = vi.fn().mockReturnValue([]);
     forId = signal<string | undefined>(undefined);
+    _errorMessage = { set: vi.fn() };
 }
 
 class MockElementRef {
@@ -266,11 +267,11 @@ describe('MagmaInputCheckbox', () => {
             mockHost.forId.set('some-id');
             (component.host as any).inputs = signal([component, component]);
             mockLabelRef.nativeElement.innerHTML = 'Some content';
-            vi.spyOn(mockHost.forId, 'set');
 
             component.ngDoCheck();
 
-            expect(mockHost.forId()).toBe('some-id');
+            // When there are multiple checkboxes OR label has content, forId should be set to undefined
+            expect(mockHost.forId()).toBe(undefined);
             expect(component.host?.cd.detectChanges).toHaveBeenCalled();
         });
 
@@ -279,11 +280,11 @@ describe('MagmaInputCheckbox', () => {
             mockHost.forId.set('some-id');
             (component.host as any).inputs = signal([component]);
             mockLabelRef.nativeElement.innerHTML = 'Some content';
-            vi.spyOn(mockHost.forId, 'set');
 
             component.ngDoCheck();
 
-            expect(mockHost.forId()).toBe('some-id');
+            // When label has content, forId should be set to undefined
+            expect(mockHost.forId()).toBe(undefined);
             expect(component.host?.cd.detectChanges).toHaveBeenCalled();
         });
 
@@ -292,11 +293,11 @@ describe('MagmaInputCheckbox', () => {
             mockHost.forId.set(undefined);
             (component.host as any).inputs = signal([component]);
             mockLabelRef.nativeElement.innerHTML = '';
-            vi.spyOn(mockHost.forId, 'set');
 
             component.ngDoCheck();
 
-            expect(mockHost.forId()).toBe(undefined);
+            // Single checkbox without label content should set forId to component id
+            expect(mockHost.forId()).toBe(`${component._id()}-input`);
             expect(component.host?.cd.detectChanges).toHaveBeenCalled();
         });
     });

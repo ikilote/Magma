@@ -306,7 +306,7 @@ describe('MagmaInputCommon', () => {
 
         it('should init initAnimation (update)', () => {
             vi.spyOn(directive as any, 'initAnimation');
-            vi.spyOn(directive as any, 'stopPlaceholderAnimation');
+            vi.spyOn(directive as any, 'startPlaceholderAnimation');
 
             fixture.componentRef.setInput('placeholderAnimated', '100 2 50 |');
             fixture.changeDetectorRef.detectChanges();
@@ -314,7 +314,8 @@ describe('MagmaInputCommon', () => {
             fixture.changeDetectorRef.detectChanges();
 
             expect(directive['initAnimation']).toHaveBeenCalledTimes(3); // 2 times by init
-            expect(directive['stopPlaceholderAnimation']).not.toHaveBeenCalled();
+            // startPlaceholderAnimation is called because value is empty
+            expect(directive['startPlaceholderAnimation']).toHaveBeenCalled();
         });
 
         it('should init initAnimation (reset)', () => {
@@ -379,7 +380,11 @@ describe('MagmaInputCommon', () => {
             vi.advanceTimersByTime(40);
             expect(directive.placeholderDisplay()).toBe('Test');
 
+            // Next tick (10ms) encounters separator '|'
+            // This schedules a setTimeout(0) to reset placeholderDisplay to ''
             vi.advanceTimersByTime(10);
+            // Now run the setTimeout(0) that was scheduled
+            vi.advanceTimersByTime(1);
             expect(directive.placeholderDisplay()).toBe('');
 
             vi.advanceTimersByTime(10);

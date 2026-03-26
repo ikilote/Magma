@@ -139,35 +139,30 @@ describe('MagmaLimitFocusDirective', () => {
         fixture.changeDetectorRef.detectChanges();
         expect(document.activeElement).toBe(input1);
 
-        // Simulate pressing Tab to move focus to the next element
-        simulateTab();
-        expect(document.activeElement).toBe(button1);
-        await fixture.whenStable();
-
         // Add a new focusable element dynamically
         const newButton = document.createElement('button');
         newButton.id = 'button3';
         newButton.textContent = 'Button 3';
         containerElement.appendChild(newButton);
         fixture.changeDetectorRef.detectChanges();
+        await fixture.whenStable();
 
-        // Simulate pressing Tab again to move focus to the next element
-        simulateTab();
+        // The directive should detect the new element via MutationObserver
+        // Tab through all elements to verify the new button is included
+        simulateTab(); // input1 -> button1
+        expect(document.activeElement).toBe(button1);
 
+        simulateTab(); // button1 -> input2
         expect(document.activeElement).toBe(input2);
 
-        await fixture.whenStable();
-
-        // Simulate pressing Tab again to move focus to the next element
-        simulateTab();
+        simulateTab(); // input2 -> button2
         expect(document.activeElement).toBe(button2);
 
-        await fixture.whenStable();
-
-        // Simulate pressing Tab again to move focus to the newly added button
-        simulateTab();
-
+        simulateTab(); // button2 -> newButton
         expect(document.activeElement).toBe(newButton);
+
+        simulateTab(); // newButton -> input1 (wrap around)
+        expect(document.activeElement).toBe(input1);
 
         await fixture.whenStable();
     });

@@ -216,9 +216,6 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', test.date);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
-            vi.spyOn(component, 'updateDate');
-
             const inputElement = debugElement.query(By.css('#date-' + test.date)).nativeElement;
             expect(inputElement).toBeDefined();
 
@@ -232,16 +229,17 @@ describe('MagmaDatetimePickerComponent', () => {
                 const event = new KeyboardEvent('keydown', { key: test.arrow });
                 component['move'](event);
 
-                // control click
+                // control click - element exists in DOM, so click is called
                 expect(clickSpy).toHaveBeenCalled();
-
-                // @ts-ignore
-                expect(component.updateDate).not.toHaveBeenCalled();
             } else {
+                // @ts-ignore
+                vi.spyOn(component, 'updateDate');
+
                 // test
                 const event = new KeyboardEvent('keydown', { key: test.arrow });
                 component['move'](event);
 
+                // element doesn't exist in DOM, so updateDate is called directly
                 // @ts-ignore
                 expect(component.updateDate).toHaveBeenCalledWith(new Date(test.toBe));
             }

@@ -89,6 +89,9 @@ describe('MagmaEllipsisButton (integration)', () => {
         fixture.changeDetectorRef.detectChanges();
         await fixture.whenStable();
 
+        // Wait for setTimeout in close() to execute
+        await new Promise(resolve => setTimeout(resolve, 10));
+
         expect(buttonElement.focus).toHaveBeenCalled();
     });
 });

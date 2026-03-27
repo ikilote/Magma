@@ -17,8 +17,22 @@ describe('InfoMessagesComponent', () => {
     beforeEach(async () => {
         // Mock MagmaMessages service
         const messagesSpy = {
-            removeMessage: vi.fn().mockName('MagmaMessages.removeMessage'),
+            removeMessage: vi
+                .fn()
+                .mockImplementation((msg: MagmaMessageInfo) => {
+                    const index = messagesSpy.messages.indexOf(msg);
+                    if (index > -1) {
+                        messagesSpy.messages.splice(index, 1);
+                    }
+                })
+                .mockName('MagmaMessages.removeMessage'),
             testDispose: vi.fn().mockName('MagmaMessages.testDispose'),
+            clearMessages: vi
+                .fn()
+                .mockImplementation(() => {
+                    messagesSpy.messages.length = 0;
+                })
+                .mockName('MagmaMessages.clearMessages'),
             messages: [] as any[],
             addMessage: (
                 message: MagmaMessageContent,

@@ -1,9 +1,13 @@
-import { SimpleChanges } from '@angular/core';
+import { Component, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 
 import { MagmaPagination } from './paginate.component';
+
+// Dummy component for router
+@Component({ template: '' })
+class DummyComponent {}
 
 describe('MagmaPagination', () => {
     let fixture: ComponentFixture<MagmaPagination>;
@@ -12,7 +16,11 @@ describe('MagmaPagination', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [MagmaPagination],
-            providers: [provideRouter([])],
+            providers: [
+                provideRouter([
+                    { path: '**', component: DummyComponent }, // Catch-all route
+                ]),
+            ],
         }).compileComponents();
 
         fixture = TestBed.createComponent(MagmaPagination);
@@ -24,6 +32,13 @@ describe('MagmaPagination', () => {
         fixture.componentRef.setInput('base', '/test');
 
         fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        // Clean up fixture and subscriptions
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should show total if showTotal is true', () => {

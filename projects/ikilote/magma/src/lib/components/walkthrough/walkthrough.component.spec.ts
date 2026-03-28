@@ -1,10 +1,11 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, ComponentRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 
+import { cleanupOverlayContainer } from '../../test-helpers';
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
@@ -42,8 +43,8 @@ class MockOverlay {
 @Component({
     template: `
         <mg-walkthrough>
-            <ng-template mg-walkthrough-step name="first" group="test" selector=".target"></ng-template>
-            <ng-template mg-walkthrough-step name="second" group="test" selector=".target2"></ng-template>
+            <ng-template mg-walkthrough-step name="first" group="test" selector=".target" />
+            <ng-template mg-walkthrough-step name="second" group="test" selector=".target2" />
         </mg-walkthrough>
         <div class="target"></div>
         <div class="target2"></div>
@@ -66,7 +67,23 @@ describe('MagmaWalkthrough', () => {
         fixture = TestBed.createComponent(TestHostComponent);
         overlay = TestBed.inject(Overlay);
         component = fixture.debugElement.children[0].componentInstance;
-        fixture.changeDetectorRef.detectChanges();
+        fixture.detectChanges();
+
+        const rootId = `root${(getTestBed() as any)._rootElementId || 0}`; 
+        const nextRoot = document.createElement('div');
+        if (!document.getElementById(rootId)) {
+            const el = document.createElement('div');
+            el.id = rootId;
+            document.body.appendChild(el);
+        }
+
+        fixture = TestBed.createComponent(TestHostComponent);
+    });
+
+    afterEach(() => {
+        vi.restoreAllMocks(); 
+        fixture?.destroy();
+        cleanupOverlayContainer();
     });
 
     it('should create', () => {
@@ -74,9 +91,9 @@ describe('MagmaWalkthrough', () => {
     });
 
     it('should start walkthrough and create overlay', async () => {
-        const mockElement = document.querySelector('.target');
+        const mockElement = fixture.nativeElement.querySelector('.target');
         vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
-        vi.spyOn(mockElement as any, 'scrollIntoView');
+        vi.spyOn(mockElement as any, 'scrollIntoView').mockImplementation(() => {});
 
         component.start({ group: 'test' });
 
@@ -92,8 +109,9 @@ describe('MagmaWalkthrough', () => {
     });
 
     it('should handle backdrop click actions', async () => {
-        const mockElement = document.querySelector('.target');
+        const mockElement = fixture.nativeElement.querySelector('.target');
         vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
+        vi.spyOn(mockElement as any, 'scrollIntoView').mockImplementation(() => {});
         component.start({ group: 'test' });
         await fixture.whenStable();
 
@@ -111,11 +129,13 @@ describe('MagmaWalkthrough', () => {
     });
 
     it('should change step and update overlay', async () => {
-        const mockElement = document.querySelector('.target');
-        const mockElement2 = document.querySelector('.target2');
+        const mockElement = fixture.nativeElement.querySelector('.target');
+        const mockElement2 = fixture.nativeElement.querySelector('.target2');
         vi.spyOn(document, 'querySelector').mockImplementation((selector: string) =>
             selector === '.target' ? mockElement : mockElement2,
         );
+        vi.spyOn(mockElement as any, 'scrollIntoView').mockImplementation(() => {});
+        vi.spyOn(mockElement2 as any, 'scrollIntoView').mockImplementation(() => {});
 
         component.start({ group: 'test' });
         await fixture.whenStable();
@@ -129,11 +149,12 @@ describe('MagmaWalkthrough', () => {
     });
 
     it('should change step (close) and update overlay', async () => {
-        const mockElement = document.querySelector('.target');
-        const mockElement2 = document.querySelector('.target2');
+        const mockElement = fixture.nativeElement.querySelector('.target');
+        const mockElement2 = fixture.nativeElement.querySelector('.target2');
         vi.spyOn(document, 'querySelector').mockImplementation((selector: string) =>
             selector === '.target' ? mockElement : mockElement2,
         );
+        vi.spyOn(mockElement as any, 'scrollIntoView').mockImplementation(() => {});
 
         component.start({ group: 'test' });
         await fixture.whenStable();
@@ -146,8 +167,9 @@ describe('MagmaWalkthrough', () => {
     });
 
     it('should close overlay and clean references', async () => {
-        const mockElement = document.querySelector('.target');
+        const mockElement = fixture.nativeElement.querySelector('.target');
         vi.spyOn(document, 'querySelector').mockReturnValue(mockElement);
+        vi.spyOn(mockElement as any, 'scrollIntoView').mockImplementation(() => {});
 
         component.start({ group: 'test' });
         await fixture.whenStable();
@@ -207,8 +229,7 @@ describe('MagmaWalkthrough', () => {
         expect(component['changeStep']).toHaveBeenCalledWith('second', 'test');
     });
 
-    it('should call content.instance.clone.click() if backdropAction is "clickElement" and clickElementActive or \
-clickElementOrigin is true', async () => {
+    it('should call content.instance.clone.click() if backdropAction is "clickElement" and clickElementActive is true', async () => {
         component['portal'] = {
             backdropAction: () => 'clickElement',
             clickElementActive: () => true,
@@ -231,8 +252,7 @@ clickElementOrigin is true', async () => {
         expect((component as any)['content'].instance.clone.click).toHaveBeenCalled();
     });
 
-    it('should call content.instance.clone.click() if backdropAction is "clickElement" and clickElementActive or \
-clickElementOrigin is true', async () => {
+    it('should call content.instance.clone.click() if backdropAction is "clickElement" and clickElementOrigin is true', async () => {
         component['portal'] = {
             backdropAction: () => 'clickElement',
             clickElementActive: () => false,

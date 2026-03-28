@@ -3,6 +3,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { cleanupOverlayContainer } from '../../test-helpers';
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
@@ -72,8 +73,17 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
         // Clean up any open overlays
         if (walkthrough?.['overlayRef']) {
             walkthrough['overlayRef'].dispose();
+            walkthrough['overlayRef'] = undefined;
+            walkthrough['content'] = undefined;
         }
-        fixture.destroy();
+        
+        // Clean up any cloned elements with event listeners
+        const clones = document.querySelectorAll('.component');
+        clones.forEach(clone => clone.remove());
+        
+        cleanupOverlayContainer();
+        fixture?.destroy();
+        vi.clearAllTimers();
         vi.useRealTimers();
     });
 
@@ -82,9 +92,9 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
     });
 
     describe('walkthrough content', () => {
-        it('should open walkthrough content on start', async () => {
+        it('should open walkthrough content on start', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
@@ -92,9 +102,9 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(contentComponent instanceof MagmaWalkthroughContent).toBe(true);
         });
 
-        it('should display correct content for first step', async () => {
+        it('should display correct content for first step', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             // Verify first step content is displayed
@@ -104,16 +114,16 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(document.querySelector('mg-walkthrough-content .close')).toBeNull();
         });
 
-        it('should change to second step when next/previous is clicked', async () => {
+        it('should change to second step when next/previous is clicked', () => {
             // Start with first step
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             // Get the content component and click next
             const contentComponent = walkthrough.overlayComponent!;
             contentComponent?.next();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             // Verify second step content is displayed
@@ -123,7 +133,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(document.querySelector('mg-walkthrough-content .close')).not.toBeNull();
 
             contentComponent?.previous();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             // Verify first step content is displayed
@@ -133,15 +143,15 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(document.querySelector('mg-walkthrough-content .close')).toBeNull();
         });
 
-        it('should change to second step when next/previous/close html button is clicked', async () => {
+        it('should change to second step when next/previous/close html button is clicked', () => {
             // Start with first step
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             // Get the content component and click next
             document.querySelector<HTMLButtonElement>('mg-walkthrough-content .next')!.click();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             // Verify second step content is displayed
@@ -151,7 +161,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(document.querySelector('mg-walkthrough-content .close')).not.toBeNull();
 
             document.querySelector<HTMLButtonElement>('mg-walkthrough-content .previous')!.click();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             // Verify first step content is displayed
@@ -162,28 +172,28 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
 
             // return to the last step
             document.querySelector<HTMLButtonElement>('mg-walkthrough-content .next')!.click();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
             expect(document.querySelector('mg-walkthrough-content .previous')).not.toBeNull();
             expect(document.querySelector('mg-walkthrough-content .next')).toBeNull();
             expect(document.querySelector('mg-walkthrough-content .close')).not.toBeNull();
 
             document.querySelector<HTMLButtonElement>('mg-walkthrough-content .close')!.click();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             // Verify walkthrough is close
             expect(document.querySelector('mg-walkthrough-content')).toBeNull();
         });
 
-        it('should close walkthrough when close is clicked', async () => {
+        it('should close walkthrough when close is clicked', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
             contentComponent?.close();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             expect(walkthrough['overlayRef']).toBeUndefined();
@@ -192,9 +202,9 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(walkthrough.overlayComponent!).toBeUndefined();
         });
 
-        it('should position content correctly based on target element', async () => {
+        it('should position content correctly based on target element', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
@@ -217,9 +227,9 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(contentComponent?.['right']()).toBe(false);
         });
 
-        it('should handle escape key with not action event', async () => {
+        it('should handle escape key with not action event', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             vi.spyOn(walkthrough.overlayComponent!, 'close');
@@ -230,15 +240,15 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
 
             (walkthrough.overlayComponent!.portal().nextStep as any) = () => '';
             document.dispatchEvent(event);
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
 
             expect(walkthrough.overlayComponent!.next).not.toHaveBeenCalled();
             expect(walkthrough.overlayComponent!.close).not.toHaveBeenCalled();
         });
 
-        it('should handle escape key to close', async () => {
+        it('should handle escape key to close', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const closeSpy = vi.spyOn(walkthrough.overlayComponent!, 'close');
@@ -249,15 +259,15 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
 
             (walkthrough.overlayComponent!.portal().close as any) = () => true;
             document.dispatchEvent(event);
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
 
             expect(nextSpy).not.toHaveBeenCalled();
             expect(closeSpy).toHaveBeenCalled();
         });
 
-        it('should handle escape key to next step', async () => {
+        it('should handle escape key to next step', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             vi.spyOn(walkthrough.overlayComponent!, 'close');
@@ -268,19 +278,19 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
 
             (walkthrough.overlayComponent!.portal()!.nextStep as any) = () => 'second';
             document.dispatchEvent(event);
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
 
             expect(walkthrough.overlayComponent!.next).toHaveBeenCalled();
             expect(walkthrough.overlayComponent!.close).not.toHaveBeenCalled();
         });
 
-        it('should show element clone when showElement is true', async () => {
+        it('should show element clone when showElement is true', () => {
             // Modify the step to show element
             const steps = walkthrough['stepsDirective']();
             (steps[0] as any).showElement = () => true;
 
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
@@ -290,14 +300,14 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(contentElement?.querySelector('.target')).toBeTruthy();
         });
 
-        it('should handle click on cloned element when clickElementActive is true', async () => {
+        it('should handle click on cloned element when clickElementActive is true', () => {
             // Modify the step to show element and enable click
             const steps = walkthrough['stepsDirective']();
             (steps[0] as any).showElement = () => true;
             (steps[0] as any).clickElementActive = () => true;
 
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
@@ -305,26 +315,26 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
 
             vi.spyOn(steps[0].clickElement, 'emit');
             clonedElement?.dispatchEvent(new Event('click'));
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
 
             expect(steps[0].clickElement.emit).toHaveBeenCalled();
         });
 
-        it('should subscribe to window resize event on ngOnInit', async () => {
+        it('should subscribe to window resize event on ngOnInit', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
             vi.spyOn(contentComponent as any, 'resize');
             window.dispatchEvent(new Event('resize'));
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             expect(contentComponent['resize']).toHaveBeenCalled();
         });
 
-        it('should update clone style on resize', async () => {
+        it('should update clone style on resize', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             const contentComponent = walkthrough.overlayComponent!;
@@ -337,9 +347,9 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(contentComponent.clone.style.margin).toBe('0px');
         });
 
-        it('should call action on clone element', async () => {
+        it('should call action on clone element', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             expect(document.querySelector('mg-walkthrough-content .target')).not.toBeNull();
@@ -347,9 +357,9 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             expect(testComponent.call).toHaveBeenCalled();
         });
 
-        it('should component is empty in the second step', async () => {
+        it('should component is empty in the second step', () => {
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('target');
@@ -357,19 +367,17 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             // Get the content component and click next
             const contentComponent = walkthrough.overlayComponent!;
             contentComponent?.next();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('');
         });
 
-        it('should component is not empty in the second step', async () => {
+        it('should component is not empty in the second step', () => {
             testComponent.showElement = true;
             fixture.changeDetectorRef.detectChanges();
             walkthrough.start({ group: 'test' });
-            vi.advanceTimersByTime(50);
-            fixture.changeDetectorRef.detectChanges();
-            vi.advanceTimersByTime(50);
+            vi.runAllTimers();
             fixture.changeDetectorRef.detectChanges();
 
             expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('target');
@@ -377,9 +385,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
             // Get the content component and click next
             const contentComponent = walkthrough.overlayComponent!;
             contentComponent?.next();
-            vi.advanceTimersByTime(50);
-            fixture.changeDetectorRef.detectChanges();
-            vi.advanceTimersByTime(50);
+            vi.advanceTimersByTime(10);
             fixture.changeDetectorRef.detectChanges();
 
             expect(document.querySelector('mg-walkthrough-content .component')?.textContent)?.toBe('target2');

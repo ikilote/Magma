@@ -3,6 +3,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { cleanupOverlayContainer } from '../test-helpers';
 import { MagmaTooltipDirective } from './tooltip.directive';
 
 @Component({
@@ -51,6 +52,7 @@ describe('MagmaTooltipDirective', () => {
             MagmaTooltipDirective._overlayRef = undefined;
             MagmaTooltipDirective._component = undefined;
         }
+        cleanupOverlayContainer();
         fixture.destroy();
         vi.useRealTimers();
     });

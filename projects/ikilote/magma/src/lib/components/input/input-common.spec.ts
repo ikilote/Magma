@@ -53,6 +53,16 @@ describe('MagmaInputCommon', () => {
         fixture.componentRef.setInput('placeholder', 'Test Placeholder');
     });
 
+    afterEach(() => {
+        // Clean up timers to prevent hanging tests
+        Object.keys(Timing['timers']).forEach(key => {
+            Timing.stop(parseInt(key));
+        });
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+    });
+
     it('should create', () => {
         expect(directive).toBeTruthy();
     });
@@ -117,11 +127,14 @@ describe('MagmaInputCommon', () => {
     });
 
     it('should update value and trigger animation on writeValue', async () => {
+        vi.useFakeTimers();
         vi.spyOn(directive as any, 'initAnimation');
         directive.writeValue('test value');
+        vi.runAllTimers();
         await fixture.whenStable();
         expect(directive.getValue()).toBe('test value');
         expect(directive['initAnimation']).toHaveBeenCalled();
+        vi.useRealTimers();
     });
 
     it('should set error message on validate', async () => {

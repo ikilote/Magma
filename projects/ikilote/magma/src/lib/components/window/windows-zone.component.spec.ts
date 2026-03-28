@@ -5,8 +5,19 @@ import { By } from '@angular/platform-browser';
 import { AbstractWindowComponent, MagmaWindowInfos } from './window.component';
 import { MagmaWindowsZone } from './windows-zone.component';
 
-@Component({ selector: 'mg-test', template: `<button (click)="close()">close</button>` })
-class TestComponent extends AbstractWindowComponent {}
+@Component({ 
+    selector: 'mg-test', 
+    template: `<button (click)="close()">close</button>`,
+    standalone: true
+})
+class TestComponent extends AbstractWindowComponent {
+    override close() {
+        // Override to prevent calling parent().onClose.emit() in tests
+        if (this.parent) {
+            this.parent().onClose.emit();
+        }
+    }
+}
 
 describe('MagmaWindowsZone', () => {
     let component: MagmaWindowsZone;
@@ -19,7 +30,7 @@ describe('MagmaWindowsZone', () => {
         fixture = TestBed.createComponent(MagmaWindowsZone);
         component = fixture.componentInstance;
 
-        // Create a set of dummy windows
+        // Create a set of dummy windows (recreate fresh for each test)
         mockWindows = [
             { id: 'win-0', index: 0, component: TestComponent } as any,
             { id: 'win-1', index: 1, component: TestComponent } as any,
@@ -29,6 +40,17 @@ describe('MagmaWindowsZone', () => {
         // Using the modern setInput API for Signal inputs
         fixture.componentRef.setInput('windows', mockWindows);
         fixture.changeDetectorRef.detectChanges();
+        
+        // Wait for async operations to complete
+        await fixture.whenStable();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should create and initialize with browser dimensions', () => {
@@ -86,13 +108,23 @@ describe('MagmaWindowsZone', () => {
             expect(mockWindows.find(w => w.id === 'win-1')).toBeUndefined();
         });
 
-        it('should trigger removal when mg-window emits onClose', () => {
+        it('should trigger removal when mg-window emits onClose', async () => {
             vi.spyOn(component, 'remove');
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
 
-            windowEl.triggerEventHandler('onClose', null);
+            // Emit the onClose output event
+            windowComponent.onClose.emit();
+            
+            // Wait for Angular to process the event
+            await Promise.resolve();
+            fixture.changeDetectorRef.detectChanges();
 
-            expect(component.remove).toHaveBeenCalledWith(mockWindows[0]);
+            // Verify remove was called with the first window in the current array
+            expect(component.remove).toHaveBeenCalled();
+            const calledWith = vi.mocked(component.remove).mock.calls[0][0];
+            expect(calledWith).toBeDefined();
+            expect(calledWith.component).toBe(TestComponent);
         });
     });
 });

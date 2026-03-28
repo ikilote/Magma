@@ -38,25 +38,33 @@ describe('MagmaEllipsisButton (integration)', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        // Clean up overlay and fixture
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+    });
+
     it('should create', () => {
         expect(hostComponent).toBeTruthy();
     });
 
     it('should open and close the menu when clicking the button', async () => {
+        vi.useFakeTimers();
         const button = fixture.debugElement.query(By.css('button'));
         expect(button).toBeTruthy();
 
         button.triggerEventHandler('click', null);
         fixture.changeDetectorRef.detectChanges();
+        vi.advanceTimersByTime(100);
 
-        await fixture.whenStable();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        await fixture.whenStable();
-
         fixture.changeDetectorRef.detectChanges();
+        vi.advanceTimersByTime(100);
 
         // @ts-expect-error
         expect(ellipsisButtonElement.isOpen()).toBe(false);
+        vi.useRealTimers();
     });
 
     it('should trigger actions when clicking on items', () => {

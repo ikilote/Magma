@@ -2,6 +2,7 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { cleanupOverlayContainer } from '../../test-helpers';
 import { MagmaDatetimePickerDays, MagmaDatetimeType } from './datetime-picker.component';
 import { MagmaDatetimePicker } from './datetime-picker.directive';
 
@@ -59,6 +60,10 @@ describe('MagmaDatetimePicker Directive', () => {
             MagmaDatetimePicker._overlayRef = undefined;
             MagmaDatetimePicker._component = undefined;
         }
+        cleanupOverlayContainer();
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should create directive', () => {

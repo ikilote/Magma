@@ -58,6 +58,10 @@ describe('MagmaSortableModule', () => {
         componentInstance = sortRuleDirectiveElement.componentInstance;
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     describe('sort-rule', () => {
         it('should apply "sort-asc" class when current rule and order match', () => {
             componentInstance.sortRule = 'name';

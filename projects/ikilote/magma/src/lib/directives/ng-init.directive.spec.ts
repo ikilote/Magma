@@ -29,6 +29,10 @@ describe('MagmaNgInitDirective', () => {
         directive = element.injector.get(MagmaNgInitDirective);
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should create an instance', () => {
         expect(directive).toBeTruthy();
     });

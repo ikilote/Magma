@@ -84,6 +84,10 @@ describe('MagmaLimitFocusDirective', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should create the directive', () => {
         expect(limitFocusDirective).toBeTruthy();
     });

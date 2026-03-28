@@ -36,6 +36,10 @@ describe('MagmaClickOutsideDirective', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should create an instance', () => {
         expect(directive).toBeTruthy();
     });

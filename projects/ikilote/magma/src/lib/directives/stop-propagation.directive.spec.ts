@@ -49,6 +49,10 @@ describe('MagmaStopPropagationDirective', () => {
         directive = innerElement.injector.get(MagmaStopPropagationDirective);
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     /** Helper to update inputs without ExpressionChangedAfterItHasBeenCheckedError */
     function updateInputs(changes: Partial<TestComponent>) {
         Object.assign(component, changes);

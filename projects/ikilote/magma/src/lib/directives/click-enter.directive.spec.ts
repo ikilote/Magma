@@ -42,6 +42,10 @@ describe('MagmaClickEnterDirective', () => {
         disabledElement = elements[1];
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should create an instance', () => {
         expect(elements.length).toBe(2);
         expect(clickableElement).toBeTruthy();

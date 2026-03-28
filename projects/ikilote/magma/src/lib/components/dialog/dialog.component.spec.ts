@@ -20,6 +20,10 @@ describe('MagmaDialog', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });

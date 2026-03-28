@@ -63,6 +63,12 @@ describe('MagmaTabTitle', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+    });
+
     it('should set the correct id attribute', () => {
         expect(tabTitleElement.nativeElement.getAttribute('id')).toBe('tab-tab1');
     });
@@ -101,33 +107,33 @@ describe('MagmaTabTitle', () => {
     });
 
     it('should focus previous tab on focusRight', () => {
-        const previousTab = document.createElement('div');
-        vi.spyOn(previousTab, 'focus');
-
+        // Focus sur le premier élément avant le test
+        tabsComponent.titles()[0].element.nativeElement.focus();
+        
         tabsComponent.titles()[0].focusRight();
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);
     });
 
     it('should focus previous tab on focusRight', () => {
-        const previousTab = document.createElement('div');
-        vi.spyOn(previousTab, 'focus');
-
+        // Focus sur le dernier élément avant le test
+        tabsComponent.titles()[2].element.nativeElement.focus();
+        
         tabsComponent.titles()[2].focusRight();
         expect(tabsComponent.titles()[2].element.nativeElement).toBe(document.activeElement);
     });
 
     it('should focus previous tab on focusLeft', () => {
-        const previousTab = document.createElement('div');
-        vi.spyOn(previousTab, 'focus');
-
+        // Focus sur le premier élément avant le test
+        tabsComponent.titles()[0].element.nativeElement.focus();
+        
         tabsComponent.titles()[0].focusLeft();
         expect(tabsComponent.titles()[0].element.nativeElement).toBe(document.activeElement);
     });
 
     it('should focus previous tab on focusLeft', () => {
-        const previousTab = document.createElement('div');
-        vi.spyOn(previousTab, 'focus');
-
+        // Focus sur le dernier élément avant le test
+        tabsComponent.titles()[2].element.nativeElement.focus();
+        
         tabsComponent.titles()[2].focusLeft();
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);
     });

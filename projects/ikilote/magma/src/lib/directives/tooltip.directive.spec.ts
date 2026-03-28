@@ -53,7 +53,7 @@ describe('MagmaTooltipDirective', () => {
             MagmaTooltipDirective._component = undefined;
         }
         cleanupOverlayContainer();
-        fixture.destroy();
+        fixture?.destroy();
         vi.useRealTimers();
     });
 

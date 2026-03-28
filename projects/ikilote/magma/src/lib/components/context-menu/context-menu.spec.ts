@@ -51,6 +51,10 @@ describe('MagmaContextMenu Integration', () => {
         event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should open context menu on right-click', async () => {
         vi.spyOn(event, 'preventDefault');
         vi.spyOn(event, 'stopPropagation');

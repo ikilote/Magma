@@ -31,6 +31,10 @@ describe('MagmaColorPickerComponent', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });
@@ -317,6 +321,9 @@ describe('MagmaColorPickerComponent', () => {
             // palette select
             const button = fixture.nativeElement.querySelector('.base button:first-child');
             button.click();
+            fixture.changeDetectorRef.detectChanges();
+            await fixture.whenStable();
+            
             expect(component['hexa']).toBe('#f00');
         });
 

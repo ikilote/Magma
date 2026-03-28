@@ -35,10 +35,7 @@ describe('LightDark', () => {
         }
 
         TestBed.configureTestingModule({
-            providers: [
-                LightDark,
-                { provide: RendererFactory2, useValue: mockRendererFactory },
-            ],
+            providers: [LightDark, { provide: RendererFactory2, useValue: mockRendererFactory }],
         });
 
         service = TestBed.inject(LightDark);

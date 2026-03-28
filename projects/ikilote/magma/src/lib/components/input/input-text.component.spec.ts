@@ -35,7 +35,6 @@ describe('MagmaInputText', () => {
     afterEach(() => {
         fixture?.destroy();
         vi.clearAllTimers();
-        vi.useRealTimers();
     });
 
     it('should create', () => {

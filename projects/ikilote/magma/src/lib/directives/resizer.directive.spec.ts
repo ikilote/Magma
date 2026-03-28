@@ -69,6 +69,7 @@ describe('MagmaResize Directive', () => {
 
     afterEach(() => {
         vi.useRealTimers();
+        fixture?.destroy();
     });
 
     it('should create an instance', () => {

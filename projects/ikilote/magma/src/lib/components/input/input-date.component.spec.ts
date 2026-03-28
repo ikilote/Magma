@@ -25,6 +25,11 @@ describe('MagmaInputDate', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });

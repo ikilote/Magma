@@ -56,6 +56,9 @@ describe('MagmaInputCheckbox', () => {
     });
 
     afterEach(() => {
+        vi.advanceTimersByTime(100);
+        fixture?.destroy();
+        vi.clearAllTimers();
         vi.useRealTimers();
     });
 
@@ -342,6 +345,9 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
     });
 
     afterEach(() => {
+        vi.advanceTimersByTime(100);
+        fixture?.destroy();
+        vi.clearAllTimers();
         vi.useRealTimers();
     });
 

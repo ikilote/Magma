@@ -20,6 +20,10 @@ describe('MagmaTable', () => {
         } as unknown as MagmaTableData;
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });

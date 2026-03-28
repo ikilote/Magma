@@ -49,6 +49,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
 
     afterEach(() => {
         vi.useRealTimers();
+        fixture?.destroy();
     });
 
     it('should create an instance', () => {

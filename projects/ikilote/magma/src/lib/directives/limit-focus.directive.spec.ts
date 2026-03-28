@@ -85,6 +85,12 @@ describe('MagmaLimitFocusDirective', () => {
     });
 
     afterEach(() => {
+        // Reset focus to body to avoid contaminating other tests
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
         fixture?.destroy();
     });
 
@@ -177,8 +183,13 @@ describe('MagmaLimitFocusDirective', () => {
         originElement.focus();
         fixture.changeDetectorRef.detectChanges();
 
-        // Destroy the directive
-        fixture.destroy();
+        // Get the directive's cleanup behavior
+        const activeBeforeDestroy = document.activeElement;
+        
+        // Destroy the directive (will be destroyed again in afterEach, but that's ok)
+        limitFocusDirective.ngOnDestroy();
+        
+        // The focus should be restored
         expect(document.activeElement).toBe(originElement);
         document.body.removeChild(originElement);
     });
@@ -408,6 +419,16 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
         limitFocusDirective['mutations'] = vi.fn();
 
         fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        // Reset focus to body
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
+        fixture?.destroy();
     });
 
     it('should intercept keydown', async () => {

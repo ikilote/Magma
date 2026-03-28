@@ -46,7 +46,10 @@ describe('MagmaWindowsZone', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
+        // Wait for any pending setTimeout from winInit() to complete
+        await new Promise(resolve => setTimeout(resolve, 10));
+        
         fixture?.destroy();
         TestBed.resetTestingModule();
         vi.clearAllTimers();

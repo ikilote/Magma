@@ -50,6 +50,7 @@ describe('MagmaTabs - Integration', () => {
             tags.updateInterval = undefined;
         }
         window.document.body.style.cssText = '';
+        fixture?.destroy();
     });
 
     it('should display the content of the first tab by default', () => {
@@ -89,6 +90,10 @@ describe('MagmaTabs - Integration', () => {
     });
 
     it('should focus tab on returnTabs', () => {
+        // Ensure focus is not already on the target element
+        // Focus on body first
+        document.body.focus();
+        
         tags.returnTabs();
 
         expect(document.activeElement).toBe(tabMagmaTabTitle[0].nativeElement);

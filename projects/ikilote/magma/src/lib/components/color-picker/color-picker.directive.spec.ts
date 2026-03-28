@@ -39,6 +39,19 @@ describe('MagmaColorPicker Directive', () => {
         directive = directiveElement.injector.get(MagmaColorPicker);
     });
 
+    afterEach(async () => {
+        // Wait for any pending async operations to complete
+        await new Promise(resolve => setTimeout(resolve, 10));
+        
+        // Clean up overlay if it exists
+        if (MagmaColorPicker._overlayRef) {
+            MagmaColorPicker._overlayRef.dispose();
+            MagmaColorPicker._overlayRef = undefined;
+            MagmaColorPicker._component = undefined;
+        }
+        fixture?.destroy();
+    });
+
     it('should create directive', () => {
         expect(directiveElement).toBeTruthy();
     });

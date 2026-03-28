@@ -29,6 +29,10 @@ describe('MagmaContribCalendar', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     describe('private methods', () => {
         it('should compute days of the week', () => {
             const days = component['computedDays']();

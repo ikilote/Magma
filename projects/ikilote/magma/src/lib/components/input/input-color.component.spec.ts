@@ -4,7 +4,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputColor } from './input-color.component';
-import { MockNgControl } from './input-text.component.spec';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputColor', () => {
     let component: MagmaInputColor;

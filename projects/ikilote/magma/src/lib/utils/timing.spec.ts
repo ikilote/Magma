@@ -14,9 +14,7 @@ describe('Timing', () => {
 
     afterEach(() => {
         // Clean up all timers after each test
-        Object.keys(Timing['timers']).forEach(key => {
-            Timing.stop(parseInt(key));
-        });
+        Timing.stopAll();
     });
 
     // 1. Tests for `Timing.start`

@@ -55,9 +55,7 @@ describe('MagmaInputCommon', () => {
 
     afterEach(() => {
         // Clean up timers to prevent hanging tests
-        Object.keys(Timing['timers']).forEach(key => {
-            Timing.stop(parseInt(key));
-        });
+        Timing.stopAll();
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
@@ -357,9 +355,7 @@ describe('MagmaInputCommon', () => {
         });
 
         afterEach(() => {
-            Object.keys(Timing['timers']).forEach(key => {
-                Timing.stop(parseInt(key));
-            });
+            Timing.stopAll();
             vi.useRealTimers();
         });
 

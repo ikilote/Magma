@@ -5,7 +5,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { Select2UpdateEvent } from 'ng-select2-component';
 
 import { MagmaInputSelect } from './input-select.component';
-import { MockNgControl } from './input-text.component.spec';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputSelect', () => {
     let component: MagmaInputSelect;

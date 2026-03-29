@@ -4,13 +4,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputText } from './input-text.component';
-
-export class MockNgControl {
-    control = {
-        errors: { required: true },
-        touched: true,
-    };
-}
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputText', () => {
     let component: MagmaInputText;

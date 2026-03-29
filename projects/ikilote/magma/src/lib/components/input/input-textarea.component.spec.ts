@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { MockNgControl } from './input-text.component.spec';
 import { MagmaInputTextarea } from './input-textarea.component';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputTextarea', () => {
     let component: MagmaInputTextarea;

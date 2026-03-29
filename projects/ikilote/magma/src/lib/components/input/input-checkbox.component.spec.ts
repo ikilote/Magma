@@ -4,8 +4,8 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputCheckbox } from './input-checkbox.component';
-import { MockNgControl } from './input-text.component.spec';
 import { MagmaInput, MagmaInputReturnValue, MagmaInputTypeValue } from './input.component';
+import { MockNgControl } from './test-helpers';
 
 class MockMagmaInput {
     _id = vi.fn();

@@ -18,6 +18,12 @@ export class Timing {
             Timing.timers[id].timer = setInterval(Timing.timers[id].func, delay);
         }
     }
+    // Add cleanup method for tests
+    static stopAll() {
+        Object.keys(Timing.timers).forEach(key => {
+            Timing.stop(parseInt(key));
+        });
+    }
 }
 
 export const wait = async (delay: number) =>

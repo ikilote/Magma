@@ -4,7 +4,7 @@ import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputDate } from './input-date.component';
-import { MockNgControl } from './input-text.component.spec';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputDate', () => {
     let component: MagmaInputDate;

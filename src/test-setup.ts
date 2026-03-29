@@ -29,6 +29,9 @@ if (typeof document !== 'undefined') {
 
 // Global cleanup after each test
 afterEach(async () => {
+    // Restore all mocks and spies (important for global objects)
+    vi.restoreAllMocks();
+    
     // Always reset timers to prevent hanging tests
     vi.clearAllTimers();
     vi.useRealTimers();

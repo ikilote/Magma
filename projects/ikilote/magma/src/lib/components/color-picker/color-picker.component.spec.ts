@@ -31,7 +31,9 @@ describe('MagmaColorPickerComponent', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
+        // Wait for async operations to complete
+        await new Promise(resolve => setTimeout(resolve, 100));
         fixture?.destroy();
     });
 

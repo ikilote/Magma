@@ -28,11 +28,53 @@ if (typeof document !== 'undefined') {
 }
 
 // Global cleanup after each test
-afterEach(() => {
+afterEach(async () => {
     // Always reset timers to prevent hanging tests
     vi.clearAllTimers();
     vi.useRealTimers();
     
-    // Wait a tick to allow any pending operations to complete
-    return new Promise(resolve => setTimeout(resolve, 0));
+    // Reset system time if it was mocked
+    vi.setSystemTime(Date.now());
+    
+    // Wait longer for any pending async operations to complete
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Clean up DOM to prevent contamination between tests
+    if (typeof document !== 'undefined') {
+        // Reset focus to body
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
+        // Clean up ALL overlays and backdrop elements
+        const overlays = document.querySelectorAll('.cdk-overlay-container, .cdk-overlay-backdrop, .cdk-overlay-pane');
+        overlays.forEach(el => el.remove());
+        
+        // Clean up content inside root elements
+        for (let i = 0; i < 1000; i++) {
+            const root = document.getElementById(`root${i}`);
+            if (root) {
+                root.innerHTML = '';
+            }
+        }
+        
+        // Clean up any remaining elements that might have been added to body
+        const bodyChildren = Array.from(document.body.children);
+        bodyChildren.forEach(child => {
+            const id = (child as HTMLElement).id;
+            // Keep only root elements and script/style tags
+            if (!id?.startsWith('root') && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                child.remove();
+            }
+        });
+    }
+    
+    // Reset TestBed AFTER cleanup to allow reconfiguration in next test
+    // This must be done at the very end
+    try {
+        getTestBed().resetTestingModule();
+    } catch (e) {
+        // Ignore errors if TestBed is not yet initialized
+    }
 });

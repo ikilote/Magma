@@ -118,6 +118,7 @@ export class MagmaDatetimePicker implements OnDestroy {
 
     ngOnDestroy(): void {
         this.updateEmit?.unsubscribe();
+        this.updateEmit = undefined;
         this.close();
     }
 
@@ -132,6 +133,8 @@ export class MagmaDatetimePicker implements OnDestroy {
     }
 
     private close() {
+        this.updateEmit?.unsubscribe();
+        this.updateEmit = undefined;
         MagmaDatetimePicker._overlayRef?.dispose();
         MagmaDatetimePicker._overlayRef = undefined;
         MagmaDatetimePicker._component = undefined;

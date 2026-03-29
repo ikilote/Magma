@@ -86,10 +86,21 @@ export class MagmaTooltipDirective implements OnDestroy {
     static _component?: ComponentRef<MagmaTooltipComponent>;
 
     private timer?: NodeJS.Timeout;
+    private displayTimer?: NodeJS.Timeout;
+    private destroyed = false;
 
     index = index++;
 
     ngOnDestroy(): void {
+        this.destroyed = true;
+        if (this.timer) {
+            clearTimeout(this.timer);
+            this.timer = undefined;
+        }
+        if (this.displayTimer) {
+            clearTimeout(this.displayTimer);
+            this.displayTimer = undefined;
+        }
         MagmaTooltipDirective._overlayRef?.dispose();
         MagmaTooltipDirective._overlayRef = undefined;
         MagmaTooltipDirective._component = undefined;
@@ -120,6 +131,9 @@ export class MagmaTooltipDirective implements OnDestroy {
     protected describedBy = computed(() => this.mgTooltipDescribedBy() || 'tooltip-' + this.index);
 
     private createTooltip() {
+        if (this.destroyed) {
+            return;
+        }
         if (this.timer) {
             clearTimeout(this.timer);
         }
@@ -142,8 +156,10 @@ export class MagmaTooltipDirective implements OnDestroy {
         MagmaTooltipDirective._component = component;
 
         if (this.mgTooltipDisplayDelay()) {
-            setTimeout(() => {
-                this.ngOnDestroy();
+            this.displayTimer = setTimeout(() => {
+                if (!this.destroyed) {
+                    this.ngOnDestroy();
+                }
             }, this.mgTooltipDisplayDelay());
         }
     }

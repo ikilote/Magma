@@ -36,6 +36,10 @@ describe('MagmaExpansionPanel', () => {
         summary = fixture.debugElement.query(By.css('summary'));
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+    });
+
     it('should set the "open" attribute on <details> when open is true', () => {
         fixture.componentInstance.initialOpen = true;
         fixture.changeDetectorRef.detectChanges();

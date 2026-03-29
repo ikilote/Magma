@@ -25,9 +25,17 @@ describe('MagmaInputDate', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
-        fixture?.destroy();
+    afterEach(async () => {
+        // Clear all timers first
         vi.clearAllTimers();
+        
+        // Use real timers for the cleanup delay
+        vi.useRealTimers();
+        
+        // Wait for async operations to complete
+        await new Promise(resolve => setTimeout(resolve, 50));
+        
+        fixture?.destroy();
     });
 
     it('should create', () => {

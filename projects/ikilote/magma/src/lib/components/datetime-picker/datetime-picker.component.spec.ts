@@ -550,6 +550,7 @@ describe('MagmaDatetimePickerComponent', () => {
         });
 
         afterEach(() => {
+            vi.setSystemTime(Date.now());
             vi.useRealTimers();
         });
 
@@ -642,6 +643,7 @@ describe('MagmaDatetimePickerComponent', () => {
         });
 
         afterEach(() => {
+            vi.setSystemTime(Date.now());
             vi.useRealTimers();
         });
 

@@ -31,6 +31,7 @@ describe('MagmaTextareaAutosizeDirective', () => {
     });
 
     afterEach(() => {
+        vi.clearAllTimers();
         vi.useRealTimers();
         fixture.destroy();
     });

@@ -128,7 +128,8 @@
           "options": {
             "tsConfig": "projects/ikilote/magma/tsconfig.spec.json",
             "runner": "vitest",
-            "browsers": ["Chromium"]
+            "browsers": ["ChromiumHeadless"], 
+            "coverage": true
           }
         }
       }

@@ -6,13 +6,14 @@ import {
     Component,
     ElementRef,
     OnChanges,
+    OnDestroy,
     SimpleChanges,
     booleanAttribute,
     computed,
     inject,
     input,
     output,
-    viewChild,
+    viewChild
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -90,7 +91,7 @@ export const magmaColorPickerPalette = [
         '[class.readonly]': 'readonly()',
     },
 })
-export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
+export class MagmaColorPickerComponent implements OnChanges, AfterViewInit, OnDestroy {
     readonly logger = inject(Logger);
     readonly cd = inject(ChangeDetectorRef);
 
@@ -127,6 +128,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
     );
 
     protected startDrag = false;
+    private destroyed = false;
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes['color']?.currentValue) {
@@ -175,7 +177,9 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
 
         this.pos = { x: 0, y: 0 };
 
-        this.colorChange.emit(this.hexa);
+        if (!this.destroyed) {
+            this.colorChange.emit(this.hexa);
+        }
     }
 
     protected dragStart() {
@@ -260,6 +264,12 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit {
         this.rgba = color.to('srgb').toString({ precision: 1 });
         this.hsla = color.to('hsl').toString();
 
-        this.colorChange.emit(this.hexa);
+        if (!this.destroyed) {
+            this.colorChange.emit(this.hexa);
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed = true;
     }
 }

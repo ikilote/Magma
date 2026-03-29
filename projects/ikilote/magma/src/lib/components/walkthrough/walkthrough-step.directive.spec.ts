@@ -47,6 +47,12 @@ describe('MagmaWalkthroughStep', () => {
         directive = hostComponent.template();
     });
 
+    afterEach(async () => {
+        // Wait for any async operations
+        await new Promise(resolve => setTimeout(resolve, 10));
+        fixture?.destroy();
+    });
+
     it('should create', () => {
         expect(directive).toBeTruthy();
     });

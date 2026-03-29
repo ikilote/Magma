@@ -40,15 +40,16 @@ describe('MagmaColorPicker Directive', () => {
     });
 
     afterEach(async () => {
-        // Wait for any pending async operations to complete
-        await new Promise(resolve => setTimeout(resolve, 10));
-        
-        // Clean up overlay if it exists
+        // Clean up overlay and unsubscribe
         if (MagmaColorPicker._overlayRef) {
             MagmaColorPicker._overlayRef.dispose();
             MagmaColorPicker._overlayRef = undefined;
             MagmaColorPicker._component = undefined;
         }
+        
+        // Wait for async operations to complete BEFORE destroying fixture
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         fixture?.destroy();
     });
 

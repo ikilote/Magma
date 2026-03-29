@@ -7,6 +7,8 @@ export default defineConfig({
         clearMocks: true,
         restoreMocks: true,
         mockReset: true,
-        testTimeout: 30000, // Augmenter le timeout à 30 secondes
+        testTimeout: 5000,
+        fileParallelism: false,
+        pool: 'forks',
     },
 });

@@ -26,8 +26,12 @@ describe('MagmaInputNumber', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        // Wait for cleanup
+        await new Promise(resolve => setTimeout(resolve, 10));
     });
 
     it('should create', () => {

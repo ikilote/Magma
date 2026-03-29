@@ -52,6 +52,11 @@ describe('MagmaContextMenu Integration', () => {
     });
 
     afterEach(() => {
+        // Clean up overlay if it exists
+        if (MagmaContextMenu._overlayRef) {
+            MagmaContextMenu._overlayRef.dispose();
+            MagmaContextMenu._overlayRef = undefined;
+        }
         fixture?.destroy();
     });
 

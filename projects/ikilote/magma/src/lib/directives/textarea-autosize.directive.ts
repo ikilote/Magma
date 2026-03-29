@@ -19,11 +19,14 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
     private readonly elementRef = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
 
     readonly autosizeDisabled = input(false, { transform: booleanAttribute });
+    
+    private destroyed = false;
+    private initTimer?: ReturnType<typeof setTimeout>;
 
     ngOnInit() {
         if (!this.autosizeDisabled()) {
-            setTimeout(() => {
-                if (this.elementRef.nativeElement.nodeName === 'TEXTAREA') {
+            this.initTimer = setTimeout(() => {
+                if (!this.destroyed && this.elementRef.nativeElement.nodeName === 'TEXTAREA') {
                     autosize(this.elementRef.nativeElement);
                 }
             });
@@ -47,6 +50,11 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
     }
 
     ngOnDestroy(): void {
+        this.destroyed = true;
+        if (this.initTimer) {
+            clearTimeout(this.initTimer);
+            this.initTimer = undefined;
+        }
         autosize.destroy(this.elementRef.nativeElement);
     }
 }

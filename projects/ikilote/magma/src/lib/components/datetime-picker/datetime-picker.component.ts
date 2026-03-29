@@ -5,13 +5,14 @@ import {
     Component,
     ElementRef,
     OnChanges,
+    OnDestroy,
     SimpleChanges,
     booleanAttribute,
     computed,
     inject,
     input,
     output,
-    signal,
+    signal
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
@@ -63,7 +64,7 @@ const WEEK: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
         '[class.only-time]': 'type() === "time"',
     },
 })
-export class MagmaDatetimePickerComponent implements OnChanges {
+export class MagmaDatetimePickerComponent implements OnChanges, OnDestroy {
     // inject
 
     readonly logger = inject(Logger);
@@ -105,6 +106,7 @@ export class MagmaDatetimePickerComponent implements OnChanges {
 
     protected readonly uid = `datetime-picker-${index++}`;
     protected onscroll = false;
+    private destroyed = false;
 
     protected yearsList = computed<Select2Option[]>(() => {
         const min = this.minDate()?.getUTCFullYear();
@@ -372,7 +374,6 @@ export class MagmaDatetimePickerComponent implements OnChanges {
 
     protected left() {
         const date = this.date();
-        console.log(date);
         if (date) {
             date.setUTCMonth(date.getMonth() - 1);
             this.updateDate(date);
@@ -409,7 +410,13 @@ export class MagmaDatetimePickerComponent implements OnChanges {
                 break;
         }
 
-        this.datetimeChange.emit(value);
+        if (!this.destroyed) {
+            this.datetimeChange.emit(value);
+        }
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed = true;
     }
 
     private getFirstGet(day: 'Monday' | 'Sunday' | 'Saturday' | undefined) {

@@ -80,4 +80,24 @@ describe('ClassListPipe', () => {
         const result = pipe.transform(input);
         expect(result).toEqual(['class-1', 'class-2', 'class-3']);
     });
+
+    it('should filter out falsy values explicitly', () => {
+        const input = ['class-a', '', 'class-b', '   ', 'class-c'];
+        const result = pipe.transform(input);
+        // Empty strings and whitespace-only strings should be filtered out
+        expect(result).toEqual(['class-a', 'class-b', 'class-c']);
+        expect(result.length).toBe(3);
+    });
+
+    it('should handle array with only empty strings', () => {
+        const input = ['', '  ', '   '];
+        const result = pipe.transform(input);
+        expect(result).toEqual([]);
+    });
+
+    it('should handle array with tabs and newlines', () => {
+        const input = ['class-a\tclass-b', 'class-c\nclass-d'];
+        const result = pipe.transform(input);
+        expect(result).toEqual(['class-a', 'class-b', 'class-c', 'class-d']);
+    });
 });

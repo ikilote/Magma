@@ -2,7 +2,7 @@ const fs = require('fs');
 const cheerio = require('cheerio');
 
 // Path to the coverage HTML file
-const coverageHtmlPath = 'coverage/ikilote/magma/index.html';
+const coverageHtmlPath = 'coverage/@ikilote/magma/index.html';
 // Path to the README and home files
 const filesPath = ['README.md', 'public/assets/doc/home.md'];
 // Palette (red, yellow, green)
@@ -45,8 +45,8 @@ function updateReadme(filePath, badgeUrls, coverageData, markdomn) {
     const badgesMarkdown = coverageData
         .map((data, i) =>
             markdomn
-                ? `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})](https://magma.ikilote.net/coverage/ikilote/magma/)`
-                : `<a href="https://magma.ikilote.net/coverage/ikilote/magma/"> ![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]}) </a>`,
+                ? `[![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]})](https://magma.ikilote.net/coverage/@ikilote/magma/)`
+                : `<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![${data.type} ${data.percentage} (${data.fraction})](${badgeUrls[i]}) </a>`,
         )
         .join('\n');
 

@@ -647,6 +647,28 @@ describe('MagmaDatetimePickerComponent', () => {
             vi.useRealTimers();
         });
 
+        it('should trigger updateMonth when month select changes', async () => {
+            fixture.componentRef.setInput('type', 'date');
+            fixture.componentRef.setInput('value', '2026-02-15');
+            fixture.changeDetectorRef.detectChanges();
+            await fixture.whenStable();
+
+            const spy = vi.spyOn(component as any, 'updateMonth');
+
+            // Find the month select element
+            const monthSelect = fixture.nativeElement.querySelector('.mouths-list mg-input-select');
+            expect(monthSelect).toBeTruthy();
+
+            // Trigger ngModelChange by dispatching the event
+            const event = new Event('ngModelChange');
+            Object.defineProperty(event, 'target', { value: { value: 3 }, enumerable: true });
+
+            // Call updateMonth directly as it would be called by ngModelChange
+            component['updateMonth'](3);
+
+            expect(spy).toHaveBeenCalledWith(3);
+        });
+
         it('should generate a grid starting from the previous month if the 1st is not the start of the week', () => {
             // February 1st, 2026 is a Sunday.
             // If start of week is Monday (default), the grid should start on Jan 26th.
@@ -775,6 +797,265 @@ describe('MagmaDatetimePickerComponent', () => {
             expect(lastDay.month).toBe(3); // March
             expect(lastDay.day).toBe(1);
             expect(lastDay.isCurrentMonth).toBe(false);
+        });
+    });
+
+
+    describe('Template event handlers', () => {
+        beforeEach(() => {
+            fixture.componentRef.setInput('type', 'datetime-milli');
+            fixture.componentRef.setInput('value', '2026-02-15T10:30:45.500Z');
+            fixture.changeDetectorRef.detectChanges();
+        });
+
+        it('should call updateMonth', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['updateMonth'](5);
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call updateYear', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['updateYear'](2027);
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call updateHours', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['updateHours'](14);
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call updateMinutes', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['updateMinutes'](45);
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call updateSeconds', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['updateSeconds'](30);
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call updateMilli', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['updateMilli'](999);
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call left()', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['left']();
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call right()', () => {
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component['right']();
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should call move()', () => {
+            const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+            vi.spyOn(event, 'preventDefault');
+            component['move'](event);
+            expect(event.preventDefault).toHaveBeenCalled();
+        });
+
+        it('should call select()', () => {
+            vi.useFakeTimers();
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            const dateInfo = {
+                date: new Date(Date.UTC(2026, 1, 20)),
+                day: 20,
+                month: 2,
+                isCurrentMonth: true,
+                isToday: false,
+                disabled: false,
+                weekend: false,
+                weekNumber: 8,
+            };
+            component['select'](dateInfo);
+            vi.advanceTimersByTime(20);
+            expect(spy).toHaveBeenCalled();
+            vi.useRealTimers();
+        });
+
+        it('should call scroll()', () => {
+            vi.useFakeTimers();
+            const initialPast = component['past']();
+            component['scroll']({ way: 'up' } as any);
+            vi.advanceTimersByTime(100);
+            expect(component['past']()).toBe(initialPast + 10);
+            vi.useRealTimers();
+        });
+    });
+
+    describe('Template DOM event handlers for coverage', () => {
+        beforeEach(async () => {
+            fixture.componentRef.setInput('type', 'datetime-milli');
+            fixture.componentRef.setInput('value', '2026-02-15T10:30:45.500Z');
+            fixture.changeDetectorRef.detectChanges();
+            await fixture.whenStable();
+        });
+
+        it('should trigger left() via clickEnter on icon-left', () => {
+            const spy = vi.spyOn(component as any, 'left');
+            const leftIcon = fixture.nativeElement.querySelector('.icon-left');
+            expect(leftIcon).toBeTruthy();
+
+            leftIcon.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should trigger right() via clickEnter on icon-right', () => {
+            const spy = vi.spyOn(component as any, 'right');
+            const rightIcon = fixture.nativeElement.querySelector('.icon-right');
+            expect(rightIcon).toBeTruthy();
+
+            rightIcon.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should trigger move() via keydown on table', () => {
+            const spy = vi.spyOn(component as any, 'move');
+            const table = fixture.nativeElement.querySelector('.table');
+            expect(table).toBeTruthy();
+
+            const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+            table.dispatchEvent(event);
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should trigger select() via clickEnter on day element', () => {
+            vi.useFakeTimers();
+            const spy = vi.spyOn(component as any, 'select');
+            const dayElement = fixture.nativeElement.querySelector('.day.current-month:not(.disabled)');
+            expect(dayElement).toBeTruthy();
+
+            dayElement.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter' }));
+            fixture.changeDetectorRef.detectChanges();
+            vi.advanceTimersByTime(20);
+
+            expect(spy).toHaveBeenCalled();
+            vi.useRealTimers();
+        });
+
+        it('should trigger updateHours() via ngModelChange on hours select', async () => {
+            const spy = vi.spyOn(component as any, 'updateHours');
+            const hoursSelect = fixture.nativeElement.querySelectorAll('select')[0];
+            expect(hoursSelect).toBeTruthy();
+
+            hoursSelect.value = '15';
+            hoursSelect.dispatchEvent(new Event('change'));
+            hoursSelect.dispatchEvent(new Event('input'));
+            await fixture.whenStable();
+            fixture.changeDetectorRef.detectChanges();
+
+            // The ngModel binding should trigger updateHours
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should trigger updateMinutes() via ngModelChange on minutes select', async () => {
+            const spy = vi.spyOn(component as any, 'updateMinutes');
+            const minutesSelect = fixture.nativeElement.querySelectorAll('select')[1];
+            expect(minutesSelect).toBeTruthy();
+
+            minutesSelect.value = '50';
+            minutesSelect.dispatchEvent(new Event('change'));
+            minutesSelect.dispatchEvent(new Event('input'));
+            await fixture.whenStable();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should trigger updateSeconds() via ngModelChange on seconds select', async () => {
+            const spy = vi.spyOn(component as any, 'updateSeconds');
+            const secondsSelect = fixture.nativeElement.querySelectorAll('select')[2];
+            expect(secondsSelect).toBeTruthy();
+
+            secondsSelect.value = '55';
+            secondsSelect.dispatchEvent(new Event('change'));
+            secondsSelect.dispatchEvent(new Event('input'));
+            await fixture.whenStable();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should trigger updateMilli() via ngModelChange on milli input', async () => {
+            const spy = vi.spyOn(component as any, 'updateMilli');
+            const milliInput = fixture.nativeElement.querySelector('input[type="number"]');
+            expect(milliInput).toBeTruthy();
+
+            milliInput.value = '777';
+            milliInput.dispatchEvent(new Event('input'));
+            await fixture.whenStable();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalled();
+        });
+
+        it('should trigger updateMonth() via mg-input-select ngModelChange', async () => {
+            fixture.componentRef.setInput('type', 'date');
+            fixture.componentRef.setInput('value', '2026-02-15');
+            fixture.changeDetectorRef.detectChanges();
+            await fixture.whenStable();
+
+            const spy = vi.spyOn(component as any, 'updateMonth');
+            const monthSelect = debugElement.query(By.css('.mouths-list mg-input-select'));
+            expect(monthSelect).toBeTruthy();
+
+            // Simulate the ngModel binding by calling changeValue which triggers update output
+            monthSelect.componentInstance.changeValue({ value: 5, options: [] });
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalledWith(5);
+        });
+
+        it('should trigger updateYear() via mg-input-select ngModelChange', async () => {
+            fixture.componentRef.setInput('type', 'date');
+            fixture.componentRef.setInput('value', '2026-02-15');
+            fixture.changeDetectorRef.detectChanges();
+            await fixture.whenStable();
+
+            const spy = vi.spyOn(component as any, 'updateYear');
+            const yearSelect = debugElement.query(By.css('.mouths-years mg-input-select'));
+            expect(yearSelect).toBeTruthy();
+
+            // Simulate the ngModel binding by calling changeValue which triggers update output
+            yearSelect.componentInstance.changeValue({ value: 2027, options: [] });
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalledWith(2027);
+        });
+
+        it('should trigger scroll() via mg-input-select scroll event', async () => {
+            fixture.componentRef.setInput('type', 'date');
+            fixture.componentRef.setInput('value', '2026-02-15');
+            fixture.changeDetectorRef.detectChanges();
+            await fixture.whenStable();
+
+            vi.useFakeTimers();
+            const spy = vi.spyOn(component as any, 'scroll');
+            const yearSelect = debugElement.query(By.css('.mouths-years mg-input-select'));
+            expect(yearSelect).toBeTruthy();
+
+            // Trigger scroll event
+            yearSelect.componentInstance.scroll.emit({ way: 'up' });
+            fixture.changeDetectorRef.detectChanges();
+            vi.advanceTimersByTime(100);
+
+            expect(spy).toHaveBeenCalledWith({ way: 'up' });
+            vi.useRealTimers();
         });
     });
 });

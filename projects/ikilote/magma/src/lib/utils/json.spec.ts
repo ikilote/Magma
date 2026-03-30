@@ -197,4 +197,119 @@ describe('jsonParse', () => {
             expect((error as ExceptionJsonParse).cause).toBe('');
         }
     });
+
+    it('should handle Blink engine without position in message', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Blink' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Unexpected end of JSON input');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
+
+    it('should handle Blink engine with empty lines in JSON', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Blink' } } as any);
+
+        const invalidJson = '{"key": \n\n"value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Unexpected end of JSON input at position 16');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('"value"\n       ^');
+        }
+    });
+
+    it('should handle Gecko engine without line/column in message', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Gecko' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Unexpected end of JSON input');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
+
+    it('should handle Gecko engine with invalid line number', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Gecko' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Unexpected end of JSON input at line 10 column 5');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
+
+    it('should handle WebKit engine without JSON Parse error prefix', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'WebKit' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        const originalParse = JSON.parse;
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            // Throw a real SyntaxError to ensure proper error handling
+            throw originalParse(invalidJson);
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect(error instanceof ExceptionJsonParse).toBe(true);
+            // The cause might be empty or contain the error message depending on the format
+        }
+    });
+
+    it('should handle WebKit engine with JSON Parse error format', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'WebKit' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Some prefix JSON Parse error: Unexpected EOF');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('Unexpected EOF');
+        }
+    });
+
+    it('should handle WebKit engine when regex match returns null', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'WebKit' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('JSON Parse error: ');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
 });

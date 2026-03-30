@@ -106,4 +106,25 @@ describe('MagmaTableCell', () => {
         fixture.changeDetectorRef.detectChanges();
         expect(component.el.nativeElement.classList.contains('hover')).toBe(true);
     });
+
+    it('should call ngAfterViewChecked in ngAfterViewInit', () => {
+        vi.spyOn(component, 'ngAfterViewChecked');
+        component.ngAfterViewInit();
+        expect(component.ngAfterViewChecked).toHaveBeenCalled();
+    });
+
+    it('should not call table.over when table is undefined', () => {
+        component.table = undefined;
+        component.row = 1;
+        component.index = 2;
+
+        // Should not throw error
+        expect(() => component.mouseOver()).not.toThrow();
+    });
+
+    it('should add hoverLink class when hoverLink signal is true', () => {
+        component.hoverLink.set(true);
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.el.nativeElement.classList.contains('hoverLink')).toBe(true);
+    });
 });

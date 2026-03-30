@@ -129,7 +129,8 @@
             "tsConfig": "projects/ikilote/magma/tsconfig.spec.json",
             "runner": "vitest",
             "browsers": ["ChromiumHeadless"],
-            "coverage": true
+            "coverage": true,
+            "coverageExclude": [ "**/test-helpers.ts"]
           }
         }
       }

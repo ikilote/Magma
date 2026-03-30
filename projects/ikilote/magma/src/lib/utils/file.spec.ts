@@ -94,6 +94,44 @@ describe('ulrToBase64', () => {
         expect(mockFetch).toHaveBeenCalledWith('http://example.com/image.png', expect.any(Object));
     });
 
+    it('should handle ArrayBuffer result from FileReader', async () => {
+        const mockBlob = new Blob(['mock-image-data'], { type: 'application/octet-stream' });
+        mockFetch.mockResolvedValue({
+            ok: true,
+            status: 200,
+            blob: () => Promise.resolve(mockBlob),
+        } as unknown as Response);
+
+        // Mock FileReader to return ArrayBuffer
+        const originalFileReader = window.FileReader;
+        window.FileReader = class MockFileReader {
+            result: ArrayBuffer | string | null = new ArrayBuffer(8);
+            onloadend: (() => void) | null = null;
+            onerror: (() => void) | null = null;
+            readAsDataURL() {
+                setTimeout(() => this.onloadend?.(), 0);
+            }
+        } as any;
+
+        const result = await ulrToBase64('http://example.com/image.png');
+
+        expect(result).toBeInstanceOf(ArrayBuffer);
+        window.FileReader = originalFileReader;
+    });
+
+    it('should fix MIME type for webp images', async () => {
+        const mockBlob = new Blob(['mock-image-data'], { type: 'application/octet-stream' });
+        mockFetch.mockResolvedValue({
+            ok: true,
+            status: 200,
+            blob: () => Promise.resolve(mockBlob),
+        } as unknown as Response);
+
+        const result = await ulrToBase64('http://example.com/image.webp');
+
+        expect(result).toContain('data:image/webp;base64,');
+    });
+
     it('should reject on HTTP error', async () => {
         mockFetch.mockResolvedValue({
             ok: false,
@@ -107,6 +145,52 @@ describe('ulrToBase64', () => {
         mockFetch.mockRejectedValue('HTTP-Error: CORS');
 
         await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('HTTP-Error: CORS');
+    });
+
+    it('should reject when FileReader encounters an error', async () => {
+        const mockBlob = new Blob(['mock-image-data'], { type: 'image/png' });
+        mockFetch.mockResolvedValue({
+            ok: true,
+            status: 200,
+            blob: () => Promise.resolve(mockBlob),
+        } as unknown as Response);
+
+        // Mock FileReader to trigger onerror
+        const originalFileReader = window.FileReader;
+        window.FileReader = class MockFileReader {
+            result: string | null = null;
+            onloadend: (() => void) | null = null;
+            onerror: (() => void) | null = null;
+            readAsDataURL() {
+                setTimeout(() => this.onerror?.(), 0);
+            }
+        } as any;
+
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('Image error');
+        window.FileReader = originalFileReader;
+    });
+
+    it('should reject when FileReader result is null', async () => {
+        const mockBlob = new Blob(['mock-image-data'], { type: 'image/png' });
+        mockFetch.mockResolvedValue({
+            ok: true,
+            status: 200,
+            blob: () => Promise.resolve(mockBlob),
+        } as unknown as Response);
+
+        // Mock FileReader to return null result
+        const originalFileReader = window.FileReader;
+        window.FileReader = class MockFileReader {
+            result: string | null = null;
+            onloadend: (() => void) | null = null;
+            onerror: (() => void) | null = null;
+            readAsDataURL() {
+                setTimeout(() => this.onloadend?.(), 0);
+            }
+        } as any;
+
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('Image error');
+        window.FileReader = originalFileReader;
     });
 });
 

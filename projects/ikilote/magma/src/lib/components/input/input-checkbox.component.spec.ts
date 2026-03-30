@@ -194,8 +194,8 @@ describe('MagmaInputCheckbox', () => {
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
         fixture.changeDetectorRef.detectChanges();
-        const errorElement = debugElement.query(By.css('div:contains("Error")'));
-        expect(errorElement).toBeNull();
+        const errorText = fixture.nativeElement.textContent;
+        expect(errorText).toContain('Error');
     });
 
     it('should disable input if disabled is true', () => {

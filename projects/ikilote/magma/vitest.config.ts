@@ -16,6 +16,10 @@ export default defineConfig({
         testTimeout: 10000,
         setupFiles: [resolve(__dirname, '../../../src/test-setup.ts')],
         include: ['**/*.spec.ts'],
+        exclude: ['**/test-helpers.spec.ts', '**/test-helpers.ts'],
+        coverage: {
+            exclude: ['**/test-helpers.ts', '**/test-helpers.spec.ts'],
+        },
         pool: 'forks',
         singleFork: true,
         isolate: true,

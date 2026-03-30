@@ -53,6 +53,7 @@ describe('MagmaWindows Service', () => {
     });
 
     afterEach(async () => {
+        vi.clearAllTimers();
         vi.useRealTimers();
         TestBed.resetTestingModule();
     });
@@ -62,7 +63,7 @@ describe('MagmaWindows Service', () => {
     });
 
     it('should configure the overlay with correct strategies', () => {
-        service.openWindow(class {});
+        service.openWindow(class { });
 
         expect(overlaySpy.create).toHaveBeenCalledWith(
             expect.objectContaining({
@@ -78,7 +79,7 @@ describe('MagmaWindows Service', () => {
 
     describe('openWindow', () => {
         it('should initialize the overlay only once when opening multiple windows', () => {
-            const mockComp = class {};
+            const mockComp = class { };
             service.openWindow(mockComp);
             service.openWindow(mockComp);
 
@@ -87,8 +88,8 @@ describe('MagmaWindows Service', () => {
         });
 
         it('should assign a unique ID and correct index', () => {
-            const win1 = service.openWindow(class {});
-            const win2 = service.openWindow(class {});
+            const win1 = service.openWindow(class { });
+            const win2 = service.openWindow(class { });
 
             expect(win1.id).toMatch(/^window-/);
             expect(win1.index).toBe(0);
@@ -96,7 +97,7 @@ describe('MagmaWindows Service', () => {
         });
 
         it('should emit the new window via onAddWindow', () => {
-            const mockComponent = class {};
+            const mockComponent = class { };
             const spy = vi.fn();
 
             service.onAddWindow.subscribe(spy);
@@ -106,14 +107,14 @@ describe('MagmaWindows Service', () => {
         });
 
         it('should trigger change detection on the zone component', () => {
-            service.openWindow(class {});
+            service.openWindow(class { });
             expect(componentRefSpy.instance.cd.detectChanges).toHaveBeenCalled();
         });
     });
 
     describe('removeWindow', () => {
         it('should remove a window by its reference', () => {
-            const win = service.openWindow(class {});
+            const win = service.openWindow(class { });
             expect(service.windows.length).toBe(1);
 
             service.removeWindow(win);
@@ -121,7 +122,7 @@ describe('MagmaWindows Service', () => {
         });
 
         it('should dispose of the overlay when the last window is removed', () => {
-            const win = service.openWindow(class {});
+            const win = service.openWindow(class { });
             service.removeWindow(win);
 
             expect(overlayRefSpy.dispose).toHaveBeenCalled();
@@ -130,11 +131,23 @@ describe('MagmaWindows Service', () => {
         });
 
         it('should not dispose overlay if other windows remain', () => {
-            const win1 = service.openWindow(class {});
-            service.openWindow(class {});
+            const win1 = service.openWindow(class { });
+            service.openWindow(class { });
 
             service.removeWindow(win1);
 
+            expect(service.windows.length).toBe(1);
+            expect(overlayRefSpy.dispose).not.toHaveBeenCalled();
+        });
+
+        it('should do nothing when trying to remove a non-existent window', () => {
+            const win = service.openWindow(class { });
+            expect(service.windows.length).toBe(1);
+
+            // Try to remove a window with a non-existent ID
+            service.removeWindowById('non-existent-id');
+
+            // Windows array should remain unchanged
             expect(service.windows.length).toBe(1);
             expect(overlayRefSpy.dispose).not.toHaveBeenCalled();
         });
@@ -142,7 +155,7 @@ describe('MagmaWindows Service', () => {
 
     describe('init (private logic)', () => {
         it('should set the correct inputs to the MagmaWindowsZone component', () => {
-            service.openWindow(class {});
+            service.openWindow(class { });
 
             expect(componentRefSpy.setInput).toHaveBeenCalledWith('windows', service.windows);
             expect(componentRefSpy.setInput).toHaveBeenCalledWith('context', service);

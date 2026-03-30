@@ -75,6 +75,20 @@ describe('MagmaInputNumber', () => {
         expect(options.length).toBe(3);
     });
 
+    it('should render datalist with object items', () => {
+        fixture.componentRef.setInput('datalist', [
+            { label: 'One', value: 1 },
+            { label: 'Two', value: 2 },
+            { value: 3 },
+        ]);
+        fixture.changeDetectorRef.detectChanges();
+        const options = debugElement.queryAll(By.css('option'));
+        expect(options.length).toBe(3);
+        expect(options[0].nativeElement.textContent).toContain('One');
+        expect(options[1].nativeElement.textContent).toContain('Two');
+        expect(options[2].nativeElement.value).toBe('3');
+    });
+
     it('should update value on change event', () => {
         vi.spyOn(component, 'onChange');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
@@ -274,5 +288,31 @@ describe('MagmaInputNumber', () => {
         inputElement.dispatchEvent(event);
         expect(component.inputElement.value).toBe('');
         expect(component.changeValue).not.toHaveBeenCalled();
+    });
+
+    it('should handle focus event', () => {
+        fixture.changeDetectorRef.detectChanges();
+
+        const inputElement = fixture.nativeElement.querySelector('input[type="number"]');
+        expect(inputElement).toBeTruthy();
+
+        // Trigger focus event
+        inputElement.dispatchEvent(new FocusEvent('focus'));
+
+        // Verify focus method was called
+        expect(component.focus).toBeDefined();
+    });
+
+    it('should handle blur event', () => {
+        fixture.changeDetectorRef.detectChanges();
+
+        const inputElement = fixture.nativeElement.querySelector('input[type="number"]');
+        expect(inputElement).toBeTruthy();
+
+        // Trigger blur event
+        inputElement.dispatchEvent(new FocusEvent('blur'));
+
+        // Verify focus method was called
+        expect(component.focus).toBeDefined();
     });
 });

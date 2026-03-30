@@ -105,6 +105,22 @@ describe('InfoMessagesComponent', () => {
         expect(infoMessages.length).toBe(0);
     });
 
+    it('should handle destruct event from info-message component', () => {
+        const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
+        messagesService.addMessage('Test', { type: MagmaMessageType.info, time: '1s' });
+        fixture.changeDetectorRef.detectChanges();
+
+        const infoMessageComponent = fixture.debugElement.query(By.directive(InfoMessageComponent));
+        expect(infoMessageComponent).toBeTruthy();
+
+        // Trigger the destruct event from the child component
+        infoMessageComponent.componentInstance.destruct.emit();
+        fixture.changeDetectorRef.detectChanges();
+
+        expect(messagesService.removeMessage).toHaveBeenCalled();
+        expect(messagesService.testDispose).toHaveBeenCalled();
+    });
+
     it('should trigger change detection when a message is added', () => {
         vi.spyOn(component['cd'], 'detectChanges');
         messagesService.onAddMessage.next();

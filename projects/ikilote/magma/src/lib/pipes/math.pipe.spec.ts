@@ -101,4 +101,20 @@ describe('MathPipe', () => {
     it('should pass through non-Math function calls', () => {
         expect(pipe.transform(10, 'notAMathFunction')).toBeUndefined();
     });
+
+    it('should return undefined for non-existent Math functions', () => {
+        expect(pipe.transform(10, 'nonExistentFunction')).toBeUndefined();
+        expect(pipe.transform(10, 'fakeMethod')).toBeUndefined();
+        expect(pipe.transform(10, '')).toBeUndefined();
+    });
+
+    it('should handle Math functions that exist', () => {
+        expect(pipe.transform(10, 'abs')).toBe(10);
+        expect(pipe.transform(-10, 'abs')).toBe(10);
+    });
+
+    it('should handle edge case with special characters in function name', () => {
+        expect(pipe.transform(10, 'abs!')).toBeUndefined();
+        expect(pipe.transform(10, 'abs?')).toBeUndefined();
+    });
 });

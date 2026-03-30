@@ -62,6 +62,7 @@ describe('MagmaMessages', () => {
 
         vi.clearAllTimers();
         vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     describe('addMessage', () => {

@@ -117,6 +117,21 @@ describe('MagmaClickOutsideDirective', () => {
 
             expect(component.onClickOutside).toHaveBeenCalled();
         });
+
+        it('should call dialogClick method directly', () => {
+            const outsideNode = document.createElement('button');
+            const innerEvent = new MouseEvent('click');
+            Object.defineProperty(innerEvent, 'target', { value: outsideNode });
+
+            const dialogEvent = new CustomEvent('dialog-click', {
+                detail: innerEvent,
+            });
+
+            vi.spyOn(directive, 'onClick');
+            directive.dialogClick(dialogEvent);
+
+            expect(directive.onClick).toHaveBeenCalledWith(innerEvent);
+        });
     });
 
     describe('Edge Cases (Full Coverage)', () => {

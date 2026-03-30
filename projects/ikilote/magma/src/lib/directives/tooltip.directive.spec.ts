@@ -212,5 +212,14 @@ describe('MagmaTooltipDirective', () => {
             await new Promise(r => setTimeout(r, 150));
             expect(overlayRef!.dispose).toHaveBeenCalled();
         });
+
+        it('should not create tooltip if directive is destroyed', () => {
+            directive['destroyed'] = true;
+
+            divElement.triggerEventHandler('mouseenter', {});
+            vi.advanceTimersByTime(500);
+
+            expect(MagmaTooltipDirective._overlayRef).toBeUndefined();
+        });
     });
 });

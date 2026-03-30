@@ -35,7 +35,7 @@ describe('MagmaTabs - Integration', () => {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         await TestBed.configureTestingModule({
             imports: [TestHostComponent, MagmaTabs, MagmaTabTitle, MagmaTabContent],
         }).compileComponents();
@@ -56,16 +56,16 @@ describe('MagmaTabs - Integration', () => {
             tags.updateInterval = undefined;
         }
         window.document.body.style.cssText = '';
-        
+
         // Clean up focus before destroying fixture
         if (document.activeElement && document.activeElement !== document.body) {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         // Wait for async operations to complete BEFORE clearing timers
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
@@ -115,22 +115,22 @@ describe('MagmaTabs - Integration', () => {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         // Wait longer for focus to settle and any pending operations
         await new Promise(resolve => setTimeout(resolve, 150));
-        
+
         // Force focus to body again if it moved
         if (document.activeElement !== document.body) {
             (document.activeElement as HTMLElement)?.blur();
             document.body.focus();
             await new Promise(resolve => setTimeout(resolve, 50));
         }
-        
+
         // Verify we're starting from a clean state
         expect(document.activeElement).toBe(document.body);
-        
+
         tags.returnTabs();
-        
+
         // Wait longer for focus to be applied
         await new Promise(resolve => setTimeout(resolve, 100));
 
@@ -269,5 +269,86 @@ describe('MagmaTabs - Integration', () => {
         expect(scrollLeft2).toBe(0);
         expect(tags.prev()).toBe(false);
         expect(tags.next()).toBe(false);
+    });
+
+    it('should handle mouseout events on prev button', () => {
+        const prevButton = fixture.nativeElement.querySelector('.prev');
+        expect(prevButton).toBeTruthy();
+
+        // Trigger mouseout event
+        prevButton.dispatchEvent(new Event('mouseout'));
+
+        expect(tags.updateInterval).toBeUndefined();
+    });
+
+    it('should handle mouseout events on next button', () => {
+        const nextButton = fixture.nativeElement.querySelector('.next');
+        expect(nextButton).toBeTruthy();
+
+        // Trigger mouseout event
+        nextButton.dispatchEvent(new Event('mouseout'));
+
+        expect(tags.updateInterval).toBeUndefined();
+    });
+
+    it('should handle mousedown and mouseup events on prev button', () => {
+        window.document.body.style = 'width:150px';
+        fixture.changeDetectorRef.detectChanges();
+        tags.ngAfterViewChecked();
+
+        tags.moveTabs(true, 300);
+        fixture.changeDetectorRef.detectChanges();
+
+        const prevButton = fixture.nativeElement.querySelector('.prev');
+        expect(prevButton).toBeTruthy();
+
+        // Trigger mousedown event
+        prevButton.dispatchEvent(new Event('mousedown'));
+        expect(tags.updateInterval).toBeDefined();
+
+        // Trigger mouseup event
+        prevButton.dispatchEvent(new Event('mouseup'));
+        expect(tags.updateInterval).toBeUndefined();
+    });
+
+    it('should handle mousedown and mouseup events on next button', () => {
+        window.document.body.style = 'width:150px';
+        fixture.changeDetectorRef.detectChanges();
+        tags.ngAfterViewChecked();
+
+        const nextButton = fixture.nativeElement.querySelector('.next');
+        expect(nextButton).toBeTruthy();
+
+        // Trigger mousedown event
+        nextButton.dispatchEvent(new Event('mousedown'));
+        expect(tags.updateInterval).toBeDefined();
+
+        // Trigger mouseup event
+        nextButton.dispatchEvent(new Event('mouseup'));
+        expect(tags.updateInterval).toBeUndefined();
+    });
+
+    it('should handle scroll event on tablist', () => {
+        window.document.body.style = 'width:150px';
+        fixture.changeDetectorRef.detectChanges();
+
+        const tablist = tags.tablist().nativeElement;
+        vi.spyOn(tags, 'ngAfterViewChecked');
+
+        // Trigger scroll event
+        tablist.dispatchEvent(new Event('scroll'));
+
+        expect(tags.ngAfterViewChecked).toHaveBeenCalled();
+    });
+
+    it('should handle click event on return to tabs button', () => {
+        vi.spyOn(tags, 'returnTabs');
+
+        const returnButton = fixture.nativeElement.querySelector('.visually-hidden-focusable button');
+        expect(returnButton).toBeTruthy();
+
+        returnButton.click();
+
+        expect(tags.returnTabs).toHaveBeenCalled();
     });
 });

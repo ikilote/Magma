@@ -60,6 +60,23 @@ describe('MagmaCache', () => {
             expect(result).toEqual(value);
             expect((MagmaCache as any).cache[id].group).toEqual(['group1', 'group2']);
         });
+
+        it('should not cache value if wait flag is removed during fetch', async () => {
+            const id = 'test-no-wait';
+            const group = ['group1'];
+            const value = { data: 'test' };
+
+            // Start the request
+            const promise = cache.request(id, group, mockObservable(value));
+
+            // Remove wait flag before promise resolves
+            delete (MagmaCache as any).cache[id].wait;
+
+            const result = await promise;
+            expect(result).toEqual(value);
+            // Value should not be cached since wait was removed
+            expect((MagmaCache as any).cache[id].value).toBeUndefined();
+        });
     });
 
     describe('clearAll', () => {

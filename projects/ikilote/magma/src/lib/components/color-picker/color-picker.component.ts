@@ -122,8 +122,8 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit, OnDe
     protected _palette = computed(() =>
         this.palette()?.length
             ? this.palette()?.map(color =>
-                  new Color(color).toGamut({ space: 'srgb' }).to('srgb').toString({ format: 'hex' }),
-              )
+                new Color(color).toGamut({ space: 'srgb' }).to('srgb').toString({ format: 'hex' }),
+            )
             : magmaColorPickerPalette,
     );
 

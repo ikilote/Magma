@@ -24,10 +24,10 @@ import { MagmaStopPropagationDirective } from './stop-propagation.directive';
 class TestComponent {
     stopKeydown = false;
     stopClick = false;
-    onKeydown = jasmine.createSpy('onKeydown');
-    onClick = jasmine.createSpy('onClick');
-    onInnerKeydown = jasmine.createSpy('onInnerKeydown');
-    onInnerClick = jasmine.createSpy('onInnerClick');
+    onKeydown = vi.fn();
+    onClick = vi.fn();
+    onInnerKeydown = vi.fn();
+    onInnerClick = vi.fn();
 }
 
 describe('MagmaStopPropagationDirective', () => {
@@ -36,18 +36,31 @@ describe('MagmaStopPropagationDirective', () => {
     let innerElement: DebugElement;
     let directive: MagmaStopPropagationDirective;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
             imports: [TestComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         innerElement = fixture.debugElement.query(By.directive(MagmaStopPropagationDirective));
         directive = innerElement.injector.get(MagmaStopPropagationDirective);
     });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    /** Helper to update inputs without ExpressionChangedAfterItHasBeenCheckedError */
+    function updateInputs(changes: Partial<TestComponent>) {
+        Object.assign(component, changes);
+        fixture.changeDetectorRef.detectChanges();
+    }
 
     it('should create an instance', () => {
         expect(directive).toBeTruthy();
@@ -56,15 +69,11 @@ describe('MagmaStopPropagationDirective', () => {
     describe('stopPropagation behavior', () => {
         describe('keydown events', () => {
             it('should not stop propagation when stopKeydown is false', () => {
-                component.stopKeydown = false;
-                fixture.detectChanges();
-
                 const keydownEvent = new KeyboardEvent('keydown', {
                     bubbles: true,
                     cancelable: true,
                 });
 
-                innerElement = fixture.debugElement.query(By.directive(MagmaStopPropagationDirective));
                 innerElement.nativeElement.dispatchEvent(keydownEvent);
 
                 expect(component.onInnerKeydown).toHaveBeenCalled();
@@ -72,8 +81,7 @@ describe('MagmaStopPropagationDirective', () => {
             });
 
             it('should stop propagation when stopKeydown is true', () => {
-                component.stopKeydown = true;
-                fixture.detectChanges();
+                updateInputs({ stopKeydown: true });
 
                 const keydownEvent = new KeyboardEvent('keydown', {
                     bubbles: true,
@@ -89,9 +97,6 @@ describe('MagmaStopPropagationDirective', () => {
 
         describe('click events', () => {
             it('should not stop propagation when stopClick is false', () => {
-                component.stopClick = false;
-                fixture.detectChanges();
-
                 const clickEvent = new MouseEvent('click', {
                     bubbles: true,
                     cancelable: true,
@@ -104,8 +109,7 @@ describe('MagmaStopPropagationDirective', () => {
             });
 
             it('should stop propagation when stopClick is true', () => {
-                component.stopClick = true;
-                fixture.detectChanges();
+                updateInputs({ stopClick: true });
 
                 const clickEvent = new MouseEvent('click', {
                     bubbles: true,
@@ -121,33 +125,31 @@ describe('MagmaStopPropagationDirective', () => {
 
         describe('both events', () => {
             it('should stop propagation for both events when both inputs are true', () => {
-                component.stopKeydown = true;
-                component.stopClick = true;
-                fixture.detectChanges();
+                updateInputs({ stopKeydown: true, stopClick: true });
 
                 // Test keydown
-                const keydownEvent = new KeyboardEvent('keydown');
-                spyOn(keydownEvent, 'stopPropagation');
-                innerElement.nativeElement.dispatchEvent(keydownEvent, {
+                const keydownEvent = new KeyboardEvent('keydown', {
                     bubbles: true,
                     cancelable: true,
                 });
+                vi.spyOn(keydownEvent, 'stopPropagation');
+                innerElement.nativeElement.dispatchEvent(keydownEvent);
 
                 expect(keydownEvent.stopPropagation).toHaveBeenCalled();
                 expect(component.onInnerKeydown).toHaveBeenCalled();
                 expect(component.onKeydown).not.toHaveBeenCalled();
 
                 // Reset spies
-                component.onKeydown.calls.reset();
-                component.onInnerKeydown.calls.reset();
+                component.onKeydown.mockClear();
+                component.onInnerKeydown.mockClear();
 
                 // Test click
-                const clickEvent = new MouseEvent('click');
-                spyOn(clickEvent, 'stopPropagation');
-                innerElement.nativeElement.dispatchEvent(clickEvent, {
+                const clickEvent = new MouseEvent('click', {
                     bubbles: true,
                     cancelable: true,
                 });
+                vi.spyOn(clickEvent, 'stopPropagation');
+                innerElement.nativeElement.dispatchEvent(clickEvent);
 
                 expect(clickEvent.stopPropagation).toHaveBeenCalled();
                 expect(component.onInnerClick).toHaveBeenCalled();
@@ -155,51 +157,45 @@ describe('MagmaStopPropagationDirective', () => {
             });
 
             it('should not stop propagation for any event when both inputs are false', () => {
-                component.stopKeydown = false;
-                component.stopClick = false;
-                fixture.detectChanges();
-
                 // Test keydown
-                const keydownEvent = new KeyboardEvent('keydown');
-                spyOn(keydownEvent, 'stopPropagation');
-                innerElement.nativeElement.dispatchEvent(keydownEvent, {
+                const keydownEvent = new KeyboardEvent('keydown', {
                     bubbles: true,
                     cancelable: true,
                 });
+                vi.spyOn(keydownEvent, 'stopPropagation');
+                innerElement.nativeElement.dispatchEvent(keydownEvent);
 
                 expect(keydownEvent.stopPropagation).not.toHaveBeenCalled();
                 expect(component.onInnerKeydown).toHaveBeenCalled();
-                expect(component.onKeydown).not.toHaveBeenCalled();
+                expect(component.onKeydown).toHaveBeenCalled();
 
                 // Reset spies
-                component.onKeydown.calls.reset();
-                component.onInnerKeydown.calls.reset();
-                component.onClick.calls.reset();
-                component.onInnerClick.calls.reset();
+                component.onKeydown.mockClear();
+                component.onInnerKeydown.mockClear();
+                component.onClick.mockClear();
+                component.onInnerClick.mockClear();
 
                 // Test click
-                const clickEvent = new MouseEvent('click');
-                spyOn(clickEvent, 'stopPropagation');
-                innerElement.nativeElement.dispatchEvent(clickEvent, {
+                const clickEvent = new MouseEvent('click', {
                     bubbles: true,
                     cancelable: true,
                 });
+                vi.spyOn(clickEvent, 'stopPropagation');
+                innerElement.nativeElement.dispatchEvent(clickEvent);
 
                 expect(clickEvent.stopPropagation).not.toHaveBeenCalled();
                 expect(component.onInnerClick).toHaveBeenCalled();
-                expect(component.onClick).not.toHaveBeenCalled();
+                expect(component.onClick).toHaveBeenCalled();
             });
         });
     });
 
     describe('block method', () => {
         it('should call stopPropagation for keydown when stopKeydown is true', () => {
-            component.stopKeydown = true;
-            component.stopClick = false;
-            fixture.detectChanges();
+            updateInputs({ stopKeydown: true, stopClick: false });
 
             const keydownEvent = new KeyboardEvent('keydown');
-            spyOn(keydownEvent, 'stopPropagation');
+            vi.spyOn(keydownEvent, 'stopPropagation');
 
             directive.block(keydownEvent);
 
@@ -207,12 +203,10 @@ describe('MagmaStopPropagationDirective', () => {
         });
 
         it('should call stopPropagation for click when stopClick is true', () => {
-            component.stopKeydown = false;
-            component.stopClick = true;
-            fixture.detectChanges();
+            updateInputs({ stopKeydown: false, stopClick: true });
 
             const clickEvent = new MouseEvent('click');
-            spyOn(clickEvent, 'stopPropagation');
+            vi.spyOn(clickEvent, 'stopPropagation');
 
             directive.block(clickEvent);
 
@@ -220,14 +214,10 @@ describe('MagmaStopPropagationDirective', () => {
         });
 
         it('should not call stopPropagation when both inputs are false', () => {
-            component.stopKeydown = false;
-            component.stopClick = false;
-            fixture.detectChanges();
-
             const keydownEvent = new KeyboardEvent('keydown');
             const clickEvent = new MouseEvent('click');
-            spyOn(keydownEvent, 'stopPropagation');
-            spyOn(clickEvent, 'stopPropagation');
+            vi.spyOn(keydownEvent, 'stopPropagation');
+            vi.spyOn(clickEvent, 'stopPropagation');
 
             directive.block(keydownEvent);
             directive.block(clickEvent);

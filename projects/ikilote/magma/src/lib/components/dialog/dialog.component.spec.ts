@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaDialog } from './dialog.component';
@@ -17,7 +17,11 @@ describe('MagmaDialog', () => {
 
         fixture = TestBed.createComponent(MagmaDialog);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        fixture?.destroy();
     });
 
     it('should create', () => {
@@ -25,34 +29,34 @@ describe('MagmaDialog', () => {
     });
 
     it('should be closed by default', () => {
-        expect(component.isOpen()).toBeFalse();
+        expect(component.isOpen()).toBe(false);
     });
 
     it('should open when open() is called', () => {
         component.open();
-        fixture.detectChanges();
-        expect(component.isOpen()).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.isOpen()).toBe(true);
     });
 
     it('should close when close() is called', () => {
         component.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.close();
-        fixture.detectChanges();
-        expect(component.isOpen()).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.isOpen()).toBe(false);
     });
 
     it('should emit onClose when closed', () => {
-        spyOn(component.onClose, 'emit');
+        vi.spyOn(component.onClose, 'emit');
         component.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.close();
         expect(component.onClose.emit).toHaveBeenCalled();
     });
 });
 
 @Component({
-    imports: [MagmaDialog, MagmaLimitFocusDirective],
+    imports: [MagmaDialog],
     template: `
         <mg-dialog
             [closeButton]="closeButton"
@@ -73,7 +77,7 @@ class TestWrapperComponent {
     label = 'Dialog Label';
     title = 'Dialog Title';
     id = 'dialog-1';
-    onClose = jasmine.createSpy('onClose');
+    onClose = vi.fn();
 }
 
 describe('MagmaDialog usage', () => {
@@ -91,7 +95,7 @@ describe('MagmaDialog usage', () => {
         wrapperComponent = fixture.componentInstance;
         debugElement = fixture.debugElement;
         dialogComponent = debugElement.query(By.directive(MagmaDialog)).componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -106,7 +110,7 @@ describe('MagmaDialog usage', () => {
     it('should project open with simple content', () => {
         wrapperComponent.title = '';
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const main = debugElement.query(By.css('.main'));
         expect(main).toBeDefined();
         expect(main.nativeElement.textContent).toBe('Content');
@@ -115,7 +119,7 @@ describe('MagmaDialog usage', () => {
     it('should display close button if closeButton is true', () => {
         wrapperComponent.closeButton = true;
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const closeButton = debugElement.query(By.css('.close'));
         expect(closeButton).toBeTruthy();
     });
@@ -123,7 +127,7 @@ describe('MagmaDialog usage', () => {
     it('should not display close button if closeButton is false', () => {
         wrapperComponent.closeButton = false;
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const closeButton = debugElement.query(By.css('.close'));
         expect(closeButton).toBeNull();
     });
@@ -131,7 +135,7 @@ describe('MagmaDialog usage', () => {
     it('should display title if provided', () => {
         wrapperComponent.title = 'Test Title';
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const titleElement = debugElement.query(By.css('h1'));
         expect(titleElement).toBeTruthy();
         expect(titleElement.nativeElement.textContent).toContain('Test Title');
@@ -140,7 +144,7 @@ describe('MagmaDialog usage', () => {
     it('should not display title if not provided', () => {
         wrapperComponent.title = '';
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const titleElement = debugElement.query(By.css('h1'));
         expect(titleElement).toBeNull();
     });
@@ -148,49 +152,49 @@ describe('MagmaDialog usage', () => {
     it('should close when close button is clicked', () => {
         wrapperComponent.closeButton = true;
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const closeButton = debugElement.query(By.css('.close'));
         closeButton.triggerEventHandler('click', {});
-        fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(dialogComponent.isOpen()).toBe(false);
     });
 
-    it('should close when ESC key is pressed', fakeAsync(() => {
+    it('should close when ESC key is pressed', async () => {
         wrapperComponent.closeButton = true;
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const event = new KeyboardEvent('keydown', { key: 'Escape' });
         window.dispatchEvent(event);
-        tick();
-        fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeFalse();
-    }));
+        await vi.useFakeTimers();
+        fixture.changeDetectorRef.detectChanges();
+        expect(dialogComponent.isOpen()).toBe(false);
+    });
 
     it('should close when clicking on body with if closeBackdrop is true', () => {
         wrapperComponent.closeBackdrop = true;
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const backdrop = debugElement.query(By.css('.content'));
         backdrop.triggerEventHandler('click', { stopPropagation: () => {} });
-        fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(dialogComponent.isOpen()).toBe(true);
     });
 
     it('should close when clicking on backdrop if closeBackdrop is true', () => {
         wrapperComponent.closeBackdrop = true;
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         dialogComponent.onClick({ stopPropagation: () => {} } as MouseEvent);
-        fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(dialogComponent.isOpen()).toBe(false);
     });
 
     it('should close when clicking on backdrop if closeBackdrop is false', () => {
         wrapperComponent.closeBackdrop = false;
         dialogComponent.open();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         dialogComponent.onClick({ stopPropagation: () => {} } as MouseEvent);
-        fixture.detectChanges();
-        expect(dialogComponent.isOpen()).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(dialogComponent.isOpen()).toBe(true);
     });
 });

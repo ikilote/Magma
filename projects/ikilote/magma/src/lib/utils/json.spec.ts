@@ -1,4 +1,5 @@
 import Bowser from 'bowser';
+import type { Mock } from 'vitest';
 
 import { ExceptionJsonParse, jsonCopy, jsonParse } from './json';
 
@@ -16,7 +17,13 @@ describe('jsonCopy', () => {
     });
 
     it('should create a deep copy of an array', () => {
-        const original: [number, number, { a: number }] = [1, 2, { a: 3 }];
+        const original: [
+            number,
+            number,
+            {
+                a: number;
+            },
+        ] = [1, 2, { a: 3 }];
         const copied = jsonCopy(original);
 
         // Verify the copy is correct
@@ -49,7 +56,7 @@ describe('jsonCopy', () => {
         } catch (e) {
             test = true;
         }
-        expect(test).toBeTrue();
+        expect(test).toBe(true);
     });
 });
 
@@ -69,8 +76,8 @@ describe('ExceptionJsonParse', () => {
         const error = new ExceptionJsonParse('Failed to parse JSON', 'Invalid JSON string');
 
         // Verify the prototype chain
-        expect(error instanceof ExceptionJsonParse).toBeTrue();
-        expect(error instanceof Error).toBeTrue();
+        expect(error instanceof ExceptionJsonParse).toBe(true);
+        expect(error instanceof Error).toBe(true);
     });
 
     it('should include the cause in the error', () => {
@@ -83,11 +90,11 @@ describe('ExceptionJsonParse', () => {
 });
 
 describe('jsonParse', () => {
-    let bowserParseSpy: jasmine.Spy;
+    let bowserParseSpy: Mock;
 
     beforeEach(() => {
         // Mock Bowser.parse to return a specific browser engine
-        bowserParseSpy = spyOn(Bowser, 'parse').and.returnValue({ engine: { name: '' } } as any);
+        bowserParseSpy = vi.spyOn(Bowser, 'parse').mockReturnValue({ engine: { name: '' } } as any);
     });
 
     it('should parse valid JSON', () => {
@@ -98,11 +105,11 @@ describe('jsonParse', () => {
 
     it('should throw ExceptionJsonParse with position for Blink engine (line 1)', () => {
         // Mock Blink engine
-        bowserParseSpy.and.returnValue({ engine: { name: 'Blink' } } as any);
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Blink' } } as any);
 
         // Mock JSON.parse to throw a SyntaxError with position
         const invalidJson = '{"key": "value"';
-        spyOn(JSON, 'parse').and.callFake(() => {
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
             throw new SyntaxError('Unexpected end of JSON input at position 13');
         });
 
@@ -117,11 +124,11 @@ describe('jsonParse', () => {
 
     it('should throw ExceptionJsonParse with position for Blink engine (line 2)', () => {
         // Mock Blink engine
-        bowserParseSpy.and.returnValue({ engine: { name: 'Blink' } } as any);
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Blink' } } as any);
 
         // Mock JSON.parse to throw a SyntaxError with position
         const invalidJson = '{"key": \n"value"';
-        spyOn(JSON, 'parse').and.callFake(() => {
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
             throw new SyntaxError('Unexpected end of JSON input at position 14');
         });
 
@@ -136,11 +143,11 @@ describe('jsonParse', () => {
 
     it('should throw ExceptionJsonParse with position for Gecko engine', () => {
         // Mock Gecko engine
-        bowserParseSpy.and.returnValue({ engine: { name: 'Gecko' } } as any);
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Gecko' } } as any);
 
         // Mock JSON.parse to throw a SyntaxError with line and column
         const invalidJson = '{"key": "value"';
-        spyOn(JSON, 'parse').and.callFake(() => {
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
             throw new SyntaxError('Unexpected end of JSON input at line 1 column 13');
         });
 
@@ -155,11 +162,11 @@ describe('jsonParse', () => {
 
     it('should throw ExceptionJsonParse with position for WebKit engine', () => {
         // Mock WebKit engine
-        bowserParseSpy.and.returnValue({ engine: { name: 'WebKit' } } as any);
+        bowserParseSpy.mockReturnValue({ engine: { name: 'WebKit' } } as any);
 
         // Mock JSON.parse to throw a SyntaxError with WebKit format
         const invalidJson = '{"key": "value"';
-        spyOn(JSON, 'parse').and.callFake(() => {
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
             throw new SyntaxError('JSON Parse error: Unexpected end of JSON input');
         });
 
@@ -174,11 +181,11 @@ describe('jsonParse', () => {
 
     it('should throw ExceptionJsonParse for unknown engine', () => {
         // Mock an unknown engine
-        bowserParseSpy.and.returnValue({ engine: { name: 'Unknown' } } as any);
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Unknown' } } as any);
 
         // Mock JSON.parse to throw a SyntaxError
         const invalidJson = '{"key": "value"';
-        spyOn(JSON, 'parse').and.callFake(() => {
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
             throw new SyntaxError('Unexpected end of JSON input');
         });
 

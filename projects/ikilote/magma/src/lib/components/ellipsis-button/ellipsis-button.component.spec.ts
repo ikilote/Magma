@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaEllipsisButton } from './ellipsis-button.component';
@@ -35,60 +35,71 @@ describe('MagmaEllipsisButton (integration)', () => {
         hostComponent = fixture.componentInstance;
         ellipsisButtonElement = fixture.debugElement.query(By.directive(MagmaEllipsisButton)).componentInstance;
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        // Clean up overlay and fixture
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should create', () => {
         expect(hostComponent).toBeTruthy();
     });
 
-    it('should open and close the menu when clicking the button', fakeAsync(() => {
+    it('should open and close the menu when clicking the button', async () => {
+        vi.useFakeTimers();
         const button = fixture.debugElement.query(By.css('button'));
         expect(button).toBeTruthy();
 
         button.triggerEventHandler('click', null);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+        vi.advanceTimersByTime(100);
 
-        tick();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        tick();
-
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+        vi.advanceTimersByTime(100);
 
         // @ts-expect-error
-        expect(ellipsisButtonElement.isOpen()).toBeFalse();
-    }));
+        expect(ellipsisButtonElement.isOpen()).toBe(false);
+        vi.useRealTimers();
+    });
 
     it('should trigger actions when clicking on items', () => {
-        spyOn(hostComponent, 'onAction');
+        vi.spyOn(hostComponent, 'onAction');
 
         const button = fixture.debugElement.query(By.css('button'));
         button.triggerEventHandler('click', null);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const items = fixture.debugElement.queryAll(By.directive(MagmaEllipsisItemComponent));
         expect(items.length).toBe(2);
 
         items[0].triggerEventHandler('clickEnter', null);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(hostComponent.onAction).toHaveBeenCalledWith('1');
     });
 
-    it('should focus the button after closing the menu', fakeAsync(() => {
+    it('should focus the button after closing the menu', async () => {
         const buttonElement = fixture.debugElement.query(By.css('button')).nativeElement;
-        spyOn(buttonElement, 'focus');
+        vi.spyOn(buttonElement, 'focus');
 
         const button = fixture.debugElement.query(By.css('button'));
         button.triggerEventHandler('click', null);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+        await fixture.whenStable();
 
-        tick();
         document.querySelector('.cdk-overlay-ellipsis-backdrop')?.dispatchEvent(new Event('click'));
-        tick();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+        await fixture.whenStable();
+
+        // Wait for setTimeout in close() to execute
+        await new Promise(resolve => setTimeout(resolve, 10));
 
         expect(buttonElement.focus).toHaveBeenCalled();
-    }));
+    });
 });

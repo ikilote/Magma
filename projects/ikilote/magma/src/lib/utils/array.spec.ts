@@ -48,7 +48,7 @@ describe('sortWithRule', () => {
         it('should handle undefined input', () => {
             sortWithRule(undefined, { attr: 'id', type: 'number' });
             // No error should be thrown
-            expect(true).toBeTrue();
+            expect(true).toBe(true);
         });
     });
 
@@ -108,7 +108,7 @@ describe('sortWithRule', () => {
 
     describe('Translate sorting', () => {
         it('should sort translated values', () => {
-            const translateMock = jasmine.createSpy().and.callFake((str: string) => str);
+            const translateMock = vi.fn().mockImplementation((str: string) => str);
             const array = [{ value: 'b' }, { value: 'a' }, { value: 'c' }];
 
             sortWithRule(array, {
@@ -124,7 +124,7 @@ describe('sortWithRule', () => {
         });
 
         it('should sort translated values (default value)', () => {
-            const translateMock = jasmine.createSpy().and.callFake((str: string) => str);
+            const translateMock = vi.fn().mockImplementation((str: string) => str);
             const array = [{ value: 'b' }, { value: 'a' }, { value: 'c' }];
 
             sortWithRule(array, {

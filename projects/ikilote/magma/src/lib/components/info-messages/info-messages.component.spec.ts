@@ -1,7 +1,8 @@
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { Subject } from 'rxjs';
+import type { MockedObject } from 'vitest';
 
 import { InfoMessageComponent } from './info-message.component';
 import { InfoMessagesComponent } from './info-messages.component';
@@ -11,13 +12,35 @@ import { MagmaMessageContent, MagmaMessageInfo, MagmaMessageType, MagmaMessages 
 describe('InfoMessagesComponent', () => {
     let fixture: ComponentFixture<InfoMessagesComponent>;
     let component: InfoMessagesComponent;
-    let messagesService: jasmine.SpyObj<MagmaMessages>;
+    let messagesService: MockedObject<MagmaMessages>;
 
     beforeEach(async () => {
         // Mock MagmaMessages service
-        const messagesSpy = jasmine.createSpyObj('MagmaMessages', ['removeMessage', 'testDispose'], {
-            messages: [],
-            addMessage: (message: MagmaMessageContent, options: { type?: MagmaMessageType; time?: string } = {}) => {
+        const messagesSpy = {
+            removeMessage: vi
+                .fn()
+                .mockImplementation((msg: MagmaMessageInfo) => {
+                    const index = messagesSpy.messages.indexOf(msg);
+                    if (index > -1) {
+                        messagesSpy.messages.splice(index, 1);
+                    }
+                })
+                .mockName('MagmaMessages.removeMessage'),
+            testDispose: vi.fn().mockName('MagmaMessages.testDispose'),
+            clearMessages: vi
+                .fn()
+                .mockImplementation(() => {
+                    messagesSpy.messages.length = 0;
+                })
+                .mockName('MagmaMessages.clearMessages'),
+            messages: [] as any[],
+            addMessage: (
+                message: MagmaMessageContent,
+                options: {
+                    type?: MagmaMessageType;
+                    time?: string;
+                } = {},
+            ) => {
                 messagesSpy.messages.push({
                     message,
                     type: options.type || MagmaMessageType.info,
@@ -26,7 +49,7 @@ describe('InfoMessagesComponent', () => {
                 messagesSpy.onAddMessage.next();
             },
             onAddMessage: new Subject<void>(),
-        });
+        };
 
         await TestBed.configureTestingModule({
             imports: [InfoMessagesComponent, InfoMessageComponent],
@@ -35,8 +58,12 @@ describe('InfoMessagesComponent', () => {
 
         fixture = TestBed.createComponent(InfoMessagesComponent);
         component = fixture.componentInstance;
-        messagesService = TestBed.inject(MagmaMessages) as jasmine.SpyObj<MagmaMessages>;
-        fixture.detectChanges();
+        messagesService = TestBed.inject(MagmaMessages) as MockedObject<MagmaMessages>;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterAll(() => {
+        messagesService.clearMessages();
     });
 
     it('should not display any messages initially', () => {
@@ -44,45 +71,43 @@ describe('InfoMessagesComponent', () => {
         expect(infoMessages.length).toBe(0);
     });
 
-    it('should display messages after they are added', fakeAsync(() => {
+    it('should display messages after they are added', () => {
         messagesService.addMessage('Message 1', { type: MagmaMessageType.info, time: '1s' });
         messagesService.addMessage('Message 2', { type: MagmaMessageType.info, time: '1s' });
 
-        fixture.detectChanges();
-        tick();
+        fixture.changeDetectorRef.detectChanges();
 
         const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
         expect(infoMessages.length).toBe(2);
-    }));
+    });
 
     it('should call removeMessage and testDispose when destruct is called', () => {
         const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
         messagesService.addMessage('Test', { type: MagmaMessageType.info, time: '1s' });
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.destruct(testMessage);
         expect(messagesService.removeMessage).toHaveBeenCalledWith(testMessage);
         expect(messagesService.testDispose).toHaveBeenCalled();
     });
 
-    it('should update the view after removing a message', () => {
+    it('should update the view after removing a message', async () => {
         const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
         // @ts-ignore: Access readonly property for testing
         messagesService.messages = [testMessage];
         messagesService.onAddMessage.next();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.destruct(testMessage);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
         expect(infoMessages.length).toBe(0);
     });
 
-    it('should trigger change detection when a message is added', fakeAsync(() => {
-        spyOn(component['cd'], 'detectChanges');
+    it('should trigger change detection when a message is added', () => {
+        vi.spyOn(component['cd'], 'detectChanges');
         messagesService.onAddMessage.next();
-        tick();
         expect(component['cd'].detectChanges).toHaveBeenCalled();
-    }));
+    });
 });

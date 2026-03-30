@@ -2,22 +2,23 @@ import { CdkDrag, CdkDragEnd, CdkDragHandle, Point } from '@angular/cdk/drag-dro
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NgComponentOutlet } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
-    Component,
-    Directive,
-    ElementRef,
-    HostListener,
-    OnChanges,
-    OnInit,
-    SimpleChanges,
-    Type,
-    booleanAttribute,
-    inject,
-    input,
-    model,
-    output,
-    signal,
-    viewChildren,
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  ElementRef,
+  HostListener,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  Type,
+  booleanAttribute,
+  inject,
+  input,
+  model,
+  output,
+  signal,
+  viewChildren,
 } from '@angular/core';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
@@ -70,7 +71,7 @@ export abstract class AbstractWindowComponent {
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })
-export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges {
+export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges, OnDestroy {
     protected readonly elementRef = inject(ElementRef);
 
     protected readonly cdkDrag = viewChildren(CdkDrag);
@@ -104,6 +105,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     protected readonly fullscreen = signal(false);
 
     protected initPosition: Point = { x: 0, y: 0 };
+    private destroyed = false;
 
     constructor() {
         super({ x: [0, 0], y: [0, 0] });
@@ -138,8 +140,13 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     }
 
     updatePosition() {
+        if (this.destroyed) {
+            return;
+        }
+
         const element = this.elementRef.nativeElement;
         const zone = this.getZone();
+        const dragInstance = this.cdkDrag()?.[0];
 
         const position = this.position() || this.component()?.position;
 
@@ -150,15 +157,15 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             y += ((zone?.offsetHeight ?? window.innerHeight) - element.offsetHeight) / 2;
             this.x = [x, element.offsetWidth];
             this.y = [y, element.offsetHeight];
-            this.cdkDrag()?.[0]?.setFreeDragPosition({ x, y });
+            dragInstance?.setFreeDragPosition({ x, y });
         } else if (position && typeof position === 'object' && 'x' in position && 'y' in position) {
             this.x = [x + position.x, element.offsetWidth];
             this.y = [y + position.y, element.offsetHeight];
-            this.cdkDrag()?.[0]?.setFreeDragPosition({ x: x + position.x, y: y + position.y });
+            dragInstance?.setFreeDragPosition({ x: x + position.x, y: y + position.y });
         } else {
             this.x = [0, element.offsetWidth];
             this.y = [0, element.offsetHeight];
-            this.cdkDrag()?.[0]?.setFreeDragPosition({ x: 0, y: 0 });
+            dragInstance?.setFreeDragPosition({ x: 0, y: 0 });
         }
     }
 
@@ -268,5 +275,9 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
     protected withContext(inputs?: Record<string, any>): Record<string, any> & { parent: MagmaWindow } {
         return { ...inputs, ...{ parent: this } };
+    }
+
+    ngOnDestroy(): void {
+        this.destroyed = true;
     }
 }

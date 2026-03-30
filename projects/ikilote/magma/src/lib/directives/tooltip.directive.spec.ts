@@ -1,8 +1,9 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { cleanupOverlayContainer } from '../test-helpers';
 import { MagmaTooltipDirective } from './tooltip.directive';
 
 @Component({
@@ -41,16 +42,21 @@ describe('MagmaTooltipDirective', () => {
         directive = divElement.injector.get(MagmaTooltipDirective);
         overlay = TestBed.inject(Overlay);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         // Clean up overlays after each test
         if (MagmaTooltipDirective._overlayRef) {
             MagmaTooltipDirective._overlayRef.dispose();
             MagmaTooltipDirective._overlayRef = undefined;
             MagmaTooltipDirective._component = undefined;
         }
+        cleanupOverlayContainer();
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -63,132 +69,148 @@ describe('MagmaTooltipDirective', () => {
     });
 
     describe('mouse events', () => {
-        it('should create tooltip on mouseenter after delay', fakeAsync(() => {
-            spyOn(directive as any, 'createTooltip');
+        beforeEach(() => {
+            vi.useFakeTimers();
+        });
+
+        it('should create tooltip on mouseenter after delay', () => {
+            vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
-            tick(200); // Wait for entry delay
+            vi.advanceTimersByTime(200); // Wait for entry delay
 
             expect(directive['createTooltip']).toHaveBeenCalled();
-        }));
+        });
 
-        it('should cancel tooltip creation if mouseleave before delay', fakeAsync(() => {
-            spyOn(directive as any, 'createTooltip');
+        it('should cancel tooltip creation if mouseleave before delay', () => {
+            vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
-            tick(100); // Half of entry delay
+            vi.advanceTimersByTime(100); // Half of entry delay
             divElement.triggerEventHandler('mouseleave', {});
-            tick(100); // Wait for remaining delay
+            vi.advanceTimersByTime(100); // Wait for remaining delay
 
             expect(directive['createTooltip']).not.toHaveBeenCalled();
-        }));
+        });
 
-        it('should destroy tooltip on mouseleave', fakeAsync(() => {
-            spyOn(directive, 'ngOnDestroy');
+        it('should destroy tooltip on mouseleave', () => {
+            vi.spyOn(directive, 'ngOnDestroy');
             divElement.triggerEventHandler('mouseenter', {});
-            tick(200); // Wait for tooltip creation
+            vi.advanceTimersByTime(200); // Wait for tooltip creation
             divElement.triggerEventHandler('mouseleave', {});
 
             expect(directive.ngOnDestroy).toHaveBeenCalled();
-        }));
+        });
     });
 
     describe('tooltip creation', () => {
-        it('should create tooltip with correct text', fakeAsync(() => {
-            divElement.triggerEventHandler('mouseenter', {});
-            tick(200); // Wait for entry delay
+        /** Helper: trigger mouseenter and wait for the entry delay to elapse */
+        async function createTooltipAndWait() {
+            component.entryDelay = 0;
+            fixture.changeDetectorRef.detectChanges();
+            divElement.nativeElement.dispatchEvent(new MouseEvent('mouseenter'));
+            await new Promise(r => setTimeout(r, 50));
+            await fixture.whenStable();
+        }
+
+        it('should create tooltip with correct text', async () => {
+            await createTooltipAndWait();
 
             const tooltipComponent = MagmaTooltipDirective._component;
             expect(tooltipComponent).toBeTruthy();
             expect(tooltipComponent?.instance.text()).toBe('Test tooltip');
-        }));
+        });
 
-        it('should create tooltip with correct text updated', fakeAsync(() => {
+        it('should create tooltip with correct text updated', async () => {
             component.tooltipText = 'test change';
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
-            divElement.triggerEventHandler('mouseenter', {});
-            tick(200); // Wait for entry delay
+            await createTooltipAndWait();
 
             const tooltipComponent = MagmaTooltipDirective._component;
             expect(tooltipComponent).toBeTruthy();
             expect(tooltipComponent?.instance.text()).toBe('test change');
-        }));
+        });
 
-        it('should set correct describedBy id', fakeAsync(() => {
-            divElement.triggerEventHandler('mouseenter', {});
-            tick(200);
+        it('should set correct describedBy id', async () => {
+            await createTooltipAndWait();
 
             const tooltipComponent = MagmaTooltipDirective._component;
             const div = divElement.nativeElement;
             expect(div.getAttribute('aria-describedby')).toBe(tooltipComponent?.instance.describedBy());
-        }));
+        });
 
-        it('should set a describedBy id', fakeAsync(() => {
+        it('should set a describedBy id', async () => {
             component.describedBy = 'test';
-            fixture.detectChanges();
-            divElement.triggerEventHandler('mouseenter', {});
-            tick(200);
+            fixture.changeDetectorRef.detectChanges();
+            await createTooltipAndWait();
 
             const tooltipComponent = MagmaTooltipDirective._component;
             const div = divElement.nativeElement;
             expect(div.getAttribute('aria-describedby')).toBe(tooltipComponent?.instance.describedBy());
             expect(div.getAttribute('aria-describedby')).toBe(component.describedBy);
-        }));
+        });
 
-        it('should dispose tooltip after display delay', fakeAsync(() => {
-            component.displayDelay = 500;
-            fixture.detectChanges();
+        it('should dispose tooltip after display delay', async () => {
+            component.displayDelay = 100;
+            fixture.changeDetectorRef.detectChanges();
 
-            divElement.triggerEventHandler('mouseenter', {});
-            tick(200); // Wait for creation
+            await createTooltipAndWait();
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
-            spyOn(overlayRef!, 'dispose');
+            vi.spyOn(overlayRef!, 'dispose');
 
-            tick(500); // Wait for display delay
+            await new Promise(r => setTimeout(r, 150));
 
             expect(overlayRef!.dispose).toHaveBeenCalled();
-        }));
+        });
 
-        it('should not dispose tooltip if displayDelay is 0', fakeAsync(() => {
+        it('should not dispose tooltip if displayDelay is 0', async () => {
             component.displayDelay = 0;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
-            divElement.triggerEventHandler('mouseenter', {});
-            tick(200);
+            await createTooltipAndWait();
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
-            spyOn(overlayRef!, 'dispose');
+            vi.spyOn(overlayRef!, 'dispose');
 
-            tick(1000); // Wait longer than default delay
+            await new Promise(r => setTimeout(r, 200));
 
             expect(overlayRef!.dispose).not.toHaveBeenCalled();
-        }));
+        });
     });
 
     describe('custom delays', () => {
-        it('should use custom entry delay', fakeAsync(() => {
-            component.entryDelay = 500;
-            fixture.detectChanges();
+        beforeEach(() => {
+            vi.useFakeTimers();
+        });
 
-            spyOn(directive as any, 'createTooltip');
+        it('should use custom entry delay', () => {
+            component.entryDelay = 500;
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.spyOn(directive as any, 'createTooltip');
             divElement.triggerEventHandler('mouseenter', {});
-            tick(500);
+            vi.advanceTimersByTime(500);
 
             expect(directive['createTooltip']).toHaveBeenCalled();
-        }));
+        });
 
-        it('should use custom display delay', fakeAsync(() => {
-            component.displayDelay = 2000;
-            fixture.detectChanges();
+        it('should use custom display delay', async () => {
+            component.displayDelay = 100;
+            fixture.changeDetectorRef.detectChanges();
 
+            vi.useRealTimers();
+
+            component.entryDelay = 0;
+            fixture.changeDetectorRef.detectChanges();
             divElement.triggerEventHandler('mouseenter', {});
-            tick(200);
+            await new Promise(r => setTimeout(r, 50));
+            await fixture.whenStable();
 
             const overlayRef = MagmaTooltipDirective._overlayRef;
-            spyOn(overlayRef!, 'dispose');
+            vi.spyOn(overlayRef!, 'dispose');
 
-            tick(2000);
+            await new Promise(r => setTimeout(r, 150));
             expect(overlayRef!.dispose).toHaveBeenCalled();
-        }));
+        });
     });
 });

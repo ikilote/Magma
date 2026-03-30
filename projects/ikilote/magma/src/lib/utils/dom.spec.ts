@@ -41,26 +41,26 @@ describe('DOM Utility Functions', () => {
         it('should return true if the element contains all specified classes', () => {
             // Test: Element contains all classes
             const result = containClasses(parentElement, ['parent', 'bar']);
-            expect(result).toBeTrue();
+            expect(result).toBe(true);
         });
 
         it('should return false if the element is missing any class', () => {
             // Test: Element is missing at least one class
             const result = containClasses(parentElement, ['parent', 'missing']);
-            expect(result).toBeFalse();
+            expect(result).toBe(false);
         });
 
         it('should return false if the element has no classList', () => {
             // Test: Element has no classList property
             const fakeElement = { classList: undefined } as unknown as HTMLElement;
             const result = containClasses(fakeElement, ['any']);
-            expect(result).toBeFalse();
+            expect(result).toBe(false);
         });
 
         it('should handle empty class list', () => {
             // Test: Empty class list should return true (vacuously true)
             const result = containClasses(parentElement, []);
-            expect(result).toBeTrue();
+            expect(result).toBe(true);
         });
 
         it('should handle multiple spaces in class names', () => {
@@ -68,7 +68,7 @@ describe('DOM Utility Functions', () => {
             const element = document.createElement('div');
             element.className = 'foo   bar  baz';
             const result = containClasses(element, ['foo', 'bar', 'baz']);
-            expect(result).toBeTrue();
+            expect(result).toBe(true);
         });
     });
 
@@ -124,7 +124,7 @@ describe('DOM Utility Functions', () => {
             // Test: SVG elements may not have a classList property
             const svgElement = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
             const result = containClasses(svgElement, ['any']);
-            expect(result).toBeFalse();
+            expect(result).toBe(false);
         });
 
         it('should handle elements with empty className', () => {
@@ -132,7 +132,7 @@ describe('DOM Utility Functions', () => {
             const emptyElement = document.createElement('div');
             emptyElement.className = '';
             const result = containClasses(emptyElement, ['any']);
-            expect(result).toBeFalse();
+            expect(result).toBe(false);
         });
     });
 });

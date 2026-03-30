@@ -1,10 +1,10 @@
 import { ComponentRef, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputDate } from './input-date.component';
-import { MockNgControl } from './input-text.component.spec';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputDate', () => {
     let component: MagmaInputDate;
@@ -13,6 +13,10 @@ describe('MagmaInputDate', () => {
     let debugElement: DebugElement;
 
     beforeEach(async () => {
+        // Ensure we start with real timers
+        vi.useRealTimers();
+        vi.clearAllTimers();
+        
         await TestBed.configureTestingModule({
             imports: [MagmaInputDate, FormsModule, ReactiveFormsModule],
         }).compileComponents();
@@ -22,7 +26,14 @@ describe('MagmaInputDate', () => {
         component.refreshTrigger.set(false);
         componentRef = fixture.componentRef;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -37,19 +48,19 @@ describe('MagmaInputDate', () => {
     describe('Localization & Placeholders', () => {
         it('should fallback to "en" if an unknown language is provided', () => {
             componentRef.setInput('lang', 'unknown-ZZ');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(component.orderType).toBe('mdy');
         });
 
         it('should correctly match partial language codes (e.g., "fr-CA" starts with "fr")', () => {
             componentRef.setInput('lang', 'fr-CA');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(component.orderType).toBe('ymd');
         });
 
         it('should set the correct regex groups for DMY (French)', () => {
             componentRef.setInput('lang', 'fr-FR');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             const infos = (component as any).placeholderInfos;
             expect(infos.dd).toBe('jj');
             expect(infos.yyyy).toBe('aaaa');
@@ -150,18 +161,18 @@ describe('MagmaInputDate', () => {
         it('should lock focus when Arrow keys are pressed', () => {
             component.keydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
             // @ts-ignore
-            expect(component.lockFocus).toBeTrue();
+            expect(component.lockFocus).toBe(true);
 
             component.keyup(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
             // @ts-ignore
-            expect(component.lockFocus).toBeFalse();
+            expect(component.lockFocus).toBe(false);
         });
 
         it('should lock focus when ArrowLeft keys are pressed', () => {
             // @ts-ignore
-            spyOn(component, 'focusNext');
+            vi.spyOn(component, 'focusNext');
             // @ts-ignore
-            spyOn(component, 'focusPrev');
+            vi.spyOn(component, 'focusPrev');
 
             const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
             // @ts-ignore
@@ -179,9 +190,9 @@ describe('MagmaInputDate', () => {
 
         it('should lock focus when ArrowRight keys are pressed', () => {
             // @ts-ignore directive
-            spyOn(component, 'focusNext');
+            vi.spyOn(component, 'focusNext');
             // @ts-ignore
-            spyOn(component, 'focusPrev');
+            vi.spyOn(component, 'focusPrev');
 
             const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
             // @ts-ignore
@@ -211,7 +222,7 @@ describe('MagmaInputDate', () => {
 
         const updateInputs = async (type: string) => {
             componentRef.setInput('type', type);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             component.valueCache = {
@@ -244,7 +255,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: true },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-milli`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-milli`, async () => {
                 updateInputs('datetime-milli');
 
                 // @ts-ignore
@@ -252,11 +263,11 @@ describe('MagmaInputDate', () => {
 
                 i.valueAsNumber = e.value;
                 // @ts-ignore
-                spyOn(component, 'focusNext');
+                vi.spyOn(component, 'focusNext');
 
                 component.updateDate({ target: i } as any, e.type as any);
 
-                tick();
+                await vi.useFakeTimers();
                 expect(i.valueAsNumber).toBe(e.updated);
 
                 if (e.focus) {
@@ -269,7 +280,7 @@ describe('MagmaInputDate', () => {
 
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31T23:59:59.999');
-            }));
+            });
         });
 
         [
@@ -281,7 +292,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type time`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type time`, async () => {
                 updateInputs('time');
 
                 // @ts-ignore
@@ -289,11 +300,11 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -303,15 +314,15 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
                 // @ts-ignore
                 expect(component._value).toBe('23:59');
-            }));
+            });
         });
 
         [
@@ -323,7 +334,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type date`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type date`, async () => {
                 updateInputs('date');
 
                 // @ts-ignore
@@ -331,11 +342,11 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -345,15 +356,15 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31');
-            }));
+            });
         });
 
         [
@@ -365,7 +376,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type date`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type date`, async () => {
                 updateInputs('date');
 
                 // @ts-ignore
@@ -373,11 +384,11 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -387,15 +398,15 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31');
-            }));
+            });
         });
 
         [
@@ -407,7 +418,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: false, present: false },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-local`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-local`, async () => {
                 updateInputs('datetime-local');
 
                 // @ts-ignore
@@ -415,11 +426,11 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -429,16 +440,16 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
 
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31T23:59');
-            }));
+            });
         });
 
         [
@@ -450,7 +461,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 60, updated: 59, filed: 'typeSeconds', focus: true, present: true },
             { type: 'milli', value: 1000, updated: 999, filed: 'typeMilli', focus: false, present: false },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-seconds`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and move focus to next element with type datetime-seconds`, async () => {
                 updateInputs('datetime-seconds');
 
                 // @ts-ignore
@@ -458,11 +469,11 @@ describe('MagmaInputDate', () => {
                 if (i) {
                     i.valueAsNumber = e.value;
                     // @ts-ignore
-                    spyOn(component, 'focusNext');
+                    vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.useFakeTimers();
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
@@ -472,15 +483,15 @@ describe('MagmaInputDate', () => {
                         // @ts-ignore
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
-                    expect(e.present).toBeTrue();
+                    expect(e.present).toBe(true);
                 } else {
-                    expect(e.present).toBeFalse();
+                    expect(e.present).toBe(false);
                     // @ts-ignore
                     component.updateValueWithCache(false);
                 }
                 // @ts-ignore
                 expect(component._value).toBe('9999-12-31T23:59:59');
-            }));
+            });
         });
 
         [
@@ -490,7 +501,7 @@ describe('MagmaInputDate', () => {
             { type: 'minutes', value: 9, updated: '09', filed: 'typeMinutes' },
             { type: 'seconds', value: 9, updated: '09', filed: 'typeSeconds' },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) and update input value`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) and update input value`, async () => {
                 updateInputs('datetime-milli');
 
                 // @ts-ignore
@@ -502,10 +513,10 @@ describe('MagmaInputDate', () => {
                 component.lockFocus = true;
                 component.updateDate({ target: i } as any, e.type as any);
 
-                tick();
+                await vi.useFakeTimers();
 
                 expect(i.value).toBe(e.updated);
-            }));
+            });
 
             [
                 { type: 'month', value: 2, updated: '02', filed: 'typeMonth' },
@@ -514,7 +525,7 @@ describe('MagmaInputDate', () => {
                 { type: 'minutes', value: 9, updated: '09', filed: 'typeMinutes' },
                 { type: 'seconds', value: 9, updated: '09', filed: 'typeSeconds' },
             ].forEach(e => {
-                it(`should change Input (${e.type}) and update input value`, fakeAsync(() => {
+                it(`should change Input (${e.type}) and update input value`, async () => {
                     updateInputs('datetime-milli');
 
                     // @ts-ignore
@@ -526,10 +537,10 @@ describe('MagmaInputDate', () => {
                     component.lockFocus = true;
                     component.changeDate({ target: i } as any, e.type as any);
 
-                    tick();
+                    await vi.useFakeTimers();
 
                     expect(i.value).toBe(e.updated);
-                }));
+                });
             });
         });
 
@@ -542,7 +553,7 @@ describe('MagmaInputDate', () => {
             { type: 'seconds', value: 0, updated: 0, filed: 'typeSeconds', out: '9999-12-31T23:59:00.999' },
             { type: 'milli', value: 0, updated: 0, filed: 'typeMilli', out: '9999-12-31T23:59:59.000' },
         ].forEach(e => {
-            it(`should clamp Input (${e.type}) value is empty with type datetime-milli`, fakeAsync(() => {
+            it(`should clamp Input (${e.type}) value is empty with type datetime-milli`, async () => {
                 updateInputs('datetime-milli');
 
                 // @ts-ignore
@@ -552,12 +563,12 @@ describe('MagmaInputDate', () => {
 
                 component.updateDate({ target: i } as any, e.type as any);
 
-                tick();
+                await vi.useFakeTimers();
                 expect(i.valueAsNumber).toBe(e.updated);
 
                 // @ts-ignore
                 expect(component._value).toBe(e.out);
-            }));
+            });
         });
     });
 
@@ -639,7 +650,7 @@ describe('MagmaInputDate', () => {
 
         it('should fallback to English if the language is not found', () => {
             // @ts-ignore
-            spyOnProperty(navigator, 'language', 'get').and.returnValue('');
+            vi.spyOn(navigator, 'language', 'get').mockReturnValue('');
 
             component.placeholderCompute(); // Non-existent
 
@@ -651,7 +662,7 @@ describe('MagmaInputDate', () => {
 
     describe('Private methods', () => {
         it('should select element on focusNext', () => {
-            spyOn(document, 'querySelector');
+            vi.spyOn(document, 'querySelector');
 
             // @ts-ignore
             component.focusNext('test');
@@ -663,7 +674,7 @@ describe('MagmaInputDate', () => {
             const inputDayElement = debugElement.query(By.css('.day')).nativeElement;
             const inputMonthElement = debugElement.query(By.css('.month')).nativeElement;
 
-            spyOn(inputMonthElement, 'select');
+            vi.spyOn(inputMonthElement, 'select');
 
             // @ts-ignore
             component.focusNext(inputDayElement.id);
@@ -672,7 +683,7 @@ describe('MagmaInputDate', () => {
         });
 
         it('should select element on focusPrev', () => {
-            spyOn(document, 'querySelector');
+            vi.spyOn(document, 'querySelector');
 
             // @ts-ignore
             component.focusPrev('test');
@@ -684,7 +695,7 @@ describe('MagmaInputDate', () => {
             const inputDayElement = debugElement.query(By.css('.day')).nativeElement;
             const inputMonthElement = debugElement.query(By.css('.month')).nativeElement;
 
-            spyOn(inputDayElement, 'select');
+            vi.spyOn(inputDayElement, 'select');
 
             // @ts-ignore
             component.focusPrev(inputMonthElement.id);
@@ -702,7 +713,7 @@ describe('MagmaInputDate', () => {
         it('should select element on focusNext', () => {
             // @ts-ignore
             component.datePickerClose('2024-12-12');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -720,7 +731,7 @@ describe('MagmaInputDate', () => {
     describe('Value', () => {
         it('should cache date empty when no value', () => {
             componentRef.setInput('value', '');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -736,7 +747,7 @@ describe('MagmaInputDate', () => {
 
         it('should cache date empty when partial date', () => {
             componentRef.setInput('value', '2015-12-31');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -752,7 +763,7 @@ describe('MagmaInputDate', () => {
 
         it('should cache date empty when complete date', () => {
             componentRef.setInput('value', '2015-12-31T12:15:30.015');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // @ts-ignore
             expect(component.valueCache).toEqual({
@@ -794,14 +805,14 @@ describe('MagmaInputDate', () => {
         it('should update input value on blur', () => {
             const inputElement = debugElement.query(By.css('.day')).nativeElement;
             inputElement.value = '3';
-            spyOn(component, 'onTouched');
-            spyOn(component, 'validate');
+            vi.spyOn(component, 'onTouched');
+            vi.spyOn(component, 'validate');
 
             component.ngOnInit();
             component.ngControl = new MockNgControl() as unknown as NgControl;
 
             inputElement.dispatchEvent(new Event('blur'));
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(inputElement.value).toBe('03');
             expect(component.onTouched).toHaveBeenCalled();
             expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);
@@ -810,13 +821,13 @@ describe('MagmaInputDate', () => {
         it('should dateClose value on blur', () => {
             const inputElement = debugElement.query(By.css('.day')).nativeElement;
             inputElement.value = '3';
-            spyOn(component, 'onTouched');
-            spyOn(component, 'validate');
+            vi.spyOn(component, 'onTouched');
+            vi.spyOn(component, 'validate');
 
             component.ngControl = new MockNgControl() as unknown as NgControl;
             component.datePickerClose('2015-12-12');
 
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(inputElement.value).toBe('12');
             expect(component.onTouched).toHaveBeenCalled();
             expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);

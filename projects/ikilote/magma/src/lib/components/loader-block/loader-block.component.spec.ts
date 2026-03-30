@@ -24,7 +24,14 @@ describe('MagmaLoaderBlock', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should project mg-loader-tile inside ng-content', () => {
@@ -61,7 +68,14 @@ describe('MagmaLoaderBlock', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent2);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should project multiple mg-loader-tile elements inside ng-content', () => {

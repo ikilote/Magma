@@ -1,7 +1,8 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { cleanupOverlayContainer } from '../../test-helpers';
 import { MagmaDatetimePickerDays, MagmaDatetimeType } from './datetime-picker.component';
 import { MagmaDatetimePicker } from './datetime-picker.directive';
 
@@ -48,17 +49,21 @@ describe('MagmaDatetimePicker Directive', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         directiveElement = fixture.debugElement.query(By.directive(MagmaDatetimePicker));
         directive = directiveElement.injector.get(MagmaDatetimePicker);
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         if (MagmaDatetimePicker._overlayRef) {
             MagmaDatetimePicker._overlayRef.dispose();
             MagmaDatetimePicker._overlayRef = undefined;
             MagmaDatetimePicker._component = undefined;
         }
+        cleanupOverlayContainer();
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should create directive', () => {
@@ -67,54 +72,54 @@ describe('MagmaDatetimePicker Directive', () => {
 
     it('should set tabIndex to -1 if disabled', () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(directiveElement.nativeElement.tabIndex).toBe(-1);
     });
 
     it('should set tabIndex to 0 if enabled', () => {
         fixture.componentInstance.disabled = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(directiveElement.nativeElement.tabIndex).toBe(0);
     });
 
-    it('should open overlay on click (via ClickEnterDirective)', fakeAsync(() => {
-        const spy = spyOn(directive, 'open').and.callThrough();
+    it('should open overlay on click (via ClickEnterDirective)', async () => {
+        const spy = vi.spyOn(directive, 'open');
         const span = fixture.debugElement.query(By.css('.test')).nativeElement;
 
         span.click();
-        tick();
+        await fixture.whenStable();
 
         expect(spy).toHaveBeenCalled();
         expect(MagmaDatetimePicker._overlayRef).toBeDefined();
-    }));
+    });
 
-    it('should open overlay', fakeAsync(async () => {
+    it('should open overlay', async () => {
         fixture.componentInstance.disabled = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         await directive.open();
-        tick();
+        await fixture.whenStable();
 
         expect(MagmaDatetimePicker._overlayRef).toBeDefined();
-    }));
+    });
 
-    it('should not open overlay if disabled', fakeAsync(async () => {
+    it('should not open overlay if disabled', async () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         await directive.open();
-        tick();
+        await fixture.whenStable();
 
         expect(MagmaDatetimePicker._overlayRef).toBeUndefined();
-    }));
+    });
 
-    it('should pass correct inputs to the Picker Component', fakeAsync(() => {
+    it('should pass correct inputs to the Picker Component', async () => {
         fixture.componentInstance.lang = 'en';
         fixture.componentInstance.type = 'datetime-local';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         directive.open();
-        tick();
+        await fixture.whenStable();
 
         const componentInstance = MagmaDatetimePicker._component?.instance;
         expect(componentInstance).toBeDefined();
@@ -122,76 +127,76 @@ describe('MagmaDatetimePicker Directive', () => {
         expect(componentInstance?.lang()).toBe('en');
         expect(componentInstance?.type()).toBe('datetime-local');
         expect(componentInstance?.embedded()).toBe(true);
-    }));
+    });
 
-    it('should close overlay on escape key', fakeAsync(() => {
+    it('should close overlay on escape key', async () => {
         directive.open();
-        tick();
+        await fixture.whenStable();
         expect(MagmaDatetimePicker._overlayRef).toBeDefined();
 
         const event = new KeyboardEvent('keydown', { key: 'Escape' });
         document.dispatchEvent(event);
-        tick();
+        await fixture.whenStable();
 
         expect(MagmaDatetimePicker._overlayRef).toBeUndefined();
-    }));
+    });
 
-    it('should emit datetimeChange when component value changes', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance, 'onDatetimeChange');
+    it('should emit datetimeChange when component value changes', async () => {
+        const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeChange');
         directive.open();
-        tick();
+        await fixture.whenStable();
 
         const component = MagmaDatetimePicker._component;
         component?.instance.datetimeChange.emit('2024-01-01');
-        tick();
+        await fixture.whenStable();
 
         expect(spy).toHaveBeenCalledWith('2024-01-01');
-    }));
+    });
 
-    it('should emit datetimeClose only if value has changed on backdrop click', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance, 'onDatetimeClose');
+    it('should emit datetimeClose only if value has changed on backdrop click', async () => {
+        const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeClose');
         directive.open();
-        tick();
+        await fixture.whenStable();
 
         const component = MagmaDatetimePicker._component;
         component?.instance.datetimeChange.emit('2024-01-01');
-        tick();
+        await fixture.whenStable();
 
         const backdrop = document.querySelector('.overlay-backdrop') as HTMLElement;
         backdrop.click();
-        tick();
+        await fixture.whenStable();
 
         expect(spy).toHaveBeenCalledWith('2024-01-01');
         expect(MagmaDatetimePicker._overlayRef).toBeUndefined();
-    }));
+    });
 
-    it('should NOT emit datetimeClose if value is identical on backdrop click', fakeAsync(() => {
-        const spy = spyOn(fixture.componentInstance, 'onDatetimeClose');
+    it('should NOT emit datetimeClose if value is identical on backdrop click', async () => {
+        const spy = vi.spyOn(fixture.componentInstance, 'onDatetimeClose');
         directive.open();
-        tick();
+        await fixture.whenStable();
 
         const backdrop = document.querySelector('.overlay-backdrop') as HTMLElement;
         backdrop.click();
-        tick();
+        await fixture.whenStable();
 
         expect(spy).not.toHaveBeenCalled();
-    }));
+    });
 
-    it('should open overlay on space key', fakeAsync(() => {
-        const spy = spyOn(directive, 'open').and.callThrough();
+    it('should open overlay on space key', async () => {
+        const spy = vi.spyOn(directive, 'open');
         directiveElement.triggerEventHandler('keydown.space', {});
-        tick();
+        await fixture.whenStable();
         expect(spy).toHaveBeenCalled();
-    }));
+    });
 
-    it('should unsubscribe and dispose on destroy', fakeAsync(() => {
+    it('should unsubscribe and dispose on destroy', async () => {
         directive.open();
-        tick();
-        const disposeSpy = spyOn(MagmaDatetimePicker._overlayRef!, 'dispose').and.callThrough();
+        await fixture.whenStable();
+        const disposeSpy = vi.spyOn(MagmaDatetimePicker._overlayRef!, 'dispose');
 
         directive.ngOnDestroy();
 
         expect(disposeSpy).toHaveBeenCalled();
         expect(MagmaDatetimePicker._overlayRef).toBeUndefined();
-    }));
+    });
 });

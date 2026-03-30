@@ -21,7 +21,7 @@ describe('MagmaLoaderTile', () => {
     beforeEach(async () => {
         fixture = TestBed.createComponent(MagmaLoaderTile);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should return null for width and height if size is not set', () => {
@@ -31,7 +31,7 @@ describe('MagmaLoaderTile', () => {
 
     it('should compute width and height for a simple size', () => {
         fixture.componentRef.setInput('size', '100px');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.width()).toBe('0 0 100px');
         expect(component.height()).toBe('100px');
@@ -39,7 +39,7 @@ describe('MagmaLoaderTile', () => {
 
     it('should compute width and height for "flex" size', () => {
         fixture.componentRef.setInput('size', 'flex');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.width()).toBe('1 1 0');
         expect(component.height()).toBeNull();
@@ -47,7 +47,7 @@ describe('MagmaLoaderTile', () => {
 
     it('should project content inside ng-content', () => {
         const hostFixture = TestBed.createComponent(TestHostComponent);
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
 
         const customContent = hostFixture.debugElement.query(By.css('.custom-content'));
         expect(customContent).toBeTruthy();

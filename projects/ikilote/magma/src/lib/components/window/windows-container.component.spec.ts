@@ -14,7 +14,7 @@ import { MagmaWindowsContainer } from './windows-container.component';
 class MockMagmaWindowComponent {
     index = 0;
     resizerHost = {
-        set: jasmine.createSpy('set'),
+        set: vi.fn(),
     };
 }
 
@@ -29,7 +29,7 @@ describe('MagmaWindowsContainer', () => {
 
         fixture = TestBed.createComponent(MagmaWindowsContainer);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -61,7 +61,7 @@ describe('MagmaWindowsContainer', () => {
             mockWin3 = new MockMagmaWindowComponent();
 
             // Mock the contentChildren signal
-            spyOn(component as any, 'windows').and.returnValue([mockWin1, mockWin2, mockWin3]);
+            vi.spyOn(component as any, 'windows').mockReturnValue([mockWin1, mockWin2, mockWin3]);
         });
 
         it('should initialize windows with host and index', () => {
@@ -93,10 +93,10 @@ describe('MagmaWindowsContainer', () => {
 
         it('should not throw error on remove if window exists', () => {
             const winArray = [mockWin1, mockWin2];
-            spyOn(winArray, 'indexOf').and.returnValue(0);
-            spyOn(winArray, 'slice');
+            vi.spyOn(winArray, 'indexOf').mockReturnValue(0);
+            vi.spyOn(winArray, 'slice');
 
-            (component as any).windows.and.returnValue(winArray);
+            (component as any).windows.mockReturnValue(winArray);
 
             expect(() => component.remove(mockWin1 as any)).not.toThrow();
         });

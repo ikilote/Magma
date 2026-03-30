@@ -18,14 +18,14 @@ describe('MagmaResizeElement', () => {
     it('should have animation enabled by default', () => {
         const element = new MagmaResizeElement(initialParams);
 
-        expect(element.animation).toBeTrue();
+        expect(element.animation).toBe(true);
     });
 
     it('should allow toggling the animation property', () => {
         const element = new MagmaResizeElement(initialParams);
 
         element.animation = false;
-        expect(element.animation).toBeFalse();
+        expect(element.animation).toBe(false);
     });
 
     it('should have a callable update method (placeholder)', () => {

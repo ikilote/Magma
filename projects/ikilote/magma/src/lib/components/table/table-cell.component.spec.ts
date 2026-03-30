@@ -6,7 +6,7 @@ import { MagmaTableRow } from './table-row.component';
 
 @Directive({})
 class MockHost {
-    table = { over: jasmine.createSpy('over') };
+    table = { over: vi.fn() };
     inputs = () => [{}];
 }
 
@@ -18,7 +18,7 @@ describe('MagmaTableCell', () => {
 
     beforeEach(async () => {
         mockCdRef = {
-            detectChanges: jasmine.createSpy('detectChanges'),
+            detectChanges: vi.fn(),
         };
 
         mockElementRef = {
@@ -36,7 +36,14 @@ describe('MagmaTableCell', () => {
         fixture = TestBed.createComponent(MagmaTableCell);
         component = fixture.componentInstance;
         component.host = new MockHost() as unknown as MagmaTableRow; // mock host
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -45,8 +52,8 @@ describe('MagmaTableCell', () => {
 
     it('should set baseline class based on input', () => {
         fixture.componentRef.setInput('baseline', true);
-        fixture.detectChanges();
-        expect(component.el.nativeElement.classList.contains('baseline')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.el.nativeElement.classList.contains('baseline')).toBe(true);
     });
 
     it('should call table.over on mouseover', () => {
@@ -57,23 +64,23 @@ describe('MagmaTableCell', () => {
     });
 
     it('should initialize hover and hoverLink signals', () => {
-        expect(component.hover()).toBeFalse();
-        expect(component.hoverLink()).toBeFalse();
+        expect(component.hover()).toBe(false);
+        expect(component.hoverLink()).toBe(false);
     });
 
     it('should update hover signal', () => {
         component.hover.set(true);
-        expect(component.hover()).toBeTrue();
+        expect(component.hover()).toBe(true);
     });
 
     it('should initialize hover and hoverLink signals', () => {
-        expect(component.hover()).toBeFalse();
-        expect(component.hoverLink()).toBeFalse();
+        expect(component.hover()).toBe(false);
+        expect(component.hoverLink()).toBe(false);
     });
 
     it('should update hover signal', () => {
         component.hover.set(true);
-        expect(component.hover()).toBeTrue();
+        expect(component.hover()).toBe(true);
     });
 
     it('should update index in ngAfterViewChecked', () => {
@@ -90,13 +97,13 @@ describe('MagmaTableCell', () => {
 
     it('should add hover class when hover signal is true', () => {
         component.hover.set(true);
-        fixture.detectChanges();
-        expect(component.el.nativeElement.classList.contains('hover')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.el.nativeElement.classList.contains('hover')).toBe(true);
     });
 
     it('should add hover class when hover signal is true', () => {
         component.hover.set(true);
-        fixture.detectChanges();
-        expect(component.el.nativeElement.classList.contains('hover')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.el.nativeElement.classList.contains('hover')).toBe(true);
     });
 });

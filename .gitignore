@@ -37,6 +37,12 @@ yarn-error.log
 testem.log
 /typings
 
+# Test screenshots
+/*.png
+__screenshots__/
+.vitest-attachments/
+
 # System files
 .DS_Store
 Thumbs.db
+.docs/

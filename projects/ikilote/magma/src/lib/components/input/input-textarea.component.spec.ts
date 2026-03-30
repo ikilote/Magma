@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
-import { MockNgControl } from './input-text.component.spec';
 import { MagmaInputTextarea } from './input-textarea.component';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputTextarea', () => {
     let component: MagmaInputTextarea;
@@ -23,7 +23,14 @@ describe('MagmaInputTextarea', () => {
         fixture = TestBed.createComponent(MagmaInputTextarea);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -56,16 +63,16 @@ describe('MagmaInputTextarea', () => {
 
     it('should apply monospace class if monospace is true', () => {
         fixture.componentRef.setInput('monospace', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const hostElement = debugElement.nativeElement;
-        expect(hostElement.classList.contains('monospace')).toBeTrue();
+        expect(hostElement.classList.contains('monospace')).toBe(true);
     });
 
     it('should apply styles for height, maxHeight, and minHeight', () => {
         fixture.componentRef.setInput('height', '200px');
         fixture.componentRef.setInput('maxHeight', '300px');
         fixture.componentRef.setInput('minHeight', '100px');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const hostElement = debugElement.nativeElement;
         expect(hostElement.style.getPropertyValue('--default')).toBe('200px');
         expect(hostElement.style.getPropertyValue('--max')).toBe('300px');
@@ -73,7 +80,7 @@ describe('MagmaInputTextarea', () => {
     });
 
     it('should update value on change event', () => {
-        spyOn(component.update, 'emit');
+        vi.spyOn(component.update, 'emit');
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
         textareaElement.value = 'New text';
         textareaElement.dispatchEvent(new Event('change'));
@@ -81,7 +88,7 @@ describe('MagmaInputTextarea', () => {
     });
 
     it('should update value on input event', () => {
-        spyOn(component, 'onChange');
+        vi.spyOn(component, 'onChange');
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
         textareaElement.value = 'New text';
         textareaElement.dispatchEvent(new Event('input'));
@@ -89,8 +96,8 @@ describe('MagmaInputTextarea', () => {
     });
 
     it('should call onTouched and validate on blur', () => {
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -106,7 +113,7 @@ describe('MagmaInputTextarea', () => {
         fixture.componentRef.setInput('maxlength', 10);
         fixture.componentRef.setInput('displayLimit', 10);
         component.writeValue('1234567890');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const limitElement = debugElement.query(By.css('.limit'));
         expect(limitElement).toBeTruthy();
         const style = limitElement.nativeElement.style;
@@ -118,35 +125,35 @@ describe('MagmaInputTextarea', () => {
         fixture.componentRef.setInput('maxlength', 10);
         fixture.componentRef.setInput('displayLimit', 10);
         component.writeValue('123456789');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const limitElement = debugElement.query(By.css('.limit'));
         expect(limitElement).toBeFalsy();
     });
 
     it('should render input element with undefined attributes', () => {
         component.writeValue(undefined);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.inputElement.value).toBe('');
     });
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });
 
     it('should disable textarea if disabled is true', () => {
         fixture.componentRef.setInput('disabled', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
-        expect(textareaElement.disabled).toBeTrue();
+        expect(textareaElement.disabled).toBe(true);
     });
 
     it('should disable textarea if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
-        expect(textareaElement.readOnly).toBeTrue();
+        expect(textareaElement.readOnly).toBe(true);
     });
 });

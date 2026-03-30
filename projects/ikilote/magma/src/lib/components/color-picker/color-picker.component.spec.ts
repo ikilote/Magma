@@ -1,9 +1,10 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
 import { SimpleChanges } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import Color from 'colorjs.io';
+import type { Mocked } from 'vitest';
 
 import { MagmaColorPickerComponent, magmaColorPickerPalette } from './color-picker.component';
 
@@ -13,10 +14,12 @@ import { MagmaTabs } from '../tabs/tabs.component';
 describe('MagmaColorPickerComponent', () => {
     let component: MagmaColorPickerComponent;
     let fixture: ComponentFixture<MagmaColorPickerComponent>;
-    let loggerSpy: jasmine.SpyObj<Logger>;
+    let loggerSpy: Mocked<Logger>;
 
     beforeEach(async () => {
-        loggerSpy = jasmine.createSpyObj('Logger', ['log']);
+        loggerSpy = {
+            log: vi.fn().mockName('Logger.log'),
+        } as unknown as Mocked<Logger>;
 
         await TestBed.configureTestingModule({
             imports: [MagmaColorPickerComponent],
@@ -25,7 +28,14 @@ describe('MagmaColorPickerComponent', () => {
 
         fixture = TestBed.createComponent(MagmaColorPickerComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -54,13 +64,13 @@ describe('MagmaColorPickerComponent', () => {
     });
 
     it('should emit colorChange when color is updated', () => {
-        spyOn(component.colorChange, 'emit');
+        vi.spyOn(component.colorChange, 'emit');
         component['updateHex']('#ff0000');
         expect(component.colorChange.emit).toHaveBeenCalledWith('#f00');
     });
 
     it('should update position and color on click', () => {
-        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: jasmine.createSpy() };
+        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: vi.fn() };
         component.zone().nativeElement.style = 'width:100px; height: 100px';
         component['click'](mockEvent as unknown as MouseEvent);
         expect(component['rangeLight']).toBe(56);
@@ -75,12 +85,14 @@ describe('MagmaColorPickerComponent', () => {
         expect(component['rangeSature']).toBe(56);
     });
 
-    it('should update color when tab changes to HSL', fakeAsync(() => {
+    it('should update color when tab changes to HSL', async () => {
+        vi.useFakeTimers();
         component['hexa'] = '#ff0000';
         component.tabChange('hsl');
-        tick(10);
+        vi.advanceTimersByTime(10);
         expect(component['hexa']).toBe('#f00');
-    }));
+        vi.useRealTimers();
+    });
 
     it('should update hexa when a palette color is clicked', () => {
         component['updateHex']('#00ff00');
@@ -98,7 +110,7 @@ describe('MagmaColorPickerComponent', () => {
         fixture.componentRef.setInput('color', '#ff000000');
         expect(component['rangeAlpha']).toBe(1);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         fixture.componentRef.setInput('alpha', false);
         expect(component['rangeAlpha']).toBe(0);
         // 'NG0953: Unexpected emit for destroyed `OutputRef`. The owning directive/component is destroyed.'
@@ -108,7 +120,7 @@ describe('MagmaColorPickerComponent', () => {
         fixture.componentRef.setInput('alpha', true);
         fixture.componentRef.setInput('color', '#ff000000');
         expect(component['rangeAlpha']).toBe(1);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const mockChange = { alpha: { currentValue: false } };
         component.ngOnChanges(mockChange as unknown as SimpleChanges);
@@ -121,7 +133,7 @@ describe('MagmaColorPickerComponent', () => {
     it('should change alpha input to true is false with ngOnChanges with invalid hexa', () => {
         fixture.componentRef.setInput('color', '#ff000000');
         fixture.componentRef.setInput('alpha', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         // force remove hexa
         component['hexa'] = '';
 
@@ -135,7 +147,7 @@ describe('MagmaColorPickerComponent', () => {
 
     it('should not update color if readonly is true', () => {
         fixture.componentRef.setInput('alpha', true);
-        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: jasmine.createSpy() };
+        const mockEvent = { layerX: 50, layerY: 50, stopPropagation: vi.fn() };
         component['click'](mockEvent as unknown as MouseEvent);
         expect(component['rangeLight']).toBe(16);
     });
@@ -200,7 +212,7 @@ describe('MagmaColorPickerComponent', () => {
             component.zone().nativeElement.style = 'width:110px; height: 110px';
 
             // Spy on the final side-effect method
-            spyOn(component as any, 'updateColor');
+            vi.spyOn(component as any, 'updateColor');
         });
 
         it('should handle null hue (h) by defaulting to 0', () => {
@@ -260,10 +272,10 @@ describe('MagmaColorPickerComponent', () => {
     });
 
     it('should start drag', () => {
-        expect(component['startDrag']).toBeFalse();
+        expect(component['startDrag']).toBe(false);
 
         component['dragStart']();
-        expect(component['startDrag']).toBeTrue();
+        expect(component['startDrag']).toBe(true);
     });
 
     describe('Palette && Datalist', () => {
@@ -276,19 +288,19 @@ describe('MagmaColorPickerComponent', () => {
             const customPalette = ['#ff0000', '#00ff00', '#0000ff'];
             fixture.componentRef.setInput('palette', customPalette);
 
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             expect(component['_palette']()).toEqual(['#f00', '#0f0', '#00f']);
         });
 
         it('should display datalist colors if provided', async () => {
             const datalist = ['#ff0000', '#00ff00'];
             fixture.componentRef.setInput('datalist', datalist);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // select tab palette
             const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
             (tabs.componentInstance as MagmaTabs).update('palette');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             await fixture.whenStable();
 
             // palette size
@@ -301,29 +313,32 @@ describe('MagmaColorPickerComponent', () => {
         it('should update hexa when clicking a palette color', async () => {
             const customPalette = ['#ff0000', '#00ff00'];
             fixture.componentRef.setInput('palette', customPalette);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // select tab palette
             const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
             (tabs.componentInstance as MagmaTabs).update('palette');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             await fixture.whenStable();
 
             // palette select
             const button = fixture.nativeElement.querySelector('.base button:first-child');
             button.click();
+            fixture.changeDetectorRef.detectChanges();
+            await fixture.whenStable();
+            
             expect(component['hexa']).toBe('#f00');
         });
 
         it('should update hexa when clicking a datalist color', async () => {
             const datalist = ['#ff0000', '#00ff00'];
             fixture.componentRef.setInput('datalist', datalist);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // select tab palette
             const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
             (tabs.componentInstance as MagmaTabs).update('palette');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             await fixture.whenStable();
 
             // palette select
@@ -336,12 +351,12 @@ describe('MagmaColorPickerComponent', () => {
             const customPalette = ['#ff0000', '#00ff00'];
             fixture.componentRef.setInput('palette', customPalette);
 
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // select tab palette
             const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
             (tabs.componentInstance as MagmaTabs).update('palette');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             await fixture.whenStable();
 
             // test color var
@@ -352,17 +367,17 @@ describe('MagmaColorPickerComponent', () => {
         it('should add .selected class to the active color button', async () => {
             const customPalette = ['#ff0000', '#00ff00'];
             fixture.componentRef.setInput('palette', customPalette);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // select tab palette
             const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
             (tabs.componentInstance as MagmaTabs).update('palette');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             await fixture.whenStable();
 
             // select color
             component['updateHex'](customPalette[0]);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const buttons = fixture.nativeElement.querySelectorAll('.base button');
             expect(buttons[0].classList).toContain('selected');
@@ -370,12 +385,12 @@ describe('MagmaColorPickerComponent', () => {
 
         it('should not display datalist section if empty', async () => {
             fixture.componentRef.setInput('datalist', []);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             // select tab palette
             const tabs = fixture.debugElement.query(By.directive(MagmaTabs));
             (tabs.componentInstance as MagmaTabs).update('palette');
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
             await fixture.whenStable();
 
             // no datalist

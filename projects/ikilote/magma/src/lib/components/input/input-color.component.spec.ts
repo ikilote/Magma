@@ -4,7 +4,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputColor } from './input-color.component';
-import { MockNgControl } from './input-text.component.spec';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputColor', () => {
     let component: MagmaInputColor;
@@ -24,7 +24,15 @@ describe('MagmaInputColor', () => {
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        
+        // Clear timers AFTER destroying fixture
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should create', () => {
@@ -43,7 +51,7 @@ describe('MagmaInputColor', () => {
             it(`should set ${name} correctly`, () => {
                 fixture.componentRef.setInput(name, value);
                 expect((component as any)[name]()).toEqual(value);
-                fixture.detectChanges();
+                fixture.changeDetectorRef.detectChanges();
                 expect(
                     (component.inputDirective as any)['colorPicker' + name[0].toUpperCase() + name.substring(1)](),
                 ).toEqual(value);
@@ -62,10 +70,10 @@ describe('MagmaInputColor', () => {
     });
 
     it('should call onChange, writeValue, onTouched, and validate on colorClose', () => {
-        spyOn(component, 'onChange');
-        spyOn(component, 'writeValue');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component, 'writeValue');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
         component.inputDirective?.colorClose.emit('#FF0000');
         expect(component.onChange).toHaveBeenCalledWith('#FF0000');
         expect(component.writeValue).toHaveBeenCalledWith('#FF0000');
@@ -74,10 +82,10 @@ describe('MagmaInputColor', () => {
     });
 
     it('should call onChange, writeValue, onTouched, and validate on colorClose', () => {
-        spyOn(component, 'onChange');
-        spyOn(component, 'writeValue');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component, 'writeValue');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -91,24 +99,24 @@ describe('MagmaInputColor', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = debugElement.query(By.css('div:contains("Error")'));
         expect(errorElement).toBeNull();
     });
 
     it('should apply empty class if _value is empty', () => {
         component.writeValue('');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const spanElement = debugElement.query(By.css('.spanPicker')).nativeElement;
-        expect(spanElement.classList.contains('empty')).toBeTrue();
+        expect(spanElement.classList.contains('empty')).toBe(true);
         expect(component.inputElement?.value).toBe('');
     });
 
     it('should not apply empty class if _value is not empty', () => {
         component.writeValue('#FF0000');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const spanElement = debugElement.query(By.css('.spanPicker')).nativeElement;
-        expect(spanElement.classList.contains('empty')).toBeFalse();
+        expect(spanElement.classList.contains('empty')).toBe(false);
         expect(component.inputElement?.value).toBe('#FF0000');
     });
 });

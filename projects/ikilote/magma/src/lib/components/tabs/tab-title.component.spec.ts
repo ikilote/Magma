@@ -1,5 +1,5 @@
 import { Component, DebugElement, contentChildren } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaTabTitle } from './tab-title.component';
@@ -12,10 +12,10 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
     template: `<ng-content select="mg-tab-title" />`,
 })
 class MockMagmaTabs {
-    update = jasmine.createSpy('update');
+    update = vi.fn();
     // Mock for tabpanel() which returns an object with a nativeElement that has a focus method
-    tabpanel = jasmine.createSpy('tabpanel').and.returnValue({
-        nativeElement: { focus: jasmine.createSpy('focus') },
+    tabpanel = vi.fn().mockReturnValue({
+        nativeElement: { focus: vi.fn() },
     });
     // Simulate the array of title components for focus tests
     titles = contentChildren(MagmaTabTitle);
@@ -41,6 +41,12 @@ describe('MagmaTabTitle', () => {
     let tabsComponent: MockMagmaTabs;
 
     beforeEach(async () => {
+        // Reset focus before each test to prevent contamination
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
         })
@@ -60,7 +66,26 @@ describe('MagmaTabTitle', () => {
         // mock host
         tabsComponent.titles().forEach(e => ((e as any)['tabs'] = tabsComponent));
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+        
+        // Wait for any pending focus operations to complete
+        await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    afterEach(async () => {
+        // Clean up focus before destroying fixture
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
+        // Wait for async operations to complete BEFORE clearing timers
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should set the correct id attribute', () => {
@@ -69,19 +94,19 @@ describe('MagmaTabTitle', () => {
 
     it('should apply "selected" class when selected is true', () => {
         tabTitleComponent.selected.set(true);
-        fixture.detectChanges();
-        expect(tabTitleElement.nativeElement.classList.contains('selected')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(tabTitleElement.nativeElement.classList.contains('selected')).toBe(true);
     });
 
     it('should call onclick in ngOnInit if selected is true', () => {
-        spyOn(tabTitleComponent, 'onclick');
+        vi.spyOn(tabTitleComponent, 'onclick');
         tabTitleComponent.selected.set(true);
         tabTitleComponent.ngOnInit();
         expect(tabTitleComponent.onclick).toHaveBeenCalled();
     });
 
     it('should call onclick in ngOnChanges if selected changes to true', () => {
-        spyOn(tabTitleComponent, 'onclick');
+        vi.spyOn(tabTitleComponent, 'onclick');
         tabTitleComponent.selected.set(true);
         tabTitleComponent.ngOnChanges({
             selected: {
@@ -100,49 +125,59 @@ describe('MagmaTabTitle', () => {
         expect(tabsComponent.titles()[2].element.nativeElement.textContent).toBe('Title 3');
     });
 
-    it('should focus previous tab on focusRight', () => {
-        const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
-
+    it('should focus previous tab on focusRight', async () => {
+        // Focus sur le premier élément avant le test
+        tabsComponent.titles()[0].element.nativeElement.focus();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         tabsComponent.titles()[0].focusRight();
+        await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);
     });
 
-    it('should focus previous tab on focusRight', () => {
-        const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
-
+    it('should focus previous tab on focusRight', async () => {
+        // Focus sur le dernier élément avant le test
+        tabsComponent.titles()[2].element.nativeElement.focus();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         tabsComponent.titles()[2].focusRight();
+        await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[2].element.nativeElement).toBe(document.activeElement);
     });
 
-    it('should focus previous tab on focusLeft', () => {
-        const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
-
+    it('should focus previous tab on focusLeft', async () => {
+        // Focus sur le premier élément avant le test
+        tabsComponent.titles()[0].element.nativeElement.focus();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         tabsComponent.titles()[0].focusLeft();
+        await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[0].element.nativeElement).toBe(document.activeElement);
     });
 
-    it('should focus previous tab on focusLeft', () => {
-        const previousTab = document.createElement('div');
-        spyOn(previousTab, 'focus');
-
+    it('should focus previous tab on focusLeft', async () => {
+        // Focus sur le dernier élément avant le test
+        tabsComponent.titles()[2].element.nativeElement.focus();
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         tabsComponent.titles()[2].focusLeft();
+        await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);
     });
 
     it('should call onclick on clickEnter event', () => {
-        spyOn(tabTitleComponent, 'onclick');
+        vi.spyOn(tabTitleComponent, 'onclick');
         const clickDirective = tabTitleElement.injector.get(MagmaClickEnterDirective);
         clickDirective.clickEnter.emit(new MouseEvent('click'));
         expect(tabTitleComponent.onclick).toHaveBeenCalled();
     });
 
-    it('should call update on clickEnter event', fakeAsync(() => {
+    it('should call update on clickEnter event', () => {
+        vi.useFakeTimers();
         const clickDirective = tabTitleElement.injector.get(MagmaClickEnterDirective);
         clickDirective.clickEnter.emit(new MouseEvent('click'));
-        tick();
+        vi.advanceTimersByTime(0);
         expect(tabsComponent.update).toHaveBeenCalled();
-    }));
+        vi.useRealTimers();
+    });
 });

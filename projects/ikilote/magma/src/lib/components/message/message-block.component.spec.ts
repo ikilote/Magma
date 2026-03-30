@@ -15,59 +15,59 @@ describe('MagmaBlockMessage', () => {
 
         fixture = TestBed.createComponent(MagmaBlockMessage);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should apply "info" class when type is "info"', () => {
         fixture.componentRef.setInput('type', 'info');
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('info')).toBeTrue();
-        expect(fixture.nativeElement.classList.contains('success')).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('warn')).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('error')).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('tip')).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('info')).toBe(true);
+        expect(fixture.nativeElement.classList.contains('success')).toBe(false);
+        expect(fixture.nativeElement.classList.contains('warn')).toBe(false);
+        expect(fixture.nativeElement.classList.contains('error')).toBe(false);
+        expect(fixture.nativeElement.classList.contains('tip')).toBe(false);
     });
 
     it('should apply "success" class when type is "success"', () => {
         fixture.componentRef.setInput('type', 'success');
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('success')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('success')).toBe(true);
     });
 
     it('should apply "warn" class when type is "warn"', () => {
         fixture.componentRef.setInput('type', 'warn');
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('warn')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('warn')).toBe(true);
     });
 
     it('should apply "error" class when type is "error"', () => {
         fixture.componentRef.setInput('type', 'error');
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('error')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('error')).toBe(true);
     });
 
     it('should apply "tip" class when type is "tip"', () => {
         fixture.componentRef.setInput('type', 'tip');
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('tip')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('tip')).toBe(true);
     });
 
     it('should not apply any class when type is not set', () => {
-        expect(fixture.nativeElement.classList.contains('info')).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('success')).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('warn')).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('error')).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('tip')).toBeFalse();
+        expect(fixture.nativeElement.classList.contains('info')).toBe(false);
+        expect(fixture.nativeElement.classList.contains('success')).toBe(false);
+        expect(fixture.nativeElement.classList.contains('warn')).toBe(false);
+        expect(fixture.nativeElement.classList.contains('error')).toBe(false);
+        expect(fixture.nativeElement.classList.contains('tip')).toBe(false);
     });
 
     it('should update classes when type changes', () => {
         fixture.componentRef.setInput('type', 'info');
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('info')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('info')).toBe(true);
 
         fixture.componentRef.setInput('type', 'error');
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('error')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('error')).toBe(true);
     });
 });
 
@@ -81,7 +81,7 @@ describe('MagmaBlockMessage', () => {
 })
 class TestHostComponent {}
 
-describe('MagmaBlockMessage', () => {
+describe('MagmaBlockMessage - Content Projection', () => {
     let fixture: ComponentFixture<MagmaBlockMessage>;
     let component: MagmaBlockMessage;
 
@@ -92,12 +92,12 @@ describe('MagmaBlockMessage', () => {
 
         fixture = TestBed.createComponent(MagmaBlockMessage);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should project content inside ng-content', () => {
         const hostFixture = TestBed.createComponent(TestHostComponent);
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
 
         const customContent = hostFixture.debugElement.query(By.css('.custom-content'));
         expect(customContent).toBeTruthy();

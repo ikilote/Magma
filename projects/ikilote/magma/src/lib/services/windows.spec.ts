@@ -1,6 +1,8 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ComponentRef } from '@angular/core';
+import { ChangeDetectorRef, ComponentRef } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+
+import { type Mocked, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { MagmaWindows } from './windows';
 
@@ -8,41 +10,51 @@ import { MagmaWindowsZone } from '../components/window/windows-zone.component';
 
 describe('MagmaWindows Service', () => {
     let service: MagmaWindows;
-    let overlaySpy: jasmine.SpyObj<Overlay>;
-    let overlayRefSpy: jasmine.SpyObj<OverlayRef>;
-    let componentRefSpy: jasmine.SpyObj<ComponentRef<MagmaWindowsZone>>;
+
+    // Utilisation de Mocked pour un typage fort
+    let overlaySpy: Mocked<Overlay>;
+    let overlayRefSpy: Mocked<OverlayRef>;
+    let componentRefSpy: Mocked<ComponentRef<MagmaWindowsZone>>;
+
     beforeEach(() => {
-        // 1. Create the spies
-        overlayRefSpy = jasmine.createSpyObj('OverlayRef', ['attach', 'dispose']);
-        componentRefSpy = jasmine.createSpyObj('ComponentRef', ['setInput']);
+        // 1. Définition des mocks de base
+        overlayRefSpy = {
+            attach: vi.fn(),
+            dispose: vi.fn(),
+        } as unknown as Mocked<OverlayRef>;
 
-        // Setup the mock instance for the zone component
-        (componentRefSpy as any).instance = {
-            cd: jasmine.createSpyObj('ChangeDetectorRef', ['detectChanges']),
-        };
+        componentRefSpy = {
+            setInput: vi.fn(),
+            instance: {
+                cd: {
+                    detectChanges: vi.fn(),
+                } as unknown as ChangeDetectorRef,
+            },
+        } as unknown as Mocked<ComponentRef<MagmaWindowsZone>>;
 
-        overlayRefSpy.attach.and.returnValue(componentRefSpy);
+        overlayRefSpy.attach.mockReturnValue(componentRefSpy);
 
-        // 2. Setup the Overlay Spy with nested strategy methods
-        overlaySpy = jasmine.createSpyObj('Overlay', ['create', 'position']);
-
-        // This is the specific fix for your error:
-        overlaySpy.scrollStrategies = {
-            block: jasmine.createSpy('block').and.returnValue({} as any),
-        } as any;
-
-        // Fix for the position strategy chain
-        overlaySpy.position.and.returnValue({
-            global: jasmine.createSpy('global').and.returnValue({} as any),
-        } as any);
-
-        overlaySpy.create.and.returnValue(overlayRefSpy);
+        // 2. Mock complexe de l'Overlay (Chainage de méthodes)
+        overlaySpy = {
+            create: vi.fn().mockReturnValue(overlayRefSpy),
+            scrollStrategies: {
+                block: vi.fn().mockReturnValue({}),
+            },
+            position: vi.fn().mockReturnValue({
+                global: vi.fn().mockReturnThis(), // Permet le chainage
+            }),
+        } as unknown as Mocked<Overlay>;
 
         TestBed.configureTestingModule({
             providers: [MagmaWindows, { provide: Overlay, useValue: overlaySpy }],
         });
 
         service = TestBed.inject(MagmaWindows);
+    });
+
+    afterEach(async () => {
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should be created', () => {
@@ -53,45 +65,44 @@ describe('MagmaWindows Service', () => {
         service.openWindow(class {});
 
         expect(overlaySpy.create).toHaveBeenCalledWith(
-            jasmine.objectContaining({
+            expect.objectContaining({
                 hasBackdrop: false,
                 panelClass: 'overlay-window',
             }),
         );
 
-        // Verify that the strategies were actually called
         expect(overlaySpy.scrollStrategies.block).toHaveBeenCalled();
+        // Vérifie que le chainage global() a été appelé
         expect(overlaySpy.position().global).toHaveBeenCalled();
     });
 
     describe('openWindow', () => {
-        it('should initialize the overlay only once when opening the first window', () => {
-            const mockComponent = class {};
-
-            service.openWindow(mockComponent);
-            service.openWindow(mockComponent);
+        it('should initialize the overlay only once when opening multiple windows', () => {
+            const mockComp = class {};
+            service.openWindow(mockComp);
+            service.openWindow(mockComp);
 
             expect(overlaySpy.create).toHaveBeenCalledTimes(1);
             expect(service.windows.length).toBe(2);
         });
 
-        it('should assign a unique ID and correct index to new windows', () => {
-            const mockComponent = class {};
-            const window1 = service.openWindow(mockComponent);
-            const window2 = service.openWindow(mockComponent);
+        it('should assign a unique ID and correct index', () => {
+            const win1 = service.openWindow(class {});
+            const win2 = service.openWindow(class {});
 
-            expect(window1.id).toContain('window-');
-            expect(window1.index).toBe(0);
-            expect(window2.index).toBe(1);
+            expect(win1.id).toMatch(/^window-/);
+            expect(win1.index).toBe(0);
+            expect(win2.index).toBe(1);
         });
 
-        it('should emit the new window via onAddWindow subject', done => {
+        it('should emit the new window via onAddWindow', () => {
             const mockComponent = class {};
-            service.onAddWindow.subscribe(window => {
-                expect(window.component).toBe(mockComponent);
-                done();
-            });
+            const spy = vi.fn();
+
+            service.onAddWindow.subscribe(spy);
             service.openWindow(mockComponent);
+
+            expect(spy).toHaveBeenCalledWith(expect.objectContaining({ component: mockComponent }));
         });
 
         it('should trigger change detection on the zone component', () => {
@@ -118,7 +129,7 @@ describe('MagmaWindows Service', () => {
             expect(service.component).toBeUndefined();
         });
 
-        it('should not dispose of the overlay if other windows are still open', () => {
+        it('should not dispose overlay if other windows remain', () => {
             const win1 = service.openWindow(class {});
             service.openWindow(class {});
 

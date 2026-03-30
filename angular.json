@@ -98,21 +98,7 @@
           "builder": "@angular/build:extract-i18n"
         },
         "test": {
-          "builder": "@angular/build:karma",
-          "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "browsers": "ChromeHeadless",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
-            "styles": ["src/styles.scss"],
-            "scripts": []
-          }
+          "builder": "@angular/build:unit-test"
         }
       }
     },
@@ -138,12 +124,12 @@
           "defaultConfiguration": "production"
         },
         "test": {
-          "builder": "@angular/build:karma",
+          "builder": "@angular/build:unit-test",
           "options": {
             "tsConfig": "projects/ikilote/magma/tsconfig.spec.json",
-            "polyfills": ["zone.js", "zone.js/testing"],
-            "browsers": "ChromeHeadless",
-            "codeCoverage": true
+            "runner": "vitest",
+            "browsers": ["ChromiumHeadless"],
+            "coverage": true
           }
         }
       }

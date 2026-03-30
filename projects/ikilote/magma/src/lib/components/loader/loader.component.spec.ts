@@ -28,38 +28,38 @@ describe('MagmaLoader', () => {
 
         fixture = TestBed.createComponent(MagmaLoader);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should not be loading by default', () => {
-        expect(component.loading()).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeFalse();
+        expect(component.loading()).toBe(false);
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(false);
     });
 
     it('should set loading to true when start() is called', () => {
         component.start();
-        fixture.detectChanges();
-        expect(component.loading()).toBeTrue();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.loading()).toBe(true);
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(true);
     });
 
     it('should set loading to false when stop() is called', () => {
         component.start();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         component.stop();
-        fixture.detectChanges();
-        expect(component.loading()).toBeFalse();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.loading()).toBe(false);
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(false);
     });
 
     it('should add/remove loading class based on loading state', () => {
         component.start();
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(true);
 
         component.stop();
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('loading')).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('loading')).toBe(false);
     });
 });
 
@@ -71,12 +71,12 @@ describe('MagmaLoader', () => {
         hostFixture = TestBed.createComponent(TestHostComponent);
         loader = hostFixture.debugElement.query(By.directive(MagmaLoader)).componentInstance;
 
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
     });
 
     it('should project content when loading is true', () => {
         loader.start();
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
 
         const spinner = hostFixture.debugElement.query(By.css('mg-spinner'));
         const loaderMessage = hostFixture.debugElement.query(By.css('mg-loader-message'));
@@ -90,7 +90,7 @@ describe('MagmaLoader', () => {
 
     it('should not project content when loading is false', () => {
         loader.stop();
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
 
         const spinner = hostFixture.debugElement.query(By.css('mg-spinner'));
         const loaderMessage = hostFixture.debugElement.query(By.css('mg-loader-message'));

@@ -17,7 +17,7 @@ describe('MagmaProgress', () => {
 
         fixture = TestBed.createComponent(MagmaProgress);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -50,7 +50,7 @@ describe('MagmaProgress usage', () => {
         wrapperComponent = fixture.componentInstance;
         debugElement = fixture.debugElement;
         progressComponent = debugElement.query(By.directive(MagmaProgress)).componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {
@@ -60,7 +60,7 @@ describe('MagmaProgress usage', () => {
     it('should display determined progress bar if loaded and total are defined', () => {
         wrapperComponent.loaded = 50;
         wrapperComponent.total = 100;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const progressBar = debugElement.query(By.css('.progress:not(.undetermined)'));
         const progressBarUndetermined = debugElement.query(By.css('.progress.undetermined'));
         const progressWidth = progressBar.nativeElement.style.getPropertyValue('--progress');
@@ -72,7 +72,7 @@ describe('MagmaProgress usage', () => {
     it('should display loaded text if loaded is defined', () => {
         wrapperComponent.loaded = 50;
         wrapperComponent.total = undefined;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const progressBar = debugElement.query(By.css('.progress:not(.undetermined)'));
         const progressBarUndetermined = debugElement.query(By.css('.progress.undetermined'));
         const progressText = debugElement.query(By.css('.progress-text')).nativeElement.textContent;
@@ -84,7 +84,7 @@ describe('MagmaProgress usage', () => {
     it('should display full progress text if loaded and total are defined', () => {
         wrapperComponent.loaded = 50;
         wrapperComponent.total = 100;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const progressText = debugElement.query(By.css('.progress-text')).nativeElement.textContent;
         expect(progressText.trim()).toContain('50\u00A0B  /  100\u00A0B');
     });
@@ -92,7 +92,7 @@ describe('MagmaProgress usage', () => {
     it('should not display progress text if neither loaded nor total is defined', () => {
         wrapperComponent.loaded = undefined;
         wrapperComponent.total = undefined;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const progressText = debugElement.query(By.css('.progress-text')).nativeElement.textContent;
         expect(progressText.trim()).toBe('');
     });
@@ -100,7 +100,7 @@ describe('MagmaProgress usage', () => {
     it('should display only total text if loaded is undefined but total is defined', () => {
         wrapperComponent.loaded = undefined;
         wrapperComponent.total = 100;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const progressText = debugElement.query(By.css('.progress-text')).nativeElement.textContent;
         expect(progressText.trim()).toContain('100\u00A0B');
     });
@@ -109,7 +109,7 @@ describe('MagmaProgress usage', () => {
         wrapperComponent.loaded = 1024;
         wrapperComponent.total = 2048;
         wrapperComponent.sizeFormat = { format: 'binary', language: 'en' };
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const progressText = debugElement.query(By.css('.progress-text')).nativeElement.textContent;
         expect(progressText.trim()).toContain('1,024\u00A0B  /  2,048\u00A0B');
     });
@@ -118,7 +118,7 @@ describe('MagmaProgress usage', () => {
         wrapperComponent.loaded = 1024 * 1024;
         wrapperComponent.total = 2048 * 1024;
         wrapperComponent.sizeFormat = { format: 'binary', language: 'en' };
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const progressText = debugElement.query(By.css('.progress-text')).nativeElement.textContent;
         expect(progressText.trim()).toContain('1,024\u00A0KiB  /  2,048\u00A0KiB');
     });

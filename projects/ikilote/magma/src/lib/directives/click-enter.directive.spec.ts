@@ -1,5 +1,5 @@
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaClickEnterDirective } from './click-enter.directive';
@@ -27,19 +27,24 @@ describe('MagmaClickEnterDirective', () => {
     let clickableElement: DebugElement;
     let disabledElement: DebugElement;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
             imports: [TestComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestComponent);
         component = fixture.componentInstance;
-        spyOn(component, 'onClickEnter');
-        fixture.detectChanges();
+        vi.spyOn(component, 'onClickEnter');
+        fixture.changeDetectorRef.detectChanges();
 
         elements = fixture.debugElement.queryAll(By.directive(MagmaClickEnterDirective));
         clickableElement = elements[0];
         disabledElement = elements[1];
+    });
+
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
     });
 
     it('should create an instance', () => {
@@ -50,8 +55,8 @@ describe('MagmaClickEnterDirective', () => {
 
     describe('Host Bindings', () => {
         it('should add click-enter class to host element', () => {
-            expect(clickableElement.nativeElement.classList.contains('click-enter')).toBeTrue();
-            expect(disabledElement.nativeElement.classList.contains('click-enter')).toBeTrue();
+            expect(clickableElement.nativeElement.classList.contains('click-enter')).toBe(true);
+            expect(disabledElement.nativeElement.classList.contains('click-enter')).toBe(true);
         });
 
         it('should set tabindex to 0 when not disabled', () => {
@@ -75,7 +80,7 @@ describe('MagmaClickEnterDirective', () => {
         it('should emit event on click when not disabled', () => {
             const clickEvent = new MouseEvent('click');
             clickableElement.nativeElement.dispatchEvent(clickEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).toHaveBeenCalledTimes(1);
             expect(component.onClickEnter).toHaveBeenCalledWith(clickEvent);
@@ -84,45 +89,43 @@ describe('MagmaClickEnterDirective', () => {
         it('should not emit event on click when disabled', () => {
             const clickEvent = new MouseEvent('click');
             disabledElement.nativeElement.dispatchEvent(clickEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
         });
 
-        it('should emit event on Enter key press when not disabled', fakeAsync(() => {
-            const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+        it('should emit event on Enter key press when not disabled', () => {
+            const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
-            tick();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).toHaveBeenCalledTimes(1);
             expect(component.onClickEnter).toHaveBeenCalledWith(keyboardEvent);
-        }));
+        });
 
-        it('should not emit event on Enter key press when disabled', fakeAsync(() => {
-            const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
+        it('should not emit event on Enter key press when disabled', () => {
+            const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
             disabledElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
-            tick();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
-        }));
+        });
 
-        it('should not emit event on other key presses', fakeAsync(() => {
+        it('should not emit event on other key presses', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Space' });
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
-            tick();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(component.onClickEnter).not.toHaveBeenCalled();
-        }));
+        });
     });
 
     describe('Disabled Input', () => {
         it('should update disabled state when input changes', () => {
             // Change disabled state from false to true
             component.testDisabledFalse = true;
-            fixture.detectChanges();
+            // Use changeDetectorRef.detectChanges() to avoid ExpressionChangedAfterItHasBeenCheckedError
+            fixture.changeDetectorRef.detectChanges();
 
             expect(clickableElement.nativeElement.getAttribute('tabindex')).toBeNull();
             expect(clickableElement.nativeElement.getAttribute('role')).toBeNull();
@@ -131,7 +134,7 @@ describe('MagmaClickEnterDirective', () => {
         it('should update disabled state when input changes from true to false', () => {
             // Change disabled state from true to false
             component.testDisabledTrue = false;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(disabledElement.nativeElement.getAttribute('tabindex')).toBe('0');
             expect(disabledElement.nativeElement.getAttribute('role')).toBe('button');
@@ -149,12 +152,12 @@ describe('MagmaClickEnterDirective', () => {
             });
 
             clickableElement.nativeElement.dispatchEvent(clickEvent);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(emittedEvent).toBe(clickEvent);
         });
 
-        it('should emit event through output when Enter is pressed', fakeAsync(() => {
+        it('should emit event through output when Enter is pressed', () => {
             const keyboardEvent = new KeyboardEvent('keydown', { key: 'Enter' });
             const directiveInstance = clickableElement.injector.get(MagmaClickEnterDirective);
 
@@ -164,10 +167,9 @@ describe('MagmaClickEnterDirective', () => {
             });
 
             clickableElement.nativeElement.dispatchEvent(keyboardEvent);
-            fixture.detectChanges();
-            tick();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(emittedEvent).toBe(keyboardEvent);
-        }));
+        });
     });
 });

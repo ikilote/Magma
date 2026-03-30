@@ -4,7 +4,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputNumber } from './input-number.component';
-import { MockNgControl } from './input-text.component.spec';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputNumber', () => {
     let component: MagmaInputNumber;
@@ -23,7 +23,14 @@ describe('MagmaInputNumber', () => {
         fixture = TestBed.createComponent(MagmaInputNumber);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -56,20 +63,20 @@ describe('MagmaInputNumber', () => {
 
     it('should render datalist if datalist is provided', () => {
         fixture.componentRef.setInput('datalist', [1, 2, 3]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const datalistElement = debugElement.query(By.css('datalist'));
         expect(datalistElement).toBeTruthy();
     });
 
     it('should render options in datalist', () => {
         fixture.componentRef.setInput('datalist', [1, 2, 3]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const options = debugElement.queryAll(By.css('option'));
         expect(options.length).toBe(3);
     });
 
     it('should update value on change event', () => {
-        spyOn(component, 'onChange');
+        vi.spyOn(component, 'onChange');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = '42';
         inputElement.dispatchEvent(new Event('change'));
@@ -77,7 +84,7 @@ describe('MagmaInputNumber', () => {
     });
 
     it('should update value on input event', () => {
-        spyOn(component, 'onChange');
+        vi.spyOn(component, 'onChange');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = '42';
         inputElement.dispatchEvent(new Event('input'));
@@ -86,14 +93,14 @@ describe('MagmaInputNumber', () => {
 
     it('should prevent default on non-accepted keys', () => {
         const event = new KeyboardEvent('keydown', { key: 'a' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).toHaveBeenCalled();
     });
 
     it('should allow accepted keys', () => {
         const event = new KeyboardEvent('keydown', { key: '1' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).not.toHaveBeenCalled();
     });
@@ -101,7 +108,7 @@ describe('MagmaInputNumber', () => {
     it('should prevent decimal keys if noDecimal is true (.)', () => {
         fixture.componentRef.setInput('noDecimal', true);
         const event = new KeyboardEvent('keydown', { key: '.' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).toHaveBeenCalled();
     });
@@ -109,7 +116,7 @@ describe('MagmaInputNumber', () => {
     it('should prevent decimal keys if noDecimal is true (,)', () => {
         fixture.componentRef.setInput('noDecimal', true);
         const event = new KeyboardEvent('keydown', { key: ',' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).toHaveBeenCalled();
     });
@@ -117,7 +124,7 @@ describe('MagmaInputNumber', () => {
     it('should prevent negative keys if noNegative is true', () => {
         fixture.componentRef.setInput('noNegative', true);
         const event = new KeyboardEvent('keydown', { key: '-' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).toHaveBeenCalled();
     });
@@ -125,7 +132,7 @@ describe('MagmaInputNumber', () => {
     it('should prevent multiple decimal points (.)', () => {
         component.inputElement.value = '3.14';
         const event = new KeyboardEvent('keydown', { key: '.' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).toHaveBeenCalled();
     });
@@ -133,7 +140,7 @@ describe('MagmaInputNumber', () => {
     it('should prevent multiple decimal points (,)', () => {
         component.inputElement.value = '3.14';
         const event = new KeyboardEvent('keydown', { key: ',' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).toHaveBeenCalled();
     });
@@ -141,26 +148,28 @@ describe('MagmaInputNumber', () => {
     it('should prevent multiple negative signs', () => {
         component.inputElement.value = '-42';
         const event = new KeyboardEvent('keydown', { key: '-' });
-        spyOn(event, 'preventDefault');
+        vi.spyOn(event, 'preventDefault');
         component.keydown(event);
         expect(event.preventDefault).toHaveBeenCalled();
     });
 
     it('should add negative sign if not present', () => {
-        component.inputElement.value = '42';
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.value = '42';
         const event = new KeyboardEvent('keydown', { key: '-' });
-        spyOn(event, 'preventDefault');
-        spyOn(component, 'changeValue');
+        Object.defineProperty(event, 'target', { value: inputElement });
+        vi.spyOn(event, 'preventDefault');
+        vi.spyOn(component, 'changeValue');
         component.keydown(event);
-        expect(component.inputElement.value).toBe('-42');
+        expect(inputElement.value).toBe('-42');
         expect(component.changeValue).toHaveBeenCalled();
     });
 
     it('should not change value when invalide key', () => {
         component.inputElement.value = '';
         const event = new KeyboardEvent('keydown', { key: 'a' });
-        spyOn(event, 'preventDefault');
-        spyOn(component, 'changeValue');
+        vi.spyOn(event, 'preventDefault');
+        vi.spyOn(component, 'changeValue');
         component.keydown(event);
         expect(component.inputElement.value).toBe('');
         expect(component.changeValue).not.toHaveBeenCalled();
@@ -170,10 +179,10 @@ describe('MagmaInputNumber', () => {
         component['_value'] = 42;
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = '3.14';
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
         inputElement.dispatchEvent(new Event('blur'));
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(inputElement.value).toBe('42');
         expect(component.onTouched).toHaveBeenCalled();
         expect(component.validate).not.toHaveBeenCalled();
@@ -183,14 +192,14 @@ describe('MagmaInputNumber', () => {
         component['_value'] = 42;
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = '3.14';
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
 
         inputElement.dispatchEvent(new Event('blur'));
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(inputElement.value).toBe('42');
         expect(component.onTouched).toHaveBeenCalled();
         expect(component.validate).toHaveBeenCalledWith((component.ngControl as any)?.control);
@@ -200,8 +209,8 @@ describe('MagmaInputNumber', () => {
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = undefined as any;
         const event = new KeyboardEvent('input');
-        spyOn(event, 'preventDefault');
-        spyOn(component, 'changeValue');
+        vi.spyOn(event, 'preventDefault');
+        vi.spyOn(component, 'changeValue');
         inputElement.dispatchEvent(event);
         expect(component.inputElement.value).toBe('');
         expect(component.changeValue).not.toHaveBeenCalled();
@@ -239,7 +248,7 @@ describe('MagmaInputNumber', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });
@@ -260,8 +269,8 @@ describe('MagmaInputNumber', () => {
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = 'test';
         const event = new KeyboardEvent('input');
-        spyOn(event, 'preventDefault');
-        spyOn(component, 'changeValue');
+        vi.spyOn(event, 'preventDefault');
+        vi.spyOn(component, 'changeValue');
         inputElement.dispatchEvent(event);
         expect(component.inputElement.value).toBe('');
         expect(component.changeValue).not.toHaveBeenCalled();

@@ -119,6 +119,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
 
     ngOnDestroy(): void {
         this.updateEmit?.unsubscribe();
+        this.updateEmit = undefined;
         this.close();
     }
 
@@ -133,6 +134,8 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
     }
 
     private close() {
+        this.updateEmit?.unsubscribe();
+        this.updateEmit = undefined;
         MagmaColorPicker._overlayRef?.dispose();
         MagmaColorPicker._overlayRef = undefined;
         MagmaColorPicker._component = undefined;

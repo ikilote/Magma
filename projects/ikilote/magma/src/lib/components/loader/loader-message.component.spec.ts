@@ -23,7 +23,14 @@ describe('MagmaLoaderMessage', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should project content inside ng-content', () => {

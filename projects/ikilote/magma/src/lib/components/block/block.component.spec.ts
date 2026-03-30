@@ -14,7 +14,14 @@ describe('MagmaBlock', () => {
 
         fixture = TestBed.createComponent(MagmaBlock);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -37,7 +44,14 @@ describe('MagmaBlock usage', () => {
         }).compileComponents();
 
         hostFixture = TestBed.createComponent(TestHostComponent);
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        hostFixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

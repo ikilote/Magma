@@ -1,10 +1,10 @@
-import { Observable, delay, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { MagmaCache } from './cache';
 
 describe('MagmaCache', () => {
     let cache: MagmaCache;
-    const mockObservable = <T>(value: T, delayMs = 0): Observable<T> => of(value).pipe(delay(delayMs));
+    const mockObservable = <T>(value: T): Observable<T> => of(value);
 
     beforeEach(() => {
         cache = new MagmaCache();
@@ -28,7 +28,7 @@ describe('MagmaCache', () => {
             const value = { data: 'new' };
             const expiredDate = new Date(Date.now() - 1000);
             (MagmaCache as any).cache[id] = { id, group, value, endDate: expiredDate }; // mock
-            const spy = spyOn(cache, 'clearById').and.callThrough();
+            const spy = vi.spyOn(cache, 'clearById');
             const result = await cache.request(id, group, mockObservable(value));
             expect(spy).toHaveBeenCalledWith(id);
             expect(result).toEqual(value);

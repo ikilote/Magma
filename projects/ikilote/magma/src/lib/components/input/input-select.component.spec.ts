@@ -5,7 +5,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { Select2UpdateEvent } from 'ng-select2-component';
 
 import { MagmaInputSelect } from './input-select.component';
-import { MockNgControl } from './input-text.component.spec';
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputSelect', () => {
     let component: MagmaInputSelect;
@@ -27,7 +27,14 @@ describe('MagmaInputSelect', () => {
         component = fixture.componentInstance;
 
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -75,37 +82,37 @@ describe('MagmaInputSelect', () => {
             it(`should set ${name} correctly`, () => {
                 fixture.componentRef.setInput(name, value);
                 expect((component as any)[name]()).toEqual(value);
-                fixture.detectChanges();
+                fixture.changeDetectorRef.detectChanges();
                 expect((component.inputElement as any)[name]()).toEqual(value);
             });
         });
     });
 
     it('should write value to Select2', () => {
-        spyOn(component.inputElement!, 'writeValue');
+        vi.spyOn(component.inputElement!, 'writeValue');
         component.writeValue('test-value');
         expect(component.inputElement?.writeValue).toHaveBeenCalledWith('test-value');
     });
 
     it('should update value and emit update on changeValue', () => {
         const mockEvent = { value: 'new-value' } as Select2UpdateEvent<any>;
-        spyOn(component.update, 'emit');
-        spyOn(component, 'onChange');
+        vi.spyOn(component.update, 'emit');
+        vi.spyOn(component, 'onChange');
         component.changeValue(mockEvent);
         expect(component.onChange).toHaveBeenCalledWith('new-value');
         expect(component.update.emit).toHaveBeenCalledWith('new-value');
     });
 
     it('should emit focus event on focus', () => {
-        spyOn(component.focus, 'emit');
+        vi.spyOn(component.focus, 'emit');
         (component as any).input()[0].focus.emit({} as any);
         expect(component.focus.emit).toHaveBeenCalled();
     });
 
     it('should emit blur event and call onTouched and validate on blur', () => {
-        spyOn(component.blur, 'emit');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component.blur, 'emit');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         (component as any).input()[0].blur.emit({} as any);
 
@@ -115,9 +122,9 @@ describe('MagmaInputSelect', () => {
     });
 
     it('should call onTouched and validate on blur if ngControl is present', () => {
-        spyOn(component.blur, 'emit');
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component.blur, 'emit');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -130,13 +137,13 @@ describe('MagmaInputSelect', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });
 
     it('should emit autoCreateItem event', () => {
-        spyOn(component.autoCreateItem, 'emit');
+        vi.spyOn(component.autoCreateItem, 'emit');
         component.input()[0].autoCreateItem.emit({} as any);
         expect(component.autoCreateItem.emit).toHaveBeenCalled();
     });
@@ -153,7 +160,7 @@ describe('MagmaInputSelect', () => {
 
         outputTests.forEach(({ name, eventName }) => {
             it(`should emit ${name} event`, () => {
-                spyOn((component as any)[name], 'emit');
+                vi.spyOn((component as any)[name], 'emit');
                 (component as any).input()[0][eventName].emit({} as any);
                 expect((component as any)[name].emit).toHaveBeenCalled();
             });

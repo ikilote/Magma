@@ -27,7 +27,7 @@ describe('MagmaTableRow', () => {
         mockTable = {} as unknown as MagmaTable;
 
         mockCdRef = {
-            detectChanges: jasmine.createSpy('detectChanges'),
+            detectChanges: vi.fn(),
         };
 
         mockElementRef = {
@@ -46,7 +46,14 @@ describe('MagmaTableRow', () => {
         component = fixture.componentInstance;
         component.host = mockHost;
         component.table = mockTable as MagmaTable;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -56,14 +63,14 @@ describe('MagmaTableRow', () => {
     it('should set baseline class based on input', () => {
         fixture.componentRef.setInput('baseline', true);
 
-        fixture.detectChanges();
-        expect(component.el.nativeElement.classList.contains('baseline')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.el.nativeElement.classList.contains('baseline')).toBe(true);
     });
 
     it('should initialize index and _data in ngAfterViewInit', () => {
         const mockCells = [
-            { index: 0, el: { nativeElement: { textContent: 'Cell 1' } }, cd: { detectChanges: jasmine.createSpy() } },
-            { index: 1, el: { nativeElement: { textContent: 'Cell 2' } }, cd: { detectChanges: jasmine.createSpy() } },
+            { index: 0, el: { nativeElement: { textContent: 'Cell 1' } }, cd: { detectChanges: vi.fn() } },
+            { index: 1, el: { nativeElement: { textContent: 'Cell 2' } }, cd: { detectChanges: vi.fn() } },
         ] as unknown as MagmaTableCell[];
 
         (component as any).inputs = () => mockCells;
@@ -84,7 +91,7 @@ describe('MagmaTableRow', () => {
                 row: null,
                 index: 0,
                 el: { nativeElement: { textContent: 'Cell 1' } },
-                cd: { detectChanges: jasmine.createSpy() },
+                cd: { detectChanges: vi.fn() },
             },
             {
                 host: undefined,
@@ -92,7 +99,7 @@ describe('MagmaTableRow', () => {
                 row: null,
                 index: 0,
                 el: { nativeElement: { textContent: 'Cell 2' } },
-                cd: { detectChanges: jasmine.createSpy() },
+                cd: { detectChanges: vi.fn() },
             },
         ] as unknown as MagmaTableCell[];
 

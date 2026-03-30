@@ -30,13 +30,19 @@ describe('MagmaTabs - Integration', () => {
     let tabMagmaTabContent: DebugElement[];
 
     beforeEach(async () => {
+        // Reset focus before each test to prevent contamination
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
         await TestBed.configureTestingModule({
             imports: [TestHostComponent, MagmaTabs, MagmaTabTitle, MagmaTabContent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
         testHost = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         tabMagmaTabs = fixture.debugElement.query(By.directive(MagmaTabs));
         tags = tabMagmaTabs.componentInstance;
@@ -44,10 +50,32 @@ describe('MagmaTabs - Integration', () => {
         tabMagmaTabContent = fixture.debugElement.queryAll(By.directive(MagmaTabContent));
     });
 
+    afterEach(async () => {
+        if (tags.updateInterval) {
+            clearInterval(tags.updateInterval);
+            tags.updateInterval = undefined;
+        }
+        window.document.body.style.cssText = '';
+        
+        // Clean up focus before destroying fixture
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
+        // Wait for async operations to complete BEFORE clearing timers
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should display the content of the first tab by default', () => {
         const contents = testHost.tabs().content();
-        expect(contents[0].selected()).toBeTrue();
-        expect(contents[1].selected()).toBeFalse();
+        expect(contents[0].selected()).toBe(true);
+        expect(contents[1].selected()).toBe(false);
 
         expect(tabMagmaTabContent[0].nativeElement.textContent).toBe('Content 1');
         expect(tabMagmaTabContent[1].nativeElement.textContent).toBe('');
@@ -55,11 +83,11 @@ describe('MagmaTabs - Integration', () => {
 
     it('should display the content a selected tab', () => {
         tags.update('tab2');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const contents = testHost.tabs().content();
-        expect(contents[0].selected()).toBeFalse();
-        expect(contents[1].selected()).toBeTrue();
+        expect(contents[0].selected()).toBe(false);
+        expect(contents[1].selected()).toBe(true);
 
         expect(tabMagmaTabContent[0].nativeElement.textContent).toBe('');
         expect(tabMagmaTabContent[1].nativeElement.textContent).toBe('Content 2');
@@ -67,28 +95,51 @@ describe('MagmaTabs - Integration', () => {
 
     it('should display the content a selected an invalid tab', () => {
         tags.update('tab2');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         tags.update('invalid');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const contents = testHost.tabs().content();
-        expect(contents[0].selected()).toBeTrue();
-        expect(contents[1].selected()).toBeFalse();
+        expect(contents[0].selected()).toBe(true);
+        expect(contents[1].selected()).toBe(false);
 
         expect(tabMagmaTabContent[0].nativeElement.textContent).toBe('Content 1');
         expect(tabMagmaTabContent[1].nativeElement.textContent).toBe('');
     });
 
-    it('should focus tab on returnTabs', () => {
+    it('should focus tab on returnTabs', async () => {
+        // Ensure focus is not already on the target element
+        // Focus on body first and wait for it to settle
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
+        // Wait longer for focus to settle and any pending operations
+        await new Promise(resolve => setTimeout(resolve, 150));
+        
+        // Force focus to body again if it moved
+        if (document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement)?.blur();
+            document.body.focus();
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        
+        // Verify we're starting from a clean state
+        expect(document.activeElement).toBe(document.body);
+        
         tags.returnTabs();
+        
+        // Wait longer for focus to be applied
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         expect(document.activeElement).toBe(tabMagmaTabTitle[0].nativeElement);
     });
 
     it('should next & prev button are not visible', () => {
         window.document.body.style = '';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const { clientWidth, scrollWidth, scrollLeft } = tags.tablist().nativeElement;
 
         expect(tags.prev()).toBe(false);
@@ -101,7 +152,7 @@ describe('MagmaTabs - Integration', () => {
 
     it('should next/prev button is visible', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
         const { clientWidth, scrollWidth, scrollLeft } = tags.tablist().nativeElement;
@@ -114,7 +165,7 @@ describe('MagmaTabs - Integration', () => {
         expect(clientWidth).not.toBe(scrollWidth);
         expect(scrollLeft).toBe(0);
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 15);
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
@@ -123,7 +174,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 100);
 
         const { scrollLeft: scrollLeft3 } = tags.tablist().nativeElement;
@@ -131,7 +182,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.prev()).toBe(false);
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(fixture.nativeElement.querySelector('.prev.show')).not.toBeNull();
         expect(fixture.nativeElement.querySelector('.next.show')).toBeNull();
 
@@ -143,7 +194,7 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(false);
         expect(tags.updateInterval).toBeDefined();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(false);
 
         expect(tags.updateInterval).toBeUndefined();
@@ -151,10 +202,10 @@ describe('MagmaTabs - Integration', () => {
 
     it('should next/prev button is visible', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 300);
 
         const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
@@ -163,9 +214,9 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, -100);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, -100);
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
@@ -177,10 +228,10 @@ describe('MagmaTabs - Integration', () => {
 
     it('should next hide when resize', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
         expect(scrollLeft).toBe(0);
@@ -189,7 +240,7 @@ describe('MagmaTabs - Integration', () => {
 
         window.document.body.style = 'width:300px';
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
         expect(scrollLeft2).toBe(0);
@@ -199,11 +250,11 @@ describe('MagmaTabs - Integration', () => {
 
     it('should prev hide when resize', () => {
         window.document.body.style = 'width:150px';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         tags.ngAfterViewChecked();
 
         tags.moveTabs(true, 300);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
         expect(scrollLeft).toBe(48);
@@ -212,7 +263,7 @@ describe('MagmaTabs - Integration', () => {
 
         window.document.body.style = 'width:300px';
 
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
         expect(scrollLeft2).toBe(0);

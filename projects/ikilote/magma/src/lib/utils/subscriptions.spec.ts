@@ -1,5 +1,6 @@
 import { Subscription, of } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import type { Mock } from 'vitest';
 
 import { Subscriptions } from './subscriptions';
 
@@ -9,16 +10,16 @@ describe('Subscriptions', () => {
     let testSub2: Subscription;
 
     // Mock subscriptions with spies to track unsubscribe calls
-    let unsubscribeSpy1: jasmine.Spy;
-    let unsubscribeSpy2: jasmine.Spy;
+    let unsubscribeSpy1: Mock;
+    let unsubscribeSpy2: Mock;
 
     beforeEach(() => {
         // Create a new instance of Subscriptions for each test
         subscriptions = Subscriptions.instance();
 
         // Create mock subscriptions with spies
-        unsubscribeSpy1 = jasmine.createSpy('unsubscribe1');
-        unsubscribeSpy2 = jasmine.createSpy('unsubscribe2');
+        unsubscribeSpy1 = vi.fn();
+        unsubscribeSpy2 = vi.fn();
 
         testSub1 = new Subscription();
         testSub1.unsubscribe = unsubscribeSpy1;
@@ -48,21 +49,21 @@ describe('Subscriptions', () => {
             // Test: Adding a single subscription
             subscriptions.push(testSub1);
             // @ts-ignore: Access private property for testing
-            expect(subscriptions.listener.closed).toBeFalse();
+            expect(subscriptions.listener.closed).toBe(false);
         });
 
         it('should add multiple subscriptions to the listener', () => {
             // Test: Adding multiple subscriptions at once
             subscriptions.push(testSub1, testSub2);
             // @ts-ignore: Access private property for testing
-            expect(subscriptions.listener.closed).toBeFalse();
+            expect(subscriptions.listener.closed).toBe(false);
         });
 
         it('should not fail when adding no subscriptions', () => {
             // Test: Adding no subscriptions is safe
             subscriptions.push();
             // @ts-ignore: Access private property for testing
-            expect(subscriptions.listener.closed).toBeFalse();
+            expect(subscriptions.listener.closed).toBe(false);
         });
     });
 
@@ -75,7 +76,7 @@ describe('Subscriptions', () => {
             subscriptions.clear();
             expect(unsubscribeSpy1).toHaveBeenCalledTimes(1);
             // @ts-ignore: Access private property for testing
-            expect(subscriptions.listener.closed).toBeTrue();
+            expect(subscriptions.listener.closed).toBe(true);
             expect(subscriptions.length).toBe(0);
         });
 
@@ -93,7 +94,7 @@ describe('Subscriptions', () => {
             // Test: Clearing with no subscriptions is safe
             subscriptions.clear();
             // @ts-ignore: Access private property for testing
-            expect(subscriptions.listener.closed).toBeTrue();
+            expect(subscriptions.listener.closed).toBe(true);
         });
     });
 
@@ -110,8 +111,8 @@ describe('Subscriptions', () => {
             subscriptions.push(sub1, sub2);
             subscriptions.clear();
 
-            expect(sub1.closed).toBeTrue();
-            expect(sub2.closed).toBeTrue();
+            expect(sub1.closed).toBe(true);
+            expect(sub2.closed).toBe(true);
         });
     });
 

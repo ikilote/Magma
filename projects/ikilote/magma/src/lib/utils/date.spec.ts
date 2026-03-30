@@ -296,74 +296,74 @@ describe('isIsoDate validation logic', () => {
     // --- POSITIVE CASES (Valid ISO 8601) ---
 
     it('should return true for a simple date (YYYY-MM-DD)', () => {
-        expect(isISODate('2026-01-30')).toBeTrue();
+        expect(isISODate('2026-01-30')).toBe(true);
     });
 
     it('should return true for a date and time (YYYY-MM-DDTHH:mm:ss)', () => {
-        expect(isISODate('2026-01-30T12:45:30')).toBeTrue();
+        expect(isISODate('2026-01-30T12:45:30')).toBe(true);
     });
 
     it('should return true for a date and time with UTC marker (Z)', () => {
-        expect(isISODate('2026-01-30T12:45:30Z')).toBeTrue();
+        expect(isISODate('2026-01-30T12:45:30Z')).toBe(true);
     });
 
     it('should return true for a full ISO string with milliseconds', () => {
-        expect(isISODate('2026-01-30T12:45:30.500Z')).toBeTrue();
+        expect(isISODate('2026-01-30T12:45:30.500Z')).toBe(true);
     });
 
     it('should return true for a date with a positive timezone offset', () => {
-        expect(isISODate('2026-01-30T12:45:30+01:00')).toBeTrue();
+        expect(isISODate('2026-01-30T12:45:30+01:00')).toBe(true);
     });
 
     it('should return true for a date with a negative timezone offset', () => {
-        expect(isISODate('2026-01-30T12:45:30-05:00')).toBeTrue();
+        expect(isISODate('2026-01-30T12:45:30-05:00')).toBe(true);
     });
 
     // --- NEGATIVE CASES (Invalid Format) ---
 
     it('should return false for an empty string', () => {
-        expect(isISODate('')).toBeFalse();
+        expect(isISODate('')).toBe(false);
     });
 
     it('should return false for dates using slashes (French/US style)', () => {
-        expect(isISODate('30/01/2026')).toBeFalse();
-        expect(isISODate('01/30/2026')).toBeFalse();
+        expect(isISODate('30/01/2026')).toBe(false);
+        expect(isISODate('01/30/2026')).toBe(false);
     });
 
     it('should return false if the "T" separator is missing between date and time', () => {
-        expect(isISODate('2026-01-30 12:45:30')).toBeFalse();
+        expect(isISODate('2026-01-30 12:45:30')).toBe(false);
     });
 
     it('should return false for single-digit months or days (incorrect padding)', () => {
-        expect(isISODate('2026-1-30')).toBeFalse();
-        expect(isISODate('2026-01-1')).toBeFalse();
+        expect(isISODate('2026-1-30')).toBe(false);
+        expect(isISODate('2026-01-1')).toBe(false);
     });
 
     it('should return false if seconds are missing (must match HH:mm:ss)', () => {
-        expect(isISODate('2026-01-30T12:45')).toBeFalse();
+        expect(isISODate('2026-01-30T12:45')).toBe(false);
     });
 
     it('should return false if the year is not 4 digits', () => {
-        expect(isISODate('26-01-30')).toBeFalse();
+        expect(isISODate('26-01-30')).toBe(false);
     });
 
     it('should return false for random text strings', () => {
-        expect(isISODate('not-a-date')).toBeFalse();
-        expect(isISODate('2026-01-30-is-today')).toBeFalse();
+        expect(isISODate('not-a-date')).toBe(false);
+        expect(isISODate('2026-01-30-is-today')).toBe(false);
     });
 
     it('should return false for partially valid strings with trailing garbage', () => {
-        expect(isISODate('2026-01-30T12:45:30Z extra')).toBeFalse();
+        expect(isISODate('2026-01-30T12:45:30Z extra')).toBe(false);
     });
 
     // --- EDGE CASES (Technical boundaries) ---
 
     it('should return false for invalid millisecond precision (e.g. 2 digits)', () => {
         // Our regex specifically looks for (\.\d{3})?
-        expect(isISODate('2026-01-30T12:45:30.50Z')).toBeFalse();
+        expect(isISODate('2026-01-30T12:45:30.50Z')).toBe(false);
     });
 
     it('should return false if timezone format is incomplete', () => {
-        expect(isISODate('2026-01-30T12:45:30+01')).toBeFalse();
+        expect(isISODate('2026-01-30T12:45:30+01')).toBe(false);
     });
 });

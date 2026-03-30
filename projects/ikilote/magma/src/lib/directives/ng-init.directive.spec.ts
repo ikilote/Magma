@@ -9,7 +9,7 @@ import { MagmaNgInitDirective } from './ng-init.directive';
     imports: [MagmaNgInitDirective],
 })
 class TestComponent {
-    onInit = jasmine.createSpy('onInit');
+    onInit = vi.fn();
 }
 
 describe('MagmaNgInitDirective', () => {
@@ -29,6 +29,13 @@ describe('MagmaNgInitDirective', () => {
         directive = element.injector.get(MagmaNgInitDirective);
     });
 
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should create an instance', () => {
         expect(directive).toBeTruthy();
     });
@@ -36,7 +43,7 @@ describe('MagmaNgInitDirective', () => {
     describe('ngOnInit', () => {
         it('should emit ngInit event when initialized', () => {
             // Reset the spy to clear any calls from the initial setup
-            component.onInit.calls.reset();
+            component.onInit.mockClear();
 
             // Create a new spy for the output
             let outputEmitted = false;
@@ -57,9 +64,9 @@ describe('MagmaNgInitDirective', () => {
             });
 
             // ngOnInit is automatically called during change detection
-            newFixture.detectChanges();
+            newFixture.changeDetectorRef.detectChanges();
 
-            expect(newOutputEmitted).toBeTrue();
+            expect(newOutputEmitted).toBe(true);
             expect(newFixture.componentInstance.onInit).toHaveBeenCalledTimes(1);
         });
 
@@ -85,9 +92,9 @@ describe('MagmaNgInitDirective', () => {
             });
 
             // ngOnInit is automatically called during change detection
-            newFixture.detectChanges();
+            newFixture.changeDetectorRef.detectChanges();
 
-            expect(emitted).toBeTrue();
+            expect(emitted).toBe(true);
             expect(newFixture.componentInstance.onInit).toHaveBeenCalledTimes(1);
         });
 
@@ -111,7 +118,7 @@ describe('MagmaNgInitDirective', () => {
             // Trigger ngOnInit manually
             directive.ngOnInit();
 
-            expect(called).toBeTrue();
+            expect(called).toBe(true);
         });
     });
 });

@@ -8,7 +8,6 @@ enum TestEnum {
     KEY1 = 'value1',
     KEY2 = 2,
     KEY3 = 'value3',
-    //  42 = 'numericKey', // This should be filtered out
 }
 
 // Define a numeric enum for additional testing
@@ -74,7 +73,7 @@ describe('enumToKeyValue', () => {
 
     it('should filter out numeric keys', () => {
         const result = enumToKeyValue(TestEnum);
-        expect(result).not.toContain(jasmine.objectContaining({ key: '42' }));
+        expect(result).not.toContain(expect.objectContaining({ key: '42' }));
     });
 
     it('should handle numeric enums', () => {
@@ -133,7 +132,7 @@ describe('enumToMap', () => {
 
     it('should filter out numeric keys', () => {
         const result = enumToMap(TestEnum);
-        expect(result.has('42')).toBeFalse();
+        expect(result.has('42')).toBe(false);
     });
 
     it('should handle numeric enums', () => {

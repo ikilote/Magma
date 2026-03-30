@@ -1,7 +1,9 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
+import type { Mocked } from 'vitest';
 
 import { ResizeDirection } from './resizer';
 import { MagmaResize } from './resizer.directive';
@@ -12,7 +14,6 @@ import { MagmaResize } from './resizer.directive';
         <div style="position: relative;">
             <div
                 style="width: 100px; height: 100px; position: absolute;"
-                resizer
                 [resizer]="mockResizer"
                 [resizerHost]="mockHost"
                 [resizerDisabled]="isDisabled"
@@ -29,7 +30,7 @@ class TestComponent {
         x: [0, 10],
         y: [0, 10],
         animation: true,
-        update: jasmine.createSpy('update'),
+        update: vi.fn(),
     } as any;
 
     mockHost = {
@@ -44,11 +45,13 @@ describe('MagmaResize Directive', () => {
     let component: TestComponent;
     let directiveEl: DebugElement;
     let directiveInstance: MagmaResize;
-    let cdkDragSpy: jasmine.SpyObj<CdkDrag>;
+    let cdkDragSpy: Mocked<CdkDrag>;
 
     beforeEach(async () => {
         // Create a spy for the optional CdkDrag dependency
-        cdkDragSpy = jasmine.createSpyObj('CdkDrag', ['disabled']);
+        cdkDragSpy = {
+            disabled: vi.fn().mockName('CdkDrag.disabled'),
+        } as unknown as Mocked<CdkDrag>;
 
         await TestBed.configureTestingModule({
             imports: [TestComponent],
@@ -60,7 +63,15 @@ describe('MagmaResize Directive', () => {
         directiveEl = fixture.debugElement.query(By.directive(MagmaResize));
         directiveInstance = directiveEl.injector.get(MagmaResize);
 
-        fixture.detectChanges();
+        vi.useFakeTimers();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create an instance', () => {
@@ -85,11 +96,11 @@ describe('MagmaResize Directive', () => {
                 const rect = directiveEl.nativeElement.getBoundingClientRect();
                 const event = new MouseEvent('mousemove', { clientX: rect.left + data.x, clientY: rect.top + data.y });
                 directiveEl.nativeElement.dispatchEvent(event);
-                fixture.detectChanges();
+                fixture.changeDetectorRef.detectChanges();
 
                 expect(directiveInstance.resize).toBe(data.resize as ResizeDirection);
-                expect(directiveEl.nativeElement.classList.contains(data.class)).toBeTrue();
-                expect(cdkDragSpy.disabled).toBeTrue();
+                expect(directiveEl.nativeElement.classList.contains(data.class)).toBe(true);
+                expect(cdkDragSpy.disabled).toBe(true);
             });
         });
 
@@ -97,10 +108,10 @@ describe('MagmaResize Directive', () => {
             const rect = directiveEl.nativeElement.getBoundingClientRect();
             const event = new MouseEvent('mousemove', { clientX: rect.left + 50, clientY: rect.top + 50 });
             directiveEl.nativeElement.dispatchEvent(event);
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             expect(directiveInstance.resize).toBeUndefined();
-            expect(cdkDragSpy.disabled).toBeFalse();
+            expect(cdkDragSpy.disabled).toBe(false);
         });
     });
 
@@ -115,20 +126,20 @@ describe('MagmaResize Directive', () => {
             directiveEl.nativeElement.dispatchEvent(event);
         };
 
-        it('should update dimensions when dragging the right edge', fakeAsync(() => {
+        it('should update dimensions when dragging the right edge', () => {
             initiateResize('right', 100, 100);
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             // Move: 20px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[1] - (-2) = 12
             expect(component.mockResizer.update).toHaveBeenCalledWith('right', [0, 12]);
-            expect(component.mockResizer.animation).toBeTrue();
-        }));
+            expect(component.mockResizer.animation).toBe(true);
+        });
 
-        it('should clamp the top dimension to resizerInit.y', fakeAsync(() => {
+        it('should clamp the top dimension to resizerInit.y', () => {
             initiateResize('top', 100, 100);
 
             // Move: 50px upwards. changeY = (100 - 50) / 10 = 5.
@@ -136,40 +147,40 @@ describe('MagmaResize Directive', () => {
             // Since resizerInit.y is 0, it should use Math.max(-5, 0) = 0.
             const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 50 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             expect(component.mockResizer.update).toHaveBeenCalledWith('top', [0, 10]);
-        }));
+        });
 
-        it('should update dimensions when dragging the left edge', fakeAsync(() => {
+        it('should update dimensions when dragging the left edge', () => {
             initiateResize('left', 100, 100);
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 120, clientY: 100 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             // Move: 50px upwards. changeX = (100 - 120) / 10 = -2.
             // Logic: itemSource.x[0] - (-2) = 2
             expect(component.mockResizer.update).toHaveBeenCalledWith('left', [2, 10]);
-            expect(component.mockResizer.animation).toBeTrue();
-        }));
+            expect(component.mockResizer.animation).toBe(true);
+        });
 
-        it('should update dimensions when dragging the bottom edge', fakeAsync(() => {
+        it('should update dimensions when dragging the bottom edge', () => {
             initiateResize('bottom', 100, 100);
 
             const moveEvent = new MouseEvent('mousemove', { clientX: 100, clientY: 120 });
             window.dispatchEvent(moveEvent);
-            tick(10); // Wait for the animation setTimeout
+            vi.advanceTimersByTime(10); // Wait for the animation setTimeout
 
             // Move: 20px upwards. changeY = (100 - 120) / 10 = -2.
             // Logic: itemSource.y[1] - (-2) = 12
             expect(component.mockResizer.update).toHaveBeenCalledWith('bottom', [0, 12]);
-            expect(component.mockResizer.animation).toBeTrue();
-        }));
+            expect(component.mockResizer.animation).toBe(true);
+        });
 
         it('should ignore interactions when resizerDisabled is true', () => {
             component.isDisabled = true;
-            fixture.detectChanges();
+            fixture.changeDetectorRef.detectChanges();
 
             const event = new MouseEvent('mousedown', { clientX: 2, clientY: 50 });
             directiveInstance.resize = 'left';
@@ -191,16 +202,16 @@ describe('MagmaResize Directive', () => {
             expect(directiveInstance.resizeActive).toBeUndefined();
         });
 
-        it('should reset resize direction after a delay on mouseout', fakeAsync(() => {
+        it('should reset resize direction after a delay on mouseout', () => {
             directiveInstance.resize = 'left';
             directiveEl.nativeElement.dispatchEvent(new MouseEvent('mouseout'));
 
             // State should persist immediately because of the 50ms timer
             expect(directiveInstance.resize).toBe('left');
 
-            tick(50);
+            vi.advanceTimersByTime(50);
             expect(directiveInstance.resize).toBeUndefined();
-            expect(cdkDragSpy.disabled).toBeFalse();
-        }));
+            expect(cdkDragSpy.disabled).toBe(false);
+        });
     });
 });

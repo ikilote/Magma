@@ -2,76 +2,114 @@ import { Overlay, OverlayRef, ScrollStrategy } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { TestBed } from '@angular/core/testing';
 
+import { type Mocked, beforeEach, describe, expect, it, vi } from 'vitest';
+
 import { MagmaMessageInfo, MagmaMessageType, MagmaMessages } from './messages';
 
 describe('MagmaMessages', () => {
     let service: MagmaMessages;
-    let mockOverlay: jasmine.SpyObj<Overlay>;
-    let mockOverlayRef: jasmine.SpyObj<OverlayRef>;
-    let mockScrollStrategy: jasmine.SpyObj<ScrollStrategy>;
-    let mockPositionStrategy: any;
+
+    // Strongly typed mocks using Vitest's Mocked utility
+    let mockOverlay: Mocked<Overlay>;
+    let mockOverlayRef: Mocked<OverlayRef>;
+    let mockScrollStrategy: Mocked<ScrollStrategy>;
 
     beforeEach(() => {
-        // Create mocks
-        mockOverlayRef = jasmine.createSpyObj('OverlayRef', ['dispose', 'attach']);
-        mockScrollStrategy = jasmine.createSpyObj('ScrollStrategy', ['enable', 'disable']);
-        mockPositionStrategy = {
-            global: jasmine.createSpy().and.returnValue({
-                right: jasmine.createSpy().and.returnValue({}),
+        // 1. Initialize base mocks
+        mockOverlayRef = {
+            dispose: vi.fn(),
+            attach: vi.fn(),
+        } as unknown as Mocked<OverlayRef>;
+
+        mockScrollStrategy = {
+            enable: vi.fn(),
+            disable: vi.fn(),
+        } as unknown as Mocked<ScrollStrategy>;
+
+        // 2. Setup Overlay mock with Fluent API (method chaining)
+        mockOverlay = {
+            create: vi.fn().mockReturnValue(mockOverlayRef),
+            scrollStrategies: {
+                block: vi.fn().mockReturnValue(mockScrollStrategy),
+            },
+            position: vi.fn().mockReturnValue({
+                global: vi.fn().mockReturnThis(), // Returns the same object for chaining
+                right: vi.fn().mockReturnThis(),
+                centerHorizontally: vi.fn().mockReturnThis(),
             }),
-        };
+        } as unknown as Mocked<Overlay>;
 
-        mockOverlay = jasmine.createSpyObj('Overlay', ['create', 'scrollStrategies', 'position']);
-        mockOverlay.create.and.returnValue(mockOverlayRef);
-        (mockOverlay.scrollStrategies as any) = { block: jasmine.createSpy().and.returnValue(mockScrollStrategy) };
-        mockOverlay.position.and.returnValue(mockPositionStrategy);
+        TestBed.configureTestingModule({
+            providers: [
+                MagmaMessages,
+                // Inject the mock directly into the Angular dependency system
+                { provide: Overlay, useValue: mockOverlay },
+            ],
+        });
 
-        // Create service instance
         service = TestBed.inject(MagmaMessages);
-        (service as any).overlay = mockOverlay;
+    });
+
+    afterEach(async () => {
+        // Clean up overlay if it exists
+        if (service['_overlayRef']) {
+            service['_overlayRef'].dispose();
+            service['_overlayRef'] = undefined;
+        }
+
+        // Clear service state
+        service.messages.splice(0, service.messages.length);
+
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     describe('addMessage', () => {
         it('should create overlay when adding first message', () => {
             service.addMessage('Test message');
+
             expect(mockOverlay.create).toHaveBeenCalledWith(
-                jasmine.objectContaining({
+                expect.objectContaining({
                     hasBackdrop: false,
                     panelClass: 'overlay-message',
                     scrollStrategy: mockScrollStrategy,
-                    positionStrategy: jasmine.any(Object),
                 }),
             );
-            expect(mockOverlayRef.attach).toHaveBeenCalledWith(jasmine.any(ComponentPortal));
+            // Verify that a portal is attached to the overlay
+            expect(mockOverlayRef.attach).toHaveBeenCalledWith(expect.any(ComponentPortal));
         });
 
-        it('should add message to messages array', () => {
+        it('should add message to messages array with default values', () => {
             service.addMessage('Test message');
-            expect(service.messages.length).toBe(1);
-            expect(service.messages[0].message).toBe('Test message');
-            expect(service.messages[0].type).toBe(MagmaMessageType.info);
-            expect(service.messages[0].time).toBe('3s');
+
+            expect(service.messages).toHaveLength(1);
+            expect(service.messages[0]).toMatchObject({
+                message: 'Test message',
+                type: MagmaMessageType.info,
+                time: '3s',
+            });
         });
 
         it('should add message with custom type and time', () => {
             service.addMessage('Test message', { type: MagmaMessageType.success, time: '5s' });
+
             expect(service.messages[0].type).toBe(MagmaMessageType.success);
             expect(service.messages[0].time).toBe('5s');
         });
 
         it('should emit onAddMessage event', () => {
-            spyOn(service.onAddMessage, 'next');
+            // Using vi.spyOn to observe the Subject's next method
+            const spy = vi.spyOn(service.onAddMessage, 'next');
+
             service.addMessage('Test message');
-            expect(service.onAddMessage.next).toHaveBeenCalled();
+            expect(spy).toHaveBeenCalled();
         });
 
-        it('should not create overlay when adding subsequent messages', () => {
-            // First message creates overlay
+        it('should not create a new overlay when adding subsequent messages', () => {
             service.addMessage('First message');
-            expect(mockOverlay.create).toHaveBeenCalledTimes(1);
-
-            // Subsequent messages don't create overlay
             service.addMessage('Second message');
+
+            // Overlay.create should only be called once for the lifetime of the messages
             expect(mockOverlay.create).toHaveBeenCalledTimes(1);
         });
     });
@@ -84,28 +122,58 @@ describe('MagmaMessages', () => {
                 time: '3s',
             };
             service.messages.push(message);
+
             service.removeMessage(message);
-            expect(service.messages.length).toBe(0);
+            expect(service.messages).toHaveLength(0);
+        });
+    });
+
+    describe('clearMessages', () => {
+        it('should remove all messages from messages array', () => {
+            const message1: MagmaMessageInfo = {
+                message: 'Test message 1',
+                type: MagmaMessageType.info,
+                time: '3s',
+            };
+            const message2: MagmaMessageInfo = {
+                message: 'Test message 2',
+                type: MagmaMessageType.error,
+                time: '10s',
+            };
+            service.messages.push(message1);
+            service.messages.push(message2);
+            expect(service.messages).toHaveLength(2);
+
+            service.clearMessages();
+            expect(service.messages).toHaveLength(0);
+        });
+
+        it('should remove all messages from messages when array is empty', () => {
+            expect(service.messages).toHaveLength(0);
+
+            service.clearMessages();
+            expect(service.messages).toHaveLength(0);
         });
     });
 
     describe('testDispose', () => {
         it('should dispose overlay if no messages exist', () => {
-            // Add a message to create overlay
+            // Simulate an existing overlay by adding a message
             service.addMessage('Test message');
-            (service as any)._overlayRef = mockOverlayRef;
 
-            // Remove the message and test dispose
-            service.removeMessage(service.messages[0]);
+            // Clear messages manually to trigger disposal logic
+            service.messages.forEach(msg => service.removeMessage(msg));
             service.testDispose();
+
             expect(mockOverlayRef.dispose).toHaveBeenCalled();
+            // Access private property to verify cleanup
             expect((service as any)._overlayRef).toBeUndefined();
         });
 
-        it('should not dispose overlay if messages exist', () => {
+        it('should not dispose overlay if messages are still present', () => {
             service.addMessage('Test message');
-            (service as any)._overlayRef = mockOverlayRef;
             service.testDispose();
+
             expect(mockOverlayRef.dispose).not.toHaveBeenCalled();
         });
     });

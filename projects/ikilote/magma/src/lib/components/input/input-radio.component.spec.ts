@@ -24,7 +24,15 @@ describe('MagmaInputRadio', () => {
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
         fixture.componentRef.setInput('value', 'test-value');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        
+        // Clear timers AFTER destroying fixture
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should create', () => {
@@ -38,7 +46,7 @@ describe('MagmaInputRadio', () => {
 
     it('should set checked correctly', () => {
         fixture.componentRef.setInput('checked', true);
-        expect(component.checked()).toBeTrue();
+        expect(component.checked()).toBe(true);
     });
 
     it('should render input element with type radio', () => {
@@ -54,30 +62,30 @@ describe('MagmaInputRadio', () => {
 
     it('should set checked attribute on input if testChecked is true', () => {
         component['testChecked'] = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
-        expect(inputElement.checked).toBeTrue();
+        expect(inputElement.checked).toBe(true);
     });
 
     it('should not set checked attribute on input if testChecked is false', () => {
         component['testChecked'] = false;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
-        expect(inputElement.checked).toBeFalse();
+        expect(inputElement.checked).toBe(false);
     });
 
     it('should update testChecked and call detectChanges on writeValue', () => {
-        spyOn(component['cd'], 'detectChanges');
+        vi.spyOn(component['cd'], 'detectChanges');
         fixture.componentRef.setInput('value', 'test-value');
         component.writeValue('test-value');
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
         expect(component['cd'].detectChanges).toHaveBeenCalled();
     });
 
     it('should call onChange, onTouched, and emit update on _change', () => {
-        spyOn(component, 'onChange');
-        spyOn(component, 'onTouched');
-        spyOn(component['update'], 'emit');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component['update'], 'emit');
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
         inputElement.dispatchEvent(new Event('change'));
         expect(component.onChange).toHaveBeenCalledWith('test-value');
@@ -95,28 +103,28 @@ describe('MagmaInputRadio', () => {
             },
         };
         component.ngOnChanges(changes);
-        expect(component['testChecked']).toBeTrue();
+        expect(component['testChecked']).toBe(true);
     });
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });
 
     it('should disable input if disabled is true', () => {
         fixture.componentRef.setInput('disabled', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
-        expect(inputElement.disabled).toBeTrue();
+        expect(inputElement.disabled).toBe(true);
     });
 
     it('should set input to readonly if readonly is true', () => {
         fixture.componentRef.setInput('readonly', true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input[type="radio"]')).nativeElement;
-        expect(inputElement.readOnly).toBeTrue();
+        expect(inputElement.readOnly).toBe(true);
     });
 });
 
@@ -143,7 +151,7 @@ describe('MagmaInput with MagmaInputRadio', () => {
 
         fixture = TestBed.createComponent(TestHostComponent);
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
     });
 
     it('should create', () => {

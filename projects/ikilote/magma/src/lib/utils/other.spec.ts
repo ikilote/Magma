@@ -3,95 +3,95 @@ import { isEmpty, regexpSlash } from './other';
 describe('isEmpty', () => {
     // Null or undefined values
     it('should return true for null', () => {
-        expect(isEmpty(null)).toBeTrue();
+        expect(isEmpty(null)).toBe(true);
     });
 
     it('should return true for undefined', () => {
-        expect(isEmpty(undefined)).toBeTrue();
+        expect(isEmpty(undefined)).toBe(true);
     });
 
     // Strings
     it('should return true for an empty string', () => {
-        expect(isEmpty('')).toBeTrue();
+        expect(isEmpty('')).toBe(true);
     });
 
     it('should return false for a non-empty string', () => {
-        expect(isEmpty('test')).toBeFalse();
-        expect(isEmpty(' ')).toBeFalse(); // A string with a space is not empty
+        expect(isEmpty('test')).toBe(false);
+        expect(isEmpty(' ')).toBe(false); // A string with a space is not empty
     });
 
     // Arrays
     it('should return true for an empty array', () => {
-        expect(isEmpty([])).toBeTrue();
+        expect(isEmpty([])).toBe(true);
     });
 
     it('should return false for a non-empty array', () => {
-        expect(isEmpty([1, 2, 3])).toBeFalse();
-        expect(isEmpty([''])).toBeFalse(); // An array with an empty string is not empty
+        expect(isEmpty([1, 2, 3])).toBe(false);
+        expect(isEmpty([''])).toBe(false); // An array with an empty string is not empty
     });
 
     // Objects
     it('should return true for an empty object', () => {
-        expect(isEmpty({})).toBeTrue();
+        expect(isEmpty({})).toBe(true);
     });
 
     it('should return false for a non-empty object', () => {
-        expect(isEmpty({ key: 'value' })).toBeFalse();
-        expect(isEmpty({ key: '' })).toBeFalse(); // An object with a key and an empty value is not empty
+        expect(isEmpty({ key: 'value' })).toBe(false);
+        expect(isEmpty({ key: '' })).toBe(false); // An object with a key and an empty value is not empty
     });
 
     // Numbers
     it('should return false for a number', () => {
-        expect(isEmpty(0)).toBeFalse();
-        expect(isEmpty(123)).toBeFalse();
-        expect(isEmpty(-1)).toBeFalse();
+        expect(isEmpty(0)).toBe(false);
+        expect(isEmpty(123)).toBe(false);
+        expect(isEmpty(-1)).toBe(false);
     });
 
     // Booleans
     it('should return false for a boolean', () => {
-        expect(isEmpty(true)).toBeFalse();
-        expect(isEmpty(false)).toBeFalse();
+        expect(isEmpty(true)).toBe(false);
+        expect(isEmpty(false)).toBe(false);
     });
 
     // Functions
     it('should return false for a function', () => {
-        expect(isEmpty(() => {})).toBeFalse();
+        expect(isEmpty(() => {})).toBe(false);
     });
 
     // Dates
     it('should return false for a date', () => {
-        expect(isEmpty(new Date())).toBeFalse();
+        expect(isEmpty(new Date())).toBe(false);
     });
 
     // Edge cases
     it('should return false for NaN', () => {
-        expect(isEmpty(NaN)).toBeFalse();
+        expect(isEmpty(NaN)).toBe(false);
     });
 
     it('should return false for Infinity', () => {
-        expect(isEmpty(Infinity)).toBeFalse();
-        expect(isEmpty(-Infinity)).toBeFalse();
+        expect(isEmpty(Infinity)).toBe(false);
+        expect(isEmpty(-Infinity)).toBe(false);
     });
 
     // Map and Set
     it('should return true for an empty Map', () => {
-        expect(isEmpty(new Map())).toBeTrue();
+        expect(isEmpty(new Map())).toBe(true);
     });
 
     it('should return false for a non-empty Map', () => {
         const map = new Map();
         map.set('key', 'value');
-        expect(isEmpty(map)).toBeFalse();
+        expect(isEmpty(map)).toBe(false);
     });
 
     it('should return true for an empty Set', () => {
-        expect(isEmpty(new Set())).toBeTrue();
+        expect(isEmpty(new Set())).toBe(true);
     });
 
     it('should return false for a non-empty Set', () => {
         const set = new Set();
         set.add('value');
-        expect(isEmpty(set)).toBeFalse();
+        expect(isEmpty(set)).toBe(false);
     });
 });
 
@@ -99,21 +99,21 @@ describe('regexpSlash', () => {
     // String with slashes
     it('should convert a string with slashes to a RegExp', () => {
         const result = regexpSlash('/test/');
-        expect(result instanceof RegExp).toBeTrue();
+        expect(result instanceof RegExp).toBe(true);
         expect((result as RegExp).source).toBe('test');
         expect((result as RegExp).flags).toBe('g');
     });
 
     it('should convert a string with slashes and regex pattern to a RegExp', () => {
         const result = regexpSlash('/te.st/');
-        expect(result instanceof RegExp).toBeTrue();
+        expect(result instanceof RegExp).toBe(true);
         expect((result as RegExp).source).toBe('te.st');
         expect((result as RegExp).flags).toBe('g');
     });
 
     it('should convert a string with slashes and complex regex pattern to a RegExp', () => {
         const result = regexpSlash('/[a-z]+/i'); // Note: The 'i' flag will be replaced by 'g'
-        expect(result instanceof RegExp).toBeTrue();
+        expect(result instanceof RegExp).toBe(true);
         expect((result as RegExp).source).toBe('[a-z]+');
         expect((result as RegExp).flags).toBe('g'); // The function always adds 'g' flag
     });
@@ -155,7 +155,7 @@ describe('regexpSlash', () => {
 
     it('should handle a string with only slashes', () => {
         const result = regexpSlash('///');
-        expect(result instanceof RegExp).toBeTrue();
+        expect(result instanceof RegExp).toBe(true);
         expect((result as RegExp).source).toBe('\\/');
         expect((result as RegExp).flags).toBe('g');
     });
@@ -175,14 +175,14 @@ describe('regexpSlash', () => {
     // Complex patterns
     it('should handle complex regex patterns between slashes', () => {
         const result = regexpSlash('/^\\d{3}-\\d{2}-\\d{4}$/');
-        expect(result instanceof RegExp).toBeTrue();
+        expect(result instanceof RegExp).toBe(true);
         expect((result as RegExp).source).toBe('^\\d{3}-\\d{2}-\\d{4}$');
         expect((result as RegExp).flags).toBe('g');
     });
 
     it('should handle escaped slashes in the pattern', () => {
         const result = regexpSlash('/test\\/slash/');
-        expect(result instanceof RegExp).toBeTrue();
+        expect(result instanceof RegExp).toBe(true);
         expect((result as RegExp).source).toBe('test\\/slash');
         expect((result as RegExp).flags).toBe('g');
     });

@@ -14,7 +14,14 @@ describe('MagmaSpinner', () => {
 
         fixture = TestBed.createComponent(MagmaSpinner);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -37,7 +44,7 @@ describe('MagmaSpinner', () => {
         fixture.componentRef.setInput('size', 200);
         fixture.componentRef.setInput('tickWidth', 20);
         fixture.componentRef.setInput('radius', 100);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const hostElement = fixture.nativeElement;
         expect(hostElement.style.getPropertyValue('--height')).toBe('200px');

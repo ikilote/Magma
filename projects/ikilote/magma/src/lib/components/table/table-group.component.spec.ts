@@ -8,8 +8,8 @@ import { MagmaTable } from './table.component';
 @Directive({})
 class MockHost {
     _data = { thead: [], tbody: [], tfoot: [] };
-    table = { over: jasmine.createSpy('over') };
-    clearOver = jasmine.createSpy('clearOver');
+    table = { over: vi.fn() };
+    clearOver = vi.fn();
     inputs = () => [{}];
 }
 
@@ -37,7 +37,14 @@ describe('MagmaTableGroup', () => {
         fixture = TestBed.createComponent(MagmaTableGroup);
         component = fixture.componentInstance;
         component.host = mockHost;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -46,14 +53,14 @@ describe('MagmaTableGroup', () => {
 
     it('should set sticky class based on input', () => {
         fixture.componentRef.setInput('sticky', true);
-        fixture.detectChanges();
-        expect(component['el'].nativeElement.classList.contains('sticky')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component['el'].nativeElement.classList.contains('sticky')).toBe(true);
     });
 
     it('should set baseline class based on input', () => {
         fixture.componentRef.setInput('baseline', true);
-        fixture.detectChanges();
-        expect(component['el'].nativeElement.classList.contains('baseline')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component['el'].nativeElement.classList.contains('baseline')).toBe(true);
     });
 
     it('should call host.clearOver on mouseout', () => {

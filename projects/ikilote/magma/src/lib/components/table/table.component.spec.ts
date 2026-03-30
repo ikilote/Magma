@@ -13,11 +13,18 @@ describe('MagmaTable', () => {
 
         fixture = TestBed.createComponent(MagmaTable);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         mockCell = {
-            cell: { hover: { set: jasmine.createSpy() }, hoverLink: { set: jasmine.createSpy() } },
+            cell: { hover: { set: vi.fn() }, hoverLink: { set: vi.fn() } },
         } as unknown as MagmaTableData;
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -26,8 +33,8 @@ describe('MagmaTable', () => {
 
     it('should set baseline class based on input', () => {
         fixture.componentRef.setInput('baseline', true);
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList.contains('baseline')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList.contains('baseline')).toBe(true);
     });
 
     it('should set hoverLink for thead and tfoot cells when hover or hoverCol is true', () => {

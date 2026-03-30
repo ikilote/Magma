@@ -1,6 +1,6 @@
 import { NgComponentOutlet } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { InfoMessageComponent } from './info-message.component';
@@ -23,7 +23,14 @@ describe('InfoMessageComponent', () => {
 
         fixture = TestBed.createComponent(InfoMessageComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should display string message', () => {
@@ -33,7 +40,7 @@ describe('InfoMessageComponent', () => {
             time: '1s',
         };
         fixture.componentRef.setInput('message', message);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const messageDiv = fixture.debugElement.query(By.css('.message'));
         expect(messageDiv.nativeElement.textContent).toContain('Hello World');
@@ -48,7 +55,7 @@ describe('InfoMessageComponent', () => {
             type: 'info',
         };
         fixture.componentRef.setInput('message', dynamicMessage);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         const dynamicComponent = fixture.debugElement.query(By.css('app-test-dynamic'));
         expect(dynamicComponent.nativeElement.textContent).toContain('Dynamic Component: Test');
@@ -61,13 +68,13 @@ describe('InfoMessageComponent', () => {
             time: '1s',
         };
         fixture.componentRef.setInput('message', message);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
-        expect(fixture.nativeElement.classList.contains('info')).toBeTrue();
+        expect(fixture.nativeElement.classList.contains('info')).toBe(true);
     });
 
     it('should emit destruct output on close', () => {
-        spyOn(component.destruct, 'emit');
+        vi.spyOn(component.destruct, 'emit');
         const message = {
             message: 'Hello World',
             type: MagmaMessageType.info,
@@ -75,32 +82,34 @@ describe('InfoMessageComponent', () => {
         };
 
         fixture.componentRef.setInput('message', message);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         component.close();
         expect(component.destruct.emit).toHaveBeenCalledWith(message);
     });
 
     it('should call click on animationend', () => {
-        spyOn(component, 'click');
+        vi.spyOn(component, 'click');
         const progressDiv = fixture.debugElement.query(By.css('.progress'));
-        progressDiv.triggerEventHandler('animationend', null);
-        fixture.detectChanges();
+        progressDiv.nativeElement.dispatchEvent(new Event('animationend'));
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.click).toHaveBeenCalled();
     });
 
-    it('should call click to close', fakeAsync(() => {
-        spyOn(component, 'close');
+    it('should call click to close', () => {
+        vi.useFakeTimers();
+        vi.spyOn(component, 'close');
         component.click();
-        fixture.detectChanges();
-        expect(fixture.nativeElement.classList[0]).toEqual('close');
-        tick(700);
+        fixture.changeDetectorRef.detectChanges();
+        expect(fixture.nativeElement.classList).toContain('close');
+        vi.advanceTimersByTime(700);
         expect(component.close).toHaveBeenCalled();
-    }));
+        vi.useRealTimers();
+    });
 
-    it('should correct value for withContext', fakeAsync(() => {
+    it('should correct value for withContext', () => {
         expect(component.withContext()).toEqual({ context: component } as any);
         expect(component.withContext({ test: 1 })).toEqual({ test: 1, context: component } as any);
-    }));
+    });
 });

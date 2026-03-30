@@ -30,35 +30,42 @@ describe('MagmaExpansionPanel', () => {
 
         fixture = TestBed.createComponent(TestHostComponent);
         component = fixture.debugElement.query(By.directive(MagmaExpansionPanel)).componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         details = fixture.debugElement.query(By.css('details'));
         summary = fixture.debugElement.query(By.css('summary'));
     });
 
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should set the "open" attribute on <details> when open is true', () => {
         fixture.componentInstance.initialOpen = true;
-        fixture.detectChanges();
-        expect(details.nativeElement.hasAttribute('open')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(details.nativeElement.hasAttribute('open')).toBe(true);
     });
 
     it('should not set the "open" attribute on <details> when open is false', () => {
         fixture.componentInstance.initialOpen = false;
-        fixture.detectChanges();
-        expect(details.nativeElement.hasAttribute('open')).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(details.nativeElement.hasAttribute('open')).toBe(false);
     });
 
     it('should set the "disabled" attribute and tabIndex=-1 on <summary> when disabled is true', () => {
         fixture.componentInstance.initialDisabled = true;
-        fixture.detectChanges();
-        expect(summary.nativeElement.hasAttribute('disabled')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(summary.nativeElement.hasAttribute('disabled')).toBe(true);
         expect(summary.nativeElement.tabIndex).toBe(-1);
     });
 
     it('should not set the "disabled" attribute and tabIndex=0 on <summary> when disabled is false', () => {
         fixture.componentInstance.initialDisabled = false;
-        fixture.detectChanges();
-        expect(summary.nativeElement.hasAttribute('disabled')).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(summary.nativeElement.hasAttribute('disabled')).toBe(false);
         expect(summary.nativeElement.tabIndex).toBe(0);
     });
 
@@ -75,9 +82,9 @@ describe('MagmaExpansionPanel', () => {
     });
 
     it('should emit update event with correct open state when clicking <summary>', () => {
-        spyOn(component.update, 'emit');
+        vi.spyOn(component.update, 'emit');
         summary.triggerEventHandler('click');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(component.update.emit).toHaveBeenCalledWith({
             open: true,
@@ -86,14 +93,14 @@ describe('MagmaExpansionPanel', () => {
     });
 
     it('should toggle the open state when clicking <summary>', () => {
-        expect(details.nativeElement.hasAttribute('open')).toBeFalse();
+        expect(details.nativeElement.hasAttribute('open')).toBe(false);
 
         summary.nativeElement.click();
-        fixture.detectChanges();
-        expect(details.nativeElement.hasAttribute('open')).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(details.nativeElement.hasAttribute('open')).toBe(true);
 
         summary.nativeElement.click();
-        fixture.detectChanges();
-        expect(details.nativeElement.hasAttribute('open')).toBeFalse();
+        fixture.changeDetectorRef.detectChanges();
+        expect(details.nativeElement.hasAttribute('open')).toBe(false);
     });
 });

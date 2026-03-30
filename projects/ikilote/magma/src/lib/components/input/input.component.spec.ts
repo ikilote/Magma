@@ -5,15 +5,15 @@ import { By } from '@angular/platform-browser';
 
 import { MagmaInputCheckbox } from './input-checkbox.component';
 import { MagmaInputElement } from './input-element.component';
-import { MagmaInput } from './input.component';
+import { MagmaInput, MagmaInputAlignMode, MagmaInputReturnValue, MagmaInputTypeValue } from './input.component';
 
-@Component({ selector: 'mg-input-checkbox' })
+@Component({ selector: 'mg-input-checkbox', template: '' })
 class MockMagmaInputCommon {
     host: MagmaInput | null = null;
     refreshTrigger = signal(undefined);
     componentName = 'input-checkbox';
-    getValue = jasmine.createSpy('getValue').and.returnValue(true);
-    onChange = jasmine.createSpy('onChange');
+    getValue = vi.fn().mockReturnValue(true);
+    onChange = vi.fn();
 }
 
 class MockNgControl {}
@@ -22,7 +22,7 @@ class MockNgControl {}
     template: `
         <mg-input
             [id]="'test-id'"
-            [typeValue]="arraytypeValueValue"
+            [typeValue]="typeValue"
             [returnValue]="returnValue"
             [alignMode]="alignMode"
             [id]="id"
@@ -36,9 +36,9 @@ class MockNgControl {}
     imports: [MagmaInput, MagmaInputElement, MagmaInputCheckbox],
 })
 class TestHostComponent {
-    alignMode = '';
-    typeValue = 'default';
-    returnValue = 'default';
+    alignMode = '' as unknown as MagmaInputAlignMode;
+    typeValue = 'default' as MagmaInputTypeValue;
+    returnValue = 'default' as MagmaInputReturnValue;
     id = '';
 }
 
@@ -62,7 +62,14 @@ describe('MagmaInput', () => {
         fixture = TestBed.createComponent(TestHostComponent);
         debugElement = fixture.debugElement.query(By.directive(MagmaInput));
         component = debugElement.componentInstance;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -75,14 +82,14 @@ describe('MagmaInput', () => {
 
     it('should set alignMode correctly', () => {
         fixture.componentInstance.alignMode = 'column';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component.alignMode()).toBe('column');
     });
 
     it('should compute _id based on id or uid', () => {
         expect(component._id()).toMatch(/mg-input-\d+/);
         fixture.componentInstance.id = 'test';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(component._id()).toBe('test');
     });
 
@@ -105,32 +112,32 @@ describe('MagmaInput', () => {
 
     it('should render label with forId', async () => {
         component.forId.set('test');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const labelElement = debugElement.query(By.css('label'));
         expect(labelElement).toBeTruthy();
         expect(labelElement.nativeElement.getAttribute('for')).toBe('test');
     });
 
     it('should set align style not based on alignMode', () => {
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const contentElement = debugElement.query(By.css('.content'));
         expect(contentElement.nativeElement.classList).toContain('row');
 
         fixture.componentInstance.alignMode = 'row';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(contentElement.nativeElement.classList).toContain('row');
     });
 
     it('should set align style based on alignMode', () => {
         fixture.componentInstance.alignMode = 'column';
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const contentElement = debugElement.query(By.css('.content'));
         expect(contentElement.nativeElement.classList).toContain('column');
     });
 
     it('should display error message if _errorMessage is set', () => {
         component._errorMessage.set('Test Error');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = debugElement.query(By.css('.error'));
         expect(errorElement).toBeTruthy();
         expect(errorElement.nativeElement.textContent).toContain('Test Error');

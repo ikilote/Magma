@@ -4,13 +4,7 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 
 import { MagmaInputText } from './input-text.component';
-
-export class MockNgControl {
-    control = {
-        errors: { required: true },
-        touched: true,
-    };
-}
+import { MockNgControl } from './test-helpers';
 
 describe('MagmaInputText', () => {
     let component: MagmaInputText;
@@ -29,7 +23,14 @@ describe('MagmaInputText', () => {
         fixture = TestBed.createComponent(MagmaInputText);
         component = fixture.componentInstance;
         debugElement = fixture.debugElement;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -38,27 +39,27 @@ describe('MagmaInputText', () => {
 
     it('should set type correctly', () => {
         fixture.componentRef.setInput('type', 'email');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.type).toBe('email');
     });
 
     it('should set placeholder correctly', () => {
         fixture.componentRef.setInput('placeholder', 'Test Placeholder');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.placeholder).toBe('Test Placeholder');
     });
 
     it('should set clearCross correctly', () => {
         fixture.componentRef.setInput('clearCross', true);
-        fixture.detectChanges();
-        expect(component.clearCross()).toBeTrue();
+        fixture.changeDetectorRef.detectChanges();
+        expect(component.clearCross()).toBe(true);
     });
 
     it('should set maxlength correctly', () => {
         fixture.componentRef.setInput('maxlength', 50);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         expect(inputElement.maxLength).toBe(50);
     });
@@ -74,7 +75,7 @@ describe('MagmaInputText', () => {
             { label: 'Option 2', value: 'option2' },
             'Option 3',
         ]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const datalistElement = debugElement.query(By.css('datalist'));
         expect(datalistElement).toBeTruthy();
     });
@@ -85,7 +86,7 @@ describe('MagmaInputText', () => {
             { label: 'Option 2', value: 'option2' },
             'Option 3',
         ]);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const options = debugElement.queryAll(By.css('option'));
         expect(options.length).toBe(3);
     });
@@ -93,23 +94,23 @@ describe('MagmaInputText', () => {
     it('should render clear icon if clearCross is true and input has value', () => {
         fixture.componentRef.setInput('clearCross', true);
         component.writeValue('test value');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const clearIcon = debugElement.query(By.css('.icon-remove'));
         expect(clearIcon).toBeTruthy();
     });
 
     it('should call clearField on clear icon click', () => {
-        spyOn(component, 'clearField');
+        vi.spyOn(component, 'clearField');
         fixture.componentRef.setInput('clearCross', true);
         component.writeValue('test value');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const clearIcon = debugElement.query(By.css('.icon-remove'));
         clearIcon.triggerEventHandler('click', {});
         expect(component.clearField).toHaveBeenCalled();
     });
 
     it('should update value on change event', () => {
-        spyOn(component, 'onChange');
+        vi.spyOn(component, 'onChange');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = 'new value';
         inputElement.dispatchEvent(new Event('change'));
@@ -117,7 +118,7 @@ describe('MagmaInputText', () => {
     });
 
     it('should update value on input event', () => {
-        spyOn(component, 'onChange');
+        vi.spyOn(component, 'onChange');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = 'new value';
         inputElement.dispatchEvent(new Event('input'));
@@ -125,8 +126,8 @@ describe('MagmaInputText', () => {
     });
 
     it('should clear input value on clearField', () => {
-        spyOn(component, 'onChange');
-        spyOn(component.update, 'emit');
+        vi.spyOn(component, 'onChange');
+        vi.spyOn(component.update, 'emit');
         component.writeValue('test value');
         component.clearField();
         expect(component.onChange).toHaveBeenCalledWith('');
@@ -134,29 +135,29 @@ describe('MagmaInputText', () => {
     });
 
     it('should call focus on input focus', () => {
-        spyOn(component, 'focus');
+        vi.spyOn(component, 'focus');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.dispatchEvent(new Event('focus'));
         expect(component.focus).toHaveBeenCalledWith(true);
     });
 
     it('should not call onTouched on input focus', () => {
-        spyOn(component, 'onTouched');
+        vi.spyOn(component, 'onTouched');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.dispatchEvent(new Event('focus'));
         expect(component.onTouched).not.toHaveBeenCalled();
     });
 
     it('should call focus on input blur', () => {
-        spyOn(component, 'focus');
+        vi.spyOn(component, 'focus');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.dispatchEvent(new Event('blur'));
         expect(component.focus).toHaveBeenCalledWith(false);
     });
 
     it('should call onTouched on input blur', () => {
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.dispatchEvent(new Event('blur'));
         expect(component.onTouched).toHaveBeenCalled();
@@ -164,8 +165,8 @@ describe('MagmaInputText', () => {
     });
 
     it('should call onTouched and validate on blur if ngControl is present', () => {
-        spyOn(component, 'onTouched');
-        spyOn(component, 'validate');
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
 
         component.ngOnInit();
         component.ngControl = new MockNgControl() as unknown as NgControl;
@@ -179,7 +180,7 @@ describe('MagmaInputText', () => {
 
     it('should display Error if onError is true', () => {
         component['onError'].set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const errorElement = fixture.debugElement.nativeElement.textContent;
         expect(errorElement).toContain('Error');
     });

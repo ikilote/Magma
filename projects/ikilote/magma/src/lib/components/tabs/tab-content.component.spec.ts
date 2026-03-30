@@ -14,7 +14,14 @@ describe('MagmaTabContent', () => {
         fixture = TestBed.createComponent(MagmaTabContent);
         component = fixture.componentInstance;
         fixture.componentRef.setInput('id', 'tab-1');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should not display content when selected is false', () => {
@@ -26,19 +33,19 @@ describe('MagmaTabContent', () => {
     });
 
     it('should have selected set to false by default', () => {
-        expect(component.selected()).toBeFalse();
+        expect(component.selected()).toBe(false);
     });
 
     it('should update selected state', () => {
         component.selected.set(true);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
-        expect(component.selected()).toBeTrue();
+        expect(component.selected()).toBe(true);
     });
 
     it('should set the correct id attribute', () => {
         fixture.componentRef.setInput('id', 'tab-1');
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
 
         expect(fixture.nativeElement.getAttribute('id')).toBe('tab-content-tab-1');
     });
@@ -66,7 +73,7 @@ describe('MagmaTabContent', () => {
 
     it('should not display content when selected is false', () => {
         hostFixture.componentInstance.isSelected = false;
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
 
         const content = hostFixture.debugElement.query(By.css('.content'));
         expect(content).toBeNull();
@@ -74,7 +81,7 @@ describe('MagmaTabContent', () => {
 
     it('should project content when selected is true', () => {
         hostFixture.componentInstance.isSelected = true;
-        hostFixture.detectChanges();
+        hostFixture.changeDetectorRef.detectChanges();
 
         const content = hostFixture.debugElement.query(By.css('.content'));
         expect(content).toBeTruthy();

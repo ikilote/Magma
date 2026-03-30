@@ -1,22 +1,31 @@
+import type { Mocked } from 'vitest';
+
 import { Logger, LoggerLevel } from './logger';
 
 describe('Logger', () => {
     let logger: Logger;
-    let consoleSpy: jasmine.SpyObj<Console>;
+    let consoleSpy: Mocked<Console>;
 
     beforeEach(() => {
         logger = new Logger();
-        consoleSpy = jasmine.createSpyObj('console', ['log', 'info', 'debug', 'warn', 'error']);
-        spyOn(console, 'log').and.callFake(consoleSpy.log);
-        spyOn(console, 'info').and.callFake(consoleSpy.info);
-        spyOn(console, 'debug').and.callFake(consoleSpy.debug);
-        spyOn(console, 'warn').and.callFake(consoleSpy.warn);
-        spyOn(console, 'error').and.callFake(consoleSpy.error);
+        consoleSpy = {
+            log: vi.fn().mockName('console.log'),
+            info: vi.fn().mockName('console.info'),
+            debug: vi.fn().mockName('console.debug'),
+            warn: vi.fn().mockName('console.warn'),
+            error: vi.fn().mockName('console.error'),
+        } as unknown as Mocked<Console>;
+        vi.spyOn(console, 'log').mockImplementation(consoleSpy.log);
+        vi.spyOn(console, 'info').mockImplementation(consoleSpy.info);
+        vi.spyOn(console, 'debug').mockImplementation(consoleSpy.debug);
+        vi.spyOn(console, 'warn').mockImplementation(consoleSpy.warn);
+        vi.spyOn(console, 'error').mockImplementation(consoleSpy.error);
     });
 
     afterEach(() => {
         Logger.minLogLevel = 'info';
         Logger.suffix = '';
+        vi.restoreAllMocks();
     });
 
     // Log level filtering

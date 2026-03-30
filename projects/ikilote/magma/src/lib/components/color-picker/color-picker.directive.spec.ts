@@ -1,6 +1,6 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { Component, DebugElement } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
 import { MagmaColorPicker } from './color-picker.directive';
@@ -33,10 +33,24 @@ describe('MagmaColorPicker Directive', () => {
         fixture = TestBed.createComponent(TestComponent);
         directiveElement = fixture.debugElement.query(By.directive(MagmaColorPicker));
         overlay = TestBed.inject(Overlay);
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         spanElement = fixture.debugElement.query(By.css('.test'));
 
         directive = directiveElement.injector.get(MagmaColorPicker);
+    });
+
+    afterEach(async () => {
+        // Clean up overlay and unsubscribe
+        if (MagmaColorPicker._overlayRef) {
+            MagmaColorPicker._overlayRef.dispose();
+            MagmaColorPicker._overlayRef = undefined;
+            MagmaColorPicker._component = undefined;
+        }
+        
+        // Wait for async operations to complete BEFORE destroying fixture
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        fixture?.destroy();
     });
 
     it('should create directive', () => {
@@ -45,102 +59,105 @@ describe('MagmaColorPicker Directive', () => {
 
     it('should set tabIndex to -1 if disabled', () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         expect(directiveElement.nativeElement.tabIndex).toBe(-1);
     });
 
-    it('should open overlay on click', fakeAsync(() => {
+    it('should open overlay on click', async () => {
         const event = new MouseEvent('click');
-        const eventSpy = spyOn(event, 'preventDefault');
-        tick();
+        const eventSpy = vi.spyOn(event, 'preventDefault');
+        await fixture.whenStable();
         document.querySelector('.test')?.dispatchEvent(event);
         expect(eventSpy).toHaveBeenCalled(); // in open
-    }));
+    });
 
-    it('should not open overlay if disabled', fakeAsync(() => {
+    it('should not open overlay if disabled', async () => {
         fixture.componentInstance.disabled = true;
-        fixture.detectChanges();
+        fixture.changeDetectorRef.detectChanges();
         const event = new MouseEvent('click');
-        const eventSpy = spyOn(event, 'preventDefault');
-        tick();
+        const eventSpy = vi.spyOn(event, 'preventDefault');
+        await fixture.whenStable();
         document.querySelector('.test')?.dispatchEvent(event);
         expect(eventSpy).not.toHaveBeenCalled(); // in open
-    }));
+    });
 
-    it('should create overlay with correct inputs', fakeAsync(() => {
+    it('should create overlay with correct inputs', async () => {
         directive.open();
-        tick();
+        await fixture.whenStable();
         const overlayRef = MagmaColorPicker._overlayRef;
         const component = MagmaColorPicker._component;
         expect(overlayRef).toBeDefined();
         expect(component).toBeDefined();
         expect(component?.instance.color()).toBe('#ff0000');
         expect(component?.instance.alpha()).toBe(false);
-    }));
+    });
 
-    it('should close overlay on escape', fakeAsync(() => {
+    it('should close overlay on escape', async () => {
         directive.open();
-        tick();
+        await fixture.whenStable();
         expect(MagmaColorPicker._overlayRef).toBeDefined();
         document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-        tick();
+        await fixture.whenStable();
         expect(MagmaColorPicker._overlayRef).toBeUndefined();
-    }));
+    });
 
-    it('should close overlay on backdrop click', fakeAsync(() => {
+    it('should close overlay on backdrop click', async () => {
         directive.open();
-        tick();
+        await fixture.whenStable();
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
-        tick();
+        await fixture.whenStable();
         expect(MagmaColorPicker._overlayRef).toBeUndefined();
-    }));
+    });
 
-    it('should emit colorChange on color selection', fakeAsync(() => {
-        spyOn(directive.colorChange, 'emit');
+    it('should emit colorChange on color selection', async () => {
+        vi.spyOn(directive.colorChange, 'emit');
         directive.open();
-        tick();
+        await fixture.whenStable();
         const component = MagmaColorPicker._component;
         component?.instance.colorChange.emit('#00ff00');
-        tick();
+        await fixture.whenStable();
         expect(directive.colorChange.emit).toHaveBeenCalledWith('#00ff00');
-    }));
+    });
 
-    it('should emit colorClose on backdrop click if color changed', fakeAsync(() => {
-        spyOn(directive.colorClose, 'emit');
+    it('should emit colorClose on backdrop click if color changed', async () => {
+        vi.spyOn(directive.colorClose, 'emit');
         directive.open();
-        tick();
+        await fixture.whenStable();
         const component = MagmaColorPicker._component;
         component?.instance.colorChange.emit('#00ff00');
-        tick();
+        await fixture.whenStable();
         document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
-        tick();
+        await fixture.whenStable();
         expect(directive.colorClose.emit).toHaveBeenCalledWith('#00ff00');
-    }));
+    });
 
-    it('should open overlay on space key', fakeAsync(() => {
+    it('should open overlay on space key', async () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
-        const openSpy = spyOn(directive, 'open');
+        const openSpy = vi.spyOn(directive, 'open');
         directiveElement.triggerEventHandler('keydown.space', new KeyboardEvent('keydown', { key: ' ' }));
-        tick();
+        await fixture.whenStable();
         expect(openSpy).toHaveBeenCalled();
-    }));
+    });
 
-    it('should update alpha input dynamically', fakeAsync(() => {
+    it('should update alpha input dynamically', async () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
         directive.open();
-        tick();
+        fixture.changeDetectorRef.detectChanges();
+        await fixture.whenStable();
+
         fixture.componentInstance.alpha = true;
-        fixture.detectChanges();
+
+        fixture.changeDetectorRef.detectChanges();
         const component = MagmaColorPicker._component;
         expect(component?.instance.alpha()).toBe(true);
-    }));
+    });
 
-    it('should clean up on destroy', fakeAsync(() => {
+    it('should clean up on destroy', async () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
         directive.open();
-        tick();
+        await fixture.whenStable();
         directive.ngOnDestroy();
         expect(MagmaColorPicker._overlayRef).toBeUndefined();
         expect(MagmaColorPicker._component).toBeUndefined();
-    }));
+    });
 });

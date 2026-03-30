@@ -16,7 +16,7 @@ describe('randomNumber', () => {
 
     // Test the default size (9 digits)
     it('should return a 9-digit string by default', () => {
-        spyOn(Math, 'random').and.returnValue(0.123456789);
+        vi.spyOn(Math, 'random').mockReturnValue(0.123456789);
 
         const result = randomNumber();
         expect(result).toBeDefined();
@@ -28,7 +28,7 @@ describe('randomNumber', () => {
 
     // Test with a custom size
     it('should return a string of the specified length', () => {
-        spyOn(Math, 'random').and.returnValue(0.12345);
+        vi.spyOn(Math, 'random').mockReturnValue(0.12345);
 
         const size = 5;
         const result = randomNumber(size);
@@ -39,7 +39,7 @@ describe('randomNumber', () => {
 
     // Test with size = 1
     it('should return a 1-digit string when size is 1', () => {
-        spyOn(Math, 'random').and.returnValue(0.56);
+        vi.spyOn(Math, 'random').mockReturnValue(0.56);
 
         const result = randomNumber(1);
         expect(result.length).toBe(1);
@@ -49,7 +49,7 @@ describe('randomNumber', () => {
 
     // Test with size = 0
     it('should return a 1-digit string when size is 1', () => {
-        spyOn(Math, 'random').and.returnValue(0.56);
+        vi.spyOn(Math, 'random').mockReturnValue(0.56);
 
         const result = randomNumber(0);
         expect(result.length).toBe(1);
@@ -59,7 +59,7 @@ describe('randomNumber', () => {
 
     // Test with a large size
     it('should return a string of the specified large length', () => {
-        spyOn(Math, 'random').and.returnValue(0.1234567890123456);
+        vi.spyOn(Math, 'random').mockReturnValue(0.1234567890123456);
 
         const size = 16;
         const result = randomNumber(size);
@@ -70,7 +70,7 @@ describe('randomNumber', () => {
 
     // Test with a size > 16
     it('should return a string of the specified large length', () => {
-        spyOn(Math, 'random').and.returnValue(0.1234567890123456);
+        vi.spyOn(Math, 'random').mockReturnValue(0.1234567890123456);
 
         const size = 50;
         const result = randomNumber(size);
@@ -81,7 +81,7 @@ describe('randomNumber', () => {
 
     // Test with Math.random returning 0
     it('should return a string padded with zeros when Math.random returns 0', () => {
-        spyOn(Math, 'random').and.returnValue(0);
+        vi.spyOn(Math, 'random').mockReturnValue(0);
 
         const size = 5;
         const result = randomNumber(size);
@@ -91,7 +91,7 @@ describe('randomNumber', () => {
 
     // Test with Math.random returning a value very close to 1
     it('should return a string without leading zeros when Math.random returns a value close to 1', () => {
-        spyOn(Math, 'random').and.returnValue(0.9999999999);
+        vi.spyOn(Math, 'random').mockReturnValue(0.9999999999);
 
         const size = 5;
         const result = randomNumber(size);
@@ -102,7 +102,7 @@ describe('randomNumber', () => {
 
     // Test with Math.random to return a small value
     it('should pad the result with leading zeros when necessary', () => {
-        spyOn(Math, 'random').and.returnValue(0.000000001);
+        vi.spyOn(Math, 'random').mockReturnValue(0.000000001);
 
         const size = 5;
         const result = randomNumber(size);

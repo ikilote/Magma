@@ -30,8 +30,7 @@ describe('MagmaInputText', () => {
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
-        // Wait for cleanup
-        await new Promise(resolve => setTimeout(resolve, 10));
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

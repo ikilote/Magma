@@ -17,6 +17,13 @@ describe('MagmaTabContent', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should not display content when selected is false', () => {
         fixture.componentRef.setInput('selected', false);
 

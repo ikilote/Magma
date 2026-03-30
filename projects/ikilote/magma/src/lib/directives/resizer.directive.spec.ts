@@ -67,9 +67,11 @@ describe('MagmaResize Directive', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
-        vi.useRealTimers();
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create an instance', () => {

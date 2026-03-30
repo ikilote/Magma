@@ -47,9 +47,11 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
         directive = inputElement.injector.get(MagmaNgModelChangeDebouncedDirective);
     });
 
-    afterEach(() => {
-        vi.useRealTimers();
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create an instance', () => {

@@ -26,6 +26,13 @@ describe('MagmaLoaderMessage', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should project content inside ng-content', () => {
         const projectedContent = fixture.debugElement.query(By.css('.custom-content'));
         expect(projectedContent).toBeTruthy();

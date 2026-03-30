@@ -20,8 +20,11 @@ describe('MagmaTable', () => {
         } as unknown as MagmaTableData;
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

@@ -47,13 +47,10 @@ describe('MagmaWindowsZone', () => {
     });
 
     afterEach(async () => {
-        // Wait for any pending setTimeout from winInit() to complete
-        await new Promise(resolve => setTimeout(resolve, 10));
-        
         fixture?.destroy();
-        TestBed.resetTestingModule();
         vi.clearAllTimers();
         vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create and initialize with browser dimensions', () => {

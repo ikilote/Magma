@@ -58,8 +58,11 @@ describe('MagmaSortableModule', () => {
         componentInstance = sortRuleDirectiveElement.componentInstance;
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     describe('sort-rule', () => {
@@ -131,6 +134,8 @@ describe('MagmaSortableModule', () => {
             componentInstance.sortRule = { attr: 'name', type: 'string', init: 'desc' };
             fixture.changeDetectorRef.detectChanges();
             sortRuleDirective.ngOnInit();
+            // Second detectChanges to stabilize after ngOnInit
+            fixture.changeDetectorRef.detectChanges();
 
             expect(sortableDirective.currentRule).toEqual({ attr: 'name', type: 'string', init: 'desc' });
             expect(sortableDirective.currentRuleOrder).toBe(false);
@@ -140,6 +145,8 @@ describe('MagmaSortableModule', () => {
             componentInstance.sortRule = [{ attr: 'name', type: 'string', init: 'desc' }];
             fixture.changeDetectorRef.detectChanges();
             sortRuleDirective.ngOnInit();
+            // Second detectChanges to stabilize after ngOnInit
+            fixture.changeDetectorRef.detectChanges();
 
             expect(sortableDirective.currentRule).toEqual([{ attr: 'name', type: 'string', init: 'desc' }]);
             expect(sortableDirective.currentRuleOrder).toBe(false);
@@ -231,6 +238,8 @@ describe('MagmaSortableModule', () => {
                 { name: 'Foo', age: 30 },
                 { name: 'Bar', age: 25 },
             ];
+            // Second detectChanges to stabilize after property change
+            fixture.changeDetectorRef.detectChanges();
             expect(sortableDirective.update).toHaveBeenCalledTimes(0);
         });
 

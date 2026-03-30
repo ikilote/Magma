@@ -50,6 +50,20 @@ describe('MagmaMessages', () => {
         service = TestBed.inject(MagmaMessages);
     });
 
+    afterEach(async () => {
+        // Clean up overlay if it exists
+        if (service['_overlayRef']) {
+            service['_overlayRef'].dispose();
+            service['_overlayRef'] = undefined;
+        }
+
+        // Clear service state
+        service.messages.splice(0, service.messages.length);
+
+        vi.clearAllTimers();
+        vi.useRealTimers();
+    });
+
     describe('addMessage', () => {
         it('should create overlay when adding first message', () => {
             service.addMessage('Test message');

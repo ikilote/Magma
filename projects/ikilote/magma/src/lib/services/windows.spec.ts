@@ -52,6 +52,11 @@ describe('MagmaWindows Service', () => {
         service = TestBed.inject(MagmaWindows);
     });
 
+    afterEach(async () => {
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should be created', () => {
         expect(service).toBeTruthy();
     });

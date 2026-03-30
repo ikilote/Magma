@@ -26,8 +26,11 @@ describe('InfoMessageComponent', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
-        fixture.destroy();
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should display string message', () => {

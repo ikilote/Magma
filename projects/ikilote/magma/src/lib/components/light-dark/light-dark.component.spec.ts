@@ -22,13 +22,20 @@ describe('MagmaLightDark', () => {
         } as unknown as Mocked<LightDark>;
 
         await TestBed.configureTestingModule({
-            imports: [MagmaClickEnterDirective],
+            imports: [MagmaLightDark, MagmaClickEnterDirective],
             providers: [{ provide: LightDark, useValue: lightDarkServiceMock }],
         }).compileComponents();
 
         fixture = TestBed.createComponent(MagmaLightDark);
         component = fixture.componentInstance;
         fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

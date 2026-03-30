@@ -30,6 +30,12 @@ describe('MagmaTabs - Integration', () => {
     let tabMagmaTabContent: DebugElement[];
 
     beforeEach(async () => {
+        // Reset focus before each test to prevent contamination
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
         await TestBed.configureTestingModule({
             imports: [TestHostComponent, MagmaTabs, MagmaTabTitle, MagmaTabContent],
         }).compileComponents();
@@ -44,13 +50,26 @@ describe('MagmaTabs - Integration', () => {
         tabMagmaTabContent = fixture.debugElement.queryAll(By.directive(MagmaTabContent));
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         if (tags.updateInterval) {
             clearInterval(tags.updateInterval);
             tags.updateInterval = undefined;
         }
         window.document.body.style.cssText = '';
+        
+        // Clean up focus before destroying fixture
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
+        document.body.focus();
+        
+        // Wait for async operations to complete BEFORE clearing timers
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should display the content of the first tab by default', () => {
@@ -89,12 +108,31 @@ describe('MagmaTabs - Integration', () => {
         expect(tabMagmaTabContent[1].nativeElement.textContent).toBe('');
     });
 
-    it('should focus tab on returnTabs', () => {
+    it('should focus tab on returnTabs', async () => {
         // Ensure focus is not already on the target element
-        // Focus on body first
+        // Focus on body first and wait for it to settle
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
         document.body.focus();
         
+        // Wait longer for focus to settle and any pending operations
+        await new Promise(resolve => setTimeout(resolve, 150));
+        
+        // Force focus to body again if it moved
+        if (document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement)?.blur();
+            document.body.focus();
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+        
+        // Verify we're starting from a clean state
+        expect(document.activeElement).toBe(document.body);
+        
         tags.returnTabs();
+        
+        // Wait longer for focus to be applied
+        await new Promise(resolve => setTimeout(resolve, 100));
 
         expect(document.activeElement).toBe(tabMagmaTabTitle[0].nativeElement);
     });

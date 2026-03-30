@@ -17,6 +17,13 @@ describe('MagmaSpinner', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });

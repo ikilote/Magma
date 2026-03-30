@@ -27,8 +27,8 @@ describe('MagmaClickEnterDirective', () => {
     let clickableElement: DebugElement;
     let disabledElement: DebugElement;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
             imports: [TestComponent],
         }).compileComponents();
 
@@ -44,6 +44,7 @@ describe('MagmaClickEnterDirective', () => {
 
     afterEach(() => {
         fixture?.destroy();
+        TestBed.resetTestingModule();
     });
 
     it('should create an instance', () => {

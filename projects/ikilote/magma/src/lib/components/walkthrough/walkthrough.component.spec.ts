@@ -64,13 +64,7 @@ describe('MagmaWalkthrough', () => {
             providers: [{ provide: Overlay, useClass: MockOverlay }],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(TestHostComponent);
-        overlay = TestBed.inject(Overlay);
-        component = fixture.debugElement.children[0].componentInstance;
-        fixture.detectChanges();
-
         const rootId = `root${(getTestBed() as any)._rootElementId || 0}`; 
-        const nextRoot = document.createElement('div');
         if (!document.getElementById(rootId)) {
             const el = document.createElement('div');
             el.id = rootId;
@@ -78,12 +72,18 @@ describe('MagmaWalkthrough', () => {
         }
 
         fixture = TestBed.createComponent(TestHostComponent);
+        overlay = TestBed.inject(Overlay);
+        component = fixture.debugElement.children[0].componentInstance;
+        fixture.detectChanges();
     });
 
-    afterEach(() => {
-        vi.restoreAllMocks(); 
-        fixture?.destroy();
+    afterEach(async () => {
+        vi.restoreAllMocks();
         cleanupOverlayContainer();
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

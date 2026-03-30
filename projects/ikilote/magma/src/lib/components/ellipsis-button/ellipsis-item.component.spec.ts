@@ -13,6 +13,13 @@ describe('MagmaEllipsisItemComponent', () => {
         component = fixture.componentInstance;
     });
 
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
     it('should inject MagmaClickEnterDirective and subscribe to clickEnter', () => {
         expect(component['sub']).toBeDefined();
     });

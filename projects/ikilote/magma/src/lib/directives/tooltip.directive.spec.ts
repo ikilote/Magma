@@ -45,7 +45,7 @@ describe('MagmaTooltipDirective', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         // Clean up overlays after each test
         if (MagmaTooltipDirective._overlayRef) {
             MagmaTooltipDirective._overlayRef.dispose();
@@ -54,7 +54,9 @@ describe('MagmaTooltipDirective', () => {
         }
         cleanupOverlayContainer();
         fixture?.destroy();
+        vi.clearAllTimers();
         vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

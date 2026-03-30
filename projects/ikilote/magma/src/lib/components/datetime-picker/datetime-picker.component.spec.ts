@@ -30,11 +30,11 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
-        // Only clear timers if they were actually used
-        // vi.clearAllTimers() is safe to call even if no fake timers
         vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

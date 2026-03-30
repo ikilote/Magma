@@ -65,8 +65,11 @@ describe('MagmaInput', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

@@ -32,9 +32,10 @@ describe('MagmaColorPickerComponent', () => {
     });
 
     afterEach(async () => {
-        // Wait for async operations to complete
-        await new Promise(resolve => setTimeout(resolve, 100));
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

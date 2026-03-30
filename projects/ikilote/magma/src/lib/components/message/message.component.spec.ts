@@ -10,9 +10,20 @@ describe('MagmaMessage', () => {
     let component: MagmaMessage;
 
     beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaMessage],
+        }).compileComponents();
+        
         fixture = TestBed.createComponent(MagmaMessage);
         component = fixture.componentInstance;
         fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should apply "info" class when type is "info"', () => {
@@ -79,7 +90,7 @@ describe('MagmaMessage', () => {
 })
 class TestHostComponent {}
 
-describe('MagmaMessage', () => {
+describe('MagmaMessage - Content Projection', () => {
     let fixture: ComponentFixture<MagmaMessage>;
     let component: MagmaMessage;
 
@@ -91,6 +102,13 @@ describe('MagmaMessage', () => {
         fixture = TestBed.createComponent(MagmaMessage);
         component = fixture.componentInstance;
         fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should project default content inside default ng-content', () => {

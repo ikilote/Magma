@@ -81,7 +81,7 @@ describe('MagmaBlockMessage', () => {
 })
 class TestHostComponent {}
 
-describe('MagmaBlockMessage', () => {
+describe('MagmaBlockMessage - Content Projection', () => {
     let fixture: ComponentFixture<MagmaBlockMessage>;
     let component: MagmaBlockMessage;
 

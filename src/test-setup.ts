@@ -39,9 +39,6 @@ afterEach(async () => {
     // Reset system time if it was mocked
     vi.setSystemTime(Date.now());
     
-    // Wait longer for any pending async operations to complete
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
     // Clean up DOM to prevent contamination between tests
     if (typeof document !== 'undefined') {
         // Reset focus to body
@@ -73,11 +70,8 @@ afterEach(async () => {
         });
     }
     
-    // Reset TestBed AFTER cleanup to allow reconfiguration in next test
-    // This must be done at the very end
-    try {
-        getTestBed().resetTestingModule();
-    } catch (e) {
-        // Ignore errors if TestBed is not yet initialized
-    }
+    // NOTE: We do NOT call TestBed.resetTestingModule() here because it causes
+    // "Cannot configure the test module when the test module has already been instantiated"
+    // errors when tests run in parallel. Each test file should handle its own TestBed
+    // configuration in beforeEach/afterEach if needed.
 });

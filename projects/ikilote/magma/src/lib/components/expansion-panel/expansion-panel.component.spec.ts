@@ -36,8 +36,11 @@ describe('MagmaExpansionPanel', () => {
         summary = fixture.debugElement.query(By.css('summary'));
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should set the "open" attribute on <details> when open is true', () => {

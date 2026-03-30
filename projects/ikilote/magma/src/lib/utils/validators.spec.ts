@@ -3,6 +3,11 @@ import { FormControl } from '@angular/forms';
 import { MagmaValidators } from './validators';
 
 describe('MagmaValidators.inList:', () => {
+    beforeEach(() => {
+        // Ensure clean state before each test
+        vi.restoreAllMocks();
+    });
+
     // 1. Basic validation tests for single values
     describe('Basic Validation (Single Value)', () => {
         it('should return null if the value is in the list (strict mode)', () => {

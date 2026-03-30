@@ -36,8 +36,8 @@ describe('MagmaStopPropagationDirective', () => {
     let innerElement: DebugElement;
     let directive: MagmaStopPropagationDirective;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
             imports: [TestComponent],
         }).compileComponents();
 
@@ -49,8 +49,11 @@ describe('MagmaStopPropagationDirective', () => {
         directive = innerElement.injector.get(MagmaStopPropagationDirective);
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     /** Helper to update inputs without ExpressionChangedAfterItHasBeenCheckedError */

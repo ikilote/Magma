@@ -13,6 +13,10 @@ describe('MagmaInputDate', () => {
     let debugElement: DebugElement;
 
     beforeEach(async () => {
+        // Ensure we start with real timers
+        vi.useRealTimers();
+        vi.clearAllTimers();
+        
         await TestBed.configureTestingModule({
             imports: [MagmaInputDate, FormsModule, ReactiveFormsModule],
         }).compileComponents();
@@ -26,16 +30,10 @@ describe('MagmaInputDate', () => {
     });
 
     afterEach(async () => {
-        // Clear all timers first
-        vi.clearAllTimers();
-        
-        // Use real timers for the cleanup delay
-        vi.useRealTimers();
-        
-        // Wait for async operations to complete
-        await new Promise(resolve => setTimeout(resolve, 50));
-        
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

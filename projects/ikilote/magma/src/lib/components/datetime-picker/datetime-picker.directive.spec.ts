@@ -54,7 +54,7 @@ describe('MagmaDatetimePicker Directive', () => {
         directive = directiveElement.injector.get(MagmaDatetimePicker);
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         if (MagmaDatetimePicker._overlayRef) {
             MagmaDatetimePicker._overlayRef.dispose();
             MagmaDatetimePicker._overlayRef = undefined;

@@ -27,8 +27,12 @@ describe('MagmaInputColor', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterEach(() => {
+    afterEach(async () => {
         fixture?.destroy();
+        
+        // Clear timers AFTER destroying fixture
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     it('should create', () => {

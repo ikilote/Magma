@@ -30,10 +30,11 @@ describe('MagmaTextareaAutosizeDirective', () => {
         directive = textareaEl.injector.get(MagmaTextareaAutosizeDirective);
     });
 
-    afterEach(() => {
+    afterEach(async () => {
+        fixture.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
-        fixture.destroy();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

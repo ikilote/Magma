@@ -48,9 +48,10 @@ describe('MagmaWalkthroughStep', () => {
     });
 
     afterEach(async () => {
-        // Wait for any async operations
-        await new Promise(resolve => setTimeout(resolve, 10));
         fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

@@ -1,5 +1,5 @@
 import { HttpClient, provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, provideZoneChangeDetection, provideZonelessChangeDetection } from '@angular/core';
+import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { provideHighlightOptions } from 'ngx-highlightjs';
@@ -36,7 +36,6 @@ export const appConfig: ApplicationConfig = {
     providers: [
         provideZonelessChangeDetection(),
         provideHttpClient(),
-        provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
         provideHighlightOptions({
             coreLibraryLoader: () => import('highlight.js/lib/core'),

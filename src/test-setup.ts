@@ -2,9 +2,6 @@
 import { getTestBed } from '@angular/core/testing';
 import { BrowserTestingModule, platformBrowserTesting } from '@angular/platform-browser/testing';
 
-import 'zone.js';
-import 'zone.js/testing';
-
 getTestBed().initTestEnvironment(BrowserTestingModule, platformBrowserTesting(), {});
 
 if (typeof Element !== 'undefined' && !Element.prototype.checkVisibility) {
@@ -31,14 +28,14 @@ if (typeof document !== 'undefined') {
 afterEach(async () => {
     // Restore all mocks and spies (important for global objects)
     vi.restoreAllMocks();
-    
+
     // Always reset timers to prevent hanging tests
     vi.clearAllTimers();
     vi.useRealTimers();
-    
+
     // Reset system time if it was mocked
     vi.setSystemTime(Date.now());
-    
+
     // Clean up DOM to prevent contamination between tests
     if (typeof document !== 'undefined') {
         // Reset focus to body
@@ -46,11 +43,11 @@ afterEach(async () => {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         // Clean up ALL overlays and backdrop elements
         const overlays = document.querySelectorAll('.cdk-overlay-container, .cdk-overlay-backdrop, .cdk-overlay-pane');
         overlays.forEach(el => el.remove());
-        
+
         // Clean up content inside root elements
         for (let i = 0; i < 1000; i++) {
             const root = document.getElementById(`root${i}`);
@@ -58,7 +55,7 @@ afterEach(async () => {
                 root.innerHTML = '';
             }
         }
-        
+
         // Clean up any remaining elements that might have been added to body
         const bodyChildren = Array.from(document.body.children);
         bodyChildren.forEach(child => {
@@ -69,7 +66,7 @@ afterEach(async () => {
             }
         });
     }
-    
+
     // NOTE: We do NOT call TestBed.resetTestingModule() here because it causes
     // "Cannot configure the test module when the test module has already been instantiated"
     // errors when tests run in parallel. Each test file should handle its own TestBed

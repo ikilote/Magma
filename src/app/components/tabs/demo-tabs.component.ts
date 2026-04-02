@@ -2,9 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-import { MagmaBlock, MagmaDialog } from '@ikilote/magma';
 
 import {
+    MagmaBlock,
+    MagmaDialog,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputElement,

@@ -1,5 +1,31 @@
 # Changelog of @ikilote/magma
 
+## 1.6.0 (2026-04-04)
+
+> This version of **Magma** marks the beginning of test coverage with **Vitest**.\
+> This allows for better code coverage, including HTML.\
+> Unfortunately, achieving 100% coverage then becomes far too complex.
+> It seems that V8 bugs are preventing complete coverage.
+
+### ✅ New
+
+- **Window** : add parameters over & fixed
+- **Timing** : add `stopAll()`
+
+### 🐞 Fix
+
+- better destruction management:
+    - **color-picker**
+    - **datetime-picker**
+    - **window**
+    - **tooltip**
+    - **autosize**
+
+### 🎦 Demo
+
+- Demo really with **zoneless**
+    - remove `provideZoneChangeDetection()`
+
 ## 1.5.2 (2026-03-08)
 
 ### ✅ New
@@ -198,7 +224,7 @@ Migration assistance: [migrate-colors.js](https://git.ikilote.net/-/project/58/u
 
 ### 🎦 Demo
 
-- Demo with **zoneless**
+- ~~Demo with **zoneless**~~
 - Update to `@ikilote/json2html` `1.0.0`
 
 ## 1.0.0 (2025-11-25)

@@ -19,7 +19,7 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
     private readonly elementRef = inject<ElementRef<HTMLTextAreaElement>>(ElementRef);
 
     readonly autosizeDisabled = input(false, { transform: booleanAttribute });
-    
+
     private destroyed = false;
     private initTimer?: ReturnType<typeof setTimeout>;
 

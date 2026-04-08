@@ -519,7 +519,7 @@ describe('MagmaColorPickerComponent', () => {
             const mockEvent = {
                 layerX: 50,
                 layerY: 50,
-                stopPropagation: vi.fn()
+                stopPropagation: vi.fn(),
             };
 
             component['click'](mockEvent as any);
@@ -598,7 +598,7 @@ describe('MagmaColorPickerComponent', () => {
             const mockEvent = {
                 layerX: 50,
                 layerY: 50,
-                stopPropagation: vi.fn()
+                stopPropagation: vi.fn(),
             };
 
             component['click'](mockEvent as any);
@@ -702,9 +702,9 @@ describe('MagmaColorPickerComponent', () => {
             const mockDragEndEvent = {
                 source: {
                     _dragRef: {
-                        _activeTransform: { x: 50, y: 50 }
-                    }
-                }
+                        _activeTransform: { x: 50, y: 50 },
+                    },
+                },
             };
 
             // Emit the drag ended event directly on the CDK drag instance

@@ -41,14 +41,22 @@
     </p>
     <code-tabs
       class="s-12"
-      [code]="[{ type: 'ts', code: [`const palette = Palette.globalPalette();
+      [code]="[
+        {
+          type: 'ts',
+          code: [
+            `const palette = Palette.globalPalette();
 
 /* clear static cache */
-Palette.globalClear();`, `const palette = new Palette(params);
+Palette.globalClear();`,
+            `const palette = new Palette(params);
 const paletteList =  palette.palette;
 
 /* clear cache */
-palette.clear();`] }]"
+palette.clear();`,
+          ],
+        },
+      ]"
     />
   </div>
   <div class="s-6">

@@ -46,10 +46,10 @@ describe('MagmaColorPicker Directive', () => {
             MagmaColorPicker._overlayRef = undefined;
             MagmaColorPicker._component = undefined;
         }
-        
+
         // Wait for async operations to complete BEFORE destroying fixture
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         fixture?.destroy();
     });
 

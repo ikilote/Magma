@@ -1,14 +1,15 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { Component, ComponentRef } from '@angular/core';
-import { ComponentFixture, getTestBed, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
 
-import { cleanupOverlayContainer } from '../../test-helpers';
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
+
+import { cleanupOverlayContainer } from '../../test-helpers';
 
 class MockOverlayRef {
     backdropClick = () => of({});
@@ -64,7 +65,7 @@ describe('MagmaWalkthrough', () => {
             providers: [{ provide: Overlay, useClass: MockOverlay }],
         }).compileComponents();
 
-        const rootId = `root${(getTestBed() as any)._rootElementId || 0}`; 
+        const rootId = `root${(getTestBed() as any)._rootElementId || 0}`;
         if (!document.getElementById(rootId)) {
             const el = document.createElement('div');
             el.id = rootId;

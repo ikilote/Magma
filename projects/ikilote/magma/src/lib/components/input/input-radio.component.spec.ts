@@ -29,7 +29,7 @@ describe('MagmaInputRadio', () => {
 
     afterEach(async () => {
         fixture?.destroy();
-        
+
         // Clear timers AFTER destroying fixture
         vi.clearAllTimers();
         vi.useRealTimers();

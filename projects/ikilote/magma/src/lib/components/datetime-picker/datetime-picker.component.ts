@@ -12,7 +12,7 @@ import {
     inject,
     input,
     output,
-    signal
+    signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 

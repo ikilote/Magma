@@ -46,7 +46,7 @@ describe('MagmaTabTitle', () => {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
         })
@@ -67,7 +67,7 @@ describe('MagmaTabTitle', () => {
         tabsComponent.titles().forEach(e => ((e as any)['tabs'] = tabsComponent));
 
         fixture.changeDetectorRef.detectChanges();
-        
+
         // Wait for any pending focus operations to complete
         await new Promise(resolve => setTimeout(resolve, 0));
     });
@@ -78,10 +78,10 @@ describe('MagmaTabTitle', () => {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         // Wait for async operations to complete BEFORE clearing timers
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
@@ -129,7 +129,7 @@ describe('MagmaTabTitle', () => {
         // Focus sur le premier élément avant le test
         tabsComponent.titles()[0].element.nativeElement.focus();
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         tabsComponent.titles()[0].focusRight();
         await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);
@@ -139,7 +139,7 @@ describe('MagmaTabTitle', () => {
         // Focus sur le dernier élément avant le test
         tabsComponent.titles()[2].element.nativeElement.focus();
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         tabsComponent.titles()[2].focusRight();
         await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[2].element.nativeElement).toBe(document.activeElement);
@@ -149,7 +149,7 @@ describe('MagmaTabTitle', () => {
         // Focus sur le premier élément avant le test
         tabsComponent.titles()[0].element.nativeElement.focus();
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         tabsComponent.titles()[0].focusLeft();
         await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[0].element.nativeElement).toBe(document.activeElement);
@@ -159,7 +159,7 @@ describe('MagmaTabTitle', () => {
         // Focus sur le dernier élément avant le test
         tabsComponent.titles()[2].element.nativeElement.focus();
         await new Promise(resolve => setTimeout(resolve, 100));
-        
+
         tabsComponent.titles()[2].focusLeft();
         await new Promise(resolve => setTimeout(resolve, 100));
         expect(tabsComponent.titles()[1].element.nativeElement).toBe(document.activeElement);

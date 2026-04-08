@@ -1,16 +1,16 @@
 import { CommonModule } from '@angular/common';
 import {
-  AfterContentChecked,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  OnChanges,
-  SimpleChanges,
-  computed,
-  contentChildren,
-  inject,
-  input,
-  signal,
+    AfterContentChecked,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnChanges,
+    SimpleChanges,
+    computed,
+    contentChildren,
+    inject,
+    input,
+    signal,
 } from '@angular/core';
 import { NgControl } from '@angular/forms';
 

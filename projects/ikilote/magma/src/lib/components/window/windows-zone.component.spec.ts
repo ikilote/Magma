@@ -5,10 +5,10 @@ import { By } from '@angular/platform-browser';
 import { AbstractWindowComponent, MagmaWindowInfos } from './window.component';
 import { MagmaWindowsZone } from './windows-zone.component';
 
-@Component({ 
-    selector: 'mg-test', 
+@Component({
+    selector: 'mg-test',
     template: `<button (click)="close()">close</button>`,
-    standalone: true
+    standalone: true,
 })
 class TestComponent extends AbstractWindowComponent {
     override close() {
@@ -40,7 +40,7 @@ describe('MagmaWindowsZone', () => {
         // Using the modern setInput API for Signal inputs
         fixture.componentRef.setInput('windows', mockWindows);
         fixture.changeDetectorRef.detectChanges();
-        
+
         // Wait for async operations to complete
         await fixture.whenStable();
         fixture.changeDetectorRef.detectChanges();
@@ -115,7 +115,7 @@ describe('MagmaWindowsZone', () => {
 
             // Emit the onClose output event
             windowComponent.onClose.emit();
-            
+
             // Wait for Angular to process the event
             await Promise.resolve();
             fixture.changeDetectorRef.detectChanges();

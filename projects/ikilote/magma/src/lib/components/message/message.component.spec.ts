@@ -13,7 +13,7 @@ describe('MagmaMessage', () => {
         await TestBed.configureTestingModule({
             imports: [MagmaMessage],
         }).compileComponents();
-        
+
         fixture = TestBed.createComponent(MagmaMessage);
         component = fixture.componentInstance;
         fixture.changeDetectorRef.detectChanges();

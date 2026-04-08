@@ -90,10 +90,10 @@ describe('MagmaLimitFocusDirective', () => {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         // Wait for async operations to complete BEFORE clearing timers
         await new Promise(resolve => setTimeout(resolve, 10));
-        
+
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
@@ -153,11 +153,11 @@ describe('MagmaLimitFocusDirective', () => {
         // Ensure we start with a clean focus state
         document.body.focus();
         await new Promise(resolve => setTimeout(resolve, 10));
-        
+
         // Start by focusing the first input
         input1.focus();
         fixture.changeDetectorRef.detectChanges();
-        
+
         // Wait for focus to settle
         await new Promise(resolve => setTimeout(resolve, 50));
         expect(document.activeElement).toBe(input1);
@@ -169,7 +169,7 @@ describe('MagmaLimitFocusDirective', () => {
         containerElement.appendChild(newButton);
         fixture.changeDetectorRef.detectChanges();
         await fixture.whenStable();
-        
+
         // Wait much longer for MutationObserver to detect the change and update the focusable elements list
         // MutationObserver timing is unpredictable in parallel test execution
         await new Promise(resolve => setTimeout(resolve, 500));
@@ -190,7 +190,7 @@ describe('MagmaLimitFocusDirective', () => {
 
         simulateTab(); // button2 -> newButton (if MutationObserver detected it) or input1 (wrap around)
         await new Promise(resolve => setTimeout(resolve, 50));
-        
+
         // Due to MutationObserver timing issues in parallel execution, accept either:
         // - newButton (if MutationObserver was fast enough)
         // - input1 (if we wrapped around before MutationObserver updated the list)
@@ -206,7 +206,7 @@ describe('MagmaLimitFocusDirective', () => {
         }
 
         await fixture.whenStable();
-        
+
         // Clean up the dynamically added element
         newButton.remove();
     });
@@ -219,10 +219,10 @@ describe('MagmaLimitFocusDirective', () => {
 
         // Get the directive's cleanup behavior
         const activeBeforeDestroy = document.activeElement;
-        
+
         // Destroy the directive (will be destroyed again in afterEach, but that's ok)
         limitFocusDirective.ngOnDestroy();
-        
+
         // The focus should be restored
         expect(document.activeElement).toBe(originElement);
         document.body.removeChild(originElement);
@@ -461,10 +461,10 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
-        
+
         // Wait for async operations to complete BEFORE clearing timers
         await new Promise(resolve => setTimeout(resolve, 10));
-        
+
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();

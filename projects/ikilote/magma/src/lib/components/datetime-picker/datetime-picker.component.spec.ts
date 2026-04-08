@@ -800,7 +800,6 @@ describe('MagmaDatetimePickerComponent', () => {
         });
     });
 
-
     describe('Template event handlers', () => {
         beforeEach(() => {
             fixture.componentRef.setInput('type', 'datetime-milli');

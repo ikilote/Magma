@@ -11,9 +11,9 @@
           type: 'ts',
           code: [
             { title: `flattenedListItems('test1, test2, test3')`, code: (test1 | json) },
-            { title: `flattenedListItems('test1, test2, test3')`, code: (`${test2 | json}`) },
-            { title: `flattenedListItems(['test1, test2, test3', ['test4']])`, code: (`${test3 | json}`) },
-            { title: `flattenedListItems(['test1  test2  test3', ['test4']], /\s+/)`, code: (`${test4 | json}`) },
+            { title: `flattenedListItems('test1, test2, test3')`, code: `${(test2 | json)}` },
+            { title: `flattenedListItems(['test1, test2, test3', ['test4']])`, code: `${(test3 | json)}` },
+            { title: `flattenedListItems(['test1  test2  test3', ['test4']], /\s+/)`, code: `${(test4 | json)}` },
           ],
         },
       ]"

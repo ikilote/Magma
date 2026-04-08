@@ -2,9 +2,10 @@ import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { cleanupOverlayContainer } from '../../test-helpers';
 import { MagmaDatetimePickerDays, MagmaDatetimeType } from './datetime-picker.component';
 import { MagmaDatetimePicker } from './datetime-picker.directive';
+
+import { cleanupOverlayContainer } from '../../test-helpers';
 
 @Component({
     template: `

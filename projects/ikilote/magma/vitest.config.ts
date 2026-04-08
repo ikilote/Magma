@@ -1,4 +1,5 @@
 import { playwright } from '@vitest/browser-playwright';
+
 import { resolve } from 'path';
 import { defineConfig } from 'vitest/config';
 

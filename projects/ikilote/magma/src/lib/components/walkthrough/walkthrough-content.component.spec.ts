@@ -3,10 +3,11 @@ import { PortalModule } from '@angular/cdk/portal';
 import { Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { cleanupOverlayContainer } from '../../test-helpers';
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
+
+import { cleanupOverlayContainer } from '../../test-helpers';
 
 @Component({
     template: `

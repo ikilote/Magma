@@ -86,9 +86,7 @@ describe('MagmaTableGroup', () => {
     it('should not override existing host and table in ngAfterViewChecked', () => {
         const existingHost = { test: 'host' } as any;
         const existingTable = { test: 'table' } as any;
-        const mockRows = [
-            { host: existingHost, table: existingTable },
-        ] as unknown as MagmaTableRow[];
+        const mockRows = [{ host: existingHost, table: existingTable }] as unknown as MagmaTableRow[];
 
         (component as any)['inputs'] = () => mockRows;
 

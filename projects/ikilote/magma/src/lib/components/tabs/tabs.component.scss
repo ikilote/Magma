@@ -1,4 +1,7 @@
 :host {
+    display: block;
+    min-width: 0;
+
     div {
         all: unset;
     }
@@ -9,6 +12,7 @@
         align-items: stretch;
         margin-bottom: 5px;
         min-height: 42px;
+        min-width: 0;
 
         nav {
             display: flex;
@@ -16,6 +20,7 @@
             gap: 10px;
             border-bottom: 1px solid var(--tabs-line-color);
             overflow-y: auto;
+            min-width: 0;
         }
 
         button {
@@ -32,6 +37,7 @@
     .content {
         display: block;
         width: 100%;
+        box-sizing: border-box;
     }
 
     .visually-hidden-focusable button {

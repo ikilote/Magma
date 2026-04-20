@@ -1,11 +1,17 @@
 :host {
-    display: block;
+    display: flex;
     box-shadow: var(--block-shadow);
     border: var(--block-border);
     border-radius: var(--block-radius);
 
+    // fix grid
+    --grid-cell-padding: 0;
+
     & > div {
         margin: var(--block-margin);
+        width: calc(100% - var(--block-margin) * 2);
+        min-width: 0;
+        height: calc(100% - var(--block-margin) * 2);
     }
 
     &[tabindex]:not(button, a[href]):hover {

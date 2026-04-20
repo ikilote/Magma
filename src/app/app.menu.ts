@@ -1,6 +1,9 @@
 export const menu = [
     {
-        items: [{ routerLink: '/home', label: 'Install' }],
+        items: [
+            { routerLink: '/', label: 'Home' },
+            { routerLink: '/home', label: 'Installation' },
+        ],
     },
     {
         groupName: 'Components',

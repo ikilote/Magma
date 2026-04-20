@@ -1,0 +1,139 @@
+<section class="hero">
+  <div class="hero-content">
+    <img src="/assets/images/magma.svg" alt="Magma logo" class="hero-logo" />
+    <div>
+      <h1>Magma</h1>
+      <p class="hero-desc">A modern, accessible and customizable Angular component library.</p>
+      <div class="hero-actions">
+        <a routerLink="/home" class="button primary">Get started</a>
+        <a href="https://www.npmjs.com/package/@ikilote%2Fmagma" target="_blank" rel="noopener" class="button">npm</a>
+        <a href="https://git.ikilote.net/angular/magma" target="_blank" rel="noopener" class="button">GitLab</a>
+        <a href="https://github.com/ikilote/Magma" target="_blank" rel="noopener" class="button">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="showcase">
+  <h2>Component preview</h2>
+  <div class="gap">
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Progress</h3>
+        <div class="preview">
+          <mg-progress [loaded]="65" [total]="100" />
+          <mg-progress [loaded]="40" [total]="100" />
+          <mg-progress [loaded]="80" [total]="100" />
+        </div>
+        <a routerLink="/component/progress">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Message</h3>
+        <div class="preview">
+          <mg-message type="info"><div>Information</div></mg-message>
+          <mg-message type="success"><div>Success</div></mg-message>
+          <mg-message type="warn"><div>Warning</div></mg-message>
+          <mg-message type="error"><div>Error</div></mg-message>
+        </div>
+        <a routerLink="/component/message">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Tabs</h3>
+        <div class="preview">
+          <mg-tabs>
+            <mg-tab-title id="t1">First</mg-tab-title>
+            <mg-tab-title id="t2">Second</mg-tab-title>
+            <mg-tab-title id="t3">Third</mg-tab-title>
+            <mg-tab-content id="t1">Content of the first tab.</mg-tab-content>
+            <mg-tab-content id="t2">Content of the second tab.</mg-tab-content>
+            <mg-tab-content id="t3">Content of the third tab.</mg-tab-content>
+          </mg-tabs>
+        </div>
+        <a routerLink="/component/tabs">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Color picker</h3>
+        <div class="preview">
+          <color-picker color="#3584e4" />
+        </div>
+        <a routerLink="/component/color-picker">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Datetime picker</h3>
+        <div class="preview">
+          <datetime-picker [value]="today" />
+        </div>
+        <a routerLink="/component/datetime-picker">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Contrib calendar</h3>
+        <div class="preview preview-calendar">
+          <mg-contrib-calendar [calendar]="calendar" />
+        </div>
+        <a routerLink="/component/contrib-calendar">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Loader block</h3>
+        <div class="preview">
+          <mg-loader-block>
+            <mg-loader-tile />
+            <mg-loader-tile />
+            <mg-loader-tile size="100% / 40px" />
+          </mg-loader-block>
+        </div>
+        <a routerLink="/component/loader-block">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Spinner</h3>
+        <div class="preview center">
+          <mg-spinner [size]="60" />
+        </div>
+        <a routerLink="/component/spinner">See docs →</a>
+      </div>
+    </mg-block>
+  </div>
+</section>
+
+<section class="categories">
+  <h2>Explore the library</h2>
+  <div class="gap">
+    @for (cat of categories; track cat.name) {
+      <mg-block class="s-2 s-4-x s-6-l s-12-m">
+        <a [routerLink]="cat.link" class="category-card">
+          <div class="category-header">
+            <span class="category-name">{{ cat.name }}</span>
+            <span class="category-count">{{ cat.count }}</span>
+          </div>
+          <span class="category-desc">{{ cat.description }}</span>
+        </a>
+      </mg-block>
+    }
+  </div>
+</section>
+
+<section class="install">
+  <h2>Installation</h2>
+  <pre><code>npm install @ikilote/magma</code></pre>
+  <a routerLink="/home" class="button primary">See the full guide</a>
+</section>

@@ -50,20 +50,13 @@ a {
     MARK: Button
 */
 
-button {
+button,
+a.button {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     max-width: 100%;
 
-    &:disabled {
-        opacity: var(--button-disabled-opacity);
-        cursor: default;
-
-        --button-default-hover-border-color: var(--button-default-border-color);
-        --button-default-hover-background: var(--button-default-background);
-        --button-default-hover-box-shadow: var(--button-default-box-shadow);
-    }
     &.primary {
         --button-default-border-color: var(--button-primary-border-color);
         --button-default-background: var(--button-primary-background);
@@ -73,12 +66,6 @@ button {
         --button-default-hover-border-color: var(--button-primary-hover-border-color);
         --button-default-hover-background: var(--button-primary-hover-background);
         --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
-
-        &:disabled {
-            --button-default-hover-border-color: var(--button-primary-border-color);
-            --button-default-hover-background: var(--button-primary-background);
-            --button-default-hover-box-shadow: var(--button-primary-box-shadow);
-        }
     }
 
     &.warn {
@@ -90,12 +77,29 @@ button {
         --button-default-hover-border-color: var(--button-warn-hover-border-color);
         --button-default-hover-background: var(--button-warn-hover-background);
         --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
+    }
+}
 
-        &:disabled {
-            --button-default-hover-border-color: var(--button-warn-border-color);
-            --button-default-hover-background: var(--button-warn-background);
-            --button-default-hover-box-shadow: var(--button-warn-box-shadow);
-        }
+button {
+    &:disabled {
+        opacity: var(--button-disabled-opacity);
+        cursor: default;
+
+        --button-default-hover-border-color: var(--button-default-border-color);
+        --button-default-hover-background: var(--button-default-background);
+        --button-default-hover-box-shadow: var(--button-default-box-shadow);
+    }
+
+    &.primary:disabled {
+        --button-default-hover-border-color: var(--button-primary-border-color);
+        --button-default-hover-background: var(--button-primary-background);
+        --button-default-hover-box-shadow: var(--button-primary-box-shadow);
+    }
+
+    &.warn:disabled {
+        --button-default-hover-border-color: var(--button-warn-border-color);
+        --button-default-hover-background: var(--button-warn-background);
+        --button-default-hover-box-shadow: var(--button-warn-box-shadow);
     }
 }
 
@@ -119,7 +123,8 @@ button {
 */
 
 button,
-input::file-selector-button {
+input::file-selector-button,
+a.button {
     cursor: pointer;
     margin: 0 5px;
     outline: none;
@@ -129,33 +134,27 @@ input::file-selector-button {
     background: var(--button-default-background);
     padding: 10px;
     color: var(--button-default-color);
-    caret-color: transparent;
     font-size: 110%;
+    text-decoration: none;
 }
 
 button,
 input::file-selector-button {
-    cursor: pointer;
-    margin: 0 5px;
-    outline: none;
-    box-shadow: 0 0 1px var(--button-default-box-shadow);
-    border: 2px solid var(--button-default-border-color);
-    border-radius: 5px;
-    background: var(--button-default-background);
-    padding: 10px;
-    color: var(--button-default-color);
     caret-color: transparent;
-    font-size: 110%;
 }
+
 button:hover,
-input::file-selector-button:hover {
+input::file-selector-button:hover,
+a.button:hover {
     box-shadow: 0 0 6px var(--button-default-hover-box-shadow);
     border: 2px solid var(--button-default-hover-border-color);
     background: var(--button-default-hover-background);
+    color: var(--button-default-color);
 }
 
 button:focus,
-input::file-selector-button:focus {
+input::file-selector-button:focus,
+a.button:focus {
     border-color: var(--button-default-focus-border-color);
 }
 
@@ -545,6 +544,7 @@ select2 {
 ) {
     flex: 0 0 calc(var(--size) - var(--grid-gap, 0px));
     margin-inline-start: calc(var(--grid-gap, 0px));
+    min-width: 0;
     max-width: var(--size);
 }
 

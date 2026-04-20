@@ -5,7 +5,7 @@
         margin: var(--message-margin);
     }
 
-    & > .block:not(:has(> :first-child)) {
+    & > .block:not(:has(> :first-child)):has(~ *) {
         display: none;
     }
 

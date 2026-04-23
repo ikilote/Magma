@@ -1,4 +1,9 @@
 :host {
+    --flame-red: #ff0000;
+    --flame-orange: #ff4500;
+    --flame-yellow: #ff6347;
+    --flame-bright-yellow: #ff8c00;
+
     display: block;
     padding: 20px;
 }
@@ -7,14 +12,14 @@ header {
     display: flex;
     justify-content: center;
     margin: -20px -20px 40px;
-    background: linear-gradient(135deg, var(--primary100) 0%, var(--neutral100) 100%);
+    background: linear-gradient(-135deg, var(--primary300) -5%, var(--primary200) 95%);
     padding: 60px 20px;
 
     .header-content {
         display: flex;
         align-items: center;
         gap: 32px;
-        max-width: 700px;
+        max-width: 750px;
     }
 
     .header-logo {
@@ -47,6 +52,7 @@ header {
     display: flex;
     flex-direction: column;
     height: 100%;
+    overflow: hidden;
 
     h3 {
         margin-top: 0;
@@ -129,5 +135,70 @@ header {
         .header-actions {
             justify-content: center;
         }
+    }
+}
+
+.flame-text {
+    animation:
+        flame 1.2s ease-in-out infinite alternate,
+        flicker 0.08s ease-in-out infinite alternate;
+    text-shadow:
+        0 0 10px var(--flame-red),
+        0 0 20px var(--flame-orange),
+        0 0 30px var(--flame-yellow),
+        0 0 50px var(--flame-bright-yellow),
+        0 0 80px var(--flame-orange),
+        0 0 120px var(--flame-red),
+        0 0 200px var(--flame-yellow);
+}
+
+@keyframes flame {
+    0% {
+        text-shadow:
+            0 0 10px var(--flame-red),
+            0 0 20px var(--flame-orange),
+            0 0 30px var(--flame-yellow),
+            0 0 50px var(--flame-bright-yellow),
+            0 0 80px var(--flame-orange),
+            0 0 120px var(--flame-red),
+            0 0 200px var(--flame-yellow);
+    }
+    50% {
+        text-shadow:
+            0 0 15px var(--flame-orange),
+            0 0 25px var(--flame-yellow),
+            0 0 40px var(--flame-bright-yellow),
+            0 0 65px var(--flame-orange),
+            0 0 100px var(--flame-yellow),
+            0 0 150px var(--flame-red),
+            0 0 250px var(--flame-bright-yellow);
+    }
+    100% {
+        text-shadow:
+            0 0 20px var(--flame-yellow),
+            0 0 35px var(--flame-bright-yellow),
+            0 0 50px var(--flame-orange),
+            0 0 75px var(--flame-yellow),
+            0 0 120px var(--flame-bright-yellow),
+            0 0 180px var(--flame-orange),
+            0 0 300px var(--flame-red);
+    }
+}
+
+@keyframes flicker {
+    0%,
+    19%,
+    21%,
+    23%,
+    25%,
+    54%,
+    56%,
+    100% {
+        opacity: 1;
+    }
+    20%,
+    24%,
+    55% {
+        opacity: 0.7;
     }
 }

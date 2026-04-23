@@ -1,5 +1,27 @@
 # Changelog of @ikilote/magma
 
+## 1.6.1 (2026-04-23)
+
+### ✅ New
+
+- add link with bouton style
+
+### 🐞 Fix
+
+- fix CSS for:
+    - block,
+    - contribute calendar,
+    - message,
+    - progress,
+    - loader-block,
+    - tabs,
+    - boutons,
+    - grid
+
+### 🎦 Demo
+
+- add homepage
+
 ## 1.6.0 (2026-04-04)
 
 > This version of **Magma** marks the beginning of test coverage with **Vitest**.\

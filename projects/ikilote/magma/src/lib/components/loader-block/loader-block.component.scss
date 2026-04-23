@@ -2,4 +2,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    width: 100%;
+    width: -moz-available;
+    width: -webkit-fill-available;
+    width: stretch;
 }

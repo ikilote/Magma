@@ -94,7 +94,8 @@ main {
 }
 
 :host.hide-aside {
-    aside {
+    aside,
+    .mobile-menu {
         display: none;
     }
 

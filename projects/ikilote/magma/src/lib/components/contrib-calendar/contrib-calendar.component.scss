@@ -3,18 +3,22 @@
     position: relative;
     width: 100%;
     max-width: 100%;
-    overflow-x: auto;
-    scrollbar-gutter: stable;
 }
 
 .calendar {
-    display: grid;
-    grid-template-rows: repeat(8, var(--contrib-calendar-tile-size));
-    grid-template-columns: repeat(auto-fill, var(--contrib-calendar-tile-size));
-    grid-auto-flow: column;
-    gap: 5px;
-    margin-bottom: 5px;
-    width: calc((var(--contrib-calendar-tile-size) + 5px) * var(--size));
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-gutter: stable;
+
+    & > div {
+        display: grid;
+        grid-template-rows: repeat(8, var(--contrib-calendar-tile-size));
+        grid-template-columns: repeat(auto-fill, var(--contrib-calendar-tile-size));
+        grid-auto-flow: column;
+        gap: 5px;
+        padding-bottom: 10px;
+        width: calc((var(--contrib-calendar-tile-size) + 5px) * var(--size));
+    }
 }
 
 .day {

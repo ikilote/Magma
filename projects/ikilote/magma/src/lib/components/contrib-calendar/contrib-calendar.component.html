@@ -1,22 +1,24 @@
 <div class="calendar">
-  <div class="day">
-    @for (day of computedDays(); track $index) {
-      <div>{{ day }}</div>
-    }
-  </div>
-  <div class="month">
-    @for (month of mouths(); track $index) {
-      <div style="--pos: {{ month.pos }}">{{ month.name }}</div>
-    }
-  </div>
-  <div class="tile" style="--first-pos: {{ firstPos() }}">
-    @for (i of computedCalendar(); track $index) {
-      <div
-        title="{{ i.date | date: 'dd/MM/y' }} : {{ i.value }}"
-        [class.odd]="i.odd"
-        [style.--color]="getColor(i.value)"
-      ></div>
-    }
+  <div>
+    <div class="day">
+      @for (day of computedDays(); track $index) {
+        <div>{{ day }}</div>
+      }
+    </div>
+    <div class="month">
+      @for (month of mouths(); track $index) {
+        <div style="--pos: {{ month.pos }}">{{ month.name }}</div>
+      }
+    </div>
+    <div class="tile" style="--first-pos: {{ firstPos() }}">
+      @for (i of computedCalendar(); track $index) {
+        <div
+          title="{{ i.date | date: 'dd/MM/y' }} : {{ i.value }}"
+          [class.odd]="i.odd"
+          [style.--color]="getColor(i.value)"
+        ></div>
+      }
+    </div>
   </div>
 </div>
 <div class="desc">

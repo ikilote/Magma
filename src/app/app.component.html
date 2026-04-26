@@ -44,6 +44,7 @@
           <a
             [routerLink]="item.routerLink"
             routerLinkActive="selected"
+            [routerLinkActiveOptions]="{ exact: true }"
             ariaCurrentWhenActive="page"
             [innerHTML]="item.label"
             [ngClass]="item.status"

@@ -131,6 +131,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
         const value = this.getValue();
         this.onChange(value);
         this.update.emit(value);
+        this.change.emit(value);
         this.itemUpdate.emit(this.testChecked!);
 
         this.onTouched();

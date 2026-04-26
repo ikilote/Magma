@@ -83,6 +83,7 @@ export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: strin
         );
         this._value = value;
         this.onChange(value);
+        this.change.emit(value);
         return value;
     }
 
@@ -131,16 +132,12 @@ export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: strin
     private forceValue(value: number | undefined) {
         if (this.forceMinMax()) {
             const min = this.min();
-            if (min !== undefined && !Number.isNaN(min)) {
-                if ((value || 0) < min) {
-                    value = min;
-                }
+            if (min !== undefined && !Number.isNaN(min) && (value || 0) < min) {
+                value = min;
             }
             const max = this.max();
-            if (max !== undefined && !Number.isNaN(max)) {
-                if ((value || 0) > max) {
-                    value = max;
-                }
+            if (max !== undefined && !Number.isNaN(max) && (value || 0) > max) {
+                value = max;
             }
         }
         return value;

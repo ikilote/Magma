@@ -1,4 +1,13 @@
-export const menu = [
+export type Menu = {
+    groupName?: string;
+    items: {
+        routerLink: string;
+        label: string;
+        status?: 'new' | 'update';
+    }[];
+}[];
+
+export const menu: Menu = [
     {
         items: [
             { routerLink: '/', label: 'Home' },

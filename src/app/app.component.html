@@ -4,14 +4,21 @@
     <div class="title">
       <h2>
         <img src="/assets/images/magma.svg" alt="logo" />
-        <div>Magma</div>
+        <div>{{ title }}</div>
         <small>{{ version }}</small>
       </h2>
       <button class="mobile-menu" (click)="toggleMenu(false)">×</button>
     </div>
+    <div>
+      <mg-input class="s-12">
+        <mg-input-text clearCross placeholder="search" (change)="updateMenu($event)" />
+      </mg-input>
+    </div>
     <nav class="content">
       @for (group of contentMenu; track $index) {
         <ng-container [ngTemplateOutlet]="groupTemplate" [ngTemplateOutletContext]="{ lvl: 1, groupItem: group }" />
+      } @empty {
+        <p>No result</p>
       }
     </nav>
     <div class="info">

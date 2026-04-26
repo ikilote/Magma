@@ -2,17 +2,19 @@ import { CommonModule, NgTemplateOutlet } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { filter, map } from 'rxjs';
 
 import { Json2html } from '@ikilote/json2html';
 
-import { menu } from './app.menu';
+import { filter, map } from 'rxjs';
+
+import { Menu, menu } from './app.menu';
 
 import {
     LightDark,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputElement,
+    MagmaInputText,
     MagmaLightDark,
 } from '../../projects/ikilote/magma/src/public-api';
 import { environment } from '../environments/environment';
@@ -30,6 +32,7 @@ import { environment } from '../environments/environment';
         MagmaInput,
         MagmaInputElement,
         MagmaInputCheckbox,
+        MagmaInputText,
     ],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
@@ -43,12 +46,12 @@ export class AppComponent {
     private readonly lightDark = inject(LightDark);
     private readonly router = inject(Router);
 
-    title = '@ikilote/magma';
+    title = 'Magma';
     version = environment.version;
     menu = false;
     isHome = false;
 
-    contentMenu = menu;
+    contentMenu: Menu = menu;
 
     dir: 'rtl' | 'ltr' = 'ltr';
 
@@ -68,5 +71,14 @@ export class AppComponent {
 
     toggleMenu(state?: boolean) {
         this.menu = state ?? !this.menu;
+    }
+
+    updateMenu(event: string) {
+        const searchTerm = event.trim().toLowerCase();
+        this.contentMenu = menu.filter(
+            item =>
+                item.groupName?.toLowerCase().includes(searchTerm) ||
+                item.items?.some(child => child.label.toLowerCase().includes(searchTerm)),
+        );
     }
 }

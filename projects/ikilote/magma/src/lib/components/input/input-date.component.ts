@@ -466,6 +466,7 @@ export class MagmaInputDate
         if (change) {
             this.onChange(valueDate);
             this.update.emit(valueDate);
+            this.change.emit(valueDate);
         }
     }
 

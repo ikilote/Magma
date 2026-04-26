@@ -47,6 +47,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     readonly readonly = input(false, { transform: booleanAttribute });
 
     readonly update = output<any>();
+    readonly change = output<any>();
 
     readonly componentName: string = 'input-common';
     protected counter = 0;

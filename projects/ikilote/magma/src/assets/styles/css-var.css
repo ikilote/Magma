@@ -144,12 +144,12 @@ body {
     /* MARK: default button */
     --button-disabled-opacity: 0.25;
 
-    --button-default-border-color: var(--neutral500);
-    --button-default-background: var(--neutral300);
+    --button-default-border-color: var(--neutral300);
+    --button-default-background: var(--neutral200);
     --button-default-box-shadow: var(--neutral500);
     --button-default-color: var(--neutral950);
     --button-default-hover-border-color: var(--neutral100);
-    --button-default-hover-background: var(--neutral400);
+    --button-default-hover-background: var(--neutral300);
     --button-default-hover-box-shadow: var(--neutral300);
     --button-default-focus-border-color: var(--input-focus-color);
 
@@ -240,7 +240,7 @@ body {
     /* MARK: datetime-picker */
     --datetime-picker-embedded-background: var(--neutral050);
     --datetime-picker-head-background: var(--neutral100);
-    --datetime-picker-day-color: var(--neutral300);
+    --datetime-picker-day-color: var(--neutral500);
     --datetime-picker-day-background: var(--neutral100);
     --datetime-picker-day-current-month-background: var(--neutral200);
     --datetime-picker-day-current-month-color: var(--neutral800);

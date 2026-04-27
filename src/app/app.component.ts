@@ -75,10 +75,15 @@ export class AppComponent {
 
     updateMenu(event: string) {
         const searchTerm = event.trim().toLowerCase();
-        this.contentMenu = menu.filter(
-            item =>
-                item.groupName?.toLowerCase().includes(searchTerm) ||
-                item.items?.some(child => child.label.toLowerCase().includes(searchTerm)),
-        );
+        this.contentMenu = menu
+            .map(group => ({
+                ...group,
+                items: group.items.filter(
+                    child =>
+                        child.label.toLowerCase().includes(searchTerm) ||
+                        child.keys?.some(key => key.toLowerCase().includes(searchTerm)),
+                ),
+            }))
+            .filter(group => group.items.length > 0);
     }
 }

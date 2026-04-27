@@ -1,4 +1,6 @@
 :host {
+    max-width: 100%;
+
     .tab-hsl {
         display: grid;
         grid-template:
@@ -22,6 +24,11 @@
         }
     }
 }
+
+mg-tab-content {
+    overflow: auto;
+}
+
 .value {
     display: flex;
     grid-area: value;
@@ -40,7 +47,6 @@
 }
 .values {
     display: grid;
-    grid-area: values;
     grid-template:
         'color-view hsla'
         'color-view rgba'

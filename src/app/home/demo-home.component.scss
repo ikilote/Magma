@@ -113,8 +113,9 @@ header {
 .install {
     div {
         display: flex;
+        flex-wrap: wrap;
         align-items: baseline;
-        gap: 16px;
+        gap: 0 16px;
     }
 
     pre {

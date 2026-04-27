@@ -94,17 +94,6 @@ main {
     scrollbar-gutter: stable;
 }
 
-:host.hide-aside {
-    aside,
-    .mobile-menu {
-        display: none;
-    }
-
-    main {
-        padding: 0;
-    }
-}
-
 .selected {
     background: var(--neutral200);
 }
@@ -123,8 +112,21 @@ main {
     }
 }
 
+:host.hide-aside {
+    aside,
+    .mobile-menu {
+        display: none;
+    }
+
+    main {
+        padding: 0;
+    }
+}
+
 @media (width < 768px) {
     aside {
+        width: 0;
+
         .backdrop {
             width: 100%;
         }

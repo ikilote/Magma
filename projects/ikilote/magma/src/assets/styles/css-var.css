@@ -5,17 +5,19 @@ body.light-mode {
     /* MARK: palettes light */
     --primaryH: 190;
     --L000: 100%;
-    --L050: 95%;
-    --L100: 90%;
-    --L200: 80%;
-    --L300: 70%;
-    --L400: 55%;
+    --L010: 95%;
+    --L025: 90%;
+    --L050: 85%;
+    --L100: 80%;
+    --L200: 70%;
+    --L300: 60%;
+    --L400: 50%;
     --L500: 40%;
     --L600: 30%;
     --L700: 20%;
-    --L800: 15%;
-    --L900: 10%;
-    --L950: 5%;
+    --L800: 10%;
+    --L900: 5%;
+    --L950: 2%;
     --L990: 0%;
 
     /* MARK: loader-tile */
@@ -28,6 +30,8 @@ body.dark-mode {
     /* MARK: palettes dark */
     --primaryH: 210;
     --L000: 0%;
+    --L010: 3%;
+    --L025: 4%;
     --L050: 5%;
     --L100: 6%;
     --L200: 10%;
@@ -63,6 +67,8 @@ body {
 
     /* --- NEUTRAL  --- */
     --neutral000: hsl(0, 0%, var(--L000));
+    --neutral010: hsl(0, 0%, var(--L010));
+    --neutral025: hsl(0, 0%, var(--L025));
     --neutral050: hsl(0, 0%, var(--L050));
     --neutral100: hsl(0, 0%, var(--L100));
     --neutral200: hsl(0, 0%, var(--L200));
@@ -116,7 +122,7 @@ body {
     --success950: hsl(120, 5%, var(--L950));
 
     /* MARK: global */
-    --background: var(--primary050);
+    --background: var(--neutral010);
     --text-color: var(--primary950);
     --color-mode-border-color: var(--primary950);
     --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
@@ -292,6 +298,7 @@ body {
     --block-border: 1px solid var(--primary500);
     --block-shadow: 0 0 24px 2px var(--primary200);
     --block-margin: 12px;
+    --block-background: var(--neutral025);
 
     /* MARK: block */
     --message-radius: 3px;
@@ -299,26 +306,26 @@ body {
     --message-border-color: var(--primary500);
     --message-border-width: 1px;
     --message-border-style: solid;
-    --message-shadow: 0 0 24px 2px var(--primary200);
+    --message-shadow: 0 0 12px 2px var(--neutral200);
     --message-margin: 12px;
     --message-gap: 12px;
     --message-marquee-size: 20px;
     --message-background: var(--primary050);
-    --info-message-color: var(--neutral200);
+    --info-message-color: var(--neutral900);
     --info-message-border-color: var(--neutral700);
-    --info-message-background: var(--neutral500);
-    --success-message-color: var(--success800);
+    --info-message-background: var(--neutral200);
+    --success-message-color: var(--success900);
     --success-message-border-color: var(--success500);
-    --success-message-background: var(--success300);
-    --warn-message-color: var(--warn800);
+    --success-message-background: var(--success200);
+    --warn-message-color: var(--warn900);
     --warn-message-border-color: var(--warn500);
-    --warn-message-background: var(--warn300);
-    --error-message-color: var(--alert800);
+    --warn-message-background: var(--warn200);
+    --error-message-color: var(--alert900);
     --error-message-border-color: var(--alert500);
-    --error-message-error-background: var(--alert300);
-    --tip-message-color: var(---primary800);
+    --error-message-error-background: var(--alert200);
+    --tip-message-color: var(---primary900);
     --tip-message-border-color: var(--primary500);
-    --tip-message-background: var(--primary300);
+    --tip-message-background: var(--primary200);
 
     /* MARK: table */
     --table-header-background: var(--neutral100);

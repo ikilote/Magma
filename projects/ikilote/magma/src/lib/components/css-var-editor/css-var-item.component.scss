@@ -1,0 +1,47 @@
+:host {
+    display: grid;
+    grid-template-columns: 1fr auto 28px;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 12px;
+
+    &:hover {
+        background: var(--table-line-hover-background);
+    }
+
+    &.modified {
+        background: color-mix(in hsl, var(--warn200) 30%, transparent);
+    }
+
+    mg-input {
+        min-width: 0;
+    }
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.toggle,
+.reset {
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 2px 4px;
+    font-size: 14px;
+    line-height: 1;
+
+    &:hover {
+        opacity: 0.7;
+        box-shadow: none;
+    }
+}
+
+.preview {
+    border: 1px solid var(--content-box-border);
+    border-radius: var(--block-radius);
+    width: 24px;
+    height: 24px;
+}

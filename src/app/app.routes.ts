@@ -387,6 +387,61 @@ export const routes: Routes = [
         ],
     },
     {
+        path: 'css-tool',
+        children: [
+            {
+                path: 'var-editor',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/css-var-editor/demo-css-var-editor.component').then(
+                        m => m.DemoCssVarEditorComponent,
+                    ),
+            },
+            {
+                path: 'shadow',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./css-tools/shadow/demo-shadow.component').then(m => m.DemoShadowComponent),
+            },
+            {
+                path: 'gradient',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./css-tools/gradient/demo-gradient.component').then(m => m.DemoGradientComponent),
+            },
+            {
+                path: 'border',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./css-tools/border/demo-border.component').then(m => m.DemoBorderComponent),
+            },
+            {
+                path: 'color-mix',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./css-tools/color-mix/demo-color-mix.component').then(m => m.DemoColorMixComponent),
+            },
+            {
+                path: 'filter',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./css-tools/filter/demo-filter.component').then(m => m.DemoFilterComponent),
+            },
+            {
+                path: 'transform',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./css-tools/transform/demo-transform.component').then(m => m.DemoTransformComponent),
+            },
+            {
+                path: 'typography',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./css-tools/typography/demo-typography.component').then(m => m.DemoTypographyComponent),
+            },
+        ],
+    },
+    {
         path: 'style',
         children: [
             {

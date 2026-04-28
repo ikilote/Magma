@@ -1,0 +1,61 @@
+:host {
+    display: block;
+    padding: 12px;
+}
+
+.preview-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+    border: 1px dashed var(--content-box-border);
+    border-radius: var(--block-radius);
+    background: var(--neutral050);
+    width: 100%;
+    height: 180px;
+    overflow: hidden;
+}
+
+.preview-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--primary500);
+    border-radius: var(--block-radius);
+    background: var(--primary200);
+    width: 80px;
+    height: 80px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+.output {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    code {
+        flex: 1;
+        border: 1px solid var(--input-border-color);
+        border-radius: var(--block-radius);
+        background: var(--input-background);
+        padding: 6px 8px;
+        overflow: hidden;
+        font-size: 12px;
+        font-family: var(--font-mono);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    mg-input {
+        flex: 1;
+        min-width: 200px;
+    }
+}

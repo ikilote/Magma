@@ -1,0 +1,47 @@
+@switch (varType()) {
+  @case ('percentage') {
+    <mg-input>
+      <mg-input-label>{{ displayName() }}</mg-input-label>
+      <mg-input-range min="0" max="100" step="1" [ngModel]="numericValue()" (update)="onPercentageChange($event)" />
+      <mg-input-after>%</mg-input-after>
+    </mg-input>
+  }
+  @case ('number') {
+    <mg-input>
+      <mg-input-label>{{ displayName() }}</mg-input-label>
+      <mg-input-number [ngModel]="numericValue()" (update)="onNumberChange($event)" />
+    </mg-input>
+  }
+  @case ('length') {
+    <mg-input>
+      <mg-input-label>{{ displayName() }}</mg-input-label>
+      <mg-input-number [ngModel]="numericValue()" (update)="onLengthChange($event)" />
+      <mg-input-after>
+        <select [ngModel]="selectedUnit()" (ngModelChange)="onUnitChange($event)">
+          @for (u of lengthUnits; track u) {
+            <option [value]="u">{{ u }}</option>
+          }
+        </select>
+      </mg-input-after>
+    </mg-input>
+  }
+  @default {
+    <mg-input>
+      <mg-input-label>{{ displayName() }}</mg-input-label>
+      <mg-input-text [ngModel]="variable().value" (update)="onTextChange($event)" />
+    </mg-input>
+  }
+}
+
+<div class="actions">
+  @if (showToggle()) {
+    <button class="toggle" [title]="textMode() ? labels().typedMode : labels().textMode" (click)="toggleTextMode()">
+      {{ textMode() ? '🔢' : '✏️' }}
+    </button>
+  }
+  @if (modified()) {
+    <button class="reset" [title]="labels().reset" (click)="onReset()">↩</button>
+  }
+</div>
+
+<div class="preview" [style.background]="variable().value"></div>

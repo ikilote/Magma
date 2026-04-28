@@ -1,0 +1,57 @@
+:host {
+    display: block;
+    padding: 12px;
+}
+
+.tabs {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    mg-input {
+        flex: 1;
+        min-width: 200px;
+    }
+}
+
+.group {
+    margin-bottom: 8px;
+    border: 1px solid var(--content-box-border);
+    border-radius: var(--block-radius);
+    overflow: hidden;
+
+    summary {
+        cursor: pointer;
+        background: var(--table-header-background);
+        padding: 8px 12px;
+        font-weight: 600;
+        font-size: 13px;
+        user-select: none;
+        text-transform: capitalize;
+
+        &:hover {
+            background: var(--table-header-background-hover);
+        }
+    }
+
+    .count {
+        opacity: 0.6;
+        font-weight: 400;
+        font-size: 12px;
+    }
+}
+
+.empty {
+    opacity: 0.5;
+    padding: 24px;
+    font-style: italic;
+    text-align: center;
+}

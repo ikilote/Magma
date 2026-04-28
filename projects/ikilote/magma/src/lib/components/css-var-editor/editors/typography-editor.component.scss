@@ -1,0 +1,41 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 12px;
+}
+
+.preview-box {
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border: 1px solid var(--content-box-border);
+    border-radius: var(--block-radius);
+    background: var(--neutral050);
+    padding: 8px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.output {
+    display: flex;
+    align-items: center;
+
+    code {
+        flex: 1;
+        border: 1px solid var(--input-border-color);
+        border-radius: var(--block-radius);
+        background: var(--input-background);
+        font-family: var(--font-mono);
+        white-space: pre-line;
+    }
+}
+
+mg-input-after {
+    position: relative;
+    top: -5px;
+    margin: 0 5px;
+
+    select {
+        width: 60px;
+    }
+}

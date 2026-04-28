@@ -1,0 +1,29 @@
+<div class="preview-box" [style.filter]="cssValue()">{{ labels().preview }}</div>
+
+<div class="output">
+  <code>{{ cssValue() }}</code>
+  <button (click)="copyValue()">{{ labels().copy }}</button>
+  <button (click)="resetAll()">{{ labels().reset }}</button>
+</div>
+
+@for (def of filters(); track def.type) {
+  <div class="filter-row" [class.active]="isActive(def.type)">
+    <label class="filter-toggle">
+      <input type="checkbox" [checked]="isActive(def.type)" (change)="toggleFilter(def)" />
+      {{ def.label }}
+    </label>
+
+    @if (isActive(def.type)) {
+      <mg-input>
+        <mg-input-range
+          [min]="def.min"
+          [max]="def.max"
+          [step]="def.step"
+          [ngModel]="getValue(def.type)"
+          (update)="updateFilter(def.type, $event)"
+        />
+        <mg-input-after>{{ def.unit }}</mg-input-after>
+      </mg-input>
+    }
+  </div>
+}

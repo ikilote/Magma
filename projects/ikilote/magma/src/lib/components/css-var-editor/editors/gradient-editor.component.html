@@ -1,0 +1,55 @@
+<div class="preview-box" [style.background]="cssValue()"></div>
+
+<div class="output">
+  <code>{{ cssValue() }}</code>
+  <button (click)="copyValue()">{{ labels().copy }}</button>
+</div>
+
+<div class="type-selector">
+  @for (t of ['linear', 'radial', 'conic', 'repeating-linear', 'repeating-radial', 'repeating-conic']; track t) {
+    <button [class.primary]="type() === t" (click)="setType($any(t))">{{ t }}</button>
+  }
+</div>
+
+@if (type() !== 'radial' && type() !== 'repeating-radial') {
+  <mg-input>
+    <mg-input-label>{{ labels().angle }}</mg-input-label>
+    <mg-input-range min="0" max="360" [ngModel]="angle()" (ngModelChange)="setAngle($event)" />
+    <mg-input-after>°</mg-input-after>
+  </mg-input>
+}
+
+<div class="stops">
+  @for (stop of stops(); track $index) {
+    <fieldset class="stop">
+      <legend>
+        {{ labels().stop }} {{ $index + 1 }}
+        @if (stops().length > 2) {
+          <button class="remove" (click)="removeStop($index)">✕</button>
+        }
+      </legend>
+
+      <div class="stop-fields">
+        <mg-input>
+          <mg-input-label>{{ labels().color }}</mg-input-label>
+          <mg-input-text [ngModel]="stop.color" (ngModelChange)="updateStop($index, 'color', $event)" />
+        </mg-input>
+
+        <mg-input>
+          <mg-input-label>{{ labels().position }}</mg-input-label>
+          <mg-input-range
+            min="0"
+            max="100"
+            [ngModel]="stop.position"
+            (ngModelChange)="updateStop($index, 'position', $event)"
+          />
+          <mg-input-after>%</mg-input-after>
+        </mg-input>
+
+        <div class="stop-preview" [style.background]="stop.color"></div>
+      </div>
+    </fieldset>
+  }
+</div>
+
+<button (click)="addStop()">{{ labels().addStop }}</button>

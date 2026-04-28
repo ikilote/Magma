@@ -1,0 +1,64 @@
+:host {
+    display: block;
+    padding: 12px;
+}
+
+.preview-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 16px;
+    border: 1px solid var(--content-box-border);
+    border-radius: var(--block-radius);
+    background: var(--neutral200);
+    width: 100%;
+    height: 100px;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.output {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    code {
+        flex: 1;
+        border: 1px solid var(--input-border-color);
+        border-radius: var(--block-radius);
+        background: var(--input-background);
+        padding: 6px 8px;
+        overflow: hidden;
+        font-size: 12px;
+        font-family: var(--font-mono);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.filter-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0.5;
+    padding: 6px 0;
+
+    &.active {
+        opacity: 1;
+    }
+
+    mg-input {
+        flex: 1;
+    }
+}
+
+.filter-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    min-width: 140px;
+    font-size: 13px;
+}

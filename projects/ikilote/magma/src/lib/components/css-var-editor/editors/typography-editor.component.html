@@ -1,0 +1,87 @@
+<div>
+  <mg-input class="s-12">
+    <mg-input-label>{{ labels().fontFamily }}</mg-input-label>
+    <mg-input-text [ngModel]="fontFamily()" (ngModelChange)="setFontFamily($event)" />
+  </mg-input>
+
+  <mg-input class="s-3">
+    <mg-input-label>{{ labels().size }}</mg-input-label>
+    <mg-input-range
+      min="0.1"
+      max="72"
+      step=".1"
+      [ngModel]="fontSize()"
+      [datalist]="[8, 10, 12, 14, 16, 24, 36, 48, 60, 72]"
+      (ngModelChange)="setFontSize($event)"
+    />
+    <mg-input-after>
+      <select [ngModel]="fontSizeUnit()" (ngModelChange)="fontSizeUnit.set($event)">
+        @for (u of lengthUnits; track u) {
+          <option [value]="u">{{ u }}</option>
+        }
+      </select>
+    </mg-input-after>
+  </mg-input>
+
+  <mg-input class="s-3">
+    <mg-input-label>{{ labels().lineHeight }}</mg-input-label>
+    <mg-input-range
+      min=".5"
+      max="3"
+      step=".1"
+      [ngModel]="lineHeight()"
+      [datalist]="[0.5, 0, 1, 2, 3]"
+      (ngModelChange)="setLineHeight($event)"
+    />
+  </mg-input>
+
+  <mg-input class="s-3">
+    <mg-input-label>{{ labels().letterSpacing }}</mg-input-label>
+    <mg-input-range
+      min="-5"
+      max="20"
+      step=".1"
+      [ngModel]="letterSpacing()"
+      [datalist]="[-5, 0, 5, 10, 15, 20]"
+      (ngModelChange)="setLetterSpacing($event)"
+    />
+    <mg-input-after>
+      <select [ngModel]="letterSpacingUnit()" (ngModelChange)="letterSpacingUnit.set($event)">
+        @for (u of lengthUnits; track u) {
+          <option [value]="u">{{ u }}</option>
+        }
+      </select>
+    </mg-input-after>
+  </mg-input>
+
+  <mg-input class="s-3">
+    <mg-input-label>{{ labels().color }}</mg-input-label>
+    <mg-input-text [ngModel]="color()" (ngModelChange)="setColor($event)" />
+  </mg-input>
+
+  <div class="s-12">
+    @for (w of weights; track w.value) {
+      <button [class.primary]="fontWeight() === w.value" (click)="setFontWeight(w.value)">
+        {{ w.label }}
+      </button>
+    }
+  </div>
+</div>
+
+<div class="output">
+  <code>{{ cssValue() }}</code>
+  <button (click)="copyValue()">{{ labels().copy }}</button>
+</div>
+
+<div
+  class="preview-box"
+  [style.font-family]="fontFamily()"
+  [style.font-size]="fontSizeComputed()"
+  [style.font-weight]="fontWeight()"
+  [style.line-height]="lineHeight()"
+  [style.letter-spacing]="letterSpacingComputed()"
+  [style.color]="color()"
+  contenteditable
+>
+  Le vif renard brun saute par-dessus le chien paresseux.
+</div>

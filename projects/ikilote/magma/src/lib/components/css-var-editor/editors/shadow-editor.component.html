@@ -1,0 +1,78 @@
+<div class="preview-box" [style.box-shadow]="cssValue()"></div>
+
+<div class="output">
+  <code>{{ cssValue() }}</code>
+  <button (click)="copyValue()">{{ labels().copy }}</button>
+</div>
+
+@for (layer of layers(); track $index) {
+  <fieldset class="layer">
+    <legend>
+      {{ labels().layer }} {{ $index + 1 }}
+      @if (layers().length > 1) {
+        <button class="remove" (click)="removeLayer($index)">✕</button>
+      }
+    </legend>
+
+    <div class="fields">
+      <mg-input>
+        <mg-input-label>{{ labels().x }}</mg-input-label>
+        <mg-input-range
+          min="-50"
+          max="50"
+          [ngModel]="layer.offsetX"
+          (ngModelChange)="updateLayer($index, 'offsetX', $event)"
+        />
+        <mg-input-after>
+          <select [ngModel]="layer.unit" (ngModelChange)="updateLayer($index, 'unit', $event)">
+            @for (u of lengthUnits; track u) {
+              <option [value]="u">{{ u }}</option>
+            }
+          </select>
+        </mg-input-after>
+      </mg-input>
+
+      <mg-input>
+        <mg-input-label>{{ labels().y }}</mg-input-label>
+        <mg-input-range
+          min="-50"
+          max="50"
+          [ngModel]="layer.offsetY"
+          (ngModelChange)="updateLayer($index, 'offsetY', $event)"
+        />
+      </mg-input>
+
+      <mg-input>
+        <mg-input-label>{{ labels().blur }}</mg-input-label>
+        <mg-input-range
+          min="0"
+          max="100"
+          [ngModel]="layer.blur"
+          (ngModelChange)="updateLayer($index, 'blur', $event)"
+        />
+      </mg-input>
+
+      <mg-input>
+        <mg-input-label>{{ labels().spread }}</mg-input-label>
+        <mg-input-range
+          min="-50"
+          max="50"
+          [ngModel]="layer.spread"
+          (ngModelChange)="updateLayer($index, 'spread', $event)"
+        />
+      </mg-input>
+
+      <mg-input>
+        <mg-input-label>{{ labels().color }}</mg-input-label>
+        <mg-input-text [ngModel]="layer.color" (ngModelChange)="updateLayer($index, 'color', $event)" />
+      </mg-input>
+
+      <label class="inset-toggle">
+        <input type="checkbox" [checked]="layer.inset" (change)="updateLayer($index, 'inset', !layer.inset)" />
+        {{ labels().inset }}
+      </label>
+    </div>
+  </fieldset>
+}
+
+<button (click)="addLayer()">{{ labels().addLayer }}</button>

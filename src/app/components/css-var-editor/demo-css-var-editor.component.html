@@ -1,0 +1,143 @@
+<h1>CSS Var Editor</h1>
+
+<!-- Full editor -->
+<div>
+  <div class="s-9 s-12-l">
+    <h2>Full editor</h2>
+    <p>
+      All CSS variables from the page, with built-in tools for shadow, gradient, border, color-mix, filter, transform
+      and typography.
+    </p>
+    <mg-css-var-editor />
+  </div>
+  <div class="s-3 s-12-l">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeFullEditor },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</div>
+
+<!-- Filtered -->
+<div>
+  <div class="s-9 s-12-l">
+    <h2>Filtered variables</h2>
+    <p>Only <code>--button-*</code> variables.</p>
+    <mg-css-var-editor filter="--button" />
+  </div>
+  <div class="s-3 s-12-l">
+    <code-tabs [code]="[{ type: 'html', code: codeFiltered }]" />
+  </div>
+</div>
+
+<!-- Standalone editors -->
+<div>
+  <div class="s-12">
+    <h2>Standalone editors</h2>
+    <p>Each editor can be used independently. They emit a <code>valueChange</code> output.</p>
+  </div>
+  <div class="s-3 s-12-l">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeStandalone },
+        { type: 'ts', code: codeTs },
+      ]"
+    />
+  </div>
+</div>
+
+<div>
+  <div class="s-6 s-12-l">
+    <h3>Shadow</h3>
+    <mg-shadow-editor (valueChange)="lastShadow = $event" />
+    @if (lastShadow) {
+      <p>
+        <code>{{ lastShadow }}</code>
+      </p>
+    }
+  </div>
+
+  <div class="s-6 s-12-l">
+    <h3>Gradient</h3>
+    <mg-gradient-editor (valueChange)="lastGradient = $event" />
+    @if (lastGradient) {
+      <p>
+        <code>{{ lastGradient }}</code>
+      </p>
+    }
+  </div>
+</div>
+
+<div>
+  <div class="s-6 s-12-l">
+    <h3>Border</h3>
+    <mg-border-editor (valueChange)="lastBorder = $event" />
+    @if (lastBorder) {
+      <p>
+        <code>{{ lastBorder }}</code>
+      </p>
+    }
+  </div>
+
+  <div class="s-6 s-12-l">
+    <h3>Color Mix</h3>
+    <mg-color-mix-editor (valueChange)="lastColorMix = $event" />
+    @if (lastColorMix) {
+      <p>
+        <code>{{ lastColorMix }}</code>
+      </p>
+    }
+  </div>
+</div>
+
+<div>
+  <div class="s-6 s-12-l">
+    <h3>Filter</h3>
+    <mg-filter-editor (valueChange)="lastFilter = $event" />
+    @if (lastFilter) {
+      <p>
+        <code>{{ lastFilter }}</code>
+      </p>
+    }
+  </div>
+
+  <div class="s-6 s-12-l">
+    <h3>Transform</h3>
+    <mg-transform-editor (valueChange)="lastTransform = $event" />
+    @if (lastTransform) {
+      <p>
+        <code>{{ lastTransform }}</code>
+      </p>
+    }
+  </div>
+</div>
+
+<div>
+  <div class="s-12">
+    <h3>Typography</h3>
+    <mg-typography-editor (valueChange)="lastTypography = $event" />
+    @if (lastTypography) {
+      <p>
+        <code>{{ lastTypography }}</code>
+      </p>
+    }
+  </div>
+</div>
+
+<!-- i18n -->
+<div>
+  <div class="s-9 s-12-l">
+    <h2>Custom labels (i18n)</h2>
+    <p>All labels are in English by default and overridable via <code>[labels]</code> input.</p>
+  </div>
+  <div class="s-3 s-12-l">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeLabelsHtml },
+        { type: 'ts', code: codeLabels },
+      ]"
+    />
+  </div>
+</div>

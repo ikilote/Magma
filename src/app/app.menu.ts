@@ -321,6 +321,59 @@ export const menu: Menu = [
         ],
     },
     {
+        groupName: 'CSS Tools',
+        items: [
+            {
+                routerLink: '/css-tool/var-editor',
+                label: 'CSS Var Editor',
+                status: 'new',
+                keys: ['css variables', 'theme', 'custom properties'],
+            },
+            {
+                routerLink: '/css-tool/shadow',
+                label: 'Shadow',
+                status: 'new',
+                keys: ['box-shadow', 'shadow', 'drop shadow'],
+            },
+            {
+                routerLink: '/css-tool/gradient',
+                label: 'Gradient',
+                status: 'new',
+                keys: ['gradient', 'linear', 'radial', 'conic', 'repeating'],
+            },
+            {
+                routerLink: '/css-tool/border',
+                label: 'Border',
+                status: 'new',
+                keys: ['border', 'border-radius', 'outline'],
+            },
+            {
+                routerLink: '/css-tool/color-mix',
+                label: 'Color Mix',
+                status: 'new',
+                keys: ['color-mix', 'color blend', 'mix colors'],
+            },
+            {
+                routerLink: '/css-tool/filter',
+                label: 'Filter',
+                status: 'new',
+                keys: ['filter', 'brightness', 'contrast', 'blur', 'grayscale'],
+            },
+            {
+                routerLink: '/css-tool/transform',
+                label: 'Transform',
+                status: 'new',
+                keys: ['transform', 'translate', 'scale', 'rotate', 'skew'],
+            },
+            {
+                routerLink: '/css-tool/typography',
+                label: 'Typography',
+                status: 'new',
+                keys: ['font', 'typography', 'text', 'font-size', 'font-weight'],
+            },
+        ],
+    },
+    {
         groupName: 'Styles',
         items: [
             {

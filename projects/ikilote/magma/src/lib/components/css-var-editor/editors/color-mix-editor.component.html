@@ -1,0 +1,36 @@
+<div class="preview-row">
+  <div class="color-swatch" [style.background]="color1()"></div>
+  <div class="mix-indicator">{{ percentage() }}%</div>
+  <div class="color-swatch result" [style.background]="cssValue()"></div>
+  <div class="mix-indicator">{{ 100 - percentage() }}%</div>
+  <div class="color-swatch" [style.background]="color2()"></div>
+</div>
+
+<div class="output">
+  <code>{{ cssValue() }}</code>
+  <button (click)="copyValue()">{{ labels().copy }}</button>
+</div>
+
+<div class="space-selector">
+  @for (space of colorSpaces; track space) {
+    <button [class.primary]="colorSpace() === space" (click)="setColorSpace(space)">{{ space }}</button>
+  }
+</div>
+
+<div class="fields">
+  <mg-input>
+    <mg-input-label>{{ labels().color1 }}</mg-input-label>
+    <mg-input-text [ngModel]="color1()" (ngModelChange)="setColor1($event)" />
+  </mg-input>
+
+  <mg-input>
+    <mg-input-label>{{ labels().color2 }}</mg-input-label>
+    <mg-input-text [ngModel]="color2()" (ngModelChange)="setColor2($event)" />
+  </mg-input>
+
+  <mg-input>
+    <mg-input-label>{{ labels().mix }}</mg-input-label>
+    <mg-input-range min="0" max="100" [ngModel]="percentage()" (ngModelChange)="setPercentage($event)" />
+    <mg-input-after>%</mg-input-after>
+  </mg-input>
+</div>

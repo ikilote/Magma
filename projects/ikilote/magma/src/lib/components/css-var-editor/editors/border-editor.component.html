@@ -1,0 +1,52 @@
+<div class="preview-box" [style.border]="borderValue()" [style.border-radius]="radiusValue()">
+  {{ labels().preview }}
+</div>
+
+<div class="output">
+  <code>border: {{ borderValue() }};</code>
+  <button (click)="copyBorder()">{{ labels().copy }}</button>
+</div>
+<div class="output">
+  <code>border-radius: {{ radiusValue() }};</code>
+  <button (click)="copyRadius()">{{ labels().copy }}</button>
+</div>
+
+<div class="fields">
+  <mg-input class="s-4">
+    <mg-input-label>{{ labels().width }}</mg-input-label>
+    <mg-input-range min="0" max="20" [ngModel]="width()" (ngModelChange)="setWidth($event)" />
+    <mg-input-after>
+      <select [ngModel]="widthUnit()" (ngModelChange)="setWidthUnit($event)">
+        @for (u of lengthUnits; track u) {
+          <option [value]="u">{{ u }}</option>
+        }
+      </select>
+    </mg-input-after>
+  </mg-input>
+
+  <mg-input class="s-4">
+    <mg-input-label>{{ labels().radius }}</mg-input-label>
+    <mg-input-range min="0" max="50" [ngModel]="radius()" (ngModelChange)="setRadius($event)" />
+    <mg-input-after>
+      <select [ngModel]="radiusUnit()" (ngModelChange)="setRadiusUnit($event)">
+        @for (u of lengthUnits; track u) {
+          <option [value]="u">{{ u }}</option>
+        }
+      </select>
+    </mg-input-after>
+  </mg-input>
+
+  <mg-input class="s-4">
+    <mg-input-label>{{ labels().color }}</mg-input-label>
+    <mg-input-text [ngModel]="color()" (ngModelChange)="setColor($event)" />
+  </mg-input>
+
+  <div class="s-12 style-selector">
+    @for (s of styles; track s) {
+      <button [class.primary]="style() === s" (click)="setStyle(s)">
+        <span class="style-preview" [style.border-style]="s"></span>
+        {{ s }}
+      </button>
+    }
+  </div>
+</div>

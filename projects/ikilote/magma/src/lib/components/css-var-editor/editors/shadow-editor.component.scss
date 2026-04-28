@@ -1,0 +1,80 @@
+:host {
+    display: block;
+    padding: 12px;
+}
+
+.preview-box {
+    margin-bottom: 16px;
+    border: 1px solid var(--content-box-border);
+    border-radius: var(--block-radius);
+    background: var(--neutral200);
+    width: 100%;
+    height: 120px;
+}
+
+.output {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    code {
+        flex: 1;
+        border: 1px solid var(--input-border-color);
+        border-radius: var(--block-radius);
+        background: var(--input-background);
+        padding: 6px 8px;
+        overflow: hidden;
+        font-size: 12px;
+        font-family: var(--font-mono);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+.layer {
+    margin-bottom: 12px;
+    border: 1px solid var(--content-box-border);
+    border-radius: var(--block-radius);
+    padding: 12px;
+
+    legend {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 600;
+        font-size: 13px;
+    }
+}
+
+.fields {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    mg-input {
+        flex: 1;
+        min-width: 140px;
+    }
+}
+
+.inset-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.remove {
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    padding: 2px 6px;
+    font-size: 14px;
+
+    &:hover {
+        opacity: 0.7;
+        box-shadow: none;
+    }
+}

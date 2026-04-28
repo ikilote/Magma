@@ -1,0 +1,58 @@
+<div class="tabs">
+  @for (tab of tabs; track tab.id) {
+    <button [class.primary]="activeTab() === tab.id" (click)="activeTab.set(tab.id)">{{ tab.label }}</button>
+  }
+</div>
+
+@switch (activeTab()) {
+  @case ('variables') {
+    <div class="toolbar">
+      <mg-input>
+        <mg-input-label>{{ labels().search }}</mg-input-label>
+        <mg-input-text [placeholder]="labels().searchPlaceholder" [ngModel]="search()" (update)="search.set($event)" />
+      </mg-input>
+      <button (click)="resetAll()">{{ labels().resetAll }}</button>
+      <button class="primary" (click)="copyExport()">{{ labels().copyChanges }}</button>
+    </div>
+
+    @for (group of filteredGroups(); track group.label) {
+      <details class="group" open>
+        <summary>
+          {{ group.label }}
+          <span class="count">({{ group.variables.length }})</span>
+        </summary>
+
+        @for (variable of group.variables; track variable.name) {
+          <mg-css-var-item
+            [variable]="variable"
+            (valueChange)="updateVariable(variable, $event)"
+            (reset)="resetVariable(variable)"
+          />
+        }
+      </details>
+    } @empty {
+      <p class="empty">{{ labels().noResults }}</p>
+    }
+  }
+  @case ('shadow') {
+    <mg-shadow-editor />
+  }
+  @case ('gradient') {
+    <mg-gradient-editor />
+  }
+  @case ('border') {
+    <mg-border-editor />
+  }
+  @case ('color-mix') {
+    <mg-color-mix-editor />
+  }
+  @case ('filter') {
+    <mg-filter-editor />
+  }
+  @case ('transform') {
+    <mg-transform-editor />
+  }
+  @case ('typography') {
+    <mg-typography-editor />
+  }
+}

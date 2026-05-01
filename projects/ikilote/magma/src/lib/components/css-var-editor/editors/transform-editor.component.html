@@ -8,61 +8,48 @@
   <button (click)="resetAll()">{{ labels().reset }}</button>
 </div>
 
-<div class="fields">
-  <mg-input>
-    <mg-input-label>{{ labels().translateX }}</mg-input-label>
-    <mg-input-range min="-200" max="200" [ngModel]="translateX()" (ngModelChange)="update('translateX', $event)" />
-    <mg-input-after>
-      <select [ngModel]="translateUnit()" (ngModelChange)="translateUnit.set($event)">
-        @for (u of lengthUnits; track u) {
-          <option [value]="u">{{ u }}</option>
-        }
-      </select>
-    </mg-input-after>
-  </mg-input>
+<div class="add-bar">
+  <select #addSelect>
+    @for (def of availableTransforms(); track def.type) {
+      <option [value]="def.type">{{ def.label }}</option>
+    }
+  </select>
+  <button (click)="addTransform($any(addSelect.value))">+</button>
+</div>
 
-  <mg-input>
-    <mg-input-label>{{ labels().translateY }}</mg-input-label>
-    <mg-input-range min="-200" max="200" [ngModel]="translateY()" (ngModelChange)="update('translateY', $event)" />
-  </mg-input>
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+  @for (layer of layers(); track $index) {
+    <div class="layer" cdkDrag>
+      <span class="drag-handle" cdkDragHandle>⠿</span>
 
-  <mg-input>
-    <mg-input-label>{{ labels().scaleX }}</mg-input-label>
-    <mg-input-range
-      min="0"
-      max="30"
-      step="1"
-      [ngModel]="scaleX() * 10"
-      (ngModelChange)="update('scaleX', $event / 10)"
-    />
-  </mg-input>
+      <span class="layer-type">{{ getDef(layer.type).label }}</span>
 
-  <mg-input>
-    <mg-input-label>{{ labels().scaleY }}</mg-input-label>
-    <mg-input-range
-      min="0"
-      max="30"
-      step="1"
-      [ngModel]="scaleY() * 10"
-      (ngModelChange)="update('scaleY', $event / 10)"
-    />
-  </mg-input>
+      <mg-input>
+        <mg-input-range
+          [min]="getDef(layer.type).min"
+          [max]="getDef(layer.type).max"
+          [step]="getDef(layer.type).step"
+          [ngModel]="layer.value"
+          (update)="updateValue($index, $event)"
+        />
+      </mg-input>
 
-  <mg-input>
-    <mg-input-label>{{ labels().rotation }}</mg-input-label>
-    <mg-input-range min="-180" max="180" [ngModel]="rotate()" (ngModelChange)="update('rotate', $event)" />
-    <mg-input-after>deg</mg-input-after>
-  </mg-input>
+      @if (layer.type === 'translateX' || layer.type === 'translateY') {
+        <span> {{ layer.value }}</span>
+        <mg-input-after>
+          <select [ngModel]="layer.unit" (ngModelChange)="updateUnit($index, $event)">
+            @for (u of lengthUnits; track u) {
+              <option [value]="u">{{ u }}</option>
+            }
+          </select>
+        </mg-input-after>
+      } @else if (layer.unit) {
+        <mg-input-after>{{ layer.value + getDef(layer.type).unit }}</mg-input-after>
+      }
 
-  <mg-input>
-    <mg-input-label>{{ labels().skewX }}</mg-input-label>
-    <mg-input-range min="-90" max="90" [ngModel]="skewX()" (ngModelChange)="update('skewX', $event)" />
-    <mg-input-after>deg</mg-input-after>
-  </mg-input>
-
-  <mg-input>
-    <mg-input-label>{{ labels().skewY }}</mg-input-label>
-    <mg-input-range min="-90" max="90" [ngModel]="skewY()" (ngModelChange)="update('skewY', $event)" />
-    <mg-input-after>deg</mg-input-after>
-  </mg-input>
+      <button class="remove" (click)="removeLayer($index)">✕</button>
+    </div>
+  } @empty {
+    <p class="empty">No transforms added.</p>
+  }
 </div>

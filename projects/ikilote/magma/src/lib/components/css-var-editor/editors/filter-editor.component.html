@@ -1,4 +1,47 @@
-<div class="preview-box" [style.filter]="cssValue()">{{ labels().preview }}</div>
+<div class="preview-box" [style.filter]="cssValue()">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 200 120"
+    width="100%"
+    height="100%"
+    preserveAspectRatio="xMidYMid meet"
+  >
+    <defs>
+      <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#87ceeb" />
+        <stop offset="100%" stop-color="#e0f7fa" />
+      </linearGradient>
+      <radialGradient id="sun">
+        <stop offset="0%" stop-color="#fff176" />
+        <stop offset="100%" stop-color="#ff8f00" />
+      </radialGradient>
+    </defs>
+    <rect width="200" height="120" fill="url(#sky)" />
+    <circle cx="160" cy="25" r="18" fill="url(#sun)" />
+    <polygon points="0,90 40,45 80,90" fill="#4caf50" />
+    <polygon points="50,90 100,35 150,90" fill="#388e3c" />
+    <polygon points="110,90 155,50 200,90" fill="#2e7d32" />
+    <rect x="0" y="88" width="200" height="32" fill="#8d6e63" />
+    <rect x="20" y="70" width="4" height="18" fill="#5d4037" />
+    <circle cx="22" cy="65" r="8" fill="#66bb6a" />
+    <rect x="130" y="72" width="4" height="16" fill="#5d4037" />
+    <circle cx="132" cy="67" r="7" fill="#43a047" />
+    <rect x="75" y="72" width="24" height="18" fill="#ffcc80" />
+    <polygon points="73,72 87,58 101,72" fill="#d32f2f" />
+    <rect x="83" y="78" width="8" height="12" fill="#5d4037" />
+    <rect x="77" y="76" width="5" height="5" fill="#81d4fa" />
+    <rect x="92" y="76" width="5" height="5" fill="#81d4fa" />
+    <ellipse cx="40" cy="20" rx="16" ry="8" fill="#fff" opacity="0.8" />
+    <ellipse cx="55" cy="18" rx="12" ry="7" fill="#fff" opacity="0.7" />
+    <ellipse cx="120" cy="15" rx="14" ry="7" fill="#fff" opacity="0.75" />
+    <circle cx="15" cy="95" r="3" fill="#e91e63" />
+    <circle cx="55" cy="97" r="2.5" fill="#ff5722" />
+    <circle cx="170" cy="94" r="3" fill="#9c27b0" />
+    <circle cx="185" cy="97" r="2" fill="#ff9800" />
+    <path d="M105,25 Q110,20 115,25 Q110,22 105,25" fill="#333" />
+    <path d="M115,30 Q120,25 125,30 Q120,27 115,30" fill="#333" />
+  </svg>
+</div>
 
 <div class="output">
   <code>{{ cssValue() }}</code>
@@ -6,24 +49,39 @@
   <button (click)="resetAll()">{{ labels().reset }}</button>
 </div>
 
-@for (def of filters(); track def.type) {
-  <div class="filter-row" [class.active]="isActive(def.type)">
-    <label class="filter-toggle">
-      <input type="checkbox" [checked]="isActive(def.type)" (change)="toggleFilter(def)" />
-      {{ def.label }}
-    </label>
+<div class="add-bar">
+  <select #addSelect>
+    @for (def of availableFilters(); track def.type) {
+      <option [value]="def.type">{{ def.label }}</option>
+    }
+  </select>
+  <button (click)="addFilter($any(addSelect.value))">+</button>
+</div>
 
-    @if (isActive(def.type)) {
+<div cdkDropList (cdkDropListDropped)="drop($event)">
+  @for (layer of layers(); track $index) {
+    <div class="layer" cdkDrag>
+      <span class="drag-handle" cdkDragHandle>⠿</span>
+
+      <span class="layer-type">{{ getDef(layer.type).label }}</span>
+
       <mg-input>
         <mg-input-range
-          [min]="def.min"
-          [max]="def.max"
-          [step]="def.step"
-          [ngModel]="getValue(def.type)"
-          (update)="updateFilter(def.type, $event)"
+          [min]="getDef(layer.type).min"
+          [max]="getDef(layer.type).max"
+          [step]="getDef(layer.type).step"
+          [ngModel]="layer.value"
+          (update)="updateValue($index, $event)"
         />
-        <mg-input-after>{{ def.unit }}</mg-input-after>
       </mg-input>
-    }
-  </div>
-}
+
+      <div>
+        {{ layer.value + getDef(layer.type).unit }}
+      </div>
+
+      <button class="remove" (click)="removeLayer($index)">✕</button>
+    </div>
+  } @empty {
+    <p class="empty">No filters added.</p>
+  }
+</div>

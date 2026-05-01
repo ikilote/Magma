@@ -1,9 +1,9 @@
 <div class="preview-row">
-  <div class="color-swatch" [style.background]="color1()"></div>
+  <div class="color-swatch" [style.--swatch-color]="color1()"></div>
   <div class="mix-indicator">{{ percentage() }}%</div>
-  <div class="color-swatch result" [style.background]="cssValue()"></div>
+  <div class="color-swatch result" [style.--swatch-color]="cssValue()"></div>
   <div class="mix-indicator">{{ 100 - percentage() }}%</div>
-  <div class="color-swatch" [style.background]="color2()"></div>
+  <div class="color-swatch" [style.--swatch-color]="color2()"></div>
 </div>
 
 <div class="output">

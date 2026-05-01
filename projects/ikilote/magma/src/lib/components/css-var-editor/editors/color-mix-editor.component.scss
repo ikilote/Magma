@@ -12,10 +12,22 @@
 }
 
 .color-swatch {
+    position: relative;
     border: 1px solid var(--content-box-border);
     border-radius: var(--block-radius);
+    background: conic-gradient(#ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn) top left /
+        10px 10px repeat;
     width: 60px;
     height: 60px;
+    overflow: hidden;
+
+    &::after {
+        display: block;
+        position: absolute;
+        inset: 0;
+        background: var(--swatch-color);
+        content: '';
+    }
 
     &.result {
         border-width: 2px;

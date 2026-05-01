@@ -1,7 +1,7 @@
+import { CdkDrag, CdkDragDrop, CdkDragHandle, CdkDropList, moveItemInArray } from '@angular/cdk/drag-drop';
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MagmaInputElement } from '../../input/input-element.component';
 import { MagmaInputRange } from '../../input/input-range.component';
 import { MagmaInput } from '../../input/input.component';
 import { DEFAULT_FILTER_LABELS, FilterEditorLabels } from '../css-var-editor.labels';
@@ -22,7 +22,7 @@ export type FilterType =
     | 'blur'
     | 'opacity';
 
-interface FilterDef {
+export interface FilterDef {
     type: FilterType;
     label: string;
     min: number;
@@ -37,13 +37,13 @@ interface FilterDef {
     templateUrl: './filter-editor.component.html',
     styleUrl: './filter-editor.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [FormsModule, MagmaInput, MagmaInputElement, MagmaInputRange],
+    imports: [FormsModule, MagmaInput, MagmaInputRange, CdkDropList, CdkDrag, CdkDragHandle],
 })
 export class MagmaFilterEditor {
     readonly valueChange = output<string>();
     readonly labels = input<FilterEditorLabels>(DEFAULT_FILTER_LABELS);
 
-    readonly filters = computed<FilterDef[]>(() => {
+    readonly availableFilters = computed<FilterDef[]>(() => {
         const l = this.labels();
         return [
             { type: 'brightness', label: l.brightness, min: 0, max: 300, step: 1, unit: '%', default: 100 },
@@ -65,31 +65,36 @@ export class MagmaFilterEditor {
         if (active.length === 0) return 'none';
         return active
             .map(l => {
-                const def = this.filters().find(f => f.type === l.type)!;
+                const def = this.getDef(l.type);
                 return `${l.type}(${l.value}${def.unit})`;
             })
             .join(' ');
     });
 
-    isActive(type: FilterType): boolean {
-        return this.layers().some(l => l.type === type);
+    getDef(type: FilterType): FilterDef {
+        return this.availableFilters().find(f => f.type === type)!;
     }
 
-    getValue(type: FilterType): number {
-        return this.layers().find(l => l.type === type)?.value ?? this.filters().find(f => f.type === type)!.default;
-    }
-
-    toggleFilter(def: FilterDef): void {
-        if (this.isActive(def.type)) {
-            this.layers.update(layers => layers.filter(l => l.type !== def.type));
-        } else {
-            this.layers.update(layers => [...layers, { type: def.type, value: def.default }]);
-        }
+    addFilter(type: FilterType): void {
+        const def = this.getDef(type);
+        this.layers.update(layers => [...layers, { type, value: def.default }]);
         this.emit();
     }
 
-    updateFilter(type: FilterType, value: number): void {
-        this.layers.update(layers => layers.map(l => (l.type === type ? { ...l, value } : l)));
+    removeLayer(index: number): void {
+        this.layers.update(layers => layers.filter((_, i) => i !== index));
+        this.emit();
+    }
+
+    updateValue(index: number, value: number): void {
+        this.layers.update(layers => layers.map((l, i) => (i === index ? { ...l, value } : l)));
+        this.emit();
+    }
+
+    drop(event: CdkDragDrop<FilterLayer[]>): void {
+        const items = [...this.layers()];
+        moveItemInArray(items, event.previousIndex, event.currentIndex);
+        this.layers.set(items);
         this.emit();
     }
 

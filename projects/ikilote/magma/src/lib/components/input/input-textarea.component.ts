@@ -53,6 +53,7 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     }
 
     changeValue(event: Event) {
+        event.stopPropagation();
         const value = ((event as InputEvent).target as HTMLTextAreaElement).value;
         this.onChange(value);
         this.update.emit(value);

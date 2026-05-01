@@ -5,6 +5,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angul
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
 
 import { Select2Data } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
 
 import {
     FormBuilderExtended,
@@ -47,6 +48,7 @@ import { palette, texts } from '../color-picker/demo-color-picker.component';
         ReactiveFormsModule,
         CodeTabsComponent,
         JsonPipe,
+        Highlight,
     ],
 })
 export class DemoInputGeneratorComponent {
@@ -70,6 +72,7 @@ export class DemoInputGeneratorComponent {
             'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select' | 'range' | 'date'
         >;
         access: FormControl<'none' | 'value' | 'ngModel' | 'formControlName'>;
+        selectedEvents: FormControl<string[]>;
         prefix: FormControl<string>;
         suffix: FormControl<string>;
         before: FormControl<string>;
@@ -150,6 +153,8 @@ export class DemoInputGeneratorComponent {
     valueSelect = 'test2';
     valueColor = 'yellow';
 
+    logEvents = '';
+
     codeHtml = '';
     codeTs = '';
 
@@ -209,6 +214,7 @@ export class DemoInputGeneratorComponent {
                     | 'date',
             },
             access: { default: 'none' as 'value' | 'none' | 'ngModel' | 'formControlName' },
+            selectedEvents: { default: [] as string[] },
             label: { default: '' },
             desc: { default: '' },
             error: { default: '' },
@@ -474,6 +480,14 @@ export class DemoInputGeneratorComponent {
     `;
         }
 
+        const selectedEvents = value.selectedEvents ?? [];
+        const eventMethods = selectedEvents
+            .map(event => {
+                const handlerName = 'on' + event[0].toUpperCase() + event.slice(1);
+                return `\n    ${handlerName}(value: any) { console.log('${event}', value); }`;
+            })
+            .join('\n    ');
+
         this.codeTs = `import { MagmaInput, ${imports.join(', ')} } from '@ikilote/magma';
 
 @Component({
@@ -486,9 +500,15 @@ export class DemoInputGeneratorComponent {
     ],
 })
 export class DemoInputGeneratorComponent {
-    ${data}
-}
+    ${data}${eventMethods ? eventMethods + '\n' : ''}}
 `;
+    }
+
+    onEvent(name: string, value: any) {
+        console.log(this.formGenerator.value.selectedEvents, name);
+        if (this.formGenerator.value.selectedEvents?.includes(name)) {
+            this.logEvents += `${new Date().toISOString().substring(14, 23)} ${name}: ${JSON.stringify(value)}\n`;
+        }
     }
 
     addType(body: Json2htmlRef[], type: string, label?: string, value?: string) {
@@ -643,6 +663,12 @@ export class DemoInputGeneratorComponent {
                     attrInput['placeholderAnimated'] = fgValue.placeholderAnimated;
                 }
             }
+        }
+
+        const selected = fgValue.selectedEvents ?? [];
+        for (const event of selected) {
+            const handlerName = 'on' + event[0].toUpperCase() + event.slice(1);
+            attrInput[`(${event})`] = `${handlerName}($event)`;
         }
 
         body.push(jsonInput);

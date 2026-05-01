@@ -31,6 +31,7 @@ export class MagmaInputRange extends MagmaInputCommon<number[]> {
     readonly max = input(undefined, { transform: numberAttributeOrUndefined });
 
     changeValue(event: Event) {
+        event.stopPropagation();
         this.update.emit(this.inputValue(event));
     }
 

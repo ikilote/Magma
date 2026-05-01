@@ -6,7 +6,6 @@ import {
     ElementRef,
     SimpleChanges,
     booleanAttribute,
-    computed,
     input,
     output,
     viewChildren,
@@ -41,11 +40,9 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     readonly checked = input(false, { transform: booleanAttribute });
     readonly mode = input<'checkbox' | 'toggle'>();
 
-    testChecked: boolean | undefined;
+    testChecked: boolean | undefined = undefined;
     override readonly placeholder: any = undefined; // not for checkbox
-    override readonly datalist: any = undefined; // not for checkbox
-
-    override _name = computed<string>(() => this.formControlName() || this.name() || this.host?._id() || this.uid());
+    override readonly datalist: any = undefined; // not for checkbox>(() => this.formControlName() || this.name() || this.host?._id() || this.uid());
 
     readonly label = viewChildren<ElementRef<HTMLLabelElement>>('ref');
 
@@ -85,48 +82,53 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     override writeValue(value: any): void {
         // required for host
         setTimeout(() => {
-            if (this.host) {
-                this.testChecked =
-                    (this.host.typeValue() === 'array' || this.host.inputs().length > 1) && Array.isArray(value)
-                        ? // array value
-                          this.host.returnValue() === 'boolean'
-                            ? value[this.index] === true
-                            : value.includes(this.value())
-                        : // mono value
-                          this.host.returnValue() !== 'value' && typeof value === 'boolean'
-                          ? value === true
-                          : value === this.value();
-
-                // update all other checkboxes in the group
-                if (this.host.typeValue() === 'array' || this.host.inputs().length > 1) {
-                    this.host
-                        .inputs()
-                        .filter(item => item.componentName === this.componentName && item !== this)
-                        .forEach(item => {
-                            if (item instanceof MagmaInputCheckbox) {
-                                item['_value'] = this._value;
-                                if (this.host?.returnValue() === 'boolean') {
-                                    if (item.testChecked && !value[item.index]) {
-                                        item.testChecked = false;
-                                    } else if (!item.testChecked && value[item.index]) {
-                                        item.testChecked = true;
-                                    }
-                                } else {
-                                    if (item.testChecked && !value.includes(item.value())) {
-                                        item.testChecked = false;
-                                    } else if (!item.testChecked && value?.includes(item.value())) {
-                                        item.testChecked = true;
-                                    }
-                                }
-                            }
-                        });
-                }
-            }
+            this.testChecke(value);
             super.writeValue(this.getValue());
         });
     }
 
-    _change() {
+    testChecke(value: any) {
+        if (this.host) {
+            this.testChecked =
+                (this.host.typeValue() === 'array' || this.host.inputs().length > 1) && Array.isArray(value)
+                    ? // array value
+                      this.host.returnValue() === 'boolean'
+                        ? value[this.index] === true
+                        : value.includes(this.value())
+                    : // mono value
+                      this.host.returnValue() !== 'value' && typeof value === 'boolean'
+                      ? value === true
+                      : value === this.value();
+
+            // update all other checkboxes in the group
+            if (this.host.typeValue() === 'array' || this.host.inputs().length > 1) {
+                this.host
+                    .inputs()
+                    .filter(item => item.componentName === this.componentName && item !== this)
+                    .forEach(item => {
+                        if (item instanceof MagmaInputCheckbox) {
+                            item['_value'] = this._value;
+                            if (this.host?.returnValue() === 'boolean') {
+                                if (item.testChecked && !value[item.index]) {
+                                    item.testChecked = false;
+                                } else if (!item.testChecked && value[item.index]) {
+                                    item.testChecked = true;
+                                }
+                            } else {
+                                if (item.testChecked && Array.isArray(value) && !value?.includes(item.value())) {
+                                    item.testChecked = false;
+                                } else if (!item.testChecked && Array.isArray(value) && value?.includes(item.value())) {
+                                    item.testChecked = true;
+                                }
+                            }
+                        }
+                    });
+            }
+        }
+    }
+
+    _change(event?: Event) {
+        event?.stopPropagation();
         this.testChecked = !this.testChecked;
         const value = this.getValue();
         this.onChange(value);

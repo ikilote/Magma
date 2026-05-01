@@ -108,7 +108,9 @@ describe('MagmaInputPassword', () => {
     it('should call changeValue on input change', () => {
         vi.spyOn(component, 'changeValue');
         const inputElement = fixture.debugElement.query(By.css('input'));
-        inputElement.triggerEventHandler('change', { target: { value: 'new password' } });
+        const mockEvent = new Event('change');
+        Object.defineProperty(mockEvent, 'target', { value: { value: 'new password' } });
+        inputElement.triggerEventHandler('change', mockEvent);
         expect(component.changeValue).toHaveBeenCalled();
     });
 

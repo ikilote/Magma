@@ -22,7 +22,7 @@ export class CodeTabsComponent {
 
     code = input.required<
         {
-            type: 'html' | 'ts' | 'css' | 'scss';
+            type: 'html' | 'ts' | 'css' | 'scss' | 'txt';
             title?: string;
             code: string | { title?: string; code: string } | (string | { title?: string; code: string })[];
         }[]

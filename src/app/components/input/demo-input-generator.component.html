@@ -58,6 +58,35 @@
           <mg-input-radio formControlName="access" value="ngModel">ngModel</mg-input-radio>
           <mg-input-radio formControlName="access" value="formControlName">formControlName</mg-input-radio>
         </mg-input>
+        <mg-input class="s-12" typeValue="array" returnValue="value">
+          <mg-input-label>Events</mg-input-label>
+          <mg-input-checkbox formControlName="selectedEvents" value="update">update</mg-input-checkbox>
+          <mg-input-checkbox formControlName="selectedEvents" value="change">change</mg-input-checkbox>
+          @if (formGenerator.value.type === 'checkbox') {
+            <mg-input-checkbox formControlName="selectedEvents" value="itemUpdate">itemUpdate</mg-input-checkbox>
+          }
+          @if (formGenerator.value.type === 'select') {
+            <mg-input-checkbox formControlName="selectedEvents" value="open">open</mg-input-checkbox>
+          }
+          @if (formGenerator.value.type === 'select') {
+            <mg-input-checkbox formControlName="selectedEvents" value="close">close</mg-input-checkbox>
+          }
+          @if (formGenerator.value.type === 'select') {
+            <mg-input-checkbox formControlName="selectedEvents" value="focus">focus</mg-input-checkbox>
+          }
+          @if (formGenerator.value.type === 'select') {
+            <mg-input-checkbox formControlName="selectedEvents" value="blur">blur</mg-input-checkbox>
+          }
+          @if (formGenerator.value.type === 'select') {
+            <mg-input-checkbox formControlName="selectedEvents" value="search">search</mg-input-checkbox>
+          }
+          @if (formGenerator.value.type === 'select') {
+            <mg-input-checkbox formControlName="selectedEvents" value="scroll">scroll</mg-input-checkbox>
+          }
+          @if (formGenerator.value.type === 'select') {
+            <mg-input-checkbox formControlName="selectedEvents" value="removeOption">removeOption</mg-input-checkbox>
+          }
+        </mg-input>
       </div>
 
       <h3>Input detail</h3>
@@ -339,6 +368,9 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [datalist]="formGenerator.value.datalist ? datalistText : undefined"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-text-gen"
             />
           }
           @case ('textarea') {
@@ -356,6 +388,9 @@
               [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-textarea-gen"
             >
               @if (formGenerator.value.textareaDesc) {
                 <mg-input-textarea-desc>{{ formGenerator.value.textareaDesc }}</mg-input-textarea-desc>
@@ -370,6 +405,9 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [hideDatePicker]="formGenerator.value.hideDatePicker ?? false"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-date-gen"
             />
           }
           @case ('password') {
@@ -381,6 +419,9 @@
               [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-password-gen"
             />
           }
           @case ('number') {
@@ -400,6 +441,9 @@
               [datalist]="formGenerator.value.datalist ? datalistNumber : undefined"
               [(ngModel)]="valueNumber"
               (ngModelChange)="codeGeneration()"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-number-gen"
             />
           }
           @case ('range') {
@@ -412,7 +456,10 @@
               [datalist]="formGenerator.value.datalist ? datalistRange : undefined"
               [(ngModel)]="valueRange"
               (ngModelChange)="codeGeneration()"
-            ></mg-input-range>
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-range-gen"
+            />
           }
           @case ('checkbox') {
             <mg-input-checkbox
@@ -422,6 +469,10 @@
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueCheckbox"
               (ngModelChange)="codeGeneration()"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              (itemUpdate)="onEvent('itemUpdate', $event)"
+              id="mg-input-checkbox-gen-0"
               >{{ formGenerator.value.subLabel1 }}</mg-input-checkbox
             >
           }
@@ -432,6 +483,9 @@
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueRadio"
               (ngModelChange)="codeGeneration()"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-radio-gen-0"
               >{{ formGenerator.value.subLabel1 }}</mg-input-radio
             >
           }
@@ -446,6 +500,16 @@
               [overlay]="formGenerator.value.overlay"
               [(ngModel)]="valueSelect"
               (ngModelChange)="codeGeneration()"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              (open)="onEvent('open', $event)"
+              (close)="onEvent('close', $event)"
+              (focus)="onEvent('focus', $event)"
+              (blur)="onEvent('blur', $event)"
+              (search)="onEvent('search', $event)"
+              (scroll)="onEvent('scroll', $event)"
+              (removeOption)="onEvent('removeOption', $event)"
+              id="mg-input-select-gen"
             />
           }
           @case ('color') {
@@ -459,6 +523,9 @@
               [datalist]="formGenerator.value.datalist ? datalistColor : undefined"
               [(ngModel)]="valueColor"
               (ngModelChange)="codeGeneration()"
+              (update)="onEvent('update', $event)"
+              (change)="onEvent('change', $event)"
+              id="mg-input-color-gen"
             />
           }
         }
@@ -470,6 +537,10 @@
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueCheckbox"
             (ngModelChange)="codeGeneration()"
+            (update)="onEvent('update', $event)"
+            (change)="onEvent('change', $event)"
+            (itemUpdate)="onEvent('itemUpdate', $event)"
+            id="mg-input-checkbox-gen-1"
             >{{ formGenerator.value.subLabel2 }}</mg-input-checkbox
           >
         }
@@ -481,6 +552,10 @@
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueCheckbox"
             (ngModelChange)="codeGeneration()"
+            (update)="onEvent('update', $event)"
+            (change)="onEvent('change', $event)"
+            (itemUpdate)="onEvent('itemUpdate', $event)"
+            id="mg-input-checkbox-gen-2"
             >{{ formGenerator.value.subLabel3 }}</mg-input-checkbox
           >
         }
@@ -491,6 +566,9 @@
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueRadio"
             (ngModelChange)="codeGeneration()"
+            (update)="onEvent('update', $event)"
+            (change)="onEvent('change', $event)"
+            id="mg-input-radio-gen-1"
             >{{ formGenerator.value.subLabel2 }}</mg-input-radio
           >
         }
@@ -501,6 +579,9 @@
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueRadio"
             (ngModelChange)="codeGeneration()"
+            (update)="onEvent('update', $event)"
+            (change)="onEvent('change', $event)"
+            id="mg-input-radio-gen-2"
             >{{ formGenerator.value.subLabel3 }}</mg-input-radio
           >
         }
@@ -546,6 +627,16 @@
         }
       </code>
     </p>
+
+    @if ((formGenerator.value.selectedEvents ?? []).length > 0) {
+      <h2>Events</h2>
+      @if (logEvents) {
+        <button class="clear" (click)="logEvents = ''">Clear</button>
+        <code dir="ltr"><pre [highlight]="logEvents" language="js"></pre></code>
+      } @else {
+        No event
+      }
+    }
 
     <h2>Code</h2>
     <code-tabs

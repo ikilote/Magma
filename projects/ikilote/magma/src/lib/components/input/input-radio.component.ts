@@ -61,7 +61,8 @@ export class MagmaInputRadio extends MagmaInputCommon implements AfterContentChe
         this.cd.detectChanges();
     }
 
-    _change() {
+    _change(event?: Event) {
+        event?.stopPropagation();
         const value = this.value();
         this.onChange(value);
         this.onTouched();

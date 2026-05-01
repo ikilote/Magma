@@ -7,7 +7,7 @@
     [checked]="testChecked"
     [disabled]="disabled() || readonly()"
     [readonly]="readonly()"
-    (change)="_change()"
+    (change)="_change($event)"
   /><label #ref [for]="_id() + '-input'" [class.empty]="!ref.textContent">
     <ng-content />
   </label>

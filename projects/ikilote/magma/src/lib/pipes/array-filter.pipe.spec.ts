@@ -77,6 +77,15 @@ describe('ArrayFilterPipe', () => {
         expect(result).toEqual([]);
     });
 
+    it('should return items as-is when isEmpty returns true (empty array short-circuit)', () => {
+        // isEmpty([]) returns true, so the filter branch is skipped
+        const input: any[] = [];
+        const callback = vi.fn(() => true);
+        const result = pipe.transform(input, callback);
+        expect(result).toBe(input);
+        expect(callback).not.toHaveBeenCalled();
+    });
+
     it('should return the original array if items is null', () => {
         const input = null;
         const callback = (item: any) => true;

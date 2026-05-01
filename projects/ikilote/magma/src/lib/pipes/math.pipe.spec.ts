@@ -117,4 +117,10 @@ describe('MathPipe', () => {
         expect(pipe.transform(10, 'abs!')).toBeUndefined();
         expect(pipe.transform(10, 'abs?')).toBeUndefined();
     });
+
+    it('should return undefined when Math property exists but is not a function (e.g. Math.PI)', () => {
+        // Math.PI is a number, not a function — typeof guard returns undefined
+        expect(pipe.transform(10, 'PI')).toBeUndefined();
+        expect(pipe.transform(10, 'E')).toBeUndefined();
+    });
 });

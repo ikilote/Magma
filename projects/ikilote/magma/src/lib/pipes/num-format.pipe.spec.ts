@@ -124,6 +124,11 @@ describe('NumFormatPipe', () => {
         expect(result).toBe('1,234.56');
     });
 
+    it('should format decimal numbers using a string pattern and using default round mode', () => {
+        const result = pipe.transform(1234.567, '#,##0.00', undefined, 'default');
+        expect(result).toBe('1,234.57');
+    });
+
     // --- Edge Case Tests ---
     it('should handle very large numbers', () => {
         const result = pipe.transform(1e12, '#,##0');

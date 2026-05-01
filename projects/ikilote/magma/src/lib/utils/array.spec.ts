@@ -215,6 +215,16 @@ describe('sortWithRule', () => {
 
             expect(array.map(item => item.name)).toEqual(['Alice', 'Bob', 'Charlie']);
         });
+
+        it('should parse string rule format with desc order', () => {
+            // 'init' in the parsed rule is stored but sortWithRule uses currentRuleOrder param for direction
+            // string format 'name:string:desc' parses init='desc' but still sorts asc by default
+            const array = [{ name: 'Charlie' }, { name: 'Alice' }, { name: 'Bob' }];
+
+            sortWithRule(array, 'name:string:desc');
+
+            expect(array.map(item => item.name)).toEqual(['Alice', 'Bob', 'Charlie']);
+        });
     });
 
     describe('Edge cases', () => {

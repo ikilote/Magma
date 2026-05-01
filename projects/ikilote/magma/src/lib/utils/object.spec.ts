@@ -231,4 +231,18 @@ describe('objectAssignNested', () => {
         const result = objectAssignNested(target, source);
         expect(result).toEqual({ a: { b: null } });
     });
+
+    it('should overwrite primitive target with object source', () => {
+        const target = { a: 'primitive' };
+        const source = { a: { nested: true } };
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: { nested: true } });
+    });
+
+    it('should overwrite object target with primitive source', () => {
+        const target = { a: { nested: true } };
+        const source = { a: 'primitive' };
+        const result = objectAssignNested(target, source);
+        expect(result).toEqual({ a: 'primitive' });
+    });
 });

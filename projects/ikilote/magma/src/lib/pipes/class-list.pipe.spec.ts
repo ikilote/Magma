@@ -100,4 +100,15 @@ describe('ClassListPipe', () => {
         const result = pipe.transform(input);
         expect(result).toEqual(['class-a', 'class-b', 'class-c', 'class-d']);
     });
+
+    it('should handle a plain string input', () => {
+        // MagmaStringArray accepts string — flattenedListItems splits on whitespace
+        const result = pipe.transform('class-a class-b class-c' as any);
+        expect(result).toEqual(['class-a', 'class-b', 'class-c']);
+    });
+
+    it('should handle a plain string with no spaces', () => {
+        const result = pipe.transform('single-class' as any);
+        expect(result).toEqual(['single-class']);
+    });
 });

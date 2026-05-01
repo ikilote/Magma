@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { FormBuilderExtended } from './form-builder-extended';
 
@@ -226,37 +226,65 @@ describe('FormBuilderExtended', () => {
             expect(form.get('tags') instanceof FormArray).toBe(true);
             expect(form.get('tags')).toBe(arr);
         });
+
+        it('should not add minlength validator when state is 0', () => {
+            const form = service.groupWithError({
+                name: { default: 'test', control: { minlength: { state: 0 } } },
+            });
+            expect(form.get('name')?.valid).toBe(true);
+            expect(form.get('name')?.hasError('minlength')).toBe(false);
+        });
+
+        it('should not add maxlength validator when state is 0', () => {
+            const form = service.groupWithError({
+                name: { default: 'test', control: { maxlength: { state: 0 } } },
+            });
+            expect(form.get('name')?.valid).toBe(true);
+            expect(form.get('name')?.hasError('maxlength')).toBe(false);
+        });
     });
 
-    describe('validateForm', () => {
-        it('should mark all controls as touched recursively', () => {
-            const form = service.groupWithError({
-                field1: { default: '', control: { required: { state: true } } },
-                nested: service.groupWithError({
+    describe('array', () => {
+        it('should create a FormArray', () => {
+            const ctrl = new FormControl('test');
+            const arr = service.array([ctrl]);
+            expect(arr instanceof FormArray).toBe(true);
+            expect(arr.length).toBe(1);
+        });
+
+        it('should create a FormArray with validators', () => {
+            const arr = service.array([], Validators.required);
+            expect(arr instanceof FormArray).toBe(true);
+        });
+    });
+
+    it('should mark all controls as touched recursively', () => {
+        const form = service.groupWithError({
+            field1: { default: '', control: { required: { state: true } } },
+            nested: service.groupWithError({
+                field2: { default: '', control: { required: { state: true } } },
+            }),
+            array: service.array([
+                service.groupWithError({
                     field2: { default: '', control: { required: { state: true } } },
                 }),
-                array: service.array([
+                service.array([
                     service.groupWithError({
                         field2: { default: '', control: { required: { state: true } } },
                     }),
-                    service.array([
-                        service.groupWithError({
-                            field2: { default: '', control: { required: { state: true } } },
-                        }),
-                    ]),
                 ]),
-            });
-
-            expect(form.touched).toBe(false);
-            expect(form.get('nested')?.touched).toBe(false);
-            expect(form.get('nested.field2')?.touched).toBe(false);
-
-            service.validateForm(form);
-
-            expect(form.touched).toBe(true);
-            expect(form.get('field1')?.touched).toBe(true);
-            expect(form.get('nested')?.touched).toBe(true);
-            expect(form.get('nested.field2')?.touched).toBe(true);
+            ]),
         });
+
+        expect(form.touched).toBe(false);
+        expect(form.get('nested')?.touched).toBe(false);
+        expect(form.get('nested.field2')?.touched).toBe(false);
+
+        service.validateForm(form);
+
+        expect(form.touched).toBe(true);
+        expect(form.get('field1')?.touched).toBe(true);
+        expect(form.get('nested')?.touched).toBe(true);
+        expect(form.get('nested.field2')?.touched).toBe(true);
     });
 });

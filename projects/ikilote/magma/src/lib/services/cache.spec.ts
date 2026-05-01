@@ -52,6 +52,28 @@ describe('MagmaCache', () => {
             expect((MagmaCache as any).cache[id].value).toEqual(value);
         });
 
+        it('should cache with a future endDate and return value without clearing', async () => {
+            const id = 'test-enddate';
+            const group = ['group1'];
+            const value = { data: 'with-expiry' };
+            const futureDate = new Date(Date.now() + 60_000);
+            const result = await cache.request(id, group, mockObservable(value), futureDate);
+            expect(result).toEqual(value);
+            expect((MagmaCache as any).cache[id].value).toEqual(value);
+        });
+
+        it('should not clear cache when endDate is in the future', async () => {
+            const id = 'test-future';
+            const group = ['group1'];
+            const value = { data: 'not-expired' };
+            const futureDate = new Date(Date.now() + 60_000);
+            (MagmaCache as any).cache[id] = { id, group, value, endDate: futureDate };
+            const spy = vi.spyOn(cache, 'clearById');
+            const result = await cache.request(id, group, mockObservable(value));
+            expect(spy).not.toHaveBeenCalled();
+            expect(result).toEqual(value);
+        });
+
         it('should handle groups as a string', async () => {
             const id = 'test5';
             const group = 'group1,group2';

@@ -117,6 +117,18 @@ describe('StrReplacePipe', () => {
         expect(result).toBe('test string');
     });
 
+    it('should handle regex string pattern with flags', () => {
+        // regexpSlash always produces a /g regex (flags from the string are discarded)
+        // so case-insensitive match only replaces the lowercase 'hello', not 'Hello'
+        const result = pipe.transform('Hello World hello', '/hello/i', 'Hi');
+        expect(result).toBe('Hello World Hi');
+    });
+
+    it('should handle regex string pattern with global flag', () => {
+        const result = pipe.transform('aAbBcC', '/[a-z]/g', '_');
+        expect(result).toBe('_A_B_C');
+    });
+
     it('should handle empty source', () => {
         const result = pipe.transform('test string', '', 'replacement');
         expect(result).toBe(

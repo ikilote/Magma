@@ -1,5 +1,36 @@
 # Changelog of @ikilote/magma
 
+## 1.7.0 (2026-04-23)
+
+### 🫢 Breaking
+
+- **palette**: adjust colors
+
+### ✅ New
+
+- **Input**:
+    - add change event
+    - improve input events
+- **Block**:
+    - add `--block-background`
+- **Palette**:
+    - add `--neutral010`
+    - add `--neutral025`
+
+### 🐞 Fix
+
+- **message**: fix CSS background with multi messages
+- **button**: improve CSS
+- **paginate**: improve CSS
+- **color-picker**: fix mobile
+
+### 🎦 Demo
+
+- add filter in the menu
+- fix menu active
+- fix mobile
+- **input**: add event console
+
 ## 1.6.1 (2026-04-23)
 
 ### ✅ New

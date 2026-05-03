@@ -153,3 +153,26 @@ describe('MagmaInput', () => {
         expect(checkboxContent).toBeTruthy();
     });
 });
+
+describe('MagmaInput - ngAfterContentChecked with no inputs', () => {
+    let component: MagmaInput;
+    let fixture: ComponentFixture<MagmaInput>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [MagmaInput] }).compileComponents();
+        fixture = TestBed.createComponent(MagmaInput);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not throw in ngAfterContentChecked when inputs is empty', () => {
+        expect(() => component.ngAfterContentChecked()).not.toThrow();
+    });
+});

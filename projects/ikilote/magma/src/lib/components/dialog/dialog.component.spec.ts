@@ -197,4 +197,19 @@ describe('MagmaDialog usage', () => {
         fixture.changeDetectorRef.detectChanges();
         expect(dialogComponent.isOpen()).toBe(true);
     });
+
+    it('should stop propagation and dispatch dialog-click when clicking on content div', () => {
+        dialogComponent.open();
+        fixture.changeDetectorRef.detectChanges();
+
+        const windowSpy = vi.spyOn(window, 'dispatchEvent');
+        const contentDiv = debugElement.query(By.css('.content'));
+        const clickEvent = new MouseEvent('click', { bubbles: true });
+        vi.spyOn(clickEvent, 'stopPropagation');
+
+        contentDiv.nativeElement.dispatchEvent(clickEvent);
+
+        expect(clickEvent.stopPropagation).toHaveBeenCalled();
+        expect(windowSpy).toHaveBeenCalledWith(expect.objectContaining({ type: 'dialog-click' }));
+    });
 });

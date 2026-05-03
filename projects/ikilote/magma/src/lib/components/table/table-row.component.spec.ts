@@ -123,4 +123,12 @@ describe('MagmaTableRow', () => {
         (component as any).inputs = () => [];
         expect(() => component.ngAfterViewInit()).not.toThrow();
     });
+
+    it('should not update index when host is undefined in ngAfterViewChecked', () => {
+        component.host = undefined;
+        component.index = 99;
+        component.ngAfterViewChecked();
+        // index should remain unchanged since host is undefined
+        expect(component.index).toBe(99);
+    });
 });

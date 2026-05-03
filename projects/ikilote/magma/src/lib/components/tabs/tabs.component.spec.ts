@@ -352,3 +352,92 @@ describe('MagmaTabs - Integration', () => {
         expect(tags.returnTabs).toHaveBeenCalled();
     });
 });
+
+// --- Additional branch coverage tests ---
+
+@Component({
+    template: `<mg-tabs></mg-tabs>`,
+    imports: [MagmaTabs],
+})
+class EmptyTabsHostComponent {}
+
+@Component({
+    template: `
+        <mg-tabs>
+            <mg-tab-title id="tab1" [selected]="true">Title 1</mg-tab-title>
+            <mg-tab-content id="tab1">Content 1</mg-tab-content>
+            <mg-tab-title id="tab2">Title 2</mg-tab-title>
+            <mg-tab-content id="tab2">Content 2</mg-tab-content>
+        </mg-tabs>
+    `,
+    imports: [MagmaTabs, MagmaTabTitle, MagmaTabContent],
+})
+class PreSelectedTabsHostComponent {}
+
+@Component({
+    template: `
+        <mg-tabs>
+            <mg-tab-title id="">Title no-id</mg-tab-title>
+            <mg-tab-content id="">Content no-id</mg-tab-content>
+        </mg-tabs>
+    `,
+    imports: [MagmaTabs, MagmaTabTitle, MagmaTabContent],
+})
+class NoIdTabsHostComponent {}
+
+describe('MagmaTabs - Branch coverage', () => {
+    afterEach(async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should handle ngAfterContentInit with no titles (empty tabs)', async () => {
+        await TestBed.configureTestingModule({ imports: [EmptyTabsHostComponent] }).compileComponents();
+        const fixture = TestBed.createComponent(EmptyTabsHostComponent);
+        expect(() => fixture.changeDetectorRef.detectChanges()).not.toThrow();
+        fixture.destroy();
+    });
+
+    it('should handle ngAfterViewChecked with no titles', async () => {
+        await TestBed.configureTestingModule({ imports: [EmptyTabsHostComponent] }).compileComponents();
+        const fixture = TestBed.createComponent(EmptyTabsHostComponent);
+        fixture.changeDetectorRef.detectChanges();
+        const tabs = fixture.debugElement.query(By.directive(MagmaTabs)).componentInstance as MagmaTabs;
+        expect(() => tabs.ngAfterViewChecked()).not.toThrow();
+        fixture.destroy();
+    });
+
+    it('should call update with emit=false and not emit tabChange', async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostComponent, MagmaTabs, MagmaTabTitle, MagmaTabContent],
+        }).compileComponents();
+        const fixture = TestBed.createComponent(TestHostComponent);
+        fixture.changeDetectorRef.detectChanges();
+        const tabs = fixture.debugElement.query(By.directive(MagmaTabs)).componentInstance as MagmaTabs;
+        const emitSpy = vi.spyOn(tabs.tabChange, 'emit');
+        tabs.update('tab1', false);
+        expect(emitSpy).not.toHaveBeenCalled();
+        fixture.destroy();
+    });
+
+    it('should handle titles without id in ngAfterContentInit', async () => {
+        await TestBed.configureTestingModule({ imports: [NoIdTabsHostComponent] }).compileComponents();
+        const fixture = TestBed.createComponent(NoIdTabsHostComponent);
+        expect(() => fixture.changeDetectorRef.detectChanges()).not.toThrow();
+        fixture.destroy();
+    });
+
+    it('should use pre-selected tab when one is already selected', async () => {
+        await TestBed.configureTestingModule({ imports: [PreSelectedTabsHostComponent] }).compileComponents();
+        const fixture = TestBed.createComponent(PreSelectedTabsHostComponent);
+        fixture.changeDetectorRef.detectChanges();
+        await new Promise(resolve => setTimeout(resolve, 50));
+        fixture.changeDetectorRef.detectChanges();
+        const tabs = fixture.debugElement.query(By.directive(MagmaTabs)).componentInstance as MagmaTabs;
+        // tab1 was pre-selected, so it should remain selected
+        expect(tabs.titles()[0].selected()).toBe(true);
+        fixture.destroy();
+    });
+});

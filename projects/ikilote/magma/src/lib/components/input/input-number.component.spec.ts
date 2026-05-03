@@ -316,3 +316,54 @@ describe('MagmaInputNumber', () => {
         expect(component.focus).toBeDefined();
     });
 });
+
+describe('MagmaInputNumber - focus branch', () => {
+    let component: MagmaInputNumber;
+    let fixture: ComponentFixture<MagmaInputNumber>;
+    let debugElement: DebugElement;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputNumber],
+            providers: [
+                { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputNumber, multi: true },
+                { provide: NG_VALIDATORS, useExisting: MagmaInputNumber, multi: true },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputNumber);
+        component = fixture.componentInstance;
+        debugElement = fixture.debugElement;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not call onTouched on focus(event, true)', () => {
+        vi.spyOn(component, 'onTouched');
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.dispatchEvent(new FocusEvent('focus'));
+        expect(component.onTouched).not.toHaveBeenCalled();
+    });
+
+    it('should emit change on input event', () => {
+        vi.spyOn(component.change, 'emit');
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.value = '42';
+        inputElement.dispatchEvent(new Event('input'));
+        expect(component.change.emit).toHaveBeenCalledWith(42);
+    });
+
+    it('should emit update on change event', () => {
+        vi.spyOn(component.update, 'emit');
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.value = '42';
+        inputElement.dispatchEvent(new Event('change'));
+        expect(component.update.emit).toHaveBeenCalledWith(42);
+    });
+});

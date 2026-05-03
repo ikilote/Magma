@@ -1057,4 +1057,28 @@ describe('MagmaDatetimePickerComponent', () => {
             vi.useRealTimers();
         });
     });
+
+    describe('Uncovered branches', () => {
+        // move() with a key that produces move=0
+        it('should do nothing in move() when key is not an arrow key', () => {
+            fixture.componentRef.setInput('value', '2026-02-15');
+            fixture.changeDetectorRef.detectChanges();
+            vi.spyOn(component as any, 'updateDate');
+            const event = new KeyboardEvent('keydown', { key: 'Enter' });
+            vi.spyOn(event, 'preventDefault');
+            component['move'](event);
+            expect((component as any).updateDate).not.toHaveBeenCalled();
+            expect(event.preventDefault).not.toHaveBeenCalled();
+        });
+
+        // updateDate() after ngOnDestroy — destroyed=true, emit should not be called
+        it('should not emit datetimeChange after ngOnDestroy', () => {
+            fixture.componentRef.setInput('value', '2026-02-15');
+            fixture.changeDetectorRef.detectChanges();
+            const spy = vi.spyOn(component.datetimeChange, 'emit');
+            component.ngOnDestroy();
+            component['updateDate'](new Date());
+            expect(spy).not.toHaveBeenCalled();
+        });
+    });
 });

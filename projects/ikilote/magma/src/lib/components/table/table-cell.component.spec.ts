@@ -127,4 +127,12 @@ describe('MagmaTableCell', () => {
         fixture.changeDetectorRef.detectChanges();
         expect(component.el.nativeElement.classList.contains('hoverLink')).toBe(true);
     });
+
+    it('should not update index when host is undefined in ngAfterViewChecked', () => {
+        component.host = undefined;
+        component.index = 99;
+        component.ngAfterViewChecked();
+        // index should remain unchanged since host is undefined
+        expect(component.index).toBe(99);
+    });
 });

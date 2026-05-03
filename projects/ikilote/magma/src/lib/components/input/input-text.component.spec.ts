@@ -197,3 +197,54 @@ describe('MagmaInputText', () => {
         expect(debugElement.query(By.css('input')).nativeElement.value).toBe('');
     });
 });
+
+describe('MagmaInputText - event outputs', () => {
+    let component: MagmaInputText;
+    let fixture: ComponentFixture<MagmaInputText>;
+    let debugElement: DebugElement;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputText],
+            providers: [
+                { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputText, multi: true },
+                { provide: NG_VALIDATORS, useExisting: MagmaInputText, multi: true },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputText);
+        component = fixture.componentInstance;
+        debugElement = fixture.debugElement;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should emit change on input event', () => {
+        vi.spyOn(component.change, 'emit');
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.value = 'typed value';
+        inputElement.dispatchEvent(new Event('input'));
+        expect(component.change.emit).toHaveBeenCalledWith('typed value');
+    });
+
+    it('should emit update on change event', () => {
+        vi.spyOn(component.update, 'emit');
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.value = 'changed value';
+        inputElement.dispatchEvent(new Event('change'));
+        expect(component.update.emit).toHaveBeenCalledWith('changed value');
+    });
+
+    it('should emit change on clearField', () => {
+        vi.spyOn(component.change, 'emit');
+        component.writeValue('some value');
+        component.clearField();
+        expect(component.change.emit).toHaveBeenCalledWith('');
+    });
+});

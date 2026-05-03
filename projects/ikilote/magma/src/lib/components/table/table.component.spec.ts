@@ -181,4 +181,16 @@ describe('MagmaTable', () => {
         (component as any).inputs = () => [];
         expect(() => component.ngAfterViewChecked()).not.toThrow();
     });
+
+    it('should not set hover/hoverLink when no hover flags are set', () => {
+        component._data = {
+            thead: [[mockCell]],
+            tbody: [[mockCell]],
+            tfoot: [[mockCell]],
+        };
+        // All hover inputs default to false — the second if block should not execute
+        component.over(0, 0);
+        expect(component._data.tbody[0][0].cell.hover.set).not.toHaveBeenCalled();
+        expect(component._data.tbody[0][0].cell.hoverLink.set).not.toHaveBeenCalled();
+    });
 });

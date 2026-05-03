@@ -104,4 +104,18 @@ describe('MagmaTableGroup', () => {
             expect(component._data).toEqual((mockHost._data as any)[e]);
         });
     });
+
+    it('should not throw on mouseOut when host is undefined', () => {
+        component.host = undefined;
+        expect(() => component.mouseOut()).not.toThrow();
+    });
+
+    it('should not set table on rows when host is undefined in ngAfterViewChecked', () => {
+        const mockRows = [{ host: undefined, table: null }] as unknown as MagmaTableRow[];
+        (component as any)['inputs'] = () => mockRows;
+        component.host = undefined;
+        expect(() => component.ngAfterViewChecked()).not.toThrow();
+        // host is set via ??= but table should remain null since host is undefined
+        expect(mockRows[0].table).toBeNull();
+    });
 });

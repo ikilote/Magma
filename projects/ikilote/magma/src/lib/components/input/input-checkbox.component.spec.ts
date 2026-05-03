@@ -703,3 +703,80 @@ describe('MagmaInput with mono MagmaInputCheckbox', () => {
         expect(uniqueIds.size).toBe(ids.length);
     });
 });
+
+describe('MagmaInputCheckbox - testChecke without host', () => {
+    let component: MagmaInputCheckbox;
+    let fixture: ComponentFixture<MagmaInputCheckbox>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputCheckbox],
+            providers: [
+                { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputCheckbox, multi: true },
+                { provide: NG_VALIDATORS, useExisting: MagmaInputCheckbox, multi: true },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputCheckbox);
+        component = fixture.componentInstance;
+        // No host set — covers the else branch of testChecke
+        (component as any).host = undefined;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not throw in testChecke when host is undefined', () => {
+        expect(() => component.testChecke(true)).not.toThrow();
+        expect(component['testChecked']).toBeUndefined();
+    });
+
+    it('should not throw in writeValue when host is undefined', () => {
+        vi.useFakeTimers();
+        expect(() => component.writeValue(true)).not.toThrow();
+        vi.advanceTimersByTime(0);
+        vi.useRealTimers();
+    });
+});
+
+describe('MagmaInputCheckbox - DOM change event', () => {
+    let component: MagmaInputCheckbox;
+    let fixture: ComponentFixture<MagmaInputCheckbox>;
+    let debugElement: DebugElement;
+
+    beforeEach(async () => {
+        vi.useFakeTimers();
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputCheckbox],
+            providers: [
+                { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputCheckbox, multi: true },
+                { provide: NG_VALIDATORS, useExisting: MagmaInputCheckbox, multi: true },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputCheckbox);
+        component = fixture.componentInstance;
+        debugElement = fixture.debugElement;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        vi.advanceTimersByTime(100);
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should call _change when DOM change event fires on checkbox input', () => {
+        vi.spyOn(component, '_change');
+        const inputEl = debugElement.query(By.css('input[type="checkbox"]')).nativeElement;
+        inputEl.dispatchEvent(new Event('change'));
+        expect(component._change).toHaveBeenCalled();
+    });
+});

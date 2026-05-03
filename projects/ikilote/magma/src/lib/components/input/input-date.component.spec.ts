@@ -1132,3 +1132,318 @@ describe('MagmaInputDate', () => {
         });
     });
 });
+
+describe('MagmaInputDate - missing branch coverage', () => {
+    let component: MagmaInputDate;
+    let fixture: ComponentFixture<MagmaInputDate>;
+    let componentRef: ComponentRef<MagmaInputDate>;
+
+    beforeEach(async () => {
+        vi.useRealTimers();
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputDate, FormsModule, ReactiveFormsModule],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputDate);
+        component = fixture.componentInstance;
+        componentRef = fixture.componentRef;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not move focus when year > 9999 and lockFocus is true', () => {
+        componentRef.setInput('type', 'datetime-milli');
+        fixture.changeDetectorRef.detectChanges();
+
+        const id = fixture.elementRef.nativeElement.id;
+        const yearInput = document.querySelector<HTMLInputElement>(`#${id} .year`);
+        expect(yearInput).toBeTruthy();
+
+        yearInput!.valueAsNumber = 10000;
+        (component as any).lockFocus = true;
+        vi.spyOn(component as any, 'focusNext');
+
+        component.updateDate({ target: yearInput } as any, 'year');
+
+        expect(yearInput!.valueAsNumber).toBe(9999);
+        expect((component as any).focusNext).not.toHaveBeenCalled();
+    });
+
+    it('should not move focus when day value <= 3', () => {
+        componentRef.setInput('type', 'datetime-milli');
+        fixture.changeDetectorRef.detectChanges();
+
+        const id = fixture.elementRef.nativeElement.id;
+        const dayInput = document.querySelector<HTMLInputElement>(`#${id} .day`);
+        expect(dayInput).toBeTruthy();
+
+        dayInput!.valueAsNumber = 3;
+        vi.spyOn(component as any, 'focusNext');
+
+        component.updateDate({ target: dayInput } as any, 'day');
+
+        expect((component as any).focusNext).not.toHaveBeenCalled();
+    });
+
+    it('should not move focus when month value <= 1', () => {
+        componentRef.setInput('type', 'datetime-milli');
+        fixture.changeDetectorRef.detectChanges();
+
+        const id = fixture.elementRef.nativeElement.id;
+        const monthInput = document.querySelector<HTMLInputElement>(`#${id} .month`);
+        expect(monthInput).toBeTruthy();
+
+        monthInput!.valueAsNumber = 1;
+        vi.spyOn(component as any, 'focusNext');
+
+        component.updateDate({ target: monthInput } as any, 'month');
+
+        expect((component as any).focusNext).not.toHaveBeenCalled();
+    });
+
+    it('should emit change output on updateDate', () => {
+        componentRef.setInput('type', 'datetime-milli');
+        fixture.changeDetectorRef.detectChanges();
+
+        const id = fixture.elementRef.nativeElement.id;
+        const dayInput = document.querySelector<HTMLInputElement>(`#${id} .day`);
+        dayInput!.valueAsNumber = 15;
+
+        vi.spyOn(component.change, 'emit');
+        component.updateDate({ target: dayInput } as any, 'day');
+
+        expect(component.change.emit).toHaveBeenCalled();
+    });
+
+    it('should not call focus(true) onTouched', () => {
+        vi.spyOn(component, 'onTouched');
+        const id = fixture.elementRef.nativeElement.id;
+        const dayInput = document.querySelector<HTMLInputElement>(`#${id} .day`);
+        dayInput!.dispatchEvent(new FocusEvent('focus'));
+        expect(component.onTouched).not.toHaveBeenCalled();
+    });
+});
+
+describe('MagmaInputDate - uncovered DOM event listeners', () => {
+    let component: MagmaInputDate;
+    let fixture: ComponentFixture<MagmaInputDate>;
+    let componentRef: ComponentRef<MagmaInputDate>;
+
+    beforeEach(async () => {
+        vi.useRealTimers();
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputDate, FormsModule, ReactiveFormsModule],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputDate);
+        component = fixture.componentInstance;
+        componentRef = fixture.componentRef;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should trigger (input) listener on day input via DOM', () => {
+        const id = fixture.elementRef.nativeElement.id;
+        const dayInput = document.querySelector<HTMLInputElement>(`#${id} .day`);
+        expect(dayInput).toBeTruthy();
+        vi.spyOn(component, 'updateDate');
+        dayInput!.value = '5';
+        dayInput!.dispatchEvent(new Event('input', { bubbles: true }));
+        expect(component.updateDate).toHaveBeenCalledWith(expect.any(Event), 'day');
+    });
+
+    it('should trigger (input) listener on month input via DOM', () => {
+        const id = fixture.elementRef.nativeElement.id;
+        const monthInput = document.querySelector<HTMLInputElement>(`#${id} .month`);
+        expect(monthInput).toBeTruthy();
+        vi.spyOn(component, 'updateDate');
+        monthInput!.value = '6';
+        monthInput!.dispatchEvent(new Event('input', { bubbles: true }));
+        expect(component.updateDate).toHaveBeenCalledWith(expect.any(Event), 'month');
+    });
+
+    it('should trigger (keyup) and (keydown) listeners on seconds input via DOM', () => {
+        componentRef.setInput('type', 'datetime-seconds');
+        fixture.changeDetectorRef.detectChanges();
+
+        const id = fixture.elementRef.nativeElement.id;
+        const secondsInput = document.querySelector<HTMLInputElement>(`#${id} .seconds`);
+        expect(secondsInput).toBeTruthy();
+
+        vi.spyOn(component, 'keyup');
+        vi.spyOn(component, 'keydown');
+
+        secondsInput!.dispatchEvent(new KeyboardEvent('keyup', { key: '5', bubbles: true }));
+        secondsInput!.dispatchEvent(new KeyboardEvent('keydown', { key: '5', bubbles: true }));
+
+        expect(component.keyup).toHaveBeenCalled();
+        expect(component.keydown).toHaveBeenCalled();
+    });
+
+    it('should trigger (keyup) and (keydown) listeners on milli input via DOM', () => {
+        componentRef.setInput('type', 'datetime-milli');
+        fixture.changeDetectorRef.detectChanges();
+
+        const id = fixture.elementRef.nativeElement.id;
+        const milliInput = document.querySelector<HTMLInputElement>(`#${id} .milli`);
+        expect(milliInput).toBeTruthy();
+
+        vi.spyOn(component, 'keyup');
+        vi.spyOn(component, 'keydown');
+
+        milliInput!.dispatchEvent(new KeyboardEvent('keyup', { key: '5', bubbles: true }));
+        milliInput!.dispatchEvent(new KeyboardEvent('keydown', { key: '5', bubbles: true }));
+
+        expect(component.keyup).toHaveBeenCalled();
+        expect(component.keydown).toHaveBeenCalled();
+    });
+
+    it('should trigger (datetimeClose) listener on picker span via DOM', () => {
+        componentRef.setInput('hideDatePicker', false);
+        fixture.changeDetectorRef.detectChanges();
+
+        vi.spyOn(component, 'datePickerClose');
+
+        const id = fixture.elementRef.nativeElement.id;
+        const pickerDirective = component['datePicker']()[0];
+        expect(pickerDirective).toBeTruthy();
+
+        // Emit the close event directly on the directive
+        pickerDirective.datetimeClose.emit('2026-01-15');
+
+        expect(component.datePickerClose).toHaveBeenCalledWith('2026-01-15');
+    });
+});
+
+describe('MagmaInputDate - HTML template branch coverage', () => {
+    let component: MagmaInputDate;
+    let fixture: ComponentFixture<MagmaInputDate>;
+    let componentRef: ComponentRef<MagmaInputDate>;
+
+    beforeEach(async () => {
+        vi.useRealTimers();
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputDate, FormsModule, ReactiveFormsModule],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputDate);
+        component = fixture.componentInstance;
+        componentRef = fixture.componentRef;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    // Cover cond-expr branches: placeholderInfos?.xx when placeholderInfos is undefined
+    it('should render with undefined placeholderInfos (covers ?. null branches)', () => {
+        // Patch before first detectChanges so the template sees undefined
+        (component as any).placeholderInfos = undefined;
+        fixture.changeDetectorRef.detectChanges();
+        expect(() => fixture.changeDetectorRef.detectChanges()).not.toThrow();
+        const dayInput = fixture.nativeElement.querySelector('.day');
+        expect(dayInput).toBeTruthy();
+    });
+
+    it('should render time inputs with undefined placeholderInfos', () => {
+        componentRef.setInput('type', 'datetime-milli');
+        (component as any).placeholderInfos = undefined;
+        fixture.changeDetectorRef.detectChanges();
+        expect(() => fixture.changeDetectorRef.detectChanges()).not.toThrow();
+        const hoursInput = fixture.nativeElement.querySelector('.hours');
+        expect(hoursInput).toBeTruthy();
+    });
+
+    // (keyup) and (keydown) on seconds input
+    it('should trigger keyup and keydown on seconds input (datetime-seconds)', () => {
+        componentRef.setInput('type', 'datetime-seconds');
+        fixture.changeDetectorRef.detectChanges();
+
+        const secondsInput = fixture.nativeElement.querySelector('.seconds');
+        expect(secondsInput).toBeTruthy();
+
+        vi.spyOn(component, 'keyup');
+        vi.spyOn(component, 'keydown');
+
+        secondsInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3', bubbles: true }));
+        secondsInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3', bubbles: true }));
+
+        expect(component.keyup).toHaveBeenCalled();
+        expect(component.keydown).toHaveBeenCalled();
+    });
+
+    it('should trigger keyup and keydown on seconds input (datetime-milli)', () => {
+        componentRef.setInput('type', 'datetime-milli');
+        fixture.changeDetectorRef.detectChanges();
+
+        const secondsInput = fixture.nativeElement.querySelector('.seconds');
+        expect(secondsInput).toBeTruthy();
+
+        vi.spyOn(component, 'keyup');
+        vi.spyOn(component, 'keydown');
+
+        secondsInput.dispatchEvent(new KeyboardEvent('keyup', { key: '3', bubbles: true }));
+        secondsInput.dispatchEvent(new KeyboardEvent('keydown', { key: '3', bubbles: true }));
+
+        expect(component.keyup).toHaveBeenCalled();
+        expect(component.keydown).toHaveBeenCalled();
+    });
+});
+
+describe('MagmaInputDate - seconds keyup/keydown via Angular', () => {
+    let component: MagmaInputDate;
+    let fixture: ComponentFixture<MagmaInputDate>;
+    let componentRef: ComponentRef<MagmaInputDate>;
+
+    beforeEach(async () => {
+        vi.useRealTimers();
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputDate, FormsModule, ReactiveFormsModule],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputDate);
+        component = fixture.componentInstance;
+        componentRef = fixture.componentRef;
+        componentRef.setInput('type', 'datetime-seconds');
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should trigger keyup listener on seconds input via Angular DebugElement', () => {
+        const secondsEl = fixture.debugElement.query(By.css('.seconds'));
+        expect(secondsEl).toBeTruthy();
+        vi.spyOn(component, 'keyup');
+        secondsEl.triggerEventHandler('keyup', new KeyboardEvent('keyup', { key: '3' }));
+        expect(component.keyup).toHaveBeenCalled();
+    });
+
+    it('should trigger keydown listener on seconds input via Angular DebugElement', () => {
+        const secondsEl = fixture.debugElement.query(By.css('.seconds'));
+        expect(secondsEl).toBeTruthy();
+        vi.spyOn(component, 'keydown');
+        secondsEl.triggerEventHandler('keydown', new KeyboardEvent('keydown', { key: '3' }));
+        expect(component.keydown).toHaveBeenCalled();
+    });
+});

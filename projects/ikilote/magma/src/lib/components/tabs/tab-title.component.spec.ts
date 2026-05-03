@@ -181,3 +181,54 @@ describe('MagmaTabTitle', () => {
         vi.useRealTimers();
     });
 });
+
+// --- Additional branch coverage: tabs=undefined ---
+
+@Component({
+    template: `<mg-tab-title id="solo">Solo</mg-tab-title>`,
+    imports: [MagmaTabTitle],
+})
+class StandaloneTabTitleHost {}
+
+describe('MagmaTabTitle - no tabs reference', () => {
+    afterEach(async () => {
+        await new Promise(resolve => setTimeout(resolve, 50));
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not throw on focusLeft when tabs is undefined', async () => {
+        await TestBed.configureTestingModule({ imports: [StandaloneTabTitleHost] }).compileComponents();
+        const fixture = TestBed.createComponent(StandaloneTabTitleHost);
+        fixture.changeDetectorRef.detectChanges();
+        const title = fixture.debugElement.query(By.directive(MagmaTabTitle)).componentInstance as MagmaTabTitle;
+        title.tabs = undefined;
+        expect(() => title.focusLeft()).not.toThrow();
+        fixture.destroy();
+    });
+
+    it('should not throw on focusRight when tabs is undefined', async () => {
+        await TestBed.configureTestingModule({ imports: [StandaloneTabTitleHost] }).compileComponents();
+        const fixture = TestBed.createComponent(StandaloneTabTitleHost);
+        fixture.changeDetectorRef.detectChanges();
+        const title = fixture.debugElement.query(By.directive(MagmaTabTitle)).componentInstance as MagmaTabTitle;
+        title.tabs = undefined;
+        expect(() => title.focusRight()).not.toThrow();
+        fixture.destroy();
+    });
+
+    it('should not call tabs.update in onclick when tabs is undefined', async () => {
+        await TestBed.configureTestingModule({ imports: [StandaloneTabTitleHost] }).compileComponents();
+        const fixture = TestBed.createComponent(StandaloneTabTitleHost);
+        fixture.changeDetectorRef.detectChanges();
+        const title = fixture.debugElement.query(By.directive(MagmaTabTitle)).componentInstance as MagmaTabTitle;
+        title.tabs = undefined;
+        vi.useFakeTimers();
+        title.onclick();
+        vi.advanceTimersByTime(0);
+        // No error thrown, tabs.update not called
+        vi.useRealTimers();
+        fixture.destroy();
+    });
+});

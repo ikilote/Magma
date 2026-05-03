@@ -157,3 +157,63 @@ describe('MagmaInputTextarea', () => {
         expect(textareaElement.readOnly).toBe(true);
     });
 });
+
+describe('MagmaInputTextarea - focus branch', () => {
+    let component: MagmaInputTextarea;
+    let fixture: ComponentFixture<MagmaInputTextarea>;
+    let debugElement: DebugElement;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputTextarea],
+            providers: [
+                { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputTextarea, multi: true },
+                { provide: NG_VALIDATORS, useExisting: MagmaInputTextarea, multi: true },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputTextarea);
+        component = fixture.componentInstance;
+        debugElement = fixture.debugElement;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not call onTouched on focus(true)', () => {
+        vi.spyOn(component, 'onTouched');
+        const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
+        textareaElement.dispatchEvent(new Event('focus'));
+        expect(component.onTouched).not.toHaveBeenCalled();
+    });
+
+    it('should emit change on input event', () => {
+        vi.spyOn(component.change, 'emit');
+        const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
+        textareaElement.value = 'typed text';
+        textareaElement.dispatchEvent(new Event('input'));
+        expect(component.change.emit).toHaveBeenCalledWith('typed text');
+    });
+
+    it('should emit update on change event', () => {
+        vi.spyOn(component.update, 'emit');
+        const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
+        textareaElement.value = 'changed text';
+        textareaElement.dispatchEvent(new Event('change'));
+        expect(component.update.emit).toHaveBeenCalledWith('changed text');
+    });
+
+    it('should call onTouched on blur without ngControl', () => {
+        vi.spyOn(component, 'onTouched');
+        vi.spyOn(component, 'validate');
+        const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
+        textareaElement.dispatchEvent(new Event('blur'));
+        expect(component.onTouched).toHaveBeenCalled();
+        expect(component.validate).not.toHaveBeenCalled();
+    });
+});

@@ -120,3 +120,43 @@ describe('MagmaInputColor', () => {
         expect(component.inputElement?.value).toBe('#FF0000');
     });
 });
+
+describe('MagmaInputColor - null value branch', () => {
+    let component: MagmaInputColor;
+    let fixture: ComponentFixture<MagmaInputColor>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputColor],
+            providers: [
+                { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputColor, multi: true },
+                { provide: NG_VALIDATORS, useExisting: MagmaInputColor, multi: true },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputColor);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(async () => {
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should render hidden input with empty string when _value is null', () => {
+        component.writeValue(null);
+        fixture.changeDetectorRef.detectChanges();
+        const input = fixture.nativeElement.querySelector('input[type="hidden"]');
+        expect(input.value).toBe('');
+    });
+
+    it('should render hidden input with empty string when _value is undefined', () => {
+        component.writeValue(undefined);
+        fixture.changeDetectorRef.detectChanges();
+        const input = fixture.nativeElement.querySelector('input[type="hidden"]');
+        expect(input.value).toBe('');
+    });
+});

@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:all": "npm run test:lib:no-watch && npm run update-coverage-badges && npm run build build:lib && npm run build:demo",
     "build:lib": "ng build @ikilote/magma --configuration production && cp *.md dist/ikilote/magma",
     "build:demo": "ng build magma-demo --configuration production && cp -r coverage dist/magma-demo/browser",
     "publish:lib": "cd dist/ikilote/magma && npm publish ",
@@ -13,6 +14,7 @@
     "format": "npx prettier --write .",
     "test": "ng test",
     "test:lib": "ng test @ikilote/magma",
+    "test:lib:no-watch": "ng test @ikilote/magma --watch=false",
     "update-coverage-badges": "node scripts/update-coverage-badges.js"
   },
   "private": true,

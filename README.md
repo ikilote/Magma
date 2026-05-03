@@ -135,10 +135,10 @@ Add in `style.css`
 
 ## Supported versions of Angular
 
-| Magma | Angular |
-| ----: | ------: |
-| 1.1.x |    21.0 |
-| 1.0.0 |    20.x |
+|   Magma | Angular |
+| ------: | ------: |
+| ≥ 1.1.x |    21.0 |
+|   1.0.0 |    20.x |
 
 ## Development server
 
@@ -159,18 +159,16 @@ npm run build:demo
 
 ## Test
 
-### Linux
-
-Required for start test
-
-```sh
-export CHROME_BIN=chromium
-```
-
-Test for lib
+Test lib
 
 ```sh
 npm run test:lib
+```
+
+Lib test only once
+
+```sh
+npm run test:lib:no-watch
 ```
 
 Update coverage badges:

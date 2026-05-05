@@ -13,7 +13,7 @@ export enum LoggerLevel {
  */
 @Injectable({ providedIn: 'root' })
 export class Logger {
-    static minLogLevel = 'info';
+    static minLogLevel: keyof typeof LoggerLevel = 'info';
     static suffix = '';
 
     log(value: string, level: LoggerLevel = LoggerLevel.log, ...values: any[]) {

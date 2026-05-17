@@ -1,5 +1,12 @@
 # Changelog of @ikilote/magma
 
+## 1.7.1 (2026-05-17)
+
+### 🐞 Fix
+
+- add type for `Logger.minLogLevel`
+- fix `mgTooltip` on re-open
+
 ## 1.7.0 (2026-04-23)
 
 ### 🫢 Breaking

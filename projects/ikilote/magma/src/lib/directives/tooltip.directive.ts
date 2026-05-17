@@ -108,6 +108,7 @@ export class MagmaTooltipDirective implements OnDestroy {
 
     @HostListener('mouseenter')
     onMouseEnter() {
+        this.destroyed = false;
         this.timer = setTimeout(() => {
             this.createTooltip();
         }, this.mgTooltipEntryDelay());

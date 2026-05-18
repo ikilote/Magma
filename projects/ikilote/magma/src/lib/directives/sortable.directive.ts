@@ -9,6 +9,7 @@ import {
     SimpleChanges,
     inject,
     input,
+    output,
 } from '@angular/core';
 
 import { MagmaClickEnterDirective } from './click-enter.directive';
@@ -130,23 +131,25 @@ export class MagmaSortRuleDirective implements OnInit {
     selector: '[sortable]',
     standalone: true,
 })
-export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
+export class MagmaSortableDirective<T extends any> implements OnInit, OnChanges, OnDestroy {
     private readonly renderer = inject(Renderer2);
 
-    sortable = input.required<any[]>();
+    sortable = input.required<T[]>();
 
     sortableFilterInput = input<HTMLInputElement | MagmaInputCommon | undefined>(undefined, {
         alias: 'sortable-filter-input',
     });
 
-    sortableFilter = input<((key: string, item: any, index: number) => boolean) | undefined>(undefined, {
+    sortableFilter = input<((key: string, item: T, index: number) => boolean) | undefined>(undefined, {
         alias: 'sortable-filter',
     });
+
+    sortableChange = output<T[]>({ alias: 'sortable-change' });
 
     currentRule?: MagmaSortRules;
     currentRuleOrder = false;
 
-    private sortableComplete: any[] = [];
+    private sortableComplete: T[] = [];
     private inputListener?: () => void;
     private input = '';
 
@@ -193,6 +196,7 @@ export class MagmaSortableDirective implements OnInit, OnChanges, OnDestroy {
 
     sortLines() {
         sortWithRule(this.sortable(), this.currentRule, this.currentRuleOrder);
+        this.sortableChange.emit(this.sortable());
     }
 
     private filter(input: string) {

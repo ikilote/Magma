@@ -44,7 +44,7 @@ describe('MagmaTable', () => {
             tfoot: [[mockCell]],
         };
         fixture.componentRef.setInput('hover', true);
-        component.over(0, 0);
+        component.over(0, 0, true);
         expect(component._data.thead[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
         expect(component._data.tfoot[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
     });
@@ -59,7 +59,7 @@ describe('MagmaTable', () => {
             tfoot: [],
         };
         fixture.componentRef.setInput('hover', true);
-        component.over(0, 0);
+        component.over(0, 0, true);
         expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(false);
@@ -82,7 +82,7 @@ describe('MagmaTable', () => {
         };
         fixture.componentRef.setInput('hoverRow', true);
         fixture.componentRef.setInput('hoverCol', true);
-        component.over(0, 0);
+        component.over(0, 0, true);
         expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
@@ -99,7 +99,7 @@ describe('MagmaTable', () => {
             tfoot: [],
         };
         fixture.componentRef.setInput('hoverCol', true);
-        component.over(0, 0);
+        component.over(0, 0, true);
         expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
         expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
@@ -116,7 +116,7 @@ describe('MagmaTable', () => {
             tfoot: [],
         };
         fixture.componentRef.setInput('hoverRow', true);
-        component.over(0, 0);
+        component.over(0, 0, true);
         expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(false);
@@ -133,12 +133,133 @@ describe('MagmaTable', () => {
             tfoot: [],
         };
         fixture.componentRef.setInput('hoverCell', true);
-        component.over(0, 0);
+        component.over(0, 0, true);
         expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(true);
         expect(component._data.tbody[0][0].cell.hoverLink.set).not.toHaveBeenCalled();
         expect(component._data.tbody[0][1].cell.hoverLink.set).not.toHaveBeenCalled();
         expect(component._data.tbody[1][0].cell.hoverLink.set).not.toHaveBeenCalled();
         expect(component._data.tbody[1][1].cell.hoverLink.set).not.toHaveBeenCalled();
+    });
+
+    it('should not set hover when isTD is false with hover flag', () => {
+        component._data = {
+            thead: [],
+            tbody: [
+                [mockCell, mockCell],
+                [mockCell, mockCell],
+            ],
+            tfoot: [],
+        };
+        fixture.componentRef.setInput('hover', true);
+        component.over(0, 0, false);
+        expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+    });
+
+    it('should not set hover when isTD is false with hoverCell flag', () => {
+        component._data = {
+            thead: [],
+            tbody: [
+                [mockCell, mockCell],
+                [mockCell, mockCell],
+            ],
+            tfoot: [],
+        };
+        fixture.componentRef.setInput('hoverCell', true);
+        component.over(0, 0, false);
+        expect(component._data.tbody[0][0].cell.hover.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[0][0].cell.hoverLink.set).not.toHaveBeenCalled();
+    });
+
+    it('should not set hoverLink for row when isTD is false with hoverRow flag', () => {
+        component._data = {
+            thead: [],
+            tbody: [
+                [mockCell, mockCell],
+                [mockCell, mockCell],
+            ],
+            tfoot: [],
+        };
+        fixture.componentRef.setInput('hoverRow', true);
+        component.over(0, 0, false);
+        expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
+    });
+
+    it('should set hoverLink only for column when isTD is false with hoverRow and hoverCol flags', () => {
+        component._data = {
+            thead: [],
+            tbody: [
+                [mockCell, mockCell],
+                [mockCell, mockCell],
+            ],
+            tfoot: [],
+        };
+        fixture.componentRef.setInput('hoverRow', true);
+        fixture.componentRef.setInput('hoverCol', true);
+        component.over(0, 0, false);
+        expect(component._data.tbody[0][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][1].cell.hoverLink.set).toHaveBeenCalledWith(false);
+    });
+
+    it('should not set hoverLink for thead/tfoot when hoverCol is false', () => {
+        component._data = {
+            thead: [[mockCell]],
+            tbody: [],
+            tfoot: [[mockCell]],
+        };
+        fixture.componentRef.setInput('hoverRow', true);
+        component.over(0, 0, true);
+        expect(component._data.thead[0][0].cell.hoverLink.set).not.toHaveBeenCalled();
+        expect(component._data.tfoot[0][0].cell.hoverLink.set).not.toHaveBeenCalled();
+    });
+
+    it('should set hoverLink for thead/tfoot when hoverCol is true', () => {
+        component._data = {
+            thead: [[mockCell, mockCell]],
+            tbody: [],
+            tfoot: [[mockCell, mockCell]],
+        };
+        fixture.componentRef.setInput('hoverCol', true);
+        component.over(0, 1, true);
+        expect(component._data.thead[0][0].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.thead[0][1].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tfoot[0][0].cell.hoverLink.set).toHaveBeenCalledWith(false);
+        expect(component._data.tfoot[0][1].cell.hoverLink.set).toHaveBeenCalledWith(true);
+    });
+
+    it('should handle different line and column indices correctly', () => {
+        component._data = {
+            thead: [],
+            tbody: [
+                [mockCell, mockCell, mockCell],
+                [mockCell, mockCell, mockCell],
+                [mockCell, mockCell, mockCell],
+            ],
+            tfoot: [],
+        };
+        fixture.componentRef.setInput('hover', true);
+        component.over(1, 2, true);
+        expect(component._data.tbody[1][2].cell.hover.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][2].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[0][2].cell.hover.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[0][2].cell.hoverLink.set).toHaveBeenCalledWith(true);
+        expect(component._data.tbody[1][0].cell.hover.set).toHaveBeenCalledWith(false);
+        expect(component._data.tbody[1][0].cell.hoverLink.set).toHaveBeenCalledWith(true);
+    });
+
+    it('should handle empty tbody with hover flags', () => {
+        component._data = {
+            thead: [[mockCell]],
+            tbody: [],
+            tfoot: [[mockCell]],
+        };
+        fixture.componentRef.setInput('hover', true);
+        expect(() => component.over(0, 0, true)).not.toThrow();
     });
 
     it('should clear hover and hoverLink for all cells', () => {
@@ -189,7 +310,7 @@ describe('MagmaTable', () => {
             tfoot: [[mockCell]],
         };
         // All hover inputs default to false — the second if block should not execute
-        component.over(0, 0);
+        component.over(0, 0, true);
         expect(component._data.tbody[0][0].cell.hover.set).not.toHaveBeenCalled();
         expect(component._data.tbody[0][0].cell.hoverLink.set).not.toHaveBeenCalled();
     });

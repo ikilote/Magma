@@ -41,7 +41,7 @@ export class MagmaTable implements AfterViewChecked {
 
     readonly inputs = contentChildren(MagmaTableGroup);
 
-    over(line: number, col: number) {
+    over(line: number, col: number, isTD: boolean) {
         if (this.hover() || this.hoverCol()) {
             this._data.thead.forEach((row, _indexR) => {
                 row.forEach((cell, indexC) => {
@@ -58,12 +58,12 @@ export class MagmaTable implements AfterViewChecked {
             this._data.tbody.forEach((row, indexR) => {
                 row.forEach((cell, indexC) => {
                     if (this.hover() || this.hoverCell()) {
-                        cell.cell.hover.set(indexR === line && indexC === col);
+                        cell.cell.hover.set(indexR === line && indexC === col && isTD);
                     }
                     if (this.hover() || (this.hoverCol() && this.hoverRow())) {
-                        cell.cell.hoverLink.set(indexR === line || indexC === col);
+                        cell.cell.hoverLink.set((isTD && indexR === line) || indexC === col);
                     } else if (this.hoverRow()) {
-                        cell.cell.hoverLink.set(indexR === line);
+                        cell.cell.hoverLink.set(indexR === line && isTD);
                     } else if (this.hoverCol()) {
                         cell.cell.hoverLink.set(indexC === col);
                     }

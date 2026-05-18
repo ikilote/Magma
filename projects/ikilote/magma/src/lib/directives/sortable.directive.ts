@@ -195,14 +195,14 @@ export class MagmaSortableDirective<T = any> implements OnInit, OnChanges, OnDes
     }
 
     sortLines() {
-        this.sortLinesUpdate(this.sortable());
+        this.sortLinesFromList(this.sortable());
     }
 
     /**
      * Sort a specific list (useful when the signal input is not yet updated)
      * @param list The list to sort
      */
-    sortLinesUpdate(list: T[]) {
+    sortLinesFromList(list: T[]) {
         sortWithRule(list, this.currentRule, this.currentRuleOrder);
         this.sortableChange.emit(list);
     }

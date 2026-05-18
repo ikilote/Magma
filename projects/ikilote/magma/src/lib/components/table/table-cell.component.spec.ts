@@ -21,8 +21,9 @@ describe('MagmaTableCell', () => {
             detectChanges: vi.fn(),
         };
 
+        const tdElement = document.createElement('td');
         mockElementRef = {
-            nativeElement: document.createElement('td'),
+            nativeElement: tdElement,
         };
 
         await TestBed.configureTestingModule({
@@ -56,11 +57,32 @@ describe('MagmaTableCell', () => {
         expect(component.el.nativeElement.classList.contains('baseline')).toBe(true);
     });
 
-    it('should call table.over on mouseover', () => {
+    it('should call table.over on mouseover with TD element', () => {
+        // Mock the element tagName to be TD
+        Object.defineProperty(component.el.nativeElement, 'tagName', {
+            value: 'TD',
+            writable: false,
+            configurable: true,
+        });
+
         component.row = 1;
         component.index = 2;
         component.mouseOver();
-        expect(component.host?.table?.over).toHaveBeenCalledWith(1, 2);
+        expect(component.host?.table?.over).toHaveBeenCalledWith(1, 2, true);
+    });
+
+    it('should call table.over with false for TH elements', () => {
+        // Mock the element tagName to be TH
+        Object.defineProperty(component.el.nativeElement, 'tagName', {
+            value: 'TH',
+            writable: false,
+            configurable: true,
+        });
+
+        component.row = 1;
+        component.index = 2;
+        component.mouseOver();
+        expect(component.host?.table?.over).toHaveBeenCalledWith(1, 2, false);
     });
 
     it('should initialize hover and hoverLink signals', () => {

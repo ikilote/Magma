@@ -322,6 +322,119 @@ describe('MagmaSortableModule', () => {
         });
     });
 
+    describe('sortLinesFromList', () => {
+        it('should sort a custom list and emit sortable-change event', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            const customList = [
+                { name: 'Charlie', age: 35 },
+                { name: 'Alice', age: 30 },
+                { name: 'Bob', age: 25 },
+            ];
+
+            sortableDirective.sortWithRule('name', 'asc');
+            sortableDirective.sortLinesFromList(customList);
+
+            expect(emitSpy).toHaveBeenCalledTimes(2); // Once for sortWithRule, once for sortLinesFromList
+            expect(emitSpy).toHaveBeenLastCalledWith([
+                { name: 'Alice', age: 30 },
+                { name: 'Bob', age: 25 },
+                { name: 'Charlie', age: 35 },
+            ]);
+            expect(customList).toEqual([
+                { name: 'Alice', age: 30 },
+                { name: 'Bob', age: 25 },
+                { name: 'Charlie', age: 35 },
+            ]);
+        });
+
+        it('should sort a custom list in descending order', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            const customList = [
+                { name: 'Alice', age: 30 },
+                { name: 'Charlie', age: 35 },
+                { name: 'Bob', age: 25 },
+            ];
+
+            sortableDirective.sortWithRule('name', 'desc');
+            sortableDirective.sortLinesFromList(customList);
+
+            expect(emitSpy).toHaveBeenCalledTimes(2);
+            expect(emitSpy).toHaveBeenLastCalledWith([
+                { name: 'Charlie', age: 35 },
+                { name: 'Bob', age: 25 },
+                { name: 'Alice', age: 30 },
+            ]);
+        });
+
+        it('should sort by number attribute', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            const customList = [
+                { name: 'Alice', age: 30 },
+                { name: 'Charlie', age: 35 },
+                { name: 'Bob', age: 25 },
+            ];
+
+            sortableDirective.sortWithRule({ attr: 'age', type: 'number' }, 'asc');
+            sortableDirective.sortLinesFromList(customList);
+
+            expect(emitSpy).toHaveBeenLastCalledWith([
+                { name: 'Bob', age: 25 },
+                { name: 'Alice', age: 30 },
+                { name: 'Charlie', age: 35 },
+            ]);
+        });
+
+        it('should handle empty list', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            const customList: any[] = [];
+
+            sortableDirective.sortWithRule('name', 'asc');
+            sortableDirective.sortLinesFromList(customList);
+
+            expect(emitSpy).toHaveBeenLastCalledWith([]);
+            expect(customList).toEqual([]);
+        });
+
+        it('should handle list with single item', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            const customList = [{ name: 'Alice', age: 30 }];
+
+            sortableDirective.sortWithRule('name', 'asc');
+            sortableDirective.sortLinesFromList(customList);
+
+            expect(emitSpy).toHaveBeenLastCalledWith([{ name: 'Alice', age: 30 }]);
+            expect(customList).toEqual([{ name: 'Alice', age: 30 }]);
+        });
+
+        it('should work without setting a rule first', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            const customList = [
+                { name: 'Bob', age: 25 },
+                { name: 'Alice', age: 30 },
+            ];
+
+            sortableDirective.sortLinesFromList(customList);
+
+            expect(emitSpy).toHaveBeenCalledTimes(1);
+            expect(emitSpy).toHaveBeenCalledWith([
+                { name: 'Bob', age: 25 },
+                { name: 'Alice', age: 30 },
+            ]);
+        });
+    });
+
     describe('sortable-change event', () => {
         it('should emit sortable-change event when sorting', () => {
             const emitSpy = vi.fn();

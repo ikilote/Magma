@@ -55,7 +55,7 @@ export class MagmaTableCell implements AfterViewInit, AfterViewChecked {
     @HostListener('mouseover')
     mouseOver() {
         if (this.table) {
-            this.table.over(this.row, this.index);
+            this.table.over(this.row, this.index, this.el.nativeElement.tagName === 'TD');
         }
     }
 }

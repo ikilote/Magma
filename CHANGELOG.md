@@ -1,5 +1,15 @@
 # Changelog of @ikilote/magma
 
+## 1.7.2 (2026-05-18)
+
+### ✅ New
+
+- add `sortLinesFromList` method on `MagmaSortableDirective`
+
+### 🐞 Fix
+
+- fix `sortWithRule()` with invalid date
+
 ## 1.7.1 (2026-05-17)
 
 ### 🐞 Fix

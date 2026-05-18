@@ -104,6 +104,71 @@ describe('sortWithRule', () => {
 
             expect(array.map(item => item.date)).toEqual(['2024-01-01', '2023-01-01', '2022-01-01']);
         });
+
+        it('should handle null dates by treating them as epoch (0)', () => {
+            const array = [{ date: '2023-01-01' }, { date: null }, { date: '2022-01-01' }];
+
+            sortWithRule(array, { attr: 'date', type: 'date' });
+
+            // null should be treated as 0 (epoch), which is before 2022
+            expect(array[0].date).toBeNull();
+            expect(array[1].date).toBe('2022-01-01');
+            expect(array[2].date).toBe('2023-01-01');
+        });
+
+        it('should handle undefined dates by treating them as epoch (0)', () => {
+            const array = [{ date: '2023-01-01' }, { date: undefined }, { date: '2022-01-01' }];
+
+            sortWithRule(array, { attr: 'date', type: 'date' });
+
+            // undefined should be treated as 0 (epoch), which is before 2022
+            expect(array[0].date).toBeUndefined();
+            expect(array[1].date).toBe('2022-01-01');
+            expect(array[2].date).toBe('2023-01-01');
+        });
+
+        it('should handle invalid date strings by treating them as epoch (0)', () => {
+            const array = [{ date: '2023-01-01' }, { date: 'invalid-date' }, { date: '2022-01-01' }];
+
+            sortWithRule(array, { attr: 'date', type: 'date' });
+
+            // invalid date should be treated as 0 (epoch), which is before 2022
+            expect(array[0].date).toBe('invalid-date');
+            expect(array[1].date).toBe('2022-01-01');
+            expect(array[2].date).toBe('2023-01-01');
+        });
+
+        it('should handle mixed valid and invalid dates', () => {
+            const array = [
+                { date: '2023-01-01' },
+                { date: null },
+                { date: '2022-01-01' },
+                { date: 'invalid' },
+                { date: undefined },
+                { date: '2024-01-01' },
+            ];
+
+            sortWithRule(array, { attr: 'date', type: 'date' });
+
+            // All invalid dates (null, undefined, 'invalid') should be at the beginning (treated as 0)
+            expect(array[0].date).toBeNull();
+            expect(array[1].date).toBe('invalid');
+            expect(array[2].date).toBeUndefined();
+            expect(array[3].date).toBe('2022-01-01');
+            expect(array[4].date).toBe('2023-01-01');
+            expect(array[5].date).toBe('2024-01-01');
+        });
+
+        it('should handle empty string dates by treating them as epoch (0)', () => {
+            const array = [{ date: '2023-01-01' }, { date: '' }, { date: '2022-01-01' }];
+
+            sortWithRule(array, { attr: 'date', type: 'date' });
+
+            // empty string should be treated as 0 (epoch), which is before 2022
+            expect(array[0].date).toBe('');
+            expect(array[1].date).toBe('2022-01-01');
+            expect(array[2].date).toBe('2023-01-01');
+        });
     });
 
     describe('Translate sorting', () => {

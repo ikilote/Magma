@@ -43,7 +43,9 @@ export function sortWithRule<T = any>(
                     } else if (rule.type === 'number') {
                         test = valA - valB;
                     } else if (rule.type === 'date') {
-                        test = new Date(valA).getTime() - new Date(valB).getTime();
+                        const dateA = valA ? new Date(valA).getTime() : 0;
+                        const dateB = valB ? new Date(valB).getTime() : 0;
+                        test = (isNaN(dateA) ? 0 : dateA) - (isNaN(dateB) ? 0 : dateB);
                     }
 
                     if (test !== 0) {

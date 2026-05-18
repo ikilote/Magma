@@ -131,7 +131,7 @@ export class MagmaSortRuleDirective implements OnInit {
     selector: '[sortable]',
     standalone: true,
 })
-export class MagmaSortableDirective<T extends any> implements OnInit, OnChanges, OnDestroy {
+export class MagmaSortableDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     private readonly renderer = inject(Renderer2);
 
     sortable = input.required<T[]>();
@@ -195,8 +195,16 @@ export class MagmaSortableDirective<T extends any> implements OnInit, OnChanges,
     }
 
     sortLines() {
-        sortWithRule(this.sortable(), this.currentRule, this.currentRuleOrder);
-        this.sortableChange.emit(this.sortable());
+        this.sortLinesUpdate(this.sortable());
+    }
+
+    /**
+     * Sort a specific list (useful when the signal input is not yet updated)
+     * @param list The list to sort
+     */
+    sortLinesUpdate(list: T[]) {
+        sortWithRule(list, this.currentRule, this.currentRuleOrder);
+        this.sortableChange.emit(list);
     }
 
     private filter(input: string) {

@@ -37,7 +37,7 @@ describe('MagmaSortableModule', () => {
     let component: TestHostComponent;
     let sortRuleDirectiveElement: DebugElement;
     let sortRuleDirective: MagmaSortRuleDirective;
-    let sortableDirective: MagmaSortableDirective;
+    let sortableDirective: MagmaSortableDirective<any>;
     let classList: DOMTokenList;
     let componentInstance: TestHostComponent;
 
@@ -222,7 +222,7 @@ describe('MagmaSortableModule', () => {
             const inputElement = document.createElement('input');
             inputElement.type = 'text';
             component.sortableFilterInput = inputElement;
-            component.sortableFilter = (key: string, item: any, index: number) => true;
+            component.sortableFilter = (_key: string, _item: any, _index: number) => true;
             fixture.changeDetectorRef.detectChanges();
             sortableDirective.ngOnInit();
             const inputListener = sortableDirective['inputListener'];
@@ -248,7 +248,7 @@ describe('MagmaSortableModule', () => {
             const inputElement = document.createElement('input');
             inputElement.type = 'text';
             component.sortableFilterInput = inputElement;
-            component.sortableFilter = (key: string, item: any, index: number) => true;
+            component.sortableFilter = (_key: string, _item: any, _index: number) => true;
             fixture.changeDetectorRef.detectChanges();
             sortableDirective.ngOnInit();
             componentInstance.sortable = [
@@ -264,7 +264,7 @@ describe('MagmaSortableModule', () => {
             inputElement.type = 'text';
             inputElement.value = 'test';
             component.sortableFilterInput = inputElement;
-            component.sortableFilter = (key: string, item: any, index: number) => true;
+            component.sortableFilter = (_key: string, _item: any, _index: number) => true;
             fixture.changeDetectorRef.detectChanges();
             sortableDirective.ngOnInit();
             componentInstance.sortable = [
@@ -280,7 +280,7 @@ describe('MagmaSortableModule', () => {
             inputElement.type = 'text';
             inputElement.value = 'test';
             component.sortableFilterInput = inputElement;
-            component.sortableFilter = (key: string, item: any, index: number) => item.name === 'Foo';
+            component.sortableFilter = (_key: string, item: any, _index: number) => item.name === 'Foo';
             componentInstance.sortable = [
                 { name: 'Foo', age: 30 },
                 { name: 'Bar', age: 25 },
@@ -304,7 +304,7 @@ describe('MagmaSortableModule', () => {
                 { name: 'Foo', age: 30 },
                 { name: 'Bar', age: 25 },
             ];
-            component.sortableFilter = (key: string, item: any, index: number) => item.name === 'Foo';
+            component.sortableFilter = (_key: string, item: any, _index: number) => item.name === 'Foo';
 
             sortableDirective['input'] = 'test';
             sortableDirective.ngOnInit();
@@ -319,6 +319,92 @@ describe('MagmaSortableModule', () => {
                 { name: 'Foo', age: 30 },
                 { name: 'Bar', age: 25 },
             ]);
+        });
+    });
+
+    describe('sortable-change event', () => {
+        it('should emit sortable-change event when sorting', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            componentInstance.sortRule = 'name';
+            fixture.changeDetectorRef.detectChanges();
+            sortRuleDirectiveElement.nativeElement.click();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(emitSpy).toHaveBeenCalledTimes(1);
+            expect(emitSpy).toHaveBeenCalledWith([
+                { name: 'Alice', age: 30 },
+                { name: 'Bob', age: 25 },
+            ]);
+        });
+
+        it('should emit sortable-change event with sorted data in descending order', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            componentInstance.sortRule = 'name';
+            fixture.changeDetectorRef.detectChanges();
+
+            // First click - ascending
+            sortRuleDirectiveElement.nativeElement.click();
+            fixture.changeDetectorRef.detectChanges();
+
+            // Second click - descending
+            sortRuleDirectiveElement.nativeElement.click();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(emitSpy).toHaveBeenCalledTimes(2);
+            expect(emitSpy).toHaveBeenLastCalledWith([
+                { name: 'Bob', age: 25 },
+                { name: 'Alice', age: 30 },
+            ]);
+        });
+
+        it('should emit sortable-change event when sorting by number', () => {
+            const emitSpy = vi.fn();
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            componentInstance.sortRule = { attr: 'age', type: 'number' };
+            fixture.changeDetectorRef.detectChanges();
+            sortRuleDirectiveElement.nativeElement.click();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(emitSpy).toHaveBeenCalledTimes(1);
+            expect(emitSpy).toHaveBeenCalledWith([
+                { name: 'Bob', age: 25 },
+                { name: 'Alice', age: 30 },
+            ]);
+        });
+
+        it('should emit sortable-change event when filtering', () => {
+            const emitSpy = vi.fn();
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            component.sortableFilterInput = inputElement;
+            component.sortableFilter = (_key: string, item: any, _index: number) =>
+                item.name.toLowerCase().includes(_key.toLowerCase());
+
+            // Initialize sortableComplete by changing sortable
+            componentInstance.sortable = [
+                { name: 'Alice', age: 30 },
+                { name: 'Bob', age: 25 },
+            ];
+            fixture.changeDetectorRef.detectChanges();
+            sortableDirective.ngOnInit();
+            fixture.changeDetectorRef.detectChanges();
+
+            sortableDirective.sortableChange.subscribe(emitSpy);
+
+            // Trigger filter
+            inputElement.value = 'Alice';
+            inputElement.dispatchEvent(new Event('input'));
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(emitSpy).toHaveBeenCalled();
+            const emittedData = emitSpy.mock.calls[0][0];
+            expect(emittedData).toHaveLength(1);
+            expect(emittedData[0].name).toBe('Alice');
         });
     });
 });
@@ -382,7 +468,7 @@ describe('MagmaSortableModule + MagmaInput', () => {
     let fixture: ComponentFixture<TestInputHostComponent>;
     let component: TestInputHostComponent;
     let sortRuleDirectiveElement: DebugElement;
-    let sortableDirective: MagmaSortableDirective;
+    let sortableDirective: MagmaSortableDirective<any>;
     let componentInstance: TestInputHostComponent;
 
     beforeEach(async () => {
@@ -402,7 +488,7 @@ describe('MagmaSortableModule + MagmaInput', () => {
 
     it('should call update once when sortable is initialized with input element and filter function', () => {
         vi.spyOn(sortableDirective, 'update');
-        component.sortableFilter = (key: string, item: any, index: number) => true;
+        component.sortableFilter = (_key: string, _item: any, _index: number) => true;
         fixture.changeDetectorRef.detectChanges();
         sortableDirective.ngOnInit();
         componentInstance.sortable = [

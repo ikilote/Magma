@@ -8,7 +8,15 @@
 
 ### 🐞 Fix
 
-- fix `sortWithRule()` with invalid date
+- **Utils:**
+    - `array`: improve handling of invalid values in `sortWithRule()`
+        - robust handling of null/undefined/NaN in numeric sorting
+        - handle null/undefined values in string sorting
+        - fix with invalid date
+        - add fallback for unknown types
+    - `number`: add `notANumber()` function
+
+- **Table:** fix mouse over on header
 
 ## 1.7.1 (2026-05-17)
 

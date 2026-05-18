@@ -49,8 +49,8 @@ Add in `style.css`
 
 ## Coverage
 
-<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Statements 99.09% (3925/3961)](https://test.ikilote.net/badge-custom.php?label=Statements&value=99.09%25&valueBgColor=4D9221) </a>
-<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Branches 97.34% (2715/2789)](https://test.ikilote.net/badge-custom.php?label=Branches&value=97.34%25&valueBgColor=4D9221) </a>
-<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Functions 96.69% (820/848)](https://test.ikilote.net/badge-custom.php?label=Functions&value=96.69%25&valueBgColor=4D9221) </a>
-<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Lines 99.93% (3136/3138)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.93%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Statements 99.09% (3944/3980)](https://test.ikilote.net/badge-custom.php?label=Statements&value=99.09%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Branches 97.41% (2753/2826)](https://test.ikilote.net/badge-custom.php?label=Branches&value=97.41%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Functions 96.7% (822/850)](https://test.ikilote.net/badge-custom.php?label=Functions&value=96.7%25&valueBgColor=4D9221) </a>
+<a href="https://magma.ikilote.net/coverage/@ikilote/magma/"> ![Lines 99.93% (3155/3157)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.93%25&valueBgColor=4D9221) </a>
 

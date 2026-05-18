@@ -68,6 +68,58 @@ describe('sortWithRule', () => {
 
             expect(array.map(item => item.name)).toEqual(['Charlie', 'Bob', 'Alice']);
         });
+
+        it('should handle undefined values by placing them at the end', () => {
+            const array = [{ name: 'Charlie' }, { name: undefined }, { name: 'Alice' }];
+
+            sortWithRule(array, { attr: 'name', type: 'string' });
+
+            // undefined should be at the end
+            expect(array[0].name).toBe('Alice');
+            expect(array[1].name).toBe('Charlie');
+            expect(array[2].name).toBeUndefined();
+        });
+
+        it('should handle null values by placing them at the end', () => {
+            const array = [{ name: 'Charlie' }, { name: null }, { name: 'Alice' }];
+
+            sortWithRule(array, { attr: 'name', type: 'string' });
+
+            // null should be at the end
+            expect(array[0].name).toBe('Alice');
+            expect(array[1].name).toBe('Charlie');
+            expect(array[2].name).toBeNull();
+        });
+
+        it('should handle numeric values by converting them to string', () => {
+            const array = [{ name: 'Charlie' }, { name: 123 }, { name: 'Alice' }];
+
+            sortWithRule(array, { attr: 'name', type: 'string' });
+
+            // 123 converted to "123" string should sort before "Alice"
+            expect(array[0].name).toBe(123);
+            expect(array[1].name).toBe('Alice');
+            expect(array[2].name).toBe('Charlie');
+        });
+
+        it('should handle mixed null, undefined, and strings', () => {
+            const array = [
+                { name: 'Charlie' },
+                { name: null },
+                { name: 'Alice' },
+                { name: undefined },
+                { name: 'Bob' },
+            ];
+
+            sortWithRule(array, { attr: 'name', type: 'string' });
+
+            // Valid strings sorted first, then null and undefined at the end
+            expect(array[0].name).toBe('Alice');
+            expect(array[1].name).toBe('Bob');
+            expect(array[2].name).toBe('Charlie');
+            expect(array[3].name).toBeNull();
+            expect(array[4].name).toBeUndefined();
+        });
     });
 
     describe('Number sorting', () => {
@@ -85,6 +137,95 @@ describe('sortWithRule', () => {
             sortWithRule(array, { attr: 'value', type: 'number' }, false);
 
             expect(array.map(item => item.value)).toEqual([3, 2, 1]);
+        });
+
+        it('should handle undefined values by placing them at the end (ascending)', () => {
+            const array = [{ value: 3 }, { value: undefined }, { value: 1 }];
+
+            sortWithRule(array, { attr: 'value', type: 'number' });
+
+            // undefined should be at the end
+            expect(array[0].value).toBe(1);
+            expect(array[1].value).toBe(3);
+            expect(array[2].value).toBeUndefined();
+        });
+
+        it('should handle undefined values by placing them at the end (descending)', () => {
+            const array = [{ value: 3 }, { value: undefined }, { value: 1 }];
+
+            sortWithRule(array, { attr: 'value', type: 'number' }, false);
+
+            // undefined should still be at the end in descending order
+            expect(array[0].value).toBe(3);
+            expect(array[1].value).toBe(1);
+            expect(array[2].value).toBeUndefined();
+        });
+
+        it('should handle null values by placing them at the end', () => {
+            const array = [{ value: 3 }, { value: null }, { value: 1 }];
+
+            sortWithRule(array, { attr: 'value', type: 'number' });
+
+            // null should be at the end
+            expect(array[0].value).toBe(1);
+            expect(array[1].value).toBe(3);
+            expect(array[2].value).toBeNull();
+        });
+
+        it('should handle mixed undefined, null, and valid numbers', () => {
+            const array = [{ value: 5 }, { value: undefined }, { value: 2 }, { value: null }, { value: 8 }];
+
+            sortWithRule(array, { attr: 'value', type: 'number' });
+
+            // Valid numbers sorted first, then null and undefined at the end
+            expect(array[0].value).toBe(2);
+            expect(array[1].value).toBe(5);
+            expect(array[2].value).toBe(8);
+            expect(array[3].value).toBeUndefined();
+            expect(array[4].value).toBeNull();
+        });
+
+        it('should handle missing properties by placing them at the end', () => {
+            const array = [{ value: 3 }, { other: 'property' }, { value: 1 }];
+
+            sortWithRule(array, { attr: 'value', type: 'number' });
+
+            // Missing property should be at the end
+            expect(array[0].value).toBe(1);
+            expect(array[1].value).toBe(3);
+            expect(array[2].other).toBe('property');
+        });
+
+        it('should handle NaN values by placing them at the end', () => {
+            const array = [{ value: 3 }, { value: NaN }, { value: 1 }];
+
+            sortWithRule(array, { attr: 'value', type: 'number' });
+
+            // NaN should be at the end
+            expect(array[0].value).toBe(1);
+            expect(array[1].value).toBe(3);
+            expect(array[2].value).toBeNaN();
+        });
+
+        it('should handle mixed NaN, null, undefined, and valid numbers', () => {
+            const array = [
+                { value: 5 },
+                { value: NaN },
+                { value: 2 },
+                { value: null },
+                { value: undefined },
+                { value: 8 },
+            ];
+
+            sortWithRule(array, { attr: 'value', type: 'number' });
+
+            // Valid numbers sorted first, then invalid values at the end
+            expect(array[0].value).toBe(2);
+            expect(array[1].value).toBe(5);
+            expect(array[2].value).toBe(8);
+            expect(array[3].value).toBeNaN();
+            expect(array[4].value).toBeNull();
+            expect(array[5].value).toBeUndefined();
         });
     });
 
@@ -324,6 +465,36 @@ describe('sortWithRule', () => {
             expect(array[0].name).toBe('Alice');
             expect(array[1].other).toBe('property');
             expect(array[2].name).toBe('Bob');
+        });
+
+        it('should handle unknown type by using string comparison', () => {
+            const array = [{ value: 'Charlie' }, { value: 'Alice' }, { value: 'Bob' }];
+
+            sortWithRule(array, { attr: 'value', type: 'unknown' as any });
+
+            // Should fall back to string comparison
+            expect(array.map(item => item.value)).toEqual(['Alice', 'Bob', 'Charlie']);
+        });
+
+        it('should handle unknown type with numeric values', () => {
+            const array = [{ value: 30 }, { value: 5 }, { value: 100 }];
+
+            sortWithRule(array, { attr: 'value', type: 'unknown' as any });
+
+            // Should use string comparison (lexicographic), not numeric
+            expect(array.map(item => item.value)).toEqual([100, 30, 5]);
+        });
+
+        it('should handle unknown type with null/undefined values', () => {
+            const array = [{ value: 'Charlie' }, { value: null }, { value: 'Alice' }, { value: undefined }];
+
+            sortWithRule(array, { attr: 'value', type: 'unknown' as any });
+
+            // Should convert to strings: null -> "null", undefined -> "undefined"
+            expect(array[0].value).toBe('Alice');
+            expect(array[1].value).toBe('Charlie');
+            expect(array[2].value).toBeNull();
+            expect(array[3].value).toBeUndefined();
         });
     });
 });

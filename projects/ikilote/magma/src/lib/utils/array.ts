@@ -1,3 +1,4 @@
+import { notANumber } from './number';
 import { objectNestedValue } from './object';
 
 import { MagmaSortRule, MagmaSortRules } from '../directives/sortable.directive';
@@ -35,17 +36,37 @@ export function sortWithRule<T = any>(
 
                     let test = 0;
                     if (rule.type === 'string') {
-                        test = (valA as string)?.localeCompare(valB as string);
+                        // Handle null/undefined by placing them at the end
+                        if ((valA === null || valA === undefined) && (valB === null || valB === undefined)) {
+                            test = 0;
+                        } else if (valA === null || valA === undefined) {
+                            return 1; // Always place invalid values at the end
+                        } else if (valB === null || valB === undefined) {
+                            return -1; // Always place invalid values at the end
+                        } else {
+                            test = valA.toString().localeCompare(valB.toString());
+                        }
                     } else if (rule.type === 'translate') {
                         test = rule
                             .translate(rule.translateId.replace('%value%', valA || rule.default))
                             .localeCompare(rule.translate(rule.translateId.replace('%value%', valB || rule.default)));
                     } else if (rule.type === 'number') {
-                        test = valA - valB;
+                        // Handle null/undefined/NaN by placing them at the end
+                        if (notANumber(valA) && notANumber(valB)) {
+                            test = 0;
+                        } else if (notANumber(valA)) {
+                            return 1; // Always place invalid values at the end
+                        } else if (notANumber(valB)) {
+                            return -1; // Always place invalid values at the end
+                        } else {
+                            test = valA - valB;
+                        }
                     } else if (rule.type === 'date') {
                         const dateA = valA ? new Date(valA).getTime() : 0;
                         const dateB = valB ? new Date(valB).getTime() : 0;
                         test = (isNaN(dateA) ? 0 : dateA) - (isNaN(dateB) ? 0 : dateB);
+                    } else {
+                        test = `${valA}`.localeCompare(`${valB}`);
                     }
 
                     if (test !== 0) {

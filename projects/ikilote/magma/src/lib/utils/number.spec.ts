@@ -1,4 +1,4 @@
-import { randomNumber } from './number';
+import { notANumber, randomNumber } from './number';
 
 describe('randomNumber', () => {
     // Save the original Math.random function
@@ -108,5 +108,58 @@ describe('randomNumber', () => {
         const result = randomNumber(size);
         expect(result.length).toBe(size);
         expect(result).toBe('00000');
+    });
+});
+
+describe('notANumber', () => {
+    it('should return true for null', () => {
+        expect(notANumber(null)).toBe(true);
+    });
+
+    it('should return true for undefined', () => {
+        expect(notANumber(undefined)).toBe(true);
+    });
+
+    it('should return true for NaN', () => {
+        expect(notANumber(NaN)).toBe(true);
+    });
+
+    it('should return false for valid numbers', () => {
+        expect(notANumber(0)).toBe(false);
+        expect(notANumber(1)).toBe(false);
+        expect(notANumber(-1)).toBe(false);
+        expect(notANumber(3.14)).toBe(false);
+        expect(notANumber(Infinity)).toBe(false);
+        expect(notANumber(-Infinity)).toBe(false);
+    });
+
+    it('should return true for numeric strings that result in NaN', () => {
+        expect(notANumber('abc')).toBe(true);
+        expect(notANumber('not a number')).toBe(true);
+    });
+
+    it('should return false for numeric strings', () => {
+        expect(notANumber('123')).toBe(false);
+        expect(notANumber('3.14')).toBe(false);
+    });
+
+    it('should return true for objects', () => {
+        expect(notANumber({})).toBe(true);
+        expect(notANumber({ value: 123 })).toBe(true);
+    });
+
+    it('should return true for arrays', () => {
+        expect(notANumber([])).toBe(false); // Empty array converts to 0
+        expect(notANumber([1])).toBe(false); // Single element array converts to that number
+        expect(notANumber([1, 2])).toBe(true); // Multi-element array converts to NaN
+    });
+
+    it('should return false for boolean values', () => {
+        expect(notANumber(true)).toBe(false); // true converts to 1
+        expect(notANumber(false)).toBe(false); // false converts to 0
+    });
+
+    it('should return false for empty string', () => {
+        expect(notANumber('')).toBe(false); // Empty string converts to 0
     });
 });

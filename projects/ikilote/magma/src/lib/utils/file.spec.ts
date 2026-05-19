@@ -5,13 +5,14 @@ import { blobToBase64, downloadFile, normalizeFileName, ulrToBase64 } from './fi
 describe('downloadFile', () => {
     let createElementSpy: Mock;
     let createObjectURLSpy: Mock;
+    let revokeObjectURLSpy: Mock;
     let clickSpy: Mock;
 
     beforeEach(() => {
         createElementSpy = vi.spyOn(document, 'createElement');
         createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockReturnValue('mock-url');
+        revokeObjectURLSpy = vi.spyOn(URL, 'revokeObjectURL');
         clickSpy = vi.fn();
-        vi.spyOn(URL, 'revokeObjectURL');
     });
 
     it('should create a download link with a Blob if content is not a data URL', () => {
@@ -23,6 +24,7 @@ describe('downloadFile', () => {
 
         expect(createElementSpy).toHaveBeenCalledWith('a');
         expect(createObjectURLSpy).toHaveBeenCalled();
+        expect(revokeObjectURLSpy).toHaveBeenCalledWith(expect.stringContaining('mock-url'));
         expect(aElement.download).toBe(fileName);
         expect(aElement.href).toContain('mock-url');
     });
@@ -31,11 +33,28 @@ describe('downloadFile', () => {
         const content = 'data:text/plain;base64,test';
         const fileName = 'test.txt';
 
+        // Reset spy to clear previous calls
+        revokeObjectURLSpy.mockClear();
+
         const aElement = downloadFile(content, fileName);
 
         expect(createElementSpy).toHaveBeenCalledWith('a');
         expect(aElement.href).toBe(content);
         expect(aElement.download).toBe(fileName);
+        expect(revokeObjectURLSpy).not.toHaveBeenCalled();
+    });
+
+    it('should handle Blob directly', () => {
+        const blob = new Blob(['test content'], { type: 'text/plain' });
+        const fileName = 'test.txt';
+
+        const aElement = downloadFile(blob, fileName);
+
+        expect(createElementSpy).toHaveBeenCalledWith('a');
+        expect(createObjectURLSpy).toHaveBeenCalledWith(blob);
+        expect(revokeObjectURLSpy).toHaveBeenCalledWith(expect.stringContaining('mock-url'));
+        expect(aElement.download).toBe(fileName);
+        expect(aElement.href).toContain('mock-url');
     });
 
     it('should return the created anchor element', () => {

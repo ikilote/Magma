@@ -1,13 +1,21 @@
-export function downloadFile(content: string, fileName: string, contentType?: string) {
-    var a = document.createElement('a');
-    if (content.startsWith('data:')) {
+export function downloadFile(content: string | Blob, fileName: string, contentType?: string) {
+    const a = document.createElement('a');
+    if (content instanceof Blob) {
+        a.href = URL.createObjectURL(content);
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(a.href);
+    } else if (content.startsWith('data:')) {
         a.href = content;
+        a.download = fileName;
+        a.click();
     } else {
-        var file = new Blob([content], contentType ? { type: contentType } : undefined);
+        const file = new Blob([content], contentType ? { type: contentType } : undefined);
         a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(a.href);
     }
-    a.download = fileName;
-    a.click();
     return a;
 }
 

@@ -1,5 +1,12 @@
 # Changelog of @ikilote/magma
 
+## 1.7.3 (2026-05-19)
+
+### ✅ New
+
+- **Utils:**
+    - `file`: `downloadFile()` accept `Blob`
+
 ## 1.7.2 (2026-05-18)
 
 ### ✅ New

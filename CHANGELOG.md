@@ -1,5 +1,13 @@
 # Changelog of @ikilote/magma
 
+## 1.7.4 (2026-05-22)
+
+### ✅ New
+
+- **input-select:**
+    - `highlightText`: new parameter (See example with [`ng-select2`](https://harvest-dev.github.io/ng-select2/dist/ng-select2/browser/#/examples/highlight))
+    - Japanese kana search (from `ng-select2`)
+
 ## 1.7.3 (2026-05-19)
 
 ### ✅ New

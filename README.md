@@ -146,14 +146,19 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The appli
 
 ## Publishing the library
 
-```
+```sh
+npm run build:all
+# or
 npm run build:lib
+
 npm run publish:lib
 ```
 
 ## Update Demo
 
-```
+```sh
+npm run build:all
+# or
 npm run build:demo
 ```
 
@@ -179,10 +184,10 @@ npm run update-coverage-badges
 
 ## Coverage
 
-[![Statements 99.09% (3952/3988)](https://test.ikilote.net/badge-custom.php?label=Statements&value=99.09%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Branches 97.41% (2755/2828)](https://test.ikilote.net/badge-custom.php?label=Branches&value=97.41%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Statements 99.09% (3953/3989)](https://test.ikilote.net/badge-custom.php?label=Statements&value=99.09%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Branches 97.41% (2756/2829)](https://test.ikilote.net/badge-custom.php?label=Branches&value=97.41%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
 [![Functions 96.7% (822/850)](https://test.ikilote.net/badge-custom.php?label=Functions&value=96.7%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Lines 99.93% (3163/3165)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.93%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Lines 99.93% (3164/3166)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.93%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
 
 ## License
 

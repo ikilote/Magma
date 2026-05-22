@@ -129,6 +129,9 @@ export class MagmaInputSelect extends MagmaInputCommon {
     /** selected value when × is clicked */
     readonly resetSelectedValue = input<any>(undefined);
 
+    /** highlight search text */
+    readonly highlightText = input(false, { transform: booleanAttribute });
+
     /** grid: item by line
      * * 0 = no grid
      * * number = item by line (4)

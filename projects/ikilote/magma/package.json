@@ -1,6 +1,6 @@
 {
   "name": "@ikilote/magma",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "Magma: personal components for Angular.",
   "author": "Célian Veyssière",
   "license": "MIT",
@@ -14,7 +14,7 @@
     "autosize": "^6.0.1",
     "bowser": "^2.14.1",
     "colorjs.io": "^0.6.1",
-    "ng-select2-component": "^17.2.10",
+    "ng-select2-component": "^17.3.1",
     "@ikilote/num-formatter": "^1.0.0"
   },
   "repository": {
@@ -35,6 +35,7 @@
     "color picker",
     "context menu",
     "contrib calendar",
+    "date picker",
     "input",
     "validator",
     "dialog",

@@ -128,6 +128,27 @@ describe('MagmaWindow', () => {
             expect(component['x'][0]).toBeGreaterThanOrEqual(50);
             expect(component['y'][0]).toBeGreaterThanOrEqual(100);
         });
+
+        it('should trigger drag method when cdkDragEnded event is emitted from template', () => {
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.spyOn(component, 'drag');
+            vi.spyOn<any, any>(component, 'getZone').mockReturnValue({ offsetWidth: 1000, offsetHeight: 1000 });
+
+            const contentElement = fixture.debugElement.query(By.css('.content'));
+            expect(contentElement).toBeTruthy();
+
+            const mockDragEndEvent = {
+                distance: { x: 30, y: 40 },
+                source: { element: { nativeElement: {} } },
+            } as CdkDragEnd;
+
+            // Trigger the cdkDragEnded event from the template
+            contentElement.triggerEventHandler('cdkDragEnded', mockDragEndEvent);
+
+            expect(component.drag).toHaveBeenCalledWith(mockDragEndEvent);
+        });
     });
 
     describe('Positioning & Resizing', () => {
@@ -204,6 +225,96 @@ describe('MagmaWindow', () => {
 
             expect(mockElement.style.height).toBe('150px');
             expect(component['y'][0]).toBe(50);
+        });
+
+        it('should NOT update LEFT when data[0] <= initPosition.x', () => {
+            component['x'] = [100, 200];
+            component['initPosition'] = { x: 100, y: 0 };
+            const initialWidth = mockElement.style.width;
+
+            // Act: data[0] (50) is NOT > initPosition.x (100)
+            component.update('left', [50, 200]);
+
+            // Assert: width should not change
+            expect(mockElement.style.width).toBe(initialWidth);
+        });
+
+        it('should NOT update RIGHT when data[1] <= initPosition.x', () => {
+            component['x'] = [100, 200];
+            component['initPosition'] = { x: 150, y: 0 };
+            const initialWidth = mockElement.style.width;
+
+            // Act: data[1] (100) is NOT > initPosition.x (150)
+            component.update('right', [100, 100]);
+
+            // Assert: width should not change
+            expect(mockElement.style.width).toBe(initialWidth);
+        });
+
+        it('should NOT update BOTTOM when data[1] <= initPosition.y', () => {
+            component['y'] = [50, 100];
+            component['initPosition'] = { x: 0, y: 200 };
+            const initialHeight = mockElement.style.height;
+
+            // Act: data[1] (150) is NOT > initPosition.y (200)
+            component.update('bottom', [50, 150]);
+
+            // Assert: height should not change
+            expect(mockElement.style.height).toBe(initialHeight);
+        });
+
+        it('should NOT update LEFT position when size !== element.offsetWidth', () => {
+            component['x'] = [100, 200];
+            component['initPosition'] = { x: 0, y: 0 };
+
+            // Mock offsetWidth to be different from calculated size
+            Object.defineProperty(mockElement, 'offsetWidth', {
+                value: 999, // Different from calculated size
+                configurable: true,
+            });
+
+            const cdkDragInstance = component['cdkDrag']()?.[0];
+            const setFreeDragPositionSpy = vi.spyOn(cdkDragInstance, 'setFreeDragPosition');
+
+            // Act
+            component.update('left', [80, 200]);
+
+            // Assert: setFreeDragPosition should NOT be called
+            expect(setFreeDragPositionSpy).not.toHaveBeenCalled();
+        });
+
+        it('should NOT update TOP position when data[0] <= initPosition.y', () => {
+            component['y'] = [100, 200];
+            component['initPosition'] = { x: 0, y: 150 };
+
+            const cdkDragInstance = component['cdkDrag']()?.[0];
+            const setFreeDragPositionSpy = vi.spyOn(cdkDragInstance, 'setFreeDragPosition');
+
+            // Act: data[0] (70) is NOT > initPosition.y (150)
+            component.update('top', [70, 200]);
+
+            // Assert: setFreeDragPosition should NOT be called
+            expect(setFreeDragPositionSpy).not.toHaveBeenCalled();
+        });
+
+        it('should NOT update TOP position when size !== element.offsetHeight', () => {
+            component['y'] = [100, 200];
+            component['initPosition'] = { x: 0, y: 0 };
+
+            // Mock offsetHeight to be different from calculated size
+            Object.defineProperty(mockElement, 'offsetHeight', {
+                value: 999, // Different from calculated size
+                configurable: true,
+            });
+
+            const cdkDragInstance = component['cdkDrag']()?.[0];
+            const setFreeDragPositionSpy = vi.spyOn(cdkDragInstance, 'setFreeDragPosition');
+
+            // Act
+            component.update('top', [70, 200]);
+
+            // Assert: setFreeDragPosition should NOT be called (even though height style is set)
+            expect(setFreeDragPositionSpy).not.toHaveBeenCalled();
         });
 
         it('should call updatePosition when position change', () => {
@@ -314,6 +425,33 @@ describe('MagmaWindow', () => {
             fixture.changeDetectorRef.detectChanges();
             const titleBar = fixture.debugElement.query(By.css('.window-title-bar'));
             expect(titleBar).toBeNull();
+        });
+
+        it('should display title from comp.bar.title when barTitle input is not provided', () => {
+            fixture.componentRef.setInput('bar-title', undefined);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                bar: { active: true, title: 'Component Title', buttons: true },
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+
+            const titleEl = fixture.debugElement.query(By.css('.window-title-text'));
+            expect(titleEl).toBeTruthy();
+            expect(titleEl.nativeElement.textContent.trim()).toBe('Component Title');
+        });
+
+        it('should display buttons from comp.bar.buttons when barButtons input is not provided', () => {
+            fixture.componentRef.setInput('bar-buttons', undefined);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                bar: { active: true, title: 'Test', buttons: true },
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+
+            const buttonsEl = fixture.debugElement.query(By.css('.window-title-buttons'));
+            expect(buttonsEl).toBeTruthy();
+            const buttons = fixture.debugElement.queryAll(By.css('.window-title-buttons button'));
+            expect(buttons.length).toBeGreaterThan(0);
         });
 
         it('should toggle fullscreen on button click', () => {

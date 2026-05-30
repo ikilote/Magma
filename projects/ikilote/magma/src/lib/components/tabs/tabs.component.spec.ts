@@ -440,4 +440,18 @@ describe('MagmaTabs - Branch coverage', () => {
         expect(tabs.titles()[0].selected()).toBe(true);
         fixture.destroy();
     });
+
+    it('should handle update() when a tab has no id (e.id() is falsy)', async () => {
+        await TestBed.configureTestingModule({ imports: [NoIdTabsHostComponent] }).compileComponents();
+        const fixture = TestBed.createComponent(NoIdTabsHostComponent);
+        fixture.changeDetectorRef.detectChanges();
+        const tabs = fixture.debugElement.query(By.directive(MagmaTabs)).componentInstance as MagmaTabs;
+
+        // Call update with any id - the tab without id should be skipped in the if (e.id()) check
+        expect(() => tabs.update('some-id')).not.toThrow();
+
+        // Verify the tab without id was not affected (selected state unchanged)
+        expect(tabs.titles()[0].id()).toBeFalsy();
+        fixture.destroy();
+    });
 });

@@ -131,6 +131,33 @@ describe('MagmaColorPicker Directive', () => {
         expect(directive.colorClose.emit).toHaveBeenCalledWith('#00ff00');
     });
 
+    it('should not emit colorClose on backdrop click if color unchanged (line 108 else branch)', async () => {
+        // Set initial color to a format that won't be transformed
+        fixture.componentInstance.color = '#f00';
+        fixture.changeDetectorRef.detectChanges();
+
+        vi.spyOn(directive.colorClose, 'emit');
+        directive.open();
+        await fixture.whenStable();
+        // Don't change the color - it stays as initColor (#f00)
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+        await fixture.whenStable();
+        // colorClose should not be emitted because color === initColor
+        expect(directive.colorClose.emit).not.toHaveBeenCalled();
+    });
+
+    it('should not emit colorClose on backdrop click if color is undefined (line 108 else branch)', async () => {
+        fixture.componentInstance.color = undefined as any;
+        fixture.changeDetectorRef.detectChanges();
+        vi.spyOn(directive.colorClose, 'emit');
+        directive.open();
+        await fixture.whenStable();
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+        await fixture.whenStable();
+        // colorClose should not be emitted because color is undefined
+        expect(directive.colorClose.emit).not.toHaveBeenCalled();
+    });
+
     it('should open overlay on space key', async () => {
         const directive = directiveElement.injector.get(MagmaColorPicker);
         const openSpy = vi.spyOn(directive, 'open');

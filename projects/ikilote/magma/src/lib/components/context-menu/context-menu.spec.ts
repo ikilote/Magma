@@ -156,4 +156,63 @@ describe('MagmaContextMenu Integration', () => {
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
     });
+
+    it('should not close on window contextmenu when _overlayRef is undefined (line 67 else branch)', async () => {
+        // Ensure no overlay is open
+        expect(MagmaContextMenu._overlayRef).toBeUndefined();
+
+        const windowEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
+        const directive = directiveElement.injector.get(MagmaContextMenu);
+        const closeSpy = vi.spyOn(directive, 'close');
+
+        window.dispatchEvent(windowEvent);
+        await fixture.whenStable();
+
+        // close should not be called because _overlayRef is undefined
+        expect(closeSpy).not.toHaveBeenCalled();
+    });
+
+    it('should not close on auxclick when button is not 1 (line 73 else branch)', async () => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        await fixture.whenStable();
+
+        // Dispatch auxclick with button 0 (left button)
+        const auxEvent = new MouseEvent('auxclick', { button: 0, clientX: 200, clientY: 200 });
+        const directive = directiveElement.injector.get(MagmaContextMenu);
+        const closeSpy = vi.spyOn(directive, 'close');
+
+        window.dispatchEvent(auxEvent);
+        await fixture.whenStable();
+
+        // close should not be called because button !== 1
+        expect(closeSpy).not.toHaveBeenCalled();
+        // Overlay should still be open
+        expect(MagmaContextMenu._overlayRef).toBeDefined();
+    });
+
+    it('should not close on auxclick when _overlayRef is undefined (line 73 else branch)', async () => {
+        // Ensure no overlay is open
+        expect(MagmaContextMenu._overlayRef).toBeUndefined();
+
+        const auxEvent = new MouseEvent('auxclick', { button: 1, clientX: 200, clientY: 200 });
+        const directive = directiveElement.injector.get(MagmaContextMenu);
+        const closeSpy = vi.spyOn(directive, 'close');
+
+        window.dispatchEvent(auxEvent);
+        await fixture.whenStable();
+
+        // close should not be called because _overlayRef is undefined
+        expect(closeSpy).not.toHaveBeenCalled();
+    });
+
+    it('should close without event parameter (line 80 else branch)', async () => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        await fixture.whenStable();
+
+        const directive = directiveElement.injector.get(MagmaContextMenu);
+
+        // Call close without event parameter
+        expect(() => directive.close()).not.toThrow();
+        expect(MagmaContextMenu._overlayRef).toBeUndefined();
+    });
 });

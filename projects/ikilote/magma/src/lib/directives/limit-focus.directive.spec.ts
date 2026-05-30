@@ -526,4 +526,12 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
             }, 10);
         });
     });
+
+    it('should handle limitFocus when element is null/undefined', () => {
+        const nullRef = { nativeElement: null } as unknown as ElementRef<HTMLDivElement>;
+
+        expect(() => {
+            limitFocusDirective.limitFocus(nullRef);
+        }).not.toThrow();
+    });
 });

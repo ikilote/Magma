@@ -102,4 +102,31 @@ describe('MagmaEllipsisButton (integration)', () => {
 
         expect(buttonElement.focus).toHaveBeenCalled();
     });
+
+    it('should handle ngAfterContentChecked when inputs is empty', () => {
+        // Create a component without any ellipsis items
+        @Component({
+            selector: 'app-empty-host',
+            template: `
+                <mg-ellipsis-button>
+                    <mg-ellipsis-content>Empty Menu</mg-ellipsis-content>
+                </mg-ellipsis-button>
+            `,
+            imports: [MagmaEllipsisButtonModule],
+        })
+        class EmptyHostComponent {}
+
+        const emptyFixture = TestBed.createComponent(EmptyHostComponent);
+        const emptyEllipsisButton = emptyFixture.debugElement.query(
+            By.directive(MagmaEllipsisButton),
+        ).componentInstance;
+
+        emptyFixture.changeDetectorRef.detectChanges();
+
+        // ngAfterContentChecked should not throw when inputs is empty
+        expect(() => emptyEllipsisButton.ngAfterContentChecked()).not.toThrow();
+        expect(emptyEllipsisButton.inputs().length).toBe(0);
+
+        emptyFixture.destroy();
+    });
 });

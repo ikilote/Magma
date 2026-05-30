@@ -1080,5 +1080,72 @@ describe('MagmaDatetimePickerComponent', () => {
             component['updateDate'](new Date());
             expect(spy).not.toHaveBeenCalled();
         });
+
+        // Test all if (date) branches when date() returns a falsy value
+        // Note: date() is a computed signal that always returns a Date due to ?? new Date()
+        // These branches are defensive code that can't be reached in normal operation
+        // We test them by mocking the date() method to return undefined
+        it('should not update year when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['updateYear'](2027);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not update month when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['updateMonth'](5);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not update day when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['updateDay'](15);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not update hours when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['updateHours'](12);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not update minutes when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['updateMinutes'](30);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not update seconds when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['updateSeconds'](45);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not update milliseconds when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['updateMilli'](500);
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not go left (previous month) when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['left']();
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should not go right (next month) when date() returns undefined', () => {
+            vi.spyOn(component as any, 'date').mockReturnValue(undefined);
+            const spy = vi.spyOn(component as any, 'updateDate');
+            component['right']();
+            expect(spy).not.toHaveBeenCalled();
+        });
     });
 });

@@ -108,6 +108,22 @@ describe('MagmaWindowsZone', () => {
             expect(mockWindows.find(w => w.id === 'win-1')).toBeUndefined();
         });
 
+        it('should not throw error when removing a window that does not exist (index === -1)', () => {
+            // Explicitly set context to undefined
+            fixture.componentRef.setInput('context', undefined);
+
+            // Create a window that is NOT in the array
+            const nonExistentWindow = { id: 'win-999', index: 99, component: TestComponent } as any;
+
+            const initialLength = mockWindows.length;
+
+            // Act: try to remove a window that doesn't exist
+            expect(() => component.remove(nonExistentWindow)).not.toThrow();
+
+            // Assert: array should remain unchanged
+            expect(mockWindows.length).toBe(initialLength);
+        });
+
         it('should trigger removal when mg-window emits onClose', async () => {
             vi.spyOn(component, 'remove');
             const windowEl = fixture.debugElement.query(By.css('mg-window'));

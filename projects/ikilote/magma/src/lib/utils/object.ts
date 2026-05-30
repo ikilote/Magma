@@ -48,11 +48,9 @@ export function objectsAreSame(
     }
 
     for (let key of keysA) {
-        if (!ignoreKeys.includes(key)) {
-            compareValues(objA[key], objB[key]);
-            if (!areTheSame) {
-                return false;
-            }
+        compareValues(objA[key], objB[key]);
+        if (!areTheSame) {
+            return false;
         }
     }
 

@@ -86,6 +86,25 @@ describe('blobToBase64', () => {
 
         expect(result).toContain('data:');
     });
+
+    it('should reject when FileReader encounters an error', async () => {
+        const mockBlob = new Blob(['test'], { type: 'text/plain' });
+
+        // Mock FileReader to trigger onerror
+        const originalFileReader = window.FileReader;
+        window.FileReader = class MockFileReader {
+            result: string | null = null;
+            onloadend: (() => void) | null = null;
+            onerror: (() => void) | null = null;
+            readAsDataURL() {
+                setTimeout(() => this.onerror?.(), 0);
+            }
+        } as any;
+
+        await expect(blobToBase64(mockBlob)).rejects.toThrow('Failed to read blob as base64');
+
+        window.FileReader = originalFileReader;
+    });
 });
 
 describe('ulrToBase64', () => {

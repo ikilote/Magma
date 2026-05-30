@@ -123,4 +123,51 @@ describe('MagmaLightDark', () => {
         fixture.changeDetectorRef.detectChanges();
         expect(component.change.emit).toHaveBeenCalled();
     });
+
+    it('should not call click() when clickEnter is triggered and compact is false', () => {
+        fixture.componentRef.setInput('compact', false);
+        fixture.changeDetectorRef.detectChanges();
+
+        vi.spyOn(component, 'click');
+
+        // Trigger clickEnter event with a mock event
+        component['clickEnter'].clickEnter.emit({} as KeyboardEvent);
+
+        // click() should not be called because compact is false
+        expect(component.click).not.toHaveBeenCalled();
+    });
+
+    it('should not update clickEnter.disabled when ngOnChanges is called without compact change', () => {
+        fixture.componentRef.setInput('compact', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        const initialDisabled = component['clickEnter'].disabled;
+
+        // Call ngOnChanges with a different property change
+        component.ngOnChanges({
+            someOtherProperty: {
+                currentValue: 'new',
+                previousValue: 'old',
+                firstChange: false,
+                isFirstChange: () => false,
+            },
+        } as SimpleChanges);
+
+        // clickEnter.disabled should remain unchanged
+        expect(component['clickEnter'].disabled).toBe(initialDisabled);
+    });
+
+    it('should not emit change event when currentTheme is falsy', () => {
+        // Mock currentTheme to return null/undefined
+        lightDarkServiceMock.currentTheme = vi.fn().mockReturnValue(null);
+
+        vi.spyOn(component.change, 'emit');
+
+        component.click();
+
+        expect(lightDarkServiceMock.toggleTheme).toHaveBeenCalled();
+        expect(lightDarkServiceMock.changeThemeClass).toHaveBeenCalled();
+        // change.emit should NOT be called because currentTheme is falsy
+        expect(component.change.emit).not.toHaveBeenCalled();
+    });
 });

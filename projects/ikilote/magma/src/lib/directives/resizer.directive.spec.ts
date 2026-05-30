@@ -377,5 +377,54 @@ describe('MagmaResize Directive', () => {
             expect(() => vi.advanceTimersByTime(50)).not.toThrow();
             expect(directiveInstanceNoCdk.resize).toBeUndefined();
         });
+
+        it('should not call clearTimeout when this.resize is falsy (line 92 else branch)', () => {
+            // Set up resizeActive with this.resize initially set to 'left'
+            directiveInstanceNoCdk.resize = 'left';
+            directiveInstanceNoCdk.resizeActive = {
+                mousePosInit: [100, 100],
+                itemSource: { x: [0, 10], y: [0, 10], animation: true, update: vi.fn() } as any,
+            };
+
+            // Spy on clearTimeout to verify it's not called
+            const clearTimeoutSpy = vi.spyOn(window, 'clearTimeout');
+
+            // Mock this.resize to become undefined during the loop execution
+            // We do this by replacing the resize property with a getter that returns undefined
+            let callCount = 0;
+            Object.defineProperty(directiveInstanceNoCdk, 'resize', {
+                get: () => {
+                    callCount++;
+                    // First call returns 'left' (for resizes = this.resize?.split('-'))
+                    // Second call returns undefined (for if (this.resize))
+                    return callCount === 1 ? 'left' : undefined;
+                },
+                configurable: true,
+            });
+
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
+
+            // clearTimeout should not be called because this.resize is falsy on second check
+            expect(clearTimeoutSpy).not.toHaveBeenCalled();
+            clearTimeoutSpy.mockRestore();
+        });
+
+        it('should not call update when data is undefined (line 96 else branch)', () => {
+            // Create a scenario where data remains undefined
+            // This happens when the resize direction doesn't match any of the if blocks
+            // We can simulate this by mocking the resizes array to be empty
+            directiveInstanceNoCdk.resize = 'invalid-direction' as any;
+            directiveInstanceNoCdk.resizeActive = {
+                mousePosInit: [100, 100],
+                itemSource: { x: [0, 10], y: [0, 10], animation: true, update: vi.fn() } as any,
+            };
+
+            const updateSpy = vi.spyOn(directiveInstanceNoCdk.resizeActive.itemSource, 'update');
+
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
+
+            // update should not be called because data is undefined
+            expect(updateSpy).not.toHaveBeenCalled();
+        });
     });
 });

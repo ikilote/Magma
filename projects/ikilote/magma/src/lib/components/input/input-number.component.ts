@@ -101,11 +101,8 @@ export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: strin
                 input.value = this._value;
             }
             this.onTouched();
-            if (!focus) {
-                this.onTouched();
-                if (this.ngControl?.control) {
-                    this.validate(this.ngControl.control);
-                }
+            if (this.ngControl?.control) {
+                this.validate(this.ngControl.control);
             }
         }
     }

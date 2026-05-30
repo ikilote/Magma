@@ -294,4 +294,121 @@ describe('MagmaWalkthrough', () => {
         expect(component['close']).not.toHaveBeenCalled();
         expect(component['changeStep']).not.toHaveBeenCalled();
     });
+
+    it('should not start walkthrough when firstIndex is -1 (line 38 else branch)', () => {
+        // Try to start with a non-existent group
+        component.start({ group: 'non-existent-group' });
+
+        // overlayRef should not be created
+        expect(component['overlayRef']).toBeUndefined();
+        expect(component['content']).toBeUndefined();
+    });
+
+    it('should not update position when element is null (line 90 else branch)', () => {
+        component['portal'] = {
+            selector: () => '.non-existent-selector',
+            group: () => 'test',
+            name: () => 'step1',
+        } as unknown as MagmaWalkthroughStep;
+
+        component['content'] = {
+            setInput: vi.fn(),
+            instance: {},
+        } as unknown as ComponentRef<MagmaWalkthroughContent>;
+
+        (component as any)['positionStrategy'] = {
+            setOrigin: vi.fn(),
+            apply: vi.fn(),
+            reapplyLastPosition: vi.fn(),
+        };
+
+        // Call changeStep with a selector that doesn't exist
+        component.changeStep('step1', 'test');
+
+        // positionStrategy methods should not be called because element is null
+        expect((component as any)['positionStrategy'].setOrigin).not.toHaveBeenCalled();
+    });
+
+    it('should not update position when positionStrategy is undefined (line 90 else branch)', () => {
+        // Setup stepsDirective to find the step
+        (component as any)['stepsDirective'] = () => [
+            {
+                selector: () => '.test-element',
+                group: () => 'test',
+                name: () => 'step1',
+            },
+        ];
+
+        component['portal'] = {
+            selector: () => '.test-element',
+            group: () => 'test',
+            name: () => 'step1',
+        } as unknown as MagmaWalkthroughStep;
+
+        component['content'] = {
+            setInput: vi.fn(),
+            instance: {},
+        } as unknown as ComponentRef<MagmaWalkthroughContent>;
+
+        component['positionStrategy'] = undefined;
+
+        // Create a test element
+        const testElement = document.createElement('div');
+        testElement.className = 'test-element';
+        document.body.appendChild(testElement);
+
+        // Call changeStep
+        component.changeStep('step1', 'test');
+
+        // Element exists but positionStrategy is undefined, so setInput should still be called
+        expect(component['content'].setInput).toHaveBeenCalled();
+
+        // Cleanup
+        document.body.removeChild(testElement);
+    });
+
+    it('should not change step when nextStep is undefined (line 118 else branch)', async () => {
+        component['portal'] = {
+            backdropAction: () => 'next',
+            nextStep: () => undefined,
+        } as unknown as MagmaWalkthroughStep;
+
+        vi.spyOn(component, 'changeStep' as any);
+
+        (component as any)['overlayRef'] = new MockOverlayRef();
+        (component as any)['overlayRef'].backdropClick().subscribe(() => {
+            (component as any).backdropAction();
+        });
+
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+
+        await fixture.whenStable();
+
+        // changeStep should not be called because nextStep is undefined
+        expect(component['changeStep']).not.toHaveBeenCalled();
+    });
+
+    it('should not click clone when clickElementActive and clickElementOrigin are false (line 123 else branch)', async () => {
+        component['portal'] = {
+            backdropAction: () => 'clickElement',
+            clickElementActive: () => false,
+            clickElementOrigin: () => false,
+        } as unknown as MagmaWalkthroughStep;
+
+        component['content'] = {
+            instance: { clone: { click: vi.fn() } },
+        } as unknown as ComponentRef<MagmaWalkthroughContent>;
+
+        (component as any)['overlayRef'] = new MockOverlayRef();
+        (component as any)['overlayRef'].backdropClick().subscribe(() => {
+            (component as any).backdropAction();
+        });
+
+        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+
+        await fixture.whenStable();
+
+        // clone.click should not be called because both conditions are false
+        expect((component as any)['content'].instance.clone.click).not.toHaveBeenCalled();
+    });
 });

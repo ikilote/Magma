@@ -431,5 +431,73 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
 
             expect(contentComponent.update).toHaveBeenCalled();
         });
+
+        it('should not resize when clone is undefined (line 62 else branch)', async () => {
+            walkthrough.start({ group: 'test' });
+            await flushAll();
+
+            const contentComponent = walkthrough.overlayComponent!;
+            contentComponent.clone = undefined;
+
+            // Should not throw when clone is undefined
+            expect(() => contentComponent['resize']()).not.toThrow();
+        });
+
+        it('should not resize when element is null (line 62 else branch)', async () => {
+            walkthrough.start({ group: 'test' });
+            await flushAll();
+
+            const contentComponent = walkthrough.overlayComponent!;
+            contentComponent.clone = document.createElement('div');
+
+            // Mock element to return null
+            vi.spyOn(contentComponent, 'element').mockReturnValue(null);
+
+            // Should not throw when element is null
+            expect(() => contentComponent['resize']()).not.toThrow();
+        });
+
+        it('should not clone element when element is null (line 91 else branch)', async () => {
+            // Create a fresh walkthrough without starting it
+            const steps = walkthrough['stepsDirective']();
+            (steps[0] as any).showElement = () => true;
+
+            walkthrough.start({ group: 'test' });
+            await flushAll();
+
+            const contentComponent = walkthrough.overlayComponent!;
+
+            // Clear the clone to test the else branch
+            contentComponent.clone = undefined;
+
+            // Mock element() to return null
+            const originalElement = contentComponent.element;
+            Object.defineProperty(contentComponent, 'element', {
+                value: () => null,
+                writable: true,
+                configurable: true,
+            });
+
+            // Trigger ngOnChanges with element = null
+            contentComponent.ngOnChanges({
+                element: {
+                    currentValue: null,
+                    previousValue: document.querySelector('.target'),
+                    firstChange: false,
+                    isFirstChange: () => false,
+                },
+            });
+            await flushAll();
+
+            // Should not throw and clone should remain undefined
+            expect(contentComponent.clone).toBeUndefined();
+
+            // Restore original element
+            Object.defineProperty(contentComponent, 'element', {
+                value: originalElement,
+                writable: true,
+                configurable: true,
+            });
+        });
     });
 });

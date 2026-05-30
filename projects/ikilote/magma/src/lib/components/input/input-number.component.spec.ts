@@ -366,4 +366,19 @@ describe('MagmaInputNumber - focus branch', () => {
         inputElement.dispatchEvent(new Event('change'));
         expect(component.update.emit).toHaveBeenCalledWith(42);
     });
+
+    it('should not update input value on focus (focus=true)', () => {
+        component['_value'] = 42;
+        const inputElement = debugElement.query(By.css('input')).nativeElement;
+        inputElement.value = '3.14';
+        vi.spyOn(component, 'onTouched');
+
+        // Simulate focus event with focus=true
+        const event = new FocusEvent('focus');
+        component.focus(event, true);
+
+        // Input value should not be changed when focus=true
+        expect(inputElement.value).toBe('3.14');
+        expect(component.onTouched).not.toHaveBeenCalled();
+    });
 });

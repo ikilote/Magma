@@ -226,4 +226,14 @@ describe('MagmaPagination', () => {
         const currentPage = component.currentPage;
         expect(currentPage).toBe(1);
     });
+
+    it('should not update when page is the same as currentPage', () => {
+        component.currentPage = 3;
+        const initialPages = [...component.pages];
+
+        component.update(3, false);
+
+        expect(component.currentPage).toBe(3);
+        expect(component.pages).toEqual(initialPages);
+    });
 });

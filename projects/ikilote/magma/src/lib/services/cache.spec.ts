@@ -74,6 +74,17 @@ describe('MagmaCache', () => {
             expect(result).toEqual(value);
         });
 
+        it('should not clear cache when endDate is not set', async () => {
+            const id = 'test-no-enddate';
+            const group = ['group1'];
+            const value = { data: 'no-expiry' };
+            (MagmaCache as any).cache[id] = { id, group, value }; // no endDate
+            const spy = vi.spyOn(cache, 'clearById');
+            const result = await cache.request(id, group, mockObservable(value));
+            expect(spy).not.toHaveBeenCalled();
+            expect(result).toEqual(value);
+        });
+
         it('should handle groups as a string', async () => {
             const id = 'test5';
             const group = 'group1,group2';
@@ -150,6 +161,17 @@ describe('MagmaCache', () => {
             };
             cache.clearByGroupName(groupName);
             expect((MagmaCache as any).cache['test11']).toBeDefined();
+        });
+
+        it('should handle cache items without group property', () => {
+            const groupName = 'group1';
+            (MagmaCache as any).cache = {
+                test12: { id: 'test12', value: { data: 'no-group' } }, // no group property
+                test13: { id: 'test13', group: [groupName], value: { data: 'with-group' } },
+            };
+            cache.clearByGroupName(groupName);
+            expect((MagmaCache as any).cache['test12']).toBeDefined(); // should not be cleared
+            expect((MagmaCache as any).cache['test13']).toBeUndefined(); // should be cleared
         });
     });
 });

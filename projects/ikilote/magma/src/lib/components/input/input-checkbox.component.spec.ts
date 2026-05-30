@@ -780,3 +780,53 @@ describe('MagmaInputCheckbox - DOM change event', () => {
         expect(component._change).toHaveBeenCalled();
     });
 });
+
+describe('MagmaInputCheckbox - instanceof branch coverage', () => {
+    let component: MagmaInputCheckbox;
+    let fixture: ComponentFixture<MagmaInputCheckbox>;
+
+    beforeEach(async () => {
+        vi.useFakeTimers();
+        await TestBed.configureTestingModule({
+            imports: [MagmaInputCheckbox],
+            providers: [
+                { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputCheckbox, multi: true },
+                { provide: NG_VALIDATORS, useExisting: MagmaInputCheckbox, multi: true },
+            ],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaInputCheckbox);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        vi.advanceTimersByTime(100);
+        fixture?.destroy();
+        vi.clearAllTimers();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
+    });
+
+    it('should skip non-MagmaInputCheckbox items when updating group', () => {
+        // Create a mock host with mixed input types
+        const mockHost = {
+            typeValue: () => 'array',
+            returnValue: () => 'boolean',
+            inputs: () => [
+                component,
+                { componentName: 'input-checkbox', value: () => 'other', index: 1 }, // Not a MagmaInputCheckbox instance
+            ],
+            _id: () => 'test-host',
+            cd: { detectChanges: () => {} },
+            forId: () => undefined,
+        };
+
+        (component as any).host = mockHost;
+        component['index'] = 0;
+        component.testChecked = true;
+
+        // This should not throw even with a non-MagmaInputCheckbox item in the list
+        expect(() => component.testChecke([true, false])).not.toThrow();
+    });
+});

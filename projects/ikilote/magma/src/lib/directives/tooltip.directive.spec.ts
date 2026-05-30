@@ -214,4 +214,104 @@ describe('MagmaTooltipDirective', () => {
             expect(overlayRef!.dispose).toHaveBeenCalled();
         });
     });
+
+    describe('edge cases', () => {
+        beforeEach(() => {
+            vi.useFakeTimers();
+        });
+
+        it('should not create tooltip when destroyed flag is true', () => {
+            directive['destroyed'] = true;
+            directive['createTooltip']();
+
+            expect(MagmaTooltipDirective._overlayRef).toBeUndefined();
+        });
+
+        it('should clear timer on mouseleave when timer exists', () => {
+            divElement.triggerEventHandler('mouseenter', {});
+            expect(directive['timer']).toBeDefined();
+
+            divElement.triggerEventHandler('mouseleave', {});
+            expect(directive['timer']).toBeUndefined();
+        });
+
+        it('should handle mouseleave when timer is undefined', () => {
+            directive['timer'] = undefined;
+            expect(() => {
+                divElement.triggerEventHandler('mouseleave', {});
+            }).not.toThrow();
+        });
+
+        it('should clear timer in createTooltip when timer exists', () => {
+            directive['timer'] = setTimeout(() => {}, 1000) as any;
+            const timerId = directive['timer'];
+
+            divElement.triggerEventHandler('mouseenter', {});
+            vi.advanceTimersByTime(200);
+
+            expect(directive['timer']).not.toBe(timerId);
+        });
+
+        it('should dispose tooltip in displayDelay callback when destroyed is false', async () => {
+            component.displayDelay = 100;
+            component.entryDelay = 0;
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.useRealTimers();
+
+            divElement.triggerEventHandler('mouseenter', {});
+            await new Promise(r => setTimeout(r, 50));
+            await fixture.whenStable();
+
+            const overlayRef = MagmaTooltipDirective._overlayRef;
+            vi.spyOn(overlayRef!, 'dispose');
+
+            // destroyed is false by default
+            expect(directive['destroyed']).toBe(false);
+
+            await new Promise(r => setTimeout(r, 150));
+
+            // Should have called dispose because !destroyed is true
+            expect(overlayRef!.dispose).toHaveBeenCalled();
+        });
+
+        it('should not dispose tooltip in displayDelay callback when destroyed is true (line 161 else branch)', async () => {
+            component.displayDelay = 100;
+            component.entryDelay = 0;
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.useRealTimers();
+
+            divElement.triggerEventHandler('mouseenter', {});
+            await new Promise(r => setTimeout(r, 50));
+            await fixture.whenStable();
+
+            const overlayRef = MagmaTooltipDirective._overlayRef;
+            const disposeSpy = vi.spyOn(overlayRef!, 'dispose');
+
+            // Set destroyed to true before the displayDelay timer fires
+            directive['destroyed'] = true;
+
+            await new Promise(r => setTimeout(r, 150));
+
+            // Should NOT have called dispose because destroyed is true
+            expect(disposeSpy).not.toHaveBeenCalled();
+        });
+
+        it('should not clear timer in createTooltip when timer is undefined (line 138 else branch)', async () => {
+            // Ensure timer is undefined and destroyed is false
+            directive['timer'] = undefined;
+            directive['destroyed'] = false;
+
+            // Call createTooltip directly - should not throw
+            expect(() => {
+                directive['createTooltip']();
+            }).not.toThrow();
+
+            await fixture.whenStable();
+
+            // Tooltip should be created even without timer
+            expect(MagmaTooltipDirective._overlayRef).toBeDefined();
+        });
+    });
 });

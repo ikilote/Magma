@@ -100,5 +100,16 @@ describe('MagmaWindowsContainer', () => {
 
             expect(() => component.remove(mockWin1 as any)).not.toThrow();
         });
+
+        it('should not throw error on remove if window does not exist', () => {
+            const winArray = [mockWin1, mockWin2];
+            vi.spyOn(winArray, 'indexOf').mockReturnValue(-1); // Window not found
+            const sliceSpy = vi.spyOn(winArray, 'slice');
+
+            (component as any).windows.mockReturnValue(winArray);
+
+            expect(() => component.remove(mockWin3 as any)).not.toThrow();
+            expect(sliceSpy).not.toHaveBeenCalled(); // slice should not be called when index is -1
+        });
     });
 });

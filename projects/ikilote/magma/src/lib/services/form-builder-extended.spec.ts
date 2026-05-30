@@ -242,6 +242,38 @@ describe('FormBuilderExtended', () => {
             expect(form.get('name')?.valid).toBe(true);
             expect(form.get('name')?.hasError('maxlength')).toBe(false);
         });
+
+        it('should handle custom validator that is not a function', () => {
+            const form = service.groupWithError({
+                field: {
+                    default: 'test',
+                    control: {
+                        custom: 'not-a-function' as any, // Invalid validator (not a function)
+                    },
+                },
+            });
+            // Should not throw and should create the control
+            expect(form.get('field')).toBeDefined();
+            expect(form.get('field')?.valid).toBe(true); // No validator added
+        });
+
+        it('should handle array of custom validators with non-function items', () => {
+            const form = service.groupWithError({
+                field: {
+                    default: 'test',
+                    control: {
+                        custom: [
+                            (value: string) => value.startsWith('test'), // valid function
+                            'not-a-function' as any, // invalid (not a function)
+                            null as any, // invalid (null)
+                        ],
+                    },
+                },
+            });
+            // Should not throw and should only add the valid validator
+            expect(form.get('field')).toBeDefined();
+            expect(form.get('field')?.valid).toBe(true); // First validator passes
+        });
     });
 
     describe('array', () => {
@@ -286,5 +318,34 @@ describe('FormBuilderExtended', () => {
         expect(form.get('field1')?.touched).toBe(true);
         expect(form.get('nested')?.touched).toBe(true);
         expect(form.get('nested.field2')?.touched).toBe(true);
+    });
+
+    it('should validate simple FormControls without recursion', () => {
+        const form = service.groupWithError({
+            simpleField: { default: '', control: { required: { state: true } } },
+        });
+
+        const updateSpy = vi.spyOn(form.get('simpleField')!, 'updateValueAndValidity');
+
+        service.validateForm(form);
+
+        expect(form.get('simpleField')?.touched).toBe(true);
+        expect(updateSpy).toHaveBeenCalled();
+    });
+
+    it('should validate FormArray with simple FormControls', () => {
+        const ctrl1 = new FormControl('', Validators.required);
+        const ctrl2 = new FormControl('test');
+        const formArray = service.array([ctrl1, ctrl2]);
+
+        const updateSpy1 = vi.spyOn(ctrl1, 'updateValueAndValidity');
+        const updateSpy2 = vi.spyOn(ctrl2, 'updateValueAndValidity');
+
+        service.validateForm(formArray);
+
+        expect(ctrl1.touched).toBe(true);
+        expect(ctrl2.touched).toBe(true);
+        expect(updateSpy1).toHaveBeenCalled();
+        expect(updateSpy2).toHaveBeenCalled();
     });
 });

@@ -1,6 +1,6 @@
 import { ConnectedOverlayPositionChange, OverlayModule } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
-import { Component, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
@@ -38,6 +38,7 @@ import { cleanupOverlayContainer } from '../../test-helpers';
         <div class="target" style="width: 100px" (click)="call()">target</div>
         <div class="target2">target2</div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaWalkthrough, MagmaWalkthroughStep],
 })
 class TestHostComponent {

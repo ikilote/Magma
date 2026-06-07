@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -9,6 +9,7 @@ import { MagmaClickEnterDirective } from './click-enter.directive';
         <div [disabled]="testDisabledFalse" (clickEnter)="onClickEnter($event)">Clickable Element</div>
         <div [disabled]="testDisabledTrue" (clickEnter)="onClickEnter($event)">Disabled Element</div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaClickEnterDirective],
 })
 class TestComponent {

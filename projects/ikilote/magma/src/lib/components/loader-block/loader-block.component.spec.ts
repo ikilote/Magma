@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -11,6 +11,7 @@ import { MagmaLoaderTile } from './loader-tile.component';
             <mg-loader-tile></mg-loader-tile>
         </mg-loader-block>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaLoaderBlock, MagmaLoaderTile],
 })
 class TestHostComponent {}
@@ -55,6 +56,7 @@ describe('MagmaLoaderBlock', () => {
             <mg-loader-tile></mg-loader-tile>
         </mg-loader-block>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaLoaderBlock, MagmaLoaderTile],
 })
 class TestHostComponent2 {}

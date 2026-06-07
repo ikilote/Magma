@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -14,6 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-ng-model-change-debounced',
     templateUrl: './demo-ng-model-change-debounced.component.html',
     styleUrl: './demo-ng-model-change-debounced.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MagmaNgModelChangeDebouncedDirective,
         CodeTabsComponent,

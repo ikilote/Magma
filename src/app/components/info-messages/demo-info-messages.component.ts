@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Select2Data } from 'ng-select2-component';
@@ -33,6 +33,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
             }
         `,
     ],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaStopPropagationDirective],
 })
 export class ContextTestComponent {
@@ -49,6 +50,7 @@ export class ContextTestComponent {
     selector: 'demo-info-messages',
     templateUrl: './demo-info-messages.component.html',
     styleUrl: './demo-info-messages.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
         MagmaInput,

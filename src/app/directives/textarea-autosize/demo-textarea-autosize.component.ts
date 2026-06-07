@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MagmaTextareaAutosizeDirective } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -7,6 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-textarea-autosize',
     templateUrl: './demo-textarea-autosize.component.html',
     styleUrl: './demo-textarea-autosize.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTextareaAutosizeDirective, CodeTabsComponent],
 })
 export class DemoTextareaAutosizeComponent {

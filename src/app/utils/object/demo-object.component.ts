@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -18,6 +18,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-object',
     templateUrl: './demo-object.component.html',
     styleUrl: './demo-object.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

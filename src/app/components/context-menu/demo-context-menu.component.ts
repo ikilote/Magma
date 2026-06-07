@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -22,6 +22,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         Test
         <button (click)="action()">Close</button>
     </div>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [
         `
             :host {
@@ -44,6 +45,7 @@ export class ContextTestComponent extends AbstractContextMenuComponent {
     selector: 'demo-context-menu',
     templateUrl: './demo-context-menu.component.html',
     styleUrl: './demo-context-menu.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

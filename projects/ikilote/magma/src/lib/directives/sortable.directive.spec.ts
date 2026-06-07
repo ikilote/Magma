@@ -1,4 +1,4 @@
-import { Component, DebugElement, ElementRef, forwardRef, viewChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, ElementRef, forwardRef, viewChildren } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -19,6 +19,7 @@ import { MagmaInputCommon } from '../components/input/input-common';
             </ul>
         </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaSortableModule],
 })
 class TestHostComponent {
@@ -524,6 +525,7 @@ describe('MagmaSortableModule', () => {
 
 @Component({
     selector: 'mg-input',
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: '<ng-content />',
 })
 class MockMagmaInput {}
@@ -532,6 +534,7 @@ class MockMagmaInput {}
     selector: 'mg-input-text',
     template: '<input #input />',
     imports: [ReactiveFormsModule, FormsModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [
         { provide: MagmaInputCommon, useExisting: MockMagmaInputText },
         { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => MagmaInputCommon), multi: true },
@@ -563,6 +566,7 @@ export class MockMagmaInputText extends MagmaInputCommon<any> {
             </ul>
         </div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaSortableModule, MockMagmaInput, MockMagmaInputText],
 })
 class TestInputHostComponent {

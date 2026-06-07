@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MagmaMessages, clipboardWrite } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -7,6 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-clipboard',
     templateUrl: './demo-clipboard.component.html',
     styleUrl: './demo-clipboard.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent],
 })
 export class DemoClipboardComponent {

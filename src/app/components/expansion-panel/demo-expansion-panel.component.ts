@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
@@ -15,6 +15,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-expansion-panel',
     templateUrl: './demo-expansion-panel.component.html',
     styleUrl: './demo-expansion-panel.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [FormsModule, CodeTabsComponent, MagmaExpansionPanelModule, MagmaInput, MagmaInputCheckbox],
 })
 export class DemoExpansionPanelComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -14,6 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-json',
     templateUrl: './demo-json.component.html',
     styleUrl: './demo-json.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent, MagmaInput, MagmaInputTextarea, FormsModule, MagmaInputElement],
 })
 export class DemoJsonComponent {

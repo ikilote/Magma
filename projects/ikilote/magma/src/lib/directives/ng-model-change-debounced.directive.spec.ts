@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, NgModel } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -16,6 +16,7 @@ import { MagmaNgModelChangeDebouncedDirective } from './ng-model-change-debounce
             />
         </form>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [FormsModule, MagmaNgModelChangeDebouncedDirective],
 })
 class TestComponent {

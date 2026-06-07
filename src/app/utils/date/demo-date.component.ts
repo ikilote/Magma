@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -22,6 +22,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-date',
     templateUrl: './demo-date.component.html',
     styleUrl: './demo-date.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
         CodeTabsComponent,

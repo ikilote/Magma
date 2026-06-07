@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -16,6 +16,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-sortable',
     templateUrl: './demo-sortable.component.html',
     styleUrl: './demo-sortable.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MagmaSortableModule,
         MagmaTableModule,

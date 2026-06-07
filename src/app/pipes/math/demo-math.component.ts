@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MathPipe } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -8,6 +8,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-math',
     templateUrl: './demo-math.component.html',
     styleUrl: './demo-math.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent, MathPipe, JsonPipe],
 })
 export class DemoMathComponent {

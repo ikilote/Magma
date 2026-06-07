@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AbstractControl, NgControl } from '@angular/forms';
 
@@ -22,7 +22,7 @@ class MockLogger {
     log = vi.fn();
 }
 
-@Component({ selector: 'test-input-common', template: '' })
+@Component({ selector: 'test-input-common', changeDetection: ChangeDetectionStrategy.Eager, template: '' })
 class TestMagmaInputCommon extends MagmaInputCommon<string> {}
 
 describe('MagmaInputCommon', () => {

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -25,6 +25,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-datetime-picker',
     templateUrl: './demo-datetime-picker.component.html',
     styleUrls: ['./demo-datetime-picker.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

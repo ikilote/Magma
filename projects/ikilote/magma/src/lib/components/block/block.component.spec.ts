@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MagmaBlock } from './block.component';
@@ -31,6 +31,7 @@ describe('MagmaBlock', () => {
 
 @Component({
     template: `<mg-block>Content</mg-block>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaBlock],
 })
 class TestHostComponent {}

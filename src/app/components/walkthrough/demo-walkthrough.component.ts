@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
@@ -23,6 +23,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-walkthrough',
     templateUrl: './demo-walkthrough.component.html',
     styleUrl: './demo-walkthrough.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
         CodeTabsComponent,

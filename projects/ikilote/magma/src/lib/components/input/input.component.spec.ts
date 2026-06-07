@@ -1,4 +1,4 @@
-import { Component, DebugElement, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -7,7 +7,7 @@ import { MagmaInputCheckbox } from './input-checkbox.component';
 import { MagmaInputElement } from './input-element.component';
 import { MagmaInput, MagmaInputAlignMode, MagmaInputReturnValue, MagmaInputTypeValue } from './input.component';
 
-@Component({ selector: 'mg-input-checkbox', template: '' })
+@Component({ selector: 'mg-input-checkbox', changeDetection: ChangeDetectionStrategy.Eager, template: '' })
 class MockMagmaInputCommon {
     host: MagmaInput | null = null;
     refreshTrigger = signal(undefined);
@@ -33,6 +33,7 @@ class MockNgControl {}
             <mg-input-desc>Description</mg-input-desc>
         </mg-input>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaInput, MagmaInputElement, MagmaInputCheckbox],
 })
 class TestHostComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import {
@@ -18,6 +18,7 @@ import {
     selector: 'demo-home',
     templateUrl: './demo-home.component.html',
     styleUrl: './demo-home.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         RouterLink,
         MagmaSpinner,

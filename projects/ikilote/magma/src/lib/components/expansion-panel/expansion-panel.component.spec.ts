@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -12,6 +12,7 @@ import { MagmaExpansionPanelModule } from './expansion-panel.module';
             <mg-expansion-content>Content</mg-expansion-content>
         </mg-expansion-panel>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaExpansionPanelModule],
 })
 class TestHostComponent {

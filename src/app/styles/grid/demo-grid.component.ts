@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { MagmaInput, MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/public-api';
@@ -9,6 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-grid.component.html',
     styleUrl: './demo-grid.component.scss',
     imports: [CodeTabsComponent, MagmaInput, MagmaInputCheckbox, FormsModule],
+    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         '[class.show-border]': 'show',
     },

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -8,6 +8,7 @@ import { MagmaWindowsZone } from './windows-zone.component';
 @Component({
     selector: 'mg-test',
     template: `<button (click)="close()">close</button>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: true,
 })
 class TestComponent extends AbstractWindowComponent {

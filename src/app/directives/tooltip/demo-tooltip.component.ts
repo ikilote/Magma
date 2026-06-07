@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -17,6 +17,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-tooltip',
     templateUrl: './demo-tooltip.component.html',
     styleUrl: './demo-tooltip.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
         MagmaTooltipDirective,

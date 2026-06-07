@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -13,6 +13,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-number',
     templateUrl: './demo-number.component.html',
     styleUrl: './demo-number.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent, FormsModule, MagmaInput, MagmaInputNumber, MagmaInputElement],
 })
 export class DemoNumberComponent {

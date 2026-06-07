@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -10,6 +10,7 @@ import { MagmaLoaderTile } from './loader-tile.component';
             <div class="custom-content">Loading...</div>
         </mg-loader-tile>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaLoaderTile],
 })
 class TestHostComponent {}

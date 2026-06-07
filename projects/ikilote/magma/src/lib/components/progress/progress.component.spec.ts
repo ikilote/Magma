@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -27,6 +27,7 @@ describe('MagmaProgress', () => {
 
 @Component({
     template: ` <mg-progress [loaded]="loaded" [total]="total" [sizeFormat]="sizeFormat" /> `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaProgress],
 })
 class TestWrapperComponent {

@@ -1,4 +1,4 @@
-import { Component, DebugElement, contentChildren } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, contentChildren } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -9,6 +9,7 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
 
 @Component({
     selector: 'mg-tabs',
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `<ng-content select="mg-tab-title" />`,
 })
 class MockMagmaTabs {
@@ -29,6 +30,7 @@ class MockMagmaTabs {
             <mg-tab-title id="tab3">Title 3</mg-tab-title>
         </mg-tabs>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MockMagmaTabs, MagmaTabTitle],
 })
 class TestHostComponent {}
@@ -186,6 +188,7 @@ describe('MagmaTabTitle', () => {
 
 @Component({
     template: `<mg-tab-title id="solo">Solo</mg-tab-title>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTabTitle],
 })
 class StandaloneTabTitleHost {}

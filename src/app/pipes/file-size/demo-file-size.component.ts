@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { FileSizePipe } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -7,6 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-file-size',
     templateUrl: './demo-file-size.component.html',
     styleUrl: './demo-file-size.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent, FileSizePipe],
 })
 export class DemoFileSizeComponent {

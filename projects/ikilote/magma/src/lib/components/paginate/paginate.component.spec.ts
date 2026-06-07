@@ -1,4 +1,4 @@
-import { Component, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
@@ -6,7 +6,7 @@ import { provideRouter } from '@angular/router';
 import { MagmaPagination } from './paginate.component';
 
 // Dummy component for router
-@Component({ template: '' })
+@Component({ changeDetection: ChangeDetectionStrategy.Eager, template: '' })
 class DummyComponent {}
 
 describe('MagmaPagination', () => {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 
 import { MagmaNgInitDirective } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -7,6 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-ng-init',
     templateUrl: './demo-ng-init.component.html',
     styleUrl: './demo-ng-init.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaNgInitDirective, CodeTabsComponent],
 })
 export class DemoNgInitComponent {

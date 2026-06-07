@@ -1,5 +1,5 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -9,7 +9,11 @@ import { AbstractWindowComponent, MagmaWindow } from './window.component';
 
 import { MagmaResizeHostElement } from '../../directives/resizer';
 
-@Component({ selector: 'mg-test', template: `<button (click)="close()">close</button>` })
+@Component({
+    selector: 'mg-test',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: `<button (click)="close()">close</button>`,
+})
 class TestComponent extends AbstractWindowComponent {}
 
 class MockDragSpy {

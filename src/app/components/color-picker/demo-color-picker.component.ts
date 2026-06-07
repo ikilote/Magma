@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -72,6 +72,7 @@ export const texts: MagmaColorPickerTexts = {
     selector: 'demo-color-picker',
     templateUrl: './demo-color-picker.component.html',
     styleUrl: './demo-color-picker.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

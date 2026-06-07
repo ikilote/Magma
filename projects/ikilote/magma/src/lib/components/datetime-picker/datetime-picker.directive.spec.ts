@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -23,6 +23,7 @@ import { cleanupOverlayContainer } from '../../test-helpers';
             class="test"
         ></span>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaDatetimePicker],
 })
 class TestComponent {

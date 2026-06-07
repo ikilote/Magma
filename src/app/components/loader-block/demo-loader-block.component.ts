@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
@@ -19,6 +19,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-loader-block',
     templateUrl: './demo-loader-block.component.html',
     styleUrl: './demo-loader-block.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

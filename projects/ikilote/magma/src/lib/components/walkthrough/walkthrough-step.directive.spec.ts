@@ -1,5 +1,5 @@
 import { CdkPortal } from '@angular/cdk/portal';
-import { Component, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
@@ -21,6 +21,7 @@ import { MagmaWalkthroughStep } from './walkthrough-step.directive';
             (clickClose)="onClickClose()"
         />
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaWalkthroughStep],
 })
 class TestHostComponent {

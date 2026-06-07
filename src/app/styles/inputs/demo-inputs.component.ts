@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -6,6 +6,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-inputs',
     templateUrl: './demo-inputs.component.html',
     styleUrl: './demo-inputs.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent],
 })
 export class DemoInputsComponent {

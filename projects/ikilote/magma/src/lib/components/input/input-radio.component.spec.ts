@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -136,6 +136,7 @@ describe('MagmaInputRadio', () => {
             <mg-input-radio value="option3" />
         </mg-input>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaInput, MagmaInputRadio],
 })
 class TestHostComponent {}

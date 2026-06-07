@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Highlight } from 'ngx-highlightjs';
 
@@ -6,6 +6,7 @@ import { Highlight } from 'ngx-highlightjs';
     selector: 'demo-icons',
     templateUrl: './demo-icons.component.html',
     styleUrl: './demo-icons.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [Highlight],
 })
 export class DemoIconsComponent {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -14,6 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-file',
     templateUrl: './demo-file.component.html',
     styleUrl: './demo-file.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, CodeTabsComponent, MagmaInput, MagmaInputText, MagmaInputElement],
 })
 export class DemoFileComponent {

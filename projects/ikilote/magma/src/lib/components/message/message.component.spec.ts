@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -86,6 +86,7 @@ describe('MagmaMessage', () => {
             <mg-message-block type="success">Block message</mg-message-block>
         </mg-message>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaMessage, MagmaBlockMessage],
 })
 class TestHostComponent {}

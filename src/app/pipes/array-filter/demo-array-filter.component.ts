@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ArrayFilterPipe } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -8,6 +8,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-array-filter',
     templateUrl: './demo-array-filter.component.html',
     styleUrl: './demo-array-filter.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent, ArrayFilterPipe, JsonPipe],
 })
 export class DemoArrayFilterComponent {

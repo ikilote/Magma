@@ -1,6 +1,6 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Component, ComponentRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ComponentRef } from '@angular/core';
 import { ComponentFixture, TestBed, getTestBed } from '@angular/core/testing';
 
 import { of } from 'rxjs';
@@ -50,6 +50,7 @@ class MockOverlay {
         <div class="target"></div>
         <div class="target2"></div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaWalkthrough, MagmaWalkthroughStep],
 })
 class TestHostComponent {}

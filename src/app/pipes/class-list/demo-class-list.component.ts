@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { ClassListPipe } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -8,6 +8,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-class-list',
     templateUrl: './demo-class-list.component.html',
     styleUrl: './demo-class-list.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent, ClassListPipe, JsonPipe],
 })
 export class DemoClassListComponent {

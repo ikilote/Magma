@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { flattenedListItems } from '../../../../projects/ikilote/magma/src/public-api';
@@ -9,6 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-array',
     templateUrl: './demo-array.component.html',
     styleUrl: './demo-array.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [ReactiveFormsModule, CodeTabsComponent, JsonPipe],
 })
 export class DemoArrayComponent {

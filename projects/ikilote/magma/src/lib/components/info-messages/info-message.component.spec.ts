@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -7,7 +7,11 @@ import { InfoMessageComponent } from './info-message.component';
 
 import { MagmaMessageType } from '../../services/messages';
 
-@Component({ selector: 'app-test-dynamic', template: '<div>Dynamic Component: {{ title() }}</div>' })
+@Component({
+    selector: 'app-test-dynamic',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: '<div>Dynamic Component: {{ title() }}</div>',
+})
 class TestDynamicComponent {
     title = input<string>();
 }

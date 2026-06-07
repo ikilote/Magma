@@ -1,5 +1,5 @@
 // click-outside.directive.spec.ts
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -8,6 +8,7 @@ import { MagmaClickOutsideDirective } from './click-outside.directive';
 @Component({
     template: `<div clickOutside (clickOutside)="onClickOutside($event)">Test Element</div>`,
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaClickOutsideDirective],
 })
 class TestComponent {

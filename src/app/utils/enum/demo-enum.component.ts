@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { Highlight } from 'ngx-highlightjs';
 
@@ -23,6 +23,7 @@ enum Test {
     selector: 'demo-enum',
     templateUrl: './demo-enum.component.html',
     styleUrl: './demo-enum.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CodeTabsComponent, JsonPipe, Highlight],
 })
 export class DemoEnumComponent {

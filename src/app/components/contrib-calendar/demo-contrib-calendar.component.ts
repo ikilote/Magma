@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -20,6 +20,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-contrib-calendar',
     templateUrl: './demo-contrib-calendar.component.html',
     styleUrl: './demo-contrib-calendar.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
         CodeTabsComponent,

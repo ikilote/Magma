@@ -1,4 +1,4 @@
-import { Component, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
 
@@ -19,6 +19,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-limit-focus',
     templateUrl: './demo-limit-focus.component.html',
     styleUrl: './demo-limit-focus.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         MagmaLimitFocusDirective,

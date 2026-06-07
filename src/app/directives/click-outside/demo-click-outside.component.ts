@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { MagmaClickOutsideDirective } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -7,6 +7,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-click-outside',
     templateUrl: './demo-click-outside.component.html',
     styleUrl: './demo-click-outside.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaClickOutsideDirective, CodeTabsComponent],
 })
 export class DemoClickOutsideComponent {

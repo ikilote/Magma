@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -21,6 +21,7 @@ type MyArrayItem = FormGroup<{
     selector: 'demo-form-builder-extended',
     templateUrl: './demo-form-builder-extended.component.html',
     styleUrl: './demo-form-builder-extended.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         FormsModule,
         MagmaInput,

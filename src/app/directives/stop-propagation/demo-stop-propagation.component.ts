@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import {
     MagmaInput,
@@ -12,6 +12,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-stop-propagation',
     templateUrl: './demo-stop-propagation.component.html',
     styleUrl: './demo-stop-propagation.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaStopPropagationDirective, MagmaInput, MagmaInputText, MagmaInputElement, CodeTabsComponent],
 })
 export class DemoStopPropagationComponent {

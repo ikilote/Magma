@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -15,6 +15,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-ellipsis-button',
     templateUrl: './demo-ellipsis-button.component.html',
     styleUrl: './demo-ellipsis-button.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaEllipsisButtonModule, MagmaInput, MagmaInputElement, MagmaInputText, FormsModule, CodeTabsComponent],
 })
 export class DemoEllipsisButtonComponent {

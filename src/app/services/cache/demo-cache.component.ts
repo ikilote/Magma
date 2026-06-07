@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -14,6 +14,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-cache',
     templateUrl: './demo-cache.component.html',
     styleUrl: './demo-cache.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [FormsModule, CodeTabsComponent, MagmaInput, MagmaInputElement, MagmaInputText],
 })
 export class DemoCacheComponent {

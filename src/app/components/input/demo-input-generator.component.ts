@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
@@ -31,6 +31,7 @@ import { palette, texts } from '../color-picker/demo-color-picker.component';
     selector: 'demo-input-generator',
     templateUrl: './demo-input-generator.component.html',
     styleUrl: './demo-input-generator.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MagmaInput,
         MagmaInputText,

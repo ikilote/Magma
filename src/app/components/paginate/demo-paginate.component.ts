@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
@@ -18,6 +18,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-paginate',
     templateUrl: './demo-paginate.component.html',
     styleUrl: './demo-paginate.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

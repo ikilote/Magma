@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Select2Data } from 'ng-select2-component';
@@ -21,6 +21,7 @@ import {
     selector: 'demo-input-align',
     templateUrl: './demo-input-align.component.html',
     styleUrl: './demo-input-align.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MagmaInput,
         MagmaInputText,

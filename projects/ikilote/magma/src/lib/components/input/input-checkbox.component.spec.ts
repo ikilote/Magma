@@ -1,4 +1,4 @@
-import { Component, DebugElement, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -314,6 +314,7 @@ describe('MagmaInputCheckbox', () => {
             <mg-input-checkbox value="option3" name="test-group" />
         </mg-input>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaInput, MagmaInputCheckbox],
 })
 class TestHostComponent {
@@ -558,6 +559,7 @@ describe('MagmaInput with multiple MagmaInputCheckbox', () => {
             <mg-input-checkbox value="option1" name="test-group" />
         </mg-input>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaInput, MagmaInputCheckbox],
 })
 class TestHostComponentSimple {

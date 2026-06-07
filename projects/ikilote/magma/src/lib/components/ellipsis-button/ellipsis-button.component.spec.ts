@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -15,6 +15,7 @@ import { MagmaEllipsisItemComponent } from './ellipsis-item.component';
             <mg-ellipsis-item (clickEnter)="onAction('2')">Action 2</mg-ellipsis-item>
         </mg-ellipsis-button>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaEllipsisButtonModule],
 })
 class HostComponent {

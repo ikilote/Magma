@@ -1,4 +1,4 @@
-import { HttpClient, provideHttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withXhr } from '@angular/common/http';
 import { ApplicationConfig, provideZonelessChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -35,7 +35,7 @@ export function markedOptionsFactory() {
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZonelessChangeDetection(),
-        provideHttpClient(),
+        provideHttpClient(withXhr()),
         provideRouter(routes),
         provideHighlightOptions({
             coreLibraryLoader: () => import('highlight.js/lib/core'),

@@ -1,6 +1,7 @@
 import { CdkConnectedOverlay, CdkOverlayOrigin } from '@angular/cdk/overlay';
 import {
     AfterContentChecked,
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     OnDestroy,
@@ -19,6 +20,7 @@ import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive
     templateUrl: './ellipsis-button.component.html',
     styleUrl: './ellipsis-button.component.scss',
     host: {},
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [CdkOverlayOrigin, CdkConnectedOverlay, MagmaLimitFocusDirective],
 })
 export class MagmaEllipsisButton implements AfterContentChecked, OnDestroy {

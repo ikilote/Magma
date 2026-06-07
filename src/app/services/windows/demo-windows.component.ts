@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js } from '@ikilote/json2html';
@@ -21,6 +21,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({
     template: `<p><button (click)="close()">Close</button></p>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [``],
 })
 export class TestWindowComponent extends AbstractWindowComponent {
@@ -35,6 +36,7 @@ export class TestWindowComponent extends AbstractWindowComponent {
         pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
         laborum.
     </p>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     styles: [
         `
             :host {
@@ -51,6 +53,7 @@ export class Test2WindowComponent extends AbstractWindowComponent {
     selector: 'demo-windows',
     templateUrl: './demo-windows.component.html',
     styleUrl: './demo-windows.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         CodeTabsComponent,
         ReactiveFormsModule,

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -57,6 +57,7 @@ describe('MagmaTabContent', () => {
             <div class="content">Content</div>
         </mg-tab-content>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTabContent],
 })
 class TestHostComponent {

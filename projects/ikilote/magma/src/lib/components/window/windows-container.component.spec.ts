@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MagmaWindow } from './window.component';
@@ -9,6 +9,7 @@ import { MagmaWindowsContainer } from './windows-container.component';
     selector: 'mg-window',
     template: '',
     standalone: true,
+    changeDetection: ChangeDetectionStrategy.Eager,
     providers: [{ provide: MagmaWindow, useExisting: MockMagmaWindowComponent }],
 })
 class MockMagmaWindowComponent {

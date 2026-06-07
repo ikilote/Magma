@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
@@ -13,6 +13,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-click-enter',
     templateUrl: './demo-click-enter.component.html',
     styleUrl: './demo-click-enter.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
         MagmaClickEnterDirective,

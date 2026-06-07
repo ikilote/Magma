@@ -1,5 +1,5 @@
 import { Overlay } from '@angular/cdk/overlay';
-import { Component, DebugElement, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -7,6 +7,7 @@ import { ContextMenuData, ContextMenuMode } from './context-menu.component';
 import { AbstractContextMenuComponent, MagmaContextMenu } from './context-menu.directive';
 
 @Component({
+    changeDetection: ChangeDetectionStrategy.Eager,
     template: `<div>
         Mock Component <span>{{ customInput() }}</span>
     </div>`,
@@ -19,6 +20,7 @@ class MockComponent extends AbstractContextMenuComponent {
     template: `
         <div [contextMenu]="menuData" [contextMenuMode]="mode" [contextMenuDisabled]="disabled">Right-click here</div>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaContextMenu],
 })
 class TestHostComponent {

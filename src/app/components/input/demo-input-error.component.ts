@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
@@ -22,6 +22,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-input-error',
     templateUrl: './demo-input-error.component.html',
     styleUrl: './demo-input-error.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         MagmaInput,
         MagmaInputText,

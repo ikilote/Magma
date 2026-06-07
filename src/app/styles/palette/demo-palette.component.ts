@@ -1,4 +1,4 @@
-import { Component, Renderer2, RendererStyleFlags2, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Renderer2, RendererStyleFlags2, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -13,6 +13,7 @@ import {
     templateUrl: './demo-palette.component.html',
     styleUrl: './demo-palette.component.scss',
     imports: [MagmaInput, MagmaInputNumber, ReactiveFormsModule, MagmaInputElement],
+    changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         '[style.--primaryH]': 'form.value.hue',
     },

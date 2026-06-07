@@ -1,5 +1,5 @@
 <div class="message">
-  @let msg = message()?.message;
+  @let msg = $safeNavigationMigration(message()?.message);
   @if (typeof msg === 'string') {
     {{ msg }}
   } @else if (msg) {

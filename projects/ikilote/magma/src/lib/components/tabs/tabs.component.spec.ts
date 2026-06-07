@@ -1,4 +1,4 @@
-import { Component, DebugElement, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -15,6 +15,7 @@ import { MagmaTabs } from './tabs.component';
             <mg-tab-content id="tab2">Content 2</mg-tab-content>
         </mg-tabs>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTabs, MagmaTabTitle, MagmaTabContent],
 })
 class TestHostComponent {
@@ -357,6 +358,7 @@ describe('MagmaTabs - Integration', () => {
 
 @Component({
     template: `<mg-tabs></mg-tabs>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTabs],
 })
 class EmptyTabsHostComponent {}
@@ -370,6 +372,7 @@ class EmptyTabsHostComponent {}
             <mg-tab-content id="tab2">Content 2</mg-tab-content>
         </mg-tabs>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTabs, MagmaTabTitle, MagmaTabContent],
 })
 class PreSelectedTabsHostComponent {}
@@ -381,6 +384,7 @@ class PreSelectedTabsHostComponent {}
             <mg-tab-content id="">Content no-id</mg-tab-content>
         </mg-tabs>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTabs, MagmaTabTitle, MagmaTabContent],
 })
 class NoIdTabsHostComponent {}

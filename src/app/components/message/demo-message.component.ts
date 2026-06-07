@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html } from '@ikilote/json2html';
@@ -19,6 +19,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-message',
     templateUrl: './demo-message.component.html',
     styleUrl: './demo-message.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaMessage, MagmaBlockMessage, CodeTabsComponent, MagmaInput, MagmaInputSelect, FormsModule],
 })
 export class DemoMessageComponent {

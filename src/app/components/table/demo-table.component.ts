@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
@@ -15,6 +15,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-table',
     templateUrl: './demo-table.component.html',
     styleUrl: './demo-table.component.scss',
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTableModule, ReactiveFormsModule, MagmaInput, MagmaInputCheckbox, CodeTabsComponent],
 })
 export class DemoTableComponent {

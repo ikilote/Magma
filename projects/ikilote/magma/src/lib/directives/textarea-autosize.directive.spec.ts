@@ -1,4 +1,4 @@
-import { Component, DebugElement } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -6,6 +6,7 @@ import { MagmaTextareaAutosizeDirective } from './textarea-autosize.directive';
 
 @Component({
     template: `<textarea autosize [autosizeDisabled]="disabled"></textarea>`,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTextareaAutosizeDirective],
 })
 class TestComponent {

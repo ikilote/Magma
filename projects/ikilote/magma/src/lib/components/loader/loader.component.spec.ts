@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -15,6 +15,7 @@ import { MagmaSpinner } from '../spinner/spinner.component';
             <div class="ignore"></div>
         </mg-loader>
     `,
+    changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaLoader, MagmaSpinner, MagmaLoaderMessage],
 })
 class TestHostComponent {}

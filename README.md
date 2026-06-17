@@ -184,10 +184,10 @@ npm run update-coverage-badges
 
 ## Coverage
 
-[![Statements 99.19% (3960/3992)](https://test.ikilote.net/badge-custom.php?label=Statements&value=99.19%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Branches 99.11% (2575/2598)](https://test.ikilote.net/badge-custom.php?label=Branches&value=99.11%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Functions 96.94% (824/850)](https://test.ikilote.net/badge-custom.php?label=Functions&value=96.94%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Lines 99.96% (3168/3169)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.96%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Statements 99.15% (3984/4018)](https://test.ikilote.net/badge-custom.php?label=Statements&value=99.15%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Branches 99.11% (2580/2603)](https://test.ikilote.net/badge-custom.php?label=Branches&value=99.11%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Functions 96.73% (830/858)](https://test.ikilote.net/badge-custom.php?label=Functions&value=96.73%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Lines 99.96% (3190/3191)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.96%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
 
 ## License
 

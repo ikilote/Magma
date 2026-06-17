@@ -1,5 +1,26 @@
 # Changelog of @ikilote/magma
 
+## 1.8.0 (2026-06-17)
+
+> **Up to Angular 22**
+
+### ✅ New
+
+- **input-select**
+    - update to `ng-select2-component : 19.0.0`
+    - include **Select2** imports
+    - `showOptionCheckbox`: new parameter
+    - support `<ng-option>` & `<ng-group>` :
+      ```html
+      <mg-input>
+        <mg-input-select>
+          <mg-option value="test-1">Test 1</mg-option>
+          <mg-option value="test-2">Test 2</mg-option>
+        </mg-input-select>
+      </mg-input>
+      ```
+    - [see Select2 demo](https://harvest-dev.github.io/ng-select2/dist/ng-select2/browser/)
+
 ## 1.7.4 (2026-05-22)
 
 ### ✅ New
@@ -313,7 +334,7 @@ Migration assistance: [migrate-colors.js](https://git.ikilote.net/-/project/58/u
 
 ## 1.1.0 (2025-12-22)
 
-**Up to Angular 21**
+> **Up to Angular 21**
 
 ### 🎦 Demo
 

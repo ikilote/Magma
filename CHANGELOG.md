@@ -1,5 +1,9 @@
 # Changelog of @ikilote/magma
 
+## 1.8.1 (2026-06-17)
+
+- Fix lib
+
 ## 1.8.0 (2026-06-17)
 
 > **Up to Angular 22**

@@ -2,6 +2,8 @@
  * Public API Surface of magma
  */
 
+export * from 'ng-select2-component';
+
 // components
 export * from './lib/components/block/block.component';
 export * from './lib/components/color-picker/color-picker.component';

@@ -6,12 +6,15 @@ import {
     MagmaColorPickerComponent,
     MagmaContribCalendar,
     MagmaDatetimePickerComponent,
+    MagmaInput,
+    MagmaInputSelect,
     MagmaLoaderBlock,
     MagmaLoaderTile,
     MagmaMessage,
     MagmaProgress,
     MagmaSpinner,
     MagmaTabsModule,
+    Select2OptionDirective,
 } from '../../../projects/ikilote/magma/src/public-api';
 
 @Component({
@@ -31,6 +34,9 @@ import {
         MagmaContribCalendar,
         MagmaLoaderBlock,
         MagmaLoaderTile,
+        MagmaInput,
+        MagmaInputSelect,
+        Select2OptionDirective,
     ],
 })
 export class DemoHomeComponent {

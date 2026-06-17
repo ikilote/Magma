@@ -3,14 +3,14 @@ import { FormsModule } from '@angular/forms';
 
 import { Json2html } from '@ikilote/json2html';
 
-import { Select2Data, Select2Option } from 'ng-select2-component';
-
 import {
     MagmaBlockMessage,
     MagmaInput,
     MagmaInputSelect,
     MagmaMessage,
     MagmaMessageType,
+    Select2Data,
+    Select2Option,
     enumToValueList,
 } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';

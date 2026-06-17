@@ -1,8 +1,11 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    DoCheck,
     TemplateRef,
     booleanAttribute,
+    computed,
+    contentChildren,
     input,
     numberAttribute,
     output,
@@ -14,6 +17,8 @@ import {
     Select2,
     Select2AutoCreateEvent,
     Select2Data,
+    Select2GroupDirective,
+    Select2OptionDirective,
     Select2RemoveEvent,
     Select2ScrollEvent,
     Select2SearchEvent,
@@ -42,14 +47,14 @@ let counter = 0;
     },
     imports: [Select2],
 })
-export class MagmaInputSelect extends MagmaInputCommon {
+export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
     override readonly componentName = 'input-select';
     protected override counter = counter++;
 
     override readonly datalist: any = undefined; // not for select
 
     // ----------------------- input
-    readonly data = input.required<Select2Data>();
+    readonly data = input<Select2Data>([]);
 
     /** minimum characters to start filter search */
     readonly minCharForSearch = input(0, { transform: numberAttribute });
@@ -132,6 +137,9 @@ export class MagmaInputSelect extends MagmaInputCommon {
     /** highlight search text */
     readonly highlightText = input(false, { transform: booleanAttribute });
 
+    /** Show a checkbox next to each option */
+    readonly showOptionCheckbox = input<boolean, unknown>(false, { transform: booleanAttribute });
+
     /** grid: item by line
      * * 0 = no grid
      * * number = item by line (4)
@@ -191,10 +199,48 @@ export class MagmaInputSelect extends MagmaInputCommon {
 
     // ----------------------- internal
 
+    /** Projected <ng-option> content children */
+    readonly _ngOptions = contentChildren(Select2OptionDirective);
+
+    /** Projected <ng-group> content children */
+    readonly _ngGroups = contentChildren(Select2GroupDirective);
+
+    /** Merged data: projected ng-option/ng-group take priority over [data] input */
+    readonly _mergedData = computed<Select2Data>(() => {
+        const grps = this._ngGroups();
+        const opts = this._ngOptions();
+        if (grps.length === 0 && opts.length === 0) {
+            return this.data();
+        }
+        try {
+            return [
+                ...grps.map(g => g.toGroup()),
+                ...opts
+                    .filter(o => !grps.some(g => (g._ngOptions() as readonly Select2OptionDirective[]).includes(o)))
+                    .map(o => o.toOption()),
+            ];
+        } catch {
+            return this.data();
+        }
+    });
+
     readonly input = viewChildren(Select2);
 
     override get inputElement(): Select2 | undefined {
         return this.input()?.[0];
+    }
+
+    ngDoCheck(): void {
+        // Dirty-check projected text content of ng-option / ng-group for interpolation changes
+        for (const opt of this._ngOptions()) {
+            opt._refreshProjectedContent();
+        }
+        for (const grp of this._ngGroups()) {
+            grp._refreshProjectedContent();
+            for (const opt of grp._ngOptions() as readonly Select2OptionDirective[]) {
+                opt._refreshProjectedContent();
+            }
+        }
     }
 
     override writeValue(value: any): void {

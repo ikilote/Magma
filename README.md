@@ -119,9 +119,9 @@ npm i @ikilote/magma
 
 Required in `package.json`
 
-- `@angular/common`: `^21.0.0`
-- `@angular/core`: `^21.0.0`
-- `@angular/cdk`: `^21.0.0`
+- `@angular/common`: `^22.0.0`
+- `@angular/core`: `^22.0.0`
+- `@angular/cdk`: `^22.0.0`
 
 Add in `style.css`
 
@@ -137,6 +137,7 @@ Add in `style.css`
 
 |   Magma | Angular |
 | ------: | ------: |
+| ≥ 1.8.x |    22.0 |
 | ≥ 1.1.x |    21.0 |
 |   1.0.0 |    20.x |
 

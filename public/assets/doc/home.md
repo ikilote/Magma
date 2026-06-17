@@ -1,7 +1,7 @@
 <a href="https://badge.fury.io/js/@ikilote%2Fmagma"> ![npm version](https://badge.fury.io/js/@ikilote%2Fmagma.svg) </a>
 <a href="https://www.npmjs.com/package/@ikilote%2Fmagma"> ![Downloads](https://img.shields.io/npm/dm/@ikilote%2Fmagma.svg) </a>
 <a href="https://git.ikilote.net/angular/magma/-/blob/main/LICENSE.md"> ![MIT license](https://test.ikilote.net/badge-custom.php?label=license&value=MIT&valueBgColor=007ec6) </a>
-<a href="https://angular.dev/">![Angular 21.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=21.0&valueBgColor=e05d44) </a>
+<a href="https://angular.dev/">![Angular 22.0](https://test.ikilote.net/badge-custom.php?label=Angular&value=22.0&valueBgColor=e05d44) </a>
 
 # Presentation
 
@@ -21,9 +21,9 @@ npm i @ikilote/magma
 
 Required in `package.json`
 
-- `"@angular/common": "^21.0.0"`
-- `"@angular/core": "^21.0.0"`
-- `"@angular/cdk": "^21.0.0"`
+- `"@angular/common": "^22.0.0"`
+- `"@angular/core": "^22.0.0"`
+- `"@angular/cdk": "^22.0.0"`
 
 Add in `style.css`
 

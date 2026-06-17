@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
@@ -19,7 +18,6 @@ let idIndex = 0;
     selector: 'mg-dialog',
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaLimitFocusDirective],
     host: {
         '[class.open]': 'isOpen()',

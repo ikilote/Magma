@@ -1,6 +1,6 @@
 import { ConnectedPosition, FlexibleConnectedPositionStrategy, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ChangeDetectionStrategy, Component, ComponentRef, contentChildren, inject } from '@angular/core';
+import { Component, ComponentRef, contentChildren, inject } from '@angular/core';
 
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
@@ -16,7 +16,6 @@ export const magmaWalkthroughConnectedPosition: ConnectedPosition[] = [
     selector: 'mg-walkthrough',
     template: '',
     exportAs: 'walkthrough',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaWalkthrough {
     private content: ComponentRef<MagmaWalkthroughContent> | undefined = undefined;

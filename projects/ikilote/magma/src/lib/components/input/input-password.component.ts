@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, booleanAttribute, input } from '@angular/core';
+import { Component, booleanAttribute, input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -10,7 +10,6 @@ let counter = 0;
     selector: 'mg-input-password',
     templateUrl: './input-password.component.html',
     styleUrl: './input-password.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputPassword },

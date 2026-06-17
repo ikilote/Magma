@@ -28,7 +28,7 @@ class MockNgControl {}
             [id]="id"
         >
             <mg-input-label>Test Label</mg-input-label>
-            <mg-input-checkbox></mg-input-checkbox>
+            <mg-input-checkbox />
             <mg-input-error>Error Message</mg-input-error>
             <mg-input-desc>Description</mg-input-desc>
         </mg-input>

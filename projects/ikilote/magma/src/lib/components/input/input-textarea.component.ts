@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
+import { Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -12,7 +12,6 @@ let counter = 0;
     selector: 'mg-input-textarea',
     templateUrl: './input-textarea.component.html',
     styleUrl: './input-textarea.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule, MagmaTextareaAutosizeDirective],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputTextarea },

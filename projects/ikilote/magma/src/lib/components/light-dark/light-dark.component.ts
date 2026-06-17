@@ -1,14 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnChanges,
-    OnInit,
-    SimpleChanges,
-    booleanAttribute,
-    inject,
-    input,
-    output,
-} from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, booleanAttribute, inject, input, output } from '@angular/core';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 import { LightDark, PreferenceInterfaceTheme } from '../../services/light-dark';
@@ -17,7 +7,6 @@ import { LightDark, PreferenceInterfaceTheme } from '../../services/light-dark';
     selector: 'mg-light-dark',
     templateUrl: './light-dark.component.html',
     styleUrl: './light-dark.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaClickEnterDirective],
     hostDirectives: [MagmaClickEnterDirective],
     host: {

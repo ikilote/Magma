@@ -1,7 +1,6 @@
 import {
     AfterContentInit,
     AfterViewChecked,
-    ChangeDetectionStrategy,
     Component,
     ElementRef,
     contentChildren,
@@ -18,7 +17,6 @@ import { MagmaTabTitle } from './tab-title.component';
     selector: 'mg-tabs',
     templateUrl: './tabs.component.html',
     styleUrl: './tabs.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaTabs implements AfterContentInit, AfterViewChecked {
     // content/view

@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
     AfterContentChecked,
-    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     OnChanges,
@@ -26,7 +25,6 @@ export type MagmaInputAlignMode = 'row' | 'column';
     selector: 'mg-input',
     templateUrl: './input.component.html',
     styleUrl: './input.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CommonModule],
     host: {
         '[id]': '_id()',

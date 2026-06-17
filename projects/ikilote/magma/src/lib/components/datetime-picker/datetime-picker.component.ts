@@ -1,6 +1,4 @@
-import { CommonModule } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -48,16 +46,7 @@ const WEEK: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
     selector: 'datetime-picker',
     templateUrl: './datetime-picker.component.html',
     styleUrls: ['./datetime-picker.component.scss'],
-    imports: [
-        CommonModule,
-        FormsModule,
-        MagmaInput,
-        MagmaInputSelect,
-        MagmaClickEnterDirective,
-        RepeatForPipe,
-        StringPipe,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [FormsModule, MagmaInput, MagmaInputSelect, MagmaClickEnterDirective, RepeatForPipe, StringPipe],
     host: {
         '[class.embedded]': 'embedded()',
         '[class.only-date]': 'type() === "date" || !type()',

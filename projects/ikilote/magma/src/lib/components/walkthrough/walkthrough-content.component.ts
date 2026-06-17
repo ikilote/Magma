@@ -1,7 +1,6 @@
 import { ConnectedOverlayPositionChange, ConnectionPositionPair } from '@angular/cdk/overlay';
 import { PortalModule } from '@angular/cdk/portal';
 import {
-    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
@@ -27,7 +26,6 @@ import { Subscriptions } from '../../utils/subscriptions';
     selector: 'mg-walkthrough-content',
     templateUrl: './walkthrough-content.component.html',
     styleUrl: './walkthrough-content.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [PortalModule, MagmaLimitFocusFirstDirective],
     hostDirectives: [MagmaLimitFocusDirective],
 })

@@ -5,7 +5,7 @@
     <h2 class="s-12">objectsAreSame</h2>
     <mg-input class="s-6">
       <mg-input-label>Object A</mg-input-label>
-      <mg-input-textarea formControlName="valueA" autosize></mg-input-textarea>
+      <mg-input-textarea formControlName="valueA" autosize />
       @if (errorA) {
         <mg-input-error>{{ errorA }}</mg-input-error>
       }
@@ -13,7 +13,7 @@
 
     <mg-input class="s-6">
       <mg-input-label>Object B</mg-input-label>
-      <mg-input-textarea formControlName="valueB" autosize></mg-input-textarea>
+      <mg-input-textarea formControlName="valueB" autosize />
       @if (errorB) {
         <mg-input-error>{{ errorB }}</mg-input-error>
       }
@@ -33,7 +33,7 @@
     <h2 class="s-12">objectNestedValue</h2>
     <mg-input class="s-6">
       <mg-input-label>Object</mg-input-label>
-      <mg-input-textarea formControlName="valueC" autosize></mg-input-textarea>
+      <mg-input-textarea formControlName="valueC" autosize />
       @if (errorC) {
         <mg-input-error>{{ errorC }}</mg-input-error>
       }
@@ -58,14 +58,14 @@
     <h2 class="s-12">objectAssignNested</h2>
     <mg-input class="s-6">
       <mg-input-label>Object</mg-input-label>
-      <mg-input-textarea formControlName="valueD" autosize></mg-input-textarea>
+      <mg-input-textarea formControlName="valueD" autosize />
       @if (errorD) {
         <mg-input-error>{{ errorD }}</mg-input-error>
       }
     </mg-input>
     <mg-input class="s-6">
       <mg-input-label>Object</mg-input-label>
-      <mg-input-textarea formControlName="valueE" autosize></mg-input-textarea>
+      <mg-input-textarea formControlName="valueE" autosize />
       @if (errorE) {
         <mg-input-error>{{ errorE }}</mg-input-error>
       }
@@ -76,7 +76,7 @@
     </div>
     <mg-input class="s-6">
       <mg-input-label>Value</mg-input-label>
-      <mg-input-textarea [value]="assign | json" autosize></mg-input-textarea>
+      <mg-input-textarea [value]="assign | json" autosize />
       @if (errorE) {
         <mg-input-error>{{ errorE }}</mg-input-error>
       }

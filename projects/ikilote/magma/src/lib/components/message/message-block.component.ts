@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { MagmaMessageType } from '../../services/messages';
 
@@ -6,7 +6,6 @@ import { MagmaMessageType } from '../../services/messages';
     selector: 'mg-message-block',
     templateUrl: './message-block.component.html',
     styleUrl: './message-block.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [],
     host: {
         '[class.info]': 'type() === "info"',

@@ -1,6 +1,5 @@
 import {
     AfterViewChecked,
-    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
@@ -17,7 +16,6 @@ import { MagmaTable, MagmaTableData } from './table.component';
     selector: 'table[mg] > thead[mg], table[mg] > tbody[mg],table[mg] > tfoot[mg]',
     templateUrl: './table-group.component.html',
     styleUrl: './table-group.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.sticky]': 'sticky()',
         '[class.baseline]': 'baseline()',

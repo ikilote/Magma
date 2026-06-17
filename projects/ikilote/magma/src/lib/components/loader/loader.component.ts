@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, model } from '@angular/core';
+import { Component, model } from '@angular/core';
 
 @Component({
     selector: 'mg-loader',
     templateUrl: './loader.component.html',
     styleUrl: './loader.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     exportAs: 'loader',
     host: {
         '[class.loading]': 'loading()',

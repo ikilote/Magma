@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 
 import { InfoMessageComponent } from './info-message.component';
 
@@ -8,7 +8,6 @@ import { MagmaMessageInfo, MagmaMessages } from '../../services/messages';
     selector: 'info-messages',
     templateUrl: './info-messages.component.html',
     styleUrl: './info-messages.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [InfoMessageComponent],
 })
 export class InfoMessagesComponent {

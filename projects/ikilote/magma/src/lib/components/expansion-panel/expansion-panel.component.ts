@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, booleanAttribute, input, output } from '@angular/core';
+import { Component, booleanAttribute, input, output } from '@angular/core';
 
 export interface MagmaExpansionPanelUpdateEvent {
     open: boolean;
@@ -9,7 +9,6 @@ export interface MagmaExpansionPanelUpdateEvent {
     selector: 'mg-expansion-panel',
     templateUrl: './expansion-panel.component.html',
     styleUrl: './expansion-panel.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaExpansionPanel {
     open = input(false, { transform: booleanAttribute });

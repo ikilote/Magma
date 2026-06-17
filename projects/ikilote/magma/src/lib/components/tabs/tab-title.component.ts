@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
@@ -25,7 +24,6 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
         tabindex: '0',
     },
     hostDirectives: [MagmaClickEnterDirective],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaTabTitle implements OnInit, OnChanges {
     // inject

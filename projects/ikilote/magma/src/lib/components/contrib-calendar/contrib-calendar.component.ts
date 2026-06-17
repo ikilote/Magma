@@ -1,5 +1,5 @@
 import { DatePipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Directive, computed, input } from '@angular/core';
+import { Component, Directive, computed, input } from '@angular/core';
 
 import { RepeatForPipe } from '../../pipes/repeat-for.pipe';
 
@@ -20,7 +20,6 @@ export class MagmaContribCalendarDesc {}
     selector: 'mg-contrib-calendar',
     templateUrl: './contrib-calendar.component.html',
     styleUrl: './contrib-calendar.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [DatePipe, RepeatForPipe],
     host: {
         '[style.--size]': 'size()',

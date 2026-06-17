@@ -357,7 +357,7 @@ describe('MagmaTabs - Integration', () => {
 // --- Additional branch coverage tests ---
 
 @Component({
-    template: `<mg-tabs></mg-tabs>`,
+    template: `<mg-tabs />`,
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaTabs],
 })

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { FileSizePipe, FileSizePipeParams } from '../../pipes/file-size.pipe';
 import { numberAttributeOrUndefined } from '../../utils/coercion';
@@ -11,7 +11,6 @@ import { numberAttributeOrUndefined } from '../../utils/coercion';
     templateUrl: './progress.component.html',
     styleUrl: './progress.component.scss',
     imports: [FileSizePipe],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaProgress {
     // input

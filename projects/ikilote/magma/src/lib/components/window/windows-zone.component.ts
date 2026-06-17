@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, input } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input } from '@angular/core';
 
 import { MagmaWindow, MagmaWindowInfos } from './window.component';
 
@@ -15,7 +15,6 @@ import { MagmaWindows } from '../../services/windows';
     selector: 'mg-windows-zone',
     templateUrl: './windows-zone.component.html',
     styleUrl: './windows-zone.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaWindow],
 })
 export class MagmaWindowsZone implements MagmaResizeHostElement {

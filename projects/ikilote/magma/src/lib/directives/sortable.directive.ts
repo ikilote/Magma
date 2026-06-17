@@ -129,7 +129,6 @@ export class MagmaSortRuleDirective implements OnInit {
 
 @Directive({
     selector: '[sortable]',
-    standalone: true,
 })
 export class MagmaSortableDirective<T = any> implements OnInit, OnChanges, OnDestroy {
     private readonly renderer = inject(Renderer2);

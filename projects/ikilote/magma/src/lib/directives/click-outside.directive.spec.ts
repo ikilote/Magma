@@ -7,7 +7,7 @@ import { MagmaClickOutsideDirective } from './click-outside.directive';
 
 @Component({
     template: `<div clickOutside (clickOutside)="onClickOutside($event)">Test Element</div>`,
-    standalone: true,
+
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaClickOutsideDirective],
 })

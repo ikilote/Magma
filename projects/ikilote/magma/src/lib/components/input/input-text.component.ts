@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
+import { Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { FormsModule, NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -11,7 +11,6 @@ let counter = 0;
     selector: 'mg-input-text',
     templateUrl: './input-text.component.html',
     styleUrl: './input-text.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule, FormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputText },

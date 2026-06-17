@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
@@ -199,7 +199,9 @@ export class DemoInputGeneratorComponent {
 
     typesDate = dateTypes;
 
-    constructor(fbe: FormBuilderExtended) {
+    constructor() {
+        const fbe = inject(FormBuilderExtended);
+
         this.formGenerator = fbe.groupWithError({
             type: {
                 default: 'text' as

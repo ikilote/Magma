@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 
 import { MagmaMessages, MagmaTabContent, MagmaTabTitle, MagmaTabs, clipboardWrite } from '@ikilote/magma';
 
@@ -9,7 +9,6 @@ import { Highlight } from 'ngx-highlightjs';
     templateUrl: './code-tabs.component.html',
     styleUrl: './code-tabs.component.scss',
     imports: [MagmaTabs, MagmaTabContent, MagmaTabTitle, Highlight],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CodeTabsComponent {
     readonly mgMessages = inject(MagmaMessages);

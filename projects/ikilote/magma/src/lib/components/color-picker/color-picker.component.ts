@@ -1,7 +1,6 @@
 import { CdkDrag, CdkDragEnd, Point } from '@angular/cdk/drag-drop';
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -82,7 +81,6 @@ export const magmaColorPickerPalette = [
     templateUrl: './color-picker.component.html',
     styleUrl: './color-picker.component.scss',
     imports: [FormsModule, CdkDrag, MagmaTabsModule],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--hue]': 'rangeHue',
         '[style.--alpha.%]': 'rangeAlpha * 100',

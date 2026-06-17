@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     DoCheck,
@@ -32,7 +31,6 @@ let counter = 0;
     templateUrl: './paginate.component.html',
     styleUrl: './paginate.component.scss',
     imports: [RouterLink],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         role: 'navigation',
     },

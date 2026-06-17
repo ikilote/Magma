@@ -21,7 +21,6 @@ import { MagmaResize } from './resizer.directive';
             ></div>
         </div>
     `,
-    standalone: true,
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaResize],
 })

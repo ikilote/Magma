@@ -1,11 +1,4 @@
-import {
-    AfterViewChecked,
-    ChangeDetectionStrategy,
-    Component,
-    booleanAttribute,
-    contentChildren,
-    input,
-} from '@angular/core';
+import { AfterViewChecked, Component, booleanAttribute, contentChildren, input } from '@angular/core';
 
 import { MagmaTableCell } from './table-cell.component';
 import { MagmaTableGroup } from './table-group.component';
@@ -21,7 +14,6 @@ export type MagmaTableData = {
     selector: 'table[mg]',
     templateUrl: './table.component.html',
     styleUrl: './table.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.baseline]': 'baseline()',
     },

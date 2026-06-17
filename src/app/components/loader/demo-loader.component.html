@@ -35,7 +35,7 @@
       <h2>Preview</h2>
       <div class="loader">
         <mg-loader #loader [(loading)]="loadingValue" (loadingChange)="loadingChange($event)">
-          <mg-spinner></mg-spinner>
+          <mg-spinner />
           @if (ctrlForm.value.message) {
             <mg-loader-message>
               {{ ctrlForm.value.message }}
@@ -46,7 +46,7 @@
               [loaded]="ctrlForm.value.progressLoaded"
               [total]="ctrlForm.value.progressTotal"
               [sizeFormat]="ctrlForm.value.progressSizeFormat"
-            ></mg-progress>
+            />
           }
         </mg-loader>
         <p>

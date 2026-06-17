@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 import { numberAttributeOrUndefined } from '../../utils/coercion';
 
@@ -11,7 +11,6 @@ import { numberAttributeOrUndefined } from '../../utils/coercion';
         '[style.--width.px]': 'tickWidth()',
         '[style.--radius.px]': 'radius()',
     },
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaSpinner {
     // input

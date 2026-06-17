@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
+import { Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -12,7 +12,6 @@ let counter = 0;
     selector: 'mg-input-number',
     templateUrl: './input-number.component.html',
     styleUrl: './input-number.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputNumber },
         { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputNumber, multi: true },

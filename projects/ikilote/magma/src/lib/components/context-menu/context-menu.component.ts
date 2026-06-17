@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, HostListener, Type, input } from '@angular/core';
+import { Component, HostListener, Type, input } from '@angular/core';
 
 import { MagmaContextMenu } from './context-menu.directive';
 
@@ -44,7 +44,6 @@ export type ContextMenuMode = 'default' | 'bubble' | undefined;
         '[class.default]': 'mode() === "default"',
         '[class.bubble]': 'mode() === "bubble"',
     },
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgComponentOutlet, MagmaClickEnterDirective, MagmaLimitFocusDirective],
 })
 export class MagmaContextMenuComponent<T> {

@@ -1,12 +1,4 @@
-import {
-    AfterContentChecked,
-    ChangeDetectionStrategy,
-    Component,
-    SimpleChanges,
-    booleanAttribute,
-    computed,
-    input,
-} from '@angular/core';
+import { AfterContentChecked, Component, SimpleChanges, booleanAttribute, computed, input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -17,7 +9,6 @@ let counter = 0;
     selector: 'mg-input-radio',
     templateUrl: './input-radio.component.html',
     styleUrl: './input-radio.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputRadio },
         { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputRadio, multi: true },

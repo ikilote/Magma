@@ -71,7 +71,9 @@ export class DemoTabsComponent {
 export class DemoTabsComponent {
 }`;
 
-    constructor(fb: NonNullableFormBuilder) {
+    constructor() {
+        const fb = inject(NonNullableFormBuilder);
+
         this.form = fb.group({
             compact: new FormControl<boolean>(false, { nonNullable: true }),
             returnTabsLabel: new FormControl<string>('Return to tabs', { nonNullable: true }),

@@ -8,7 +8,7 @@ import { MagmaWindowsContainer } from './windows-container.component';
 @Component({
     selector: 'mg-window',
     template: '',
-    standalone: true,
+
     changeDetection: ChangeDetectionStrategy.Eager,
     providers: [{ provide: MagmaWindow, useExisting: MockMagmaWindowComponent }],
 })

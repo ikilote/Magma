@@ -1,6 +1,5 @@
 import {
     AfterContentChecked,
-    ChangeDetectionStrategy,
     Component,
     DoCheck,
     ElementRef,
@@ -20,7 +19,6 @@ let counter = 0;
     selector: 'mg-input-checkbox',
     templateUrl: './input-checkbox.component.html',
     styleUrl: './input-checkbox.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputCheckbox },
         { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputCheckbox, multi: true },

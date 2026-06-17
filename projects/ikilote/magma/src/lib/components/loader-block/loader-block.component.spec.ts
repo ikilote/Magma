@@ -8,7 +8,7 @@ import { MagmaLoaderTile } from './loader-tile.component';
 @Component({
     template: `
         <mg-loader-block>
-            <mg-loader-tile></mg-loader-tile>
+            <mg-loader-tile />
         </mg-loader-block>
     `,
     changeDetection: ChangeDetectionStrategy.Eager,
@@ -51,9 +51,9 @@ describe('MagmaLoaderBlock', () => {
 @Component({
     template: `
         <mg-loader-block>
-            <mg-loader-tile></mg-loader-tile>
-            <mg-loader-tile></mg-loader-tile>
-            <mg-loader-tile></mg-loader-tile>
+            <mg-loader-tile />
+            <mg-loader-tile />
+            <mg-loader-tile />
         </mg-loader-block>
     `,
     changeDetection: ChangeDetectionStrategy.Eager,

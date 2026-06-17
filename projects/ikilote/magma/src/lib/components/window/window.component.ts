@@ -2,7 +2,6 @@ import { CdkDrag, CdkDragEnd, CdkDragHandle, Point } from '@angular/cdk/drag-dro
 import { OverlayRef } from '@angular/cdk/overlay';
 import { NgComponentOutlet } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
     Component,
     Directive,
     ElementRef,
@@ -69,7 +68,6 @@ export abstract class AbstractWindowComponent {
     host: {
         '[style.--index]': '_index()',
     },
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })
 export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges, OnDestroy {

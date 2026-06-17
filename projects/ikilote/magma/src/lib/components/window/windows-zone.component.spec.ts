@@ -9,7 +9,6 @@ import { MagmaWindowsZone } from './windows-zone.component';
     selector: 'mg-test',
     template: `<button (click)="close()">close</button>`,
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: true,
 })
 class TestComponent extends AbstractWindowComponent {
     override close() {

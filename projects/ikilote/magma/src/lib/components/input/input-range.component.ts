@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -11,7 +11,6 @@ let counter = 0;
     selector: 'mg-input-range',
     templateUrl: './input-range.component.html',
     styleUrl: './input-range.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputRange },

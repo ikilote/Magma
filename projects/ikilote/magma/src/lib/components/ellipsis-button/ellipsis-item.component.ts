@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, inject, output } from '@angular/core';
+import { Component, OnDestroy, inject, output } from '@angular/core';
 
 import { MagmaEllipsisButton } from './ellipsis-button.component';
 
@@ -8,7 +8,6 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
     selector: 'mg-ellipsis-item',
     templateUrl: './ellipsis-item.component.html',
     styleUrl: './ellipsis-item.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     hostDirectives: [MagmaClickEnterDirective],
 })
 export class MagmaEllipsisItemComponent implements OnDestroy {

@@ -1,12 +1,4 @@
-import {
-    AfterContentChecked,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ElementRef,
-    contentChildren,
-    inject,
-} from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, ElementRef, contentChildren, inject } from '@angular/core';
 
 import { MagmaWindow } from './window.component';
 
@@ -16,7 +8,6 @@ import { MagmaResizeHostElement } from '../../directives/resizer';
     selector: 'mg-windows-container',
     templateUrl: './windows-container.component.html',
     styleUrl: './windows-container.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaWindowsContainer implements MagmaResizeHostElement, AfterContentChecked {
     protected readonly windows = contentChildren(MagmaWindow, { descendants: true });

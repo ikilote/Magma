@@ -1,5 +1,5 @@
 import { NgComponentOutlet } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, HostListener, inject, input, output } from '@angular/core';
+import { Component, ElementRef, HostListener, inject, input, output } from '@angular/core';
 
 import { MagmaMessageInfo } from '../../services/messages';
 
@@ -9,7 +9,6 @@ export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<s
     selector: 'info-message',
     templateUrl: './info-message.component.html',
     styleUrl: './info-message.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [NgComponentOutlet],
     host: {
         '[class]': 'classes()',

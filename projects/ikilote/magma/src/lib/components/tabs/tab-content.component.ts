@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, model } from '@angular/core';
+import { Component, input, model } from '@angular/core';
 
 @Component({
     selector: 'mg-tab-content',
@@ -7,7 +7,6 @@ import { ChangeDetectionStrategy, Component, input, model } from '@angular/core'
     host: {
         '[attr.id]': '"tab-content-" + id()',
     },
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MagmaTabContent {
     // input

@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     ElementRef,
     OnChanges,
@@ -137,7 +136,6 @@ type fieldName = 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'm
     selector: 'mg-input-date',
     templateUrl: './input-date.component.html',
     styleUrl: './input-date.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [ReactiveFormsModule, FormsModule, MagmaDatetimePicker, MagmaStopPropagationDirective],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputDate },

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
+import { Component, ElementRef, booleanAttribute, input, viewChildren } from '@angular/core';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
@@ -12,7 +12,6 @@ let counter = 0;
     selector: 'mg-input-color',
     templateUrl: './input-color.component.html',
     styleUrl: './input-color.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [MagmaColorPicker],
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputColor },

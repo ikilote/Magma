@@ -1,7 +1,6 @@
 import {
     AfterViewChecked,
     AfterViewInit,
-    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -19,7 +18,6 @@ import { MagmaTable } from './table.component';
     selector: 'table[mg] > * > * > td[mg], table[mg] > * > * > th[mg]',
     templateUrl: './table-cell.component.html',
     styleUrl: './table-cell.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[class.baseline]': 'baseline()',
         '[class.hover]': 'hover()',

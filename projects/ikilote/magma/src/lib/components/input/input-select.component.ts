@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     DoCheck,
     TemplateRef,
@@ -36,7 +35,6 @@ let counter = 0;
     selector: 'mg-input-select',
     templateUrl: './input-select.component.html',
     styleUrl: './input-select.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [
         { provide: MagmaInputCommon, useExisting: MagmaInputSelect },
         { provide: NG_VALUE_ACCESSOR, useExisting: MagmaInputSelect, multi: true },

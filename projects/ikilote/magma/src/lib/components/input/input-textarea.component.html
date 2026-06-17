@@ -16,7 +16,7 @@
     (blur)="focus(false)"
   ></textarea>
   <div>
-    <ng-content select="mg-input-textarea-desc"></ng-content>
+    <ng-content select="mg-input-textarea-desc" />
     @let limit = displayLimit();
     @if (maxlength() && limit !== undefined && input.value.length >= limit) {
       <div class="limit" [style.--size]="input.value.length" [style.--total]="maxlength()"></div>

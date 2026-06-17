@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-
 import {
     FormBuilderExtended,
     MagmaInput,
@@ -10,7 +9,8 @@ import {
     MagmaInputNumber,
     MagmaInputText,
     MagmaTooltipDirective,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

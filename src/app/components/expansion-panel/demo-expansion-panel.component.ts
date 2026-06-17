@@ -2,13 +2,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-
 import {
     MagmaExpansionPanelModule,
     MagmaExpansionPanelUpdateEvent,
     MagmaInput,
     MagmaInputCheckbox,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

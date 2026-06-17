@@ -4,11 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 import { Json2html } from '@ikilote/json2html';
-
-import { filter, map } from 'rxjs';
-
-import { Menu, menu } from './app.menu';
-
 import {
     LightDark,
     MagmaInput,
@@ -16,7 +11,12 @@ import {
     MagmaInputElement,
     MagmaInputText,
     MagmaLightDark,
-} from '../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
+import { filter, map } from 'rxjs';
+
+import { Menu, menu } from './app.menu';
+
 import { environment } from '../environments/environment';
 
 @Component({

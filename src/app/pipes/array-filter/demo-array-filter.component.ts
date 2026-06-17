@@ -1,7 +1,8 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { ArrayFilterPipe } from '../../../../projects/ikilote/magma/src/public-api';
+import { ArrayFilterPipe } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

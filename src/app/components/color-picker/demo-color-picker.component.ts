@@ -2,17 +2,17 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-
-import { MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/lib/components/input/input-checkbox.component';
 import {
     FormBuilderExtended,
     MagmaColorPicker,
     MagmaColorPickerComponent,
     MagmaColorPickerTexts,
     MagmaInput,
+    MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputText,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 export const palette = [

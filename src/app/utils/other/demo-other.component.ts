@@ -2,7 +2,8 @@ import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { isEmpty, regexpSlash } from '../../../../projects/ikilote/magma/src/public-api';
+import { isEmpty, regexpSlash } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

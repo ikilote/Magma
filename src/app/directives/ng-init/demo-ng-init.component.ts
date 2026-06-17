@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 
-import { MagmaNgInitDirective } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaNgInitDirective } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

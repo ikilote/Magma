@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
-
 import {
     MagmaBlock,
     MagmaDialog,
@@ -12,7 +11,8 @@ import {
     MagmaLimitFocusDirective,
     MagmaLimitFocusFirstDirective,
     MagmaTabsModule,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

@@ -3,10 +3,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
-
-import { Select2Data } from 'ng-select2-component';
-import { Highlight } from 'ngx-highlightjs';
-
 import {
     FormBuilderExtended,
     MagmaDatetimeType,
@@ -22,7 +18,11 @@ import {
     MagmaInputSelect,
     MagmaInputText,
     MagmaInputTextarea,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
+import { Select2Data } from 'ng-select2-component';
+import { Highlight } from 'ngx-highlightjs';
+
 import { dateTypes } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 import { palette, texts } from '../color-picker/demo-color-picker.component';

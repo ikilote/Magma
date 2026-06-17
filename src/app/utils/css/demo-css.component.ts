@@ -3,14 +3,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
+import { FormBuilderExtended, MagmaInput, MagmaInputElement, MagmaInputText, getPaletteList } from '@ikilote/magma';
 
-import {
-    FormBuilderExtended,
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputText,
-    getPaletteList,
-} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

@@ -2,11 +2,14 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlObject } from '@ikilote/json2html';
+import {
+    FormBuilderExtended,
+    MagmaBlock,
+    MagmaClickEnterDirective,
+    MagmaInput,
+    MagmaInputCheckbox,
+} from '@ikilote/magma';
 
-import { MagmaBlock } from '../../../../projects/ikilote/magma/src/lib/components/block/block.component';
-import { MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/lib/components/input/input-checkbox.component';
-import { MagmaInput } from '../../../../projects/ikilote/magma/src/lib/components/input/input.component';
-import { FormBuilderExtended, MagmaClickEnterDirective } from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

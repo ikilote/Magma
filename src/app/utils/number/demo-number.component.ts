@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import {
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputNumber,
-    randomNumber,
-} from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaInput, MagmaInputElement, MagmaInputNumber, randomNumber } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

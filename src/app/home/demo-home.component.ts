@@ -15,7 +15,7 @@ import {
     MagmaSpinner,
     MagmaTabsModule,
     Select2OptionDirective,
-} from '../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
 
 @Component({
     selector: 'demo-home',

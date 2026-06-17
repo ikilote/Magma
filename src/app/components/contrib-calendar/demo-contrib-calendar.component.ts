@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-
 import {
     FormBuilderExtended,
     MagmaContribCalendar,
@@ -12,7 +11,8 @@ import {
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputSelect,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { days, langues } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 

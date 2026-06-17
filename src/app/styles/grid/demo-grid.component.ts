@@ -1,7 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MagmaInput, MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaInput, MagmaInputCheckbox } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

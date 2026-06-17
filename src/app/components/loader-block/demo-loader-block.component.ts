@@ -2,9 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-
-import { Select2Data } from 'ng-select2-component';
-
 import {
     FormBuilderExtended,
     MagmaInput,
@@ -12,7 +9,10 @@ import {
     MagmaInputSelect,
     MagmaLoaderBlock,
     MagmaLoaderTile,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
+import { Select2Data } from 'ng-select2-component';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

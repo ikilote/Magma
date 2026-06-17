@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { Select2Data } from 'ng-select2-component';
-
 import {
     FormBuilderExtended,
     MagmaInput,
@@ -15,7 +13,9 @@ import {
     MagmaInputSelect,
     MagmaInputText,
     MagmaInputTextarea,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
+import { Select2Data } from 'ng-select2-component';
 
 @Component({
     selector: 'demo-input-align',

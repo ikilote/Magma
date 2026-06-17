@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { MagmaMessages, getCookie, removeCookie, setCookie } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaMessages, getCookie, removeCookie, setCookie } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

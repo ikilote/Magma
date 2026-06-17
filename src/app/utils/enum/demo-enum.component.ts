@@ -1,15 +1,10 @@
 import { JsonPipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
+import { enumToKeyList, enumToKeyValue, enumToMap, enumToObject, enumToValueList } from '@ikilote/magma';
+
 import { Highlight } from 'ngx-highlightjs';
 
-import {
-    enumToKeyList,
-    enumToKeyValue,
-    enumToMap,
-    enumToObject,
-    enumToValueList,
-} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 enum Test {

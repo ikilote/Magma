@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
-import { MagmaMessages, clipboardWrite } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaMessages, clipboardWrite } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

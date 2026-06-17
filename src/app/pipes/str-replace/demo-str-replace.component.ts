@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { StrReplacePipe } from '../../../../projects/ikilote/magma/src/public-api';
+import { StrReplacePipe } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

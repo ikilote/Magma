@@ -2,12 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import {
-    MagmaCache,
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputText,
-} from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaCache, MagmaInput, MagmaInputElement, MagmaInputText } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

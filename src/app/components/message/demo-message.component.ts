@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html } from '@ikilote/json2html';
-
 import {
     MagmaBlockMessage,
     MagmaInput,
@@ -12,7 +11,8 @@ import {
     Select2Data,
     Select2Option,
     enumToValueList,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

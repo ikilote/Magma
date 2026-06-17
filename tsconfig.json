@@ -3,7 +3,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "@ikilote/magma": ["./dist/ikilote/magma"]
+      "@ikilote/magma": ["./projects/ikilote/magma/src/public-api"]
     },
     "outDir": "./dist/out-tsc",
     "strict": true,

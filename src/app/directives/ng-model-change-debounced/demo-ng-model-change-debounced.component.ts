@@ -7,7 +7,8 @@ import {
     MagmaInputNumber,
     MagmaInputText,
     MagmaNgModelChangeDebouncedDirective,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

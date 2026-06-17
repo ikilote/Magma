@@ -1,12 +1,7 @@
 import { ChangeDetectionStrategy, Component, Renderer2, RendererStyleFlags2, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import {
-    FormBuilderExtended,
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputNumber,
-} from '../../../../projects/ikilote/magma/src/public-api';
+import { FormBuilderExtended, MagmaInput, MagmaInputElement, MagmaInputNumber } from '@ikilote/magma';
 
 @Component({
     selector: 'demo-palette',

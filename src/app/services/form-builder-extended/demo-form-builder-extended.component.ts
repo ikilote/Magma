@@ -4,13 +4,8 @@ import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } f
 import { RouterLink } from '@angular/router';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
+import { FormBuilderExtended, MagmaInput, MagmaInputElement, MagmaInputText } from '@ikilote/magma';
 
-import {
-    FormBuilderExtended,
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputText,
-} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 type MyArrayItem = FormGroup<{

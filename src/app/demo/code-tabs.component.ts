@@ -1,14 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 
-import { Highlight } from 'ngx-highlightjs';
+import { MagmaMessages, MagmaTabContent, MagmaTabTitle, MagmaTabs, clipboardWrite } from '@ikilote/magma';
 
-import {
-    MagmaMessages,
-    MagmaTabContent,
-    MagmaTabTitle,
-    MagmaTabs,
-    clipboardWrite,
-} from '../../../projects/ikilote/magma/src/public-api';
+import { Highlight } from 'ngx-highlightjs';
 
 @Component({
     selector: 'code-tabs',

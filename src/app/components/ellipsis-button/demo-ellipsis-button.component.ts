@@ -2,13 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
+import { MagmaEllipsisButtonModule, MagmaInput, MagmaInputElement, MagmaInputText } from '@ikilote/magma';
 
-import {
-    MagmaEllipsisButtonModule,
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputText,
-} from '../../../../projects/ikilote/magma/src/public-api';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

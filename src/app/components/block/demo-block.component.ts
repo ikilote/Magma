@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { MagmaBlock } from '../../../../projects/ikilote/magma/src/lib/components/block/block.component';
+import { MagmaBlock } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

@@ -2,14 +2,11 @@ import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
-
-import { Select2Data } from 'ng-select2-component';
-
-import { MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/lib/components/input/input-checkbox.component';
 import {
     FileSizePipeParams,
     FormBuilderExtended,
     MagmaInput,
+    MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputSelect,
@@ -18,7 +15,10 @@ import {
     MagmaLoaderMessage,
     MagmaProgress,
     MagmaSpinner,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
+import { Select2Data } from 'ng-select2-component';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

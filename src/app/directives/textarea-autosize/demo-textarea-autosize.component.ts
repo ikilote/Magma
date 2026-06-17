@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { MagmaTextareaAutosizeDirective } from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaTextareaAutosizeDirective } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-
-import { MagmaInputCheckbox } from '../../../../projects/ikilote/magma/src/lib/components/input/input-checkbox.component';
 import {
     AbstractContextMenuComponent,
     ContextMenuData,
@@ -11,9 +9,11 @@ import {
     FormBuilderExtended,
     MagmaContextMenu,
     MagmaInput,
+    MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputRadio,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

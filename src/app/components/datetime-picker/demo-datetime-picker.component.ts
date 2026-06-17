@@ -2,9 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-
-import { Select2Data } from 'ng-select2-component';
-
 import {
     FormBuilderExtended,
     MagmaDatetimePicker,
@@ -17,7 +14,10 @@ import {
     MagmaInputElement,
     MagmaInputSelect,
     WeekDay,
-} from '../../../../projects/ikilote/magma/src/public-api';
+} from '@ikilote/magma';
+
+import { Select2Data } from 'ng-select2-component';
+
 import { dateTypes, days, langues } from '../../common/const';
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 

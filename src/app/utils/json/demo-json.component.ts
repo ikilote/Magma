@@ -1,13 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import {
-    ExceptionJsonParse,
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputTextarea,
-    jsonParse,
-} from '../../../../projects/ikilote/magma/src/public-api';
+import { ExceptionJsonParse, MagmaInput, MagmaInputElement, MagmaInputTextarea, jsonParse } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

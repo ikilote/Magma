@@ -1,12 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import {
-    MagmaInput,
-    MagmaInputElement,
-    MagmaInputText,
-    testEmail,
-} from '../../../../projects/ikilote/magma/src/public-api';
+import { MagmaInput, MagmaInputElement, MagmaInputText, testEmail } from '@ikilote/magma';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
 @Component({

@@ -78,14 +78,15 @@ export class MagmaLimitFocusDirective implements OnDestroy {
         if (div) {
             div.focus();
 
-            let listElement = this.firstLastFocusableElement(div);
+            // Wrap in an object so both closures share the same reference
+            const state = { listElement: this.firstLastFocusableElement(div) };
 
             div.addEventListener('keydown', event => {
-                this.keydown(event, listElement);
+                this.keydown(event, state.listElement);
             });
 
             this.observer = new MutationObserver(mutationsList => {
-                this.mutations(mutationsList, listElement, div);
+                this.mutations(mutationsList, state, div);
             });
             this.observer.observe(div, { attributes: true, childList: true, subtree: true });
         }
@@ -96,20 +97,30 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             const list = listElement.filter(e => this.filter(e));
             const firstFocusableElement = list[0];
             const lastFocusableElement = list[list.length - 1];
+            const active = document.activeElement as HTMLElement | null;
+
+            // If the focused element is inside the container but not in the
+            // tab-cycle list (e.g. a tabpanel with tabindex="-1" that received
+            // programmatic focus), let the browser handle Tab naturally so it
+            // moves to the next element inside the container. Only trap when
+            // focus has escaped outside the container entirely.
+            const container = this.focusElement.nativeElement;
+            const isInsideContainer = active ? container.contains(active) : false;
 
             if (event.shiftKey) {
-                if (document.activeElement === firstFocusableElement) {
+                if (active === firstFocusableElement) {
                     event.preventDefault();
                     lastFocusableElement.focus();
-                }
-                if (!list.find(e => e === document.activeElement)) {
+                } else if (!isInsideContainer) {
                     lastFocusableElement.focus();
                 }
-            } else if (document.activeElement === lastFocusableElement) {
-                event.preventDefault();
-                firstFocusableElement.focus();
-            } else if (!list.find(e => e === document.activeElement)) {
-                firstFocusableElement.focus();
+            } else {
+                if (active === lastFocusableElement) {
+                    event.preventDefault();
+                    firstFocusableElement.focus();
+                } else if (!isInsideContainer) {
+                    firstFocusableElement.focus();
+                }
             }
             event.stopPropagation();
         }
@@ -126,10 +137,10 @@ export class MagmaLimitFocusDirective implements OnDestroy {
         );
     }
 
-    private mutations(mutationsList: MutationRecord[], listElement: HTMLElement[], div: HTMLDivElement) {
+    private mutations(mutationsList: MutationRecord[], state: { listElement: HTMLElement[] }, div: HTMLDivElement) {
         for (const mutation of mutationsList) {
             if (mutation.type === 'childList' || mutation.type === 'attributes') {
-                listElement = this.firstLastFocusableElement(div);
+                state.listElement = this.firstLastFocusableElement(div);
                 return;
             }
         }

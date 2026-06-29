@@ -247,11 +247,11 @@ describe('MagmaLimitFocusDirective', () => {
                 oldValue: null,
             } as unknown as MutationRecord;
 
-            // Get initial list of focusable elements
-            const initialList = (limitFocusDirective as any).firstLastFocusableElement(containerElement);
+            // Use the state object (new signature)
+            const state = { listElement: (limitFocusDirective as any).firstLastFocusableElement(containerElement) };
 
             // Call mutations with the mutation record
-            limitFocusDirective['mutations']([mutation], initialList, containerElement);
+            limitFocusDirective['mutations']([mutation], state, containerElement);
 
             // Verify firstLastFocusableElement was called
             expect(spy).toHaveBeenCalledWith(containerElement);
@@ -275,11 +275,11 @@ describe('MagmaLimitFocusDirective', () => {
                 oldValue: null,
             } as unknown as MutationRecord;
 
-            // Get initial list of focusable elements
-            const initialList = (limitFocusDirective as any).firstLastFocusableElement(containerElement);
+            // Use the state object (new signature)
+            const state = { listElement: (limitFocusDirective as any).firstLastFocusableElement(containerElement) };
 
             // Call mutations with the mutation record
-            limitFocusDirective['mutations']([mutation], initialList, containerElement);
+            limitFocusDirective['mutations']([mutation], state, containerElement);
 
             // Verify firstLastFocusableElement was called
             expect(spy).toHaveBeenCalledWith(containerElement);
@@ -303,14 +303,84 @@ describe('MagmaLimitFocusDirective', () => {
                 oldValue: null,
             } as unknown as MutationRecord;
 
-            // Get initial list of focusable elements
-            const initialList = (limitFocusDirective as any).firstLastFocusableElement(containerElement);
+            // Use the state object (new signature)
+            const state = { listElement: (limitFocusDirective as any).firstLastFocusableElement(containerElement) };
 
             // Call mutations with the mutation record
-            limitFocusDirective['mutations']([mutation], initialList, containerElement);
+            limitFocusDirective['mutations']([mutation], state, containerElement);
 
             // Verify firstLastFocusableElement was not called
             expect(spy).toHaveBeenCalledTimes(1);
+        });
+
+        it('should mutate state.listElement in place so the keydown closure sees the updated list', () => {
+            // This is the core regression test for the closure bug:
+            // Previously, mutations() reassigned a local variable, leaving the keydown closure
+            // with a stale list. Now both share the same `state` object reference.
+
+            const initialList = (limitFocusDirective as any).firstLastFocusableElement(containerElement);
+            const state = { listElement: initialList };
+
+            // Add a new button to the container
+            const newButton = document.createElement('button');
+            newButton.id = 'button-new';
+            containerElement.appendChild(newButton);
+
+            const mutation = {
+                type: 'childList',
+                target: containerElement,
+                addedNodes: [newButton],
+                removedNodes: [],
+                previousSibling: null,
+                nextSibling: null,
+                attributeName: null,
+                attributeNamespace: null,
+                oldValue: null,
+            } as unknown as MutationRecord;
+
+            // Before mutation: new button is not in state.listElement
+            expect(state.listElement).not.toContain(newButton);
+
+            limitFocusDirective['mutations']([mutation], state, containerElement);
+
+            // After mutation: state.listElement is updated and new button is now included
+            expect(state.listElement).toContain(newButton);
+
+            // Clean up
+            newButton.remove();
+        });
+
+        it('should reflect hidden-tab elements after a visibility attribute change', () => {
+            // Simulates: tab panel switches — previously visible elements become hidden,
+            // new ones become visible. The keydown closure must use the refreshed list.
+
+            const state = { listElement: (limitFocusDirective as any).firstLastFocusableElement(containerElement) };
+            const originalCount = state.listElement.length;
+
+            // Hide input1 via style attribute
+            input1.style.display = 'none';
+
+            const mutation = {
+                type: 'attributes',
+                target: input1,
+                addedNodes: [],
+                removedNodes: [],
+                previousSibling: null,
+                nextSibling: null,
+                attributeName: 'style',
+                attributeNamespace: null,
+                oldValue: null,
+            } as unknown as MutationRecord;
+
+            limitFocusDirective['mutations']([mutation], state, containerElement);
+
+            // state.listElement is now refreshed — it still contains input1 because
+            // firstLastFocusableElement queries the DOM without the visibility filter,
+            // but the count must be consistent (no stale cache).
+            expect(state.listElement.length).toBe(originalCount);
+
+            // Restore
+            input1.style.display = '';
         });
     });
 
@@ -370,7 +440,7 @@ describe('MagmaLimitFocusDirective', () => {
         it('should focus first element when Tab from non-focusable element', () => {
             mockEvent.shiftKey = true;
 
-            // Mock active element as non-focusable element
+            // Mock active element as non-focusable element OUTSIDE the container
             const nonFocusableElement = document.createElement('div');
             vi.spyOn(document, 'activeElement', 'get').mockReturnValue(nonFocusableElement);
 
@@ -382,7 +452,7 @@ describe('MagmaLimitFocusDirective', () => {
         });
 
         it('should focus last element when Shift+Tab from non-focusable element', () => {
-            // Mock active element as non-focusable element
+            // Mock active element as non-focusable element OUTSIDE the container
             const nonFocusableElement = document.createElement('div');
             vi.spyOn(document, 'activeElement', 'get').mockReturnValue(nonFocusableElement);
 
@@ -391,6 +461,35 @@ describe('MagmaLimitFocusDirective', () => {
 
             // Verify focus was set to last element
             expect(input1.focus).toHaveBeenCalled();
+        });
+
+        it('should NOT steal focus when active element is inside the container but not in the tab-cycle list (e.g. tabindex="-1" panel)', () => {
+            // This is the regression test for the dialog+tabs bug:
+            // Clicking a tab moves focus to the tabpanel (tabindex="-1").
+            // The tabpanel is inside the limitFocus container but excluded from the
+            // tab-cycle list. The old code would immediately steal focus back to the
+            // first element; the new code must leave it alone.
+            const tabpanel = document.createElement('div');
+            tabpanel.setAttribute('tabindex', '-1');
+            containerElement.appendChild(tabpanel);
+
+            // Mock active element as the tabpanel (inside container, tabindex=-1)
+            vi.spyOn(document, 'activeElement', 'get').mockReturnValue(tabpanel);
+
+            vi.spyOn(input1, 'focus');
+            vi.spyOn(button2, 'focus');
+
+            // Tab forward from tabpanel — should NOT jump to firstFocusableElement
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+            expect(input1.focus).not.toHaveBeenCalled();
+            expect(mockEvent.preventDefault).not.toHaveBeenCalled();
+
+            // Shift+Tab from tabpanel — should NOT jump to lastFocusableElement
+            mockEvent.shiftKey = true;
+            limitFocusDirective['keydown'](mockEvent, focusableElements);
+            expect(button2.focus).not.toHaveBeenCalled();
+
+            tabpanel.remove();
         });
 
         it('should not prevent default for non-Tab keys', () => {

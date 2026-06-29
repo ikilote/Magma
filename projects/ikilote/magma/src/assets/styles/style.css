@@ -233,6 +233,10 @@ select2 {
     }
 }
 
+.auto-field {
+    field-sizing: content;
+}
+
 /* -------------------- tooltip ------------------------------------------------------------
     MARK: Tooltip
 */

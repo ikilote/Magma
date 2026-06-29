@@ -23,13 +23,22 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
     private destroyed = false;
     private initTimer?: ReturnType<typeof setTimeout>;
 
+    /** Lazily resolved on first use so tests can mock `CSS.supports` before `ngOnInit`. */
+    private get fieldSizingSupported(): boolean {
+        return CSS.supports('field-sizing', 'content');
+    }
+
     ngOnInit() {
         if (!this.autosizeDisabled()) {
-            this.initTimer = setTimeout(() => {
-                if (!this.destroyed && this.elementRef.nativeElement.nodeName === 'TEXTAREA') {
-                    autosize(this.elementRef.nativeElement);
-                }
-            });
+            if (this.fieldSizingSupported) {
+                this.elementRef.nativeElement.classList.add('auto-field');
+            } else {
+                this.initTimer = setTimeout(() => {
+                    if (!this.destroyed && this.elementRef.nativeElement.nodeName === 'TEXTAREA') {
+                        autosize(this.elementRef.nativeElement);
+                    }
+                });
+            }
         }
     }
 
@@ -55,6 +64,10 @@ export class MagmaTextareaAutosizeDirective implements OnInit, OnChanges, OnDest
             clearTimeout(this.initTimer);
             this.initTimer = undefined;
         }
-        autosize.destroy(this.elementRef.nativeElement);
+        if (this.fieldSizingSupported) {
+            this.elementRef.nativeElement.classList.remove('auto-field');
+        } else {
+            autosize.destroy(this.elementRef.nativeElement);
+        }
     }
 }

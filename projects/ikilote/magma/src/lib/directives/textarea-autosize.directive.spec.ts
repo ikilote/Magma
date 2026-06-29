@@ -13,13 +13,122 @@ class TestComponent {
     disabled = false;
 }
 
-describe('MagmaTextareaAutosizeDirective', () => {
+// ---------------------------------------------------------------------------
+// Helpers
+// ---------------------------------------------------------------------------
+
+/** Force the module-level FIELD_SIZING_SUPPORTED flag by mocking CSS.supports. */
+function mockFieldSizingSupport(supported: boolean) {
+    vi.spyOn(CSS, 'supports').mockImplementation((prop: string, value?: string) => {
+        if (prop === 'field-sizing' && value === 'content') return supported;
+        return false;
+    });
+}
+
+// ---------------------------------------------------------------------------
+// Suite: field-sizing supported
+// ---------------------------------------------------------------------------
+
+describe('MagmaTextareaAutosizeDirective – field-sizing supported', () => {
     let fixture: ComponentFixture<TestComponent>;
     let component: TestComponent;
     let textareaEl: DebugElement;
     let directive: MagmaTextareaAutosizeDirective;
 
     beforeEach(async () => {
+        mockFieldSizingSupport(true);
+
+        await TestBed.configureTestingModule({
+            imports: [TestComponent],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(TestComponent);
+        component = fixture.componentInstance;
+        textareaEl = fixture.debugElement.query(By.css('textarea[autosize]'));
+        directive = textareaEl.injector.get(MagmaTextareaAutosizeDirective);
+    });
+
+    afterEach(() => {
+        fixture.destroy();
+        vi.restoreAllMocks();
+        TestBed.resetTestingModule();
+    });
+
+    it('should create', () => {
+        expect(directive).toBeTruthy();
+    });
+
+    it('should add auto-field class when autosizeDisabled is false', () => {
+        fixture.changeDetectorRef.detectChanges();
+
+        expect(textareaEl.nativeElement.classList).toContain('auto-field');
+    });
+
+    it('should not add auto-field class when autosizeDisabled is true', () => {
+        component.disabled = true;
+        fixture.changeDetectorRef.detectChanges();
+
+        expect(textareaEl.nativeElement.classList).not.toContain('auto-field');
+    });
+
+    it('should add auto-field class when autosizeDisabled changes from true to false', () => {
+        component.disabled = true;
+        fixture.changeDetectorRef.detectChanges();
+
+        component.disabled = false;
+        fixture.changeDetectorRef.detectChanges();
+
+        expect(textareaEl.nativeElement.classList).toContain('auto-field');
+    });
+
+    it('should remove auto-field class when autosizeDisabled changes from false to true', () => {
+        fixture.changeDetectorRef.detectChanges();
+        expect(textareaEl.nativeElement.classList).toContain('auto-field');
+
+        component.disabled = true;
+        fixture.changeDetectorRef.detectChanges();
+
+        expect(textareaEl.nativeElement.classList).not.toContain('auto-field');
+    });
+
+    it('should remove auto-field class when component is destroyed', () => {
+        fixture.changeDetectorRef.detectChanges();
+        expect(textareaEl.nativeElement.classList).toContain('auto-field');
+
+        fixture.destroy();
+
+        expect(textareaEl.nativeElement.classList).not.toContain('auto-field');
+    });
+
+    it('should handle ngOnChanges when autosizeDisabled is not in changes', () => {
+        fixture.changeDetectorRef.detectChanges();
+
+        directive.ngOnChanges({
+            someOtherProperty: {
+                currentValue: true,
+                previousValue: false,
+                firstChange: false,
+                isFirstChange: () => false,
+            },
+        });
+
+        expect(textareaEl.nativeElement.classList).toContain('auto-field');
+    });
+});
+
+// ---------------------------------------------------------------------------
+// Suite: field-sizing NOT supported (autosize fallback)
+// ---------------------------------------------------------------------------
+
+describe('MagmaTextareaAutosizeDirective – field-sizing not supported (autosize fallback)', () => {
+    let fixture: ComponentFixture<TestComponent>;
+    let component: TestComponent;
+    let textareaEl: DebugElement;
+    let directive: MagmaTextareaAutosizeDirective;
+
+    beforeEach(async () => {
+        mockFieldSizingSupport(false);
+
         await TestBed.configureTestingModule({
             imports: [TestComponent],
         }).compileComponents();
@@ -31,10 +140,11 @@ describe('MagmaTextareaAutosizeDirective', () => {
         directive = textareaEl.injector.get(MagmaTextareaAutosizeDirective);
     });
 
-    afterEach(async () => {
+    afterEach(() => {
         fixture.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
+        vi.restoreAllMocks();
         TestBed.resetTestingModule();
     });
 
@@ -48,6 +158,13 @@ describe('MagmaTextareaAutosizeDirective', () => {
 
         expect(textareaEl.nativeElement.style.overflow).toBe('hidden');
         expect(textareaEl.nativeElement.style.resize).toBe('horizontal');
+    });
+
+    it('should not add auto-field class', () => {
+        fixture.changeDetectorRef.detectChanges();
+        vi.advanceTimersByTime(1);
+
+        expect(textareaEl.nativeElement.classList).not.toContain('auto-field');
     });
 
     it('should not initialize autosize when autosizeDisabled is true', () => {
@@ -125,36 +242,8 @@ describe('MagmaTextareaAutosizeDirective', () => {
         // Should not affect autosize state
         expect(textareaEl.nativeElement.style.overflow).toBe('hidden');
     });
-});
-
-describe('MagmaTextareaAutosizeDirective - non-textarea element', () => {
-    let fixture: ComponentFixture<TestComponent>;
-    let component: TestComponent;
-    let textareaEl: DebugElement;
-    let directive: MagmaTextareaAutosizeDirective;
-
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [TestComponent],
-        }).compileComponents();
-
-        vi.useFakeTimers();
-        fixture = TestBed.createComponent(TestComponent);
-        component = fixture.componentInstance;
-        textareaEl = fixture.debugElement.query(By.css('textarea[autosize]'));
-        directive = textareaEl.injector.get(MagmaTextareaAutosizeDirective);
-    });
-
-    afterEach(async () => {
-        fixture.destroy();
-        vi.clearAllTimers();
-        vi.useRealTimers();
-        TestBed.resetTestingModule();
-    });
 
     it('should not initialize autosize on non-textarea element (simulated)', () => {
-        // Simulate a non-textarea element by changing the nodeName check
-        const originalNodeName = textareaEl.nativeElement.nodeName;
         Object.defineProperty(textareaEl.nativeElement, 'nodeName', {
             value: 'DIV',
             configurable: true,
@@ -169,7 +258,7 @@ describe('MagmaTextareaAutosizeDirective - non-textarea element', () => {
 
         // Restore original nodeName
         Object.defineProperty(textareaEl.nativeElement, 'nodeName', {
-            value: originalNodeName,
+            value: 'TEXTAREA',
             configurable: true,
         });
     });

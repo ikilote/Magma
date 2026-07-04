@@ -1,5 +1,13 @@
 # Changelog of @ikilote/magma
 
+## 1.8.2 (2026-07-05)
+
+### 🐞 Fix
+
+- Fix grid in `mg-block`
+- Textarea `autosize`: use CSS if possible
+- Improve `limit-focus`
+
 ## 1.8.1 (2026-06-17)
 
 - Fix lib

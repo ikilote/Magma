@@ -548,6 +548,7 @@ select2 {
 ) {
     flex: 0 0 calc(var(--size) - var(--grid-gap, 0px));
     margin-inline-start: calc(var(--grid-gap, 0px));
+    width: inherit;
     min-width: 0;
     max-width: var(--size);
 }

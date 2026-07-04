@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MagmaInput, MagmaInputCheckbox } from '@ikilote/magma';
+import { MagmaBlock, MagmaInput, MagmaInputCheckbox } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -9,7 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'demo-grid',
     templateUrl: './demo-grid.component.html',
     styleUrl: './demo-grid.component.scss',
-    imports: [CodeTabsComponent, MagmaInput, MagmaInputCheckbox, FormsModule],
+    imports: [CodeTabsComponent, MagmaInput, MagmaInputCheckbox, FormsModule, MagmaBlock],
     changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         '[class.show-border]': 'show',

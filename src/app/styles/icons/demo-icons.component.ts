@@ -12,7 +12,7 @@ import { Highlight } from 'ngx-highlightjs';
 export class DemoIconsComponent {
     listIcons = [
         'icon-add',
-        'icon-arrow-down-1FBA6',
+        'icon-arrow-down',
         'icon-background-color',
         'icon-bookmark',
         'icon-browser',

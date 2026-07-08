@@ -1,5 +1,23 @@
 # Changelog of @ikilote/magma
 
+## 1.8.3 (2026-07-08)
+
+### ✅ New
+
+- Improve **window** with more output/subject
+    - for component:
+        - `minimize` button
+        - `onMinimize`
+        - `onMaximize`
+        - `onRestore`
+        - `onFocus`
+    - for service:
+        - `onRemoveWindow`
+
+### 🐞 Fix
+
+- fix icon name for `icon-arrow-down`
+
 ## 1.8.2 (2026-07-05)
 
 ### 🐞 Fix
@@ -23,14 +41,14 @@
     - include **Select2** imports
     - `showOptionCheckbox`: new parameter
     - support `<ng-option>` & `<ng-group>` :
-      ```html
-      <mg-input>
-        <mg-input-select>
-          <mg-option value="test-1">Test 1</mg-option>
-          <mg-option value="test-2">Test 2</mg-option>
-        </mg-input-select>
-      </mg-input>
-      ```
+        ```html
+        <mg-input>
+            <mg-input-select>
+                <mg-option value="test-1">Test 1</mg-option>
+                <mg-option value="test-2">Test 2</mg-option>
+            </mg-input-select>
+        </mg-input>
+        ```
     - [see Select2 demo](https://harvest-dev.github.io/ng-select2/dist/ng-select2/browser/)
 
 ## 1.7.4 (2026-05-22)

@@ -1,4 +1,4 @@
-@if (isOpen()) {
+@if (isOpen() && !minimized()) {
   @let comp = component();
   <div
     #element

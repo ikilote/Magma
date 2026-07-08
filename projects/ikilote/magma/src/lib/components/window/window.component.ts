@@ -99,9 +99,14 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly isOpen = model(false);
 
     readonly onClose = output();
+    readonly onMinimize = output<void>();
+    readonly onMaximize = output<void>();
+    readonly onRestore = output<void>();
+    readonly onFocus = output<void>();
 
     protected readonly center = signal(false);
     protected readonly fullscreen = signal(false);
+    protected readonly minimized = signal(false);
 
     protected initPosition: Point = { x: 0, y: 0 };
     private destroyed = false;
@@ -200,6 +205,16 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         this.isOpen.set(true);
     }
 
+    minimize() {
+        this.minimized.set(true);
+        this.onMinimize.emit();
+    }
+
+    restore() {
+        this.minimized.set(false);
+        this.onRestore.emit();
+    }
+
     winInit() {
         setTimeout(() => {
             this.updatePosition();
@@ -211,6 +226,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         const element = this.elementWin()[0]?.nativeElement;
 
         if (this.fullscreen()) {
+            this.onMaximize.emit();
             let { x, y } = this.initPosition;
             this.cdkDrag()[0].setFreeDragPosition({ x, y });
 
@@ -218,6 +234,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             element.style.width = (zone?.offsetWidth ?? window.innerWidth) + 'px';
             element.style.height = (zone?.offsetHeight ?? window.innerHeight) + 'px';
         } else {
+            this.onRestore.emit();
             this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: this.y[0] });
             element.style.width = this.x[1] + 'px';
             element.style.height = this.y[1] + 'px';
@@ -232,6 +249,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
     @HostListener('mousedown')
     mousedown() {
+        this.onFocus.emit();
         if (!this.component()) {
             this.resizerHost()?.select(this);
         }

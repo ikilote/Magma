@@ -42,6 +42,15 @@ export class MagmaWindowsContainer implements MagmaResizeHostElement, AfterConte
         window.index = win.length - 1;
     }
 
+    minimize(window: MagmaWindow) {
+        window.minimize();
+    }
+
+    restore(window: MagmaWindow) {
+        window.restore();
+        this.select(window);
+    }
+
     remove(window: MagmaWindow) {
         const win = this.windows();
         const index = win.indexOf(window);

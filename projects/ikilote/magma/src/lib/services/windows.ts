@@ -16,6 +16,7 @@ export class MagmaWindows {
     readonly windows: MagmaWindowInfos[] = [];
 
     readonly onAddWindow = new Subject<MagmaWindowInfos>();
+    readonly onRemoveWindow = new Subject<string>();
 
     component?: ComponentRef<MagmaWindowsZone>;
     overlayRef?: OverlayRef;
@@ -49,6 +50,7 @@ export class MagmaWindows {
         const index = this.windows.findIndex(w => w.id === id);
         if (index !== -1) {
             this.windows.splice(index, 1);
+            this.onRemoveWindow.next(id as string);
             if (this.windows.length === 0) {
                 this.overlayRef?.dispose();
                 this.overlayRef = undefined;

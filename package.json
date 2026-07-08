@@ -9,6 +9,7 @@
     "build:lib": "ng build @ikilote/magma --configuration production && cp *.md dist/ikilote/magma",
     "build:demo": "ng build magma-demo --configuration production && cp -r coverage dist/magma-demo/browser",
     "publish:lib": "cd dist/ikilote/magma && npm publish ",
+    "pack:lib": "npm run build:lib && npm pack dist/ikilote/magma/",
     "watch": "ng build --watch --configuration development",
     "lint": "ng lint @ikilote/magma",
     "format": "npx prettier --write .",

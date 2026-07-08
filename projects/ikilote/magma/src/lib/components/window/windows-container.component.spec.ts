@@ -8,7 +8,6 @@ import { MagmaWindowsContainer } from './windows-container.component';
 @Component({
     selector: 'mg-window',
     template: '',
-
     changeDetection: ChangeDetectionStrategy.Eager,
     providers: [{ provide: MagmaWindow, useExisting: MockMagmaWindowComponent }],
 })
@@ -17,6 +16,8 @@ class MockMagmaWindowComponent {
     resizerHost = {
         set: vi.fn(),
     };
+    minimize = () => {};
+    restore = () => {};
 }
 
 describe('MagmaWindowsContainer', () => {
@@ -90,6 +91,22 @@ describe('MagmaWindowsContainer', () => {
             expect(mockWin2.index).toBe(0);
             expect(mockWin3.index).toBe(1);
             expect(mockWin1.index).toBe(2);
+        });
+
+        it('should bring a minimized window', () => {
+            vi.spyOn(mockWin1, 'minimize');
+
+            component.minimize(mockWin1 as any);
+
+            expect(mockWin1.minimize).toHaveBeenCalled();
+        });
+
+        it('should bring a restore window', () => {
+            vi.spyOn(mockWin1, 'restore');
+
+            component.restore(mockWin1 as any);
+
+            expect(mockWin1.restore).toHaveBeenCalled();
         });
 
         it('should not throw error on remove if window exists', () => {

@@ -459,7 +459,7 @@ describe('MagmaWindow', () => {
         });
 
         it('should toggle fullscreen on button click', () => {
-            const button = fixture.debugElement.query(By.css('.window-title-buttons button'));
+            const button = fixture.debugElement.query(By.css('.window-title-buttons button.bar-resize'));
             button.triggerEventHandler('click', null);
             // @ts-ignore
             expect(component.fullscreen()).toBe(true);
@@ -471,7 +471,7 @@ describe('MagmaWindow', () => {
         });
 
         it('should toggle fullscreen when change is called', () => {
-            const changeButton = fixture.debugElement.query(By.css('button'));
+            const changeButton = fixture.debugElement.query(By.css('button.bar-resize'));
 
             // Act
             changeButton.triggerEventHandler('click', null);
@@ -489,12 +489,36 @@ describe('MagmaWindow', () => {
             };
             fixture.componentRef.setInput('resizerHost', hostSpy);
 
-            const closeButton = fixture.debugElement.queryAll(By.css('button'))[1];
+            const closeButton = fixture.debugElement.query(By.css('button.bar-close'));
             closeButton.triggerEventHandler('click', null);
 
             expect(closeSpy).toHaveBeenCalled();
             expect(hostSpy.remove).toHaveBeenCalledWith(component);
             expect(component.isOpen()).toBe(false);
+
+            // Check no window
+            fixture.changeDetectorRef.detectChanges();
+            const content = fixture.debugElement.query(By.css('div.content'));
+            expect(content).toBeNull();
+        });
+
+        it('should hide/show window when minimize/restore is called', () => {
+            const changeButton = fixture.debugElement.query(By.css('button.bar-minimize'));
+
+            // Act
+            changeButton.triggerEventHandler('click', null);
+            expect(component['minimized']()).toBe(true);
+
+            // Check no window
+            fixture.changeDetectorRef.detectChanges();
+            const content = fixture.debugElement.query(By.css('div.content'));
+            expect(content).toBeNull();
+
+            // Act
+            component.restore();
+            fixture.changeDetectorRef.detectChanges();
+            const content2 = fixture.debugElement.query(By.css('div.content'));
+            expect(content2).toBeDefined();
         });
     });
 

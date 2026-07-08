@@ -20,7 +20,7 @@
         (input)="updateDate($event, typeDay)"
         (focus)="focus($event, true, typeDay)"
         (blur)="focus($event, false, typeDay)"
-        [placeholder]="$safeNavigationMigration(placeholderInfos?.dd)"
+        [placeholder]="placeholderInfos?.dd"
       />
       <span>{{ placeholderInfos?.s1 }}</span>
       @let typeMonth = 'month';
@@ -43,7 +43,7 @@
         (input)="updateDate($event, typeMonth)"
         (focus)="focus($event, true, typeMonth)"
         (blur)="focus($event, false, typeMonth)"
-        [placeholder]="$safeNavigationMigration(placeholderInfos?.mm)"
+        [placeholder]="placeholderInfos?.mm"
       />
       <span>{{ placeholderInfos?.s2 }}</span>
       @let typeYear = 'year';
@@ -66,7 +66,7 @@
         (input)="updateDate($event, typeYear)"
         (focus)="focus($event, true, typeYear)"
         (blur)="focus($event, false, typeYear)"
-        [placeholder]="$safeNavigationMigration(placeholderInfos?.yyyy)"
+        [placeholder]="placeholderInfos?.yyyy"
       />
     }
     <span>{{ placeholderInfos?.s3 }}</span>
@@ -91,7 +91,7 @@
         (input)="updateDate($event, typeHours)"
         (focus)="focus($event, true, typeHours)"
         (blur)="focus($event, false, typeHours)"
-        [placeholder]="$safeNavigationMigration(placeholderInfos?.hh)"
+        [placeholder]="placeholderInfos?.hh"
       />
       <span>{{ placeholderInfos?.h1 }}</span>
       @let typeMinutes = 'minutes';
@@ -114,7 +114,7 @@
         (input)="updateDate($event, typeMinutes)"
         (focus)="focus($event, true, typeMinutes)"
         (blur)="focus($event, false, typeMinutes)"
-        [placeholder]="$safeNavigationMigration(placeholderInfos?.min)"
+        [placeholder]="placeholderInfos?.min"
       />
     }
     @if (_type().includes('seconds') || _type().includes('milli')) {
@@ -139,7 +139,7 @@
         (input)="updateDate($event, typeSeconds)"
         (focus)="focus($event, true, typeSeconds)"
         (blur)="focus($event, false, typeSeconds)"
-        [placeholder]="$safeNavigationMigration(placeholderInfos?.sec)"
+        [placeholder]="placeholderInfos?.sec"
       />
     }
     @if (_type().includes('milli')) {
@@ -164,7 +164,7 @@
         (input)="updateDate($event, typeMilli)"
         (focus)="focus($event, true, typeMilli)"
         (blur)="focus($event, false, typeMilli)"
-        [placeholder]="$safeNavigationMigration(placeholderInfos?.mmm)"
+        [placeholder]="placeholderInfos?.mmm"
       />
     }
   </div>

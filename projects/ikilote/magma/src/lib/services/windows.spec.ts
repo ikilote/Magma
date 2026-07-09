@@ -92,8 +92,8 @@ describe('MagmaWindows Service', () => {
             const win2 = service.openWindow(class {});
 
             expect(win1.id).toMatch(/^window-/);
-            expect(win1.index).toBe(0);
-            expect(win2.index).toBe(1);
+            expect(win1.index()).toBe(0);
+            expect(win2.index()).toBe(1);
         });
 
         it('should emit the new window via onAddWindow', () => {

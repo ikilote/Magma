@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -32,9 +32,9 @@ describe('MagmaWindowsZone', () => {
 
         // Create a set of dummy windows (recreate fresh for each test)
         mockWindows = [
-            { id: 'win-0', index: 0, component: TestComponent } as any,
-            { id: 'win-1', index: 1, component: TestComponent } as any,
-            { id: 'win-2', index: 2, component: TestComponent } as any,
+            { id: 'win-0', index: signal(0), component: TestComponent } as any,
+            { id: 'win-1', index: signal(1), component: TestComponent } as any,
+            { id: 'win-2', index: signal(2), component: TestComponent } as any,
         ];
 
         // Using the modern setInput API for Signal inputs
@@ -70,9 +70,9 @@ describe('MagmaWindowsZone', () => {
             // target (win-0) should move to index 2 (length - 1)
             // win-1 (index 1) > 0, so it becomes index 0
             // win-2 (index 2) > 0, so it becomes index 1
-            expect(target.index).toBe(2);
-            expect(mockWindows[1].index).toBe(0);
-            expect(mockWindows[2].index).toBe(1);
+            expect(target.index()).toBe(2);
+            expect(mockWindows[1].index()).toBe(0);
+            expect(mockWindows[2].index()).toBe(1);
         });
 
         it('should trigger select when a window emits mousedown', () => {
@@ -113,7 +113,7 @@ describe('MagmaWindowsZone', () => {
             fixture.componentRef.setInput('context', undefined);
 
             // Create a window that is NOT in the array
-            const nonExistentWindow = { id: 'win-999', index: 99, component: TestComponent } as any;
+            const nonExistentWindow = { id: 'win-999', index: signal(99), component: TestComponent } as any;
 
             const initialLength = mockWindows.length;
 

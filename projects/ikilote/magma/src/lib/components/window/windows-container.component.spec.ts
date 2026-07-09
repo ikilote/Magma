@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MagmaWindow } from './window.component';
@@ -12,7 +12,7 @@ import { MagmaWindowsContainer } from './windows-container.component';
     providers: [{ provide: MagmaWindow, useExisting: MockMagmaWindowComponent }],
 })
 class MockMagmaWindowComponent {
-    index = 0;
+    index = signal(0);
     resizerHost = {
         set: vi.fn(),
     };
@@ -70,16 +70,16 @@ describe('MagmaWindowsContainer', () => {
             component.ngAfterContentChecked();
 
             expect(mockWin1.resizerHost.set).toHaveBeenCalledWith(component);
-            expect(mockWin1.index).toBe(0);
-            expect(mockWin2.index).toBe(1);
-            expect(mockWin3.index).toBe(2);
+            expect(mockWin1.index()).toBe(0);
+            expect(mockWin2.index()).toBe(1);
+            expect(mockWin3.index()).toBe(2);
         });
 
         it('should bring a selected window to the front (highest index)', () => {
             // Initial indices: 0, 1, 2
-            mockWin1.index = 0;
-            mockWin2.index = 1;
-            mockWin3.index = 2;
+            mockWin1.index.set(0);
+            mockWin2.index.set(1);
+            mockWin3.index.set(2);
 
             // Select the first window (index 0)
             component.select(mockWin1 as any);
@@ -88,9 +88,9 @@ describe('MagmaWindowsContainer', () => {
             // Window 2: 1-1 = 0
             // Window 3: 2-1 = 1
             // Selected Window: length - 1 = 2
-            expect(mockWin2.index).toBe(0);
-            expect(mockWin3.index).toBe(1);
-            expect(mockWin1.index).toBe(2);
+            expect(mockWin2.index()).toBe(0);
+            expect(mockWin3.index()).toBe(1);
+            expect(mockWin1.index()).toBe(2);
         });
 
         it('should bring a minimized window', () => {

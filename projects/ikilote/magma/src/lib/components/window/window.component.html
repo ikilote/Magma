@@ -25,9 +25,7 @@
       @if (bar() || comp?.bar?.active) {
         <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="fullscreen() || fixed() || comp?.fixed">
           @if (barTitle() || comp?.bar?.title) {
-            <div class="window-title-text">
-              {{ barTitle() || comp?.bar?.title }}
-            </div>
+            <div class="window-title-text">{{ barTitle() || comp?.bar?.title }}</div>
           }
           @if (barButtons() || comp?.bar?.buttons) {
             <div class="window-title-buttons">

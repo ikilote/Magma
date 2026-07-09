@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ComponentRef, Injectable, Type, inject } from '@angular/core';
+import { ComponentRef, Injectable, Type, inject, signal } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -24,14 +24,14 @@ export class MagmaWindows {
     openWindow(component: Type<any>, params?: MagmaWindowInitParams) {
         const infos: MagmaWindowInfos = {
             component,
-            index: 0,
+            index: signal(0),
             // default
             inputs: {},
             id: 'window-' + index++,
             zoneSelector: 'mg-windows-zone',
             ...params,
         };
-        infos.index = this.windows.push(infos) - 1;
+        infos.index.set(this.windows.push(infos) - 1);
 
         if (this.overlayRef === undefined) {
             this.init();

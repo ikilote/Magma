@@ -1,5 +1,5 @@
 import { CdkDragEnd } from '@angular/cdk/drag-drop';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
@@ -21,15 +21,6 @@ class MockDragSpy {
     disabled = false;
 }
 
-class MockCdkDrag {
-    setFreeDragPosition = vi.fn();
-    disabled = false;
-    _addHandle = vi.fn();
-    _removeHandle = vi.fn();
-}
-
-class MockCdkDragHandle {}
-
 describe('MagmaWindow', () => {
     let component: MagmaWindow;
     let fixture: ComponentFixture<MagmaWindow>;
@@ -42,9 +33,7 @@ describe('MagmaWindow', () => {
             remove: vi.fn().mockName('MagmaResizeHostElement.remove'),
         } as unknown as Mocked<MagmaResizeHostElement>;
 
-        await TestBed.configureTestingModule({
-            imports: [MagmaWindow],
-        }).compileComponents();
+        await TestBed.configureTestingModule({ imports: [MagmaWindow] }).compileComponents();
 
         fixture = TestBed.createComponent(MagmaWindow);
         component = fixture.componentInstance;
@@ -436,6 +425,7 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('component', {
                 id: 'test-win',
                 bar: { active: true, title: 'Component Title', buttons: true },
+                index: signal(0),
             } as any);
             fixture.changeDetectorRef.detectChanges();
 
@@ -449,6 +439,7 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('component', {
                 id: 'test-win',
                 bar: { active: true, title: 'Test', buttons: true },
+                index: signal(0),
             } as any);
             fixture.changeDetectorRef.detectChanges();
 
@@ -527,6 +518,7 @@ describe('MagmaWindow', () => {
             const mockComponentInfo = {
                 component: TestComponent, // A real little component
                 id: 'test',
+                index: signal(0),
             } as any;
 
             fixture.componentRef.setInput('isOpen', true);

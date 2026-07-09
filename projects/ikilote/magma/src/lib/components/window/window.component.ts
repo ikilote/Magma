@@ -11,6 +11,7 @@ import {
     OnInit,
     SimpleChanges,
     Type,
+    WritableSignal,
     booleanAttribute,
     computed,
     inject,
@@ -49,7 +50,7 @@ export interface MagmaWindowInfos extends MagmaWindowInitParams {
     component: Type<any>;
     id: string;
     overlayRef?: OverlayRef;
-    index: number;
+    index: WritableSignal<number>;
 }
 
 @Directive()
@@ -80,7 +81,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly component = input<MagmaWindowInfos>();
 
     /** for mg-container-container */
-    index = 0;
+    index = signal(0);
     readonly zoneSelector = input<string>();
     readonly position = input<'default' | 'center' | { x: number; y: number }>();
     readonly bar = input(undefined, { transform: booleanAttribute });
@@ -113,7 +114,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
     protected _index = computed(() => {
         return (
-            (this.component()?.index || this.index || 0) +
+            (this.component()?.index() || this.index() || 0) +
             (this.over() || this.component()?.over ? 1000 : 0) +
             (this.fullscreen() ? 10000 : 0)
         );

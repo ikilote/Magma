@@ -161,4 +161,77 @@ describe('MagmaWindows Service', () => {
             expect(componentRefSpy.setInput).toHaveBeenCalledWith('context', service);
         });
     });
+
+    describe('minimizeWindowById', () => {
+        it('should delegate to the zone component minimizeById', () => {
+            service.openWindow(class {});
+            const minimizeSpy = vi.fn();
+            componentRefSpy.instance.minimizeById = minimizeSpy;
+
+            service.minimizeWindowById('window-0');
+
+            expect(minimizeSpy).toHaveBeenCalledWith('window-0');
+        });
+
+        it('should not throw if no component is present', () => {
+            expect(() => service.minimizeWindowById('non-existent')).not.toThrow();
+        });
+    });
+
+    describe('restoreWindowById', () => {
+        it('should delegate to the zone component restoreById', () => {
+            service.openWindow(class {});
+            const restoreSpy = vi.fn();
+            componentRefSpy.instance.restoreById = restoreSpy;
+
+            service.restoreWindowById('window-0');
+
+            expect(restoreSpy).toHaveBeenCalledWith('window-0');
+        });
+
+        it('should not throw if no component is present', () => {
+            expect(() => service.restoreWindowById('non-existent')).not.toThrow();
+        });
+    });
+
+    describe('getWindowPosition', () => {
+        it('should delegate to the zone component getWindowPosition', () => {
+            service.openWindow(class {});
+            const positionSpy = vi.fn().mockReturnValue({ x: 100, y: 200 });
+            componentRefSpy.instance.getWindowPosition = positionSpy;
+
+            const result = service.getWindowPosition('window-0');
+
+            expect(positionSpy).toHaveBeenCalledWith('window-0');
+            expect(result).toEqual({ x: 100, y: 200 });
+        });
+
+        it('should return null if no component is present', () => {
+            const result = service.getWindowPosition('non-existent');
+            expect(result).toBeNull();
+        });
+    });
+
+    describe('onMinimizeWindow / onRestoreWindow / onFocusWindow subjects', () => {
+        it('should expose onMinimizeWindow as a Subject', () => {
+            const spy = vi.fn();
+            service.onMinimizeWindow.subscribe(spy);
+            service.onMinimizeWindow.next('test-id');
+            expect(spy).toHaveBeenCalledWith('test-id');
+        });
+
+        it('should expose onRestoreWindow as a Subject', () => {
+            const spy = vi.fn();
+            service.onRestoreWindow.subscribe(spy);
+            service.onRestoreWindow.next('test-id');
+            expect(spy).toHaveBeenCalledWith('test-id');
+        });
+
+        it('should expose onFocusWindow as a Subject', () => {
+            const spy = vi.fn();
+            service.onFocusWindow.subscribe(spy);
+            service.onFocusWindow.next('test-id');
+            expect(spy).toHaveBeenCalledWith('test-id');
+        });
+    });
 });

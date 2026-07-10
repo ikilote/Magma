@@ -11,6 +11,7 @@ import {
     MagmaInputNumber,
     MagmaInputSelect,
     MagmaInputText,
+    MagmaTableModule,
     MagmaWindows,
     StringPipe,
 } from '@ikilote/magma';
@@ -63,6 +64,7 @@ export class Test2WindowComponent extends AbstractWindowComponent {
         MagmaInputCheckbox,
         MagmaInputText,
         MagmaInputNumber,
+        MagmaTableModule,
         StringPipe,
     ],
 })

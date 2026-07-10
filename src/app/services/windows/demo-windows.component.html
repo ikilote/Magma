@@ -90,7 +90,53 @@
   <div class="s-8 s-12-s">
     <h3>Test</h3>
     @let componentName = ctrlFormZone.value.component.className | string: 'replace' : '_' : '';
-    <button (click)="openWindow()">Open <code>mg-window</code> with “{{ componentName }}” component</button>
+    <button (click)="openWindow()">Open <code>mg-window</code> with "{{ componentName }}" component</button>
+
+    <h3>Open windows</h3>
+    @if (windows.windows.length === 0) {
+      <p class="no-windows">No windows open.</p>
+    } @else {
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>ID</th>
+            <th mg>Title</th>
+            <th mg>Position</th>
+            <th mg>Actions</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          @for (win of windows.windows; track win.id) {
+            <tr mg>
+              <td mg>
+                <code>{{ win.id }}</code>
+              </td>
+              <td mg>{{ win.bar?.title || '—' }}</td>
+              <td mg>
+                @let pos = windows.getWindowPosition(win.id);
+                @if (pos) {
+                  {{ pos.x }}, {{ pos.y }}
+                } @else {
+                  —
+                }
+              </td>
+              <td mg class="actions">
+                <button (click)="windows.minimizeWindowById(win.id)" title="Minimize">
+                  <span class="icon-arrow-down"></span>
+                </button>
+                <button (click)="windows.restoreWindowById(win.id)" title="Restore">
+                  <span class="icon-minimize-2"></span>
+                </button>
+                <button (click)="windows.removeWindowById(win.id)" title="Close">
+                  <span class="icon-remove"></span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
     <h3>Code</h3>
     <code-tabs
       [code]="[

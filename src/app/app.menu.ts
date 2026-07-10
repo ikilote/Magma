@@ -125,7 +125,6 @@ export const menu: Menu = [
             {
                 routerLink: '/component/window',
                 label: 'Window',
-                status: 'new',
                 keys: ['popup window', 'dialog window'],
             },
         ],
@@ -217,7 +216,6 @@ export const menu: Menu = [
             {
                 routerLink: '/pipe/string',
                 label: 'string',
-                status: 'new',
                 keys: ['text', 'string pipe', 'format text'],
             },
         ],
@@ -234,7 +232,7 @@ export const menu: Menu = [
             {
                 routerLink: '/service/windows',
                 label: 'Windows',
-                status: 'new',
+                status: 'update',
                 keys: ['window service', 'popup windows', 'window utilities'],
             },
         ],

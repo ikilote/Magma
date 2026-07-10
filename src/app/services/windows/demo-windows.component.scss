@@ -1,0 +1,14 @@
+table {
+    width: 100%;
+
+    .actions {
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 4px;
+    }
+}
+
+.no-windows {
+    color: var(--neutral500);
+    font-style: italic;
+}

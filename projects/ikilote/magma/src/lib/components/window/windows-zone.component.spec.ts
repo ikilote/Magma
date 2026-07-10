@@ -143,4 +143,116 @@ describe('MagmaWindowsZone', () => {
             expect(calledWith.component).toBe(TestComponent);
         });
     });
+
+    describe('Minimize / Restore / Focus events', () => {
+        it('should emit onMinimizeWindow on the context when a window emits onMinimize', async () => {
+            const serviceSpy = {
+                removeWindow: vi.fn(),
+                onMinimizeWindow: { next: vi.fn() },
+                onRestoreWindow: { next: vi.fn() },
+                onFocusWindow: { next: vi.fn() },
+            };
+            fixture.componentRef.setInput('context', serviceSpy);
+            fixture.changeDetectorRef.detectChanges();
+
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+
+            windowComponent.onMinimize.emit();
+            await Promise.resolve();
+
+            expect(serviceSpy.onMinimizeWindow.next).toHaveBeenCalledWith('win-0');
+        });
+
+        it('should emit onRestoreWindow on the context when a window emits onRestore', async () => {
+            const serviceSpy = {
+                removeWindow: vi.fn(),
+                onMinimizeWindow: { next: vi.fn() },
+                onRestoreWindow: { next: vi.fn() },
+                onFocusWindow: { next: vi.fn() },
+            };
+            fixture.componentRef.setInput('context', serviceSpy);
+            fixture.changeDetectorRef.detectChanges();
+
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+
+            windowComponent.onRestore.emit();
+            await Promise.resolve();
+
+            expect(serviceSpy.onRestoreWindow.next).toHaveBeenCalledWith('win-0');
+        });
+
+        it('should emit onFocusWindow on the context when a window emits onFocus', async () => {
+            const serviceSpy = {
+                removeWindow: vi.fn(),
+                onMinimizeWindow: { next: vi.fn() },
+                onRestoreWindow: { next: vi.fn() },
+                onFocusWindow: { next: vi.fn() },
+            };
+            fixture.componentRef.setInput('context', serviceSpy);
+            fixture.changeDetectorRef.detectChanges();
+
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+
+            windowComponent.onFocus.emit();
+            await Promise.resolve();
+
+            expect(serviceSpy.onFocusWindow.next).toHaveBeenCalledWith('win-0');
+        });
+    });
+
+    describe('minimizeById / restoreById', () => {
+        it('should call minimize() on the correct MagmaWindow instance', () => {
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+            vi.spyOn(windowComponent, 'minimize');
+
+            component.minimizeById('win-0');
+
+            expect(windowComponent.minimize).toHaveBeenCalled();
+        });
+
+        it('should not throw when minimizing a non-existent window', () => {
+            expect(() => component.minimizeById('non-existent')).not.toThrow();
+        });
+
+        it('should call restore() on the correct MagmaWindow instance', () => {
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+            vi.spyOn(windowComponent, 'restore');
+            vi.spyOn(component, 'select');
+
+            component.restoreById('win-0');
+
+            expect(windowComponent.restore).toHaveBeenCalled();
+            expect(component.select).toHaveBeenCalledWith(mockWindows[0]);
+        });
+
+        it('should not throw when restoring a non-existent window', () => {
+            expect(() => component.restoreById('non-existent')).not.toThrow();
+        });
+    });
+
+    describe('getWindowPosition', () => {
+        it('should return the position relative to the zone', () => {
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+
+            // Set internal position state
+            windowComponent.x = [150, 400];
+            windowComponent.y = [80, 300];
+            windowComponent.initPosition = { x: 50, y: 30 };
+
+            const pos = component.getWindowPosition('win-0');
+
+            expect(pos).toEqual({ x: 100, y: 50 });
+        });
+
+        it('should return null for a non-existent window', () => {
+            const pos = component.getWindowPosition('non-existent');
+            expect(pos).toBeNull();
+        });
+    });
 });

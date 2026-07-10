@@ -109,8 +109,9 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     protected readonly fullscreen = signal(false);
     protected readonly minimized = signal(false);
 
-    protected initPosition: Point = { x: 0, y: 0 };
+    initPosition: Point = { x: 0, y: 0 };
     private destroyed = false;
+    private restoring = false;
 
     protected _index = computed(() => {
         return (
@@ -212,14 +213,24 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     }
 
     restore() {
+        this.restoring = true;
         this.minimized.set(false);
         this.onRestore.emit();
     }
 
     winInit() {
-        setTimeout(() => {
-            this.updatePosition();
-        });
+        if (this.restoring) {
+            // Restoring from minimize: re-apply the stored drag position
+            this.restoring = false;
+            setTimeout(() => {
+                this.cdkDrag()?.[0]?.setFreeDragPosition({ x: this.x[0], y: this.y[0] });
+            });
+        } else {
+            // First render: compute and apply initial position
+            setTimeout(() => {
+                this.updatePosition();
+            });
+        }
     }
 
     change() {

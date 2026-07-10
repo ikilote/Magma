@@ -9,6 +9,11 @@ import { MagmaWindowsZone } from '../components/window/windows-zone.component';
 
 let index = 0;
 
+export interface MagmaWindowPosition {
+    x: number;
+    y: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class MagmaWindows {
     private readonly overlay = inject(Overlay);
@@ -17,6 +22,9 @@ export class MagmaWindows {
 
     readonly onAddWindow = new Subject<MagmaWindowInfos>();
     readonly onRemoveWindow = new Subject<string>();
+    readonly onMinimizeWindow = new Subject<string>();
+    readonly onRestoreWindow = new Subject<string>();
+    readonly onFocusWindow = new Subject<string>();
 
     component?: ComponentRef<MagmaWindowsZone>;
     overlayRef?: OverlayRef;
@@ -57,6 +65,28 @@ export class MagmaWindows {
                 this.component = undefined;
             }
         }
+    }
+
+    /**
+     * Minimize a window by id. The window stays in the overlay but is visually hidden.
+     */
+    minimizeWindowById(id: string): void {
+        this.component?.instance.minimizeById(id);
+    }
+
+    /**
+     * Restore a minimized window by id.
+     */
+    restoreWindowById(id: string): void {
+        this.component?.instance.restoreById(id);
+    }
+
+    /**
+     * Get the current position of a window relative to its zone (boundary element).
+     * Returns null if the window is not found.
+     */
+    getWindowPosition(id: string): MagmaWindowPosition | null {
+        return this.component?.instance.getWindowPosition(id) ?? null;
     }
 
     private init() {

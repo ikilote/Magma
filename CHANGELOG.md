@@ -1,5 +1,11 @@
 # Changelog of @ikilote/magma
 
+## 1.9.1 (2026-07-10)
+
+### 🐞 Fix
+
+- **window**: fix cdkDragBoundary
+
 ## 1.9.0 (2026-07-10)
 
 ### ✅ New

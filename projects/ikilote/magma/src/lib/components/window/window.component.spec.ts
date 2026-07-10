@@ -1087,20 +1087,28 @@ describe('MagmaWindow', () => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.changeDetectorRef.detectChanges();
 
+            // Flush the initial winInit setTimeout from first render
+            vi.advanceTimersByTime(0);
+
+            // Set position state as if the window was dragged
             component['x'] = [120, 400];
             component['y'] = [80, 300];
 
-            // Simulate restore flow
-            component.minimize();
-            fixture.changeDetectorRef.detectChanges();
-            component.restore();
-            fixture.changeDetectorRef.detectChanges();
-
+            // Mock cdkDrag before the restore triggers winInit via template re-render
             const dragSpy = new MockDragSpy();
             // @ts-ignore
             vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
-            component.winInit();
+            // Simulate minimize → restore
+            component.minimize();
+            fixture.changeDetectorRef.detectChanges();
+
+            dragSpy.setFreeDragPosition.mockClear();
+
+            component.restore();
+            fixture.changeDetectorRef.detectChanges();
+
+            // winInit was called by (ngInit) during detectChanges with restoring=true
             vi.advanceTimersByTime(0);
 
             expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 120, y: 80 });

@@ -1,5 +1,52 @@
 :host {
     display: block;
+
+    // ── Edge-fixed positioning on the host ──────────────────────────────────
+    // The host is `position: absolute` (set by mg-windows-zone).
+    // When fixed to an edge, we position the host to stretch along that edge.
+
+    &.fixed-top {
+        top: 0;
+        right: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    &.fixed-bottom {
+        top: auto;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    &.fixed-left {
+        top: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%;
+    }
+
+    &.fixed-right {
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: auto;
+        height: 100%;
+    }
+
+    &.fixed-edge .content {
+        width: 100%;
+        min-width: unset;
+        max-width: unset;
+        height: 100%;
+        min-height: unset;
+        max-height: unset;
+    }
+
+    &.absolute {
+        position: absolute;
+    }
 }
 
 .content {

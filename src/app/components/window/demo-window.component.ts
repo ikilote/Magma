@@ -55,7 +55,7 @@ export class DemoWindowComponent {
         minHeight: FormControl<string>;
         maxHeight: FormControl<string>;
         lock: FormControl<boolean>;
-        fixed: FormControl<boolean>;
+        fixed: FormControl<string>;
         over: FormControl<boolean>;
     }>;
 
@@ -63,6 +63,15 @@ export class DemoWindowComponent {
         { label: 'default', value: 'default' },
         { label: 'center', value: 'center' },
         { label: '{x, y}', value: 'define' },
+    ];
+
+    fixed: Select2Data = [
+        { label: 'false', value: '' },
+        { label: 'true', value: 'true' },
+        { label: 'top', value: 'top' },
+        { label: 'bottom', value: 'bottom' },
+        { label: 'left', value: 'left' },
+        { label: 'right', value: 'right' },
     ];
 
     codeHtml = '';
@@ -95,7 +104,7 @@ export class DemoBlockComponent { }`;
             minHeight: { default: '' },
             maxHeight: { default: '' },
             lock: { default: false },
-            fixed: { default: false },
+            fixed: { default: '' as string },
             over: { default: false },
         });
 
@@ -193,7 +202,8 @@ export class DemoBlockComponent { }`;
             attr['over'] = this.ctrlForm.value.over;
         }
         if (this.ctrlForm.value.fixed) {
-            attr['fixed'] = this.ctrlForm.value.fixed;
+            const fixedVal = this.ctrlForm.value.fixed;
+            attr['fixed'] = fixedVal === 'true' ? null : fixedVal;
         }
 
         this.codeHtml = new Json2html(json).toString();

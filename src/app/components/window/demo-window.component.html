@@ -76,7 +76,8 @@
             <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
           </mg-input>
           <mg-input class="s-4">
-            <mg-input-checkbox formControlName="fixed">fixed</mg-input-checkbox>
+            <mg-input-label>fixed</mg-input-label>
+            <mg-input-select formControlName="fixed" [data]="fixed" />
           </mg-input>
           <mg-input class="s-4">
             <mg-input-checkbox formControlName="over">over</mg-input-checkbox>
@@ -105,7 +106,7 @@
           [height]="ctrlForm.value.height"
           [min-height]="ctrlForm.value.minHeight"
           [max-height]="ctrlForm.value.maxHeight"
-          [fixed]="ctrlForm.value.fixed"
+          [fixed]="$any(ctrlForm.value.fixed === 'true' ? true : ctrlForm.value.fixed || undefined)"
           [over]="ctrlForm.value.over"
         >
           <p>Content window</p>

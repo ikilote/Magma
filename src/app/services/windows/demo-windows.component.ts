@@ -12,6 +12,7 @@ import {
     MagmaInputSelect,
     MagmaInputText,
     MagmaTableModule,
+    MagmaWindowFixed,
     MagmaWindows,
     StringPipe,
 } from '@ikilote/magma';
@@ -87,7 +88,7 @@ export class DemoWindowsComponent {
         minHeight: FormControl<string>;
         maxHeight: FormControl<string>;
         lock: FormControl<boolean>;
-        fixed: FormControl<boolean>;
+        fixed: FormControl<string>;
         over: FormControl<boolean>;
     }>;
 
@@ -95,6 +96,15 @@ export class DemoWindowsComponent {
         { label: 'default', value: 'default' },
         { label: 'center', value: 'center' },
         { label: '{x, y}', value: 'define' },
+    ];
+
+    fixed: Select2Data = [
+        { label: 'false', value: '' },
+        { label: 'true', value: 'true' },
+        { label: 'top', value: 'top' },
+        { label: 'bottom', value: 'bottom' },
+        { label: 'left', value: 'left' },
+        { label: 'right', value: 'right' },
     ];
 
     component: Select2Data = [
@@ -143,7 +153,7 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
             minHeight: { default: '' },
             maxHeight: { default: '' },
             lock: { default: false },
-            fixed: { default: false },
+            fixed: { default: '' as string },
             over: { default: false },
         });
         this.codeGenerationZone();
@@ -154,6 +164,9 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
     }
 
     openWindow() {
+        const fixedValue = this.ctrlFormZone.value.fixed;
+        const fixed = fixedValue === 'true' ? true : fixedValue || undefined;
+
         this.windows.openWindow(this.ctrlFormZone.value.component, {
             position:
                 this.ctrlFormZone.value.position === 'define'
@@ -177,12 +190,15 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                     init: this.ctrlFormZone.value.height || undefined,
                 },
             },
-            fixed: this.ctrlFormZone.value.fixed,
+            fixed: fixed as MagmaWindowFixed,
             over: this.ctrlFormZone.value.over,
         });
     }
 
     codeGenerationZone() {
+        const fixedValue = this.ctrlFormZone.value.fixed;
+        const fixed = fixedValue === 'true' ? true : fixedValue || undefined;
+
         const param = {
             position:
                 this.ctrlFormZone.value.position === 'define'
@@ -206,7 +222,7 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                     init: this.ctrlFormZone.value.height || undefined,
                 },
             },
-            fixed: this.ctrlFormZone.value.fixed,
+            fixed,
             over: this.ctrlFormZone.value.over,
         };
 

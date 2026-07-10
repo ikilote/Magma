@@ -820,5 +820,88 @@ describe('MagmaWindow', () => {
             // Assert
             expect(component['cdkDrag']()?.[0]?.disabled).toBe(true);
         });
+
+        it('should disable drag when fixed is an edge string', () => {
+            fixture.componentRef.setInput('fixed', 'bottom');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(component['cdkDrag']()?.[0]?.disabled).toBe(true);
+        });
+
+        it('should add fixed-edge and fixed-top class to host when fixed is "top"', () => {
+            fixture.componentRef.setInput('fixed', 'top');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.classList.contains('fixed-edge')).toBe(true);
+            expect(host.classList.contains('fixed-top')).toBe(true);
+        });
+
+        it('should add fixed-edge and fixed-bottom class to host when fixed is "bottom"', () => {
+            fixture.componentRef.setInput('fixed', 'bottom');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.classList.contains('fixed-edge')).toBe(true);
+            expect(host.classList.contains('fixed-bottom')).toBe(true);
+        });
+
+        it('should add fixed-edge and fixed-left class to host when fixed is "left"', () => {
+            fixture.componentRef.setInput('fixed', 'left');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.classList.contains('fixed-edge')).toBe(true);
+            expect(host.classList.contains('fixed-left')).toBe(true);
+        });
+
+        it('should add fixed-edge and fixed-right class to host when fixed is "right"', () => {
+            fixture.componentRef.setInput('fixed', 'right');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.classList.contains('fixed-edge')).toBe(true);
+            expect(host.classList.contains('fixed-right')).toBe(true);
+        });
+
+        it('should not add fixed-edge class when fixed is true (boolean)', () => {
+            fixture.componentRef.setInput('fixed', true);
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.classList.contains('fixed-edge')).toBe(false);
+            expect(host.classList.contains('fixed-top')).toBe(false);
+        });
+
+        it('should not add fixed-edge class when fixed is false', () => {
+            fixture.componentRef.setInput('fixed', false);
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.classList.contains('fixed-edge')).toBe(false);
+        });
+
+        it('should apply edge-fixed from component infos when no direct input', () => {
+            fixture.componentRef.setInput('fixed', undefined);
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                fixed: 'right',
+                index: signal(0),
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.classList.contains('fixed-edge')).toBe(true);
+            expect(host.classList.contains('fixed-right')).toBe(true);
+            expect(component['cdkDrag']()?.[0]?.disabled).toBe(true);
+        });
     });
 });

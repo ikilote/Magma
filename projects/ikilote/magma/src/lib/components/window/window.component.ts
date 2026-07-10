@@ -27,13 +27,15 @@ import { MagmaNgInitDirective } from '../../directives/ng-init.directive';
 import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from '../../directives/resizer';
 import { MagmaResize } from '../../directives/resizer.directive';
 
+export type MagmaWindowFixed = boolean | 'top' | 'left' | 'right' | 'bottom';
+
 export interface MagmaWindowInitParams {
     inputs?: Record<string, any>;
     id?: string;
     position?: 'default' | 'center' | { x: number; y: number };
     zoneSelector?: string;
     over?: boolean;
-    fixed?: boolean;
+    fixed?: MagmaWindowFixed;
     bar?: {
         active?: boolean;
         title?: string;
@@ -68,6 +70,12 @@ export abstract class AbstractWindowComponent {
     styleUrl: './window.component.scss',
     host: {
         '[style.--index]': '_index()',
+        '[style.position]': 'fixedEdgeClass() ? "absolute" : null',
+        '[class.fixed-edge]': '!!fixedEdgeClass()',
+        '[class.fixed-top]': 'fixedEdgeClass() === "fixed-top"',
+        '[class.fixed-bottom]': 'fixedEdgeClass() === "fixed-bottom"',
+        '[class.fixed-left]': 'fixedEdgeClass() === "fixed-left"',
+        '[class.fixed-right]': 'fixedEdgeClass() === "fixed-right"',
     },
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })
@@ -93,7 +101,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly height = input<string>();
     readonly minHeight = input<string>(undefined, { alias: 'min-height' });
     readonly maxHeight = input<string>(undefined, { alias: 'max-height' });
-    readonly fixed = input(undefined, { transform: booleanAttribute });
+    readonly fixed = input<MagmaWindowFixed>();
     readonly over = input(undefined, { transform: booleanAttribute });
 
     readonly resizerHost = model<MagmaResizeHostElement>();
@@ -108,6 +116,18 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     protected readonly center = signal(false);
     protected readonly fullscreen = signal(false);
     protected readonly minimized = signal(false);
+
+    /** Whether drag should be disabled (fixed is truthy) */
+    protected readonly isFixed = computed(() => !!this.fixed() || !!this.component()?.fixed);
+
+    /** CSS class for edge-fixed positioning */
+    protected readonly fixedEdgeClass = computed(() => {
+        const fixedValue = this.fixed() || this.component()?.fixed;
+        if (typeof fixedValue === 'string') {
+            return `fixed-${fixedValue}`;
+        }
+        return '';
+    });
 
     initPosition: Point = { x: 0, y: 0 };
     private destroyed = false;
@@ -132,9 +152,11 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     }
 
     ngOnInit(): void {
-        let { x, y } = this.currentPosition();
-        this.initPosition = { x, y };
-        this.updatePosition();
+        if (!this.isEdgeFixed()) {
+            let { x, y } = this.currentPosition();
+            this.initPosition = { x, y };
+            this.updatePosition();
+        }
     }
 
     currentPosition() {
@@ -225,12 +247,20 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             setTimeout(() => {
                 this.cdkDrag()?.[0]?.setFreeDragPosition({ x: this.x[0], y: this.y[0] });
             });
+        } else if (this.isEdgeFixed()) {
+            // Edge-fixed: positioning is handled entirely by CSS, no drag positioning needed
         } else {
             // First render: compute and apply initial position
             setTimeout(() => {
                 this.updatePosition();
             });
         }
+    }
+
+    /** Whether fixed is an edge direction string */
+    private isEdgeFixed(): boolean {
+        const fixedValue = this.fixed() || this.component()?.fixed;
+        return typeof fixedValue === 'string';
     }
 
     change() {

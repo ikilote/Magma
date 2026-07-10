@@ -904,4 +904,224 @@ describe('MagmaWindow', () => {
             expect(component['cdkDrag']()?.[0]?.disabled).toBe(true);
         });
     });
+
+    describe('getDragBoundary()', () => {
+        let zoneElement: HTMLElement;
+
+        beforeEach(() => {
+            zoneElement = document.createElement('div');
+            zoneElement.id = 'boundary-zone';
+            document.body.appendChild(zoneElement);
+        });
+
+        afterEach(() => {
+            if (zoneElement.parentNode) {
+                document.body.removeChild(zoneElement);
+            }
+        });
+
+        it('should return "body" when no zoneSelector is provided', () => {
+            fixture.componentRef.setInput('zoneSelector', undefined);
+            fixture.componentRef.setInput('component', undefined);
+
+            const result = component.getDragBoundary();
+
+            expect(result).toBe('body');
+        });
+
+        it('should return the selector when the zone element is an ancestor of the component', () => {
+            zoneElement.appendChild(fixture.debugElement.nativeElement);
+            fixture.componentRef.setInput('zoneSelector', '#boundary-zone');
+
+            const result = component.getDragBoundary();
+
+            expect(result).toBe('#boundary-zone');
+        });
+
+        it('should return "body" when the zone element is NOT an ancestor (overlay mode)', () => {
+            fixture.componentRef.setInput('zoneSelector', '#boundary-zone');
+
+            const result = component.getDragBoundary();
+
+            expect(result).toBe('body');
+        });
+
+        it('should return "body" when the selector does not match any element', () => {
+            fixture.componentRef.setInput('zoneSelector', '#non-existent');
+
+            const result = component.getDragBoundary();
+
+            expect(result).toBe('body');
+        });
+
+        it('should use component infos zoneSelector as fallback', () => {
+            zoneElement.appendChild(fixture.debugElement.nativeElement);
+            fixture.componentRef.setInput('zoneSelector', undefined);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                zoneSelector: '#boundary-zone',
+                index: signal(0),
+            } as any);
+
+            const result = component.getDragBoundary();
+
+            expect(result).toBe('#boundary-zone');
+        });
+    });
+
+    describe('constrainPosition()', () => {
+        beforeEach(() => {
+            const mockEl = document.createElement('div');
+            Object.defineProperty(mockEl, 'offsetWidth', { value: 200, configurable: true });
+            Object.defineProperty(mockEl, 'offsetHeight', { value: 150, configurable: true });
+            // @ts-ignore
+            vi.spyOn(component, 'elementWin').mockReturnValue([{ nativeElement: mockEl }] as any);
+
+            vi.spyOn<any, any>(component, 'getZone').mockReturnValue({
+                offsetWidth: 1000,
+                offsetHeight: 600,
+            });
+
+            component['initPosition'] = { x: 0, y: 0 };
+        });
+
+        it('should not change a point within the zone bounds', () => {
+            const result = component.constrainPosition({ x: 100, y: 100 }, null);
+            expect(result).toEqual({ x: 100, y: 100 });
+        });
+
+        it('should clamp X to min (initPosition.x) when point is too far left', () => {
+            component['initPosition'] = { x: 10, y: 0 };
+            const result = component.constrainPosition({ x: -50, y: 100 }, null);
+            expect(result.x).toBe(10);
+        });
+
+        it('should clamp X to max when point exceeds zone width', () => {
+            // maxX = 1000 - 200 + 0 = 800
+            const result = component.constrainPosition({ x: 900, y: 100 }, null);
+            expect(result.x).toBe(800);
+        });
+
+        it('should clamp Y to min (initPosition.y) when point is too far up', () => {
+            component['initPosition'] = { x: 0, y: 20 };
+            const result = component.constrainPosition({ x: 100, y: -10 }, null);
+            expect(result.y).toBe(20);
+        });
+
+        it('should clamp Y to max when point exceeds zone height', () => {
+            // maxY = 600 - 150 + 0 = 450
+            const result = component.constrainPosition({ x: 100, y: 500 }, null);
+            expect(result.y).toBe(450);
+        });
+
+        it('should use window dimensions when getZone returns null', () => {
+            (component as any).getZone.mockReturnValue(null);
+
+            Object.defineProperty(window, 'innerWidth', { value: 1920, configurable: true });
+            Object.defineProperty(window, 'innerHeight', { value: 1080, configurable: true });
+
+            // maxX = 1920 - 200 = 1720, maxY = 1080 - 150 = 930
+            const result = component.constrainPosition({ x: 2000, y: 1000 }, null);
+            expect(result).toEqual({ x: 1720, y: 930 });
+        });
+
+        it('should account for initPosition offsets', () => {
+            component['initPosition'] = { x: -100, y: -50 };
+            // minX = -100, maxX = 1000 - 200 + (-100) = 700
+            // minY = -50, maxY = 600 - 150 + (-50) = 400
+
+            const result = component.constrainPosition({ x: -200, y: -80 }, null);
+            expect(result).toEqual({ x: -100, y: -50 });
+        });
+    });
+
+    describe('Edge-fixed initialization', () => {
+        it('should NOT call updatePosition in ngOnInit when edge-fixed', () => {
+            fixture.componentRef.setInput('fixed', 'bottom');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.spyOn(component, 'updatePosition');
+            component.ngOnInit();
+
+            expect(component.updatePosition).not.toHaveBeenCalled();
+        });
+
+        it('should call updatePosition in ngOnInit when NOT edge-fixed', () => {
+            fixture.componentRef.setInput('fixed', true);
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.spyOn(component, 'updatePosition');
+            // @ts-ignore
+            vi.spyOn(component, 'getZone').mockReturnValue(null);
+            component.ngOnInit();
+
+            expect(component.updatePosition).toHaveBeenCalled();
+        });
+
+        it('should NOT call updatePosition in winInit when edge-fixed', () => {
+            fixture.componentRef.setInput('fixed', 'left');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.spyOn(component, 'updatePosition');
+            component.winInit();
+            vi.advanceTimersByTime(0);
+
+            expect(component.updatePosition).not.toHaveBeenCalled();
+        });
+
+        it('should call updatePosition in winInit when NOT edge-fixed (first render)', () => {
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            vi.spyOn(component, 'updatePosition');
+            component.winInit();
+            vi.advanceTimersByTime(0);
+
+            expect(component.updatePosition).toHaveBeenCalled();
+        });
+
+        it('should restore drag position in winInit when restoring from minimize', () => {
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            component['x'] = [120, 400];
+            component['y'] = [80, 300];
+
+            // Simulate restore flow
+            component.minimize();
+            fixture.changeDetectorRef.detectChanges();
+            component.restore();
+            fixture.changeDetectorRef.detectChanges();
+
+            const dragSpy = new MockDragSpy();
+            // @ts-ignore
+            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
+
+            component.winInit();
+            vi.advanceTimersByTime(0);
+
+            expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 120, y: 80 });
+        });
+
+        it('should set position:absolute on host when edge-fixed', () => {
+            fixture.componentRef.setInput('fixed', 'top');
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.style.position).toBe('absolute');
+        });
+
+        it('should NOT set position:absolute on host when fixed is boolean true', () => {
+            fixture.componentRef.setInput('fixed', true);
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const host = fixture.debugElement.nativeElement as HTMLElement;
+            expect(host.style.position).toBe('');
+        });
+    });
 });

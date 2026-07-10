@@ -8,7 +8,7 @@
     cdkDrag
     [cdkDragDisabled]="fullscreen() || isFixed()"
     (cdkDragEnded)="drag($event)"
-    [cdkDragBoundary]="zoneSelector() || comp?.zoneSelector || 'body'"
+    [cdkDragBoundary]="getDragBoundary()"
     [resizer]="this"
     [resizerInit]="initPosition"
     [resizerHost]="resizerHost()"

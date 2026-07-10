@@ -263,6 +263,48 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         return typeof fixedValue === 'string';
     }
 
+    /**
+     * Returns the cdkDragBoundary selector.
+     * If the zone element is an ancestor (container mode), uses the zone selector.
+     * Otherwise (overlay mode), uses 'body' as a loose boundary — the precise
+     * clamping to the zone is handled in drag() at the end of the drag gesture.
+     */
+    getDragBoundary(): string {
+        const selector = this.zoneSelector() || this.component()?.zoneSelector;
+        if (!selector) return 'body';
+
+        const zone = document.querySelector(selector);
+        if (zone && zone.contains(this.elementRef.nativeElement)) {
+            return selector;
+        }
+        // Zone exists but is not an ancestor (overlay mode) — use body as boundary
+        return 'body';
+    }
+
+    /**
+     * CDK Drag constrain function — called on every frame during drag.
+     * Clamps the position within the zone boundaries (or viewport if no zone).
+     */
+    constrainPosition = (point: Point, _dragRef: any): Point => {
+        const zone = this.getZone();
+        const element = this.elementWin()?.[0]?.nativeElement;
+
+        const maxWidth = zone?.offsetWidth ?? window.innerWidth;
+        const maxHeight = zone?.offsetHeight ?? window.innerHeight;
+        const elWidth = element?.offsetWidth ?? 0;
+        const elHeight = element?.offsetHeight ?? 0;
+
+        const minX = this.initPosition.x;
+        const minY = this.initPosition.y;
+        const maxX = maxWidth - elWidth + this.initPosition.x;
+        const maxY = maxHeight - elHeight + this.initPosition.y;
+
+        return {
+            x: Math.min(Math.max(point.x, minX), maxX),
+            y: Math.min(Math.max(point.y, minY), maxY),
+        };
+    };
+
     change() {
         this.fullscreen.set(!this.fullscreen());
         const element = this.elementWin()[0]?.nativeElement;

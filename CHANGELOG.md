@@ -1,5 +1,11 @@
 # Changelog of @ikilote/magma
 
+## 1.8.4 (2026-07-10)
+
+### 🐞 Fix
+
+- **window**: fix index position
+
 ## 1.8.3 (2026-07-08)
 
 ### ✅ New

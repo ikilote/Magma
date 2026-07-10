@@ -1,5 +1,24 @@
 # Changelog of @ikilote/magma
 
+## 1.9.0 (2026-07-10)
+
+### ✅ New
+
+- **window**:
+    - improve minimize/restore
+        - Add events:
+            - `onMinimizeWindow`
+            - `onRestoreWindow`
+            - `onFocusWindow`
+        - `minimizeById`
+        - `restoreById`
+        - `getWindowPosition`
+    - Add fixed positions:
+        - `top`
+        - `bottom`
+        - `left`
+        - `right`
+
 ## 1.8.4 (2026-07-10)
 
 ### 🐞 Fix

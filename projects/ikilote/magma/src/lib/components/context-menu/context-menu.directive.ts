@@ -28,10 +28,19 @@ export class MagmaContextMenu<T> {
     contextMenuMode = input<ContextMenuMode>('default');
     contextMenuDisabled = input(false, { transform: booleanAttribute });
 
-    @HostListener('contextmenu', ['$event'])
-    async onContextMenu(event: MouseEvent) {
+    open(event: MouseEvent, menuData?: ContextMenuData<T>, mode?: ContextMenuMode): boolean {
+        event.preventDefault();
+        event.stopPropagation();
+
         if (this.contextMenuDisabled()) {
-            return;
+            return false;
+        }
+
+        const menuItems = menuData || this.contextMenu();
+        const menuMode = mode || this.contextMenuMode();
+
+        if (!menuItems?.contextMenu?.length) {
+            return false;
         }
 
         const overlayRef = this.overlay.create({
@@ -44,12 +53,13 @@ export class MagmaContextMenu<T> {
                 .flexibleConnectedTo({ x: event.clientX, y: event.clientY })
                 .withPositions(connectedPosition),
         });
-        const userProfilePortal = new ComponentPortal(MagmaContextMenuComponent);
 
-        const component = overlayRef.attach(userProfilePortal);
-        component.setInput('items', this.contextMenu());
-        component.setInput('mode', this.contextMenuMode());
-        component.setInput('context', this);
+        const portal = new ComponentPortal(MagmaContextMenuComponent);
+        const componentRef = overlayRef.attach(portal);
+
+        componentRef.setInput('items', menuItems);
+        componentRef.setInput('mode', menuMode);
+        componentRef.setInput('context', this);
 
         overlayRef.backdropClick().subscribe(() => {
             overlayRef.dispose();
@@ -57,9 +67,12 @@ export class MagmaContextMenu<T> {
         });
 
         MagmaContextMenu._overlayRef = overlayRef;
+        return true;
+    }
 
-        event.preventDefault();
-        event.stopPropagation();
+    @HostListener('contextmenu', ['$event'])
+    onContextMenu(event: MouseEvent) {
+        this.open(event);
     }
 
     @HostListener('window:contextmenu', ['$event'])
@@ -77,8 +90,10 @@ export class MagmaContextMenu<T> {
     }
 
     close(event?: MouseEvent) {
-        MagmaContextMenu._overlayRef!.dispose();
-        MagmaContextMenu._overlayRef = undefined;
+        if (MagmaContextMenu._overlayRef) {
+            MagmaContextMenu._overlayRef.dispose();
+            MagmaContextMenu._overlayRef = undefined;
+        }
         if (event) {
             event.preventDefault();
             event.stopPropagation();

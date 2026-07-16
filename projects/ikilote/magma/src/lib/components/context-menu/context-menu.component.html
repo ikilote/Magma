@@ -11,14 +11,15 @@
           /></span>
         </li>
       } @else {
-        <li (clickEnter)="active(iti)" [style.--position]="index" [attr.title]="iti.label ? iti.label : null">
+        @let labelVal = typeof iti.label === 'function' ? iti.label() : iti.label;
+        <li (clickEnter)="active(iti)" [style.--position]="index" [attr.title]="labelVal ?? null">
           @if (iti.iconText) {
             <span class="icon">{{ iti.iconText }}</span>
           } @else {
             <span class="icon {{ iti.icon }}"></span>
           }
-          @if (iti.label) {
-            <span class="label">{{ iti.label }}</span>
+          @if (labelVal) {
+            <span class="label">{{ labelVal }}</span>
           }
         </li>
       }

@@ -28,6 +28,8 @@ class TestHostComponent {
         contextMenu: [
             { icon: 'edit', label: 'Edit', action: (data: string) => {} },
             { iconText: 'D', label: 'Delete', action: (data: string) => {} },
+            { icon: 'close', label: () => 'Close', action: (data: string) => {} },
+            { icon: 'E', label: null, action: (data: string) => {} },
             { component: MockComponent, inputs: { customInput: 'test' } },
         ],
         data: 'test-data',

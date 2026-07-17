@@ -31,9 +31,15 @@
         <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
       </mg-input>
       <mg-input class="s-4">
-        <mg-input-label>title</mg-input-label>
-        <mg-input-text formControlName="barTitle" />
+        <mg-input-label>type</mg-input-label>
+        <mg-input-select formControlName="barType" [data]="type" />
       </mg-input>
+      @if (ctrlFormZone.value.barType === 'string') {
+        <mg-input class="s-4">
+          <mg-input-label>title</mg-input-label>
+          <mg-input-text formControlName="barTitle" />
+        </mg-input>
+      }
       <mg-input class="s-4">
         <mg-input-label>buttons</mg-input-label>
         <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>

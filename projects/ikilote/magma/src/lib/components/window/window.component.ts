@@ -28,6 +28,7 @@ import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from '../
 import { MagmaResize } from '../../directives/resizer.directive';
 
 export type MagmaWindowFixed = boolean | 'top' | 'left' | 'right' | 'bottom';
+export type MagmaWindowInitParamsTitle = string | { component: Type<any>; inputs?: Record<string, any> };
 
 export interface MagmaWindowInitParams {
     inputs?: Record<string, any>;
@@ -38,7 +39,7 @@ export interface MagmaWindowInitParams {
     fixed?: MagmaWindowFixed;
     bar?: {
         active?: boolean;
-        title?: string;
+        title?: MagmaWindowInitParamsTitle;
         buttons?: boolean;
     };
     size?: {
@@ -157,6 +158,12 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             this.initPosition = { x, y };
             this.updatePosition();
         }
+    }
+
+    titleComponent(title?: MagmaWindowInitParamsTitle): { component: Type<any>; inputs?: Record<string, any> } | null {
+        return !!title && typeof title === 'object' && 'component' in title && title.component
+            ? { component: title.component, inputs: title.inputs }
+            : null;
     }
 
     currentPosition() {

@@ -52,6 +52,13 @@ export class Test2WindowComponent extends AbstractWindowComponent {
 }
 
 @Component({
+    selector: 'mg-title',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: `Test <strong>title</strong>`,
+})
+class TestTilleComponent {}
+
+@Component({
     selector: 'demo-windows',
     templateUrl: './demo-windows.component.html',
     styleUrl: './demo-windows.component.scss',
@@ -79,6 +86,7 @@ export class DemoWindowsComponent {
         posX: FormControl<number>;
         posY: FormControl<number>;
         bar: FormControl<boolean>;
+        barType: FormControl<'string' | 'component'>;
         barTitle: FormControl<string>;
         barButtons: FormControl<boolean>;
         width: FormControl<string>;
@@ -105,6 +113,11 @@ export class DemoWindowsComponent {
         { label: 'bottom', value: 'bottom' },
         { label: 'left', value: 'left' },
         { label: 'right', value: 'right' },
+    ];
+
+    type: Select2Data = [
+        { label: 'string', value: 'string' },
+        { label: 'component', value: 'component' },
     ];
 
     component: Select2Data = [
@@ -144,6 +157,7 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
             posX: { default: 0 },
             posY: { default: 0 },
             bar: { default: true },
+            barType: { default: 'string' as 'string' | 'component' },
             barTitle: { default: 'Title' },
             barButtons: { default: true },
             width: { default: '' },
@@ -174,7 +188,10 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                     : this.ctrlFormZone.value.position,
             bar: {
                 active: this.ctrlFormZone.value.bar,
-                title: this.ctrlFormZone.value.barTitle,
+                title:
+                    this.ctrlFormZone.value.barType === 'component'
+                        ? { component: TestTilleComponent }
+                        : this.ctrlFormZone.value.barTitle,
                 buttons: this.ctrlFormZone.value.barButtons,
             },
             size: {
@@ -206,7 +223,10 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                     : this.ctrlFormZone.value.position,
             bar: {
                 active: this.ctrlFormZone.value.bar,
-                title: this.ctrlFormZone.value.barTitle,
+                title:
+                    this.ctrlFormZone.value.barType === 'component'
+                        ? { component: 'TestTilleComponent', inputs: {} }
+                        : this.ctrlFormZone.value.barTitle,
                 buttons: this.ctrlFormZone.value.barButtons,
             },
             size: {
@@ -242,7 +262,9 @@ export class DemoBlockComponent {
             ${new Json2Js(param, {
                 tabAdded: 3,
                 tabAddedExceptFirst: true,
-            }).toString()}
+            })
+                .toString()
+                .replace("'TestTilleComponent'", 'TestTilleComponent')}
         );
     }
 }`;

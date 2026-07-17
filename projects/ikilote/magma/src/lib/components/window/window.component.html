@@ -24,7 +24,12 @@
     <div class="window-main">
       @if (bar() || comp?.bar?.active) {
         <div class="window-title-bar" cdkDragHandle [cdkDragHandleDisabled]="fullscreen() || isFixed()">
-          @if (barTitle() || comp?.bar?.title) {
+          @let title = titleComponent(comp?.bar?.title);
+          @if (title) {
+            <div class="window-title-text">
+              <ng-container [ngComponentOutlet]="title.component" [ngComponentOutletInputs]="title.inputs" />
+            </div>
+          } @else if (barTitle() || comp?.bar?.title) {
             <div class="window-title-text">{{ barTitle() || comp?.bar?.title }}</div>
           }
           @if (barButtons() || comp?.bar?.buttons) {

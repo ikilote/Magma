@@ -47,6 +47,10 @@
     &.absolute {
         position: absolute;
     }
+
+    &.active {
+        --window-bar-background: var(--window-bar-background-active);
+    }
 }
 
 .content {
@@ -58,10 +62,10 @@
     box-sizing: border-box;
     box-shadow: 0 0 5px 5px var(--window-shadow-color);
     background: var(--window-background);
-    min-width: 150px;
+    min-width: var(--window-min-width);
     max-width: 100dvw;
     height: min-content;
-    min-height: 150px;
+    min-height: var(--window-min-height);
     max-height: 100dvw;
 
     @starting-style {
@@ -82,8 +86,8 @@
     justify-content: space-between;
     align-items: center;
     box-sizing: border-box;
-    background-color: var(--neutral300);
-    padding-left: 5px;
+    background: var(--window-bar-background);
+    padding: var(--window-bar-padding);
     width: 100%;
     height: calc(var(--window-bar-button-size) + 4px);
 }
@@ -96,8 +100,8 @@
 
 .window-title-buttons {
     display: flex;
-    gap: 3px;
-    padding: 2px;
+    gap: var(--window-bar-button-gap);
+    padding: var(--window-bar-button-padding);
 
     button {
         all: unset;

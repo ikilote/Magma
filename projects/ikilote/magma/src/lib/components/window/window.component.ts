@@ -54,6 +54,7 @@ export interface MagmaWindowInfos extends MagmaWindowInitParams {
     id: string;
     overlayRef?: OverlayRef;
     index: WritableSignal<number>;
+    focus?: boolean;
 }
 
 @Directive()
@@ -64,6 +65,8 @@ export abstract class AbstractWindowComponent {
         this.parent().onClose.emit();
     }
 }
+
+let index = 0;
 
 @Component({
     selector: 'mg-window',
@@ -77,6 +80,8 @@ export abstract class AbstractWindowComponent {
         '[class.fixed-bottom]': 'fixedEdgeClass() === "fixed-bottom"',
         '[class.fixed-left]': 'fixedEdgeClass() === "fixed-left"',
         '[class.fixed-right]': 'fixedEdgeClass() === "fixed-right"',
+        '[class.active]': 'focus()',
+        '[class.inactive]': '!focus()',
     },
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })
@@ -91,6 +96,8 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
     /** for mg-container-container */
     index = signal(0);
+
+    readonly id = input<string>();
     readonly zoneSelector = input<string>();
     readonly position = input<'default' | 'center' | { x: number; y: number }>();
     readonly bar = input(undefined, { transform: booleanAttribute });
@@ -104,11 +111,12 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly maxHeight = input<string>(undefined, { alias: 'max-height' });
     readonly fixed = input<MagmaWindowFixed>();
     readonly over = input(undefined, { transform: booleanAttribute });
+    readonly focus = input(undefined, { transform: booleanAttribute });
 
     readonly resizerHost = model<MagmaResizeHostElement>();
     readonly isOpen = model(false);
 
-    readonly onClose = output();
+    readonly onClose = output<void>();
     readonly onMinimize = output<void>();
     readonly onMaximize = output<void>();
     readonly onRestore = output<void>();
@@ -120,6 +128,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
     /** Whether drag should be disabled (fixed is truthy) */
     protected readonly isFixed = computed(() => !!this.fixed() || !!this.component()?.fixed);
+    protected readonly _id = computed(() => this.id() || 'mg-window-' + index++);
 
     /** CSS class for edge-fixed positioning */
     protected readonly fixedEdgeClass = computed(() => {

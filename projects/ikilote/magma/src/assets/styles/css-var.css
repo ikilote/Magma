@@ -133,8 +133,14 @@ body {
 
     /* MARK: context-menu */
     --context-menu-background: var(--primary200);
-    --context-menu-item: var(--primary300);
-    --context-menu-item-hover: var(--primary400);
+    --context-menu-box-shadow: 2px 2px 5px #0005;
+    --context-menu-border-radius: 6px;
+    --context-menu-item-background: var(--primary300);
+    --context-menu-item-background-hover: var(--primary400);
+    --context-menu-item-gap: 10px;
+    --context-menu-item-margin: 2px;
+    --context-menu-item-radius: 4px;
+    --context-menu-item-padding: 10px 20px 10px 10px;
 
     /* MARK: ellipsis-button */
     --context-button-list-background: var(--primary200);
@@ -383,12 +389,19 @@ body {
     --contrib-calendar-tile-color-lvl4: var(--success600);
 
     /* MARK: window */
+    --window-min-width: 150px;
+    --window-min-height: 150px;
     --window-background: var(--dialog-background);
     --window-shadow-color: var(--dialog-shadow-color);
+    --window-bar-padding: 0 0 0 5px;
     --window-bar-button-background: var(--neutral400);
     --window-bar-button-focus-outline: 2px solid var(--neutral900);
     --window-bar-button-focus-offset: 1px;
     --window-bar-button-size: 24px;
+    --window-bar-button-gap: 3px;
+    --window-bar-button-padding: 2px;
+    --window-bar-background: var(--neutral300);
+    --window-bar-background-active: var(--neutral400);
 
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */

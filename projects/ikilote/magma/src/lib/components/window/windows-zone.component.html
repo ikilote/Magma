@@ -3,6 +3,7 @@
     [isOpen]="true"
     [component]="window"
     [resizerHost]="this"
+    [focus]="window.focus"
     (mousedown)="select(window)"
     (onClose)="remove(window)"
     (onMinimize)="onWindowMinimize(window)"

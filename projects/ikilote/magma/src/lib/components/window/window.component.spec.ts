@@ -1132,4 +1132,101 @@ describe('MagmaWindow', () => {
             expect(host.style.position).toBe('');
         });
     });
+
+    describe('titleComponent()', () => {
+        it('should return null when title is a plain string', () => {
+            const result = component.titleComponent('My Title');
+            expect(result).toBeNull();
+        });
+
+        it('should return null when title is undefined', () => {
+            const result = component.titleComponent(undefined);
+            expect(result).toBeNull();
+        });
+
+        it('should return { component, inputs } when title is an object with a component', () => {
+            const titleObj = { component: TestComponent, inputs: { foo: 'bar' } };
+            const result = component.titleComponent(titleObj);
+            expect(result).toEqual({ component: TestComponent, inputs: { foo: 'bar' } });
+        });
+
+        it('should render title as a component via ngComponentOutlet when bar.title is an object', () => {
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.componentRef.setInput('bar', true);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                bar: { active: true, title: { component: TestComponent }, buttons: false },
+                index: signal(0),
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+
+            // The template renders the title component inside .window-title-text
+            const titleEl = fixture.debugElement.query(By.css('.window-title-text mg-test'));
+            expect(titleEl).not.toBeNull();
+        });
+    });
+
+    describe('updatePosition() - destroyed guard', () => {
+        it('should return early without updating position when destroyed', () => {
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const dragSpy = new MockDragSpy();
+            // @ts-ignore
+            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
+
+            // Mark destroyed before calling updatePosition
+            component['destroyed'] = true;
+            component.updatePosition();
+
+            // No drag position should be set since we returned early
+            expect(dragSpy.setFreeDragPosition).not.toHaveBeenCalled();
+        });
+    });
+
+    describe('mousedown() - with component input', () => {
+        it('should NOT call resizerHost.select() when component() is defined', () => {
+            fixture.componentRef.setInput('resizerHost', mockResizeHost);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                index: signal(0),
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+
+            component.mousedown();
+
+            // onFocus emitted but select NOT called (component() is defined)
+            expect(mockResizeHost.select).not.toHaveBeenCalled();
+        });
+
+        it('should call resizerHost.select() when component() is undefined', () => {
+            fixture.componentRef.setInput('resizerHost', mockResizeHost);
+            fixture.componentRef.setInput('component', undefined);
+            fixture.changeDetectorRef.detectChanges();
+
+            component.mousedown();
+
+            expect(mockResizeHost.select).toHaveBeenCalledWith(component);
+        });
+    });
+
+    describe('AbstractWindowComponent.close()', () => {
+        it('should emit onClose on the parent window when close() is called', () => {
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                component: TestComponent,
+                index: signal(0),
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+
+            const closeSpy = vi.spyOn(component.onClose, 'emit');
+
+            // Get the rendered TestComponent instance and call close()
+            const testEl = fixture.debugElement.query(By.css('mg-test button'));
+            testEl.nativeElement.click();
+
+            expect(closeSpy).toHaveBeenCalled();
+        });
+    });
 });

@@ -59,6 +59,7 @@ describe('MagmaInputCommon', () => {
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {
@@ -282,18 +283,24 @@ describe('MagmaInputCommon', () => {
         });
 
         it('should start placeholder animation if value is empty', async () => {
+            vi.useFakeTimers();
             vi.spyOn(directive as any, 'startPlaceholderAnimation');
             fixture.componentRef.setInput('placeholderAnimated', 'test');
             directive.writeValue('');
+            vi.runAllTimers();
             await fixture.whenStable();
+            vi.useRealTimers();
             expect(directive['startPlaceholderAnimation']).toHaveBeenCalled();
         });
 
         it('should stop placeholder animation if value is not empty', async () => {
+            vi.useFakeTimers();
             vi.spyOn(directive as any, 'stopPlaceholderAnimation');
             fixture.componentRef.setInput('placeholderAnimated', 'test');
             directive.writeValue('test');
+            vi.runAllTimers();
             await fixture.whenStable();
+            vi.useRealTimers();
             expect(directive['stopPlaceholderAnimation']).toHaveBeenCalled();
         });
 

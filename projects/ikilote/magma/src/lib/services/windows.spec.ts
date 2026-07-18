@@ -29,6 +29,8 @@ describe('MagmaWindows Service', () => {
                 cd: {
                     detectChanges: vi.fn(),
                 } as unknown as ChangeDetectorRef,
+                onWindowFocus: vi.fn(),
+                select: vi.fn(),
             },
         } as unknown as Mocked<ComponentRef<MagmaWindowsZone>>;
 
@@ -55,6 +57,12 @@ describe('MagmaWindows Service', () => {
     afterEach(async () => {
         vi.clearAllTimers();
         vi.useRealTimers();
+
+        if (overlayRefSpy.dispose) overlayRefSpy.dispose.mockClear();
+        if (componentRefSpy.destroy) componentRefSpy.destroy();
+        componentRefSpy = null as any;
+        overlayRefSpy = null as any;
+
         TestBed.resetTestingModule();
     });
 
@@ -100,10 +108,11 @@ describe('MagmaWindows Service', () => {
             const mockComponent = class {};
             const spy = vi.fn();
 
-            service.onAddWindow.subscribe(spy);
+            const sub = service.onAddWindow.subscribe(spy);
             service.openWindow(mockComponent);
 
             expect(spy).toHaveBeenCalledWith(expect.objectContaining({ component: mockComponent }));
+            sub.unsubscribe();
         });
 
         it('should trigger change detection on the zone component', () => {
@@ -209,6 +218,45 @@ describe('MagmaWindows Service', () => {
         it('should return null if no component is present', () => {
             const result = service.getWindowPosition('non-existent');
             expect(result).toBeNull();
+        });
+    });
+
+    describe('focusWindowById', () => {
+        it('should delegate to the zone component select() with the matching window', () => {
+            const win1 = service.openWindow(class {});
+            const win2 = service.openWindow(class {});
+
+            service.focusWindowById(win1.id);
+
+            expect(componentRefSpy.instance.select).toHaveBeenCalledWith(win1);
+            expect(componentRefSpy.instance.select).not.toHaveBeenCalledWith(win2);
+        });
+
+        it('should not call select() when the id does not match any window', () => {
+            service.openWindow(class {});
+
+            service.focusWindowById('non-existent-id');
+
+            expect(componentRefSpy.instance.select).not.toHaveBeenCalled();
+        });
+
+        it('should not throw if no component is present', () => {
+            // No openWindow call → no component
+            expect(() => service.focusWindowById('any-id')).not.toThrow();
+        });
+    });
+
+    describe('openWindow (focus parameter)', () => {
+        it('should call onWindowFocus when focus is true (default)', () => {
+            service.openWindow(class {});
+
+            expect(componentRefSpy.instance.onWindowFocus).toHaveBeenCalled();
+        });
+
+        it('should NOT call onWindowFocus when focus is false', () => {
+            service.openWindow(class {}, undefined, false);
+
+            expect(componentRefSpy.instance.onWindowFocus).not.toHaveBeenCalled();
         });
     });
 

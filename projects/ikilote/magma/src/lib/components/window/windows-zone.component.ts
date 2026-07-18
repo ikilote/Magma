@@ -32,12 +32,14 @@ export class MagmaWindowsZone implements MagmaResizeHostElement {
 
     select(window: MagmaWindowInfos) {
         const index = window.index();
-        this.windows().forEach(window => {
-            if (window.index() > index) {
-                window.index.update(val => val - 1);
+        this.windows().forEach(win => {
+            if (win.index() > index) {
+                win.index.update(val => val - 1);
             }
+            win.focus = false;
         });
         window.index.set(this.windows().length - 1);
+        window.focus = true;
         this.cd.detectChanges();
     }
 

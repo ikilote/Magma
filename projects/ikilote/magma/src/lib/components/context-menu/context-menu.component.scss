@@ -1,8 +1,8 @@
 :host {
     &.default {
         transition-duration: 0s;
-        box-shadow: 2px 2px 5px #0005;
-        border-radius: 6px;
+        box-shadow: var(--context-menu-box-shadow);
+        border-radius: var(--context-menu-border-radius);
         background: var(--context-menu-background);
 
         menu {
@@ -17,12 +17,12 @@
 
             li {
                 display: flex;
-                gap: 10px;
+                gap: var(--context-menu-item-gap);
                 cursor: pointer;
-                margin: 2px;
-                border-radius: 4px;
-                background: var(--context-menu-item);
-                padding: 10px 20px 10px 10px;
+                margin: var(--context-menu-item-margin);
+                border-radius: var(--context-menu-item-radius);
+                background: var(--context-menu-item-background);
+                padding: var(--context-menu-item-padding);
 
                 &:hover {
                     --context-menu-item: var(--context-menu-item-hover);
@@ -67,7 +67,7 @@
             box-shadow: var(--shadow-x) var(--shadow-y) 5px #0008;
             border: 2px solid var(--context-menu-background);
             border-radius: 50%;
-            background: var(--context-menu-item);
+            background: var(--context-menu-item-background);
             width: var(--size);
             height: var(--size);
             overflow: hidden;
@@ -88,7 +88,7 @@
             }
 
             &:hover {
-                --context-menu-item: var(--context-menu-item-hover);
+                --context-menu-item: var(--context-menu-item-background-hover);
             }
 
             &.item-content {

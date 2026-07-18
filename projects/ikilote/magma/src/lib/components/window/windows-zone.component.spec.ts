@@ -75,6 +75,28 @@ describe('MagmaWindowsZone', () => {
             expect(mockWindows[2].index()).toBe(1);
         });
 
+        it('should set focus=true on the selected window and focus=false on all others', () => {
+            // Pre-set focus on another window
+            mockWindows[2].focus = true;
+
+            component.select(mockWindows[0]);
+
+            expect(mockWindows[0].focus).toBe(true);
+            expect(mockWindows[1].focus).toBe(false);
+            expect(mockWindows[2].focus).toBe(false);
+        });
+
+        it('should update focus when selecting a different window', () => {
+            // First select win-0
+            component.select(mockWindows[0]);
+            expect(mockWindows[0].focus).toBe(true);
+
+            // Then select win-1
+            component.select(mockWindows[1]);
+            expect(mockWindows[1].focus).toBe(true);
+            expect(mockWindows[0].focus).toBe(false);
+        });
+
         it('should trigger select when a window emits mousedown', () => {
             vi.spyOn(component, 'select');
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
@@ -200,6 +222,28 @@ describe('MagmaWindowsZone', () => {
             await Promise.resolve();
 
             expect(serviceSpy.onFocusWindow.next).toHaveBeenCalledWith('win-0');
+        });
+
+        it('should call select() when a window emits onFocus (via onWindowFocus)', async () => {
+            vi.spyOn(component, 'select');
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+
+            windowComponent.onFocus.emit();
+            await Promise.resolve();
+
+            expect(component.select).toHaveBeenCalledWith(mockWindows[0]);
+        });
+
+        it('should call select() when a window emits onRestore (via onWindowRestore)', async () => {
+            vi.spyOn(component, 'select');
+            const windowEl = fixture.debugElement.query(By.css('mg-window'));
+            const windowComponent = windowEl.componentInstance;
+
+            windowComponent.onRestore.emit();
+            await Promise.resolve();
+
+            expect(component.select).toHaveBeenCalledWith(mockWindows[0]);
         });
     });
 

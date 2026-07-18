@@ -29,7 +29,7 @@ export class MagmaWindows {
     component?: ComponentRef<MagmaWindowsZone>;
     overlayRef?: OverlayRef;
 
-    openWindow(component: Type<any>, params?: MagmaWindowInitParams) {
+    openWindow(component: Type<any>, params?: MagmaWindowInitParams, focus: boolean = true) {
         const infos: MagmaWindowInfos = {
             component,
             index: signal(0),
@@ -46,6 +46,10 @@ export class MagmaWindows {
         }
 
         this.onAddWindow.next(infos);
+
+        if (focus) {
+            this.component?.instance.onWindowFocus(infos);
+        }
         this.component?.instance.cd.detectChanges();
         return infos;
     }
@@ -64,6 +68,13 @@ export class MagmaWindows {
                 this.overlayRef = undefined;
                 this.component = undefined;
             }
+        }
+    }
+
+    focusWindowById(id: String) {
+        const window = this.windows.find(w => w.id === id);
+        if (window) {
+            this.component?.instance.select(window);
         }
     }
 

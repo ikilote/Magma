@@ -1,5 +1,49 @@
 # Changelog of @ikilote/magma
 
+## 1.10.0 (2026-07-19)
+
+### ✅ New
+
+- **Window**
+    - **Windows service**: 
+        - the title can be a component:\
+        `{ component: Type<any>; inputs?: Record<string, any> }`
+        - focus a window by id
+    - `mg-window`: 
+        - focusable
+        - focus window on select & resize
+    - more CSS variables:
+        - `--window-min-width`
+        - `--window-min-height`
+        - `--window-bar-padding`
+        - `--window-bar-button-gap`
+        - `--window-bar-button-padding`
+        - `--window-bar-background`
+        - `--window-bar-background-active`
+- **Context-menu**
+    - `MagmaContextMenu`: add open method
+    - label can be a method
+    - more CSS variables:
+        - `--context-menu-box-shadow`
+        - `--context-menu-border-radius`
+        - `--context-menu-item-background` (formerly `--context-menu-item`)
+        - `--context-menu-item-background-hover` (formerly `--context-menu-item-hover`)
+        - `--context-menu-item-gap`
+        - `--context-menu-item-margin`
+        - `--context-menu-item-radius`
+        - `--context-menu-item-padding`
+
+- **Resize**:
+    - add event 
+        - `resizerStart`
+        - `resizerChange`
+        - `resizerEnd`
+
+### 🐞 Fix
+
+- **Resize**:
+    - Fix directive collisions
+
 ## 1.9.1 (2026-07-10)
 
 ### 🐞 Fix

@@ -195,20 +195,49 @@ describe('MagmaResize Directive', () => {
     describe('Lifecycle & Cleanup', () => {
         it('should reset active resize state on window mouseup', () => {
             directiveInstance.resize = 'left';
-            directiveInstance.resizeActive = { mousePosInit: [0, 0], itemSource: {} as any };
+            // Simuler un mousedown pour activer le resize correctement
+            const mousedownEvent = new MouseEvent('mousedown', { clientX: 0, clientY: 0 });
+            directiveEl.nativeElement.dispatchEvent(mousedownEvent);
 
             window.dispatchEvent(new MouseEvent('mouseup'));
 
             expect(directiveInstance.resizeActive).toBeUndefined();
         });
 
-        it('should not reset resizeActive on mouseup when resize is undefined', () => {
+        it('should emit resizerEnd on window mouseup when this instance is active', () => {
+            directiveInstance.resize = 'right';
+            const mousedownEvent = new MouseEvent('mousedown', { clientX: 0, clientY: 0 });
+            directiveEl.nativeElement.dispatchEvent(mousedownEvent);
+
+            const endSpy = vi.fn();
+            directiveInstance.resizerEnd.subscribe(endSpy);
+
+            window.dispatchEvent(new MouseEvent('mouseup'));
+
+            expect(endSpy).toHaveBeenCalledOnce();
+            expect(endSpy).toHaveBeenCalledWith(expect.objectContaining({ direction: 'right' }));
+        });
+
+        it('should not emit resizerEnd on window mouseup when this instance is not active', () => {
+            // Sans mousedown préalable, cette instance n'est pas l'active
+            directiveInstance.resize = 'left';
+
+            const endSpy = vi.fn();
+            directiveInstance.resizerEnd.subscribe(endSpy);
+
+            window.dispatchEvent(new MouseEvent('mouseup'));
+
+            expect(endSpy).not.toHaveBeenCalled();
+        });
+
+        it('should not reset resizeActive on mouseup when no resize is active', () => {
+            // Sans mousedown préalable, MagmaResize.active ne correspond pas à cet id
             directiveInstance.resize = undefined;
             directiveInstance.resizeActive = { mousePosInit: [0, 0], itemSource: {} as any };
 
             window.dispatchEvent(new MouseEvent('mouseup'));
 
-            // resizeActive should remain untouched because resize is falsy
+            // resizeActive should remain untouched because this instance is not the active one
             expect(directiveInstance.resizeActive).toBeDefined();
         });
 
@@ -240,6 +269,116 @@ describe('MagmaResize Directive', () => {
             vi.advanceTimersByTime(50);
             // No error, state remains unchanged
             expect(directiveInstance.resize).toBeUndefined();
+        });
+    });
+
+    // --- OUTPUT EVENTS TESTS ---
+
+    describe('Output events', () => {
+        it('should emit resizerStart on mousedown when resize is set', () => {
+            directiveInstance.resize = 'bottom';
+            const startSpy = vi.fn();
+            directiveInstance.resizerStart.subscribe(startSpy);
+
+            const event = new MouseEvent('mousedown', { clientX: 50, clientY: 100 });
+            directiveEl.nativeElement.dispatchEvent(event);
+
+            expect(startSpy).toHaveBeenCalledOnce();
+            expect(startSpy).toHaveBeenCalledWith(expect.objectContaining({ direction: 'bottom' }));
+        });
+
+        it('should not emit resizerStart on mousedown when resize is undefined', () => {
+            directiveInstance.resize = undefined;
+            const startSpy = vi.fn();
+            directiveInstance.resizerStart.subscribe(startSpy);
+
+            const event = new MouseEvent('mousedown', { clientX: 50, clientY: 100 });
+            directiveEl.nativeElement.dispatchEvent(event);
+
+            expect(startSpy).not.toHaveBeenCalled();
+        });
+
+        it('should not emit resizerStart on mousedown when resizerDisabled is true', () => {
+            component.isDisabled = true;
+            fixture.changeDetectorRef.detectChanges();
+
+            directiveInstance.resize = 'left';
+            const startSpy = vi.fn();
+            directiveInstance.resizerStart.subscribe(startSpy);
+
+            const event = new MouseEvent('mousedown', { clientX: 0, clientY: 50 });
+            directiveEl.nativeElement.dispatchEvent(event);
+
+            expect(startSpy).not.toHaveBeenCalled();
+        });
+
+        it('should emit resizerChange on window mousemove while resizing', () => {
+            directiveInstance.resize = 'right';
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 100, clientY: 100 }));
+
+            const changeSpy = vi.fn();
+            directiveInstance.resizerChange.subscribe(changeSpy);
+
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
+            vi.advanceTimersByTime(10);
+
+            expect(changeSpy).toHaveBeenCalledOnce();
+            expect(changeSpy).toHaveBeenCalledWith(expect.objectContaining({ direction: 'right' }));
+        });
+    });
+
+    // --- OVERLAP GUARD TESTS ---
+
+    describe('Overlap guard (another instance active)', () => {
+        it('should not update resize direction when another instance is active', () => {
+            // Simuler une autre instance active en forçant MagmaResize.active via mousedown sur un second composant
+            @Component({
+                template: `
+                    <div style="position: relative;">
+                        <div
+                            style="width: 100px; height: 100px; position: absolute;"
+                            [resizer]="mockResizer"
+                            [resizerHost]="mockHost"
+                            [resizerInit]="{ x: 0, y: 0 }"
+                        ></div>
+                        <div
+                            style="width: 100px; height: 100px; position: absolute;"
+                            [resizer]="mockResizer"
+                            [resizerHost]="mockHost"
+                            [resizerInit]="{ x: 0, y: 0 }"
+                        ></div>
+                    </div>
+                `,
+                changeDetection: ChangeDetectionStrategy.Eager,
+                imports: [MagmaResize],
+            })
+            class TwoResizerComponent {
+                mockResizer = { x: [0, 10], y: [0, 10], animation: true, update: vi.fn() } as any;
+                mockHost = { elementSize: 10, widthElementNumber: 100, heightElementNumber: 100 } as any;
+            }
+
+            const twoFixture = TestBed.createComponent(TwoResizerComponent);
+            twoFixture.changeDetectorRef.detectChanges();
+
+            const [el1, el2] = twoFixture.debugElement.queryAll(By.directive(MagmaResize));
+            const inst1 = el1.injector.get(MagmaResize);
+            const inst2 = el2.injector.get(MagmaResize);
+
+            // Activer le resize sur inst1
+            inst1.resize = 'left';
+            el1.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 50 }));
+
+            // Maintenant tenter de détecter une bordure sur inst2 — doit être ignoré
+            const rect2 = el2.nativeElement.getBoundingClientRect();
+            el2.nativeElement.dispatchEvent(
+                new MouseEvent('mousemove', { clientX: rect2.left + 2, clientY: rect2.top + 50 }),
+            );
+
+            expect(inst2.resize).toBeUndefined();
+
+            // Nettoyer l'état statique partagé avant de détruire le composant
+            window.dispatchEvent(new MouseEvent('mouseup'));
+            twoFixture.destroy();
         });
     });
 

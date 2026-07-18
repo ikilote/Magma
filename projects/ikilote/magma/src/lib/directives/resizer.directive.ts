@@ -1,7 +1,9 @@
 import { CdkDrag, Point } from '@angular/cdk/drag-drop';
-import { Directive, ElementRef, HostListener, booleanAttribute, inject, input } from '@angular/core';
+import { Directive, ElementRef, HostListener, booleanAttribute, inject, input, output } from '@angular/core';
 
-import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from './resizer';
+import { MagmaResizeElement, MagmaResizeEvent, MagmaResizeHostElement, ResizeDirection } from './resizer';
+
+let index = 0;
 
 @Directive({
     selector: '[resizer]',
@@ -13,6 +15,8 @@ import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from './r
     },
 })
 export class MagmaResize {
+    private static active = '';
+
     private readonly ref = inject<ElementRef<HTMLElement>>(ElementRef);
     private readonly cdkDrag = inject(CdkDrag, { optional: true });
 
@@ -20,6 +24,12 @@ export class MagmaResize {
     readonly resizerHost = input<MagmaResizeHostElement>();
     readonly resizerDisabled = input(false, { transform: booleanAttribute });
     readonly resizerInit = input<Point>({ x: 0, y: 0 });
+
+    readonly resizerStart = output<MagmaResizeEvent>();
+    readonly resizerChange = output<MagmaResizeEvent>();
+    readonly resizerEnd = output<MagmaResizeEvent>();
+
+    private id = `resizer-${index++}`;
 
     resize?: ResizeDirection;
     resizeActive?: {
@@ -32,23 +42,36 @@ export class MagmaResize {
     @HostListener('mousedown', ['$event'])
     mousedown(event: MouseEvent) {
         if (this.resize && !this.resizerDisabled()) {
+            MagmaResize.active = this.id;
             this.resizeActive = {
                 mousePosInit: [event.x, event.y],
                 itemSource: new MagmaResizeElement({ x: [...this.resizer().x], y: [...this.resizer().y] }),
             };
+            this.resizerStart.emit({
+                direction: this.resize,
+                x: [...this.resizer().x],
+                y: [...this.resizer().y],
+            });
+            event.stopPropagation();
         }
     }
 
     @HostListener('window:mouseup')
     mouseupWindow() {
-        if (this.resize && this.resizeActive) {
+        if (MagmaResize.active === this.id) {
+            MagmaResize.active = '';
             this.resizeActive = undefined;
+            this.resizerEnd.emit({
+                direction: this.resize!,
+                x: [...this.resizer().x],
+                y: [...this.resizer().y],
+            });
         }
     }
 
     @HostListener('window:mousemove', ['$event'])
     mouseoverWindow(event: MouseEvent) {
-        if (!this.resizerDisabled()) {
+        if (!this.resizerDisabled() && MagmaResize.active === this.id) {
             const resizeActive = this.resizeActive;
             const resizes = this.resize?.split('-') as ResizeDirection[];
             const host = this.resizerHost();
@@ -96,6 +119,11 @@ export class MagmaResize {
                         if (data) {
                             this.resizer().animation = false;
                             this.resizer().update(resize, data);
+                            this.resizerChange.emit({
+                                direction: this.resize!,
+                                x: [...this.resizer().x],
+                                y: [...this.resizer().y],
+                            });
                             setTimeout(() => {
                                 this.resizer().animation = true;
                             }, 10);
@@ -108,6 +136,11 @@ export class MagmaResize {
 
     @HostListener('mousemove', ['$event'])
     mouseover(event: MouseEvent) {
+        // Si un autre resize est actif, ne pas interférer
+        if (MagmaResize.active && MagmaResize.active !== this.id) {
+            return;
+        }
+
         if (!this.resizeActive && !this.resizerDisabled()) {
             const element = this.ref.nativeElement;
             const rect = element.getBoundingClientRect();
@@ -141,12 +174,14 @@ export class MagmaResize {
 
             if (this.resize) {
                 clearTimeout(this.timer);
+                // Stopper la propagation uniquement si on est sur une bordure de resize
+                // pour éviter qu'une zone en dessous ne prenne le focus
+                event.stopPropagation();
             }
 
             if (this.cdkDrag) {
                 this.cdkDrag.disabled = this.resize !== undefined;
             }
-            event.stopPropagation();
         }
     }
 

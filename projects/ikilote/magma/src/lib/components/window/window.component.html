@@ -13,6 +13,7 @@
     [resizerInit]="initPosition"
     [resizerHost]="resizerHost()"
     [resizerDisabled]="comp?.size?.lock || isFixed()"
+    (resizerStart)="mousedown()"
     [style.width]="width() || comp?.size?.width?.init"
     [style.min-width]="minWidth() || comp?.size?.width?.min"
     [style.max-width]="maxWidth() || comp?.size?.width?.max"

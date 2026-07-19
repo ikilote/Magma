@@ -51,6 +51,10 @@
     &.active {
         --window-bar-background: var(--window-bar-background-active);
     }
+
+    &.minimized {
+        display: none;
+    }
 }
 
 .content {

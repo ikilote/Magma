@@ -82,6 +82,7 @@ let index = 0;
         '[class.fixed-right]': 'fixedEdgeClass() === "fixed-right"',
         '[class.active]': 'focus()',
         '[class.inactive]': '!focus()',
+        '[class.minimized]': 'minimized()',
     },
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })

@@ -18,6 +18,7 @@ class TestComponent extends AbstractWindowComponent {}
 
 class MockDragSpy {
     setFreeDragPosition = vi.fn();
+    getFreeDragPosition = vi.fn();
     disabled = false;
 }
 
@@ -502,14 +503,12 @@ describe('MagmaWindow', () => {
 
             // Check no window
             fixture.changeDetectorRef.detectChanges();
-            const content = fixture.debugElement.query(By.css('div.content'));
-            expect(content).toBeNull();
+            expect(fixture.debugElement.nativeElement.classList).toContain('minimized');
 
             // Act
             component.restore();
             fixture.changeDetectorRef.detectChanges();
-            const content2 = fixture.debugElement.query(By.css('div.content'));
-            expect(content2).toBeDefined();
+            expect(fixture.debugElement.nativeElement.classList).not.toContain('minimized');
         });
     });
 
@@ -1094,21 +1093,21 @@ describe('MagmaWindow', () => {
             component['x'] = [120, 400];
             component['y'] = [80, 300];
 
-            // Mock cdkDrag before the restore triggers winInit via template re-render
             const dragSpy = new MockDragSpy();
-            // @ts-ignore
-            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
             // Simulate minimize → restore
             component.minimize();
             fixture.changeDetectorRef.detectChanges();
 
-            dragSpy.setFreeDragPosition.mockClear();
-
             component.restore();
             fixture.changeDetectorRef.detectChanges();
 
-            // winInit was called by (ngInit) during detectChanges with restoring=true
+            // Apply the mock before triggering winInit
+            // @ts-ignore
+            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
+
+            // winInit is triggered manually here, as restoring=true is already set by restore()
+            component.winInit();
             vi.advanceTimersByTime(0);
 
             expect(dragSpy.setFreeDragPosition).toHaveBeenCalledWith({ x: 120, y: 80 });

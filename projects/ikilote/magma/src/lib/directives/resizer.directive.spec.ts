@@ -410,70 +410,103 @@ describe('MagmaResize Directive', () => {
         });
 
         it('should skip window:mousemove logic when resizerDisabled is true', () => {
+            // Activate the resize first via mousedown, then disable and move
+            directiveInstance.resize = 'left';
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 50 }));
+
             component.isDisabled = true;
             fixture.changeDetectorRef.detectChanges();
 
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 20, clientY: 50 }));
+
+            expect(component.mockResizer.update).not.toHaveBeenCalled();
+        });
+
+        it('should skip window:mousemove resize calculation when resize is not set (else of if resizes)', () => {
+            // Activate via mousedown with resize = 'left', then clear resize before window:mousemove
             directiveInstance.resize = 'left';
-            directiveInstance.resizeActive = { mousePosInit: [100, 100], itemSource: {} as any };
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 50 }));
 
-            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
-
-            expect(component.mockResizer.update).not.toHaveBeenCalled();
-        });
-
-        it('should skip window:mousemove resize calculation when resize is not set', () => {
-            // resize is undefined → resizes will be falsy
+            // Now clear resize — resizes = undefined?.split('-') → undefined → if(resizes) is false
             directiveInstance.resize = undefined;
-            directiveInstance.resizeActive = { mousePosInit: [100, 100], itemSource: {} as any };
 
-            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 20, clientY: 50 }));
 
             expect(component.mockResizer.update).not.toHaveBeenCalled();
         });
 
-        it('should skip resize calculation when host is not provided', () => {
+        it('should skip resize calculation when host is not provided (else of if host && resizeActive && resize)', () => {
+            // Activate via mousedown first
+            directiveInstance.resize = 'left';
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 50 }));
+
+            // Remove host after activation
             component.mockHost = undefined as any;
             fixture.changeDetectorRef.detectChanges();
 
-            directiveInstance.resize = 'left';
-            directiveInstance.resizeActive = {
-                mousePosInit: [100, 100],
-                itemSource: { x: [0, 10], y: [0, 10], animation: true, update: vi.fn() } as any,
-            };
-
-            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 20, clientY: 50 }));
 
             expect(component.mockResizer.update).not.toHaveBeenCalled();
         });
 
-        it('should skip resize calculation when resizeActive is not set on window:mousemove', () => {
+        it('should skip resize calculation when resizeActive is cleared after mousedown', () => {
+            // Activate via mousedown, then manually clear resizeActive
             directiveInstance.resize = 'left';
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 50 }));
+
+            // Force resizeActive to undefined after activation
             directiveInstance.resizeActive = undefined;
 
-            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 20, clientY: 50 }));
 
             expect(component.mockResizer.update).not.toHaveBeenCalled();
         });
 
-        it('should not call update when no direction matches (data stays undefined)', () => {
-            // Force a direction that won't match any of the four if-blocks
-            // by setting resize to a composite direction but only iterating one part
-            // We can achieve this by directly calling mouseoverWindow with no matching direction
-            // Easiest: set resize to a value, but override resizes iteration via a composite
-            // Actually the simplest gap: window:mousemove fires but resize is set to a direction
-            // that produces no data (impossible with current code, but we can verify no crash
-            // when data remains undefined by using a direction that IS handled — already covered).
-            // Instead, test that clearTimeout is NOT called when this.resize is falsy mid-loop.
-            // We do this by triggering window:mousemove with resize set but resizeActive absent.
-            directiveInstance.resize = 'top';
-            directiveInstance.resizeActive = undefined;
+        it('should not call update when data stays undefined (else of if data)', () => {
+            // Use a composite direction whose parts don't match any of the four if-blocks
+            // 'top-left'.split('-') = ['top', 'left'] — both are valid, so use a fake sub-direction
+            // Instead: activate with a real direction, then mutate resize to an unknown value
+            directiveInstance.resize = 'left';
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 50 }));
 
-            // Should not throw, and update should not be called
-            expect(() => {
-                window.dispatchEvent(new MouseEvent('mousemove', { clientX: 100, clientY: 50 }));
-            }).not.toThrow();
+            // Replace resize with a value whose split produces unknown sub-directions
+            // 'x-y'.split('-') = ['x', 'y'] — neither matches top/bottom/left/right → data stays undefined
+            directiveInstance.resize = 'x-y' as any;
+
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 20, clientY: 50 }));
 
             expect(component.mockResizer.update).not.toHaveBeenCalled();
+        });
+
+        it('should not call clearTimeout when this.resize is falsy during inner check (else of inner if resize)', () => {
+            // Activate with a composite direction so resizes has elements, but make resize falsy
+            // by the time the inner if(this.resize) check runs.
+            // 'left' splits to ['left'], host is provided, resizeActive is set → enters inner block
+            // Then if(this.resize) must be false → need resize to be falsy at that point.
+            // We override the resize property with a getter: first read ('left') passes the outer
+            // split, subsequent reads return undefined to hit the else of if(this.resize).
+            directiveInstance.resize = 'left';
+            directiveEl.nativeElement.dispatchEvent(new MouseEvent('mousedown', { clientX: 0, clientY: 50 }));
+
+            const clearTimeoutSpy = vi.spyOn(window, 'clearTimeout');
+
+            let callCount = 0;
+            Object.defineProperty(directiveInstance, 'resize', {
+                get: () => (callCount++ === 0 ? 'left' : undefined),
+                set: () => {},
+                configurable: true,
+            });
+
+            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 20, clientY: 50 }));
+
+            expect(clearTimeoutSpy).not.toHaveBeenCalled();
+            clearTimeoutSpy.mockRestore();
+            // Restore the property so afterEach cleanup works
+            Object.defineProperty(directiveInstance, 'resize', {
+                value: undefined,
+                writable: true,
+                configurable: true,
+            });
         });
     });
 
@@ -501,12 +534,85 @@ describe('MagmaResize Directive', () => {
             fixtureNoCdk?.destroy();
         });
 
-        it('should not throw on mousemove when cdkDrag is null', () => {
-            const rect = directiveElNoCdk.nativeElement.getBoundingClientRect();
-            const event = new MouseEvent('mousemove', { clientX: rect.left + 2, clientY: rect.top + 50 });
+        it('should not set cdkDrag.disabled when cdkDrag is null (resize set to left)', () => {
+            directiveInstanceNoCdk.resize = undefined;
+            directiveInstanceNoCdk.resizeActive = undefined;
+            // Reset the shared static active state so the mouseover guard doesn't block
+            (MagmaResize as any)['active'] = '';
 
-            expect(() => directiveElNoCdk.nativeElement.dispatchEvent(event)).not.toThrow();
+            const el = directiveElNoCdk.nativeElement;
+            vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({
+                left: 0,
+                top: 0,
+                right: 100,
+                bottom: 100,
+                width: 100,
+                height: 100,
+                x: 0,
+                y: 0,
+                toJSON: () => {},
+            } as DOMRect);
+            Object.defineProperty(el, 'offsetWidth', { configurable: true, get: () => 100 });
+            Object.defineProperty(el, 'offsetHeight', { configurable: true, get: () => 100 });
+
+            // x=2 → left edge, cdkDrag is null → if (this.cdkDrag) takes false branch
+            const event = new MouseEvent('mousemove', { clientX: 2, clientY: 50 });
+            expect(() => (directiveInstanceNoCdk as any).mouseover(event)).not.toThrow();
             expect(directiveInstanceNoCdk.resize).toBe('left');
+        });
+
+        it('should not set cdkDrag.disabled when cdkDrag is null (resize set to undefined in center)', () => {
+            directiveInstanceNoCdk.resize = undefined;
+            directiveInstanceNoCdk.resizeActive = undefined;
+            // Reset the shared static active state so the mouseover guard doesn't block
+            (MagmaResize as any)['active'] = '';
+
+            const el = directiveElNoCdk.nativeElement;
+            vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({
+                left: 0,
+                top: 0,
+                right: 100,
+                bottom: 100,
+                width: 100,
+                height: 100,
+                x: 0,
+                y: 0,
+                toJSON: () => {},
+            } as DOMRect);
+            Object.defineProperty(el, 'offsetWidth', { configurable: true, get: () => 100 });
+            Object.defineProperty(el, 'offsetHeight', { configurable: true, get: () => 100 });
+
+            // x=50, y=50 → center → resize = undefined, cdkDrag is null → if (this.cdkDrag) false
+            const event = new MouseEvent('mousemove', { clientX: 50, clientY: 50 });
+            expect(() => (directiveInstanceNoCdk as any).mouseover(event)).not.toThrow();
+            expect(directiveInstanceNoCdk.resize).toBeUndefined();
+        });
+
+        it('should not set cdkDrag.disabled when cdkDrag is null (resize set to undefined in center)', () => {
+            directiveInstanceNoCdk.resize = undefined;
+            directiveInstanceNoCdk.resizeActive = undefined;
+            // Reset the shared static active state so the mouseover guard doesn't block
+            (MagmaResize as any)['active'] = '';
+
+            const el = directiveElNoCdk.nativeElement;
+            vi.spyOn(el, 'getBoundingClientRect').mockReturnValue({
+                left: 0,
+                top: 0,
+                right: 100,
+                bottom: 100,
+                width: 100,
+                height: 100,
+                x: 0,
+                y: 0,
+                toJSON: () => {},
+            } as DOMRect);
+            Object.defineProperty(el, 'offsetWidth', { configurable: true, get: () => 100 });
+            Object.defineProperty(el, 'offsetHeight', { configurable: true, get: () => 100 });
+
+            // Call the handler directly to bypass the MagmaResize.active static guard
+            const event = new MouseEvent('mousemove', { clientX: 50, clientY: 50 });
+            expect(() => (directiveInstanceNoCdk as any).mouseover(event)).not.toThrow();
+            expect(directiveInstanceNoCdk.resize).toBeUndefined();
         });
 
         it('should not throw on mouseout timer when cdkDrag is null', () => {
@@ -515,55 +621,6 @@ describe('MagmaResize Directive', () => {
 
             expect(() => vi.advanceTimersByTime(50)).not.toThrow();
             expect(directiveInstanceNoCdk.resize).toBeUndefined();
-        });
-
-        it('should not call clearTimeout when this.resize is falsy (line 92 else branch)', () => {
-            // Set up resizeActive with this.resize initially set to 'left'
-            directiveInstanceNoCdk.resize = 'left';
-            directiveInstanceNoCdk.resizeActive = {
-                mousePosInit: [100, 100],
-                itemSource: { x: [0, 10], y: [0, 10], animation: true, update: vi.fn() } as any,
-            };
-
-            // Spy on clearTimeout to verify it's not called
-            const clearTimeoutSpy = vi.spyOn(window, 'clearTimeout');
-
-            // Mock this.resize to become undefined during the loop execution
-            // We do this by replacing the resize property with a getter that returns undefined
-            let callCount = 0;
-            Object.defineProperty(directiveInstanceNoCdk, 'resize', {
-                get: () => {
-                    callCount++;
-                    // First call returns 'left' (for resizes = this.resize?.split('-'))
-                    // Second call returns undefined (for if (this.resize))
-                    return callCount === 1 ? 'left' : undefined;
-                },
-                configurable: true,
-            });
-
-            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
-
-            // clearTimeout should not be called because this.resize is falsy on second check
-            expect(clearTimeoutSpy).not.toHaveBeenCalled();
-            clearTimeoutSpy.mockRestore();
-        });
-
-        it('should not call update when data is undefined (line 96 else branch)', () => {
-            // Create a scenario where data remains undefined
-            // This happens when the resize direction doesn't match any of the if blocks
-            // We can simulate this by mocking the resizes array to be empty
-            directiveInstanceNoCdk.resize = 'invalid-direction' as any;
-            directiveInstanceNoCdk.resizeActive = {
-                mousePosInit: [100, 100],
-                itemSource: { x: [0, 10], y: [0, 10], animation: true, update: vi.fn() } as any,
-            };
-
-            const updateSpy = vi.spyOn(directiveInstanceNoCdk.resizeActive.itemSource, 'update');
-
-            window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 100 }));
-
-            // update should not be called because data is undefined
-            expect(updateSpy).not.toHaveBeenCalled();
         });
     });
 });

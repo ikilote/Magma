@@ -1,5 +1,11 @@
 # Changelog of @ikilote/magma
 
+## 1.10.1 (2026-07-12)
+
+### 🐞 Fix
+
+- **Window**: minimize juste hide content (does not discharge the component)
+
 ## 1.10.0 (2026-07-19)
 
 ### ✅ New

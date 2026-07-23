@@ -87,7 +87,9 @@ describe('MagmaContextMenu Integration', () => {
     it('should close context menu on backdrop click', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
         await fixture.whenStable();
-        document.querySelector('.cdk-overlay-backdrop')?.dispatchEvent(new Event('click'));
+        document
+            .querySelector('.cdk-overlay-backdrop')
+            ?.dispatchEvent(new MouseEvent('click', { clientX: 50, clientY: 50 }));
         await fixture.whenStable();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
     });
@@ -285,6 +287,37 @@ describe('MagmaContextMenu Integration', () => {
                 type: 'click',
                 clientX: 150,
                 clientY: 150,
+                bubbles: true,
+                cancelable: true,
+            }),
+        );
+    });
+
+    it('should redispatch contextmenu to element beneath backdrop on right-click', async () => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        await fixture.whenStable();
+
+        const fakeElement = document.createElement('div');
+        const dispatchSpy = vi.spyOn(fakeElement, 'dispatchEvent');
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(fakeElement);
+
+        const backdrop = document.querySelector('.cdk-overlay-backdrop') as HTMLElement;
+        expect(backdrop).not.toBeNull();
+
+        backdrop.dispatchEvent(new MouseEvent('click', { clientX: 200, clientY: 200, button: 2, bubbles: true }));
+        await fixture.whenStable();
+
+        // Overlay should be closed
+        expect(MagmaContextMenu._overlayRef).toBeUndefined();
+
+        // Contextmenu event should have been redispatched (not click)
+        expect(document.elementFromPoint).toHaveBeenCalledWith(200, 200);
+        expect(dispatchSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+                type: 'contextmenu',
+                clientX: 200,
+                clientY: 200,
+                button: 2,
                 bubbles: true,
                 cancelable: true,
             }),

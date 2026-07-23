@@ -65,18 +65,23 @@ export class MagmaContextMenu<T> {
             overlayRef.dispose();
             MagmaContextMenu._overlayRef = undefined;
 
-            // Redispatch the click to the element beneath the backdrop
-            const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
-            if (elementBelow) {
-                elementBelow.dispatchEvent(
-                    new MouseEvent('click', {
-                        bubbles: true,
-                        cancelable: true,
-                        clientX: event.clientX,
-                        clientY: event.clientY,
-                        button: event.button,
-                    }),
-                );
+            // Redispatch the click/contextmenu to the element beneath the backdrop
+            const x = event.clientX;
+            const y = event.clientY;
+            if (isFinite(x) && isFinite(y)) {
+                const elementBelow = document.elementFromPoint(x, y);
+                if (elementBelow) {
+                    const eventType = event.button === 2 ? 'contextmenu' : 'click';
+                    elementBelow.dispatchEvent(
+                        new MouseEvent(eventType, {
+                            bubbles: true,
+                            cancelable: true,
+                            clientX: x,
+                            clientY: y,
+                            button: event.button,
+                        }),
+                    );
+                }
             }
         });
 

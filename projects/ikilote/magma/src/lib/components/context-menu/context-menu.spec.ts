@@ -259,4 +259,65 @@ describe('MagmaContextMenu Integration', () => {
         expect(() => directive.close()).not.toThrow();
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
     });
+
+    it('should redispatch click to element beneath backdrop on backdrop click', async () => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        await fixture.whenStable();
+
+        // Spy on document.elementFromPoint and dispatchEvent
+        const fakeElement = document.createElement('button');
+        const dispatchSpy = vi.spyOn(fakeElement, 'dispatchEvent');
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(fakeElement);
+
+        const backdrop = document.querySelector('.cdk-overlay-backdrop') as HTMLElement;
+        expect(backdrop).not.toBeNull();
+
+        backdrop.dispatchEvent(new MouseEvent('click', { clientX: 150, clientY: 150, bubbles: true }));
+        await fixture.whenStable();
+
+        // Overlay should be closed
+        expect(MagmaContextMenu._overlayRef).toBeUndefined();
+
+        // Click should have been redispatched to the element below
+        expect(document.elementFromPoint).toHaveBeenCalledWith(150, 150);
+        expect(dispatchSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+                type: 'click',
+                clientX: 150,
+                clientY: 150,
+                bubbles: true,
+                cancelable: true,
+            }),
+        );
+    });
+
+    it('should trigger item action on right-click (contextmenu event)', async () => {
+        directiveElement.triggerEventHandler('contextmenu', event);
+        await fixture.whenStable();
+
+        const actionSpy = vi.spyOn(fixture.componentInstance.menuData.contextMenu[0] as any, 'action');
+
+        const menuItem = document.querySelector('context-menu ul li:first-child') as HTMLElement;
+        expect(menuItem).not.toBeNull();
+
+        const contextMenuEvent = new MouseEvent('contextmenu', {
+            button: 2,
+            clientX: 100,
+            clientY: 100,
+            bubbles: true,
+        });
+        vi.spyOn(contextMenuEvent, 'preventDefault');
+        vi.spyOn(contextMenuEvent, 'stopPropagation');
+
+        menuItem.dispatchEvent(contextMenuEvent);
+        await fixture.whenStable();
+
+        // Action should have been called with the data
+        expect(actionSpy).toHaveBeenCalledWith('test-data');
+        // Context menu should be closed
+        expect(MagmaContextMenu._overlayRef).toBeUndefined();
+        // Event should be prevented (no native context menu)
+        expect(contextMenuEvent.preventDefault).toHaveBeenCalled();
+        expect(contextMenuEvent.stopPropagation).toHaveBeenCalled();
+    });
 });

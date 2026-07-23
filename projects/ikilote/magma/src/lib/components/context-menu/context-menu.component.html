@@ -12,7 +12,12 @@
         </li>
       } @else {
         @let labelVal = typeof iti.label === 'function' ? iti.label() : iti.label;
-        <li (clickEnter)="active(iti)" [style.--position]="index" [attr.title]="labelVal ?? null">
+        <li
+          (clickEnter)="active(iti)"
+          (contextmenu)="active(iti); $event.preventDefault(); $event.stopPropagation()"
+          [style.--position]="index"
+          [attr.title]="labelVal ?? null"
+        >
           @if (iti.iconText) {
             <span class="icon">{{ iti.iconText }}</span>
           } @else {

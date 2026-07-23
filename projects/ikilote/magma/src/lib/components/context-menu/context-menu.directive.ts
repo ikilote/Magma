@@ -61,9 +61,23 @@ export class MagmaContextMenu<T> {
         componentRef.setInput('mode', menuMode);
         componentRef.setInput('context', this);
 
-        overlayRef.backdropClick().subscribe(() => {
+        overlayRef.backdropClick().subscribe((event: MouseEvent) => {
             overlayRef.dispose();
             MagmaContextMenu._overlayRef = undefined;
+
+            // Redispatch the click to the element beneath the backdrop
+            const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
+            if (elementBelow) {
+                elementBelow.dispatchEvent(
+                    new MouseEvent('click', {
+                        bubbles: true,
+                        cancelable: true,
+                        clientX: event.clientX,
+                        clientY: event.clientY,
+                        button: event.button,
+                    }),
+                );
+            }
         });
 
         MagmaContextMenu._overlayRef = overlayRef;

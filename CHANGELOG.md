@@ -6,6 +6,7 @@
 
 - **context-menu**:
     - click to element beneath backdrop on backdrop click
+    - when you right-click on another location, it opens that position
 - **color-picker**/**ellipsis-button**/**dialog**/**tabs**/**walkthrough**/**window**:
     - must not submit a form
 
@@ -56,6 +57,11 @@
         - `--button-primary-hover-box-shadow` — was `var(--primary300)`, now `0 0 6px var(--primary300)`
         - `--button-warn-box-shadow` — was `var(--alert050)`, now `0 0 1px var(--alert050)`
         - `--button-warn-hover-box-shadow` — was `var(--alert300)`, now `0 0 6px var(--alert300)`
+
+
+### 🎦 Demo
+
+- fix **palette** page
 
 ## 1.10.1 (2026-07-12)
 

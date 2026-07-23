@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
+import { Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
 import {
     AbstractContextMenuComponent,
     ContextMenuData,
@@ -106,6 +106,53 @@ export class DemoContextMenuComponent {
         data: 'Data',
     };
 
+    contextSubMenu: ContextMenuData<any> = {
+        contextMenu: [
+            {
+                iconText: 'A',
+                label: 'List',
+                action: data => {
+                    this.test(data, 'list');
+                },
+            },
+            {
+                iconText: 'B',
+                label: 'Data',
+                action: data => {
+                    this.test(data, 'data');
+                },
+            },
+            {
+                iconText: 'C',
+                label: 'Like',
+                action: data => {
+                    this.test(data, 'like');
+                },
+            },
+            {
+                iconText: 'D',
+                label: 'Love',
+                action: data => {
+                    this.test(data, 'love');
+                },
+            },
+            {
+                iconText: 'E',
+                label: 'Hate',
+                action: data => {
+                    this.test(data, 'hate');
+                },
+            },
+            {
+                component: ContextTestComponent,
+                inputs: {
+                    component: this,
+                },
+            },
+        ],
+        data: 'Data',
+    };
+
     ctrlForm: FormGroup<{
         contextMenuMode: FormControl<ContextMenuMode>;
         contextMenuDisabled: FormControl<boolean>;
@@ -153,6 +200,53 @@ export class DemoContextMenuComponent {
                 },
             },
               {
+                component: ContextTestComponent,
+                inputs: {
+                    component: this,
+                },
+            },
+        ],
+        data: 'Data',
+    };
+
+    contextSubMenu: ContextMenuData<any> = {
+        contextMenu: [
+            {
+                iconText: 'A',
+                label: 'List',
+                action: data => {
+                    this.test(data, 'list');
+                },
+            },
+            {
+                iconText: 'B',
+                label: 'Data',
+                action: data => {
+                    this.test(data, 'data');
+                },
+            },
+            {
+                iconText: 'C',
+                label: 'Like',
+                action: data => {
+                    this.test(data, 'like');
+                },
+            },
+            {
+                iconText: 'D',
+                label: 'Love',
+                action: data => {
+                    this.test(data, 'love');
+                },
+            },
+            {
+                iconText: 'E',
+                label: 'Hate',
+                action: data => {
+                    this.test(data, 'hate');
+                },
+            },
+            {
                 component: ContextTestComponent,
                 inputs: {
                     component: this,
@@ -214,20 +308,36 @@ export class ContextTestComponent extends AbstractContextMenuComponent {
             attrs: {
                 '[contextMenu]': 'contextMenu',
             },
-            body: ['Right-click here to display the context menu.'],
+            body: [
+                'Right-click here to display the <button>context menu.</button>',
+                {
+                    tag: 'div',
+                    attrs: {
+                        '[contextMenu]': 'contextSubMenu',
+                    },
+                    body: ['Right-click here to display an other context menu.'],
+                },
+            ],
         };
         const attrs: Json2htmlAttr = json.attrs!;
+        const attrsSub: Json2htmlAttr = ((json.body as Json2htmlBody[])[1] as Json2htmlRef).attrs!;
 
         // tag attr
 
         if (this.ctrlForm.value.contextMenuMode !== 'default') {
             attrs['contextMenuMode'] = this.ctrlForm.value.contextMenuMode;
+            attrsSub['contextMenuMode'] = this.ctrlForm.value.contextMenuMode;
         }
 
         if (this.ctrlForm.value.contextMenuDisabled) {
             attrs['contextMenuDisabled'] = null;
+            attrsSub['contextMenuDisabled'] = null;
         }
 
         this.codeHtml = new Json2html(json).toString();
+    }
+
+    click() {
+        console.log('click');
     }
 }

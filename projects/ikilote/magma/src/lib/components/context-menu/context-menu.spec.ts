@@ -103,17 +103,48 @@ describe('MagmaContextMenu Integration', () => {
         expect(document.querySelector('.cdk-overlay-backdrop')).toBeNull();
     });
 
-    it('should close context menu on window contextmenu event', async () => {
+    it('should close context menu on window contextmenu event and redispatch', async () => {
+        // Flush any pending timers from previous tests
+        await new Promise(resolve => setTimeout(resolve));
+
         directiveElement.triggerEventHandler('contextmenu', event);
         await fixture.whenStable();
-        const windowEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
-        vi.spyOn(windowEvent, 'preventDefault');
-        vi.spyOn(windowEvent, 'stopPropagation');
-        window.dispatchEvent(windowEvent);
+        expect(MagmaContextMenu._overlayRef).toBeDefined();
+
+        const fakeElement = document.createElement('div');
+        const dispatchSpy = vi.spyOn(fakeElement, 'dispatchEvent');
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(fakeElement);
+
+        // Simulate a window:contextmenu at a new position
+        const directive = directiveElement.injector.get(MagmaContextMenu);
+        const windowEvent = new MouseEvent('contextmenu', {
+            button: 2,
+            clientX: 200,
+            clientY: 200,
+            bubbles: true,
+            cancelable: true,
+        });
+        directive.onContextMenuContext(windowEvent);
         await fixture.whenStable();
+
+        // Menu should be closed
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
-        expect(windowEvent.preventDefault).toHaveBeenCalled();
-        expect(windowEvent.stopPropagation).toHaveBeenCalled();
+
+        // Wait for the setTimeout redispatch
+        await new Promise(resolve => setTimeout(resolve));
+
+        // Contextmenu should have been redispatched to the element below
+        expect(document.elementFromPoint).toHaveBeenCalledWith(200, 200);
+        expect(dispatchSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+                type: 'contextmenu',
+                clientX: 200,
+                clientY: 200,
+                button: 2,
+                bubbles: true,
+                cancelable: true,
+            }),
+        );
     });
 
     it('should close context menu on auxclick event', async () => {
@@ -262,7 +293,7 @@ describe('MagmaContextMenu Integration', () => {
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
     });
 
-    it('should redispatch click to element beneath backdrop on backdrop click', async () => {
+    it('should redispatch click to element beneath backdrop on left-click', async () => {
         directiveElement.triggerEventHandler('contextmenu', event);
         await fixture.whenStable();
 
@@ -280,6 +311,9 @@ describe('MagmaContextMenu Integration', () => {
         // Overlay should be closed
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
 
+        // Wait for the setTimeout in the redispatch logic
+        await new Promise(resolve => setTimeout(resolve));
+
         // Click should have been redispatched to the element below
         expect(document.elementFromPoint).toHaveBeenCalledWith(150, 150);
         expect(dispatchSpy).toHaveBeenCalledWith(
@@ -287,37 +321,6 @@ describe('MagmaContextMenu Integration', () => {
                 type: 'click',
                 clientX: 150,
                 clientY: 150,
-                bubbles: true,
-                cancelable: true,
-            }),
-        );
-    });
-
-    it('should redispatch contextmenu to element beneath backdrop on right-click', async () => {
-        directiveElement.triggerEventHandler('contextmenu', event);
-        await fixture.whenStable();
-
-        const fakeElement = document.createElement('div');
-        const dispatchSpy = vi.spyOn(fakeElement, 'dispatchEvent');
-        vi.spyOn(document, 'elementFromPoint').mockReturnValue(fakeElement);
-
-        const backdrop = document.querySelector('.cdk-overlay-backdrop') as HTMLElement;
-        expect(backdrop).not.toBeNull();
-
-        backdrop.dispatchEvent(new MouseEvent('click', { clientX: 200, clientY: 200, button: 2, bubbles: true }));
-        await fixture.whenStable();
-
-        // Overlay should be closed
-        expect(MagmaContextMenu._overlayRef).toBeUndefined();
-
-        // Contextmenu event should have been redispatched (not click)
-        expect(document.elementFromPoint).toHaveBeenCalledWith(200, 200);
-        expect(dispatchSpy).toHaveBeenCalledWith(
-            expect.objectContaining({
-                type: 'contextmenu',
-                clientX: 200,
-                clientY: 200,
-                button: 2,
                 bubbles: true,
                 cancelable: true,
             }),

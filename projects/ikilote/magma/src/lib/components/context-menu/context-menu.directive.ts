@@ -43,6 +43,9 @@ export class MagmaContextMenu<T> {
             return false;
         }
 
+        // Close any existing menu first
+        MagmaContextMenu.disposeOverlay();
+
         const overlayRef = this.overlay.create({
             hasBackdrop: true,
             backdropClass: 'overlay-backdrop',
@@ -61,28 +64,13 @@ export class MagmaContextMenu<T> {
         componentRef.setInput('mode', menuMode);
         componentRef.setInput('context', this);
 
-        overlayRef.backdropClick().subscribe((event: MouseEvent) => {
-            overlayRef.dispose();
-            MagmaContextMenu._overlayRef = undefined;
-
-            // Redispatch the click/contextmenu to the element beneath the backdrop
-            const x = event.clientX;
-            const y = event.clientY;
-            if (isFinite(x) && isFinite(y)) {
-                const elementBelow = document.elementFromPoint(x, y);
-                if (elementBelow) {
-                    const eventType = event.button === 2 ? 'contextmenu' : 'click';
-                    elementBelow.dispatchEvent(
-                        new MouseEvent(eventType, {
-                            bubbles: true,
-                            cancelable: true,
-                            clientX: x,
-                            clientY: y,
-                            button: event.button,
-                        }),
-                    );
-                }
-            }
+        overlayRef.backdropClick().subscribe((backdropEvent: MouseEvent) => {
+            MagmaContextMenu.closeAndRedispatch(
+                backdropEvent.clientX,
+                backdropEvent.clientY,
+                'click',
+                backdropEvent.button,
+            );
         });
 
         MagmaContextMenu._overlayRef = overlayRef;
@@ -97,7 +85,9 @@ export class MagmaContextMenu<T> {
     @HostListener('window:contextmenu', ['$event'])
     onContextMenuContext(event: MouseEvent) {
         if (MagmaContextMenu._overlayRef) {
-            this.close(event);
+            event.preventDefault();
+            event.stopPropagation();
+            MagmaContextMenu.closeAndRedispatch(event.clientX, event.clientY, 'contextmenu', 2);
         }
     }
 
@@ -109,13 +99,46 @@ export class MagmaContextMenu<T> {
     }
 
     close(event?: MouseEvent) {
+        MagmaContextMenu.disposeOverlay();
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+    }
+
+    /**
+     * Dispose the current overlay if it exists.
+     */
+    private static disposeOverlay(): void {
         if (MagmaContextMenu._overlayRef) {
             MagmaContextMenu._overlayRef.dispose();
             MagmaContextMenu._overlayRef = undefined;
         }
-        if (event) {
-            event.preventDefault();
-            event.stopPropagation();
+    }
+
+    /**
+     * Close the overlay and redispatch an event to the element at (x, y).
+     * Uses setTimeout so the CDK backdrop is fully removed from the DOM
+     * before elementFromPoint is called.
+     */
+    private static closeAndRedispatch(x: number, y: number, eventType: string, button: number): void {
+        MagmaContextMenu.disposeOverlay();
+
+        if (isFinite(x) && isFinite(y)) {
+            setTimeout(() => {
+                const elementBelow = document.elementFromPoint(x, y);
+                if (elementBelow) {
+                    elementBelow.dispatchEvent(
+                        new MouseEvent(eventType, {
+                            bubbles: true,
+                            cancelable: true,
+                            clientX: x,
+                            clientY: y,
+                            button,
+                        }),
+                    );
+                }
+            });
         }
     }
 }

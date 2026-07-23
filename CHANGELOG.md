@@ -1,6 +1,6 @@
 # Changelog of @ikilote/magma
 
-## 1.11.0 (2026-07-21)
+## 1.11.0 (2026-07-23)
 
 ### 🐞 Fix
 
@@ -58,12 +58,11 @@
         - `--button-warn-box-shadow` — was `var(--alert050)`, now `0 0 1px var(--alert050)`
         - `--button-warn-hover-box-shadow` — was `var(--alert300)`, now `0 0 6px var(--alert300)`
 
-
 ### 🎦 Demo
 
 - fix **palette** page
 
-## 1.10.1 (2026-07-12)
+## 1.10.1 (2026-07-21)
 
 ### 🐞 Fix
 

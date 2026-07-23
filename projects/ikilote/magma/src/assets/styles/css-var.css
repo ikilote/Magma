@@ -133,6 +133,8 @@ body {
 
     /* MARK: context-menu */
     --context-menu-background: var(--primary200);
+    --context-menu-border: none;
+    --context-menu-border-color: transparent;
     --context-menu-box-shadow: 2px 2px 5px #0005;
     --context-menu-border-radius: 6px;
     --context-menu-item-background: var(--primary300);
@@ -149,35 +151,51 @@ body {
 
     /* MARK: default button */
     --button-disabled-opacity: 0.25;
+    --button-default-border-radius: 5px;
+    --button-default-border-width: 2px;
+    --button-default-padding: 10px;
+    --button-default-margin: 0 5px;
 
     --button-default-border-color: var(--neutral300);
     --button-default-background: var(--neutral200);
-    --button-default-box-shadow: var(--neutral500);
+    --button-default-box-shadow: 0 0 1px var(--neutral500);
     --button-default-color: var(--neutral950);
     --button-default-hover-border-color: var(--neutral100);
     --button-default-hover-background: var(--neutral300);
-    --button-default-hover-box-shadow: var(--neutral300);
+    --button-default-hover-box-shadow: 0 0 6px var(--neutral300);
     --button-default-focus-border-color: var(--input-focus-color);
+    --button-default-active-border-color: var(--neutral100);
+    --button-default-active-background: var(--neutral400);
+    --button-default-active-box-shadow: 0 0 6px var(--neutral500);
+    --button-default-active-padding: var(--button-default-padding);
 
     /* MARK: primary button */
     --button-primary-border-color: var(--primary300);
     --button-primary-background: var(--primary400);
-    --button-primary-box-shadow: var(--primary050);
+    --button-primary-box-shadow: 0 0 1px var(--primary050);
     --button-primary-color: var(--primary950);
     --button-primary-hover-border-color: var(--primary100);
     --button-primary-hover-background: var(--primary400);
-    --button-primary-hover-box-shadow: var(--primary300);
+    --button-primary-hover-box-shadow: 0 0 6px var(--primary300);
     --button-primary-focus-border-color: var(--input-focus-color);
+    --button-primary-active-border-color: var(--primary100);
+    --button-primary-active-background: var(--primary500);
+    --button-primary-active-box-shadow: 0 0 6px var(--primary500);
+    --button-primary-active-padding: var(--button-default-padding);
 
     /* MARK: warn button */
     --button-warn-border-color: var(--alert300);
     --button-warn-background: var(--alert200);
-    --button-warn-box-shadow: var(--alert050);
+    --button-warn-box-shadow: 0 0 1px var(--alert050);
     --button-warn-color: var(--alert950);
     --button-warn-hover-border-color: var(--alert100);
     --button-warn-hover-background: var(--alert400);
-    --button-warn-hover-box-shadow: var(--alert300);
+    --button-warn-hover-box-shadow: 0 0 6px var(--alert300);
     --button-warn-focus-border-color: var(--alert500);
+    --button-warn-active-border-color: var(--alert100);
+    --button-warn-active-background: var(--alert500);
+    --button-warn-active-box-shadow: 0 0 6px var(--alert500);
+    --button-warn-active-padding: var(--button-default-padding);
 
     /* MARK: link */
     --link-color: var(--primary700);
@@ -210,6 +228,10 @@ body {
     --input-textarea-limit-color: var(--primary600);
     --input-textarea-limit-border: 1px solid var(--neutral400);
     --input-error-color: var(--alert700);
+    --input-border-radius: 3px;
+    --input-border-width: 1px;
+    --input-padding: 5px 3px;
+    --input-font-size: 16px;
     --input-line-height: 21px;
     --input-mark-top: -2px;
     --input-placeholder-color: var(--primary600);
@@ -393,8 +415,16 @@ body {
     --window-min-height: 150px;
     --window-background: var(--dialog-background);
     --window-shadow-color: var(--dialog-shadow-color);
+    --window-content-border: none;
+    --window-content-border-color: transparent;
     --window-bar-padding: 0 0 0 5px;
+    --window-bar-height: auto;
+    --window-bar-color: inherit;
+    --window-bar-font-weight: normal;
     --window-bar-button-background: var(--neutral400);
+    --window-bar-button-border: none;
+    --window-bar-button-border-color: transparent;
+    --window-bar-button-box-shadow: none;
     --window-bar-button-focus-outline: 2px solid var(--neutral900);
     --window-bar-button-focus-offset: 1px;
     --window-bar-button-size: 24px;

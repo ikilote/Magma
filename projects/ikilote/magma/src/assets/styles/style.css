@@ -66,6 +66,10 @@ a.button {
         --button-default-hover-border-color: var(--button-primary-hover-border-color);
         --button-default-hover-background: var(--button-primary-hover-background);
         --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
+        --button-default-active-border-color: var(--button-primary-active-border-color);
+        --button-default-active-background: var(--button-primary-active-background);
+        --button-default-active-box-shadow: var(--button-primary-active-box-shadow);
+        --button-default-active-padding: var(--button-primary-active-padding);
     }
 
     &.warn {
@@ -77,6 +81,10 @@ a.button {
         --button-default-hover-border-color: var(--button-warn-hover-border-color);
         --button-default-hover-background: var(--button-warn-hover-background);
         --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
+        --button-default-active-border-color: var(--button-warn-active-border-color);
+        --button-default-active-background: var(--button-warn-active-background);
+        --button-default-active-box-shadow: var(--button-warn-active-box-shadow);
+        --button-default-active-padding: var(--button-warn-active-padding);
     }
 }
 
@@ -126,13 +134,13 @@ button,
 input::file-selector-button,
 a.button {
     cursor: pointer;
-    margin: 0 5px;
+    margin: var(--button-default-margin);
     outline: none;
-    box-shadow: 0 0 1px var(--button-default-box-shadow);
-    border: 2px solid var(--button-default-border-color);
-    border-radius: 5px;
+    box-shadow: var(--button-default-box-shadow);
+    border: var(--button-default-border-width) solid var(--button-default-border-color);
+    border-radius: var(--button-default-border-radius);
     background: var(--button-default-background);
-    padding: 10px;
+    padding: var(--button-default-padding);
     color: var(--button-default-color);
     font-size: 110%;
     text-decoration: none;
@@ -146,8 +154,8 @@ input::file-selector-button {
 button:hover,
 input::file-selector-button:hover,
 a.button:hover {
-    box-shadow: 0 0 6px var(--button-default-hover-box-shadow);
-    border: 2px solid var(--button-default-hover-border-color);
+    box-shadow: var(--button-default-hover-box-shadow);
+    border: var(--button-default-border-width) solid var(--button-default-hover-border-color);
     background: var(--button-default-hover-background);
     color: var(--button-default-color);
 }
@@ -156,6 +164,15 @@ button:focus,
 input::file-selector-button:focus,
 a.button:focus {
     border-color: var(--button-default-focus-border-color);
+}
+
+button:active,
+input::file-selector-button:active,
+a.button:active {
+    box-shadow: 0 0 6px var(--button-default-active-box-shadow);
+    border: var(--button-default-border-width) solid var(--button-default-active-border-color);
+    background: var(--button-default-active-background);
+    padding: var(--button-default-active-padding);
 }
 
 [type='file'] {
@@ -192,13 +209,13 @@ input[type='range'][orient='horizontal'] {
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
     box-sizing: border-box;
     outline: 2px solid transparent;
-    border: 1px solid var(--input-border-color);
-    border-radius: 3px;
+    border: var(--input-border-width) solid var(--input-border-color);
+    border-radius: var(--input-border-radius);
     background: var(--input-background);
-    padding: 5px 3px;
+    padding: var(--input-padding);
     width: 100%;
     color: var(--text-color);
-    font-size: 16px;
+    font-size: var(--input-font-size);
     line-height: var(--input-line-height);
 }
 

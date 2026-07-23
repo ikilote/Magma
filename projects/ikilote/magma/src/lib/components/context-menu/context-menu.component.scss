@@ -2,6 +2,8 @@
     &.default {
         transition-duration: 0s;
         box-shadow: var(--context-menu-box-shadow);
+        border: var(--context-menu-border);
+        border-color: var(--context-menu-border-color);
         border-radius: var(--context-menu-border-radius);
         background: var(--context-menu-background);
 

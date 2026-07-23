@@ -1,5 +1,62 @@
 # Changelog of @ikilote/magma
 
+## 1.11.0 (2026-07-21)
+
+### 🐞 Fix
+
+- **context-menu**:
+    - click to element beneath backdrop on backdrop click
+- **ellipsis-button**:
+    - must not submit a form
+
+### 🎨 Style
+
+- **more CSS variables**:
+    - **Window**:
+        - `--window-content-border` — border style of the window content area
+        - `--window-content-border-color` — border color of the window content area
+        - `--window-bar-height` — title bar height
+        - `--window-bar-color` — title bar text color
+        - `--window-bar-font-weight` — title bar font weight
+        - `--window-bar-button-border` — title bar button border
+        - `--window-bar-button-border-color` — title bar button border color
+        - `--window-bar-button-box-shadow` — title bar button box-shadow
+    - **Context Menu**:
+        - `--context-menu-border` — border style of the context menu
+        - `--context-menu-border-color` — border color of the context menu
+    - **Button** (default):
+        - `--button-default-border-radius` — border-radius
+        - `--button-default-border-width` — border width
+        - `--button-default-padding` — padding
+        - `--button-default-margin` — margin
+        - `--button-default-active-border-color` — active state border color
+        - `--button-default-active-background` — active state background
+        - `--button-default-active-box-shadow` — active state box-shadow
+        - `--button-default-active-padding` — active state padding
+    - **Button** (primary):
+        - `--button-primary-active-border-color` — active state border color
+        - `--button-primary-active-background` — active state background
+        - `--button-primary-active-box-shadow` — active state box-shadow
+        - `--button-primary-active-padding` — active state padding
+    - **Button** (warn):
+        - `--button-warn-active-border-color` — active state border color
+        - `--button-warn-active-background` — active state background
+        - `--button-warn-active-box-shadow` — active state box-shadow
+        - `--button-warn-active-padding` — active state padding
+    - **Input**:
+        - `--input-border-radius` — border-radius
+        - `--input-border-width` — border width
+        - `--input-padding` — padding
+        - `--input-font-size` — font size
+- **change CSS variables**:
+    - **Button** box-shadow values are now complete shadows (not just colors):
+        - `--button-default-box-shadow` — was `var(--neutral500)`, now `0 0 1px var(--neutral500)`
+        - `--button-default-hover-box-shadow` — was `var(--neutral300)`, now `0 0 6px var(--neutral300)`
+        - `--button-primary-box-shadow` — was `var(--primary050)`, now `0 0 1px var(--primary050)`
+        - `--button-primary-hover-box-shadow` — was `var(--primary300)`, now `0 0 6px var(--primary300)`
+        - `--button-warn-box-shadow` — was `var(--alert050)`, now `0 0 1px var(--alert050)`
+        - `--button-warn-hover-box-shadow` — was `var(--alert300)`, now `0 0 6px var(--alert300)`
+
 ## 1.10.1 (2026-07-12)
 
 ### 🐞 Fix
@@ -11,11 +68,11 @@
 ### ✅ New
 
 - **Window**
-    - **Windows service**: 
+    - **Windows service**:
         - the title can be a component:\
-        `{ component: Type<any>; inputs?: Record<string, any> }`
+          `{ component: Type<any>; inputs?: Record<string, any> }`
         - focus a window by id
-    - `mg-window`: 
+    - `mg-window`:
         - focusable
         - focus window on select & resize
     - more CSS variables:
@@ -40,7 +97,7 @@
         - `--context-menu-item-padding`
 
 - **Resize**:
-    - add event 
+    - add event
         - `resizerStart`
         - `resizerChange`
         - `resizerEnd`

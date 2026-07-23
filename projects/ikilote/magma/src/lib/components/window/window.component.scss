@@ -65,6 +65,8 @@
     transition-property: opacity;
     box-sizing: border-box;
     box-shadow: 0 0 5px 5px var(--window-shadow-color);
+    border: var(--window-content-border);
+    border-color: var(--window-content-border-color);
     background: var(--window-background);
     min-width: var(--window-min-width);
     max-width: 100dvw;
@@ -93,7 +95,9 @@
     background: var(--window-bar-background);
     padding: var(--window-bar-padding);
     width: 100%;
-    height: calc(var(--window-bar-button-size) + 4px);
+    height: var(--window-bar-height, calc(var(--window-bar-button-size) + 4px));
+    color: var(--window-bar-color);
+    font-weight: var(--window-bar-font-weight);
 }
 
 .window-title-text {
@@ -113,6 +117,9 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
+        box-shadow: var(--window-bar-button-box-shadow);
+        border: var(--window-bar-button-border);
+        border-color: var(--window-bar-button-border-color);
         background: var(--window-bar-button-background);
         width: var(--window-bar-button-size);
         height: var(--window-bar-button-size);

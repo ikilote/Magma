@@ -6,7 +6,7 @@
 
 - **context-menu**:
     - click to element beneath backdrop on backdrop click
-- **ellipsis-button**:
+- **color-picker**/**ellipsis-button**/**dialog**/**tabs**/**walkthrough**/**window**:
     - must not submit a form
 
 ### 🎨 Style

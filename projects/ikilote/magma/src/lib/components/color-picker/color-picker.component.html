@@ -47,13 +47,23 @@
   <mg-tab-content id="palette">
     <div class="palette base">
       @for (color of _palette(); track $index) {
-        <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
+        <button
+          type="button"
+          (click)="updateHex(color)"
+          [style.--color]="color"
+          [class.selected]="color === hexa"
+        ></button>
       }
     </div>
     @if (datalist()?.length) {
       <div class="palette datalist">
         @for (color of datalist(); track $index) {
-          <button (click)="updateHex(color)" [style.--color]="color" [class.selected]="color === hexa"></button>
+          <button
+            type="button"
+            (click)="updateHex(color)"
+            [style.--color]="color"
+            [class.selected]="color === hexa"
+          ></button>
         }
       </div>
     }
@@ -71,7 +81,7 @@
     <div class="input-zone">
       <input type="text" [ngModel]="hexa" (ngModelChange)="updateHex($event)" [disabled]="readonly()" />
       @if (clearButton()) {
-        <button (click)="clear()">×</button>
+        <button type="button" (click)="clear()">×</button>
       }
     </div>
   </div>

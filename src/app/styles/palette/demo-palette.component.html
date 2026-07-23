@@ -5,16 +5,60 @@
   <input type="range" formControlName="hue" min="0" max="360" orient="horizontal" />
 </div>
 
-@for (list of palette; track $index) {
-  <section>
-    <h3>{{ list.group }}</h3>
+<mg-tabs>
+  <mg-tab-title id="palette">Palette</mg-tab-title>
+  <mg-tab-title id="components">Components</mg-tab-title>
 
-    <div class="list">
-      @for (color of list.list; track $index) {
-        <figure style="--color: var(--{{ list.group + color }})">
-          <figcaption>--{{ list.group + color }}</figcaption>
-        </figure>
-      }
-    </div>
-  </section>
-}
+  <mg-tab-content id="palette">
+    @for (list of palette; track $index) {
+      <section>
+        <h3>{{ list.group }}</h3>
+        <div class="list">
+          @for (color of list.list; track $index) {
+            <figure style="--color: var(--{{ list.group + color }})">
+              <figcaption>--{{ list.group + color }}</figcaption>
+            </figure>
+          }
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-content id="components">
+    <section>
+      <h3>Buttons</h3>
+      <div>
+        <button type="button">Default</button>
+        <button type="button" class="primary">Primary</button>
+        <button type="button" class="warn">Warn</button>
+        <button type="button" disabled>Disabled</button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Inputs</h3>
+      <div class="s-12">
+        <div class="s-4"><input type="text" placeholder="Text input" /></div>
+        <div class="s-4"><textarea placeholder="Textarea"></textarea></div>
+        <div class="s-4">
+          <select>
+            <option>Option 1</option>
+            <option>Option 2</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Links</h3>
+      <div>
+        <a href="javascript:void(0)">Standard link</a>
+      </div>
+    </section>
+
+    <section>
+      <h3>Block</h3>
+      <div class="block">Block element styled by <code>--block-*</code> variables.</div>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Renderer2, RendererStyleFlags2, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { FormBuilderExtended } from '@ikilote/magma';
+import { FormBuilderExtended, MagmaTabsModule } from '@ikilote/magma';
 
 @Component({
     selector: 'demo-palette',
     templateUrl: './demo-palette.component.html',
     styleUrl: './demo-palette.component.scss',
-    imports: [ReactiveFormsModule],
+    imports: [ReactiveFormsModule, MagmaTabsModule],
     changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         '[style.--primaryH]': 'form.value.hue',

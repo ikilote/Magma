@@ -1,10 +1,8 @@
 <h1>Palette</h1>
 
 <div [formGroup]="form">
-  <mg-input>
-    <mg-input-label>Primary Hue [0,360]</mg-input-label>
-    <mg-input-number formControlName="hue" />
-  </mg-input>
+  <label>Primary Hue [0,360]: {{ form.value.hue }}</label>
+  <input type="range" formControlName="hue" min="0" max="360" orient="horizontal" />
 </div>
 
 @for (list of palette; track $index) {

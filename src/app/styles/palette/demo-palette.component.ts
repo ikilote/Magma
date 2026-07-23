@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, Renderer2, RendererStyleFlags2, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
-import { FormBuilderExtended, MagmaInput, MagmaInputElement, MagmaInputNumber } from '@ikilote/magma';
+import { FormBuilderExtended } from '@ikilote/magma';
 
 @Component({
     selector: 'demo-palette',
     templateUrl: './demo-palette.component.html',
     styleUrl: './demo-palette.component.scss',
-    imports: [MagmaInput, MagmaInputNumber, ReactiveFormsModule, MagmaInputElement],
+    imports: [ReactiveFormsModule],
     changeDetection: ChangeDetectionStrategy.Eager,
     host: {
         '[style.--primaryH]': 'form.value.hue',
@@ -20,23 +20,39 @@ export class DemoPaletteComponent {
     palette = [
         {
             group: 'primary',
-            list: [...'0123456789A'.split('')],
+            list: ['050', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'],
         },
         {
             group: 'neutral',
-            list: ['', ...'0123456789AB'.split('')],
+            list: [
+                '000',
+                '010',
+                '025',
+                '050',
+                '100',
+                '200',
+                '300',
+                '400',
+                '500',
+                '600',
+                '700',
+                '800',
+                '900',
+                '950',
+                '990',
+            ],
         },
         {
             group: 'alert',
-            list: [...'0123456789A'.split('')],
+            list: ['050', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'],
         },
         {
             group: 'warn',
-            list: [...'0123456789A'.split('')],
+            list: ['050', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'],
         },
         {
             group: 'success',
-            list: [...'0123456789A'.split('')],
+            list: ['050', '100', '200', '300', '400', '500', '600', '700', '800', '900', '950'],
         },
     ];
 

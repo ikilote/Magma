@@ -131,6 +131,13 @@
             "coverage": true,
             "coverageExclude": ["**/test-helpers.ts"]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["projects/ikilote/magma/**/*.ts", "projects/ikilote/magma/**/*.html"],
+            "eslintConfig": "projects/ikilote/magma/eslint.config.js"
+          }
         }
       }
     }

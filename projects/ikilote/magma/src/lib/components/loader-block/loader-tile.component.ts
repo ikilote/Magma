@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
     selector: 'mg-loader-tile',
     templateUrl: './loader-tile.component.html',
     styleUrl: './loader-tile.component.scss',
-    changeDetection: ChangeDetectionStrategy.Eager,
+    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--width]': 'width()',
         '[style.--height]': 'height()',

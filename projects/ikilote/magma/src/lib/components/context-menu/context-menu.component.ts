@@ -11,23 +11,22 @@ type RequireOnlyOne<T, Keys extends keyof T = keyof T> = Pick<T, Exclude<keyof T
         [K in Keys]-?: Required<Pick<T, K>> & Partial<Record<Exclude<Keys, K>, undefined>>;
     }[Keys];
 
-type ContextMenuItemBase<T> = {
+interface ContextMenuItemBase<T> {
     iconText?: string;
     icon?: string;
     label?: string | (() => string);
     action: (arg: T) => void;
-};
+}
 
 type ContextMenuItemInputs<T> = { context?: MagmaContextMenu<T> } & Record<string, any>;
 
-type ContextMenuItemComponentBase<T> = {
+interface ContextMenuItemComponentBase<T> {
     component: Type<any>;
     inputs?: ContextMenuItemInputs<T>;
-};
+}
 
 export type ContextMenuItem<T> =
-    | RequireOnlyOne<ContextMenuItemBase<T>, 'iconText' | 'icon'>
-    | ContextMenuItemComponentBase<T>;
+    RequireOnlyOne<ContextMenuItemBase<T>, 'iconText' | 'icon'> | ContextMenuItemComponentBase<T>;
 
 export interface ContextMenuData<T> {
     contextMenu: ContextMenuItem<T>[];

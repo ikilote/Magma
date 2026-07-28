@@ -210,7 +210,7 @@ export class MagmaSortableDirective<T = any> implements OnInit, OnChanges, OnDes
         const sortable = this.sortable();
         if (this.input !== input && sortable && this.sortableComplete?.length && this.sortableFilter()) {
             sortable.splice(0, sortable.length);
-            const result = !!input?.trim()
+            const result = input?.trim()
                 ? this.sortableComplete.filter((item, index) => this.sortableFilter()!(input, item, index))
                 : this.sortableComplete;
             sortable.push(...result);

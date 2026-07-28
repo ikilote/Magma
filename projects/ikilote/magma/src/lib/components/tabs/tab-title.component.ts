@@ -48,18 +48,18 @@ export class MagmaTabTitle implements OnInit, OnChanges {
     @HostListener('keydown.ArrowLeft')
     focusLeft() {
         if (this.tabs) {
-            this.tabs.titles()[Math.max(0, this.tabs.titles().indexOf(this) - 1)].element.nativeElement.focus();
+            const titles = this.tabs.titles();
+            const previous = Math.max(0, titles.indexOf(this) - 1);
+            titles[previous].element.nativeElement.focus();
         }
     }
 
     @HostListener('keydown.ArrowRight')
     focusRight() {
         if (this.tabs) {
-            this.tabs
-                .titles()
-                [
-                    Math.min(this.tabs.titles().length - 1, this.tabs.titles().indexOf(this) + 1)
-                ].element.nativeElement.focus();
+            const titles = this.tabs.titles();
+            const next = Math.min(titles.length - 1, titles.indexOf(this) + 1);
+            titles[next].element.nativeElement.focus();
         }
     }
 

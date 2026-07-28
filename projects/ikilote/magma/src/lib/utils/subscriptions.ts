@@ -13,6 +13,8 @@ export class Subscriptions {
         return this.size;
     }
 
+    /** Private on purpose: instances are obtained through the static API. */
+    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     private constructor() {}
 
     push(...list: Subscription[]) {

@@ -29,6 +29,10 @@ export function blobToBase64(blob: Blob): Promise<string> {
 }
 
 export function ulrToBase64(url: string): Promise<string | ArrayBuffer | null> {
+    // The whole executor body is wrapped in try/catch below, so no rejection
+    // can be swallowed. Rewriting this as a plain async function is the proper
+    // fix; see AUDIT-QUALITE.md §8.
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise<string | ArrayBuffer | null>(async (resolve, reject) => {
         try {
             const response = await fetch(url, {
@@ -44,7 +48,7 @@ export function ulrToBase64(url: string): Promise<string | ArrayBuffer | null> {
             if (response.status === 200) {
                 const imageBlob = await response.blob();
 
-                var reader = new FileReader();
+                const reader = new FileReader();
                 reader.readAsDataURL(imageBlob);
                 reader.onloadend = function () {
                     const base64data = reader.result;
@@ -64,7 +68,7 @@ export function ulrToBase64(url: string): Promise<string | ArrayBuffer | null> {
             } else {
                 reject('HTTP-Error: ' + response.status);
             }
-        } catch (e) {
+        } catch {
             reject('HTTP-Error: CORS');
         }
     });
@@ -78,13 +82,17 @@ export function ulrToBase64(url: string): Promise<string | ArrayBuffer | null> {
  * @param limit max size
  * @returns text formatted
  */
-export function normalizeFileName(string: string, limit: number = 200) {
-    return string
-        .toLocaleLowerCase()
-        .normalize('NFD') // Decompose accented characters
-        .replace(/[\p{Diacritic}\/|\\:*?"<>]/gu, '') // Remove accents
-        .replace(/[\/|\\:*?"<>]/g, '') // Remove forbidden filename characters
-        .replace(/[^\x00-\x7F]/g, '_') // Remove all non-ASCII characters
-        .replace(/_+/g, '_') // Remove multiple underscore
-        .substring(0, limit);
+export function normalizeFileName(string: string, limit = 200) {
+    return (
+        string
+            .toLocaleLowerCase()
+            .normalize('NFD') // Decompose accented characters
+            .replace(/[\p{Diacritic}/|\\:*?"<>]/gu, '') // Remove accents
+            .replace(/[/|\\:*?"<>]/g, '') // Remove forbidden filename characters
+            // The point of this pass is to strip non-ASCII, control characters included.
+            // eslint-disable-next-line no-control-regex
+            .replace(/[^\x00-\x7F]/g, '_') // Remove all non-ASCII characters
+            .replace(/_+/g, '_') // Remove multiple underscore
+            .substring(0, limit)
+    );
 }

@@ -136,13 +136,15 @@ describe('Palette', () => {
         });
 
         it('should clear the global palette cache', () => {
-            Palette.globalPalette;
+            // Prime the lazy cache before clearing it.
+            void Palette.globalPalette;
             Palette.globalClear();
             expect(Palette.globalPalette).toEqual(['#FFF', '#000', '#FF1234']);
         });
 
         it('should clear the global palette cache', () => {
-            Palette.globalPalette;
+            // Prime the lazy cache before clearing it.
+            void Palette.globalPalette;
             document.body.style.setProperty('--palette', 'blue, red, green');
             expect(Palette.globalPalette).toEqual(['#FFF', '#000', '#FF1234']);
         });
@@ -174,16 +176,19 @@ describe('Palette', () => {
 
         it('should clear the instance palette cache and recalculate on next access', () => {
             const palette = new Palette({ selector: element });
-            palette.palette;
+            // Prime the lazy cache before clearing it.
+            void palette.palette;
             palette.clear();
             expect(palette.palette).toEqual(['#FFF', '#000', '#FF1234']);
         });
 
         it('should recalculate the palette after cache clear and DOM update', () => {
             const palette = new Palette({ selector: element });
-            palette.palette;
+            // Prime the lazy cache before clearing it.
+            void palette.palette;
             palette.clear();
-            palette.palette;
+            // Prime the lazy cache before clearing it.
+            void palette.palette;
             element.style.setProperty('--palette', '#FFF, , #FF1234');
             expect(palette.palette).toEqual(['#FFF', '#000', '#FF1234']);
         });

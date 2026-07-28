@@ -6,13 +6,11 @@ describe('downloadFile', () => {
     let createElementSpy: Mock;
     let createObjectURLSpy: Mock;
     let revokeObjectURLSpy: Mock;
-    let clickSpy: Mock;
 
     beforeEach(() => {
         createElementSpy = vi.spyOn(document, 'createElement');
         createObjectURLSpy = vi.spyOn(URL, 'createObjectURL').mockReturnValue('mock-url');
         revokeObjectURLSpy = vi.spyOn(URL, 'revokeObjectURL');
-        clickSpy = vi.fn();
     });
 
     it('should create a download link with a Blob if content is not a data URL', () => {

@@ -7,7 +7,6 @@ import { MagmaMessage } from './message.component';
 
 describe('MagmaMessage', () => {
     let fixture: ComponentFixture<MagmaMessage>;
-    let component: MagmaMessage;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -15,7 +14,6 @@ describe('MagmaMessage', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(MagmaMessage);
-        component = fixture.componentInstance;
         fixture.changeDetectorRef.detectChanges();
     });
 
@@ -93,7 +91,6 @@ class TestHostComponent {}
 
 describe('MagmaMessage - Content Projection', () => {
     let fixture: ComponentFixture<MagmaMessage>;
-    let component: MagmaMessage;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -101,7 +98,6 @@ describe('MagmaMessage - Content Projection', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(MagmaMessage);
-        component = fixture.componentInstance;
         fixture.changeDetectorRef.detectChanges();
     });
 

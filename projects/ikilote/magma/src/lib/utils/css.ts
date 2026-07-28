@@ -27,7 +27,7 @@ export interface PaletteParams {
 }
 
 /**
- * Allows you to slice the values ​​of a CSS variable (--palette) to create a list of colors.
+ * Allows you to slice the values   of a CSS variable (--palette) to create a list of colors.
  *
  * Example: `--palette: #FFF, #000, #FF1234` → `['#FFF', '#000', '#FF1234']`
  *

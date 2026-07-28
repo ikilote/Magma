@@ -34,7 +34,7 @@ export function sortWithRule<T = any>(
                         valB ??= objectNestedValue(b, frag);
                     }
 
-                    let test = 0;
+                    let test: number;
                     if (rule.type === 'string') {
                         // Handle null/undefined by placing them at the end
                         if ((valA === null || valA === undefined) && (valB === null || valB === undefined)) {
@@ -85,7 +85,7 @@ function sortWithRuleFormater(rule: string): MagmaSortRule[] {
     list.forEach(item => {
         const [, attr, type, init] = item
             .replace('::', ':')
-            .match(/([^:]*)(?:\:(string|number|date))?(?:\:(asc|desc))?/) as [
+            .match(/([^:]*)(?::(string|number|date))?(?::(asc|desc))?/) as [
             string,
             string,
             ('string' | 'number' | 'date')?,

@@ -164,7 +164,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
     ngOnInit(): void {
         if (!this.isEdgeFixed()) {
-            let { x, y } = this.currentPosition();
+            const { x, y } = this.currentPosition();
             this.initPosition = { x, y };
             this.updatePosition();
         }
@@ -328,7 +328,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
 
         if (this.fullscreen()) {
             this.onMaximize.emit();
-            let { x, y } = this.initPosition;
+            const { x, y } = this.initPosition;
             this.cdkDrag()[0].setFreeDragPosition({ x, y });
 
             const zone = this.getZone();
@@ -382,7 +382,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
                     this.x = [this.x[0], element.offsetWidth];
                 }
                 break;
-            case 'top':
+            case 'top': {
                 const size = this.y[0] - data[0] + this.y[1];
                 element.style.height = size + 'px';
                 if (data[0] > this.initPosition.y && size === element.offsetHeight) {
@@ -390,6 +390,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
                     this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: data[0] });
                 }
                 break;
+            }
             case 'bottom':
                 if (data[1] > this.initPosition.y && element) {
                     element.style.height = data[1] + 'px';

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, DebugElement, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NG_VALIDATORS, NG_VALUE_ACCESSOR, NgControl } from '@angular/forms';
 
@@ -10,7 +10,6 @@ import { MockNgControl } from './test-helpers';
 describe('MagmaInputSelect', () => {
     let component: MagmaInputSelect;
     let fixture: ComponentFixture<MagmaInputSelect>;
-    let debugElement: DebugElement;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -26,7 +25,6 @@ describe('MagmaInputSelect', () => {
 
         component = fixture.componentInstance;
 
-        debugElement = fixture.debugElement;
         fixture.changeDetectorRef.detectChanges();
     });
 

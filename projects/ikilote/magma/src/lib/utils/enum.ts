@@ -2,7 +2,7 @@
 export function enumToValueList(e: any) {
     return Object.entries<string | number>(e)
         .filter(([key]) => isNaN(Number(key)))
-        .map<string | number>(([k, v]) => v);
+        .map<string | number>(([, v]) => v);
 }
 
 /** Enum → Key List */

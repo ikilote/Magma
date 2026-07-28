@@ -3,17 +3,13 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 export class MagmaValidators {
     /**
      * test if the element(s) are in a defined list
-     * @param nameRe list of values ​​that must be included
+     * @param nameRe list of values   that must be included
      * @param strict false = case insensitive
      * @param local environment's current locale (only for strict = false)
      * @returns A validation function that returns an error map with the `inList` property
      * if the validation check fails, otherwise `null`.
      */
-    static inList(
-        nameRe: (string | number | boolean)[],
-        strict: boolean = true,
-        local?: Intl.LocalesArgument,
-    ): ValidatorFn {
+    static inList(nameRe: (string | number | boolean)[], strict = true, local?: Intl.LocalesArgument): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {
             if (!Array.isArray(nameRe)) {
                 return {

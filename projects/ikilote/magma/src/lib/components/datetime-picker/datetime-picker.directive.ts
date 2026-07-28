@@ -82,7 +82,7 @@ export class MagmaDatetimePicker implements OnDestroy {
         const userProfilePortal = new ComponentPortal(MagmaDatetimePickerComponent);
 
         let datetime = this.datetimePicker();
-        let initDatetime = datetime;
+        const initDatetime = datetime;
 
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('value', this.datetimePicker());

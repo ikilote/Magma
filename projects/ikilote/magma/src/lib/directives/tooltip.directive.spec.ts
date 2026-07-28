@@ -31,7 +31,6 @@ describe('MagmaTooltipDirective', () => {
     let component: TestHostComponent;
     let divElement: DebugElement;
     let directive: MagmaTooltipDirective;
-    let overlay: Overlay;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -42,7 +41,8 @@ describe('MagmaTooltipDirective', () => {
         component = fixture.componentInstance;
         divElement = fixture.debugElement.query(By.css('div'));
         directive = divElement.injector.get(MagmaTooltipDirective);
-        overlay = TestBed.inject(Overlay);
+        // Instantiates the overlay container for the tests below.
+        TestBed.inject(Overlay);
 
         fixture.changeDetectorRef.detectChanges();
     });

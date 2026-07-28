@@ -150,7 +150,7 @@ describe('MagmaWindows Service', () => {
         });
 
         it('should do nothing when trying to remove a non-existent window', () => {
-            const win = service.openWindow(class {});
+            service.openWindow(class {});
             expect(service.windows.length).toBe(1);
 
             // Try to remove a window with a non-existent ID

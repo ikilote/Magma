@@ -66,8 +66,10 @@ export class MagmaMessages {
             positionStrategy: this.overlay.position().global().right(),
         });
         const userProfilePortal = new ComponentPortal(InfoMessagesComponent);
-        const component = overlayRef.attach(userProfilePortal);
-        //  component.setInput('context', this);
+        // The attached component instance is not retained: nothing calls
+        // setInput on it yet (see the commented line below).
+        overlayRef.attach(userProfilePortal);
+        //  attached.setInput('context', this);
         this._overlayRef = overlayRef;
     }
 }

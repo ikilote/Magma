@@ -100,7 +100,7 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
         }
     }
 
-    update(id: string, emit: boolean = true) {
+    update(id: string, emit = true) {
         this.titles()?.forEach(e => {
             if (e.id()) {
                 e.selected.set(e.id() === id);

@@ -6,9 +6,9 @@ import { regexpSlash } from '../utils/other';
  * Replace all string (equivalent of `<string>.replaceAll()`)
  *
  * Usage:
- * - `{{ value | replace:'source':'target' }}`
- * - `{{ value | replace:'/\w+/':'target' }}`
- * - `{{ value | replace:regexp:'target' }}`
+ * - `{{ value | replace:'source':'target' }}`
+ * - `{{ value | replace:'/\w+/':'target' }}`
+ * - `{{ value | replace:regexp:'target' }}`
  *
  * Example:
  * -   `{{ 'Test---Test' | replace:'/-+/':'-' }} ` → `'Test-Test' `

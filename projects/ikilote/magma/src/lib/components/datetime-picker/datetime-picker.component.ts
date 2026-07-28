@@ -24,7 +24,7 @@ import { DurationTime, WeekDay, addDuration, getWeek, isISODate } from '../../ut
 import { MagmaInputSelect } from '../input/input-select.component';
 import { MagmaInput } from '../input/input.component';
 
-export type DateInfo = {
+export interface DateInfo {
     date: Date;
     day: number;
     month: number;
@@ -33,7 +33,7 @@ export type DateInfo = {
     disabled: boolean;
     weekend: boolean;
     weekNumber: number | null;
-};
+}
 
 let index = 0;
 
@@ -380,7 +380,7 @@ export class MagmaDatetimePickerComponent implements OnChanges, OnDestroy {
     protected updateDate(date: Date) {
         this.dateValue.set(new Date(date));
 
-        let value = '';
+        let value: string;
         switch (this.type()) {
             case 'datetime-local':
                 value = date.toISOString().replace(/:..\..*/, '');

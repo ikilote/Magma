@@ -16,76 +16,76 @@ import { MagmaValidators } from '../utils/validators';
 
 // --- Base Message Types ---
 
-export type ParamsMessageRequired = {
+export interface ParamsMessageRequired {
     type: 'required';
     errorData: boolean;
     state: boolean;
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessageMinlength = {
+}
+export interface ParamsMessageMinlength {
     type: 'minlength';
     errorData: { requiredLength: number; actualLength: number };
     state: number;
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessageMaxlength = {
+}
+export interface ParamsMessageMaxlength {
     type: 'maxlength';
     errorData: { requiredLength: number; actualLength: number };
     state: number;
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessageMin = {
+}
+export interface ParamsMessageMin {
     type: 'min';
     errorData: { min: number; actual: number | string };
     state: number;
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessageMax = {
+}
+export interface ParamsMessageMax {
     type: 'max';
     errorData: { max: number; actual: number | string };
     state: number;
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessagePattern = {
+}
+export interface ParamsMessagePattern {
     type: 'pattern';
     errorData: { requiredPattern: string; actualValue: string };
     state: string | RegExp;
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessageEmail = {
+}
+export interface ParamsMessageEmail {
     type: 'email';
     errorData: boolean;
     state: undefined;
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessageInList = {
+}
+export interface ParamsMessageInList {
     type: 'inList';
     errorData: { list: (string | number | boolean)[]; actualValue: any; strict: boolean };
     state: (string | number | boolean)[];
     data: any;
     params: Record<string, any>;
-};
-export type ParamsMessageCustom = {
+}
+export interface ParamsMessageCustom {
     type: 'custom';
     errorData: any;
     state: any;
     data: any;
     params: Record<string, any>;
-};
+}
 
 // --- Control Configuration Types ---
 
-export type ParamsMessagesControlMessage<T> = {
+export interface ParamsMessagesControlMessage<T> {
     message?: string | ((params: T) => string);
     data?: any;
-};
+}
 
 export type ParamsMessagesControlRequired = { state?: boolean } & ParamsMessagesControlMessage<ParamsMessageRequired>;
 export type ParamsMessagesControlMinLength = { state?: number } & ParamsMessagesControlMessage<ParamsMessageMinlength>;
@@ -126,7 +126,7 @@ export interface ParamsMessagesControl {
     message?: string | ((params: any) => string);
 }
 
-export type ParamsMessages<T = any> = {
+export interface ParamsMessages<T = any> {
     default: T;
     emptyOnInit?: boolean;
     options?: {
@@ -136,7 +136,7 @@ export type ParamsMessages<T = any> = {
         emitViewToModelChange?: boolean;
     };
     control?: ParamsMessagesControl;
-};
+}
 
 // --- UTILITY TYPES FOR INFERENCE ---
 
@@ -146,7 +146,7 @@ export type ParamsMessages<T = any> = {
  * If it's already an AbstractControl -> keep it as is.
  */
 export type ControlOf<T> =
-    T extends ParamsMessages<infer U> ? FormControl<U> : T extends AbstractControl<infer U> ? T : never;
+    T extends ParamsMessages<infer U> ? FormControl<U> : T extends AbstractControl<infer _U> ? T : never;
 
 /**
  * Maps the input object keys to their corresponding Angular Controls
@@ -253,9 +253,7 @@ export class FormBuilderExtended {
         this.recursiveValidateForm(form.controls);
     }
 
-    private recursiveValidateForm(
-        controls: { [key: string]: AbstractControl<any, any> } | AbstractControl<any, any>[],
-    ) {
+    private recursiveValidateForm(controls: Record<string, AbstractControl<any, any>> | AbstractControl<any, any>[]) {
         if (Array.isArray(controls)) {
             controls.forEach(ctrl => {
                 if (ctrl instanceof FormGroup || ctrl instanceof FormArray) {

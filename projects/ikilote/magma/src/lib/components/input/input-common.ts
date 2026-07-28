@@ -115,7 +115,12 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
         return this._value;
     }
 
+    // ControlValueAccessor requires these to exist before Angular calls
+    // registerOnChange / registerOnTouched. The no-op is the documented
+    // placeholder, not dead code.
+    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     onChange: (value: any) => void = () => {};
+    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     onTouched: () => void = () => {};
 
     writeValue(value: any): void {
@@ -206,7 +211,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
         this.inPlaceholderAnimation(baseDelay, repeat, intervale, separator);
     }
 
-    protected inPlaceholderAnimation(baseDelay: number, repeat: number, intervale: number, separator: string = '|') {
+    protected inPlaceholderAnimation(baseDelay: number, repeat: number, intervale: number, separator = '|') {
         const text = this.placeholder()!.split('');
         let i = 0;
         this.placeholderDisplay.set('');
@@ -243,7 +248,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
         }, baseDelay);
     }
 
-    protected stopPlaceholderAnimation(separator: string = '') {
+    protected stopPlaceholderAnimation(separator = '') {
         Timing.stop(this.placeholderTimer!);
         this.placeholderTimer = undefined;
         this.placeholderDisplay.set(

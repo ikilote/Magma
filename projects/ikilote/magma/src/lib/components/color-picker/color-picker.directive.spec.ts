@@ -23,19 +23,17 @@ class TestComponent {
 
 describe('MagmaColorPicker Directive', () => {
     let fixture: ComponentFixture<TestComponent>;
-    let overlay: Overlay;
     let directiveElement: DebugElement;
     let directive: MagmaColorPicker;
-    let spanElement: DebugElement;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({ imports: [TestComponent] }).compileComponents();
 
         fixture = TestBed.createComponent(TestComponent);
         directiveElement = fixture.debugElement.query(By.directive(MagmaColorPicker));
-        overlay = TestBed.inject(Overlay);
+        // Instantiates the overlay container for the tests below.
+        TestBed.inject(Overlay);
         fixture.changeDetectorRef.detectChanges();
-        spanElement = fixture.debugElement.query(By.css('.test'));
 
         directive = directiveElement.injector.get(MagmaColorPicker);
     });

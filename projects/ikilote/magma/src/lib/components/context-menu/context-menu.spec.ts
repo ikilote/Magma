@@ -40,7 +40,6 @@ class TestHostComponent {
 
 describe('MagmaContextMenu Integration', () => {
     let fixture: ComponentFixture<TestHostComponent>;
-    let overlay: Overlay;
     let directiveElement: DebugElement;
     let event: MouseEvent;
 
@@ -49,7 +48,8 @@ describe('MagmaContextMenu Integration', () => {
 
         fixture = TestBed.createComponent(TestHostComponent);
         directiveElement = fixture.debugElement.query(By.directive(MagmaContextMenu));
-        overlay = TestBed.inject(Overlay);
+        // Instantiates the overlay container for the tests below.
+        TestBed.inject(Overlay);
         fixture.changeDetectorRef.detectChanges();
 
         event = new MouseEvent('contextmenu', { button: 2, clientX: 100, clientY: 100 });

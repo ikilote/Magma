@@ -18,8 +18,8 @@ export function getCookie<T extends string>(name: string): T | undefined {
  * @param days expire in day (default: 7)
  * @param path path for cookie (default: `/`)
  */
-export function setCookie(name: string, value: string, days: number = 7, path: string = '/') {
-    var date = new Date();
+export function setCookie(name: string, value: string, days = 7, path = '/') {
+    const date = new Date();
     date.setTime(addDuration(days, DurationTime.DAY).getTime());
     document.cookie = `${name}=${value}; path=${path}; expires=${date.toUTCString()}`;
 }
@@ -29,6 +29,6 @@ export function setCookie(name: string, value: string, days: number = 7, path: s
  * @param name cookie name
  * @param path path for cookie (default: `/`)
  */
-export function removeCookie(name: string, path: string = '/') {
+export function removeCookie(name: string, path = '/') {
     document.cookie = `${name}=; path=${path}; Max-Age=0`;
 }

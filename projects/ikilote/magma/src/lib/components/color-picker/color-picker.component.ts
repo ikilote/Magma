@@ -21,7 +21,10 @@ import Color from 'colorjs.io';
 import { Logger } from '../../services/logger';
 import { MagmaTabsModule } from '../tabs/tabs.module';
 
-export type MagmaColorPickerTexts = { hsl?: string; palette?: string };
+export interface MagmaColorPickerTexts {
+    hsl?: string;
+    palette?: string;
+}
 
 export const magmaColorPickerPalette = [
     // line 1
@@ -136,7 +139,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit, OnDe
                     colorObject.alpha = 1;
                 }
                 this.updateWithHLS(colorObject);
-            } catch (e) {
+            } catch {
                 this.logger.log('[MagmaColorPickerComponent] Invalid color');
             }
         } else if (changes['alpha'] && !changes['alpha'].currentValue && this.rangeAlpha !== 1) {
@@ -211,7 +214,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit, OnDe
             }
             this.updateWithHLS(colorObject);
             this.cd.detectChanges();
-        } catch (e) {
+        } catch {
             this.logger.log('[MagmaColorPickerComponent] Invalid color');
         }
     }

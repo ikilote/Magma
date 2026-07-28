@@ -30,7 +30,6 @@ describe('MagmaInputCommon', () => {
     let fixture: ComponentFixture<any>;
     let mockHost: MockMagmaInput;
     let mockNgControl: MockNgControl;
-    let mockLogger: MockLogger;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -44,7 +43,8 @@ describe('MagmaInputCommon', () => {
 
         mockHost = TestBed.inject(MagmaInput) as unknown as MockMagmaInput;
         mockNgControl = TestBed.inject(NgControl) as unknown as MockNgControl;
-        mockLogger = TestBed.inject(Logger) as unknown as MockLogger;
+        // Registers the mock logger for the tests below.
+        TestBed.inject(Logger);
 
         fixture = TestBed.createComponent(TestMagmaInputCommon);
         directive = fixture.componentInstance;

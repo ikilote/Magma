@@ -17,6 +17,11 @@ import { toISODate } from '../../utils/date';
 import { MagmaDatetimeType } from '../datetime-picker/datetime-picker.component';
 import { MagmaDatetimePicker } from '../datetime-picker/datetime-picker.directive';
 
+// Must stay a type alias, not an interface: object type aliases get an
+// implicit index signature, interfaces do not. `input-date` casts the
+// `groups` of a RegExp match ({ [key: string]: string }) to this shape, and
+// that conversion is only allowed through the alias form.
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
 type PlaceholderInfos = {
     dd: string;
     h1: string;
@@ -123,9 +128,9 @@ const types: (MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli' | 'month
 ];
 
 const dateRegex = {
-    dmy: /(?<dd>\S{2})(?<s1>[\/\-. ]+)(?<mm>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-    ymd: /(?<yyyy>\S{4})(?<s2>[\/\-. ]+)(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
-    mdy: /(?<mm>\S{2})(?<s1>[\/\-. ]+)(?<dd>\S{2})(?<s2>[\/\-. ]+)(?<yyyy>\S{4})(?<s3>[\/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+    dmy: /(?<dd>\S{2})(?<s1>[/\-. ]+)(?<mm>\S{2})(?<s2>[/\-. ]+)(?<yyyy>\S{4})(?<s3>[/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+    ymd: /(?<yyyy>\S{4})(?<s2>[/\-. ]+)(?<mm>\S{2})(?<s1>[/\-. ]+)(?<dd>\S{2})(?<s3>[/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
+    mdy: /(?<mm>\S{2})(?<s1>[/\-. ]+)(?<dd>\S{2})(?<s2>[/\-. ]+)(?<yyyy>\S{4})(?<s3>[/\-. ]+)(?<hh>\S{2})(?<h1>:)(?<min>\S{2})(?<h2>:)(?<sec>\S{2})(?<h3>.)(?<mmm>\S{3})/,
 };
 
 const dateFields = ['day', 'month', 'year'];

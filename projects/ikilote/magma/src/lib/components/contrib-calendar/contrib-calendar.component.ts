@@ -79,7 +79,7 @@ export class MagmaContribCalendar {
     });
 
     protected firstPos = computed(() => {
-        let day = (this.minDate(this.sortedCalendar()).getDay() - this.getFirstGet(this.firstDayOfWeek())) % 7;
+        const day = (this.minDate(this.sortedCalendar()).getDay() - this.getFirstGet(this.firstDayOfWeek())) % 7;
         return day === 0 ? 7 : day;
     });
 

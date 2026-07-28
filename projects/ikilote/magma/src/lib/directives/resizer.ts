@@ -19,6 +19,8 @@ export class MagmaResizeElement {
         this.y = params.y;
     }
 
+    /** Overridable hook: subclasses react to a resize step. No-op by default. */
+    /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     update(_resize: ResizeDirection, _data: [number, number]) {}
 }
 

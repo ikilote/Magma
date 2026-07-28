@@ -2,10 +2,8 @@ import { getCookie, removeCookie, setCookie } from './cookies';
 
 describe('Cookie Utilities', () => {
     // Mock document.cookie
-    let cookieStore: {
-        [key: string]: string;
-    } = {};
-    let cookieString: string = '';
+    let cookieStore: Record<string, string> = {};
+    let cookieString = '';
 
     // Mock Date object
     let originalDate: typeof Date;

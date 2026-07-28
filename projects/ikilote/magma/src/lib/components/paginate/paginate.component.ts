@@ -55,7 +55,7 @@ export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
     readonly total = input(0, { transform: numberAttribute });
     readonly base = input<string>();
     readonly size = input(25, { transform: numberAttribute });
-    readonly queryParams = input<{}>({});
+    readonly queryParams = input<Record<string, unknown>>({});
 
     readonly start = input(3, { transform: numberAttribute });
     readonly middleStart = input(3, { transform: numberAttribute });
@@ -162,7 +162,7 @@ export class MagmaPagination implements OnInit, DoCheck, OnChanges, OnDestroy {
         }
     }
 
-    pageQueryParams(page: number): {} {
+    pageQueryParams(page: number): Record<string, unknown> {
         return { page, ...this.queryParams() };
     }
 }

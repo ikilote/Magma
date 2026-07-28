@@ -47,7 +47,7 @@ export function objectsAreSame(
         return false;
     }
 
-    for (let key of keysA) {
+    for (const key of keysA) {
         compareValues(objA[key], objB[key]);
         if (!areTheSame) {
             return false;

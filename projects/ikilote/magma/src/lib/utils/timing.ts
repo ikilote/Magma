@@ -2,7 +2,7 @@ export class Timing {
     private static timers: Record<number, { timer: NodeJS.Timeout; func: () => void }> = {};
     private static inc = 0;
     static start(cb: () => void, gap: number): number {
-        let key = Timing.inc++;
+        const key = Timing.inc++;
         Timing.timers[key] = { timer: setInterval(cb, gap), func: cb };
         return key;
     }

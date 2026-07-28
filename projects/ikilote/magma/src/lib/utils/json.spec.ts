@@ -52,8 +52,8 @@ describe('jsonCopy', () => {
     it('should not handle undefined', () => {
         let test = false;
         try {
-            const copiedUndefined = jsonCopy(undefined);
-        } catch (e) {
+            jsonCopy(undefined);
+        } catch {
             test = true;
         }
         expect(test).toBe(true);

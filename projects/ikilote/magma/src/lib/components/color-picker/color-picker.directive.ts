@@ -86,7 +86,7 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
         const userProfilePortal = new ComponentPortal(MagmaColorPickerComponent);
 
         let color = this.colorPicker();
-        let initColor = color;
+        const initColor = color;
 
         const component = overlayRef.attach(userProfilePortal);
         component.setInput('color', this.colorPicker());

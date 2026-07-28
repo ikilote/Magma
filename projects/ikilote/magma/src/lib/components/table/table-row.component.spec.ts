@@ -22,7 +22,6 @@ describe('MagmaTableRow', () => {
 
     beforeEach(async () => {
         mockHost = new MockHost() as unknown as MagmaTableGroup;
-        mockHost;
 
         mockTable = {} as unknown as MagmaTable;
 

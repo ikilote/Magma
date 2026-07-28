@@ -2,8 +2,6 @@ import { ChangeDetectionStrategy, Component, ElementRef, viewChild } from '@angu
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import type { Mock } from 'vitest';
-
 import { MagmaLimitFocusDirective, MagmaLimitFocusFirstDirective, focusRules } from './limit-focus.directive';
 
 /** Function to simulate Tab and actually move focus */
@@ -219,7 +217,6 @@ describe('MagmaLimitFocusDirective', () => {
         fixture.changeDetectorRef.detectChanges();
 
         // Get the directive's cleanup behavior
-        const activeBeforeDestroy = document.activeElement;
 
         // Destroy the directive (will be destroyed again in afterEach, but that's ok)
         limitFocusDirective.ngOnDestroy();
@@ -388,8 +385,6 @@ describe('MagmaLimitFocusDirective', () => {
         let focusableElements: HTMLElement[];
         let mockEvent: any;
 
-        let focusSpy: Mock;
-
         beforeEach(() => {
             // Get the list of focusable elements
             focusableElements = (limitFocusDirective as any).firstLastFocusableElement(containerElement);
@@ -406,7 +401,7 @@ describe('MagmaLimitFocusDirective', () => {
 
             // Spy on focus method for all focusable elements
             focusableElements.forEach(el => {
-                focusSpy = vi.spyOn(el, 'focus');
+                vi.spyOn(el, 'focus');
             });
         });
 
@@ -533,7 +528,6 @@ describe('MagmaLimitFocusDirective', () => {
 
 describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
     let fixture: ComponentFixture<TestHostComponent>;
-    let hostComponent: TestHostComponent;
     let divRef: ElementRef<HTMLDivElement>;
     let limitFocusDirective: MagmaLimitFocusDirective;
 
@@ -541,7 +535,6 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
         await TestBed.configureTestingModule({ imports: [TestHostComponent] }).compileComponents();
 
         fixture = TestBed.createComponent(TestHostComponent);
-        hostComponent = fixture.componentInstance;
 
         const directiveEl = fixture.debugElement.query(By.directive(MagmaLimitFocusDirective));
         limitFocusDirective = directiveEl.injector.get(MagmaLimitFocusDirective);

@@ -4,11 +4,11 @@ import { MagmaTableCell } from './table-cell.component';
 import { MagmaTableGroup } from './table-group.component';
 import { MagmaTableRow } from './table-row.component';
 
-export type MagmaTableData = {
+export interface MagmaTableData {
     cell: MagmaTableCell;
     row: MagmaTableRow;
     textContent: string;
-};
+}
 
 @Component({
     selector: 'table[mg]',

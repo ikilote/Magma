@@ -46,14 +46,8 @@ describe('MagmaNgInitDirective', () => {
             // Reset the spy to clear any calls from the initial setup
             component.onInit.mockClear();
 
-            // Create a new spy for the output
-            let outputEmitted = false;
-            directive.ngInit.subscribe(() => {
-                outputEmitted = true;
-            });
-
-            // Trigger ngOnInit manually (it's already called during fixture creation)
-            // So we need to create a new instance to test it
+            // ngOnInit already ran during fixture creation, so a fresh instance
+            // is needed to observe the emission (asserted below on newFixture).
             const newFixture = TestBed.createComponent(TestComponent);
             const newDirective = newFixture.debugElement
                 .query(By.directive(MagmaNgInitDirective))

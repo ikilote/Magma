@@ -66,7 +66,7 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('value', `${currentYear}-01-01`);
         fixture.changeDetectorRef.detectChanges();
 
-        // @ts-ignore
+        // @ts-expect-error
         const years = component.yearsList();
         expect(years[0].value).toBe(currentYear - 10);
         expect(years[years.length - 1].value).toBe(currentYear + 10);
@@ -78,7 +78,7 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('max', `${currentYear + 2}-01-01`);
         fixture.changeDetectorRef.detectChanges();
 
-        // @ts-ignore
+        // @ts-expect-error
         const years = component.yearsList();
         expect(years[0].value).toBe(currentYear - 2);
         expect(years[years.length - 1].value).toBe(currentYear + 2);
@@ -88,9 +88,9 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('value', '2025-05-01');
         fixture.componentRef.setInput('min', '2025-05-01');
         fixture.changeDetectorRef.detectChanges();
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.prevMonthHide()).toBe(true);
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.nextMonthHide()).toBe(false);
     });
 
@@ -98,9 +98,9 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('value', '2025-05-01');
         fixture.componentRef.setInput('max', '2025-05-01');
         fixture.changeDetectorRef.detectChanges();
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.prevMonthHide()).toBe(false);
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.nextMonthHide()).toBe(true);
     });
 
@@ -109,9 +109,9 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('min', '2025-05-01');
         fixture.componentRef.setInput('max', '2025-05-31');
         fixture.changeDetectorRef.detectChanges();
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.prevMonthHide()).toBe(true);
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.nextMonthHide()).toBe(true);
     });
 
@@ -120,9 +120,9 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.componentRef.setInput('min', '2025-04-01');
         fixture.componentRef.setInput('max', '2025-06-30');
         fixture.changeDetectorRef.detectChanges();
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.prevMonthHide()).toBe(false);
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.nextMonthHide()).toBe(false);
     });
 
@@ -164,7 +164,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             component[test.method](test.value);
             expect(spy).toHaveBeenCalled();
             const emittedValue = vi.mocked(spy).mock.lastCall?.[0];
@@ -186,7 +186,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', '2025-01-01T10:00:00Z');
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             component.updateDate(component.date());
             expect(spy).toHaveBeenCalled();
             const emittedValue = vi.mocked(spy).mock.lastCall?.[0];
@@ -199,11 +199,11 @@ describe('MagmaDatetimePickerComponent', () => {
         fixture.changeDetectorRef.detectChanges();
 
         component['right']();
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.month()).toBe(6);
 
         component['left']();
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.month()).toBe(5);
     });
 
@@ -239,7 +239,7 @@ describe('MagmaDatetimePickerComponent', () => {
                 // control click - element exists in DOM, so click is called
                 expect(clickSpy).toHaveBeenCalled();
             } else {
-                // @ts-ignore
+                // @ts-expect-error
                 vi.spyOn(component, 'updateDate');
 
                 // test
@@ -247,7 +247,7 @@ describe('MagmaDatetimePickerComponent', () => {
                 component['move'](event);
 
                 // element doesn't exist in DOM, so updateDate is called directly
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component.updateDate).toHaveBeenCalledWith(new Date(test.toBe));
             }
         });
@@ -270,7 +270,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', test.date);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'updateDate');
 
             const inputElement = debugElement.query(By.css('#date-' + test.date)).nativeElement;
@@ -289,14 +289,14 @@ describe('MagmaDatetimePickerComponent', () => {
                 // control click
                 expect(clickSpy).not.toHaveBeenCalled();
 
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component.updateDate).not.toHaveBeenCalled();
             } else {
                 // test
                 const event = new KeyboardEvent('keydown', { key: test.arrow });
                 component['move'](event);
 
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component.updateDate).not.toHaveBeenCalled();
             }
         });
@@ -304,60 +304,60 @@ describe('MagmaDatetimePickerComponent', () => {
 
     it('should load more years on scroll up', () => {
         vi.useFakeTimers();
-        // @ts-ignore
+        // @ts-expect-error
         const initialPast = component.past();
         const event: any = { way: 'up' };
 
         component['scroll'](event);
         vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.past()).toBe(initialPast + 10);
         vi.useRealTimers();
     });
 
     it('should load more years on scroll down', () => {
         vi.useFakeTimers();
-        // @ts-ignore
+        // @ts-expect-error
         const initialFuture = component.future();
         const event: any = { way: 'down' };
 
         component['scroll'](event);
         vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.future()).toBe(initialFuture + 10);
         vi.useRealTimers();
     });
 
     it('should not load more years on scroll up', () => {
         vi.useFakeTimers();
-        // @ts-ignore
+        // @ts-expect-error
         const initialPast = component.past();
         const event: any = { way: 'up' };
 
-        // @ts-ignore
+        // @ts-expect-error
         component.onscroll = true;
         component['scroll'](event);
         vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.past()).toBe(initialPast);
         vi.useRealTimers();
     });
 
     it('should not load more years on scroll down', () => {
         vi.useFakeTimers();
-        // @ts-ignore
+        // @ts-expect-error
         const initialFuture = component.future();
         const event: any = { way: 'down' };
 
-        // @ts-ignore
+        // @ts-expect-error
         component.onscroll = true;
         component['scroll'](event);
         vi.advanceTimersByTime(100); // Wait for setTimeout in scroll()
 
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.future()).toBe(initialFuture);
         vi.useRealTimers();
     });
@@ -372,9 +372,9 @@ describe('MagmaDatetimePickerComponent', () => {
     describe('select() method', () => {
         it('should set the selected signal to true', () => {
             const dateInfo = { month: 1, day: 10 } as DateInfo;
-            // @ts-ignore Accessing protected method via any
+            // @ts-expect-error Accessing protected method via any
             component.select(dateInfo);
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.selected()).toBe(true);
         });
 
@@ -389,7 +389,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
             const dateInfo = { month: 1, day: 15 } as DateInfo;
 
-            // @ts-ignore
+            // @ts-expect-error
             component.select(dateInfo);
 
             expect(updateDaySpy).toHaveBeenCalledWith(15);
@@ -409,7 +409,7 @@ describe('MagmaDatetimePickerComponent', () => {
             // Simulate selecting a day from February (e.g., end of the grid)
             const dateInfo = { month: 2, day: 1 } as DateInfo;
 
-            // @ts-ignore
+            // @ts-expect-error
             component.select(dateInfo);
 
             expect(updateMonthSpy).toHaveBeenCalledWith(2, false);
@@ -430,7 +430,7 @@ describe('MagmaDatetimePickerComponent', () => {
             vi.spyOn(component.element.nativeElement, 'querySelector').mockReturnValue(dummyElement);
             const focusSpy = vi.spyOn(dummyElement, 'focus');
 
-            // @ts-ignore
+            // @ts-expect-error
             component.select(dateInfo);
 
             // Before 10ms
@@ -451,7 +451,7 @@ describe('MagmaDatetimePickerComponent', () => {
             vi.spyOn(component.element.nativeElement, 'querySelector').mockReturnValue(null);
 
             expect(() => {
-                // @ts-ignore
+                // @ts-expect-error
                 component.select(dateInfo);
                 vi.advanceTimersByTime(10);
             }).not.toThrow();
@@ -461,25 +461,25 @@ describe('MagmaDatetimePickerComponent', () => {
 
     describe('getFirstGet() - Week start offset', () => {
         it('should return -1 when the day is Sunday', () => {
-            // @ts-ignore - Accessing private method
+            // @ts-expect-error - Accessing private method
             const result = component.getFirstGet('Sunday');
             expect(result).toBe(-1);
         });
 
         it('should return -2 when the day is Saturday', () => {
-            // @ts-ignore - Accessing private method
+            // @ts-expect-error - Accessing private method
             const result = component.getFirstGet('Saturday');
             expect(result).toBe(-2);
         });
 
         it('should return 0 when the day is Monday (default behavior)', () => {
-            // @ts-ignore - Accessing private method
+            // @ts-expect-error - Accessing private method
             const result = component.getFirstGet('Monday');
             expect(result).toBe(0);
         });
 
         it('should return 0 when the day is undefined', () => {
-            // @ts-ignore - Accessing private method
+            // @ts-expect-error - Accessing private method
             const result = component.getFirstGet(undefined);
             expect(result).toBe(0);
         });
@@ -497,7 +497,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', midDate);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore - Accessing protected method
+            // @ts-expect-error - Accessing protected method
             const result = component.getDate();
             expect(result?.getTime()).toBe(new Date(midDate).getTime());
         });
@@ -510,7 +510,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', tooEarly);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             const result = component.getDate();
             expect(result?.getTime()).toBe(minLimit.getTime());
         });
@@ -523,7 +523,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', tooLate);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             const result = component.getDate();
             expect(result?.getTime()).toBe(maxLimit.getTime());
         });
@@ -536,7 +536,7 @@ describe('MagmaDatetimePickerComponent', () => {
             fixture.componentRef.setInput('value', targetDate);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             const result = component.getDate();
             expect(result?.getTime()).toBe(new Date(targetDate).getTime());
         });
@@ -555,11 +555,11 @@ describe('MagmaDatetimePickerComponent', () => {
         });
 
         it('should return the current date (mocked) if value is undefined or null', () => {
-            // @ts-ignore
+            // @ts-expect-error
             const result = component.getDateValue(undefined);
             expect(result?.toISOString()).toBe(undefined);
 
-            // @ts-ignore
+            // @ts-expect-error
             const resultNull = component.getDateValue(null);
             expect(resultNull?.toISOString()).toBe(undefined);
         });
@@ -567,7 +567,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should return the exact same Date object if an instance of Date is passed', () => {
             const inputDate = new Date(Date.UTC(2024, 5, 20));
 
-            // @ts-ignore
+            // @ts-expect-error
             const result = component.getDateValue(inputDate);
 
             expect(result).toBe(inputDate); // Checks reference equality
@@ -575,7 +575,7 @@ describe('MagmaDatetimePickerComponent', () => {
         });
 
         it('should handle the literal string "number" as per current logic', () => {
-            // @ts-ignore - This tests the (value === 'number') branch in your code
+            // @ts-expect-error - This tests the (value === 'number') branch in your code
             const result = component.getDateValue('number');
             // new Date('number') results in an Invalid Date
             expect(result?.toString()).toBe('Invalid Date');
@@ -583,7 +583,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
         it('should parse a complete ISO string into a UTC Date object', () => {
             const isoString = '2025-10-31T12:45:30.500Z';
-            // @ts-ignore
+            // @ts-expect-error
             const result: Date = component.getDateValue(isoString);
 
             expect(result.getUTCFullYear()).toBe(2025);
@@ -597,7 +597,7 @@ describe('MagmaDatetimePickerComponent', () => {
 
         it('should handle partial date strings by filling missing components with 0', () => {
             const partial = '2025-05-15';
-            // @ts-ignore
+            // @ts-expect-error
             const result: Date = component.getDateValue(partial);
 
             expect(result.getUTCFullYear()).toBe(2025);
@@ -611,14 +611,14 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should prevent negative month values using Math.max', () => {
             // If string is '2025-00-01', (0 - 1) is -1, Math.max should return 0
             const invalidMonth = '2025-00-01';
-            // @ts-ignore
+            // @ts-expect-error
             const result: Date = component.getDateValue(invalidMonth);
             expect(result.getUTCMonth()).toBe(0); // January
         });
 
         it('should return a Date object even for totally malformed strings', () => {
             const malformed = 'NotADate';
-            // @ts-ignore
+            // @ts-expect-error
             const result = component.getDateValue(malformed);
 
             // getValueDateSubstring will try to '+' an empty substring or NaN string
@@ -629,7 +629,7 @@ describe('MagmaDatetimePickerComponent', () => {
         it('should correctly parse milliseconds at the end of the string', () => {
             const withMilli = '2025-01-01T00:00:00.999Z';
 
-            // @ts-ignore
+            // @ts-expect-error
             const result: Date = component.getDateValue(withMilli);
             expect(result.getUTCMilliseconds()).toBe(999);
         });

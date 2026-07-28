@@ -41,7 +41,7 @@ describe('MagmaInputDate', () => {
     });
 
     it('should render element with type div', () => {
-        // @ts-ignore
+        // @ts-expect-error
         expect(component.inputElement.tagName).toBe('DIV');
     });
 
@@ -72,7 +72,7 @@ describe('MagmaInputDate', () => {
             const isoDate = '2026-12-31T23:59:59.999Z';
             component.writeValue(isoDate);
 
-            // @ts-ignore
+            // @ts-expect-error
             const cache = component.valueCache;
 
             expect(cache.year).toBe(2026);
@@ -82,39 +82,39 @@ describe('MagmaInputDate', () => {
             expect(cache.minutes).toBe(59);
             expect(cache.seconds).toBe(59);
             expect(cache.milli).toBe(999);
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._year()).toBe('2026');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._month()).toBe('12');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._day()).toBe('31');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._hours()).toBe('23');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._minutes()).toBe('59');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._seconds()).toBe('59');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._milli()).toBe('999');
         });
 
         it('should handle null/empty values in writeValue', () => {
             component.writeValue(null);
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.valueCache.year).toBe(0);
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._year()).toBe('');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._month()).toBe('');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._day()).toBe('');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._hours()).toBe('');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._minutes()).toBe('');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._seconds()).toBe('');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._milli()).toBe('');
         });
     });
@@ -160,51 +160,49 @@ describe('MagmaInputDate', () => {
     describe('Keyboard Events', () => {
         it('should lock focus when Arrow keys are pressed', () => {
             component.keydown(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.lockFocus).toBe(true);
 
             component.keyup(new KeyboardEvent('keyup', { key: 'ArrowUp' }));
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.lockFocus).toBe(false);
         });
 
         it('should lock focus when ArrowLeft keys are pressed', () => {
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'focusNext');
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'focusPrev');
 
             const event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-            // @ts-ignore
             Object.defineProperty(event, 'target', {
                 value: { id: 'test' },
                 enumerable: true,
             });
 
             component.keydown(event);
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.focusNext).not.toHaveBeenCalled();
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.focusPrev).toHaveBeenCalled();
         });
 
         it('should lock focus when ArrowRight keys are pressed', () => {
-            // @ts-ignore directive
+            // @ts-expect-error directive
             vi.spyOn(component, 'focusNext');
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'focusPrev');
 
             const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-            // @ts-ignore
             Object.defineProperty(event, 'target', {
                 value: { id: 'test' },
                 enumerable: true,
             });
 
             component.keydown(event);
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.focusNext).toHaveBeenCalled();
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.focusPrev).not.toHaveBeenCalled();
         });
     });
@@ -224,7 +222,7 @@ describe('MagmaInputDate', () => {
             componentRef.setInput('type', type);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             component.valueCache = {
                 year: 9999,
                 month: 12,
@@ -258,11 +256,11 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) and move focus to next element with type datetime-milli`, async () => {
                 updateInputs('datetime-milli');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
 
                 i.valueAsNumber = e.value;
-                // @ts-ignore
+                // @ts-expect-error
                 vi.spyOn(component, 'focusNext');
 
                 component.updateDate({ target: i } as any, e.type as any);
@@ -271,14 +269,14 @@ describe('MagmaInputDate', () => {
                 expect(i.valueAsNumber).toBe(e.updated);
 
                 if (e.focus) {
-                    // @ts-ignore
+                    // @ts-expect-error
                     expect(component.focusNext).toHaveBeenCalled();
                 } else {
-                    // @ts-ignore
+                    // @ts-expect-error
                     expect(component.focusNext).not.toHaveBeenCalled();
                 }
 
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component._value).toBe('9999-12-31T23:59:59.999');
             });
         });
@@ -295,11 +293,11 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) and move focus to next element with type time`, async () => {
                 updateInputs('time');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
                 if (i) {
                     i.valueAsNumber = e.value;
-                    // @ts-ignore
+                    // @ts-expect-error
                     vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
@@ -308,19 +306,19 @@ describe('MagmaInputDate', () => {
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).toHaveBeenCalled();
                     } else {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
                     expect(e.present).toBe(true);
                 } else {
                     expect(e.present).toBe(false);
-                    // @ts-ignore
+                    // @ts-expect-error
                     component.updateValueWithCache(false);
                 }
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component._value).toBe('23:59');
             });
         });
@@ -337,11 +335,11 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) and move focus to next element with type date`, async () => {
                 updateInputs('date');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
                 if (i) {
                     i.valueAsNumber = e.value;
-                    // @ts-ignore
+                    // @ts-expect-error
                     vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
@@ -350,19 +348,19 @@ describe('MagmaInputDate', () => {
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).toHaveBeenCalled();
                     } else {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
                     expect(e.present).toBe(true);
                 } else {
                     expect(e.present).toBe(false);
-                    // @ts-ignore
+                    // @ts-expect-error
                     component.updateValueWithCache(false);
                 }
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component._value).toBe('9999-12-31');
             });
         });
@@ -379,11 +377,11 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) and move focus to next element with type date`, async () => {
                 updateInputs('date');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
                 if (i) {
                     i.valueAsNumber = e.value;
-                    // @ts-ignore
+                    // @ts-expect-error
                     vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
@@ -392,19 +390,19 @@ describe('MagmaInputDate', () => {
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).toHaveBeenCalled();
                     } else {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
                     expect(e.present).toBe(true);
                 } else {
                     expect(e.present).toBe(false);
-                    // @ts-ignore
+                    // @ts-expect-error
                     component.updateValueWithCache(false);
                 }
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component._value).toBe('9999-12-31');
             });
         });
@@ -421,11 +419,11 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) and move focus to next element with type datetime-local`, async () => {
                 updateInputs('datetime-local');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
                 if (i) {
                     i.valueAsNumber = e.value;
-                    // @ts-ignore
+                    // @ts-expect-error
                     vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
@@ -434,20 +432,20 @@ describe('MagmaInputDate', () => {
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).toHaveBeenCalled();
                     } else {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
                     expect(e.present).toBe(true);
                 } else {
                     expect(e.present).toBe(false);
-                    // @ts-ignore
+                    // @ts-expect-error
                     component.updateValueWithCache(false);
                 }
 
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component._value).toBe('9999-12-31T23:59');
             });
         });
@@ -464,11 +462,11 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) and move focus to next element with type datetime-seconds`, async () => {
                 updateInputs('datetime-seconds');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
                 if (i) {
                     i.valueAsNumber = e.value;
-                    // @ts-ignore
+                    // @ts-expect-error
                     vi.spyOn(component, 'focusNext');
 
                     component.updateDate({ target: i } as any, e.type as any);
@@ -477,19 +475,19 @@ describe('MagmaInputDate', () => {
                     expect(i.valueAsNumber).toBe(e.updated);
 
                     if (e.focus) {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).toHaveBeenCalled();
                     } else {
-                        // @ts-ignore
+                        // @ts-expect-error
                         expect(component.focusNext).not.toHaveBeenCalled();
                     }
                     expect(e.present).toBe(true);
                 } else {
                     expect(e.present).toBe(false);
-                    // @ts-ignore
+                    // @ts-expect-error
                     component.updateValueWithCache(false);
                 }
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component._value).toBe('9999-12-31T23:59:59');
             });
         });
@@ -504,12 +502,12 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) and update input value`, async () => {
                 updateInputs('datetime-milli');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
 
                 i.valueAsNumber = e.value;
 
-                // @ts-ignore
+                // @ts-expect-error
                 component.lockFocus = true;
                 component.updateDate({ target: i } as any, e.type as any);
 
@@ -528,12 +526,12 @@ describe('MagmaInputDate', () => {
                 it(`should change Input (${e.type}) and update input value`, async () => {
                     updateInputs('datetime-milli');
 
-                    // @ts-ignore
+                    // @ts-expect-error
                     const i = input[e.filed] as HTMLInputElement;
 
                     i.valueAsNumber = e.value;
 
-                    // @ts-ignore
+                    // @ts-expect-error
                     component.lockFocus = true;
                     component.changeDate({ target: i } as any, e.type as any);
 
@@ -556,7 +554,7 @@ describe('MagmaInputDate', () => {
             it(`should clamp Input (${e.type}) value is empty with type datetime-milli`, async () => {
                 updateInputs('datetime-milli');
 
-                // @ts-ignore
+                // @ts-expect-error
                 const i = input[e.filed] as HTMLInputElement;
 
                 i.valueAsNumber = e.value;
@@ -566,7 +564,7 @@ describe('MagmaInputDate', () => {
                 await vi.useFakeTimers();
                 expect(i.valueAsNumber).toBe(e.updated);
 
-                // @ts-ignore
+                // @ts-expect-error
                 expect(component._value).toBe(e.out);
             });
         });
@@ -577,7 +575,7 @@ describe('MagmaInputDate', () => {
             component.placeholderCompute('fr');
 
             expect(component.orderType).toBe('dmy');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.placeholderInfos).toEqual({
                 dd: 'jj',
                 s1: '/',
@@ -599,7 +597,7 @@ describe('MagmaInputDate', () => {
             component.placeholderCompute('fr-CA');
 
             expect(component.orderType).toBe('ymd');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.placeholderInfos).toEqual({
                 dd: 'jj',
                 s1: '-',
@@ -622,7 +620,7 @@ describe('MagmaInputDate', () => {
             component.placeholderCompute('ja');
 
             expect(component.orderType).toBe('ymd');
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.placeholderInfos).toEqual({
                 dd: 'dd',
                 s1: '/',
@@ -644,18 +642,17 @@ describe('MagmaInputDate', () => {
             component.placeholderCompute('xyz'); // Non-existent
 
             expect(component.orderType).toBe('mdy'); // 'en' type in mock
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.placeholderInfos.mm).toBe('mm');
         });
 
         it('should fallback to English if the language is not found', () => {
-            // @ts-ignore
             vi.spyOn(navigator, 'language', 'get').mockReturnValue('');
 
             component.placeholderCompute(); // Non-existent
 
             expect(component.orderType).toBe('mdy'); // 'en' type in mock
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.placeholderInfos.mm).toBe('mm');
         });
     });
@@ -664,7 +661,7 @@ describe('MagmaInputDate', () => {
         it('should select element on focusNext', () => {
             vi.spyOn(document, 'querySelector');
 
-            // @ts-ignore
+            // @ts-expect-error
             component.focusNext('test');
 
             expect(document.querySelector).toHaveBeenCalledWith('#test + * + input');
@@ -676,7 +673,7 @@ describe('MagmaInputDate', () => {
 
             vi.spyOn(inputMonthElement, 'select');
 
-            // @ts-ignore
+            // @ts-expect-error
             component.focusNext(inputDayElement.id);
 
             expect(inputMonthElement.select).toHaveBeenCalled();
@@ -685,7 +682,7 @@ describe('MagmaInputDate', () => {
         it('should select element on focusPrev', () => {
             vi.spyOn(document, 'querySelector');
 
-            // @ts-ignore
+            // @ts-expect-error
             component.focusPrev('test');
 
             expect(document.querySelector).toHaveBeenCalledWith('input:has(+ * + #test)');
@@ -697,25 +694,24 @@ describe('MagmaInputDate', () => {
 
             vi.spyOn(inputDayElement, 'select');
 
-            // @ts-ignore
+            // @ts-expect-error
             component.focusPrev(inputMonthElement.id);
 
             expect(inputDayElement.select).toHaveBeenCalled();
         });
 
         it('should return 0 with invalide value for valueCacheSubstring', () => {
-            // @ts-ignore
+            // @ts-expect-error
             const value = component.valueCacheSubstring('aaaa-bb-cc', 0, 4);
 
             expect(value).toBe(0);
         });
 
         it('should select element on focusNext', () => {
-            // @ts-ignore
             component.datePickerClose('2024-12-12');
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.valueCache).toEqual({
                 year: 2024,
                 month: 12,
@@ -733,7 +729,7 @@ describe('MagmaInputDate', () => {
             componentRef.setInput('value', '');
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.valueCache).toEqual({
                 year: 0,
                 month: 0,
@@ -749,7 +745,7 @@ describe('MagmaInputDate', () => {
             componentRef.setInput('value', '2015-12-31');
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.valueCache).toEqual({
                 year: 2015,
                 month: 12,
@@ -765,7 +761,7 @@ describe('MagmaInputDate', () => {
             componentRef.setInput('value', '2015-12-31T12:15:30.015');
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.valueCache).toEqual({
                 year: 2015,
                 month: 12,
@@ -783,7 +779,7 @@ describe('MagmaInputDate', () => {
             componentRef.setInput('type', '');
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._type()).toBe('date');
         });
 
@@ -791,7 +787,7 @@ describe('MagmaInputDate', () => {
             componentRef.setInput('type', undefined);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._type()).toBe('date');
         });
 
@@ -799,7 +795,7 @@ describe('MagmaInputDate', () => {
             componentRef.setInput('type', 'invalid-type' as any);
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
+            // @ts-expect-error
             expect(component._type()).toBe('date');
         });
     });
@@ -1316,7 +1312,6 @@ describe('MagmaInputDate - uncovered DOM event listeners', () => {
 
         vi.spyOn(component, 'datePickerClose');
 
-        const id = fixture.elementRef.nativeElement.id;
         const pickerDirective = component['datePicker']()[0];
         expect(pickerDirective).toBeTruthy();
 

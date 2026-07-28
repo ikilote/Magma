@@ -161,13 +161,13 @@ describe('regexpSlash', () => {
     });
 
     it('should handle undefined input', () => {
-        // @ts-ignore: Testing invalid input
+        // @ts-expect-error: Testing invalid input
         const result = regexpSlash(undefined);
         expect(result).toBeUndefined();
     });
 
     it('should handle null input', () => {
-        // @ts-ignore: Testing invalid input
+        // @ts-expect-error: Testing invalid input
         const result = regexpSlash(null);
         expect(result).toBeNull();
     });

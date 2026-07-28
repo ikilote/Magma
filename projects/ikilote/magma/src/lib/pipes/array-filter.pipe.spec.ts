@@ -58,14 +58,14 @@ describe('ArrayFilterPipe', () => {
     it('should return the original value if items is not an array', () => {
         const input = 'not an array';
         const callback = (item: any) => true;
-        // @ts-ignore - Testing invalid input
+        // @ts-expect-error - Testing invalid input
         const result = pipe.transform(input, callback);
         expect(result).toBe(input);
     });
 
     it('should return the original array if callback is not a function', () => {
         const input = ['a', 'b', 'c'];
-        // @ts-ignore - Testing invalid callback
+        // @ts-expect-error - Testing invalid callback
         const result = pipe.transform(input, 'not a function');
         expect(result).toBe(input);
     });
@@ -89,7 +89,7 @@ describe('ArrayFilterPipe', () => {
     it('should return the original array if items is null', () => {
         const input = null;
         const callback = (item: any) => true;
-        // @ts-ignore - Testing null input
+        // @ts-expect-error - Testing null input
         const result = pipe.transform(input, callback);
         expect(result).toBeNull();
     });
@@ -97,7 +97,7 @@ describe('ArrayFilterPipe', () => {
     it('should return the original array if items is undefined', () => {
         const input = undefined;
         const callback = (item: any) => true;
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result = pipe.transform(input, callback);
         expect(result).toBeUndefined();
     });

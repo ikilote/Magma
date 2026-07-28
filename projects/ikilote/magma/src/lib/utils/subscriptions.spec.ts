@@ -48,21 +48,21 @@ describe('Subscriptions', () => {
         it('should add a single subscription to the listener', () => {
             // Test: Adding a single subscription
             subscriptions.push(testSub1);
-            // @ts-ignore: Access private property for testing
+            // @ts-expect-error: Access private property for testing
             expect(subscriptions.listener.closed).toBe(false);
         });
 
         it('should add multiple subscriptions to the listener', () => {
             // Test: Adding multiple subscriptions at once
             subscriptions.push(testSub1, testSub2);
-            // @ts-ignore: Access private property for testing
+            // @ts-expect-error: Access private property for testing
             expect(subscriptions.listener.closed).toBe(false);
         });
 
         it('should not fail when adding no subscriptions', () => {
             // Test: Adding no subscriptions is safe
             subscriptions.push();
-            // @ts-ignore: Access private property for testing
+            // @ts-expect-error: Access private property for testing
             expect(subscriptions.listener.closed).toBe(false);
         });
     });
@@ -75,7 +75,7 @@ describe('Subscriptions', () => {
             expect(subscriptions.length).toBe(2);
             subscriptions.clear();
             expect(unsubscribeSpy1).toHaveBeenCalledTimes(1);
-            // @ts-ignore: Access private property for testing
+            // @ts-expect-error: Access private property for testing
             expect(subscriptions.listener.closed).toBe(true);
             expect(subscriptions.length).toBe(0);
         });
@@ -93,7 +93,7 @@ describe('Subscriptions', () => {
         it('should unsubscribe even if no subscriptions were added', () => {
             // Test: Clearing with no subscriptions is safe
             subscriptions.clear();
-            // @ts-ignore: Access private property for testing
+            // @ts-expect-error: Access private property for testing
             expect(subscriptions.listener.closed).toBe(true);
         });
     });

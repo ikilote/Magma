@@ -53,32 +53,29 @@ describe('StrReplacePipe', () => {
 
     // Test with null/undefined input
     it('should return null for null input', () => {
-        // @ts-ignore - Testing null input
+        // @ts-expect-error - Testing null input
         const result = pipe.transform(null, '-', '');
         expect(result).toBeNull();
     });
 
     it('should return undefined for undefined input', () => {
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result = pipe.transform(undefined, '-', '');
         expect(result).toBeUndefined();
     });
 
     // Test with non-string input
     it('should return non-string input as-is', () => {
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result = pipe.transform(123, '-', '');
-        // @ts-ignore - Testing undefined input
         expect(result).toBe(123);
 
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result2 = pipe.transform(true, '-', '');
-        // @ts-ignore - Testing undefined input
         expect(result2).toBe(true);
 
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result3 = pipe.transform({}, '-', '');
-        // @ts-ignore - Testing undefined input
         expect(result3).toEqual({});
     });
 

@@ -90,7 +90,7 @@ describe('MagmaWindow', () => {
     describe('Drag and Drop', () => {
         beforeEach(() => {
             const mockEl = { nativeElement: document.createElement('div') };
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'elementWin').mockReturnValue([mockEl] as any);
         });
 
@@ -164,7 +164,7 @@ describe('MagmaWindow', () => {
 
             // Mock signals: we simulate the return of ViewChildren/ViewChild
             // If they are signals, we mock the function itself
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'elementWin').mockReturnValue([{ nativeElement: mockElement }] as any);
 
             // Initialisation par défaut pour éviter les undefined
@@ -453,7 +453,7 @@ describe('MagmaWindow', () => {
         it('should toggle fullscreen on button click', () => {
             const button = fixture.debugElement.query(By.css('.window-title-buttons button.bar-resize'));
             button.triggerEventHandler('click', null);
-            // @ts-ignore
+            // @ts-expect-error
             expect(component.fullscreen()).toBe(true);
         });
 
@@ -538,7 +538,7 @@ describe('MagmaWindow', () => {
 
     describe('Initial Position', () => {
         it('should use zone when zone is define', () => {
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'getZone').mockReturnValue({
                 getBoundingClientRect: () =>
                     ({
@@ -550,21 +550,20 @@ describe('MagmaWindow', () => {
                         height: 0,
                     }) as DOMRect,
             } as any);
-            // @ts-ignore
+            // @ts-expect-error
             component.elementRef = {
                 nativeElement: { getBoundingClientRect: () => ({ left: 0, top: 0 }) },
             };
             component.ngOnInit();
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
             expect(component.initPosition).toEqual({ x: 0, y: 0 });
             expect(component.x[0]).toBe(0);
             expect(component.y[0]).toBe(0);
         });
 
         it('should use zone when zone is define and change element position', () => {
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'getZone').mockReturnValue({
                 getBoundingClientRect: () =>
                     ({
@@ -576,14 +575,13 @@ describe('MagmaWindow', () => {
                         height: 0,
                     }) as DOMRect,
             } as any);
-            // @ts-ignore
+            // @ts-expect-error
             component.elementRef = {
                 nativeElement: { getBoundingClientRect: () => ({ left: 250, top: 350 }) },
             };
             component.ngOnInit();
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
             expect(component.x[0]).toBe(0);
             expect(component.y[0]).toBe(0);
@@ -591,7 +589,7 @@ describe('MagmaWindow', () => {
 
         it('should position is center', () => {
             fixture.componentRef.setInput('position', 'center');
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'getZone').mockReturnValue({
                 getBoundingClientRect: () =>
                     ({
@@ -605,7 +603,7 @@ describe('MagmaWindow', () => {
                 offsetWidth: 500,
                 offsetHeight: 500,
             } as any);
-            // @ts-ignore
+            // @ts-expect-error
             component.elementRef = {
                 nativeElement: {
                     getBoundingClientRect: () => ({ left: 250, top: 350 }),
@@ -616,7 +614,6 @@ describe('MagmaWindow', () => {
             component.ngOnInit();
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
             expect(component.x[0]).toBe(-50);
             expect(component.y[0]).toBe(-150);
@@ -638,7 +635,7 @@ describe('MagmaWindow', () => {
                 value: 500,
             });
 
-            // @ts-ignore
+            // @ts-expect-error
             component.elementRef = {
                 nativeElement: {
                     getBoundingClientRect: () => ({ left: 250, top: 350 }),
@@ -649,7 +646,6 @@ describe('MagmaWindow', () => {
             component.ngOnInit();
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
             expect(component.initPosition).toEqual({ x: 0, y: 0 });
             expect(component.x[0]).toBe(200);
             expect(component.y[0]).toBe(200);
@@ -657,7 +653,7 @@ describe('MagmaWindow', () => {
 
         it('should position is {x, y}', () => {
             fixture.componentRef.setInput('position', { x: 10, y: 20 });
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'getZone').mockReturnValue({
                 getBoundingClientRect: () =>
                     ({
@@ -671,7 +667,7 @@ describe('MagmaWindow', () => {
                 offsetWidth: 500,
                 offsetHeight: 500,
             } as any);
-            // @ts-ignore
+            // @ts-expect-error
             component.elementRef = {
                 nativeElement: {
                     getBoundingClientRect: () => ({ left: 250, top: 350 }),
@@ -682,7 +678,6 @@ describe('MagmaWindow', () => {
             component.ngOnInit();
             fixture.changeDetectorRef.detectChanges();
 
-            // @ts-ignore
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
             expect(component.x[0]).toBe(-240);
             expect(component.y[0]).toBe(-330);
@@ -712,9 +707,9 @@ describe('MagmaWindow', () => {
             dragSpy = new MockDragSpy();
 
             // 2. Mock the signals (elementWin and cdkDrag)
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'elementWin').mockReturnValue([{ nativeElement: mockElement }] as any);
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
             // 3. Mock getZone to return fixed dimensions for the test
@@ -973,7 +968,7 @@ describe('MagmaWindow', () => {
             const mockEl = document.createElement('div');
             Object.defineProperty(mockEl, 'offsetWidth', { value: 200, configurable: true });
             Object.defineProperty(mockEl, 'offsetHeight', { value: 150, configurable: true });
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'elementWin').mockReturnValue([{ nativeElement: mockEl }] as any);
 
             vi.spyOn<any, any>(component, 'getZone').mockReturnValue({
@@ -1052,7 +1047,7 @@ describe('MagmaWindow', () => {
             fixture.changeDetectorRef.detectChanges();
 
             vi.spyOn(component, 'updatePosition');
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'getZone').mockReturnValue(null);
             component.ngOnInit();
 
@@ -1103,7 +1098,7 @@ describe('MagmaWindow', () => {
             fixture.changeDetectorRef.detectChanges();
 
             // Apply the mock before triggering winInit
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
             // winInit is triggered manually here, as restoring=true is already set by restore()
@@ -1171,7 +1166,7 @@ describe('MagmaWindow', () => {
             fixture.changeDetectorRef.detectChanges();
 
             const dragSpy = new MockDragSpy();
-            // @ts-ignore
+            // @ts-expect-error
             vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
 
             // Mark destroyed before calling updatePosition

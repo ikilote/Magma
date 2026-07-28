@@ -93,7 +93,7 @@ describe('InfoMessagesComponent', () => {
 
     it('should update the view after removing a message', async () => {
         const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
-        // @ts-ignore: Access readonly property for testing
+        // @ts-expect-error: Access readonly property for testing
         messagesService.messages = [testMessage];
         messagesService.onAddMessage.next();
         fixture.changeDetectorRef.detectChanges();
@@ -106,7 +106,6 @@ describe('InfoMessagesComponent', () => {
     });
 
     it('should handle destruct event from info-message component', () => {
-        const testMessage: MagmaMessageInfo = { message: 'Test', type: MagmaMessageType.info, time: '1s' };
         messagesService.addMessage('Test', { type: MagmaMessageType.info, time: '1s' });
         fixture.changeDetectorRef.detectChanges();
 

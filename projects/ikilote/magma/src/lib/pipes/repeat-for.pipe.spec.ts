@@ -16,7 +16,6 @@ describe('RepeatForPipe', () => {
         const result = pipe.transform(5);
         expect(result).toBeDefined();
         expect(result.length).toBe(5);
-        // @ts-ignore - Testing undefined input
         expect(result).toEqual([undefined, undefined, undefined, undefined, undefined]);
     });
 
@@ -72,53 +71,49 @@ describe('RepeatForPipe', () => {
     // Test with non-number inputs
 
     it('should handle string inputs that can be converted to numbers', () => {
-        // @ts-ignore - Testing string input
+        // @ts-expect-error - Testing string input
         const result = pipe.transform('5');
         expect(result.length).toBe(5);
 
-        // @ts-ignore - Testing string input with counter
+        // @ts-expect-error - Testing string input with counter
         const resultWithCounter = pipe.transform('5', true);
-        // @ts-ignore - Testing string input with counter
         expect(resultWithCounter).toEqual([1, 2, 3, 4, 5]);
     });
 
     it('should return an empty array for non-numeric string inputs', () => {
-        // @ts-ignore - Testing invalid string input
+        // @ts-expect-error - Testing invalid string input
         const result = pipe.transform('abc');
 
         expect(result.length).toBe(0);
         expect(result).toEqual([]);
 
-        // @ts-ignore - Testing invalid string input with counter
+        // @ts-expect-error - Testing invalid string input with counter
         const resultWithCounter = pipe.transform('abc', true);
         expect(resultWithCounter.length).toBe(0);
         expect(resultWithCounter).toEqual([]);
     });
 
     it('should return an empty array for null input', () => {
-        // @ts-ignore - Testing null input
+        // @ts-expect-error - Testing null input
         const result = pipe.transform(null);
         expect(result.length).toBe(0);
-        // @ts-ignore - Testing invalid string input
         expect(result).toEqual([]);
 
-        // @ts-ignore - Testing null input with counter
+        // @ts-expect-error - Testing null input with counter
         const resultWithCounter = pipe.transform(null, true);
         expect(resultWithCounter.length).toBe(0);
         expect(resultWithCounter).toEqual([]);
     });
 
     it('should return an empty array for undefined input', () => {
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result = pipe.transform(undefined);
         expect(result.length).toBe(0);
-        // @ts-ignore - Testing invalid string input
         expect(result).toEqual([]);
 
-        // @ts-ignore - Testing undefined input with counter
+        // @ts-expect-error - Testing undefined input with counter
         const resultWithCounter = pipe.transform(undefined, true);
         expect(resultWithCounter.length).toBe(0);
-        // @ts-ignore - Testing invalid string input
         expect(resultWithCounter).toEqual([]);
     });
 });

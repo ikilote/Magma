@@ -50,21 +50,21 @@ describe('ClassListPipe', () => {
 
     it('should handle null input', () => {
         const input = null;
-        // @ts-ignore - Testing null input
+        // @ts-expect-error - Testing null input
         const result = pipe.transform(input);
         expect(result).toEqual([]);
     });
 
     it('should handle undefined input', () => {
         const input = undefined;
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result = pipe.transform(input);
         expect(result).toEqual([]);
     });
 
     it('should handle mixed input with non-string, non-array values', () => {
         const input = ['test', 123, true, null, undefined, { key: 'value' }];
-        // @ts-ignore - Testing undefined input
+        // @ts-expect-error - Testing undefined input
         const result = pipe.transform(input);
         expect(result).toEqual(['test']);
     });

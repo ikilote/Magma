@@ -247,7 +247,7 @@ describe('MagmaInputNumber', () => {
     it('should force value to min if less than min', () => {
         fixture.componentRef.setInput('forceMinMax', true);
         fixture.componentRef.setInput('min', 1);
-        // @ts-ignore
+        // @ts-expect-error
         const value = component['forceValue'](null);
         expect(value).toBe(1);
     });
@@ -255,7 +255,7 @@ describe('MagmaInputNumber', () => {
     it('should force value to max if less than max', () => {
         fixture.componentRef.setInput('forceMinMax', true);
         fixture.componentRef.setInput('max', -1);
-        // @ts-ignore
+        // @ts-expect-error
         const value = component['forceValue'](null);
         expect(value).toBe(-1);
     });

@@ -115,7 +115,7 @@ describe('MagmaValidators.inList:', () => {
     describe('Null/Undefined Values', () => {
         it('should return null if control value is null and null is in the list', () => {
             // Test: Null value is allowed if it exists in the list
-            // @ts-ignore: Access private property for testing
+            // @ts-expect-error: Access private property for testing
             const validator = MagmaValidators.inList([null, 'apple']);
             const control = new FormControl(null);
             expect(validator(control)).toBeNull();

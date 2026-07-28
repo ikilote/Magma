@@ -22,7 +22,11 @@ class MockLogger {
     log = vi.fn();
 }
 
-@Component({ selector: 'test-input-common', changeDetection: ChangeDetectionStrategy.Eager, template: '' })
+@Component({
+    selector: 'test-input-common',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: '',
+})
 class TestMagmaInputCommon extends MagmaInputCommon<string> {}
 
 describe('MagmaInputCommon', () => {

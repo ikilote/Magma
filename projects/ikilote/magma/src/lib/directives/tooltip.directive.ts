@@ -1,7 +1,6 @@
 import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import {
-    ChangeDetectionStrategy,
     Component,
     ComponentRef,
     Directive,
@@ -24,7 +23,6 @@ let index = 0;
 
 @Component({
     template: '<span [id]="describedBy()">{{ text() }}</span>',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     styles: [
         `
             :host {

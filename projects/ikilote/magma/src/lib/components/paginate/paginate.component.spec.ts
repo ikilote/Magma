@@ -6,7 +6,10 @@ import { provideRouter } from '@angular/router';
 import { MagmaPagination } from './paginate.component';
 
 // Dummy component for router
-@Component({ changeDetection: ChangeDetectionStrategy.Eager, template: '' })
+@Component({
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: '',
+})
 class DummyComponent {}
 
 describe('MagmaPagination', () => {

@@ -7,7 +7,11 @@ import { MagmaInputCheckbox } from './input-checkbox.component';
 import { MagmaInputElement } from './input-element.component';
 import { MagmaInput, MagmaInputAlignMode, MagmaInputReturnValue, MagmaInputTypeValue } from './input.component';
 
-@Component({ selector: 'mg-input-checkbox', changeDetection: ChangeDetectionStrategy.Eager, template: '' })
+@Component({
+    selector: 'mg-input-checkbox',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    template: '',
+})
 class MockMagmaInputCommon {
     host: MagmaInput | null = null;
     refreshTrigger = signal(undefined);

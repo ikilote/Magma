@@ -1,10 +1,9 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { Component, computed, input } from '@angular/core';
 
 @Component({
     selector: 'mg-loader-tile',
     templateUrl: './loader-tile.component.html',
     styleUrl: './loader-tile.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
     host: {
         '[style.--width]': 'width()',
         '[style.--height]': 'height()',

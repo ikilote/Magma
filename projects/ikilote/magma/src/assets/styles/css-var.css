@@ -141,8 +141,37 @@ body {
         monospace;
     --input-focus-color: var(--neutral950);
 
+    /* MARK: semantic layer */
+    /* Role-based tokens shared across all components. Override these to
+       retheme globally without touching per-component variables.
+       Each component variable below defaults to one of these roles;
+       consumers who already override per-component variables are unaffected. */
+
+    /* Surface: the base background color of containers, cards and inputs. */
+    --color-surface: var(--neutral010);
+    /* Surface raised: elevated containers like dialogs, dropdowns, tooltips. */
+    --color-surface-raised: var(--neutral050);
+    /* Surface sunken: recessed areas like sidebars, table headers. */
+    --color-surface-sunken: var(--neutral100);
+    /* On surface: primary text and icon color on any surface. */
+    --color-on-surface: var(--neutral990);
+    /* On surface muted: secondary text, placeholders, disabled labels. */
+    --color-on-surface-muted: var(--neutral500);
+    /* Border: default border color (inputs, cards, dividers). */
+    --color-border: var(--neutral300);
+    /* Border strong: accentuated borders (focus indicators, strong dividers). */
+    --color-border-strong: var(--neutral500);
+    /* Primary: main accent color (buttons, links, active states). */
+    --color-primary: var(--primary500);
+    /* On primary: text/icon color on a primary-colored background. */
+    --color-on-primary: var(--neutral000);
+    /* Primary hover: accent color on pointer hover. */
+    --color-primary-hover: var(--primary700);
+    /* Focus ring: outline color for keyboard focus indicators. */
+    --color-focus-ring: var(--primary500);
+
     /* MARK: context-menu */
-    --context-menu-background: var(--primary200);
+    --context-menu-background: var(--color-surface-raised);
     --context-menu-border: none;
     --context-menu-border-color: transparent;
     --context-menu-box-shadow: 2px 2px 5px #0005;
@@ -158,7 +187,7 @@ body {
 
     /* MARK: ellipsis-button */
     --ellipsis-list-shadow-color: #0005;
-    --context-button-list-background: var(--primary200);
+    --context-button-list-background: var(--color-surface-raised);
     --ellipsis-item-background: var(--primary300);
     --ellipsis-item-hover-background: var(--primary400);
 
@@ -170,7 +199,7 @@ body {
     --button-default-margin: 0 5px;
 
     --button-default-border-color: var(--neutral300);
-    --button-default-background: var(--neutral200);
+    --button-default-background: var(--color-surface-raised);
     --button-default-box-shadow: 0 0 1px var(--neutral500);
     --button-default-color: var(--neutral950);
     --button-default-hover-border-color: var(--neutral100);
@@ -184,11 +213,11 @@ body {
 
     /* MARK: primary button */
     --button-primary-border-color: var(--primary300);
-    --button-primary-background: var(--primary400);
+    --button-primary-background: var(--color-primary);
     --button-primary-box-shadow: 0 0 1px var(--primary050);
     --button-primary-color: var(--primary950);
     --button-primary-hover-border-color: var(--primary100);
-    --button-primary-hover-background: var(--primary400);
+    --button-primary-hover-background: var(--color-primary-hover);
     --button-primary-hover-box-shadow: 0 0 6px var(--primary300);
     --button-primary-focus-border-color: var(--input-focus-color);
     --button-primary-active-border-color: var(--primary100);
@@ -211,22 +240,22 @@ body {
     --button-warn-active-padding: var(--button-default-padding);
 
     /* MARK: link */
-    --link-color: var(--primary700);
-    --link-hover-color: var(--primary950);
+    --link-color: var(--color-primary);
+    --link-hover-color: var(--color-primary-hover);
     --link-focus-border-color: var(--input-focus-color);
 
     /* MARK: dialog */
     --dialog-backdrop-background: color-mix(in hsl, var(--primary050) 60%, transparent);
     --dialog-backdrop-background-no-filter: color-mix(in hsl, var(--primary050) 70%, transparent);
-    --dialog-background: var(--neutral200);
-    --dialog-shadow-color: color-mix(in hsl, var(--neutral050) 30%, transparent);
+    --dialog-background: var(--color-surface-raised);
+    --dialog-shadow-color: color-mix(in hsl, var(--color-surface-raised) 30%, transparent);
     --dialog-close-shadow-color: var(--neutral500);
     --dialog-close-background: var(--neutral300);
     --dialog-close-background-hover: var(--neutral500);
 
     /* MARK: input */
-    --input-border-color: var(--primary600);
-    --input-background: var(--primary200);
+    --input-border-color: var(--color-border);
+    --input-background: var(--color-surface);
     --input-background-affix: var(--primary300);
     --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
     --input-item-color: var(--primary400);
@@ -247,7 +276,7 @@ body {
     --input-font-size: 16px;
     --input-line-height: 21px;
     --input-mark-top: -2px;
-    --input-placeholder-color: var(--primary600);
+    --input-placeholder-color: var(--color-on-surface-muted);
 
     /* MARK: item content-box */
     --content-title-text-color: var(--neutral990);
@@ -264,7 +293,7 @@ body {
     --tile-info-background: #fff5;
 
     /* MARK: color-picker */
-    --color-picker-embedded-background: var(--neutral050);
+    --color-picker-embedded-background: var(--color-surface-raised);
     --color-picker-embedded-shadow-color: #0005;
     --color-picker-color-view-border: 1px solid var(--neutral990);
     --color-picker-color-view-background: var(--background);
@@ -280,7 +309,7 @@ body {
     --color-picker-color-palette-item-outline-offset: -1px;
 
     /* MARK: datetime-picker */
-    --datetime-picker-embedded-background: var(--neutral050);
+    --datetime-picker-embedded-background: var(--color-surface-raised);
     --datetime-picker-embedded-shadow-color: #0005;
     --datetime-picker-head-background: var(--neutral100);
     --datetime-picker-day-color: var(--neutral500);
@@ -299,13 +328,13 @@ body {
     /* MARK: tabs */
     --tabs-line-color: var(--neutral400);
     --tab-border-color: var(--neutral400);
-    --tab-text-color: var(--neutral600);
+    --tab-text-color: var(--color-on-surface-muted);
     --tab-select-border-color: var(--neutral600);
-    --tab-text-border-color: var(--neutral950);
+    --tab-text-border-color: var(--color-on-surface);
     --tab-hover-border-color: var(--neutral950);
 
     /* MARK: scrollbar */
-    --scrollbar-color: var(--primary400);
+    --scrollbar-color: var(--color-primary);
     --scrollbar-color-hover: var(--primary600);
     --scrollbar-width: thin;
 
@@ -379,20 +408,20 @@ body {
     --block-border: 1px solid var(--primary500);
     --block-shadow: 0 0 24px 2px var(--primary200);
     --block-margin: 12px;
-    --block-background: var(--neutral025);
+    --block-background: var(--color-surface);
 
     /* MARK: table */
-    --table-header-background: var(--neutral100);
+    --table-header-background: var(--color-surface-sunken);
     --table-header-background-hover: var(--neutral200);
     --table-header-sortable-cell: var(--neutral300);
     --table-line-hover-background: var(--neutral300);
     --table-selected-text: var(--alert800);
 
     /* MARK: tooltip */
-    --tooltip-text-color: var(--neutral950);
-    --tooltip-background: color-mix(in hsl, var(--primary200) 93%, transparent);
+    --tooltip-text-color: var(--color-on-surface);
+    --tooltip-background: var(--color-surface-raised);
     --tooltip-shadow-color: var(--neutral000);
-    --tooltip-border-color: var(--primary200);
+    --tooltip-border-color: var(--color-border);
     --tooltip-cursor: help;
 
     /* MARK: page */
@@ -406,17 +435,17 @@ body {
     --walkthrough-backdrop: rgba(0, 0, 0, 0.7);
 
     /* MARK: click-enter */
-    --click-enter-hover-background: none;
+    --click-enter-hover-background: var(--color-surface-raised);
     --click-enter-hover-cursor: pointer;
     --click-enter-hover-filter: brightness(0.8);
     --click-enter-block-hover-background: var(--neutral200);
 
     /* MARK: spinner */
-    --spinner-color: var(--neutral950);
+    --spinner-color: var(--color-primary);
 
     /* MARK: loader */
     --loader-background: color-mix(in hsl, var(--neutral050) 23%, transparent);
-    --loader-text-color: var(--neutral950);
+    --loader-text-color: var(--color-on-surface);
     --loader-text-shadow-color: var(--neutral000);
     --loader-progress-background: #0b0b0b80;
     --loader-progress-bar-background: #fff;
@@ -426,7 +455,7 @@ body {
 
     /* MARK: contrib-calendar */
     --contrib-calendar-day-font-size: 12px;
-    --contrib-calendar-day-background: var(--neutral050);
+    --contrib-calendar-day-background: var(--color-surface-raised);
     --contrib-calendar-month-font-size: 12px;
     --contrib-calendar-tile-size: 15px;
     --contrib-calendar-tile-color-even: var(--neutral100);
@@ -439,7 +468,7 @@ body {
     /* MARK: window */
     --window-min-width: 150px;
     --window-min-height: 150px;
-    --window-background: var(--dialog-background);
+    --window-background: var(--color-surface-raised);
     --window-shadow-color: var(--dialog-shadow-color);
     --window-content-border: none;
     --window-content-border-color: transparent;

@@ -3,7 +3,22 @@ body.light-mode {
     color-scheme: light;
 
     /* MARK: palettes light */
+    /* Hue and saturation per ccolor family. These are the entry point for
+       retinting: change a hue to shift a whole family, change a saturation to
+       make it more or less vivid. Declared per ccolor scheme so a family can
+       be tuned differently in light and dark mode (a green that reads well on
+       a light background is often too dark on a dark one). */
     --primaryH: 190;
+    --primaryS: 15%;
+    /* Soft saturation used by the lightest (050) and darkest (950) steps. */
+    --primarySsoft: 5%;
+    /* Neutral defaults to a pure grey (saturation 0%). Raise --neutralS and
+       set --neutralH to get warm or cool greys. */
+    --neutralH: 0;
+    --neutralS: 0%;
+    --alertH: 0;
+    --warnH: 15;
+    --successH: 120;
     --L000: 100%;
     --L010: 95%;
     --L025: 90%;
@@ -28,7 +43,22 @@ body.dark-mode {
     color-scheme: dark;
 
     /* MARK: palettes dark */
+    /* Hue and saturation per color family. These are the entry point for
+       retinting: change a hue to shift a whole family, change a saturation to
+       make it more or less vivid. Declared per color scheme so a family can
+       be tuned differently in light and dark mode (a green that reads well on
+       a light background is often too dark on a dark one). */
     --primaryH: 210;
+    --primaryS: 15%;
+    /* Soft saturation used by the lightest (050) and darkest (950) steps. */
+    --primarySsoft: 5%;
+    /* Neutral defaults to a pure grey (saturation 0%). Raise --neutralS and
+       set --neutralH to get warm or cool greys. */
+    --neutralH: 0;
+    --neutralS: 0%;
+    --alertH: 0;
+    --warnH: 15;
+    --successH: 120;
     --L000: 0%;
     --L010: 3%;
     --L025: 4%;
@@ -53,73 +83,73 @@ body {
     /* MARK: palettes */
 
     /* --- PRIMARY  --- */
-    --primary050: hsl(var(--primaryH), 5%, var(--L050));
-    --primary100: hsl(var(--primaryH), 15%, var(--L100));
-    --primary200: hsl(var(--primaryH), 15%, var(--L200));
-    --primary300: hsl(var(--primaryH), 15%, var(--L300));
-    --primary400: hsl(var(--primaryH), 15%, var(--L400));
-    --primary500: hsl(var(--primaryH), 15%, var(--L500));
-    --primary600: hsl(var(--primaryH), 15%, var(--L600));
-    --primary700: hsl(var(--primaryH), 15%, var(--L700));
-    --primary800: hsl(var(--primaryH), 15%, var(--L800));
-    --primary900: hsl(var(--primaryH), 15%, var(--L900));
-    --primary950: hsl(var(--primaryH), 5%, var(--L950));
+    --primary050: hsl(var(--primaryH), var(--primarySsoft), var(--L050));
+    --primary100: hsl(var(--primaryH), var(--primaryS), var(--L100));
+    --primary200: hsl(var(--primaryH), var(--primaryS), var(--L200));
+    --primary300: hsl(var(--primaryH), var(--primaryS), var(--L300));
+    --primary400: hsl(var(--primaryH), var(--primaryS), var(--L400));
+    --primary500: hsl(var(--primaryH), var(--primaryS), var(--L500));
+    --primary600: hsl(var(--primaryH), var(--primaryS), var(--L600));
+    --primary700: hsl(var(--primaryH), var(--primaryS), var(--L700));
+    --primary800: hsl(var(--primaryH), var(--primaryS), var(--L800));
+    --primary900: hsl(var(--primaryH), var(--primaryS), var(--L900));
+    --primary950: hsl(var(--primaryH), var(--primarySsoft), var(--L950));
 
     /* --- NEUTRAL  --- */
-    --neutral000: hsl(0, 0%, var(--L000));
-    --neutral010: hsl(0, 0%, var(--L010));
-    --neutral025: hsl(0, 0%, var(--L025));
-    --neutral050: hsl(0, 0%, var(--L050));
-    --neutral100: hsl(0, 0%, var(--L100));
-    --neutral200: hsl(0, 0%, var(--L200));
-    --neutral300: hsl(0, 0%, var(--L300));
-    --neutral400: hsl(0, 0%, var(--L400));
-    --neutral500: hsl(0, 0%, var(--L500));
-    --neutral600: hsl(0, 0%, var(--L600));
-    --neutral700: hsl(0, 0%, var(--L700));
-    --neutral800: hsl(0, 0%, var(--L800));
-    --neutral900: hsl(0, 0%, var(--L900));
-    --neutral950: hsl(0, 0%, var(--L950));
-    --neutral990: hsl(0, 0%, var(--L990));
+    --neutral000: hsl(var(--neutralH), var(--neutralS), var(--L000));
+    --neutral010: hsl(var(--neutralH), var(--neutralS), var(--L010));
+    --neutral025: hsl(var(--neutralH), var(--neutralS), var(--L025));
+    --neutral050: hsl(var(--neutralH), var(--neutralS), var(--L050));
+    --neutral100: hsl(var(--neutralH), var(--neutralS), var(--L100));
+    --neutral200: hsl(var(--neutralH), var(--neutralS), var(--L200));
+    --neutral300: hsl(var(--neutralH), var(--neutralS), var(--L300));
+    --neutral400: hsl(var(--neutralH), var(--neutralS), var(--L400));
+    --neutral500: hsl(var(--neutralH), var(--neutralS), var(--L500));
+    --neutral600: hsl(var(--neutralH), var(--neutralS), var(--L600));
+    --neutral700: hsl(var(--neutralH), var(--neutralS), var(--L700));
+    --neutral800: hsl(var(--neutralH), var(--neutralS), var(--L800));
+    --neutral900: hsl(var(--neutralH), var(--neutralS), var(--L900));
+    --neutral950: hsl(var(--neutralH), var(--neutralS), var(--L950));
+    --neutral990: hsl(var(--neutralH), var(--neutralS), var(--L990));
 
     /* --- ALERT  --- */
-    --alert050: hsl(0, 5%, var(--L050));
-    --alert100: hsl(0, 15%, var(--L100));
-    --alert200: hsl(0, 25%, var(--L200));
-    --alert300: hsl(0, 45%, var(--L300));
-    --alert400: hsl(0, 55%, var(--L400));
-    --alert500: hsl(0, 75%, var(--L500));
-    --alert600: hsl(0, 65%, var(--L600));
-    --alert700: hsl(0, 55%, var(--L700));
-    --alert800: hsl(0, 45%, var(--L800));
-    --alert900: hsl(0, 25%, var(--L900));
-    --alert950: hsl(0, 5%, var(--L950));
+    --alert050: hsl(var(--alertH), 5%, var(--L050));
+    --alert100: hsl(var(--alertH), 15%, var(--L100));
+    --alert200: hsl(var(--alertH), 25%, var(--L200));
+    --alert300: hsl(var(--alertH), 45%, var(--L300));
+    --alert400: hsl(var(--alertH), 55%, var(--L400));
+    --alert500: hsl(var(--alertH), 75%, var(--L500));
+    --alert600: hsl(var(--alertH), 65%, var(--L600));
+    --alert700: hsl(var(--alertH), 55%, var(--L700));
+    --alert800: hsl(var(--alertH), 45%, var(--L800));
+    --alert900: hsl(var(--alertH), 25%, var(--L900));
+    --alert950: hsl(var(--alertH), 5%, var(--L950));
 
     /* --- WARN   --- */
-    --warn050: hsl(15, 5%, var(--L050));
-    --warn100: hsl(15, 15%, var(--L100));
-    --warn200: hsl(15, 25%, var(--L200));
-    --warn300: hsl(15, 45%, var(--L300));
-    --warn400: hsl(15, 55%, var(--L400));
-    --warn500: hsl(15, 75%, var(--L500));
-    --warn600: hsl(15, 65%, var(--L600));
-    --warn700: hsl(15, 55%, var(--L700));
-    --warn800: hsl(15, 45%, var(--L800));
-    --warn900: hsl(15, 25%, var(--L900));
-    --warn950: hsl(15, 5%, var(--L950));
+    --warn050: hsl(var(--warnH), 5%, var(--L050));
+    --warn100: hsl(var(--warnH), 15%, var(--L100));
+    --warn200: hsl(var(--warnH), 25%, var(--L200));
+    --warn300: hsl(var(--warnH), 45%, var(--L300));
+    --warn400: hsl(var(--warnH), 55%, var(--L400));
+    --warn500: hsl(var(--warnH), 75%, var(--L500));
+    --warn600: hsl(var(--warnH), 65%, var(--L600));
+    --warn700: hsl(var(--warnH), 55%, var(--L700));
+    --warn800: hsl(var(--warnH), 45%, var(--L800));
+    --warn900: hsl(var(--warnH), 25%, var(--L900));
+    --warn950: hsl(var(--warnH), 5%, var(--L950));
 
     /* --- SUCCESS   --- */
-    --success050: hsl(120, 5%, var(--L050));
-    --success100: hsl(120, 15%, var(--L100));
-    --success200: hsl(120, 25%, var(--L200));
-    --success300: hsl(120, 45%, var(--L300));
-    --success400: hsl(120, 55%, var(--L400));
-    --success500: hsl(120, 55%, var(--L500));
-    --success600: hsl(120, 65%, var(--L600));
-    --success700: hsl(120, 55%, var(--L700));
-    --success800: hsl(120, 45%, var(--L800));
-    --success900: hsl(120, 25%, var(--L900));
-    --success950: hsl(120, 5%, var(--L950));
+    --success050: hsl(var(--successH), 5%, var(--L050));
+    --success100: hsl(var(--successH), 15%, var(--L100));
+    --success200: hsl(var(--successH), 25%, var(--L200));
+    --success300: hsl(var(--successH), 45%, var(--L300));
+    --success400: hsl(var(--successH), 55%, var(--L400));
+    --success500: hsl(var(--successH), 55%, var(--L500));
+    --success600: hsl(var(--successH), 65%, var(--L600));
+    --success700: hsl(var(--successH), 55%, var(--L700));
+    --success800: hsl(var(--successH), 45%, var(--L800));
+    --success900: hsl(var(--successH), 25%, var(--L900));
+    --success950: hsl(var(--successH), 5%, var(--L950));
 
     /* MARK: global */
     /* Transparency checkerboard. Conventional grey pattern used by image

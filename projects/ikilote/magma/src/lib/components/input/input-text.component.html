@@ -16,7 +16,7 @@
     (blur)="focus(false)"
   />
   @if (clearCross() && input.value) {
-    <span class="icon-remove" (click)="clearField()"></span>
+    <button type="button" class="icon-remove" (click)="clearField()" [attr.aria-label]="clearLabel()"></button>
   }
   @if (datalist()?.length) {
     <datalist [id]="_id() + '-datalist'">

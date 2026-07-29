@@ -3,7 +3,18 @@
   <mg-tab-content id="hsl" class="tab-hsl">
     <div class="value">
       <div class="gradient">
-        <div class="cursor-zone" #cursorZone (click)="click($event)">
+        <div
+          class="cursor-zone"
+          #cursorZone
+          (click)="click($event)"
+          tabindex="0"
+          role="slider"
+          [attr.aria-label]="texts()?.cursorZoneLabel ?? 'Color saturation and lightness'"
+          [attr.aria-valuenow]="rangeLight"
+          aria-valuemin="0"
+          aria-valuemax="100"
+          (keydown)="cursorKeydown($event)"
+        >
           <div
             class="cursor"
             cdkDrag
@@ -52,6 +63,7 @@
           (click)="updateHex(color)"
           [style.--color]="color"
           [class.selected]="color === hexa"
+          [attr.aria-label]="color"
         ></button>
       }
     </div>
@@ -63,6 +75,7 @@
             (click)="updateHex(color)"
             [style.--color]="color"
             [class.selected]="color === hexa"
+            [attr.aria-label]="color"
           ></button>
         }
       </div>

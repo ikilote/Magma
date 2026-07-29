@@ -6,7 +6,10 @@
     [class.show]="prev()"
     (mousedown)="moveTabs(true, -10)"
     (mouseup)="moveTabs(false)"
-    (mouseout)="moveTabs(false)"
+    (mouseleave)="moveTabs(false)"
+    (blur)="moveTabs(false)"
+    aria-hidden="true"
+    tabindex="-1"
   >
     «
   </button>
@@ -19,12 +22,15 @@
     [class.show]="next()"
     (mousedown)="moveTabs(true, 10)"
     (mouseup)="moveTabs(false)"
-    (mouseout)="moveTabs(false)"
+    (mouseleave)="moveTabs(false)"
+    (blur)="moveTabs(false)"
+    aria-hidden="true"
+    tabindex="-1"
   >
     »
   </button>
 </div>
-<div class="content" role="tabpanel" tabindex="-1" #tabpanel>
+<div class="content" role="tabpanel" [attr.id]="'tabpanel-' + activeTabId()" tabindex="-1" #tabpanel>
   <ng-content select="mg-tab-content" />
 </div>
 <div class="visually-hidden-focusable">

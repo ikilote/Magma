@@ -28,6 +28,10 @@ export class MagmaInputPassword extends MagmaInputText {
     override readonly datalist: any = undefined; // not for password
 
     readonly eye = input(null, { transform: booleanAttribute });
+    /** Label for the show-password toggle button (visible state). Defaults to English. */
+    readonly hidePasswordLabel = input('Hide password');
+    /** Label for the show-password toggle button (hidden state). Defaults to English. */
+    readonly showPasswordLabel = input('Show password');
 
     protected show = false;
 

@@ -4,6 +4,7 @@
     role="dialog"
     [attr.aria-label]="label()"
     [attr.aria-labelledby]="computedId() + '-title'"
+    aria-modal="true"
     (click)="_propagationStop($event)"
     limitFocus
     #div

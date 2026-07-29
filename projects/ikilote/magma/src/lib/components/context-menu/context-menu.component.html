@@ -1,11 +1,11 @@
 @let context = items().contextMenu;
-<menu [style.--total]="context.length" limitFocus>
+<menu [style.--total]="context.length" limitFocus role="menu">
   <ul>
     @for (item of context; track item; let index = $index) {
       @let itc = typeComponent(item);
       @let iti = typeItem(item);
       @if (itc.component) {
-        <li [style.--position]="index" class="item-content">
+        <li [style.--position]="index" class="item-content" role="none">
           <span class="content">
             <ng-container [ngComponentOutlet]="itc.component" [ngComponentOutletInputs]="withContext(itc.inputs)"
           /></span>
@@ -17,6 +17,7 @@
           (contextmenu)="active(iti); $event.preventDefault(); $event.stopPropagation()"
           [style.--position]="index"
           [attr.title]="labelVal ?? null"
+          role="menuitem"
         >
           @if (iti.iconText) {
             <span class="icon">{{ iti.iconText }}</span>

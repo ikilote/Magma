@@ -36,6 +36,7 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
 
     readonly prev = signal(false);
     readonly next = signal(false);
+    readonly activeTabId = signal<string | undefined>(undefined);
 
     updateInterval?: any;
 
@@ -56,6 +57,10 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
                 const first = this.titles()[0];
                 first.selected.set(true);
                 ids[first.id()!] = true;
+                this.activeTabId.set(first.id());
+            } else {
+                const activeId = Object.entries(ids).find(([, v]) => v)?.[0];
+                if (activeId) this.activeTabId.set(activeId);
             }
 
             this.content()!.forEach(e => {
@@ -101,6 +106,7 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
     }
 
     update(id: string, emit = true) {
+        this.activeTabId.set(id);
         this.titles()?.forEach(e => {
             if (e.id()) {
                 e.selected.set(e.id() === id);

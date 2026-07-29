@@ -27,6 +27,8 @@ export class MagmaInputText extends MagmaInputCommon<(string | { label?: string;
 
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
     readonly clearCross = input(null, { transform: booleanAttribute });
+    /** Label for the clear button. Defaults to English. */
+    readonly clearLabel = input('Clear');
     readonly type = input<'text' | 'email' | 'url' | 'tel'>('text');
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');

@@ -24,6 +24,8 @@ import { MagmaTabsModule } from '../tabs/tabs.module';
 export interface MagmaColorPickerTexts {
     hsl?: string;
     palette?: string;
+    /** Accessible label for the saturation/lightness cursor zone. */
+    cursorZoneLabel?: string;
 }
 
 export const magmaColorPickerPalette = [
@@ -226,6 +228,38 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit, OnDe
             this.rangeLight = Math.round((layerX / (clientWidth - 10)) * 100);
             this.rangeSature = Math.round((layerY / (clientHeight - 10)) * 100);
             this.drag().setFreeDragPosition({ x: layerX - 5, y: layerY - 5 });
+            this.updateColor();
+        }
+    }
+
+    /** Keyboard handler for the color cursor zone (a11y). Arrow keys nudge light/saturation by 1%. */
+    protected cursorKeydown(event: KeyboardEvent) {
+        if (this.readonly()) return;
+        const step = event.shiftKey ? 10 : 1;
+        let handled = true;
+        switch (event.key) {
+            case 'ArrowRight':
+                this.rangeLight = Math.min(100, this.rangeLight + step);
+                break;
+            case 'ArrowLeft':
+                this.rangeLight = Math.max(0, this.rangeLight - step);
+                break;
+            case 'ArrowDown':
+                this.rangeSature = Math.min(100, this.rangeSature + step);
+                break;
+            case 'ArrowUp':
+                this.rangeSature = Math.max(0, this.rangeSature - step);
+                break;
+            default:
+                handled = false;
+        }
+        if (handled) {
+            event.preventDefault();
+            const { clientWidth, clientHeight } = this.zone().nativeElement;
+            this.drag().setFreeDragPosition({
+                x: ((clientWidth - 10) * this.rangeLight) / 100,
+                y: ((clientHeight - 10) * this.rangeSature) / 100,
+            });
             this.updateColor();
         }
     }

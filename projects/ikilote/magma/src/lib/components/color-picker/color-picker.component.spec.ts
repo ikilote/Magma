@@ -715,3 +715,98 @@ describe('MagmaColorPickerComponent', () => {
         });
     });
 });
+
+describe('MagmaColorPicker cursorKeydown (a11y keyboard control)', () => {
+    let component: MagmaColorPickerComponent;
+    let fixture: ComponentFixture<MagmaColorPickerComponent>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaColorPickerComponent],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaColorPickerComponent);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    function dispatchKey(key: string, shiftKey = false) {
+        const event = new KeyboardEvent('keydown', { key, shiftKey, bubbles: true });
+        vi.spyOn(event, 'preventDefault');
+        component['cursorKeydown'](event);
+        return event;
+    }
+
+    it('should increase rangeLight on ArrowRight', () => {
+        component['rangeLight'] = 50;
+        dispatchKey('ArrowRight');
+        expect(component['rangeLight']).toBe(51);
+    });
+
+    it('should decrease rangeLight on ArrowLeft', () => {
+        component['rangeLight'] = 50;
+        dispatchKey('ArrowLeft');
+        expect(component['rangeLight']).toBe(49);
+    });
+
+    it('should increase rangeSature on ArrowDown', () => {
+        component['rangeSature'] = 50;
+        dispatchKey('ArrowDown');
+        expect(component['rangeSature']).toBe(51);
+    });
+
+    it('should decrease rangeSature on ArrowUp', () => {
+        component['rangeSature'] = 50;
+        dispatchKey('ArrowUp');
+        expect(component['rangeSature']).toBe(49);
+    });
+
+    it('should use step of 10 when shift is held', () => {
+        component['rangeLight'] = 50;
+        dispatchKey('ArrowRight', true);
+        expect(component['rangeLight']).toBe(60);
+    });
+
+    it('should clamp rangeLight to 0 minimum', () => {
+        component['rangeLight'] = 0;
+        dispatchKey('ArrowLeft');
+        expect(component['rangeLight']).toBe(0);
+    });
+
+    it('should clamp rangeLight to 100 maximum', () => {
+        component['rangeLight'] = 100;
+        dispatchKey('ArrowRight');
+        expect(component['rangeLight']).toBe(100);
+    });
+
+    it('should clamp rangeSature to 0 minimum', () => {
+        component['rangeSature'] = 0;
+        dispatchKey('ArrowUp');
+        expect(component['rangeSature']).toBe(0);
+    });
+
+    it('should clamp rangeSature to 100 maximum', () => {
+        component['rangeSature'] = 100;
+        dispatchKey('ArrowDown');
+        expect(component['rangeSature']).toBe(100);
+    });
+
+    it('should call preventDefault on handled keys', () => {
+        component['rangeLight'] = 50;
+        const event = dispatchKey('ArrowRight');
+        expect(event.preventDefault).toHaveBeenCalled();
+    });
+
+    it('should NOT call preventDefault on unhandled keys', () => {
+        const event = dispatchKey('Enter');
+        expect(event.preventDefault).not.toHaveBeenCalled();
+    });
+
+    it('should do nothing when readonly', () => {
+        fixture.componentRef.setInput('readonly', true);
+        fixture.changeDetectorRef.detectChanges();
+        component['rangeLight'] = 50;
+        dispatchKey('ArrowRight');
+        expect(component['rangeLight']).toBe(50);
+    });
+});

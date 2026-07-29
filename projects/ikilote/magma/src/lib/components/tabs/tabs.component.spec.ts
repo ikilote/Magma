@@ -459,3 +459,58 @@ describe('MagmaTabs - Branch coverage', () => {
         fixture.destroy();
     });
 });
+
+describe('MagmaTabs activeTabId', () => {
+    @Component({
+        template: `
+            <mg-tabs>
+                <mg-tab-title id="a">A</mg-tab-title>
+                <mg-tab-content id="a">Content A</mg-tab-content>
+                <mg-tab-title id="b">B</mg-tab-title>
+                <mg-tab-content id="b">Content B</mg-tab-content>
+            </mg-tabs>
+        `,
+        imports: [MagmaTabs, MagmaTabTitle, MagmaTabContent],
+    })
+    class TestHost {}
+
+    let fixture: ComponentFixture<TestHost>;
+    let tabs: MagmaTabs;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHost] }).compileComponents();
+        fixture = TestBed.createComponent(TestHost);
+        fixture.changeDetectorRef.detectChanges();
+        tabs = fixture.debugElement.query(By.directive(MagmaTabs)).componentInstance;
+    });
+
+    it('should set activeTabId to the first tab on init', () => {
+        expect(tabs.activeTabId()).toBe('a');
+    });
+
+    it('should update activeTabId when update() is called', () => {
+        tabs.update('b');
+        expect(tabs.activeTabId()).toBe('b');
+    });
+
+    it('should set activeTabId to the pre-selected tab', async () => {
+        @Component({
+            template: `
+                <mg-tabs>
+                    <mg-tab-title id="x">X</mg-tab-title>
+                    <mg-tab-content id="x">Content X</mg-tab-content>
+                    <mg-tab-title id="y" [selected]="true">Y</mg-tab-title>
+                    <mg-tab-content id="y">Content Y</mg-tab-content>
+                </mg-tabs>
+            `,
+            imports: [MagmaTabs, MagmaTabTitle, MagmaTabContent],
+        })
+        class TestPreselected {}
+
+        const f = TestBed.createComponent(TestPreselected);
+        f.changeDetectorRef.detectChanges();
+        const t = f.debugElement.query(By.directive(MagmaTabs)).componentInstance as MagmaTabs;
+        expect(t.activeTabId()).toBe('y');
+        f.destroy();
+    });
+});

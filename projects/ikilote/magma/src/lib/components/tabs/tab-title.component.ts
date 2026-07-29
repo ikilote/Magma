@@ -21,7 +21,10 @@ import { MagmaClickEnterDirective } from '../../directives/click-enter.directive
     host: {
         '[attr.id]': '"tab-" + id()',
         '[class.selected]': 'selected()',
-        tabindex: '0',
+        '[attr.tabindex]': 'selected() ? "0" : "-1"',
+        role: 'tab',
+        '[attr.aria-selected]': 'selected()',
+        '[attr.aria-controls]': '"tabpanel-" + id()',
     },
     hostDirectives: [MagmaClickEnterDirective],
 })

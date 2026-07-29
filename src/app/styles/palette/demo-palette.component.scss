@@ -2,6 +2,22 @@ h3 {
     text-transform: capitalize;
 }
 
+.knobs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 12px 24px;
+
+    button {
+        grid-column: 1 / -1;
+        justify-self: start;
+    }
+
+    mg-input-desc {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
 .list {
     display: flex;
     flex-wrap: wrap;

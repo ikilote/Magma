@@ -1,9 +1,35 @@
 <h1>Palette</h1>
 
-<div [formGroup]="form">
-  <label>Primary Hue [0,360]: {{ form.value.hue }}</label>
-  <input type="range" formControlName="hue" min="0" max="360" orient="horizontal" />
-</div>
+<p>
+  Every color family is driven by a hue; primary and neutral also expose their saturation. Move a slider to retint the
+  palette and every component below at once.
+</p>
+
+<mg-block>
+  <div class="knobs s-9" [formGroup]="form">
+    @for (knob of knobs; track knob.name) {
+      <mg-input class="knob">
+        <mg-input-label>
+          <code>{{ knob.variable }}</code>
+        </mg-input-label>
+        <mg-input-range [formControlName]="knob.name" [min]="knob.min" [max]="knob.max" />
+        <mg-input-desc>
+          <span class="knob-label">{{ knob.label }}</span>
+          <span
+            >Value:
+            <code
+              ><output>{{ display(knob) }}</output></code
+            ></span
+          >
+        </mg-input-desc>
+      </mg-input>
+    }
+    <button type="button" (click)="reset()">Reset to library defaults</button>
+  </div>
+  <div class="s-3">
+    <code-tabs [code]="[{ type: 'css', code: css }]"> </code-tabs>
+  </div>
+</mg-block>
 
 <mg-tabs>
   <mg-tab-title id="palette">Palette</mg-tab-title>
@@ -38,14 +64,18 @@
     <section>
       <h3>Inputs</h3>
       <div class="s-12">
-        <div class="s-4"><input type="text" placeholder="Text input" /></div>
-        <div class="s-4"><textarea placeholder="Textarea"></textarea></div>
-        <div class="s-4">
-          <select>
-            <option>Option 1</option>
-            <option>Option 2</option>
-          </select>
-        </div>
+        <mg-input class="s-4">
+          <mg-input-label>Text</mg-input-label>
+          <mg-input-text placeholder="Text input" />
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Textarea</mg-input-label>
+          <mg-input-textarea placeholder="Textarea" />
+        </mg-input>
+        <mg-input class="s-4">
+          <mg-input-label>Select</mg-input-label>
+          <mg-input-select [data]="selectOptions" />
+        </mg-input>
       </div>
     </section>
 
@@ -59,6 +89,18 @@
     <section>
       <h3>Block</h3>
       <div class="block">Block element styled by <code>--block-*</code> variables.</div>
+    </section>
+
+    <section>
+      <h3>Messages</h3>
+      <p>These show the alert, warn and success hues, plus the shared semantic tokens.</p>
+      <mg-message>
+        <mg-message-block type="info">Info message</mg-message-block>
+        <mg-message-block type="success">Success message</mg-message-block>
+        <mg-message-block type="warn">Warning message</mg-message-block>
+        <mg-message-block type="error">Error message</mg-message-block>
+        <mg-message-block type="tip">Tip message</mg-message-block>
+      </mg-message>
     </section>
   </mg-tab-content>
 </mg-tabs>

@@ -309,29 +309,67 @@ body {
     --scrollbar-color-hover: var(--primary600);
     --scrollbar-width: thin;
 
-    /* MARK: message */
-    --info-message-top: 50px;
-    --info-message-max-width: 300px;
-    --info-message-border-color: var(--neutral900);
-    --info-message-background: var(--neutral500);
+    /* MARK: message types */
+    /* Semantic tokens per message type, shared by both message families:
+       the inline messages (mg-message, mg-block-message) and the floating
+       messages (mg-info-message, driven by the messages service).
+       Override these to retint a type everywhere at once. Each family then
+       maps them onto its own slot, so a type can also be styled per family
+       through --message-* (inline) or --floating-message-* (floating). */
+    --info-message-color: var(--neutral900);
+    --info-message-border-color: var(--neutral700);
+    --info-message-background: var(--neutral200);
     --info-message-box-shadow-color: var(--neutral000);
     --info-message-progress-background: var(--neutral900);
-    --error-message-border-color: var(--alert700);
-    --error-message-background: var(--alert300);
-    --error-message-box-shadow-color: var(--neutral000);
-    --error-message-progress-background: var(--alert500);
-    --warn-message-border-color: var(--warn700);
-    --warn-message-background: var(--warn300);
-    --warn-message-box-shadow-color: var(--neutral000);
-    --warn-message-progress-background: var(--warn500);
-    --success-message-border-color: var(--success700);
-    --success-message-background: var(--success300);
+
+    --success-message-color: var(--success900);
+    --success-message-border-color: var(--success500);
+    --success-message-background: var(--success200);
     --success-message-box-shadow-color: var(--neutral000);
     --success-message-progress-background: var(--success500);
-    --tip-message-border-color: var(--primary700);
-    --tip-message-background: var(--primary300);
+
+    --warn-message-color: var(--warn900);
+    --warn-message-border-color: var(--warn500);
+    --warn-message-background: var(--warn200);
+    --warn-message-box-shadow-color: var(--neutral000);
+    --warn-message-progress-background: var(--warn500);
+
+    --error-message-color: var(--alert900);
+    --error-message-border-color: var(--alert500);
+    --error-message-background: var(--alert200);
+    --error-message-box-shadow-color: var(--neutral000);
+    --error-message-progress-background: var(--alert500);
+
+    --tip-message-color: var(--primary900);
+    --tip-message-border-color: var(--primary500);
+    --tip-message-background: var(--primary200);
     --tip-message-box-shadow-color: var(--neutral000);
     --tip-message-progress-background: var(--primary500);
+
+    /* MARK: message inline */
+    /* Slot consumed by mg-message / mg-block-message. Defaults below are the
+       neutral "no type" look; the type modifier classes remap the slot from
+       the shared tokens above. */
+    --message-color: var(--primary950);
+    --message-border-color: var(--primary500);
+    --message-background: var(--primary050);
+    --message-border-width: 1px;
+    --message-border-style: solid;
+    --message-radius: 3px;
+    --message-shadow: 0 0 12px 2px var(--neutral200);
+    --message-margin: 12px;
+    --message-gap: 12px;
+    --message-marquee-size: 20px;
+
+    /* MARK: message floating */
+    /* Slot consumed by mg-info-message, plus its own layout values. The slot
+       defaults to the info type; the modifier classes remap it. */
+    --floating-message-border-color: var(--info-message-border-color);
+    --floating-message-background: var(--info-message-background);
+    --floating-message-box-shadow-color: var(--info-message-box-shadow-color);
+    --floating-message-progress-background: var(--info-message-progress-background);
+    --info-message-top: 50px;
+    --info-message-max-width: 300px;
 
     /* MARK: grid */
     --grid-cell-padding: 6px;
@@ -342,33 +380,6 @@ body {
     --block-shadow: 0 0 24px 2px var(--primary200);
     --block-margin: 12px;
     --block-background: var(--neutral025);
-
-    /* MARK: block */
-    --message-radius: 3px;
-    --message-color: var(--primary950);
-    --message-border-color: var(--primary500);
-    --message-border-width: 1px;
-    --message-border-style: solid;
-    --message-shadow: 0 0 12px 2px var(--neutral200);
-    --message-margin: 12px;
-    --message-gap: 12px;
-    --message-marquee-size: 20px;
-    --message-background: var(--primary050);
-    --info-message-color: var(--neutral900);
-    --info-message-border-color: var(--neutral700);
-    --info-message-background: var(--neutral200);
-    --success-message-color: var(--success900);
-    --success-message-border-color: var(--success500);
-    --success-message-background: var(--success200);
-    --warn-message-color: var(--warn900);
-    --warn-message-border-color: var(--warn500);
-    --warn-message-background: var(--warn200);
-    --error-message-color: var(--alert900);
-    --error-message-border-color: var(--alert500);
-    --error-message-error-background: var(--alert200);
-    --tip-message-color: var(---primary900);
-    --tip-message-border-color: var(--primary500);
-    --tip-message-background: var(--primary200);
 
     /* MARK: table */
     --table-header-background: var(--neutral100);

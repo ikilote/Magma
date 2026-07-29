@@ -105,6 +105,20 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Palette
 - LTR & RTL
 
+### Theming
+
+Every visual decision is exposed as a CSS custom property. The full reference is
+in [CSS-VARIABLES.md](CSS-VARIABLES.md), generated from the source so it cannot
+drift.
+
+The whole library is retinted from a single hue:
+
+```css
+body {
+    --primaryH: 280;
+}
+```
+
 # Demo
 
 See : [Demo](https://magma.ikilote.net/)

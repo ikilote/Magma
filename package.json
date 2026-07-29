@@ -16,7 +16,8 @@
     "test": "ng test",
     "test:lib": "ng test @ikilote/magma",
     "test:lib:no-watch": "ng test @ikilote/magma --watch=false",
-    "update-coverage-badges": "node scripts/update-coverage-badges.js"
+    "update-coverage-badges": "node scripts/update-coverage-badges.js",
+    "generate:css-doc": "node scripts/generate-css-variables-doc.js"
   },
   "private": true,
   "dependencies": {

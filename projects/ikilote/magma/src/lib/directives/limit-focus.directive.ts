@@ -4,7 +4,7 @@ import { numberAttributeOrUndefined } from '../utils/coercion';
 import { Subscriptions } from '../utils/subscriptions';
 
 export const focusRules =
-    'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"])';
+    'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"]), [contenteditable]:not([contenteditable="false"]), details > summary, audio[controls], video[controls]';
 
 @Directive({
     selector: '[limitFocusFirst]',
@@ -133,7 +133,8 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             getComputedStyle(e).contentVisibility !== 'hidden' &&
             getComputedStyle(e).visibility !== 'hidden' &&
             e.checkVisibility() &&
-            e.tabIndex !== -1
+            e.tabIndex !== -1 &&
+            !e.closest('[inert]')
         );
     }
 

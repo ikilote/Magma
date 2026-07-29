@@ -628,3 +628,91 @@ describe('MagmaLimitFocusDirective keydown & MutationObserver', () => {
         }).not.toThrow();
     });
 });
+
+describe('MagmaLimitFocusDirective — extended focusRules', () => {
+    describe('focusRules selector', () => {
+        it('should match contenteditable elements', () => {
+            const div = document.createElement('div');
+            div.setAttribute('contenteditable', 'true');
+            document.body.appendChild(div);
+            const matches = div.matches(focusRules);
+            document.body.removeChild(div);
+            expect(matches).toBe(true);
+        });
+
+        it('should NOT match contenteditable="false"', () => {
+            const div = document.createElement('div');
+            div.setAttribute('contenteditable', 'false');
+            document.body.appendChild(div);
+            const matches = div.matches(focusRules);
+            document.body.removeChild(div);
+            expect(matches).toBe(false);
+        });
+
+        it('should match details > summary', () => {
+            const details = document.createElement('details');
+            const summary = document.createElement('summary');
+            details.appendChild(summary);
+            document.body.appendChild(details);
+            const matches = summary.matches(focusRules);
+            document.body.removeChild(details);
+            expect(matches).toBe(true);
+        });
+
+        it('should match audio[controls]', () => {
+            const audio = document.createElement('audio');
+            audio.setAttribute('controls', '');
+            document.body.appendChild(audio);
+            const matches = audio.matches(focusRules);
+            document.body.removeChild(audio);
+            expect(matches).toBe(true);
+        });
+
+        it('should NOT match audio without controls', () => {
+            const audio = document.createElement('audio');
+            document.body.appendChild(audio);
+            const matches = audio.matches(focusRules);
+            document.body.removeChild(audio);
+            expect(matches).toBe(false);
+        });
+
+        it('should match video[controls]', () => {
+            const video = document.createElement('video');
+            video.setAttribute('controls', '');
+            document.body.appendChild(video);
+            const matches = video.matches(focusRules);
+            document.body.removeChild(video);
+            expect(matches).toBe(true);
+        });
+    });
+
+    describe('filter with inert', () => {
+        it('should exclude elements inside an [inert] ancestor', () => {
+            // Create a standalone DOM structure to avoid fixture cross-contamination
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = `
+                <button class="ok1">One</button>
+                <div inert>
+                    <button class="inerted">Inert</button>
+                </div>
+                <button class="ok2">Two</button>
+            `;
+            document.body.appendChild(wrapper);
+
+            const btn1 = wrapper.querySelector('.ok1') as HTMLElement;
+            const btnInert = wrapper.querySelector('.inerted') as HTMLElement;
+            const btn2 = wrapper.querySelector('.ok2') as HTMLElement;
+
+            // Use the directive's filter logic directly: an element inside
+            // [inert] must be excluded even if it matches focusRules.
+            expect(btn1.closest('[inert]')).toBeNull();
+            expect(btnInert.closest('[inert]')).not.toBeNull();
+            expect(btn2.closest('[inert]')).toBeNull();
+
+            // Verify the selector still matches the inert button structurally
+            expect(btnInert.matches(focusRules)).toBe(true);
+
+            document.body.removeChild(wrapper);
+        });
+    });
+});

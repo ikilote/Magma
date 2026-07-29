@@ -17,7 +17,7 @@
 
     &.embedded {
         transition-duration: 0s;
-        box-shadow: 2px 2px 5px;
+        box-shadow: 2px 2px 5px var(--datetime-picker-embedded-shadow-color);
         background: var(--datetime-picker-embedded-background);
         padding: 10px;
     }

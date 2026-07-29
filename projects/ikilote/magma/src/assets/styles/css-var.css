@@ -122,6 +122,16 @@ body {
     --success950: hsl(120, 5%, var(--L950));
 
     /* MARK: global */
+    /* Transparency checkerboard. Conventional grey pattern used by image
+       editors to signal an alpha channel; deliberately not derived from the
+       palette so the "this is transparent" signal stays recognisable
+       whatever the theme. Consumers set the tile size at the usage site. */
+    --transparency-checkerboard: conic-gradient(
+        #ccc 0.25turn,
+        #aaa 0.25turn 0.5turn,
+        #ccc 0.5turn 0.75turn,
+        #aaa 0.75turn
+    );
     --background: var(--neutral010);
     --text-color: var(--primary950);
     --color-mode-border-color: var(--primary950);
@@ -144,7 +154,10 @@ body {
     --context-menu-item-radius: 4px;
     --context-menu-item-padding: 10px 20px 10px 10px;
 
+    --context-menu-item-shadow-color: #0008;
+
     /* MARK: ellipsis-button */
+    --ellipsis-list-shadow-color: #0005;
     --context-button-list-background: var(--primary200);
     --ellipsis-item-background: var(--primary300);
     --ellipsis-item-hover-background: var(--primary400);
@@ -252,6 +265,7 @@ body {
 
     /* MARK: color-picker */
     --color-picker-embedded-background: var(--neutral050);
+    --color-picker-embedded-shadow-color: #0005;
     --color-picker-color-view-border: 1px solid var(--neutral990);
     --color-picker-color-view-background: var(--background);
     --color-picker-color-cursor-zone-outline: 1px solid var(--neutral990);
@@ -267,6 +281,7 @@ body {
 
     /* MARK: datetime-picker */
     --datetime-picker-embedded-background: var(--neutral050);
+    --datetime-picker-embedded-shadow-color: #0005;
     --datetime-picker-head-background: var(--neutral100);
     --datetime-picker-day-color: var(--neutral500);
     --datetime-picker-day-background: var(--neutral100);

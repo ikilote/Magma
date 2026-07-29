@@ -38,7 +38,7 @@ button {
 }
 
 .mg-ellipsis-list {
-    box-shadow: 2px 2px 5px #0005;
+    box-shadow: 2px 2px 5px var(--ellipsis-list-shadow-color);
     border-radius: 6px;
     background: var(--context-button-list-background);
 }

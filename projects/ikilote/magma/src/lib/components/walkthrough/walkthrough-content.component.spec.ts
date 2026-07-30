@@ -3,6 +3,7 @@ import { PortalModule } from '@angular/cdk/portal';
 import { ChangeDetectionStrategy, Component, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { MagmaClickEnterDirective } from './../../directives/click-enter.directive';
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 import { MagmaWalkthrough } from './walkthrough.component';
@@ -35,11 +36,11 @@ import { cleanupOverlayContainer } from '../../test-helpers';
                 <div>Second step content</div>
             </ng-template>
         </mg-walkthrough>
-        <div class="target" style="width: 100px" (click)="call()">target</div>
+        <div class="target" style="width: 100px" (clickEnter)="call()">target</div>
         <div class="target2">target2</div>
     `,
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaWalkthrough, MagmaWalkthroughStep],
+    imports: [MagmaWalkthrough, MagmaWalkthroughStep, MagmaClickEnterDirective],
 })
 class TestHostComponent {
     walkthrough = viewChild.required(MagmaWalkthrough);

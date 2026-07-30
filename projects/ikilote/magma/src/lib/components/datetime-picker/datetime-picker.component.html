@@ -22,7 +22,14 @@
     </mg-input>
     <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="nextMonthHide()"></span>
   </div>
-  <div class="table" [class.week-number]="!hideWeekNumber()" (keydown)="move($event)">
+  <div
+    class="table"
+    [class.week-number]="!hideWeekNumber()"
+    (keydown)="move($event)"
+    tabindex="0"
+    role="grid"
+    [attr.aria-label]="texts()?.tableCalendar ?? 'Calendar'"
+  >
     @if (!hideWeekNumber()) {
       <div class="head"></div>
     }

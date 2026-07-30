@@ -35,6 +35,11 @@ export interface DateInfo {
     weekNumber: number | null;
 }
 
+export interface MagmaDatetimeTexts {
+    /** Accessible label for the calendar table. */
+    tableCalendar?: string;
+}
+
 let index = 0;
 
 export type MagmaDatetimePickerDays = 'Monday' | 'Sunday' | 'Saturday' | undefined;
@@ -73,6 +78,7 @@ export class MagmaDatetimePickerComponent implements OnChanges, OnDestroy {
     readonly weekend = input<WeekDay[]>(['Sunday', 'Saturday']);
     readonly hideWeekendStyle = input(false, { transform: booleanAttribute });
     readonly hideWeekNumber = input(false, { transform: booleanAttribute });
+    readonly texts = input<MagmaDatetimeTexts | undefined>({});
 
     // output
 

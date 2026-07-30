@@ -7,8 +7,9 @@ import { MagmaStopPropagationDirective } from './stop-propagation.directive';
 
 @Component({
     template: `
-        <div (keydown)="onKeydown($event)" (click)="onClick($event)">
+        <div tabindex="0" (keydown)="onKeydown($event)" (click)="onClick($event)">
             <div
+                tabindex="0"
                 stop-propagation
                 [stopKeydown]="stopKeydown"
                 [stopClick]="stopClick"

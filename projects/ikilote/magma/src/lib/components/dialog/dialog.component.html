@@ -6,6 +6,7 @@
     [attr.aria-labelledby]="computedId() + '-title'"
     aria-modal="true"
     (click)="_propagationStop($event)"
+    (keydown)="_propagationStop($event)"
     limitFocus
     #div
   >

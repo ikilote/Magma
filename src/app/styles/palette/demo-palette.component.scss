@@ -42,3 +42,38 @@ figure {
         text-align: center;
     }
 }
+
+// Contrast checker table
+.contrast-table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9em;
+
+    th,
+    td {
+        border-bottom: 1px solid var(--color-border);
+        padding: 6px 10px;
+        text-align: left;
+    }
+
+    th {
+        background: var(--color-surface-sunken);
+        font-weight: 600;
+    }
+
+    .sample {
+        border-radius: 4px;
+        padding: 4px 12px;
+        font-weight: 700;
+    }
+
+    .pass {
+        color: var(--success700);
+        font-weight: 700;
+    }
+
+    .fail {
+        color: var(--alert600);
+        font-weight: 700;
+    }
+}

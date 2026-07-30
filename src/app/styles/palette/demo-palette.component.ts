@@ -1,8 +1,10 @@
-import { ChangeDetectionStrategy, Component, Renderer2, RendererStyleFlags2, inject } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Renderer2, RendererStyleFlags2, inject, signal } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {
     FormBuilderExtended,
+    LightDark,
     MagmaBlock,
     MagmaBlockMessage,
     MagmaInput,
@@ -51,6 +53,7 @@ interface PaletteKnob {
     styleUrl: './demo-palette.component.scss',
     imports: [
         ReactiveFormsModule,
+        DecimalPipe,
         MagmaTabsModule,
         MagmaMessage,
         MagmaBlock,
@@ -158,12 +161,19 @@ export class DemoPaletteComponent {
         successH: { default: DEFAULTS.successH },
     });
 
+    private readonly lightDark = inject(LightDark);
+
     constructor() {
         this.form.valueChanges.subscribe(() => {
             this.apply();
             this.cssUpdate();
         });
         this.cssUpdate();
+
+        // Recalculate contrast when the theme changes (light ↔ dark).
+        this.lightDark.themeChange$.subscribe(() => {
+            setTimeout(() => this.updateContrastPairs(), 50);
+        });
     }
 
     /** Restores the values shipped by the library. */
@@ -187,5 +197,67 @@ export class DemoPaletteComponent {
         this.css = `body {
   ${this.knobs.map(v => `${v.variable}: ${this.form.value[v.name]}${v.unit};`).join('\n  ')}
 }`;
+        this.updateContrastPairs();
+    }
+
+    // ── Contrast checker ────────────────────────────────────────────────────
+
+    /** Pairs of semantic tokens whose contrast matters for accessibility. */
+    readonly contrastPairs: { label: string; fgVar: string; bgVar: string; ratio: () => number }[] = [];
+
+    private readonly pairDefs: { fgVar: string; bgVar: string }[] = [
+        { fgVar: '--color-on-surface', bgVar: '--color-surface' },
+        { fgVar: '--color-on-surface', bgVar: '--color-surface-raised' },
+        { fgVar: '--color-on-surface', bgVar: '--color-surface-sunken' },
+        { fgVar: '--color-on-surface-muted', bgVar: '--color-surface' },
+        { fgVar: '--color-on-surface-muted', bgVar: '--color-surface-raised' },
+        { fgVar: '--color-border', bgVar: '--color-surface' },
+        { fgVar: '--color-border', bgVar: '--color-surface-raised' },
+        { fgVar: '--color-border-strong', bgVar: '--color-surface' },
+        { fgVar: '--color-on-primary', bgVar: '--color-primary' },
+        { fgVar: '--color-on-primary', bgVar: '--color-primary-hover' },
+    ];
+
+    private updateContrastPairs() {
+        const style = getComputedStyle(document.body);
+        // Clear and rebuild so the template picks up new signal values.
+        this.contrastPairs.length = 0;
+        for (const def of this.pairDefs) {
+            const fgColor = style.getPropertyValue(def.fgVar).trim();
+            const bgColor = style.getPropertyValue(def.bgVar).trim();
+            const r = this.computeContrast(fgColor, bgColor);
+            const ratio = signal(r);
+            this.contrastPairs.push({
+                label: `${def.fgVar} on ${def.bgVar}`,
+                fgVar: def.fgVar,
+                bgVar: def.bgVar,
+                ratio,
+            });
+        }
+    }
+
+    /** WCAG 2.1 contrast ratio from two resolved CSS colour strings. */
+    private computeContrast(fg: string, bg: string): number {
+        const l1 = this.relativeLuminance(fg);
+        const l2 = this.relativeLuminance(bg);
+        const lighter = Math.max(l1, l2);
+        const darker = Math.min(l1, l2);
+        return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    /** Parses a resolved CSS colour (rgb or hsl) and returns WCAG relative luminance. */
+    private relativeLuminance(color: string): number {
+        // Use a temporary element to let the browser resolve any format to rgb.
+        const el = document.createElement('div');
+        el.style.color = color;
+        document.body.appendChild(el);
+        const resolved = getComputedStyle(el).color;
+        document.body.removeChild(el);
+        const m = resolved.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+        if (!m) return 0;
+        const [r, g, b] = [+m[1] / 255, +m[2] / 255, +m[3] / 255].map(c =>
+            c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4,
+        );
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     }
 }

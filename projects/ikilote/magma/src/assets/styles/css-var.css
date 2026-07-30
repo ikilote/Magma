@@ -185,12 +185,14 @@ body {
     --color-surface-sunken: var(--neutral100);
     /* On surface: primary text and icon color on any surface. */
     --color-on-surface: var(--neutral990);
-    /* On surface muted: secondary text, placeholders, disabled labels. */
-    --color-on-surface-muted: var(--neutral500);
-    /* Border: default border color (inputs, cards, dividers). */
-    --color-border: var(--neutral300);
+    /* On surface muted: secondary text, placeholders, disabled labels.
+       Ratio ≥ 6:1 on surface-raised in light mode (WCAG AA). */
+    --color-on-surface-muted: var(--neutral600);
+    /* Border: default border color (inputs, cards, dividers).
+       Ratio ≥ 3:1 on surface-raised in light mode (WCAG SC 1.4.11). */
+    --color-border: var(--neutral500);
     /* Border strong: accentuated borders (focus indicators, strong dividers). */
-    --color-border-strong: var(--neutral500);
+    --color-border-strong: var(--neutral700);
     /* Primary: main accent color (buttons, links, active states). */
     --color-primary: var(--primary500);
     /* On primary: text/icon color on a primary-colored background. */

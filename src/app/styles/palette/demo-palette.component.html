@@ -34,6 +34,7 @@
 <mg-tabs>
   <mg-tab-title id="palette">Palette</mg-tab-title>
   <mg-tab-title id="components">Components</mg-tab-title>
+  <mg-tab-title id="contrast">Contrast check</mg-tab-title>
 
   <mg-tab-content id="palette">
     @for (list of palette; track $index) {
@@ -101,6 +102,51 @@
         <mg-message-block type="error">Error message</mg-message-block>
         <mg-message-block type="tip">Tip message</mg-message-block>
       </mg-message>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-content id="contrast">
+    <section>
+      <h3>WCAG contrast ratios (live)</h3>
+      <p>Computed from the current palette variables on <code>body</code>. Green = AA pass, red = fail.</p>
+      <table class="contrast-table">
+        <thead>
+          <tr>
+            <th>Foreground</th>
+            <th>Background</th>
+            <th>Sample</th>
+            <th>Ratio</th>
+            <th>AA text</th>
+            <th>AA non-text</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pair of contrastPairs; track pair.label) {
+            <tr>
+              <td>
+                <code>{{ pair.fgVar }}</code>
+              </td>
+              <td>
+                <code>{{ pair.bgVar }}</code>
+              </td>
+              <td
+                class="sample"
+                [style.color]="'var(' + pair.fgVar + ')'"
+                [style.background]="'var(' + pair.bgVar + ')'"
+              >
+                Aa
+              </td>
+              <td>{{ pair.ratio() | number: '1.1-1' }}:1</td>
+              <td [class.pass]="pair.ratio() >= 4.5" [class.fail]="pair.ratio() < 4.5">
+                {{ pair.ratio() >= 4.5 ? '✓' : '✗' }}
+              </td>
+              <td [class.pass]="pair.ratio() >= 3" [class.fail]="pair.ratio() < 3">
+                {{ pair.ratio() >= 3 ? '✓' : '✗' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </section>
   </mg-tab-content>
 </mg-tabs>

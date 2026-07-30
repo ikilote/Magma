@@ -218,7 +218,7 @@ Color palette derived from a single hue plus lightness steps. Override `--primar
 | `--success800` | `hsl(var(--successH), 45%, var(--L800))`                 | Success800. |
 | `--success900` | `hsl(var(--successH), 25%, var(--L900))`                 | Success900. |
 | `--success950` | `hsl(var(--successH), 5%, var(--L950))`                  | Success950. |
- 
+
 ## global
 
 Cross-component values.
@@ -241,9 +241,9 @@ Cross-component values.
 | `--color-surface-raised`   | `var(--neutral050)` | Color surface raised.   |
 | `--color-surface-sunken`   | `var(--neutral100)` | Color surface sunken.   |
 | `--color-on-surface`       | `var(--neutral990)` | Color on surface.       |
-| `--color-on-surface-muted` | `var(--neutral500)` | Color on surface muted. |
-| `--color-border`           | `var(--neutral300)` | Color border.           |
-| `--color-border-strong`    | `var(--neutral500)` | Color border strong.    |
+| `--color-on-surface-muted` | `var(--neutral600)` | Color on surface muted. |
+| `--color-border`           | `var(--neutral500)` | Color border.           |
+| `--color-border-strong`    | `var(--neutral700)` | Color border strong.    |
 | `--color-primary`          | `var(--primary500)` | Color primary.          |
 | `--color-on-primary`       | `var(--neutral000)` | Color on primary.       |
 | `--color-primary-hover`    | `var(--primary700)` | Color primary hover.    |

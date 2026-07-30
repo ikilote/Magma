@@ -174,3 +174,80 @@ describe('LightDark', () => {
         });
     });
 });
+
+describe('LightDark — theme signal and themeChange$ subject', () => {
+    let service: LightDark;
+
+    beforeEach(() => {
+        // Minimal setup: mock matchMedia and RendererFactory
+        vi.spyOn(window, 'matchMedia').mockReturnValue({
+            matches: false,
+            addEventListener: vi.fn(),
+        } as any);
+
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(LightDark);
+    });
+
+    it('should have theme signal default to "light"', () => {
+        expect(service.theme()).toBe('light');
+    });
+
+    it('should update theme signal when changeThemeClass is called', () => {
+        service.init('dark');
+        expect(service.theme()).toBe('dark');
+    });
+
+    it('should update theme signal when set() is called', () => {
+        service.init();
+        service.set('dark');
+        expect(service.theme()).toBe('dark');
+    });
+
+    it('should emit on themeChange$ when changeThemeClass is called', () => {
+        const emissions: string[] = [];
+        service.themeChange$.subscribe(v => emissions.push(v));
+
+        service.init(); // emits 'light'
+        service.set('dark'); // emits 'dark'
+
+        expect(emissions).toContain('light');
+        expect(emissions).toContain('dark');
+    });
+
+    it('should emit the correct theme value on themeChange$', () => {
+        let lastEmission: string | undefined;
+        service.themeChange$.subscribe(v => (lastEmission = v));
+
+        service.init('dark');
+        expect(lastEmission).toBe('dark');
+
+        service.set('light');
+        expect(lastEmission).toBe('light');
+    });
+
+    it('should emit on themeChange$ when browser preference changes', () => {
+        let eventHandler: ((e: any) => void) | undefined;
+        vi.spyOn(window, 'matchMedia').mockReturnValue({
+            matches: false,
+            addEventListener: vi.fn((_event: string, handler: (e: any) => void) => {
+                eventHandler = handler;
+            }),
+        } as any);
+
+        // Re-create with new mock
+        TestBed.resetTestingModule();
+        TestBed.configureTestingModule({});
+        const svc = TestBed.inject(LightDark);
+
+        const emissions: string[] = [];
+        svc.themeChange$.subscribe(v => emissions.push(v));
+
+        svc.init();
+        expect(emissions[0]).toBe('light');
+
+        // Simulate browser going dark
+        eventHandler!({ matches: true });
+        expect(emissions[1]).toBe('dark');
+    });
+});

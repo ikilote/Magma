@@ -1,4 +1,6 @@
-import { Injectable, Renderer2, RendererFactory2, inject } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2, inject, signal } from '@angular/core';
+
+import { Subject } from 'rxjs';
 
 export type PreferenceInterfaceTheme = 'dark' | 'light';
 
@@ -8,6 +10,14 @@ export type PreferenceInterfaceTheme = 'dark' | 'light';
 export class LightDark {
     private browserLightDark: PreferenceInterfaceTheme | undefined;
     private userLightDark: PreferenceInterfaceTheme | undefined;
+
+    /** Reactive signal emitting the current theme. Updates on every change
+     *  (user toggle, browser preference change, or programmatic `set()`). */
+    readonly theme = signal<PreferenceInterfaceTheme>('light');
+
+    /** Observable that emits after each theme change, once the class swap on
+     *  body is done and computed styles are ready to be read. */
+    readonly themeChange$ = new Subject<PreferenceInterfaceTheme>();
 
     readonly rendererFactory = inject(RendererFactory2);
     private readonly renderer: Renderer2;
@@ -51,6 +61,8 @@ export class LightDark {
     changeThemeClass() {
         this.renderer.addClass(document.body, this.isLight() ? 'light-mode' : 'dark-mode');
         this.renderer.removeClass(document.body, !this.isLight() ? 'light-mode' : 'dark-mode');
+        this.theme.set(this.currentTheme());
+        this.themeChange$.next(this.currentTheme());
     }
 
     toggleTheme() {

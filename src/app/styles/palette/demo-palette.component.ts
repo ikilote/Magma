@@ -1,5 +1,13 @@
 import { DecimalPipe } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Renderer2, RendererStyleFlags2, inject, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    Renderer2,
+    RendererStyleFlags2,
+    inject,
+    signal,
+} from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import {
@@ -71,6 +79,8 @@ interface PaletteKnob {
 export class DemoPaletteComponent {
     private readonly fbe = inject(FormBuilderExtended);
     private readonly renderer = inject(Renderer2);
+    private readonly lightDark = inject(LightDark);
+    private readonly cd = inject(ChangeDetectorRef);
 
     css = '';
 
@@ -161,8 +171,6 @@ export class DemoPaletteComponent {
         successH: { default: DEFAULTS.successH },
     });
 
-    private readonly lightDark = inject(LightDark);
-
     constructor() {
         this.form.valueChanges.subscribe(() => {
             this.apply();
@@ -172,7 +180,10 @@ export class DemoPaletteComponent {
 
         // Recalculate contrast when the theme changes (light ↔ dark).
         this.lightDark.themeChange$.subscribe(() => {
-            setTimeout(() => this.updateContrastPairs(), 50);
+            setTimeout(() => {
+                this.apply();
+                this.cssUpdate();
+            }, 50);
         });
     }
 
@@ -189,10 +200,19 @@ export class DemoPaletteComponent {
     private apply() {
         for (const knob of this.knobs) {
             const value = this.form.value[knob.name];
-            if (value === null || value === undefined) continue;
-            this.renderer.setStyle(document.body, knob.variable, `${value}${knob.unit}`, RendererStyleFlags2.DashCase);
+            if (value !== null && value !== undefined) {
+                this.renderer.setStyle(
+                    document.body,
+                    knob.variable,
+                    `${value}${knob.unit}`,
+                    RendererStyleFlags2.DashCase,
+                );
+            }
         }
     }
+
+    // ── CSS variable list ────────────────────────────────────────────────────
+
     private cssUpdate() {
         this.css = `body {
   ${this.knobs.map(v => `${v.variable}: ${this.form.value[v.name]}${v.unit};`).join('\n  ')}
@@ -234,9 +254,10 @@ export class DemoPaletteComponent {
                 ratio,
             });
         }
+        this.cd.markForCheck();
     }
 
-    /** WCAG 2.1 contrast ratio from two resolved CSS colour strings. */
+    /** WCAG 2.1 contrast ratio from two resolved CSS color strings. */
     private computeContrast(fg: string, bg: string): number {
         const l1 = this.relativeLuminance(fg);
         const l2 = this.relativeLuminance(bg);
@@ -245,7 +266,7 @@ export class DemoPaletteComponent {
         return (lighter + 0.05) / (darker + 0.05);
     }
 
-    /** Parses a resolved CSS colour (rgb or hsl) and returns WCAG relative luminance. */
+    /** Parses a resolved CSS color (rgb or hsl) and returns WCAG relative luminance. */
     private relativeLuminance(color: string): number {
         // Use a temporary element to let the browser resolve any format to rgb.
         const el = document.createElement('div');
@@ -254,7 +275,9 @@ export class DemoPaletteComponent {
         const resolved = getComputedStyle(el).color;
         document.body.removeChild(el);
         const m = resolved.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
-        if (!m) return 0;
+        if (!m) {
+            return 0;
+        }
         const [r, g, b] = [+m[1] / 255, +m[2] / 255, +m[3] / 255].map(c =>
             c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4,
         );

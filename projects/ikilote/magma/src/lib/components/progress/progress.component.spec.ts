@@ -43,8 +43,9 @@ describe('MagmaProgress usage', () => {
     let wrapperComponent: TestWrapperComponent;
 
     beforeEach(async () => {
+        TestBed.resetTestingModule();
         await TestBed.configureTestingModule({
-            imports: [MagmaProgress],
+            imports: [MagmaProgress, TestWrapperComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(TestWrapperComponent);

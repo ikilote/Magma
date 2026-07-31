@@ -20,13 +20,17 @@ let counter = 0;
     host: {
         '[id]': '_id()',
         '[class.show-arrows]': 'showArrows()',
-        '[attr.data-number]': 'numberFormat.transform(_value, formater())',
+        '[attr.data-number]': 'formattedNumber',
     },
 })
 export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: string; value: number })[]> {
     override readonly componentName = 'input-number';
     protected override counter = counter++;
     protected numberFormat = new NumFormatPipe();
+
+    get formattedNumber() {
+        return this.numberFormat.transform(this._value as number, this.formater());
+    }
 
     static readonly acceptKeys = [
         '0',
@@ -66,9 +70,9 @@ export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: strin
         return this.input()?.[0]?.nativeElement;
     }
 
-    override writeValue(value: any): void {
+    override writeValue(value: unknown): void {
         super.writeValue(value);
-        this.inputElement!.value = value ?? '';
+        this.inputElement!.value = String(this._value ?? '');
     }
 
     changeValue(event: Event) {
@@ -96,8 +100,8 @@ export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: strin
     focus(event: Event, focus: boolean) {
         if (!focus) {
             const input = this.getInput(event);
-            if (input.value !== this._value) {
-                input.value = this._value;
+            if (input.value !== String(this._value ?? '')) {
+                input.value = String(this._value ?? '');
             }
             this.onTouched();
             if (this.ngControl?.control) {

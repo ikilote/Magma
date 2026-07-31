@@ -14,10 +14,10 @@ export class MagmaNgModelChangeDebouncedDirective implements OnDestroy {
     /** Input for the debounce time (default: 500ms) */
     readonly ngModelChangeDebounceTime = input(500, { transform: numberAttribute });
     /** Output to emit the debounced value */
-    readonly ngModelChangeDebounced = output<any>();
+    readonly ngModelChangeDebounced = output<unknown>();
 
     // Subject to relay value changes and allow dynamic debounce
-    private valueChanges$ = new Subject<any>();
+    private valueChanges$ = new Subject<unknown>();
     // Subscription to manage the debounced stream
     private debouncedSubscription!: Subscription;
 

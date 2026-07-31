@@ -28,10 +28,10 @@ import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from '../
 import { MagmaResize } from '../../directives/resizer.directive';
 
 export type MagmaWindowFixed = boolean | 'top' | 'left' | 'right' | 'bottom';
-export type MagmaWindowInitParamsTitle = string | { component: Type<any>; inputs?: Record<string, any> };
+export type MagmaWindowInitParamsTitle = string | { component: Type<unknown>; inputs?: Record<string, unknown> };
 
 export interface MagmaWindowInitParams {
-    inputs?: Record<string, any>;
+    inputs?: Record<string, unknown>;
     id?: string;
     position?: 'default' | 'center' | { x: number; y: number };
     zoneSelector?: string;
@@ -50,7 +50,7 @@ export interface MagmaWindowInitParams {
 }
 
 export interface MagmaWindowInfos extends MagmaWindowInitParams {
-    component: Type<any>;
+    component: Type<unknown>;
     id: string;
     overlayRef?: OverlayRef;
     index: WritableSignal<number>;
@@ -170,7 +170,9 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         }
     }
 
-    titleComponent(title?: MagmaWindowInitParamsTitle): { component: Type<any>; inputs?: Record<string, any> } | null {
+    titleComponent(
+        title?: MagmaWindowInitParamsTitle,
+    ): { component: Type<unknown>; inputs?: Record<string, unknown> } | null {
         return !!title && typeof title === 'object' && 'component' in title && title.component
             ? { component: title.component, inputs: title.inputs }
             : null;
@@ -302,7 +304,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
      * CDK Drag constrain function — called on every frame during drag.
      * Clamps the position within the zone boundaries (or viewport if no zone).
      */
-    constrainPosition = (point: Point, _dragRef: any): Point => {
+    constrainPosition = (point: Point, _dragRef: unknown): Point => {
         const zone = this.getZone();
         const element = this.elementWin()?.[0]?.nativeElement;
 
@@ -400,7 +402,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         }
     }
 
-    protected withContext(inputs?: Record<string, any>): Record<string, any> & { parent: MagmaWindow } {
+    protected withContext(inputs?: Record<string, unknown>): Record<string, unknown> & { parent: MagmaWindow } {
         return { ...inputs, ...{ parent: this } };
     }
 

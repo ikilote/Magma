@@ -18,10 +18,10 @@ interface ContextMenuItemBase<T> {
     action: (arg: T) => void;
 }
 
-type ContextMenuItemInputs<T> = { context?: MagmaContextMenu<T> } & Record<string, any>;
+type ContextMenuItemInputs<T> = { context?: MagmaContextMenu<T> } & Record<string, unknown>;
 
 interface ContextMenuItemComponentBase<T> {
-    component: Type<any>;
+    component: Type<unknown>;
     inputs?: ContextMenuItemInputs<T>;
 }
 

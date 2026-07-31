@@ -25,7 +25,9 @@ export class MagmaInputRadio extends MagmaInputCommon implements AfterContentChe
     override readonly value = input.required();
 
     readonly checked = input(false, { transform: booleanAttribute });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly placeholder: any = undefined; // not for radio
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly datalist: any = undefined; // not for radio
 
     protected testChecked: boolean | undefined;
@@ -33,7 +35,7 @@ export class MagmaInputRadio extends MagmaInputCommon implements AfterContentChe
     protected override _baseValue = 'checked';
 
     override _name = computed<string>(
-        () => this.refreshTrigger() || this.formControlName() || this.name() || this.host?._id() || this.uid(),
+        () => (this.refreshTrigger(), this.formControlName() || this.name() || this.host?._id() || this.uid()),
     );
 
     override ngOnChanges(changes: SimpleChanges): void {
@@ -42,7 +44,7 @@ export class MagmaInputRadio extends MagmaInputCommon implements AfterContentChe
         }
     }
 
-    override writeValue(value: any): void {
+    override writeValue(value: unknown): void {
         super.writeValue(value);
         this.testChecked = value === this.value();
         this.cd.detectChanges();

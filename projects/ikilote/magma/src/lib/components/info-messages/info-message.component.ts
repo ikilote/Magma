@@ -3,7 +3,7 @@ import { Component, ElementRef, HostListener, inject, input, output } from '@ang
 
 import { MagmaMessageInfo } from '../../services/messages';
 
-export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, any>;
+export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, unknown>;
 
 @Component({
     selector: 'info-message',
@@ -60,6 +60,6 @@ export class InfoMessageComponent {
     }
 
     withContext(inputs?: ContextMessageInputs) {
-        return { ...inputs, ...{ context: this as any } };
+        return { ...inputs, ...{ context: this as InfoMessageComponent } };
     }
 }

@@ -16,8 +16,8 @@ export class Logger {
     static minLogLevel: keyof typeof LoggerLevel = 'info';
     static suffix = '';
 
-    log(value: string, level: LoggerLevel = LoggerLevel.log, ...values: any[]) {
-        if (level < (LoggerLevel as any)[Logger.minLogLevel || 'info'] || 0) {
+    log(value: string, level: LoggerLevel = LoggerLevel.log, ...values: unknown[]) {
+        if (level < LoggerLevel[Logger.minLogLevel || 'info']) {
             return;
         }
 
@@ -40,19 +40,19 @@ export class Logger {
         }
     }
 
-    error(value: string, ...values: any[]) {
+    error(value: string, ...values: unknown[]) {
         this.log(value, LoggerLevel.error, ...values);
     }
 
-    info(value: string, ...values: any[]) {
+    info(value: string, ...values: unknown[]) {
         this.log(value, LoggerLevel.info, ...values);
     }
 
-    debug(value: string, ...values: any[]) {
+    debug(value: string, ...values: unknown[]) {
         this.log(value, LoggerLevel.debug, ...values);
     }
 
-    warn(value: string, ...values: any[]) {
+    warn(value: string, ...values: unknown[]) {
         this.log(value, LoggerLevel.warn, ...values);
     }
 }

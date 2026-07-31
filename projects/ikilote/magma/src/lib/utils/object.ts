@@ -1,6 +1,6 @@
 export function objectsAreSame(
-    objA?: Record<string, any>,
-    objB?: Record<string, any>,
+    objA?: Record<string, unknown>,
+    objB?: Record<string, unknown>,
     ignoreKeys: string[] = [],
 ): boolean {
     if (objA === objB) {
@@ -11,10 +11,10 @@ export function objectsAreSame(
 
     let areTheSame = true;
 
-    const isObject = (a: Record<string, any>, b: Record<string, any>) =>
+    const isObject = (a: unknown, b: unknown): a is Record<string, unknown> =>
         typeof a === 'object' && !Array.isArray(a) && !!a && !!b;
 
-    const compareValues = (a: Record<string, any>, b: Record<string, any>) => {
+    const compareValues = (a: unknown, b: unknown) => {
         if (Array.isArray(a)) {
             if (Array.isArray(b)) {
                 let aCopy = [...a];
@@ -31,7 +31,10 @@ export function objectsAreSame(
             } else {
                 areTheSame = false;
             }
-        } else if ((!isObject(a, b) && a !== b) || (isObject(a, b) && !objectsAreSame(a, b, ignoreKeys))) {
+        } else if (
+            (!isObject(a, b) && a !== b) ||
+            (isObject(a, b) && !objectsAreSame(a as Record<string, unknown>, b as Record<string, unknown>, ignoreKeys))
+        ) {
             areTheSame = false;
         }
     };
@@ -57,21 +60,26 @@ export function objectsAreSame(
     return areTheSame;
 }
 
-export function objectNestedValue<T = any>(object: any, path: (string | number)[] | string): any {
+export function objectNestedValue<T = unknown>(object: unknown, path: (string | number)[] | string): T | undefined {
     if (typeof path === 'string') {
         path = path !== '' ? path.split('.') : [];
     }
-    return path.reduce((obj, key) => (obj ? obj[key] : undefined), object) as T;
+    return path.reduce((obj: unknown, key: string | number) => {
+        if (obj && typeof obj === 'object') {
+            return (obj as Record<string | number, unknown>)[key];
+        }
+        return undefined;
+    }, object) as T | undefined;
 }
 
-export function objectAssignNested(target: any, ...sources: any[]) {
+export function objectAssignNested(target: Record<string, unknown>, ...sources: Record<string, unknown>[]) {
     sources.forEach(source => {
         Object.keys(source).forEach(key => {
             const sourceVal = source[key];
             const targetVal = target[key];
             target[key] =
                 typeof targetVal === 'object' && typeof sourceVal === 'object'
-                    ? objectAssignNested(targetVal, sourceVal)
+                    ? objectAssignNested(targetVal as Record<string, unknown>, sourceVal as Record<string, unknown>)
                     : sourceVal;
         });
     });

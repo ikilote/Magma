@@ -13,7 +13,7 @@ const connectedPosition: ConnectedPosition[] = [
 
 @Directive()
 export abstract class AbstractContextMenuComponent {
-    context = input<MagmaContextMenu<any>>();
+    context = input<MagmaContextMenu<unknown>>();
 }
 
 @Directive({

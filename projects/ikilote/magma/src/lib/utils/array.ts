@@ -11,8 +11,8 @@ export type MagmaStringArray = string | MagmaStringArray[];
  * @param ruleList rules
  * @param currentRuleOrder if false reverse order (default: true)
  */
-export function sortWithRule<T = any>(
-    sortable: any[] | undefined,
+export function sortWithRule<T = unknown>(
+    sortable: T[] | undefined,
     ruleList: MagmaSortRules,
     currentRuleOrder = true,
 ): void {
@@ -27,8 +27,8 @@ export function sortWithRule<T = any>(
         sortable.sort((a: T, b: T) => {
             for (const rule of rules) {
                 if (rule && 'type' in rule && rule.type !== 'none') {
-                    let valA: any = undefined;
-                    let valB: any = undefined;
+                    let valA: unknown = undefined;
+                    let valB: unknown = undefined;
                     for (const frag of rule.attr.split(',')) {
                         valA ??= objectNestedValue(a, frag);
                         valB ??= objectNestedValue(b, frag);
@@ -44,12 +44,16 @@ export function sortWithRule<T = any>(
                         } else if (valB === null || valB === undefined) {
                             return -1; // Always place invalid values at the end
                         } else {
-                            test = valA.toString().localeCompare(valB.toString());
+                            test = String(valA).localeCompare(String(valB));
                         }
                     } else if (rule.type === 'translate') {
                         test = rule
-                            .translate(rule.translateId.replace('%value%', valA || rule.default))
-                            .localeCompare(rule.translate(rule.translateId.replace('%value%', valB || rule.default)));
+                            .translate(rule.translateId.replace('%value%', (valA as string) || rule.default || ''))
+                            .localeCompare(
+                                rule.translate(
+                                    rule.translateId.replace('%value%', (valB as string) || rule.default || ''),
+                                ),
+                            );
                     } else if (rule.type === 'number') {
                         // Handle null/undefined/NaN by placing them at the end
                         if (notANumber(valA) && notANumber(valB)) {
@@ -59,11 +63,11 @@ export function sortWithRule<T = any>(
                         } else if (notANumber(valB)) {
                             return -1; // Always place invalid values at the end
                         } else {
-                            test = valA - valB;
+                            test = (valA as number) - (valB as number);
                         }
                     } else if (rule.type === 'date') {
-                        const dateA = valA ? new Date(valA).getTime() : 0;
-                        const dateB = valB ? new Date(valB).getTime() : 0;
+                        const dateA = valA ? new Date(valA as string | number).getTime() : 0;
+                        const dateB = valB ? new Date(valB as string | number).getTime() : 0;
                         test = (isNaN(dateA) ? 0 : dateA) - (isNaN(dateB) ? 0 : dateB);
                     } else {
                         test = `${valA}`.localeCompare(`${valB}`);
@@ -105,8 +109,8 @@ export function flattenedListItems(values: MagmaStringArray, pattern = /\s*,\s*/
     if (typeof values === 'string') {
         values = values.split(pattern);
     }
-    const list: any[] = [];
-    values?.flat(20).forEach((value: any) => {
+    const list: string[] = [];
+    values?.flat(20).forEach(value => {
         if (typeof value === 'string' && value) {
             list.push(...value.split(pattern));
         }

@@ -33,7 +33,7 @@ export class MagmaTableRow implements AfterViewInit, AfterViewChecked {
     readonly inputs = contentChildren(MagmaTableCell);
 
     index = 0;
-    _data!: any[];
+    _data!: unknown[][];
 
     ngAfterViewInit(): void {
         if (this.host) {

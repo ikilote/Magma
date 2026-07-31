@@ -14,7 +14,7 @@ export enum MagmaMessageType {
     tip = 'tip',
 }
 
-export type MagmaMessageContent = string | { component: Type<any>; input?: Record<string, any> };
+export type MagmaMessageContent = string | { component: Type<unknown>; input?: Record<string, unknown> };
 
 export interface MagmaMessageInfo {
     message: MagmaMessageContent;

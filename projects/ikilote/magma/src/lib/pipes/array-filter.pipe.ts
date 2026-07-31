@@ -15,7 +15,7 @@ import { isEmpty } from '../utils/other';
     pure: false,
 })
 export class ArrayFilterPipe implements PipeTransform {
-    transform(items: any[], callback: (item: any) => boolean): any {
+    transform<T>(items: T[], callback: (item: T) => boolean): T[] {
         return Array.isArray(items) && !isEmpty(items) && typeof callback === 'function'
             ? items.filter(item => callback(item))
             : items;

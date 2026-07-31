@@ -1,7 +1,7 @@
 @if (!onError()) {
   <ng-select2
     [id]="_id() + '-select2'"
-    [value]="_value"
+    [value]="$any(_value)"
     [placeholder]="placeholderDisplay()"
     [minCharForSearch]="minCharForSearch()"
     [displaySearchStatus]="displaySearchStatus()"

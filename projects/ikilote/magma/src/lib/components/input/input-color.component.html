@@ -1,11 +1,11 @@
 @if (!onError()) {
-  <input type="hidden" [value]="_value ?? ''" #input />
+  <input type="hidden" [value]="$any(_value) ?? ''" #input />
   <span
     [id]="_id() + '-input'"
-    [style.--color]="_value"
+    [style.--color]="$any(_value)"
     class="spanPicker"
     [class.empty]="!_value"
-    [colorPicker]="_value"
+    [colorPicker]="$any(_value)"
     [colorPickerAlpha]="alpha()"
     [colorPickerDisabled]="disabled()"
     [colorPickerReadonly]="readonly()"

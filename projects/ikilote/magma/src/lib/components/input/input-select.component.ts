@@ -49,6 +49,7 @@ export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
     override readonly componentName = 'input-select';
     protected override counter = counter++;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly datalist: any = undefined; // not for select
 
     // ----------------------- input
@@ -109,7 +110,7 @@ export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
     readonly templates = input<Select2Template>(undefined);
 
     /** template for formatting selected option */
-    readonly templateSelection = input<TemplateRef<any> | undefined>(undefined);
+    readonly templateSelection = input<TemplateRef<unknown> | undefined>(undefined);
 
     /** the max height of the results container when opening the select */
     readonly resultMaxHeight = input('200px');
@@ -130,7 +131,7 @@ export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
     readonly resettable = input(false, { transform: booleanAttribute });
 
     /** selected value when × is clicked */
-    readonly resetSelectedValue = input<any>(undefined);
+    readonly resetSelectedValue = input<unknown>(undefined);
 
     /** highlight search text */
     readonly highlightText = input(false, { transform: booleanAttribute });
@@ -241,7 +242,7 @@ export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
         }
     }
 
-    override writeValue(value: any): void {
+    override writeValue(value: unknown): void {
         super.writeValue(value);
         this.inputElement?.writeValue(value);
     }

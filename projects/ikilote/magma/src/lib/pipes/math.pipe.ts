@@ -14,8 +14,8 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'math',
 })
 export class MathPipe implements PipeTransform {
-    transform(value: any, name: string, ...args: any[]): any {
-        const fn = (Math as any)[name];
-        return typeof fn === 'function' ? fn(value, ...args) : undefined;
+    transform(value: number | string | null | undefined, name: string, ...args: number[]): number | undefined {
+        const fn = Math[name as keyof typeof Math];
+        return typeof fn === 'function' ? (fn as (...a: number[]) => number)(Number(value), ...args) : undefined;
     }
 }

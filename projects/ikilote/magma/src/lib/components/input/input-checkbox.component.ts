@@ -34,12 +34,14 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
     protected override counter = counter++;
     protected override _baseValue = 'checked';
 
-    override readonly value = input<any>();
+    override readonly value = input<unknown>();
     readonly checked = input(false, { transform: booleanAttribute });
     readonly mode = input<'checkbox' | 'toggle'>();
 
     testChecked: boolean | undefined = undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly placeholder: any = undefined; // not for checkbox
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly datalist: any = undefined; // not for checkbox>(() => this.formControlName() || this.name() || this.host?._id() || this.uid());
 
     readonly label = viewChildren<ElementRef<HTMLLabelElement>>('ref');
@@ -77,7 +79,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
         this.cd.detectChanges();
     }
 
-    override writeValue(value: any): void {
+    override writeValue(value: unknown): void {
         // required for host
         setTimeout(() => {
             this.testChecke(value);
@@ -85,14 +87,15 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
         });
     }
 
-    testChecke(value: any) {
+    testChecke(value: unknown) {
         if (this.host) {
+            const arrayValue = Array.isArray(value) ? value : [];
             this.testChecked =
                 (this.host.typeValue() === 'array' || this.host.inputs().length > 1) && Array.isArray(value)
                     ? // array value
                       this.host.returnValue() === 'boolean'
-                        ? value[this.index] === true
-                        : value.includes(this.value())
+                        ? (value as boolean[])[this.index] === true
+                        : arrayValue.includes(this.value())
                     : // mono value
                       this.host.returnValue() !== 'value' && typeof value === 'boolean'
                       ? value === true
@@ -107,15 +110,19 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
                         if (item instanceof MagmaInputCheckbox) {
                             item['_value'] = this._value;
                             if (this.host?.returnValue() === 'boolean') {
-                                if (item.testChecked && !value[item.index]) {
+                                if (item.testChecked && !(value as boolean[])[item.index]) {
                                     item.testChecked = false;
-                                } else if (!item.testChecked && value[item.index]) {
+                                } else if (!item.testChecked && (value as boolean[])[item.index]) {
                                     item.testChecked = true;
                                 }
                             } else {
-                                if (item.testChecked && Array.isArray(value) && !value?.includes(item.value())) {
+                                if (item.testChecked && Array.isArray(value) && !arrayValue?.includes(item.value())) {
                                     item.testChecked = false;
-                                } else if (!item.testChecked && Array.isArray(value) && value?.includes(item.value())) {
+                                } else if (
+                                    !item.testChecked &&
+                                    Array.isArray(value) &&
+                                    arrayValue?.includes(item.value())
+                                ) {
                                     item.testChecked = true;
                                 }
                             }
@@ -140,7 +147,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
         }
     }
 
-    override getValue(): any {
+    override getValue(): unknown {
         if (this.host && (this.host.typeValue() === 'array' || this.host.inputs().length > 1)) {
             if (this.host?.returnValue() === 'boolean') {
                 this._value = this.host.inputs().map(item => (item as MagmaInputCheckbox).testChecked ?? false);

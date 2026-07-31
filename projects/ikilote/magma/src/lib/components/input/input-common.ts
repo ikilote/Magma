@@ -23,7 +23,7 @@ import { Logger } from '../../services/logger';
 import { Timing } from '../../utils/timing';
 
 @Directive({})
-export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
+export class MagmaInputCommon<T = unknown[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
     host?: MagmaInput;
     protected readonly logger = inject(Logger);
     protected readonly cd = inject(ChangeDetectorRef);
@@ -46,18 +46,18 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     /** Whether the element is readonly. */
     readonly readonly = input(false, { transform: booleanAttribute });
 
-    readonly update = output<any>();
-    readonly change = output<any>();
+    readonly update = output<unknown>();
+    readonly change = output<unknown>();
 
     readonly componentName: string = 'input-common';
     protected counter = 0;
     protected readonly uid = computed<string>(() => `${this.componentName}-${this.counter}`);
 
-    refreshTrigger = signal<any>(false);
+    refreshTrigger = signal<unknown>(false);
     index = 0;
 
     _name = computed<string>(
-        () => this.refreshTrigger() || this.formControlName() || this.name() || this.id() || this.uid(),
+        () => (this.refreshTrigger(), this.formControlName() || this.name() || this.id() || this.uid()),
     );
     _id = computed<string>(() => this.id() || this.uid());
 
@@ -65,7 +65,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
         return undefined;
     }
 
-    protected _value: any = '';
+    protected _value: unknown = '';
 
     protected onError = signal(false);
 
@@ -111,7 +111,7 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
         }
     }
 
-    getValue(): any {
+    getValue(): unknown {
         return this._value;
     }
 
@@ -119,11 +119,11 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
     // registerOnChange / registerOnTouched. The no-op is the documented
     // placeholder, not dead code.
     /* eslint-disable-next-line @typescript-eslint/no-empty-function */
-    onChange: (value: any) => void = () => {};
+    onChange: (value: unknown) => void = () => {};
     /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     onTouched: () => void = () => {};
 
-    writeValue(value: any): void {
+    writeValue(value: unknown): void {
         this._value = value;
         this.cd.detectChanges();
         setTimeout(() => {
@@ -131,11 +131,11 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
         });
     }
 
-    registerOnChange(fn: any): void {
+    registerOnChange(fn: (value: unknown) => void): void {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    registerOnTouched(fn: () => void): void {
         this.onTouched = fn;
     }
 
@@ -144,30 +144,36 @@ export class MagmaInputCommon<T = any[]> implements ControlValueAccessor, OnInit
             let errorMessage: string | undefined = undefined;
             if (control.errors !== null) {
                 const key = Object.keys(control.errors)[0];
-                const data = (control as any).controlData?.[key];
-                const paramsData = (control as any).controlParamsData;
-                const defaultMessage = (control as any).controlData?.message;
+                const controlWithData = control as unknown as Record<string, unknown>;
+                const data = (controlWithData['controlData'] as Record<string, unknown> | undefined)?.[key];
+                const paramsData = controlWithData['controlParamsData'] as Record<string, unknown> | undefined;
+                const defaultMessage = (controlWithData['controlData'] as Record<string, unknown> | undefined)?.[
+                    'message'
+                ];
 
                 if (data || defaultMessage) {
-                    const message = (data as ParamsMessagesControlMessage<any>)?.message ?? defaultMessage;
+                    const message =
+                        (data as ParamsMessagesControlMessage<unknown> | undefined)?.message ?? defaultMessage;
                     errorMessage =
                         typeof message === 'function'
                             ? message({
-                                  type: key as any,
+                                  type: key,
                                   errorData: control.errors[key],
-                                  state: data?.state,
-                                  data: data?.data,
+                                  state: (data as Record<string, unknown> | undefined)?.['state'],
+                                  data: (data as Record<string, unknown> | undefined)?.['data'],
                                   params: paramsData,
                               })
-                            : message;
+                            : (message as string | undefined);
 
                     if (data && errorMessage?.includes('{')) {
                         [...errorMessage.matchAll(/\{([^}]+)\}/g)].forEach(([tag, keyName]) => {
                             errorMessage = errorMessage!.replace(
                                 tag,
-                                (control as any)[keyName]?.state ??
-                                    control.errors?.[key]?.[keyName] ??
-                                    paramsData[keyName],
+                                String(
+                                    (controlWithData[keyName] as Record<string, unknown> | undefined)?.['state'] ??
+                                        control.errors?.[key]?.[keyName] ??
+                                        paramsData?.[keyName],
+                                ),
                             );
                         });
                     }

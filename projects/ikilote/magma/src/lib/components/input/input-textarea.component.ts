@@ -40,15 +40,16 @@ export class MagmaInputTextarea extends MagmaInputCommon {
     readonly maxHeight = input<string>();
     readonly minHeight = input<string>();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly datalist: any = undefined; // not for textarea
 
     override get inputElement(): HTMLTextAreaElement {
         return this.input()?.[0]?.nativeElement;
     }
 
-    override writeValue(value: any): void {
+    override writeValue(value: unknown): void {
         super.writeValue(value);
-        this.inputElement!.value = value ?? '';
+        this.inputElement!.value = (value as string) ?? '';
     }
 
     changeValue(event: Event) {

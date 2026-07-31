@@ -130,7 +130,7 @@ export class MagmaSortRuleDirective implements OnInit {
 @Directive({
     selector: '[sortable]',
 })
-export class MagmaSortableDirective<T = any> implements OnInit, OnChanges, OnDestroy {
+export class MagmaSortableDirective<T = unknown> implements OnInit, OnChanges, OnDestroy {
     private readonly renderer = inject(Renderer2);
 
     sortable = input.required<T[]>();
@@ -176,7 +176,7 @@ export class MagmaSortableDirective<T = any> implements OnInit, OnChanges, OnDes
 
     update() {
         const input = this.sortableFilterInput();
-        this.filter(input instanceof MagmaInputCommon ? input.getValue() : input?.value || '');
+        this.filter(input instanceof MagmaInputCommon ? String(input.getValue() ?? '') : input?.value || '');
     }
 
     ngOnDestroy(): void {

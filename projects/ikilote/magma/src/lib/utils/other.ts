@@ -1,4 +1,4 @@
-export function isEmpty(value: any) {
+export function isEmpty(value: unknown) {
     if (value instanceof Date) {
         return false;
     }

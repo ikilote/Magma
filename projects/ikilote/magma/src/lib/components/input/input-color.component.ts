@@ -34,6 +34,7 @@ export class MagmaInputColor extends MagmaInputCommon<string[]> {
     readonly texts = input<MagmaColorPickerTexts | undefined>();
     readonly palette = input<string[] | undefined>();
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly placeholder: any = undefined; // not for color
 
     override get inputElement(): HTMLInputElement | undefined {

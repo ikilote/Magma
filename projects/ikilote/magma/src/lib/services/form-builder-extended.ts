@@ -20,71 +20,71 @@ export interface ParamsMessageRequired {
     type: 'required';
     errorData: boolean;
     state: boolean;
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessageMinlength {
     type: 'minlength';
     errorData: { requiredLength: number; actualLength: number };
     state: number;
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessageMaxlength {
     type: 'maxlength';
     errorData: { requiredLength: number; actualLength: number };
     state: number;
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessageMin {
     type: 'min';
     errorData: { min: number; actual: number | string };
     state: number;
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessageMax {
     type: 'max';
     errorData: { max: number; actual: number | string };
     state: number;
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessagePattern {
     type: 'pattern';
     errorData: { requiredPattern: string; actualValue: string };
     state: string | RegExp;
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessageEmail {
     type: 'email';
     errorData: boolean;
     state: undefined;
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessageInList {
     type: 'inList';
-    errorData: { list: (string | number | boolean)[]; actualValue: any; strict: boolean };
+    errorData: { list: (string | number | boolean)[]; actualValue: unknown; strict: boolean };
     state: (string | number | boolean)[];
-    data: any;
-    params: Record<string, any>;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 export interface ParamsMessageCustom {
     type: 'custom';
-    errorData: any;
-    state: any;
-    data: any;
-    params: Record<string, any>;
+    errorData: unknown;
+    state: unknown;
+    data: unknown;
+    params: Record<string, unknown>;
 }
 
 // --- Control Configuration Types ---
 
 export interface ParamsMessagesControlMessage<T> {
     message?: string | ((params: T) => string);
-    data?: any;
+    data?: unknown;
 }
 
 export type ParamsMessagesControlRequired = { state?: boolean } & ParamsMessagesControlMessage<ParamsMessageRequired>;
@@ -100,7 +100,7 @@ export type ParamsMessagesControlInList = {
     state?: (string | number | boolean)[];
 } & ParamsMessagesControlMessage<ParamsMessageInList>;
 export type ParamsMessagesControlCustom = {
-    state?: (value: any) => boolean;
+    state?: (value: unknown) => boolean;
 } & ParamsMessagesControlMessage<ParamsMessageCustom>;
 
 export interface ParamsMessagesControl {
@@ -123,10 +123,10 @@ export interface ParamsMessagesControl {
     /** custom validator */
     custom?: ParamsMessagesControlCustom | ParamsMessagesControlCustom[];
     /** message if not defined in other control */
-    message?: string | ((params: any) => string);
+    message?: string | ((params: unknown) => string);
 }
 
-export interface ParamsMessages<T = any> {
+export interface ParamsMessages<T = unknown> {
     default: T;
     emptyOnInit?: boolean;
     options?: {
@@ -151,7 +151,7 @@ export type ControlOf<T> =
 /**
  * Maps the input object keys to their corresponding Angular Controls
  */
-export type FormMapperExtended<T extends Record<string, any>> = {
+export type FormMapperExtended<T extends Record<string, unknown>> = {
     [K in keyof T]: ControlOf<T[K]>;
 };
 
@@ -170,14 +170,14 @@ export class FormBuilderExtended {
      * @param options Validation options for the group
      * @returns Strongly typed FormGroup
      */
-    groupWithError<T extends Record<string, any>>(
+    groupWithError<T extends Record<string, unknown>>(
         controlsWithError: T,
         options?: AbstractControlOptions | null,
     ): FormGroup<FormMapperExtended<T>> {
-        const controls: any = {};
+        const controls: Record<string, AbstractControl> = {};
 
-        Object.entries(controlsWithError).forEach(([key, value]: [string, any]) => {
-            const paramsData: Record<string, any> = {};
+        Object.entries(controlsWithError).forEach(([key, value]: [string, unknown]) => {
+            const paramsData: Record<string, unknown> = {};
 
             // 1. Check if the value is already an Angular Control (Group, Array, Record)
             if (value instanceof AbstractControl) {
@@ -185,57 +185,61 @@ export class FormBuilderExtended {
             }
             // 2. Otherwise, treat it as a configuration object to build a FormControl
             else {
+                const config = value as ParamsMessages;
                 const validators: ValidatorFn[] = [];
 
-                if (value.control && Object.keys(value.control).length) {
-                    Object.entries(value.control).forEach(([subKey, control]: [string, any]) => {
+                if (config.control && Object.keys(config.control).length) {
+                    Object.entries(config.control).forEach(([subKey, control]: [string, unknown]) => {
+                        const controlConfig = control as Record<string, unknown>;
                         // Standard Validators
-                        if (subKey === 'required' && control.state) {
+                        if (subKey === 'required' && controlConfig['state']) {
                             validators.push(Validators.required);
-                        } else if (subKey === 'minlength' && control.state > 0) {
-                            validators.push(Validators.minLength(control.state));
-                        } else if (subKey === 'maxlength' && control.state > 0) {
-                            validators.push(Validators.maxLength(control.state));
+                        } else if (subKey === 'minlength' && (controlConfig['state'] as number) > 0) {
+                            validators.push(Validators.minLength(controlConfig['state'] as number));
+                        } else if (subKey === 'maxlength' && (controlConfig['state'] as number) > 0) {
+                            validators.push(Validators.maxLength(controlConfig['state'] as number));
                         } else if (subKey === 'min') {
-                            validators.push(Validators.min(control.state));
+                            validators.push(Validators.min(controlConfig['state'] as number));
                         } else if (subKey === 'max') {
-                            validators.push(Validators.max(control.state));
-                        } else if (subKey === 'pattern' && control.state) {
-                            validators.push(Validators.pattern(control.state));
+                            validators.push(Validators.max(controlConfig['state'] as number));
+                        } else if (subKey === 'pattern' && controlConfig['state']) {
+                            validators.push(Validators.pattern(controlConfig['state'] as string | RegExp));
                         } else if (subKey === 'email') {
                             validators.push(Validators.email);
                         }
                         // Custom Validators
                         else if (subKey === 'inlist') {
-                            validators.push(MagmaValidators.inList(control.state));
+                            validators.push(
+                                MagmaValidators.inList(controlConfig['state'] as (string | number | boolean)[]),
+                            );
                         } else if (subKey === 'custom') {
                             const customValidators = Array.isArray(control) ? control : [control];
                             for (const validator of customValidators) {
                                 if (typeof validator === 'function') {
-                                    validators.push((control: AbstractControl): ValidationErrors | null =>
-                                        validator(control.value) ? null : { custom: true },
+                                    validators.push((ctrl: AbstractControl): ValidationErrors | null =>
+                                        (validator as (v: unknown) => boolean)(ctrl.value) ? null : { custom: true },
                                     );
                                 }
                             }
                         }
 
-                        if (control.state !== undefined) {
-                            paramsData[subKey] = control.state;
+                        if (controlConfig['state'] !== undefined) {
+                            paramsData[subKey] = controlConfig['state'];
                         }
                     });
                 }
 
                 // Create the FormControl with nonNullable: true
-                controls[key] = new FormControl(value.emptyOnInit ? undefined : value.default, {
-                    ...value.options,
+                controls[key] = new FormControl(config.emptyOnInit ? undefined : config.default, {
+                    ...config.options,
                     validators,
                     nonNullable: true,
                 });
 
                 // Attach metadata (monkey-patching)
-                // We use 'any' cast here because these properties don't exist on standard AbstractControl
-                (controls[key] as any).controlData = value.control;
-                (controls[key] as any).controlParamsData = paramsData;
+                // We use bracket notation because these properties don't exist on standard AbstractControl
+                (controls[key] as unknown as Record<string, unknown>)['controlData'] = config.control;
+                (controls[key] as unknown as Record<string, unknown>)['controlParamsData'] = paramsData;
             }
         });
 
@@ -253,7 +257,7 @@ export class FormBuilderExtended {
         this.recursiveValidateForm(form.controls);
     }
 
-    private recursiveValidateForm(controls: Record<string, AbstractControl<any, any>> | AbstractControl<any, any>[]) {
+    private recursiveValidateForm(controls: Record<string, AbstractControl> | AbstractControl[]) {
         if (Array.isArray(controls)) {
             controls.forEach(ctrl => {
                 if (ctrl instanceof FormGroup || ctrl instanceof FormArray) {

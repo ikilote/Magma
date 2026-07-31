@@ -24,13 +24,13 @@ export function jsonParse<T>(value: string): T | undefined {
     try {
         return JSON.parse(value);
     } catch (error) {
-        const message = (error as any).message.match(/[^\n]+/)[0];
+        const message = ((error as Error).message ?? '').match(/[^\n]+/)?.[0] ?? '';
         let textPosition = '';
         if (error instanceof SyntaxError) {
             const browser = Bowser.parse(window.navigator.userAgent);
             if (browser.engine.name === 'Blink') {
                 if (message.match(/at position/)) {
-                    const position = parseInt(message.match(/at position (\d+)/)[1], 10);
+                    const position = parseInt(message.match(/at position (\d+)/)?.[1] ?? '0', 10);
                     const lines = value.split(/\n/);
                     let l = 1;
                     for (const line of lines) {
@@ -45,16 +45,22 @@ export function jsonParse<T>(value: string): T | undefined {
                 }
             } else if (browser.engine.name === 'Gecko') {
                 if (message.match(/at line/)) {
-                    const [, line, column] = message.match(/at line (\d+) column (\d+)/);
-                    const lines = value.split(/\n/);
-                    if (lines[+line - 1]) {
-                        textPosition = lines[+line - 1] + '\n' + ' '.repeat(+column - 1) + '^';
+                    const match = message.match(/at line (\d+) column (\d+)/);
+                    if (match) {
+                        const [, line, column] = match;
+                        const lines = value.split(/\n/);
+                        if (lines[+line - 1]) {
+                            textPosition = lines[+line - 1] + '\n' + ' '.repeat(+column - 1) + '^';
+                        }
                     }
                 }
             } else if (browser.engine.name === 'WebKit') {
-                const [, pos] = message.match(/.*JSON Parse error: (.*)/);
-                if (pos) {
-                    textPosition = pos;
+                const match = message.match(/.*JSON Parse error: (.*)/);
+                if (match) {
+                    const [, pos] = match;
+                    if (pos) {
+                        textPosition = pos;
+                    }
                 }
             }
         }

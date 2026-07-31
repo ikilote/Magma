@@ -37,7 +37,7 @@ export class MagmaResize {
         itemSource: MagmaResizeElement;
     };
 
-    private timer: any;
+    private timer: ReturnType<typeof setTimeout> | undefined;
 
     @HostListener('mousedown', ['$event'])
     mousedown(event: MouseEvent) {

@@ -172,25 +172,25 @@ export class MagmaInputDate
     }
 
     protected readonly _year = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(0, 4) : ''),
+        () => this.refreshTrigger() || ((this._value as string) ? (this._value as string).substring(0, 4) : ''),
     );
     protected readonly _month = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(5, 7) : ''),
+        () => this.refreshTrigger() || ((this._value as string) ? (this._value as string).substring(5, 7) : ''),
     );
     protected readonly _day = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(8, 10) : ''),
+        () => this.refreshTrigger() || ((this._value as string) ? (this._value as string).substring(8, 10) : ''),
     );
     protected readonly _hours = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(11, 13) : ''),
+        () => this.refreshTrigger() || ((this._value as string) ? (this._value as string).substring(11, 13) : ''),
     );
     protected readonly _minutes = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(14, 16) : ''),
+        () => this.refreshTrigger() || ((this._value as string) ? (this._value as string).substring(14, 16) : ''),
     );
     protected readonly _seconds = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(17, 19) : ''),
+        () => this.refreshTrigger() || ((this._value as string) ? (this._value as string).substring(17, 19) : ''),
     );
     protected readonly _milli = computed(
-        () => this.refreshTrigger() || (this._value ? this._value.substring(20, 23) : ''),
+        () => this.refreshTrigger() || ((this._value as string) ? (this._value as string).substring(20, 23) : ''),
     );
 
     orderType: 'dmy' | 'ymd' | 'mdy' = 'dmy';
@@ -243,8 +243,8 @@ export class MagmaInputDate
         return value ? +value?.substring(a, b) || 0 : 0;
     }
 
-    override writeValue(value: any): void {
-        this.updateValueCache(value);
+    override writeValue(value: unknown): void {
+        this.updateValueCache(value as string);
         super.writeValue(value);
         // force refresh input
         this.refreshTrigger.set(null);

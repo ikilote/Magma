@@ -13,6 +13,6 @@ export function randomNumber(size = 9) {
  * @param size value
  * @returns true if is not a number
  */
-export function notANumber(value: any) {
-    return value === null || value === undefined || isNaN(value);
+export function notANumber(value: unknown) {
+    return value === null || value === undefined || isNaN(Number(value));
 }

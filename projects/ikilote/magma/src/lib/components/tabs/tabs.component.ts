@@ -38,7 +38,7 @@ export class MagmaTabs implements AfterContentInit, AfterViewChecked {
     readonly next = signal(false);
     readonly activeTabId = signal<string | undefined>(undefined);
 
-    updateInterval?: any;
+    updateInterval?: ReturnType<typeof setInterval>;
 
     ngAfterContentInit(): void {
         if (this.titles()?.length) {

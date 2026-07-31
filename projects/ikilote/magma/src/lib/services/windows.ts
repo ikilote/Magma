@@ -29,7 +29,7 @@ export class MagmaWindows {
     component?: ComponentRef<MagmaWindowsZone>;
     overlayRef?: OverlayRef;
 
-    openWindow(component: Type<any>, params?: MagmaWindowInitParams, focus = true) {
+    openWindow(component: Type<unknown>, params?: MagmaWindowInitParams, focus = true) {
         const infos: MagmaWindowInfos = {
             component,
             index: signal(0),

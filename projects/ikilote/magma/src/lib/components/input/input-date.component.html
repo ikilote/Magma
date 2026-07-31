@@ -172,7 +172,7 @@
   @if (!hideDatePicker()) {
     <span
       class="picker-icon"
-      [datetimePicker]="_value"
+      [datetimePicker]="$any(_value)"
       [datetimePickerType]="type()"
       (datetimeClose)="datePickerClose($event)"
       stop-propagation

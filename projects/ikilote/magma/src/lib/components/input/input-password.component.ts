@@ -24,7 +24,9 @@ export class MagmaInputPassword extends MagmaInputText {
     override readonly componentName = 'input-password';
     protected override counter = counter++;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly clearCross: any = undefined; // not for password
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined
     override readonly datalist: any = undefined; // not for password
 
     readonly eye = input(null, { transform: booleanAttribute });

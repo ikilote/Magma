@@ -189,7 +189,7 @@ export class MagmaColorPickerComponent implements OnChanges, AfterViewInit, OnDe
         this.startDrag = true;
     }
 
-    protected dragEnd(event: CdkDragEnd<any>) {
+    protected dragEnd(event: CdkDragEnd) {
         const { x, y } = event.source._dragRef['_activeTransform'];
         const { clientWidth, clientHeight } = this.zone().nativeElement;
         this.rangeLight = Math.round((x / (clientWidth - 10)) * 100);

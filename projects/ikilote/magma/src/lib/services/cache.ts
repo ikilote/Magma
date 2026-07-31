@@ -8,7 +8,7 @@ import { flattenedListItems } from '../utils/array';
 export class MagmaCache {
     private static cache: Record<
         string,
-        { id: string; group: string[]; value?: any; wait?: true; observable?: Observable<any>; endDate?: Date }
+        { id: string; group: string[]; value?: unknown; wait?: true; observable?: Observable<unknown>; endDate?: Date }
     > = {};
 
     async request<T>(id: string, group: string | string[], observable: Observable<T>, endDate?: Date) {

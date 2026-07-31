@@ -7,17 +7,17 @@ import { debounceTime, distinctUntilChanged, skip } from 'rxjs/operators';
 @Directive({
     selector: '[ngModelChangeDebounced]',
 })
-export class MagmaNgModelChangeDebouncedDirective implements OnDestroy {
+export class MagmaNgModelChangeDebouncedDirective<T> implements OnDestroy {
     /** Inject NgModel to access the control */
     protected readonly ngModel = inject(NgModel);
 
     /** Input for the debounce time (default: 500ms) */
     readonly ngModelChangeDebounceTime = input(500, { transform: numberAttribute });
     /** Output to emit the debounced value */
-    readonly ngModelChangeDebounced = output<unknown>();
+    readonly ngModelChangeDebounced = output<T>();
 
     // Subject to relay value changes and allow dynamic debounce
-    private valueChanges$ = new Subject<unknown>();
+    private valueChanges$ = new Subject<T>();
     // Subscription to manage the debounced stream
     private debouncedSubscription!: Subscription;
 
@@ -52,7 +52,7 @@ export class MagmaNgModelChangeDebouncedDirective implements OnDestroy {
         this.debouncedSubscription = this.valueChanges$
             .pipe(debounceTime(this.ngModelChangeDebounceTime()))
             .subscribe(value => {
-                this.ngModelChangeDebounced.emit(value);
+                this.ngModelChangeDebounced.emit(value as T);
             });
     }
 

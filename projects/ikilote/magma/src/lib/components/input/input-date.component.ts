@@ -151,10 +151,7 @@ type fieldName = 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'm
         '[id]': '_id()',
     },
 })
-export class MagmaInputDate
-    extends MagmaInputCommon<(string | { label?: string; value: string })[]>
-    implements OnChanges
-{
+export class MagmaInputDate extends MagmaInputCommon<string | undefined> implements OnChanges {
     override readonly componentName: string = 'input-date';
     protected override counter = counter++;
 
@@ -243,7 +240,7 @@ export class MagmaInputDate
         return value ? +value?.substring(a, b) || 0 : 0;
     }
 
-    override writeValue(value: unknown): void {
+    override writeValue(value: string): void {
         this.updateValueCache(value as string);
         super.writeValue(value);
         // force refresh input

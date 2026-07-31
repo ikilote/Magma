@@ -135,7 +135,7 @@ export class MagmaSortableDirective<T = unknown> implements OnInit, OnChanges, O
 
     sortable = input.required<T[]>();
 
-    sortableFilterInput = input<HTMLInputElement | MagmaInputCommon | undefined>(undefined, {
+    sortableFilterInput = input<HTMLInputElement | MagmaInputCommon<any> | undefined>(undefined, {
         alias: 'sortable-filter-input',
     });
 

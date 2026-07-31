@@ -23,7 +23,7 @@ import { Logger } from '../../services/logger';
 import { Timing } from '../../utils/timing';
 
 @Directive({})
-export class MagmaInputCommon<T = unknown[]> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
+export class MagmaInputCommon<T = unknown> implements ControlValueAccessor, OnInit, OnChanges, ControlValueAccessor {
     host?: MagmaInput;
     protected readonly logger = inject(Logger);
     protected readonly cd = inject(ChangeDetectorRef);
@@ -38,7 +38,7 @@ export class MagmaInputCommon<T = unknown[]> implements ControlValueAccessor, On
     readonly id = input<string>();
     readonly placeholder = input<string>();
     readonly placeholderAnimated = input<string>();
-    readonly datalist = input<T>();
+    readonly datalist = input<T[] | undefined>();
 
     /** Whether the element is disabled. */
     readonly disabled = input(false, { transform: booleanAttribute });
@@ -46,8 +46,8 @@ export class MagmaInputCommon<T = unknown[]> implements ControlValueAccessor, On
     /** Whether the element is readonly. */
     readonly readonly = input(false, { transform: booleanAttribute });
 
-    readonly update = output<unknown>();
-    readonly change = output<unknown>();
+    readonly update = output<T>();
+    readonly change = output<T>();
 
     readonly componentName: string = 'input-common';
     protected counter = 0;
@@ -65,7 +65,7 @@ export class MagmaInputCommon<T = unknown[]> implements ControlValueAccessor, On
         return undefined;
     }
 
-    protected _value: unknown = '';
+    protected _value: T | '' = '';
 
     protected onError = signal(false);
 
@@ -111,8 +111,8 @@ export class MagmaInputCommon<T = unknown[]> implements ControlValueAccessor, On
         }
     }
 
-    getValue(): unknown {
-        return this._value;
+    getValue<T>(): T {
+        return this._value as T;
     }
 
     // ControlValueAccessor requires these to exist before Angular calls
@@ -123,7 +123,7 @@ export class MagmaInputCommon<T = unknown[]> implements ControlValueAccessor, On
     /* eslint-disable-next-line @typescript-eslint/no-empty-function */
     onTouched: () => void = () => {};
 
-    writeValue(value: unknown): void {
+    writeValue(value: T): void {
         this._value = value;
         this.cd.detectChanges();
         setTimeout(() => {

@@ -21,7 +21,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInputText extends MagmaInputCommon<(string | { label?: string; value: string })[]> {
+export class MagmaInputText extends MagmaInputCommon<string> {
     override readonly componentName: string = 'input-text';
     protected override counter = counter++;
 
@@ -37,7 +37,7 @@ export class MagmaInputText extends MagmaInputCommon<(string | { label?: string;
         return this.input()?.[0]?.nativeElement;
     }
 
-    override writeValue(value: unknown): void {
+    override writeValue(value: string): void {
         super.writeValue(value);
         this.inputElement!.value = (value as string) ?? '';
     }

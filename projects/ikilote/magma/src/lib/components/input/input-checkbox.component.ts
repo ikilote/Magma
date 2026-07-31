@@ -147,7 +147,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
         }
     }
 
-    override getValue(): unknown {
+    override getValue<T>(): T {
         if (this.host && (this.host.typeValue() === 'array' || this.host.inputs().length > 1)) {
             if (this.host?.returnValue() === 'boolean') {
                 this._value = this.host.inputs().map(item => (item as MagmaInputCheckbox).testChecked ?? false);

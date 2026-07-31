@@ -21,7 +21,7 @@ let counter = 0;
         '[id]': '_id()',
     },
 })
-export class MagmaInputRange extends MagmaInputCommon<number[]> {
+export class MagmaInputRange extends MagmaInputCommon<number> {
     override readonly componentName = 'input-range';
     protected override counter = counter++;
 

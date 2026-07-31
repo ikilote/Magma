@@ -47,7 +47,7 @@
 
   <div class="s-5 s-12-m">
     Click in this zone
-    <div (click)="containClasses($event.target, input2.getValue()?.split(',') ?? '')" class="test-zone">
+    <div (click)="containClasses($event.target, $any(input2.getValue())?.split(',') ?? '')" class="test-zone">
       .test-zone
       <div class="test-a zone">
         .test-a .zone

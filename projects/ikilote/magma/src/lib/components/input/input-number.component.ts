@@ -23,7 +23,7 @@ let counter = 0;
         '[attr.data-number]': 'formattedNumber',
     },
 })
-export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: string; value: number })[]> {
+export class MagmaInputNumber extends MagmaInputCommon<number | undefined> {
     override readonly componentName = 'input-number';
     protected override counter = counter++;
     protected numberFormat = new NumFormatPipe();
@@ -70,7 +70,7 @@ export class MagmaInputNumber extends MagmaInputCommon<(number | { label?: strin
         return this.input()?.[0]?.nativeElement;
     }
 
-    override writeValue(value: unknown): void {
+    override writeValue(value: number | undefined): void {
         super.writeValue(value);
         this.inputElement!.value = String(this._value ?? '');
     }

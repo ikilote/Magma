@@ -29,7 +29,7 @@ describe('MagmaNgModelChangeDebouncedDirective', () => {
     let component: TestComponent;
     let fixture: ComponentFixture<TestComponent>;
     let inputElement: DebugElement;
-    let directive: MagmaNgModelChangeDebouncedDirective;
+    let directive: MagmaNgModelChangeDebouncedDirective<any>;
 
     beforeEach(async () => {
         vi.useFakeTimers();

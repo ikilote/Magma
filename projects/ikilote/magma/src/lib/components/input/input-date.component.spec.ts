@@ -99,7 +99,7 @@ describe('MagmaInputDate', () => {
         });
 
         it('should handle null/empty values in writeValue', () => {
-            component.writeValue(null);
+            component.writeValue(null as unknown as string);
             // @ts-expect-error
             expect(component.valueCache.year).toBe(0);
             // @ts-expect-error

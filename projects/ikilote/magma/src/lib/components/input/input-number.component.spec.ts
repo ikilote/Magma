@@ -275,7 +275,7 @@ describe('MagmaInputNumber', () => {
     });
 
     it('should write null', () => {
-        component.writeValue(null);
+        component.writeValue(null as any);
         expect(debugElement.query(By.css('input')).nativeElement.value).toBe('');
     });
 

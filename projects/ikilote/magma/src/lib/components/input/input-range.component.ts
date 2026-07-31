@@ -34,7 +34,7 @@ export class MagmaInputRange extends MagmaInputCommon<number> {
         this.update.emit(this.inputValue(event, false));
     }
 
-    inputValue(event: Event, emit: boolean = true) {
+    inputValue(event: Event, emit = true) {
         const value = +this.getInput(event).value;
         this._value = value;
         if (emit) {

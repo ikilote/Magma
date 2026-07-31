@@ -147,14 +147,14 @@ describe('MagmaInputColor - null value branch', () => {
     });
 
     it('should render hidden input with empty string when _value is null', () => {
-        component.writeValue(null);
+        component.writeValue(null as unknown as string);
         fixture.changeDetectorRef.detectChanges();
         const input = fixture.nativeElement.querySelector('input[type="hidden"]');
         expect(input.value).toBe('');
     });
 
     it('should render hidden input with empty string when _value is undefined', () => {
-        component.writeValue(undefined);
+        component.writeValue(undefined as unknown as string);
         fixture.changeDetectorRef.detectChanges();
         const input = fixture.nativeElement.querySelector('input[type="hidden"]');
         expect(input.value).toBe('');

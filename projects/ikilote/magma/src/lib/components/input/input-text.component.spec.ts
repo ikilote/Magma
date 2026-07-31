@@ -188,12 +188,12 @@ describe('MagmaInputText', () => {
     // edge tests
 
     it('should write undefined', () => {
-        component.writeValue(undefined);
+        component.writeValue(undefined as any);
         expect(debugElement.query(By.css('input')).nativeElement.value).toBe('');
     });
 
     it('should write null', () => {
-        component.writeValue(null);
+        component.writeValue(null as any);
         expect(debugElement.query(By.css('input')).nativeElement.value).toBe('');
     });
 });

@@ -327,6 +327,12 @@ export const menu: Menu = [
                 keys: ['buttons', 'links', 'buttons links', 'ui buttons'],
             },
             {
+                routerLink: '/style/chips',
+                label: 'Chips',
+                status: 'new',
+                keys: ['chip', 'tag', 'badge', 'filter', 'choice'],
+            },
+            {
                 routerLink: '/style/icons',
                 label: 'Icons',
                 keys: ['glyphs', 'symbols', 'icon set'],
@@ -344,6 +350,7 @@ export const menu: Menu = [
             {
                 routerLink: '/style/palette',
                 label: 'Palette',
+                status: 'update',
                 keys: ['colors', 'color palette', 'theme colors'],
             },
         ],

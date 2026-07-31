@@ -27,33 +27,9 @@ import {
 
 import { Select2Data } from 'ng-select2-component';
 
+import { DEFAULTS, PaletteKnob, PaletteTheme, THEMES } from './demo-palette';
+
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
-
-/** Values shipped by the library, and the reset target. */
-const DEFAULTS = {
-    primaryH: 210,
-    primaryS: 15,
-    primarySsoft: 5,
-    neutralH: 0,
-    neutralS: 0,
-    alertH: 0,
-    warnH: 15,
-    successH: 120,
-};
-
-type KnobName = keyof typeof DEFAULTS;
-
-/** A palette variable exposed as a slider. */
-interface PaletteKnob {
-    name: KnobName;
-    /** CSS custom property it drives. */
-    variable: string;
-    label: string;
-    min: number;
-    max: number;
-    /** Unit appended to the value, e.g. '%' for saturations. */
-    unit: '' | '%';
-}
 
 @Component({
     selector: 'demo-palette',
@@ -121,6 +97,9 @@ export class DemoPaletteComponent {
         { label: 'Option 2', value: '2' },
     ];
 
+    /** Pre-built themes based on classic color palettes. */
+    readonly themes = THEMES;
+
     readonly palette = [
         {
             group: 'primary',
@@ -187,9 +166,9 @@ export class DemoPaletteComponent {
         });
     }
 
-    /** Restores the values shipped by the library. */
-    reset() {
-        this.form.setValue({ ...DEFAULTS });
+    /** Applies a preset theme to the form (and thus to the palette). */
+    applyTheme(theme: PaletteTheme) {
+        this.form.setValue({ ...theme.values });
     }
 
     /** Formats a knob value for display, unit included. */
@@ -226,6 +205,7 @@ export class DemoPaletteComponent {
     readonly contrastPairs: { label: string; fgVar: string; bgVar: string; ratio: () => number }[] = [];
 
     private readonly pairDefs: { fgVar: string; bgVar: string }[] = [
+        // ── Semantic layer ──────────────────────────────────────────────────
         { fgVar: '--color-on-surface', bgVar: '--color-surface' },
         { fgVar: '--color-on-surface', bgVar: '--color-surface-raised' },
         { fgVar: '--color-on-surface', bgVar: '--color-surface-sunken' },
@@ -236,6 +216,42 @@ export class DemoPaletteComponent {
         { fgVar: '--color-border-strong', bgVar: '--color-surface' },
         { fgVar: '--color-on-primary', bgVar: '--color-primary' },
         { fgVar: '--color-on-primary', bgVar: '--color-primary-hover' },
+
+        // ── Links ───────────────────────────────────────────────────────────
+        { fgVar: '--link-color', bgVar: '--color-surface' },
+        { fgVar: '--link-color', bgVar: '--color-surface-raised' },
+        { fgVar: '--link-hover-color', bgVar: '--color-surface' },
+
+        // ── Default button ──────────────────────────────────────────────────
+        { fgVar: '--button-default-color', bgVar: '--button-default-background' },
+        { fgVar: '--button-default-color', bgVar: '--button-default-hover-background' },
+        { fgVar: '--button-default-color', bgVar: '--button-default-active-background' },
+
+        // ── Primary button ──────────────────────────────────────────────────
+        { fgVar: '--button-primary-color', bgVar: '--button-primary-background' },
+        { fgVar: '--button-primary-color', bgVar: '--button-primary-hover-background' },
+        { fgVar: '--button-primary-color', bgVar: '--button-primary-active-background' },
+
+        // ── Warn button ─────────────────────────────────────────────────────
+        { fgVar: '--button-warn-color', bgVar: '--button-warn-background' },
+        { fgVar: '--button-warn-color', bgVar: '--button-warn-hover-background' },
+        { fgVar: '--button-warn-color', bgVar: '--button-warn-active-background' },
+
+        // ── Inputs ──────────────────────────────────────────────────────────
+        { fgVar: '--color-on-surface', bgVar: '--input-background' },
+        { fgVar: '--input-placeholder-color', bgVar: '--input-background' },
+        { fgVar: '--input-error-color', bgVar: '--input-background' },
+
+        // ── Messages ────────────────────────────────────────────────────────
+        { fgVar: '--info-message-color', bgVar: '--info-message-background' },
+        { fgVar: '--success-message-color', bgVar: '--success-message-background' },
+        { fgVar: '--warn-message-color', bgVar: '--warn-message-background' },
+        { fgVar: '--error-message-color', bgVar: '--error-message-background' },
+        { fgVar: '--tip-message-color', bgVar: '--tip-message-background' },
+
+        // ── Focus ring ──────────────────────────────────────────────────────
+        { fgVar: '--color-focus-ring', bgVar: '--color-surface' },
+        { fgVar: '--color-focus-ring', bgVar: '--color-surface-raised' },
     ];
 
     private updateContrastPairs() {

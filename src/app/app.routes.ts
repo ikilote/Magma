@@ -416,6 +416,11 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./styles/palette/demo-palette.component').then(m => m.DemoPaletteComponent),
             },
+            {
+                path: 'chips',
+                pathMatch: 'full',
+                loadComponent: () => import('./styles/chips/demo-chips.component').then(m => m.DemoChipsComponent),
+            },
         ],
     },
     {

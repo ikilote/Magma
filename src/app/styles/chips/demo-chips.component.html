@@ -1,0 +1,48 @@
+<h1>Chips</h1>
+
+<p>
+  Compact interactive elements for tags, filters, or choices. Uses the <code>.chip</code> class on buttons or links, and
+  <code>.chips</code> as a flex container.
+</p>
+
+<h2>Single chip</h2>
+<section>
+  <div class="s-3 s-12-m">
+    <button class="chip">Chip</button>
+  </div>
+  <div class="s-f"><code-tabs [code]="[{ type: 'html', code: single }]" /></div>
+</section>
+
+<hr />
+
+<h2>Disabled</h2>
+<section>
+  <div class="s-3 s-12-m">
+    <button class="chip" disabled>Disabled</button>
+  </div>
+  <div class="s-f"><code-tabs [code]="[{ type: 'html', code: disabled }]" /></div>
+</section>
+
+<hr />
+
+<h2>Link chip</h2>
+<section>
+  <div class="s-3 s-12-m">
+    <a href="/style/chips" class="chip">Link chip</a>
+  </div>
+  <div class="s-f"><code-tabs [code]="[{ type: 'html', code: link }]" /></div>
+</section>
+
+<hr />
+
+<h2>Chip group</h2>
+<section>
+  <div class="s-4 s-12-m">
+    <div class="chips">
+      <button class="chip">Option A</button>
+      <button class="chip">Option B</button>
+      <button class="chip">Option C</button>
+    </div>
+  </div>
+  <div class="s-f"><code-tabs [code]="[{ type: 'html', code: group }]" /></div>
+</section>

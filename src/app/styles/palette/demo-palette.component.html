@@ -5,31 +5,57 @@
   palette and every component below at once.
 </p>
 
-<mg-block>
-  <div class="knobs s-9" [formGroup]="form">
-    @for (knob of knobs; track knob.name) {
-      <mg-input class="knob">
-        <mg-input-label>
-          <code>{{ knob.variable }}</code>
-        </mg-input-label>
-        <mg-input-range [formControlName]="knob.name" [min]="knob.min" [max]="knob.max" />
-        <mg-input-desc>
-          <span class="knob-label">{{ knob.label }}</span>
-          <span
-            >Value:
-            <code
-              ><output>{{ display(knob) }}</output></code
-            ></span
-          >
-        </mg-input-desc>
-      </mg-input>
+<div class="gap">
+  <mg-block class="s-12">
+    <h3>Theme presets</h3>
+    <p>Pick a starting point, then fine-tune the sliders below.</p>
+    <div class="chips">
+      @for (theme of themes; track theme.name) {
+        <button type="button" class="chip" (click)="applyTheme(theme)" [title]="theme.description">
+          {{ theme.name }}
+        </button>
+      }
+    </div>
+  </mg-block>
+
+  <mg-block class="s-12">
+    <div class="knobs s-9" [formGroup]="form">
+      @for (knob of knobs; track knob.name) {
+        <mg-input class="knob">
+          <mg-input-label>
+            <code>{{ knob.variable }}</code>
+          </mg-input-label>
+          <mg-input-range [formControlName]="knob.name" [min]="knob.min" [max]="knob.max" />
+          <mg-input-desc>
+            <span class="knob-label">{{ knob.label }}</span>
+            <span
+              >Value:
+              <code
+                ><output>{{ display(knob) }}</output></code
+              ></span
+            >
+          </mg-input-desc>
+        </mg-input>
+      }
+    </div>
+    <div class="s-3">
+      <code-tabs [code]="[{ type: 'css', code: css }]"> </code-tabs>
+    </div>
+  </mg-block>
+
+  <mg-block class="s-12 mini">
+    @for (list of palette; track $index) {
+      <section>
+        <div>{{ list.group }}</div>
+        <div class="squares">
+          @for (color of list.list; track $index) {
+            <div style="--color: var(--{{ list.group + color }})"></div>
+          }
+        </div>
+      </section>
     }
-    <button type="button" (click)="reset()">Reset to library defaults</button>
-  </div>
-  <div class="s-3">
-    <code-tabs [code]="[{ type: 'css', code: css }]"> </code-tabs>
-  </div>
-</mg-block>
+  </mg-block>
+</div>
 
 <mg-tabs>
   <mg-tab-title id="palette">Palette</mg-tab-title>

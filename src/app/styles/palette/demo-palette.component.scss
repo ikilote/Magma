@@ -24,6 +24,27 @@ h3 {
     gap: 5px;
 }
 
+.mini {
+    section {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 5px;
+        margin: 0 5px;
+    }
+
+    .squares {
+        display: flex;
+        gap: 5px;
+
+        div {
+            border: 1px solid var(--neutral990);
+            background: var(--color);
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
 figure {
     position: relative;
     margin: 0;

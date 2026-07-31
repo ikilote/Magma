@@ -126,6 +126,66 @@ button {
     }
 }
 
+/* -------------------- chip ------------------------------------------------------------
+    MARK: Chip
+*/
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    margin: 0;
+    box-shadow: none;
+    border: 1px solid var(--chip-border-color);
+    border-radius: var(--chip-border-radius);
+    background: var(--chip-background);
+    padding: var(--chip-padding);
+    color: var(--chip-color);
+    font-size: var(--chip-font-size);
+    line-height: 1.4;
+    text-decoration: none;
+
+    &:hover {
+        box-shadow: none;
+        border: 1px solid var(--chip-hover-border-color);
+        background: var(--chip-hover-background);
+        padding: var(--chip-hover-padding);
+        color: var(--chip-hover-color);
+    }
+
+    &:focus {
+        outline: 2px solid var(--link-focus-border-color);
+        border-color: var(--chip-border-color);
+    }
+
+    &:active {
+        box-shadow: none;
+        border: 1px solid var(--chip-active-border-color);
+        background: var(--chip-active-background);
+        padding: var(--chip-active-padding);
+        color: var(--chip-active-color);
+    }
+
+    &:disabled {
+        opacity: var(--button-disabled-opacity);
+        cursor: default;
+    }
+
+    &:disabled:hover {
+        border: 1px solid var(--chip-border-color);
+        background: var(--chip-background);
+        padding: var(--chip-padding);
+        color: var(--chip-color);
+    }
+}
+
+.chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
 /* -------------------- input / button ------------------------------------------------------------
     MARK: Input / button
 */

@@ -83,7 +83,7 @@ export class DemoHomeComponent {
             name: 'Styles',
             description: 'Design system: palette, grid, icons.',
             link: '/style/palette',
-            count: 5,
+            count: 6,
         },
     ];
 }

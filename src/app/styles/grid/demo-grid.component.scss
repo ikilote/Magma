@@ -4,9 +4,11 @@
 
 :host.show-border {
     div:has(> .break) {
+        transition-property: border-color;
         border: 1px dotted var(--alert600);
 
         & > div:not(.break, .sub) {
+            transition-property: border-color;
             border: 1px dashed var(--neutral800);
         }
     }

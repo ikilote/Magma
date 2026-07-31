@@ -25,6 +25,7 @@ html {
 }
 
 * {
+    outline: 2px solid transparent;
     font-family: var(--font-family);
 }
 

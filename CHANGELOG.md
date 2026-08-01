@@ -1,5 +1,172 @@
 # Changelog of @ikilote/magma
 
+## 2.0.0 (soon)
+
+### 🫢 Breaking
+
+- **Outputs renamed** (public API):
+    - **dialog**: `(onClose)` → `(closed)`
+    - **input-\***: `(change)` → `(valueChange)`
+    - **input-select**:
+        - `(close)` → `(selectClose)`
+        - `(focus)` → `(selectFocus)`
+        - `(blur)` → `(selectBlur)`
+        - `(search)` → `(selectSearch)`
+        - `(scroll)` → `(selectScroll)`
+    - **light-dark**: `(change)` → `(themeChange)`
+    - **window**:
+        - `(onClose)` → `(closed)`
+        - `(onMinimize)` → `(minimized)`
+        - `(onMaximize)` → `(maximized)`
+        - `(onRestore)` → `(restored)`
+        - `(onFocus)` → `(focused)`
+- **Inputs renamed** (public API):
+    - **window**:
+        - `[bar-title]` → `[barTitle]`
+        - `[bar-buttons]` → `[barButtons]`
+        - `[min-width]` → `[minWidth]`
+        - `[max-width]` → `[maxWidth]`
+        - `[min-height]` → `[minHeight]`
+        - `[max-height]` → `[maxHeight]`
+- **Directive inputs/outputs renamed** (public API):
+    - **sortable**:
+        - `[sortable-filter-input]` → `[sortableFilterInput]`
+        - `[sortable-filter]` → `[sortableFilter]`
+        - `(sortable-change)` → `(sortableChange)`
+        - `[sort-rule]` → `[sortRule]`
+- **Component selectors renamed** to follow `mg-*` convention:
+    - `color-picker` → `mg-color-picker`
+    - `context-menu` → `mg-context-menu`
+    - `datetime-picker` → `mg-datetime-picker`
+    - `info-message` → `mg-info-message`
+    - `info-messages` → `mg-info-messages`
+
+### ✅ New
+
+- **Chips**: new style (class `.chip`, `.chips`)
+- **Palette**: new semantic color layer with configurable hue and saturation
+    - parametrize the hue and saturation of every color family
+    - add semantic color tokens (`--color-on-surface`, `--color-border`, …)
+    - adjust light color values for better contrast
+- **limit-focus directive**: extended to handle `contenteditable`, `<summary>`, media controls and `inert` elements
+
+### ♿ Accessibility
+
+- **color-picker**:
+    - cursor zone is now focusable (`tabindex="0"`, `role="slider"`)
+    - full ARIA value attributes (`aria-valuenow`/`min`/`max`)
+    - keyboard control: Arrow keys adjust lightness/saturation, Shift multiplies step by 10
+    - `cursorZoneLabel` is translatable via the `texts()` input
+    - palette buttons now have `aria-label` with the color value
+- **tabs**:
+    - `mg-tab-title` exposes `role="tab"`, `aria-selected` and `aria-controls`
+    - roving tabindex: only the active tab has `tabindex="0"`
+    - tabpanel linked via `aria-controls`
+    - scroll buttons: `mouseout` → `mouseleave` + `blur`, marked `aria-hidden`/`tabindex="-1"`
+- **dialog**: added `aria-modal="true"`
+- **context-menu**: added `role="menu"` on `<menu>`, items with actions get `role="menuitem"`
+- **datetime-picker**: improved ARIA semantics
+- **inputs**: improved ARIA semantics
+
+### 🐞 Fix
+
+- **input-range**: `(valueChange)` was not emitted on input event
+- **palette**: semantic token contrast fixes (light mode):
+    - `--color-on-surface-muted`: ratio `4.06:1` → `6.02:1` (AA text)
+    - `--color-border`: ratio `2.55:1` → `4.06:1` (AA non-text)
+    - `--color-border-strong`: maintains differentiation from new `--color-border`
+- **ellipsis-button**: switched to `OnPush` change detection
+
+### 🎨 Style
+
+- **new CSS variables**:
+    - **Semantic color tokens** (new layer, consumed by all components):
+        - `--color-surface` — page/card background
+        - `--color-surface-raised` — elevated surface (cards, dropdowns)
+        - `--color-surface-sunken` — recessed surface (inputs, wells)
+        - `--color-on-surface` — default text/icon on surface
+        - `--color-on-surface-muted` — secondary text on surface
+        - `--color-on-primary` — text/icon on primary color
+        - `--color-primary` — primary interactive color
+        - `--color-primary-hover` — primary hover state
+        - `--color-border` — default border
+        - `--color-border-strong` — stronger border (focus rings, separators)
+        - `--color-focus-ring` — keyboard focus outline
+    - **Palette knobs**:
+        - `--primaryS` — primary saturation
+        - `--primarySsoft` — primary soft saturation
+        - `--neutralH` — neutral hue
+        - `--neutralS` — neutral saturation
+        - `--alertH` — alert hue
+        - `--warnH` — warn hue
+        - `--successH` — success hue
+    - **Chips** (new component):
+        - `--chip-background` — background color
+        - `--chip-color` — text color
+        - `--chip-border-color` — border color
+        - `--chip-border-radius` — border radius
+        - `--chip-font-size` — font size
+        - `--chip-padding` — padding
+        - `--chip-hover-background` — hover background
+        - `--chip-hover-color` — hover text color
+        - `--chip-hover-border-color` — hover border color
+        - `--chip-hover-padding` — hover padding
+        - `--chip-active-background` — active/selected background
+        - `--chip-active-color` — active/selected text color
+        - `--chip-active-border-color` — active/selected border color
+        - `--chip-active-padding` — active/selected padding
+    - **Messages**:
+        - `--floating-message-background` — floating message background
+        - `--floating-message-border-color` — floating message border color
+        - `--floating-message-box-shadow-color` — floating message shadow color
+        - `--floating-message-progress-background` — floating message progress bar background
+        - `--warn-message-background` — warn message background
+        - `--warn-message-border-color` — warn message border color
+        - `--warn-message-box-shadow-color` — warn message shadow color
+        - `--warn-message-color` — warn message text color
+        - `--warn-message-progress-background` — warn message progress bar background
+        - `--success-message-background` — success message background
+        - `--success-message-border-color` — success message border color
+        - `--success-message-box-shadow-color` — success message shadow color
+        - `--success-message-color` — success message text color
+        - `--success-message-progress-background` — success message progress bar background
+    - **Misc**:
+        - `--transparency-checkerboard` — checkerboard pattern for transparency preview
+        - `--color-picker-embedded-shadow-color`
+        - `--datetime-picker-embedded-shadow-color`
+        - `--ellipsis-list-shadow-color`
+        - `--context-menu-item-shadow-color`
+- **removed CSS variables**:
+    - `--error-message-error-background` — replaced by the new message token system
+- **components**: remove remaining hardcoded colors, now use CSS variables
+
+### 📏 Lint
+
+- add ESLint via `angular-eslint` with a documented rule baseline
+- all lint errors cleared; `no-input-rename`, `no-output-rename`, `no-output-native`, `no-output-on-prefix` promoted to `error`
+
+### 🎦 Demo
+
+- **palette**:
+    - expose all color values
+    - live contrast checker (WCAG 2.1 AA pass/fail)
+    - dynamic change value, hue and saturation to create a new theme
+    - 12 predefined themes
+        - Ocean — default
+        - Forest
+        - Sunset
+        - Lavender
+        - Rose
+        - Teal
+        - Slate
+        - Gold
+        - Monochrome
+        - Nord
+        - Dracula
+        - Solarized
+- **chips**: new demo page
+- fix blinking in demo and scrollbar in menu
+
 ## 1.11.0 (2026-07-23)
 
 ### 🐞 Fix

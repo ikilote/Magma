@@ -37,7 +37,7 @@ export class MagmaDialog {
 
     // output
 
-    readonly onClose = output();
+    readonly closed = output();
 
     // viewChild
 
@@ -65,7 +65,7 @@ export class MagmaDialog {
 
     close() {
         this.isOpen.set(false);
-        this.onClose.emit();
+        this.closed.emit();
     }
 
     protected _propagationStop(event: Event) {

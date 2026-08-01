@@ -171,10 +171,10 @@ export class DemoBlockComponent { }`;
             attr['bar'] = null;
 
             if (this.ctrlForm.value.barTitle) {
-                attr['bar-title'] = this.ctrlForm.value.barTitle;
+                attr['barTitle'] = this.ctrlForm.value.barTitle;
             }
             if (this.ctrlForm.value.barButtons) {
-                attr['bar-buttons'] = null;
+                attr['barButtons'] = null;
             }
         }
 
@@ -182,20 +182,20 @@ export class DemoBlockComponent { }`;
             attr['width'] = this.ctrlForm.value.width;
         }
         if (this.ctrlForm.value.minWidth) {
-            attr['min-width'] = this.ctrlForm.value.minWidth;
+            attr['minWidth'] = this.ctrlForm.value.minWidth;
         }
         if (this.ctrlForm.value.maxWidth) {
-            attr['max-width'] = this.ctrlForm.value.maxWidth;
+            attr['maxWidth'] = this.ctrlForm.value.maxWidth;
         }
 
         if (this.ctrlForm.value.height) {
             attr['height'] = this.ctrlForm.value.height;
         }
         if (this.ctrlForm.value.minHeight) {
-            attr['min-height'] = this.ctrlForm.value.minHeight;
+            attr['minHeight'] = this.ctrlForm.value.minHeight;
         }
         if (this.ctrlForm.value.maxHeight) {
-            attr['max-height'] = this.ctrlForm.value.maxHeight;
+            attr['maxHeight'] = this.ctrlForm.value.maxHeight;
         }
 
         if (this.ctrlForm.value.over) {

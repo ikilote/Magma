@@ -5,9 +5,9 @@
     [resizerHost]="this"
     [focus]="window.focus"
     (mousedown)="select(window)"
-    (onClose)="remove(window)"
-    (onMinimize)="onWindowMinimize(window)"
-    (onRestore)="onWindowRestore(window)"
-    (onFocus)="onWindowFocus(window)"
+    (closed)="remove(window)"
+    (minimized)="onWindowMinimize(window)"
+    (restored)="onWindowRestore(window)"
+    (focused)="onWindowFocus(window)"
   />
 }

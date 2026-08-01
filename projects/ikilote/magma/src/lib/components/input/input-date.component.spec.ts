@@ -1211,10 +1211,10 @@ describe('MagmaInputDate - missing branch coverage', () => {
         const dayInput = document.querySelector<HTMLInputElement>(`#${id} .day`);
         dayInput!.valueAsNumber = 15;
 
-        vi.spyOn(component.change, 'emit');
+        vi.spyOn(component.valueChange, 'emit');
         component.updateDate({ target: dayInput } as any, 'day');
 
-        expect(component.change.emit).toHaveBeenCalled();
+        expect(component.valueChange.emit).toHaveBeenCalled();
     });
 
     it('should not call focus(true) onTouched', () => {

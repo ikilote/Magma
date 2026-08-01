@@ -65,14 +65,14 @@ export type MagmaSortRule =
     | undefined;
 
 @Directive({
-    selector: '[sort-rule]',
+    selector: '[sortRule]',
     hostDirectives: [MagmaClickEnterDirective],
 })
 export class MagmaSortRuleDirective implements OnInit {
     private sortable = inject(MagmaSortableDirective, { host: true });
     private click = inject(MagmaClickEnterDirective);
 
-    sortRule = input<MagmaSortRules>(undefined, { alias: 'sort-rule' });
+    sortRule = input<MagmaSortRules>(undefined);
 
     constructor() {
         this.click.clickEnter.subscribe(() => {
@@ -134,16 +134,11 @@ export class MagmaSortableDirective<T = unknown> implements OnInit, OnChanges, O
     private readonly renderer = inject(Renderer2);
 
     sortable = input.required<T[]>();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any -- generic input common requires any to accept all subclasses (MagmaInputText, MagmaInputDate, etc.)
+    sortableFilterInput = input<HTMLInputElement | MagmaInputCommon<any> | undefined>();
+    sortableFilter = input<((key: string, item: T, index: number) => boolean) | undefined>();
 
-    sortableFilterInput = input<HTMLInputElement | MagmaInputCommon<any> | undefined>(undefined, {
-        alias: 'sortable-filter-input',
-    });
-
-    sortableFilter = input<((key: string, item: T, index: number) => boolean) | undefined>(undefined, {
-        alias: 'sortable-filter',
-    });
-
-    sortableChange = output<T[]>({ alias: 'sortable-change' });
+    sortableChange = output<T[]>();
 
     currentRule?: MagmaSortRules;
     currentRuleOrder = false;

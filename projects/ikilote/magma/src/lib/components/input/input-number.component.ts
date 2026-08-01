@@ -85,7 +85,7 @@ export class MagmaInputNumber extends MagmaInputCommon<number | undefined> {
     inputValue(event: Event) {
         const value = this.parseValue(event);
         this.onChange(value);
-        this.change.emit(value);
+        this.valueChange.emit(value);
     }
 
     private parseValue(event: Event): number | undefined {

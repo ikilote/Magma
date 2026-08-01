@@ -62,7 +62,7 @@ export abstract class AbstractWindowComponent {
     parent = input.required<MagmaWindow>();
 
     close() {
-        this.parent().onClose.emit();
+        this.parent().closed.emit();
     }
 }
 
@@ -82,7 +82,7 @@ let index = 0;
         '[class.fixed-right]': 'fixedEdgeClass() === "fixed-right"',
         '[class.active]': 'focus()',
         '[class.inactive]': '!focus()',
-        '[class.minimized]': 'minimized()',
+        '[class.minimized]': 'isMinimized()',
     },
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })
@@ -102,14 +102,14 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly zoneSelector = input<string>();
     readonly position = input<'default' | 'center' | { x: number; y: number }>();
     readonly bar = input(undefined, { transform: booleanAttribute });
-    readonly barTitle = input<string>(undefined, { alias: 'bar-title' });
-    readonly barButtons = input(undefined, { alias: 'bar-buttons', transform: booleanAttribute });
+    readonly barTitle = input<string>();
+    readonly barButtons = input(undefined, { transform: booleanAttribute });
     readonly width = input<string>();
-    readonly minWidth = input<string>(undefined, { alias: 'min-width' });
-    readonly maxWidth = input<string>(undefined, { alias: 'max-width' });
+    readonly minWidth = input<string>();
+    readonly maxWidth = input<string>();
     readonly height = input<string>();
-    readonly minHeight = input<string>(undefined, { alias: 'min-height' });
-    readonly maxHeight = input<string>(undefined, { alias: 'max-height' });
+    readonly minHeight = input<string>();
+    readonly maxHeight = input<string>();
     readonly fixed = input<MagmaWindowFixed>();
     readonly over = input(undefined, { transform: booleanAttribute });
     readonly focus = input(undefined, { transform: booleanAttribute });
@@ -117,15 +117,15 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly resizerHost = model<MagmaResizeHostElement>();
     readonly isOpen = model(false);
 
-    readonly onClose = output<void>();
-    readonly onMinimize = output<void>();
-    readonly onMaximize = output<void>();
-    readonly onRestore = output<void>();
-    readonly onFocus = output<void>();
+    readonly closed = output<void>();
+    readonly minimized = output<void>();
+    readonly maximized = output<void>();
+    readonly restored = output<void>();
+    readonly focused = output<void>();
 
     protected readonly center = signal(false);
     protected readonly fullscreen = signal(false);
-    protected readonly minimized = signal(false);
+    protected readonly isMinimized = signal(false);
 
     /** Whether drag should be disabled (fixed is truthy) */
     protected readonly isFixed = computed(() => !!this.fixed() || !!this.component()?.fixed);
@@ -249,14 +249,14 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     }
 
     minimize() {
-        this.minimized.set(true);
-        this.onMinimize.emit();
+        this.isMinimized.set(true);
+        this.minimized.emit();
     }
 
     restore() {
         this.restoring = true;
-        this.minimized.set(false);
-        this.onRestore.emit();
+        this.isMinimized.set(false);
+        this.restored.emit();
     }
 
     winInit() {
@@ -329,7 +329,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         const element = this.elementWin()[0]?.nativeElement;
 
         if (this.fullscreen()) {
-            this.onMaximize.emit();
+            this.maximized.emit();
             const { x, y } = this.initPosition;
             this.cdkDrag()[0].setFreeDragPosition({ x, y });
 
@@ -337,7 +337,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             element.style.width = (zone?.offsetWidth ?? window.innerWidth) + 'px';
             element.style.height = (zone?.offsetHeight ?? window.innerHeight) + 'px';
         } else {
-            this.onRestore.emit();
+            this.restored.emit();
             this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: this.y[0] });
             element.style.width = this.x[1] + 'px';
             element.style.height = this.y[1] + 'px';
@@ -347,12 +347,12 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     close() {
         this.resizerHost()?.remove(this);
         this.isOpen.set(false);
-        this.onClose.emit();
+        this.closed.emit();
     }
 
     @HostListener('mousedown')
     mousedown() {
-        this.onFocus.emit();
+        this.focused.emit();
         if (!this.component()) {
             this.resizerHost()?.select(this);
         }

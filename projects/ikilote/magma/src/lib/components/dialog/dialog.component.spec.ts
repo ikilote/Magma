@@ -46,12 +46,12 @@ describe('MagmaDialog', () => {
         expect(component.isOpen()).toBe(false);
     });
 
-    it('should emit onClose when closed', () => {
-        vi.spyOn(component.onClose, 'emit');
+    it('should emit closed when closed', () => {
+        vi.spyOn(component.closed, 'emit');
         component.open();
         fixture.changeDetectorRef.detectChanges();
         component.close();
-        expect(component.onClose.emit).toHaveBeenCalled();
+        expect(component.closed.emit).toHaveBeenCalled();
     });
 });
 
@@ -66,7 +66,7 @@ describe('MagmaDialog', () => {
             [label]="label"
             [title]="title"
             [id]="id"
-            (onClose)="onClose()"
+            (closed)="onClose()"
             >Content</mg-dialog
         >
     `,

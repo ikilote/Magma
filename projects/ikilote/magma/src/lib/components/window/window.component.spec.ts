@@ -59,11 +59,11 @@ describe('MagmaWindow', () => {
         });
 
         it('should close the window and emit onClose', () => {
-            vi.spyOn(component.onClose, 'emit');
+            vi.spyOn(component.closed, 'emit');
             component.open();
             component.close();
             expect(component.isOpen()).toBe(false);
-            expect(component.onClose.emit).toHaveBeenCalled();
+            expect(component.closed.emit).toHaveBeenCalled();
         });
 
         it('should render and initialize when isOpen is true', async () => {
@@ -404,8 +404,8 @@ describe('MagmaWindow', () => {
         beforeEach(() => {
             fixture.componentRef.setInput('isOpen', true);
             fixture.componentRef.setInput('bar', true);
-            fixture.componentRef.setInput('bar-title', 'Test Window');
-            fixture.componentRef.setInput('bar-buttons', true);
+            fixture.componentRef.setInput('barTitle', 'Test Window');
+            fixture.componentRef.setInput('barButtons', true);
             fixture.changeDetectorRef.detectChanges();
         });
 
@@ -422,7 +422,7 @@ describe('MagmaWindow', () => {
         });
 
         it('should display title from comp.bar.title when barTitle input is not provided', () => {
-            fixture.componentRef.setInput('bar-title', undefined);
+            fixture.componentRef.setInput('barTitle', undefined);
             fixture.componentRef.setInput('component', {
                 id: 'test-win',
                 bar: { active: true, title: 'Component Title', buttons: true },
@@ -436,7 +436,7 @@ describe('MagmaWindow', () => {
         });
 
         it('should display buttons from comp.bar.buttons when barButtons input is not provided', () => {
-            fixture.componentRef.setInput('bar-buttons', undefined);
+            fixture.componentRef.setInput('barButtons', undefined);
             fixture.componentRef.setInput('component', {
                 id: 'test-win',
                 bar: { active: true, title: 'Test', buttons: true },
@@ -475,7 +475,7 @@ describe('MagmaWindow', () => {
         });
 
         it('should emit onClose and call remove when close is clicked', () => {
-            const closeSpy = vi.spyOn(component.onClose, 'emit');
+            const closeSpy = vi.spyOn(component.closed, 'emit');
             const hostSpy = {
                 remove: vi.fn().mockName('MagmaResizeHostElement.remove'),
             };
@@ -499,7 +499,7 @@ describe('MagmaWindow', () => {
 
             // Act
             changeButton.triggerEventHandler('click', null);
-            expect(component['minimized']()).toBe(true);
+            expect(component['isMinimized']()).toBe(true);
 
             // Check no window
             fixture.changeDetectorRef.detectChanges();
@@ -530,9 +530,9 @@ describe('MagmaWindow', () => {
             expect(button1).not.toBeNull();
 
             // close
-            vi.spyOn(component.onClose, 'emit');
+            vi.spyOn(component.closed, 'emit');
             button1.nativeElement.click();
-            expect(component.onClose.emit).toHaveBeenCalled();
+            expect(component.closed.emit).toHaveBeenCalled();
         });
     });
 
@@ -1214,7 +1214,7 @@ describe('MagmaWindow', () => {
             } as any);
             fixture.changeDetectorRef.detectChanges();
 
-            const closeSpy = vi.spyOn(component.onClose, 'emit');
+            const closeSpy = vi.spyOn(component.closed, 'emit');
 
             // Get the rendered TestComponent instance and call close()
             const testEl = fixture.debugElement.query(By.css('mg-test button'));

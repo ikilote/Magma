@@ -369,7 +369,7 @@
               [disabled]="formGenerator.value.disabled ?? false"
               [datalist]="formGenerator.value.datalist ? datalistText : undefined"
               (update)="onEvent('update', $event)"
-              (change)="onEvent('change', $event)"
+              (valueChange)="onEvent('change', $event)"
               id="mg-input-text-gen"
             />
           }
@@ -389,7 +389,7 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               (update)="onEvent('update', $event)"
-              (change)="onEvent('change', $event)"
+              (valueChange)="onEvent('change', $event)"
               id="mg-input-textarea-gen"
             >
               @if (formGenerator.value.textareaDesc) {
@@ -406,7 +406,7 @@
               [disabled]="formGenerator.value.disabled ?? false"
               [hideDatePicker]="formGenerator.value.hideDatePicker ?? false"
               (update)="onEvent('update', $event)"
-              (change)="onEvent('change', $event)"
+              (valueChange)="onEvent('change', $event)"
               id="mg-input-date-gen"
             />
           }
@@ -420,7 +420,7 @@
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               (update)="onEvent('update', $event)"
-              (change)="onEvent('change', $event)"
+              (valueChange)="onEvent('change', $event)"
               id="mg-input-password-gen"
             />
           }
@@ -442,7 +442,7 @@
               [(ngModel)]="valueNumber"
               (ngModelChange)="codeGeneration()"
               (update)="onEvent('update', $event)"
-              (change)="onEvent('change', $event)"
+              (valueChange)="onEvent('change', $event)"
               id="mg-input-number-gen"
             />
           }
@@ -501,13 +501,13 @@
               [(ngModel)]="valueSelect"
               (ngModelChange)="codeGeneration()"
               (update)="onEvent('update', $event)"
-              (change)="onEvent('change', $event)"
+              (valueChange)="onEvent('change', $event)"
               (open)="onEvent('open', $event)"
-              (close)="onEvent('close', $event)"
-              (focus)="onEvent('focus', $event)"
-              (blur)="onEvent('blur', $event)"
-              (search)="onEvent('search', $event)"
-              (scroll)="onEvent('scroll', $event)"
+              (selectClose)="onEvent('close', $event)"
+              (selectFocus)="onEvent('focus', $event)"
+              (selectBlur)="onEvent('blur', $event)"
+              (selectSearch)="onEvent('search', $event)"
+              (selectScroll)="onEvent('scroll', $event)"
               (removeOption)="onEvent('removeOption', $event)"
               id="mg-input-select-gen"
             />

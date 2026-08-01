@@ -10,8 +10,8 @@ import { MagmaInputCommon } from '../components/input/input-common';
 
 @Component({
     template: `
-        <div [sortable]="sortable" [sortable-filter-input]="sortableFilterInput" [sortable-filter]="sortableFilter">
-            <div [sort-rule]="sortRule" (clickEnter)="onClick()"></div>
+        <div [sortable]="sortable" [sortableFilterInput]="sortableFilterInput" [sortableFilter]="sortableFilter">
+            <div [sortRule]="sortRule" (clickEnter)="onClick()"></div>
             <ul>
                 @for (item of sortable; track item.name) {
                     <li>{{ item.name }} ({{ item.age }})</li>
@@ -66,7 +66,7 @@ describe('MagmaSortableModule', () => {
         TestBed.resetTestingModule();
     });
 
-    describe('sort-rule', () => {
+    describe('sortRule', () => {
         it('should apply "sort-asc" class when current rule and order match', () => {
             componentInstance.sortRule = 'name';
             sortableDirective.sortWithRule('name', 'asc');
@@ -109,7 +109,7 @@ describe('MagmaSortableModule', () => {
         });
     });
 
-    describe('sortable with sort-rule', () => {
+    describe('sortable with sortRule', () => {
         it('should apply "sort-cell" class when rule type is "none"', () => {
             componentInstance.sortRule = { type: 'none' };
             fixture.changeDetectorRef.detectChanges();
@@ -324,7 +324,7 @@ describe('MagmaSortableModule', () => {
     });
 
     describe('sortLinesFromList', () => {
-        it('should sort a custom list and emit sortable-change event', () => {
+        it('should sort a custom list and emit sortableChange event', () => {
             const emitSpy = vi.fn();
             sortableDirective.sortableChange.subscribe(emitSpy);
 
@@ -436,8 +436,8 @@ describe('MagmaSortableModule', () => {
         });
     });
 
-    describe('sortable-change event', () => {
-        it('should emit sortable-change event when sorting', () => {
+    describe('sortableChange event', () => {
+        it('should emit sortableChange event when sorting', () => {
             const emitSpy = vi.fn();
             sortableDirective.sortableChange.subscribe(emitSpy);
 
@@ -453,7 +453,7 @@ describe('MagmaSortableModule', () => {
             ]);
         });
 
-        it('should emit sortable-change event with sorted data in descending order', () => {
+        it('should emit sortableChange event with sorted data in descending order', () => {
             const emitSpy = vi.fn();
             sortableDirective.sortableChange.subscribe(emitSpy);
 
@@ -475,7 +475,7 @@ describe('MagmaSortableModule', () => {
             ]);
         });
 
-        it('should emit sortable-change event when sorting by number', () => {
+        it('should emit sortableChange event when sorting by number', () => {
             const emitSpy = vi.fn();
             sortableDirective.sortableChange.subscribe(emitSpy);
 
@@ -491,7 +491,7 @@ describe('MagmaSortableModule', () => {
             ]);
         });
 
-        it('should emit sortable-change event when filtering', () => {
+        it('should emit sortableChange event when filtering', () => {
             const emitSpy = vi.fn();
             const inputElement = document.createElement('input');
             inputElement.type = 'text';
@@ -557,8 +557,8 @@ export class MockMagmaInputText extends MagmaInputCommon<any> {
         <mg-input>
             <mg-input-text #test />
         </mg-input>
-        <div [sortable]="sortable" [sortable-filter-input]="test" [sortable-filter]="sortableFilter">
-            <div [sort-rule]="sortRule" (clickEnter)="onClick()"></div>
+        <div [sortable]="sortable" [sortableFilterInput]="test" [sortableFilter]="sortableFilter">
+            <div [sortRule]="sortRule" (clickEnter)="onClick()"></div>
             <ul>
                 @for (item of sortable; track item.name) {
                     <li>{{ item.name }} ({{ item.age }})</li>

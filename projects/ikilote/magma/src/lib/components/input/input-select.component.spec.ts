@@ -104,25 +104,25 @@ describe('MagmaInputSelect', () => {
     });
 
     it('should emit focus event on focus', () => {
-        vi.spyOn(component.focus, 'emit');
+        vi.spyOn(component.selectFocus, 'emit');
         (component as any).input()[0].focus.emit({} as any);
-        expect(component.focus.emit).toHaveBeenCalled();
+        expect(component.selectFocus.emit).toHaveBeenCalled();
     });
 
     it('should emit blur event and call onTouched and validate on blur', () => {
-        vi.spyOn(component.blur, 'emit');
+        vi.spyOn(component.selectBlur, 'emit');
         vi.spyOn(component, 'onTouched');
         vi.spyOn(component, 'validate');
 
         (component as any).input()[0].blur.emit({} as any);
 
-        expect(component.blur.emit).toHaveBeenCalled();
+        expect(component.selectBlur.emit).toHaveBeenCalled();
         expect(component.onTouched).toHaveBeenCalled();
         expect(component.validate).not.toHaveBeenCalled();
     });
 
     it('should call onTouched and validate on blur if ngControl is present', () => {
-        vi.spyOn(component.blur, 'emit');
+        vi.spyOn(component.selectBlur, 'emit');
         vi.spyOn(component, 'onTouched');
         vi.spyOn(component, 'validate');
 
@@ -152,9 +152,9 @@ describe('MagmaInputSelect', () => {
         const outputTests = [
             { name: 'autoCreateItem', eventName: 'autoCreateItem' },
             { name: 'open', eventName: 'open' },
-            { name: 'close', eventName: 'close' },
-            { name: 'search', eventName: 'search' },
-            { name: 'scroll', eventName: 'scroll' },
+            { name: 'selectClose', eventName: 'close' },
+            { name: 'selectSearch', eventName: 'search' },
+            { name: 'selectScroll', eventName: 'scroll' },
             { name: 'removeOption', eventName: 'removeOption' },
         ];
 

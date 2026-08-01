@@ -84,15 +84,12 @@ module.exports = defineConfig([
             // once cleared; `unknown` is the target for most of them.
             '@typescript-eslint/no-explicit-any': 'warn',
 
-            // Backlog · 22 occurrences at introduction, all on public API
-            // (`no-input-rename` 8, `no-output-native` 7,
-            // `no-output-on-prefix` 6, `no-output-rename` 1). Fixing them
-            // renames inputs and outputs, which is a breaking change: schedule
-            // for the next major, then promote to `error`.
-            '@angular-eslint/no-input-rename': 'warn',
-            '@angular-eslint/no-output-rename': 'warn',
-            '@angular-eslint/no-output-native': 'warn',
-            '@angular-eslint/no-output-on-prefix': 'warn',
+            // Backlog · resolved: all 22 occurrences fixed in the breaking-change
+            // rename pass (next major). Rules promoted to `error`.
+            '@angular-eslint/no-input-rename': 'error',
+            '@angular-eslint/no-output-rename': 'error',
+            '@angular-eslint/no-output-native': 'error',
+            '@angular-eslint/no-output-on-prefix': 'error',
 
             // Backlog · 1 occurrence: `ellipsis-button`. Switching it to
             // OnPush is correct but surfaces a pre-existing instability in

@@ -21,7 +21,7 @@ export class MagmaLightDark implements OnInit, OnChanges {
 
     readonly compact = input(false, { transform: booleanAttribute });
 
-    readonly change = output<PreferenceInterfaceTheme>();
+    readonly themeChange = output<PreferenceInterfaceTheme>();
 
     constructor() {
         this.clickEnter.clickEnter.subscribe(() => {
@@ -46,7 +46,7 @@ export class MagmaLightDark implements OnInit, OnChanges {
         this.lightDarkService.changeThemeClass();
 
         if (this.lightDarkService.currentTheme()) {
-            this.change.emit(this.lightDarkService.currentTheme());
+            this.themeChange.emit(this.lightDarkService.currentTheme());
         }
     }
 }

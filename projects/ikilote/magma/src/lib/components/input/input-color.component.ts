@@ -52,6 +52,6 @@ export class MagmaInputColor extends MagmaInputCommon<string> {
         if (this.ngControl?.control) {
             this.validate(this.ngControl.control);
         }
-        this.change.emit(color);
+        this.valueChange.emit(color);
     }
 }

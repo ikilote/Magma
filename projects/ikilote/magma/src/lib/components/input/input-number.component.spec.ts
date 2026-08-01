@@ -352,11 +352,11 @@ describe('MagmaInputNumber - focus branch', () => {
     });
 
     it('should emit change on input event', () => {
-        vi.spyOn(component.change, 'emit');
+        vi.spyOn(component.valueChange, 'emit');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = '42';
         inputElement.dispatchEvent(new Event('input'));
-        expect(component.change.emit).toHaveBeenCalledWith(42);
+        expect(component.valueChange.emit).toHaveBeenCalledWith(42);
     });
 
     it('should emit update on change event', () => {

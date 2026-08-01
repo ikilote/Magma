@@ -48,12 +48,12 @@
     [data]="_mergedData()"
     (update)="changeValue($event)"
     (focus)="_focus(true, $event)"
-    (blur)="_focus(false, $event); blur.emit($event)"
+    (blur)="_focus(false, $event)"
     (autoCreateItem)="autoCreateItem.emit($event)"
     (open)="open.emit($event)"
-    (close)="close.emit($event)"
-    (search)="search.emit($event)"
-    (scroll)="scroll.emit($event)"
+    (close)="selectClose.emit($event)"
+    (search)="selectSearch.emit($event)"
+    (scroll)="selectScroll.emit($event)"
     (removeOption)="removeOption.emit($event)"
   />
 } @else {

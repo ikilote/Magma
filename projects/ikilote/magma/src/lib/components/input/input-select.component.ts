@@ -189,11 +189,11 @@ export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
 
     readonly autoCreateItem = output<Select2AutoCreateEvent<Select2UpdateValue>>();
     readonly open = output<Select2>();
-    readonly close = output<Select2>();
-    readonly focus = output<Select2>();
-    readonly blur = output<Select2>();
-    readonly search = output<Select2SearchEvent<Select2UpdateValue>>();
-    readonly scroll = output<Select2ScrollEvent>();
+    readonly selectClose = output<Select2>();
+    readonly selectFocus = output<Select2>();
+    readonly selectBlur = output<Select2>();
+    readonly selectSearch = output<Select2SearchEvent<Select2UpdateValue>>();
+    readonly selectScroll = output<Select2ScrollEvent>();
     readonly removeOption = output<Select2RemoveEvent<Select2UpdateValue>>();
 
     // ----------------------- internal
@@ -255,13 +255,13 @@ export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
 
     _focus(value: boolean, event: Select2) {
         if (!value) {
-            this.blur.emit(event);
+            this.selectBlur.emit(event);
             this.onTouched();
             if (this.ngControl?.control) {
                 this.validate(this.ngControl.control);
             }
         } else {
-            this.focus.emit(event);
+            this.selectFocus.emit(event);
         }
     }
 }

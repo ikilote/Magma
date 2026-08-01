@@ -54,7 +54,7 @@ export class MagmaInputText extends MagmaInputCommon<string> {
         const value = ((event as InputEvent).target as HTMLInputElement).value;
         super.writeValue(value);
         this.onChange(value);
-        this.change.emit(value);
+        this.valueChange.emit(value);
     }
 
     focus(focus: boolean) {
@@ -71,6 +71,6 @@ export class MagmaInputText extends MagmaInputCommon<string> {
         super.writeValue('');
         this.onChange('');
         this.update.emit('');
-        this.change.emit('');
+        this.valueChange.emit('');
     }
 }

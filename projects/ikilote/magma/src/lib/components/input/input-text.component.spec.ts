@@ -225,12 +225,12 @@ describe('MagmaInputText - event outputs', () => {
         TestBed.resetTestingModule();
     });
 
-    it('should emit change on input event', () => {
-        vi.spyOn(component.change, 'emit');
+    it('should emit valueChange on input event', () => {
+        vi.spyOn(component.valueChange, 'emit');
         const inputElement = debugElement.query(By.css('input')).nativeElement;
         inputElement.value = 'typed value';
         inputElement.dispatchEvent(new Event('input'));
-        expect(component.change.emit).toHaveBeenCalledWith('typed value');
+        expect(component.valueChange.emit).toHaveBeenCalledWith('typed value');
     });
 
     it('should emit update on change event', () => {
@@ -241,10 +241,10 @@ describe('MagmaInputText - event outputs', () => {
         expect(component.update.emit).toHaveBeenCalledWith('changed value');
     });
 
-    it('should emit change on clearField', () => {
-        vi.spyOn(component.change, 'emit');
+    it('should emit valueChange on clearField', () => {
+        vi.spyOn(component.valueChange, 'emit');
         component.writeValue('some value');
         component.clearField();
-        expect(component.change.emit).toHaveBeenCalledWith('');
+        expect(component.valueChange.emit).toHaveBeenCalledWith('');
     });
 });

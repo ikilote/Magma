@@ -1049,7 +1049,7 @@ describe('MagmaDatetimePickerComponent', () => {
             expect(yearSelect).toBeTruthy();
 
             // Trigger scroll event
-            yearSelect.componentInstance.scroll.emit({ way: 'up' });
+            yearSelect.componentInstance.selectScroll.emit({ way: 'up' });
             fixture.changeDetectorRef.detectChanges();
             vi.advanceTimersByTime(100);
 

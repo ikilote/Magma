@@ -193,11 +193,11 @@ describe('MagmaInputTextarea - focus branch', () => {
     });
 
     it('should emit change on input event', () => {
-        vi.spyOn(component.change, 'emit');
+        vi.spyOn(component.valueChange, 'emit');
         const textareaElement = debugElement.query(By.css('textarea')).nativeElement;
         textareaElement.value = 'typed text';
         textareaElement.dispatchEvent(new Event('input'));
-        expect(component.change.emit).toHaveBeenCalledWith('typed text');
+        expect(component.valueChange.emit).toHaveBeenCalledWith('typed text');
     });
 
     it('should emit update on change event', () => {

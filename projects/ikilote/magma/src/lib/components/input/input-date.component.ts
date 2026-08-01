@@ -466,7 +466,7 @@ export class MagmaInputDate extends MagmaInputCommon<string | undefined> impleme
         if (change) {
             this.onChange(valueDate);
             this.update.emit(valueDate);
-            this.change.emit(valueDate);
+            this.valueChange.emit(valueDate);
         }
     }
 

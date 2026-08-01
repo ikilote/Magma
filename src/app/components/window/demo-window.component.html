@@ -44,12 +44,12 @@
             <mg-input-desc>px, %, etc.</mg-input-desc>
           </mg-input>
           <mg-input class="s-4">
-            <mg-input-label>min-width</mg-input-label>
+            <mg-input-label>minWidth</mg-input-label>
             <mg-input-text formControlName="minWidth" />
             <mg-input-desc>px, %, etc.</mg-input-desc>
           </mg-input>
           <mg-input class="s-4">
-            <mg-input-label>max-width</mg-input-label>
+            <mg-input-label>maxWidth</mg-input-label>
             <mg-input-text formControlName="maxWidth" />
             <mg-input-desc>px, %, etc.</mg-input-desc>
           </mg-input>
@@ -61,12 +61,12 @@
             <mg-input-desc>px, %, etc.</mg-input-desc>
           </mg-input>
           <mg-input class="s-4">
-            <mg-input-label>min-height</mg-input-label>
+            <mg-input-label>minHeight</mg-input-label>
             <mg-input-text formControlName="minHeight" />
             <mg-input-desc>px, %, etc.</mg-input-desc>
           </mg-input>
           <mg-input class="s-4">
-            <mg-input-label>max-height</mg-input-label>
+            <mg-input-label>maxHeight</mg-input-label>
             <mg-input-text formControlName="maxHeight" />
             <mg-input-desc>px, %, etc.</mg-input-desc>
           </mg-input>
@@ -98,14 +98,14 @@
               : ctrlForm.value.position
           "
           [bar]="ctrlForm.value.bar"
-          [bar-title]="ctrlForm.value.barTitle"
-          [bar-buttons]="ctrlForm.value.barButtons"
+          [barTitle]="ctrlForm.value.barTitle"
+          [barButtons]="ctrlForm.value.barButtons"
           [width]="ctrlForm.value.width"
-          [min-width]="ctrlForm.value.minWidth"
-          [max-width]="ctrlForm.value.maxWidth"
+          [minWidth]="ctrlForm.value.minWidth"
+          [maxWidth]="ctrlForm.value.maxWidth"
           [height]="ctrlForm.value.height"
-          [min-height]="ctrlForm.value.minHeight"
-          [max-height]="ctrlForm.value.maxHeight"
+          [minHeight]="ctrlForm.value.minHeight"
+          [maxHeight]="ctrlForm.value.maxHeight"
           [fixed]="$any(ctrlForm.value.fixed === 'true' ? true : ctrlForm.value.fixed || undefined)"
           [over]="ctrlForm.value.over"
         >

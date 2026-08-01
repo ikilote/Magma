@@ -54,6 +54,7 @@ export const menu: Menu = [
             {
                 routerLink: '/component/dialog',
                 label: 'Dialog',
+                status: 'update',
                 keys: ['dialog', 'modal', 'popup', 'window'],
             },
             {
@@ -74,11 +75,13 @@ export const menu: Menu = [
             {
                 routerLink: '/component/input',
                 label: 'Inputs',
+                status: 'update',
                 keys: ['form fields', 'input', 'text field'],
             },
             {
                 routerLink: '/component/light-dark',
                 label: 'Light-dark',
+                status: 'update',
                 keys: ['light dark', 'theme', 'dark mode', 'light mode'],
             },
             {
@@ -125,6 +128,7 @@ export const menu: Menu = [
             {
                 routerLink: '/component/window',
                 label: 'Window',
+                status: 'update',
                 keys: ['popup window', 'dialog window'],
             },
         ],
@@ -160,6 +164,7 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/sortable',
                 label: 'Sortable',
+                status: 'update',
                 keys: ['sort', 'reorder'],
             },
             {

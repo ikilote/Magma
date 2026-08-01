@@ -14,7 +14,7 @@ class TestComponent extends AbstractWindowComponent {
     override close() {
         // Override to prevent calling parent().onClose.emit() in tests
         if (this.parent) {
-            this.parent().onClose.emit();
+            this.parent().closed.emit();
         }
     }
 }
@@ -151,8 +151,8 @@ describe('MagmaWindowsZone', () => {
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
             const windowComponent = windowEl.componentInstance;
 
-            // Emit the onClose output event
-            windowComponent.onClose.emit();
+            // Emit the closed output event
+            windowComponent.closed.emit();
 
             // Wait for Angular to process the event
             await Promise.resolve();
@@ -180,7 +180,7 @@ describe('MagmaWindowsZone', () => {
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
             const windowComponent = windowEl.componentInstance;
 
-            windowComponent.onMinimize.emit();
+            windowComponent.minimized.emit();
             await Promise.resolve();
 
             expect(serviceSpy.onMinimizeWindow.next).toHaveBeenCalledWith('win-0');
@@ -199,13 +199,13 @@ describe('MagmaWindowsZone', () => {
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
             const windowComponent = windowEl.componentInstance;
 
-            windowComponent.onRestore.emit();
+            windowComponent.restored.emit();
             await Promise.resolve();
 
             expect(serviceSpy.onRestoreWindow.next).toHaveBeenCalledWith('win-0');
         });
 
-        it('should emit onFocusWindow on the context when a window emits onFocus', async () => {
+        it('should emit onFocusWindow on the context when a window emits focused', async () => {
             const serviceSpy = {
                 removeWindow: vi.fn(),
                 onMinimizeWindow: { next: vi.fn() },
@@ -218,29 +218,29 @@ describe('MagmaWindowsZone', () => {
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
             const windowComponent = windowEl.componentInstance;
 
-            windowComponent.onFocus.emit();
+            windowComponent.focused.emit();
             await Promise.resolve();
 
             expect(serviceSpy.onFocusWindow.next).toHaveBeenCalledWith('win-0');
         });
 
-        it('should call select() when a window emits onFocus (via onWindowFocus)', async () => {
+        it('should call select() when a window emits focused (via onWindowFocus)', async () => {
             vi.spyOn(component, 'select');
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
             const windowComponent = windowEl.componentInstance;
 
-            windowComponent.onFocus.emit();
+            windowComponent.focused.emit();
             await Promise.resolve();
 
             expect(component.select).toHaveBeenCalledWith(mockWindows[0]);
         });
 
-        it('should call select() when a window emits onRestore (via onWindowRestore)', async () => {
+        it('should call select() when a window emits restored (via onWindowRestore)', async () => {
             vi.spyOn(component, 'select');
             const windowEl = fixture.debugElement.query(By.css('mg-window'));
             const windowComponent = windowEl.componentInstance;
 
-            windowComponent.onRestore.emit();
+            windowComponent.restored.emit();
             await Promise.resolve();
 
             expect(component.select).toHaveBeenCalledWith(mockWindows[0]);

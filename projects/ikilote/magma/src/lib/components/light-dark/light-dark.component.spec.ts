@@ -83,7 +83,7 @@ describe('MagmaLightDark', () => {
     });
 
     it('should detect click only on toggle element when compact if input is false', () => {
-        vi.spyOn(component.change, 'emit');
+        vi.spyOn(component.themeChange, 'emit');
         fixture.componentRef.setInput('compact', false);
         fixture.changeDetectorRef.detectChanges();
         expect(component['clickEnter'].disabled).toBe(true);
@@ -96,7 +96,7 @@ describe('MagmaLightDark', () => {
 
         expect(lightDarkServiceMock.toggleTheme).toHaveBeenCalled();
         expect(lightDarkServiceMock.changeThemeClass).toHaveBeenCalled();
-        expect(component.change.emit).toHaveBeenCalled();
+        expect(component.themeChange.emit).toHaveBeenCalled();
     });
 
     it('should click should be call lightDarkService', () => {
@@ -118,10 +118,10 @@ describe('MagmaLightDark', () => {
     });
 
     it('should emit change event with current theme on click', () => {
-        vi.spyOn(component.change, 'emit');
+        vi.spyOn(component.themeChange, 'emit');
         component.click();
         fixture.changeDetectorRef.detectChanges();
-        expect(component.change.emit).toHaveBeenCalled();
+        expect(component.themeChange.emit).toHaveBeenCalled();
     });
 
     it('should not call click() when clickEnter is triggered and compact is false', () => {
@@ -161,13 +161,13 @@ describe('MagmaLightDark', () => {
         // Mock currentTheme to return null/undefined
         lightDarkServiceMock.currentTheme = vi.fn().mockReturnValue(null);
 
-        vi.spyOn(component.change, 'emit');
+        vi.spyOn(component.themeChange, 'emit');
 
         component.click();
 
         expect(lightDarkServiceMock.toggleTheme).toHaveBeenCalled();
         expect(lightDarkServiceMock.changeThemeClass).toHaveBeenCalled();
         // change.emit should NOT be called because currentTheme is falsy
-        expect(component.change.emit).not.toHaveBeenCalled();
+        expect(component.themeChange.emit).not.toHaveBeenCalled();
     });
 });

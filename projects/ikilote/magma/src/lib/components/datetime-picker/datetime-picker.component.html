@@ -17,7 +17,7 @@
         [readonly]="readonly()"
         infiniteScroll
         infiniteScrollThrottle="5"
-        (scroll)="scroll($event)"
+        (selectScroll)="scroll($event)"
       />
     </mg-input>
     <span (clickEnter)="right()" [disabled]="readonly()" class="icon-right" [class.hide]="nextMonthHide()"></span>

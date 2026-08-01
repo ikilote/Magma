@@ -149,6 +149,7 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/limit-focus',
                 label: 'Limit-focus',
+                status: 'update',
                 keys: ['focus trap', 'focus control', 'focus limit'],
             },
             {
@@ -170,6 +171,7 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/stop-propagation',
                 label: 'Stop Propagation',
+                status: 'update',
                 keys: ['event stop', 'propagation'],
             },
             {

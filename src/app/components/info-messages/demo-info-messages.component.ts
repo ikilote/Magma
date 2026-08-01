@@ -24,7 +24,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     selector: 'block-test',
     template: `<div>
         {{ text() }}
-        <button (click)="action()" stop-propagation stopClick>Close</button>
+        <button (click)="action()" stopPropagation stopClick>Close</button>
     </div> `,
     styles: [
         `
@@ -170,7 +170,7 @@ export class SendMessageComponent {
     selector: 'block-test',
     template: \`<div>
         {{ text() }}
-        <button (click)="action()" stop-propagation stopClick>Close</button>
+        <button (click)="action()" stopPropagationstopClick>Close</button>
     </div> \`,
     styles: [
         \`:host { display: block; padding: 10px; }\`,

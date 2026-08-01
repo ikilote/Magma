@@ -22,8 +22,8 @@ export class DemoStopPropagationComponent {
   </mg-input>
 
   <!-- Stop propagation for keydown -->
-  <mg-input stop-propagation stopKeydown>
-    <mg-input-label>stop-propagation stopKeydown</mg-input-label>
+  <mg-input stopPropagation stopKeydown>
+    <mg-input-label>stopPropagation stopKeydown</mg-input-label>
     <mg-input-text />
   </mg-input>
 </div>
@@ -35,7 +35,7 @@ export class DemoStopPropagationComponent {
   <button>no directive</button>
 
   <!-- Stop propagation for click -->
-  <button stop-propagation stopClick>stop-propagation stopClick</button>
+  <button stopPropagation stopClick>stopPropagation stopClick</button>
 </div>
 `,
         },

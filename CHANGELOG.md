@@ -34,6 +34,23 @@
         - `[sortable-filter]` → `[sortableFilter]`
         - `(sortable-change)` → `(sortableChange)`
         - `[sort-rule]` → `[sortRule]`
+    - **context menu**:
+        - `[contextMenu]` → `[mgContextMenu]`
+        - `[contextMenuMode]` → `[mgContextMenuMode]`
+        - `[contextMenuDisabled]` → `[mgContextMenuDisabled]`
+    - **datetime picker**:
+        - `[datetimePicker]` → `[mgDatetimePicker]`
+        - `[datetimePickerType]` → `[mgDatetimePickerType]`
+        - `[datetimePickerDisabled]` → `[mgDatetimePickerDisabled]`
+        - `[datetimePickerReadonly]` → `[mgDatetimePickerReadonly]`
+        - `[datetimePickerLang]` → `[mgDatetimePickerLang]`
+        - `[datetimePickerMin]` → `[mgDatetimePickerMin]`
+        - `[datetimePickerMax]` → `[mgDatetimePickerMax]`
+        - `[datetimePickerFirstDayOfWeek]` → `[mgDatetimePickerFirstDayOfWeek]`
+        - `[datetimePickerWeekend]` → `[mgDatetimePickerWeekend]`
+        - `[datetimePickerhideWeekendStyle]` → `[mgDatetimePickerhideWeekendStyle]`
+        - `[datetimePickerHideWeekNumber]` → `[mgDatetimePickerHideWeekNumber]`
+    - `stop-propagation` → `stopPropagation`
 - **Component selectors renamed** to follow `mg-*` convention:
     - `color-picker` → `mg-color-picker`
     - `context-menu` → `mg-context-menu`

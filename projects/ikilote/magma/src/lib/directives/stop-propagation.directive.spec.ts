@@ -1,4 +1,4 @@
-// stop-propagation.directive.spec.ts
+// stopPropagation.directive.spec.ts
 import { ChangeDetectionStrategy, Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -10,7 +10,7 @@ import { MagmaStopPropagationDirective } from './stop-propagation.directive';
         <div tabindex="0" (keydown)="onKeydown($event)" (click)="onClick($event)">
             <div
                 tabindex="0"
-                stop-propagation
+                stopPropagation
                 [stopKeydown]="stopKeydown"
                 [stopClick]="stopClick"
                 (keydown)="onInnerKeydown($event)"

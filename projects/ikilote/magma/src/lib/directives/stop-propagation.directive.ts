@@ -1,7 +1,7 @@
 import { Directive, HostListener, booleanAttribute, input } from '@angular/core';
 
 @Directive({
-    selector: '[stop-propagation]',
+    selector: '[stopPropagation]',
 })
 export class MagmaStopPropagationDirective {
     /** stopPropagation for keyboard */

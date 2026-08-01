@@ -48,7 +48,7 @@ export type MagmaDatetimeType = 'date' | 'datetime-local' | 'datetime-seconds' |
 const WEEK: WeekDay[] = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 @Component({
-    selector: 'datetime-picker',
+    selector: 'mg-datetime-picker',
     templateUrl: './datetime-picker.component.html',
     styleUrls: ['./datetime-picker.component.scss'],
     imports: [FormsModule, MagmaInput, MagmaInputSelect, MagmaClickEnterDirective, RepeatForPipe, StringPipe],

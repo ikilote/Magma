@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
     ArrayFilterPipe,
     FormBuilderExtended,
-    InfoMessageComponent,
+    MagmaInfoMessageComponent,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputElement,
@@ -38,7 +38,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [MagmaStopPropagationDirective],
 })
 export class ContextTestComponent {
-    context = input<InfoMessageComponent>();
+    context = input<MagmaInfoMessageComponent>();
     component = input<DemoInfoMessageComponent>();
     text = input<string>();
 

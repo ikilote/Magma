@@ -19,15 +19,15 @@
     </form>
     <div class="s-4 s-12-m">
       <div
-        [contextMenu]="contextMenu"
-        [contextMenuMode]="ctrlForm.value.contextMenuMode"
-        [contextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
+        [mgContextMenu]="contextMenu"
+        [mgContextMenuMode]="ctrlForm.value.contextMenuMode"
+        [mgContextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
       >
         Right-click here to display the <button (click)="click()">context menu</button>.
         <div
-          [contextMenu]="contextSubMenu"
-          [contextMenuMode]="ctrlForm.value.contextMenuMode"
-          [contextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
+          [mgContextMenu]="contextSubMenu"
+          [mgContextMenuMode]="ctrlForm.value.contextMenuMode"
+          [mgContextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
         >
           Right-click here to display an other context menu
         </div>

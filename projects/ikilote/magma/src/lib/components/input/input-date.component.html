@@ -172,8 +172,8 @@
   @if (!hideDatePicker()) {
     <span
       class="picker-icon"
-      [datetimePicker]="$any(_value)"
-      [datetimePickerType]="type()"
+      [mgDatetimePicker]="$any(_value)"
+      [mgDatetimePickerType]="type()"
       (datetimeClose)="datePickerClose($event)"
       stop-propagation
       stopKeydown

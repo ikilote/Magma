@@ -36,7 +36,7 @@ export interface ContextMenuData<T> {
 export type ContextMenuMode = 'default' | 'bubble' | undefined;
 
 @Component({
-    selector: 'context-menu',
+    selector: 'mg-context-menu',
     templateUrl: './context-menu.component.html',
     styleUrl: './context-menu.component.scss',
     host: {

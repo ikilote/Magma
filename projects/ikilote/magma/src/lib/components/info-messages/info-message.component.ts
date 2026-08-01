@@ -3,10 +3,10 @@ import { Component, ElementRef, HostListener, inject, input, output } from '@ang
 
 import { MagmaMessageInfo } from '../../services/messages';
 
-export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<string, unknown>;
+export type ContextMessageInputs = { context?: MagmaInfoMessageComponent } & Record<string, unknown>;
 
 @Component({
-    selector: 'info-message',
+    selector: 'mg-info-message',
     templateUrl: './info-message.component.html',
     styleUrl: './info-message.component.scss',
     imports: [NgComponentOutlet],
@@ -17,7 +17,7 @@ export type ContextMessageInputs = { context?: InfoMessageComponent } & Record<s
         '[style.--info-message-progress-time]': 'this.message()?.time',
     },
 })
-export class InfoMessageComponent {
+export class MagmaInfoMessageComponent {
     // inject
 
     protected readonly element = inject(ElementRef);
@@ -60,6 +60,6 @@ export class InfoMessageComponent {
     }
 
     withContext(inputs?: ContextMessageInputs) {
-        return { ...inputs, ...{ context: this as InfoMessageComponent } };
+        return { ...inputs, ...{ context: this as MagmaInfoMessageComponent } };
     }
 }

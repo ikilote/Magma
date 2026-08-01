@@ -4,14 +4,14 @@ import { By } from '@angular/platform-browser';
 import { Subject } from 'rxjs';
 import type { MockedObject } from 'vitest';
 
-import { InfoMessageComponent } from './info-message.component';
-import { InfoMessagesComponent } from './info-messages.component';
+import { MagmaInfoMessageComponent } from './info-message.component';
+import { MagmaInfoMessagesComponent } from './info-messages.component';
 
 import { MagmaMessageContent, MagmaMessageInfo, MagmaMessageType, MagmaMessages } from '../../services/messages';
 
 describe('InfoMessagesComponent', () => {
-    let fixture: ComponentFixture<InfoMessagesComponent>;
-    let component: InfoMessagesComponent;
+    let fixture: ComponentFixture<MagmaInfoMessagesComponent>;
+    let component: MagmaInfoMessagesComponent;
     let messagesService: MockedObject<MagmaMessages>;
 
     beforeEach(async () => {
@@ -52,11 +52,11 @@ describe('InfoMessagesComponent', () => {
         };
 
         await TestBed.configureTestingModule({
-            imports: [InfoMessagesComponent, InfoMessageComponent],
+            imports: [MagmaInfoMessagesComponent, MagmaInfoMessageComponent],
             providers: [{ provide: MagmaMessages, useValue: messagesSpy }],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(InfoMessagesComponent);
+        fixture = TestBed.createComponent(MagmaInfoMessagesComponent);
         component = fixture.componentInstance;
         messagesService = TestBed.inject(MagmaMessages) as MockedObject<MagmaMessages>;
         fixture.changeDetectorRef.detectChanges();
@@ -67,7 +67,7 @@ describe('InfoMessagesComponent', () => {
     });
 
     it('should not display any messages initially', () => {
-        const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
+        const infoMessages = fixture.debugElement.queryAll(By.directive(MagmaInfoMessageComponent));
         expect(infoMessages.length).toBe(0);
     });
 
@@ -77,7 +77,7 @@ describe('InfoMessagesComponent', () => {
 
         fixture.changeDetectorRef.detectChanges();
 
-        const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
+        const infoMessages = fixture.debugElement.queryAll(By.directive(MagmaInfoMessageComponent));
         expect(infoMessages.length).toBe(2);
     });
 
@@ -101,7 +101,7 @@ describe('InfoMessagesComponent', () => {
         component.destruct(testMessage);
         fixture.changeDetectorRef.detectChanges();
 
-        const infoMessages = fixture.debugElement.queryAll(By.directive(InfoMessageComponent));
+        const infoMessages = fixture.debugElement.queryAll(By.directive(MagmaInfoMessageComponent));
         expect(infoMessages.length).toBe(0);
     });
 
@@ -109,7 +109,7 @@ describe('InfoMessagesComponent', () => {
         messagesService.addMessage('Test', { type: MagmaMessageType.info, time: '1s' });
         fixture.changeDetectorRef.detectChanges();
 
-        const infoMessageComponent = fixture.debugElement.query(By.directive(InfoMessageComponent));
+        const infoMessageComponent = fixture.debugElement.query(By.directive(MagmaInfoMessageComponent));
         expect(infoMessageComponent).toBeTruthy();
 
         // Trigger the destruct event from the child component

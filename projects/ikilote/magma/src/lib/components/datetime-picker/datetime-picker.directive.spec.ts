@@ -10,14 +10,14 @@ import { cleanupOverlayContainer } from '../../test-helpers';
 @Component({
     template: `
         <span
-            [datetimePicker]="datetime"
-            [datetimePickerType]="type"
-            [datetimePickerDisabled]="disabled"
-            [datetimePickerReadonly]="readonly"
-            [datetimePickerLang]="lang"
-            [datetimePickerMin]="min"
-            [datetimePickerMax]="max"
-            [datetimePickerFirstDayOfWeek]="firstDayOfWeek"
+            [mgDatetimePicker]="datetime"
+            [mgDatetimePickerType]="type"
+            [mgDatetimePickerDisabled]="disabled"
+            [mgDatetimePickerReadonly]="readonly"
+            [mgDatetimePickerLang]="lang"
+            [mgDatetimePickerMin]="min"
+            [mgDatetimePickerMax]="max"
+            [mgDatetimePickerFirstDayOfWeek]="firstDayOfWeek"
             (datetimeChange)="onDatetimeChange($event)"
             (datetimeClose)="onDatetimeClose($event)"
             class="test"

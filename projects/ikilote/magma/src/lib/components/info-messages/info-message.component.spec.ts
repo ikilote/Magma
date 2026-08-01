@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
-import { InfoMessageComponent } from './info-message.component';
+import { MagmaInfoMessageComponent } from './info-message.component';
 
 import { MagmaMessageType } from '../../services/messages';
 
@@ -17,15 +17,15 @@ class TestDynamicComponent {
 }
 
 describe('InfoMessageComponent', () => {
-    let fixture: ComponentFixture<InfoMessageComponent>;
-    let component: InfoMessageComponent;
+    let fixture: ComponentFixture<MagmaInfoMessageComponent>;
+    let component: MagmaInfoMessageComponent;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [NgComponentOutlet, InfoMessageComponent],
+            imports: [NgComponentOutlet, MagmaInfoMessageComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(InfoMessageComponent);
+        fixture = TestBed.createComponent(MagmaInfoMessageComponent);
         component = fixture.componentInstance;
         fixture.changeDetectorRef.detectChanges();
     });

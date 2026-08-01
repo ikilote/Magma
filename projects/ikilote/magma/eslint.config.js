@@ -26,15 +26,6 @@
 const { defineConfig } = require('eslint/config');
 const rootConfig = require('../../../eslint.config.js');
 
-/** Components whose element selector predates the `mg-` convention. */
-const LEGACY_SELECTOR_FILES = [
-    '**/color-picker.component.ts',
-    '**/context-menu.component.ts',
-    '**/datetime-picker.component.ts',
-    '**/info-message.component.ts',
-    '**/info-messages.component.ts',
-];
-
 /** Components attaching to native table elements via an attribute marker. */
 const NATIVE_ELEMENT_SELECTOR_FILES = [
     '**/components/table/table.component.ts',
@@ -92,7 +83,7 @@ module.exports = defineConfig([
         },
     },
     {
-        files: [...LEGACY_SELECTOR_FILES, ...NATIVE_ELEMENT_SELECTOR_FILES],
+        files: [...NATIVE_ELEMENT_SELECTOR_FILES],
         rules: {
             '@angular-eslint/component-selector': 'off',
         },

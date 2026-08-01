@@ -18,7 +18,9 @@ class MockComponent extends AbstractContextMenuComponent {
 
 @Component({
     template: `
-        <div [contextMenu]="menuData" [contextMenuMode]="mode" [contextMenuDisabled]="disabled">Right-click here</div>
+        <div [mgContextMenu]="menuData" [mgContextMenuMode]="mode" [mgContextMenuDisabled]="disabled">
+            Right-click here
+        </div>
     `,
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [MagmaContextMenu],
@@ -164,7 +166,7 @@ describe('MagmaContextMenu Integration', () => {
         directiveElement.triggerEventHandler('contextmenu', event);
         await fixture.whenStable();
         const actionSpy = vi.spyOn(directiveElement.componentInstance.menuData.contextMenu[0], 'action');
-        document.querySelector('context-menu ul li:first-child')?.dispatchEvent(new Event('click'));
+        document.querySelector('mg-context-menu ul li:first-child')?.dispatchEvent(new Event('click'));
         await fixture.whenStable();
         expect(actionSpy).toHaveBeenCalledWith('test-data');
         expect(MagmaContextMenu._overlayRef).toBeUndefined();
@@ -176,7 +178,7 @@ describe('MagmaContextMenu Integration', () => {
         const auxEvent = new MouseEvent('auxclick', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
-        document.querySelector('context-menu')?.dispatchEvent(auxEvent);
+        document.querySelector('mg-context-menu')?.dispatchEvent(auxEvent);
         await fixture.whenStable();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
@@ -188,7 +190,7 @@ describe('MagmaContextMenu Integration', () => {
         const auxEvent = new MouseEvent('contextmenu', { button: 2, clientX: 200, clientY: 200 });
         vi.spyOn(auxEvent, 'preventDefault');
         vi.spyOn(auxEvent, 'stopPropagation');
-        document.querySelector('context-menu')?.dispatchEvent(auxEvent);
+        document.querySelector('mg-context-menu')?.dispatchEvent(auxEvent);
         await fixture.whenStable();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
@@ -204,7 +206,7 @@ describe('MagmaContextMenu Integration', () => {
         const directive = directiveElement.injector.get(MagmaContextMenu);
         expect(directive.open(auxEvent)).toBe(true);
 
-        document.querySelector('context-menu')?.dispatchEvent(auxEvent);
+        document.querySelector('mg-context-menu')?.dispatchEvent(auxEvent);
         await fixture.whenStable();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
@@ -219,7 +221,7 @@ describe('MagmaContextMenu Integration', () => {
         const directive = directiveElement.injector.get(MagmaContextMenu);
         expect(directive.open(auxEvent, { contextMenu: [], data: undefined })).toBe(false);
 
-        document.querySelector('context-menu')?.dispatchEvent(auxEvent);
+        document.querySelector('mg-context-menu')?.dispatchEvent(auxEvent);
         await fixture.whenStable();
         expect(auxEvent.preventDefault).toHaveBeenCalled();
         expect(auxEvent.stopPropagation).toHaveBeenCalled();
@@ -333,7 +335,7 @@ describe('MagmaContextMenu Integration', () => {
 
         const actionSpy = vi.spyOn(fixture.componentInstance.menuData.contextMenu[0] as any, 'action');
 
-        const menuItem = document.querySelector('context-menu ul li:first-child') as HTMLElement;
+        const menuItem = document.querySelector('mg-context-menu ul li:first-child') as HTMLElement;
         expect(menuItem).not.toBeNull();
 
         const contextMenuEvent = new MouseEvent('contextmenu', {

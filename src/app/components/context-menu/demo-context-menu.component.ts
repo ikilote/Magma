@@ -306,14 +306,14 @@ export class ContextTestComponent extends AbstractContextMenuComponent {
         const json: Json2htmlRef = {
             tag: 'div',
             attrs: {
-                '[contextMenu]': 'contextMenu',
+                '[mgContextMenu]': 'contextMenu',
             },
             body: [
                 'Right-click here to display the <button>context menu.</button>',
                 {
                     tag: 'div',
                     attrs: {
-                        '[contextMenu]': 'contextSubMenu',
+                        '[mgContextMenu]': 'contextSubMenu',
                     },
                     body: ['Right-click here to display an other context menu.'],
                 },

@@ -1,16 +1,16 @@
 import { ChangeDetectorRef, Component, inject } from '@angular/core';
 
-import { InfoMessageComponent } from './info-message.component';
+import { MagmaInfoMessageComponent } from './info-message.component';
 
 import { MagmaMessageInfo, MagmaMessages } from '../../services/messages';
 
 @Component({
-    selector: 'info-messages',
+    selector: 'mg-info-messages',
     templateUrl: './info-messages.component.html',
     styleUrl: './info-messages.component.scss',
-    imports: [InfoMessageComponent],
+    imports: [MagmaInfoMessageComponent],
 })
-export class InfoMessagesComponent {
+export class MagmaInfoMessagesComponent {
     // inject
 
     protected readonly messages = inject(MagmaMessages);

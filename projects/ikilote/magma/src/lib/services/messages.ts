@@ -4,7 +4,7 @@ import { Injectable, Type, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { InfoMessagesComponent } from '../components/info-messages/info-messages.component';
+import { MagmaInfoMessagesComponent } from '../components/info-messages/info-messages.component';
 
 export enum MagmaMessageType {
     info = 'info',
@@ -65,7 +65,7 @@ export class MagmaMessages {
             scrollStrategy: this.overlay.scrollStrategies.block(),
             positionStrategy: this.overlay.position().global().right(),
         });
-        const userProfilePortal = new ComponentPortal(InfoMessagesComponent);
+        const userProfilePortal = new ComponentPortal(MagmaInfoMessagesComponent);
         // The attached component instance is not retained: nothing calls
         // setInput on it yet (see the commented line below).
         overlayRef.attach(userProfilePortal);

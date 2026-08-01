@@ -17,27 +17,27 @@ export abstract class AbstractContextMenuComponent {
 }
 
 @Directive({
-    selector: '[contextMenu]',
+    selector: '[mgContextMenu]',
 })
 export class MagmaContextMenu<T> {
     private readonly overlay = inject(Overlay);
 
     static _overlayRef?: OverlayRef;
 
-    contextMenu = input<ContextMenuData<T>>();
-    contextMenuMode = input<ContextMenuMode>('default');
-    contextMenuDisabled = input(false, { transform: booleanAttribute });
+    mgContextMenu = input<ContextMenuData<T>>();
+    mgContextMenuMode = input<ContextMenuMode>('default');
+    mgContextMenuDisabled = input(false, { transform: booleanAttribute });
 
     open(event: MouseEvent, menuData?: ContextMenuData<T>, mode?: ContextMenuMode): boolean {
         event.preventDefault();
         event.stopPropagation();
 
-        if (this.contextMenuDisabled()) {
+        if (this.mgContextMenuDisabled()) {
             return false;
         }
 
-        const menuItems = menuData || this.contextMenu();
-        const menuMode = mode || this.contextMenuMode();
+        const menuItems = menuData || this.mgContextMenu();
+        const menuMode = mode || this.mgContextMenuMode();
 
         if (!menuItems?.contextMenu?.length) {
             return false;

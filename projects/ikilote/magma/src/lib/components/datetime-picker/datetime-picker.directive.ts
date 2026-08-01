@@ -26,10 +26,10 @@ const connectedPosition: ConnectedPosition[] = [
 ];
 
 @Directive({
-    selector: '[datetimePicker]',
+    selector: '[mgDatetimePicker]',
     host: {
         '[class.datetime-picker]': 'true',
-        '[tabIndex]': 'datetimePickerDisabled() ? -1 : 0',
+        '[tabIndex]': 'mgDatetimePickerDisabled() ? -1 : 0',
     },
     hostDirectives: [MagmaClickEnterDirective],
 })
@@ -38,17 +38,17 @@ export class MagmaDatetimePicker implements OnDestroy {
     private readonly element = inject(ElementRef<HTMLElement>);
     private readonly click = inject(MagmaClickEnterDirective);
 
-    readonly datetimePicker = input<string>();
-    readonly datetimePickerType = input<MagmaDatetimeType | undefined>();
-    readonly datetimePickerDisabled = input(false, { transform: booleanAttribute });
-    readonly datetimePickerReadonly = input(false, { transform: booleanAttribute });
-    readonly datetimePickerLang = input<string | undefined>();
-    readonly datetimePickerMin = input<string | number | Date | undefined>();
-    readonly datetimePickerMax = input<string | number | Date | undefined>();
-    readonly datetimePickerFirstDayOfWeek = input<MagmaDatetimePickerDays>();
-    readonly datetimePickerWeekend = input<WeekDay[]>(['Sunday', 'Saturday']);
-    readonly datetimePickerhideWeekendStyle = input(false, { transform: booleanAttribute });
-    readonly datetimePickerHideWeekNumber = input(false, { transform: booleanAttribute });
+    readonly mgDatetimePicker = input<string>();
+    readonly mgDatetimePickerType = input<MagmaDatetimeType | undefined>();
+    readonly mgDatetimePickerDisabled = input(false, { transform: booleanAttribute });
+    readonly mgDatetimePickerReadonly = input(false, { transform: booleanAttribute });
+    readonly mgDatetimePickerLang = input<string | undefined>();
+    readonly mgDatetimePickerMin = input<string | number | Date | undefined>();
+    readonly mgDatetimePickerMax = input<string | number | Date | undefined>();
+    readonly mgDatetimePickerFirstDayOfWeek = input<MagmaDatetimePickerDays>();
+    readonly mgDatetimePickerWeekend = input<WeekDay[]>(['Sunday', 'Saturday']);
+    readonly mgDatetimePickerhideWeekendStyle = input(false, { transform: booleanAttribute });
+    readonly mgDatetimePickerHideWeekNumber = input(false, { transform: booleanAttribute });
 
     static _overlayRef?: OverlayRef;
     static _component?: ComponentRef<MagmaDatetimePickerComponent>;
@@ -65,7 +65,7 @@ export class MagmaDatetimePicker implements OnDestroy {
     }
 
     async open(event?: Event) {
-        if (this.datetimePickerDisabled()) {
+        if (this.mgDatetimePickerDisabled()) {
             return;
         }
 
@@ -81,20 +81,20 @@ export class MagmaDatetimePicker implements OnDestroy {
         });
         const userProfilePortal = new ComponentPortal(MagmaDatetimePickerComponent);
 
-        let datetime = this.datetimePicker();
+        let datetime = this.mgDatetimePicker();
         const initDatetime = datetime;
 
         const component = overlayRef.attach(userProfilePortal);
-        component.setInput('value', this.datetimePicker());
-        component.setInput('readonly', this.datetimePickerReadonly());
-        component.setInput('type', this.datetimePickerType());
-        component.setInput('lang', this.datetimePickerLang());
-        component.setInput('min', this.datetimePickerMin());
-        component.setInput('max', this.datetimePickerMax());
-        component.setInput('firstDayOfWeek', this.datetimePickerFirstDayOfWeek());
-        component.setInput('weekend', this.datetimePickerWeekend());
-        component.setInput('hideWeekendStyle', this.datetimePickerhideWeekendStyle());
-        component.setInput('hideWeekNumber', this.datetimePickerHideWeekNumber());
+        component.setInput('value', this.mgDatetimePicker());
+        component.setInput('readonly', this.mgDatetimePickerReadonly());
+        component.setInput('type', this.mgDatetimePickerType());
+        component.setInput('lang', this.mgDatetimePickerLang());
+        component.setInput('min', this.mgDatetimePickerMin());
+        component.setInput('max', this.mgDatetimePickerMax());
+        component.setInput('firstDayOfWeek', this.mgDatetimePickerFirstDayOfWeek());
+        component.setInput('weekend', this.mgDatetimePickerWeekend());
+        component.setInput('hideWeekendStyle', this.mgDatetimePickerhideWeekendStyle());
+        component.setInput('hideWeekNumber', this.mgDatetimePickerHideWeekNumber());
         component.setInput('embedded', true);
 
         this.updateEmit = component.instance.datetimeChange.subscribe(value => {

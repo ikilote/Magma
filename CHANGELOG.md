@@ -153,6 +153,7 @@
         - `--datetime-picker-embedded-shadow-color`
         - `--ellipsis-list-shadow-color`
         - `--context-menu-item-shadow-color`
+        - `--window-bar-button-color` — window bar button color
 - **removed CSS variables**:
     - `--error-message-error-background` — replaced by the new message token system
 - **components**: remove remaining hardcoded colors, now use CSS variables

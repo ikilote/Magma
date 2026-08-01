@@ -531,6 +531,7 @@ body {
     --window-bar-button-focus-offset: 1px;
     --window-bar-button-size: 24px;
     --window-bar-button-gap: 3px;
+    --window-bar-button-color: var(--neutral950);
     --window-bar-button-padding: 2px;
     --window-bar-background: var(--neutral300);
     --window-bar-background-active: var(--neutral400);

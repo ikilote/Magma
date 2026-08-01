@@ -123,6 +123,7 @@
         background: var(--window-bar-button-background);
         width: var(--window-bar-button-size);
         height: var(--window-bar-button-size);
+        color: var(--window-bar-button-color);
 
         &:focus {
             outline: var(--window-bar-button-focus-outline);

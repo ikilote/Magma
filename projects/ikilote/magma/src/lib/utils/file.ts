@@ -28,49 +28,42 @@ export function blobToBase64(blob: Blob): Promise<string> {
     });
 }
 
-export function ulrToBase64(url: string): Promise<string | ArrayBuffer | null> {
-    // The whole executor body is wrapped in try/catch below, so no rejection
-    // can be swallowed. Rewriting this as a plain async function is the proper
-    // fix; see AUDIT-QUALITE.md §8.
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise<string | ArrayBuffer | null>(async (resolve, reject) => {
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                credentials: 'omit',
-                mode: 'cors', // Chromium
-                headers: {
-                    'Sec-Fetch-Dest': 'image',
-                    'Sec-Fetch-Mode': 'cors',
-                    'Sec-Fetch-Site': 'same-site',
-                },
-            });
-            if (response.status === 200) {
-                const imageBlob = await response.blob();
+export async function ulrToBase64(url: string): Promise<string | ArrayBuffer> {
+    const response = await fetch(url, {
+        method: 'GET',
+        credentials: 'omit',
+        mode: 'cors', // Chromium
+        headers: {
+            'Sec-Fetch-Dest': 'image',
+            'Sec-Fetch-Mode': 'cors',
+            'Sec-Fetch-Site': 'same-site',
+        },
+    }).catch(() => {
+        throw new Error('HTTP-Error: CORS');
+    });
 
-                const reader = new FileReader();
-                reader.readAsDataURL(imageBlob);
-                reader.onloadend = function () {
-                    const base64data = reader.result;
-                    if (base64data instanceof ArrayBuffer) {
-                        resolve(base64data);
-                    } else if (base64data) {
-                        // fix typemine
-                        resolve(base64data.replace('data:application/octet-stream;base64,', 'data:image/webp;base64,'));
-                    } else {
-                        reject('Image error');
-                    }
-                    resolve(base64data);
-                };
-                reader.onerror = () => {
-                    reject('Image error');
-                };
+    if (response.status !== 200) {
+        throw new Error('HTTP-Error: ' + response.status);
+    }
+
+    const imageBlob = await response.blob();
+
+    return new Promise<string | ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(imageBlob);
+        reader.onloadend = () => {
+            const base64data = reader.result;
+            if (base64data instanceof ArrayBuffer) {
+                resolve(base64data);
+            } else if (base64data) {
+                resolve(base64data.replace('data:application/octet-stream;base64,', 'data:image/webp;base64,'));
             } else {
-                reject('HTTP-Error: ' + response.status);
+                reject(new Error('Image error: FileReader returned null'));
             }
-        } catch {
-            reject('HTTP-Error: CORS');
-        }
+        };
+        reader.onerror = () => {
+            reject(new Error('Image error: FileReader failed'));
+        };
     });
 }
 

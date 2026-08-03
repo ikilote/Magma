@@ -174,13 +174,13 @@ describe('ulrToBase64', () => {
             status: 404,
         } as unknown as Response);
 
-        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('HTTP-Error: 404');
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toThrow('HTTP-Error: 404');
     });
 
     it('should reject on CORS error', async () => {
-        mockFetch.mockRejectedValue('HTTP-Error: CORS');
+        mockFetch.mockRejectedValue(new TypeError('Failed to fetch'));
 
-        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('HTTP-Error: CORS');
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toThrow('HTTP-Error: CORS');
     });
 
     it('should reject when FileReader encounters an error', async () => {
@@ -202,7 +202,7 @@ describe('ulrToBase64', () => {
             }
         } as any;
 
-        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('Image error');
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toThrow('Image error: FileReader failed');
         window.FileReader = originalFileReader;
     });
 
@@ -225,7 +225,9 @@ describe('ulrToBase64', () => {
             }
         } as any;
 
-        await expect(ulrToBase64('http://example.com/image.png')).rejects.toEqual('Image error');
+        await expect(ulrToBase64('http://example.com/image.png')).rejects.toThrow(
+            'Image error: FileReader returned null',
+        );
         window.FileReader = originalFileReader;
     });
 });

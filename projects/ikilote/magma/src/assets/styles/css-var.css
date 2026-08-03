@@ -177,7 +177,7 @@ body {
        Each component variable below defaults to one of these roles;
        consumers who already override per-component variables are unaffected. */
 
-    /* Surface: the base background color of containers, cards and inputs. */
+    /* Surface: the base background color of containers, cards. */
     --color-surface: var(--neutral010);
     /* Surface raised: elevated containers like dialogs, dropdowns, tooltips. */
     --color-surface-raised: var(--neutral050);
@@ -193,7 +193,7 @@ body {
     --color-border: var(--neutral500);
     /* Border strong: accentuated borders (focus indicators, strong dividers). */
     --color-border-strong: var(--neutral700);
-    /* Primary: main accent color (buttons, links, active states). */
+    /* Primary: main accent color (buttons, active states). */
     --color-primary: var(--primary500);
     /* On primary: text/icon color on a primary-colored background. */
     --color-on-primary: var(--neutral000);
@@ -271,8 +271,8 @@ body {
     --button-warn-active-padding: var(--button-default-padding);
 
     /* MARK: link */
-    --link-color: var(--color-primary);
-    --link-hover-color: var(--color-primary-hover);
+    --link-color: var(--primary700);
+    --link-hover-color: var(--neutral990);
     --link-focus-border-color: var(--input-focus-color);
 
     /* MARK: chip */
@@ -302,7 +302,7 @@ body {
 
     /* MARK: input */
     --input-border-color: var(--color-border);
-    --input-background: var(--color-surface);
+    --input-background: var(--primary050);
     --input-background-affix: var(--primary300);
     --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
     --input-item-color: var(--primary400);

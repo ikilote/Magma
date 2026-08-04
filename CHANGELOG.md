@@ -1,6 +1,6 @@
 # Changelog of @ikilote/magma
 
-## 2.0.0 (soon)
+## 2.0.0 (2026-08-04)
 
 ### 🫢 Breaking
 
@@ -194,6 +194,9 @@
     - when you right-click on another location, it opens that position
 - **color-picker**/**ellipsis-button**/**dialog**/**tabs**/**walkthrough**/**window**:
     - must not submit a form
+- **color-picker**
+    - fix range style for **Chromium** & **Webkit**
+- rewrite **ulrToBase64** as proper async function
 
 ### 🎨 Style
 

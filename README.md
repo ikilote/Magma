@@ -99,6 +99,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 - Buttons
 - Links
+- Chips
 - Input
 - Grid
     - Responsive
@@ -199,10 +200,10 @@ npm run update-coverage-badges
 
 ## Coverage
 
-[![Statements 99.09% (4144/4182)](https://test.ikilote.net/badge-custom.php?label=Statements&value=99.09%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Branches 98.9% (2629/2658)](https://test.ikilote.net/badge-custom.php?label=Branches&value=98.9%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Functions 96.54% (865/896)](https://test.ikilote.net/badge-custom.php?label=Functions&value=96.54%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Lines 99.97% (3340/3341)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.97%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Statements 98.93% (4181/4226)](https://test.ikilote.net/badge-custom.php?label=Statements&value=98.93%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Branches 98.51% (2647/2687)](https://test.ikilote.net/badge-custom.php?label=Branches&value=98.51%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Functions 95.9% (867/904)](https://test.ikilote.net/badge-custom.php?label=Functions&value=95.9%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Lines 99.85% (3378/3383)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.85%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
 
 ## License
 

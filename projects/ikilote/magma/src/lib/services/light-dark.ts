@@ -1,12 +1,10 @@
-import { Injectable, Renderer2, RendererFactory2, inject, signal } from '@angular/core';
+import { Renderer2, RendererFactory2, Service, inject, signal } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
 export type PreferenceInterfaceTheme = 'dark' | 'light';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Service()
 export class LightDark {
     private browserLightDark: PreferenceInterfaceTheme | undefined;
     private userLightDark: PreferenceInterfaceTheme | undefined;

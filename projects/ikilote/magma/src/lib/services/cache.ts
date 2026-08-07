@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 import { Observable, firstValueFrom } from 'rxjs';
 
 import { flattenedListItems } from '../utils/array';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class MagmaCache {
     private static cache: Record<
         string,

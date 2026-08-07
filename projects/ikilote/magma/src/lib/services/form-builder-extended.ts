@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import {
     AbstractControl,
     AbstractControlOptions,
@@ -157,9 +157,7 @@ export type FormMapperExtended<T extends Record<string, unknown>> = {
 
 // --- SERVICE ---
 
-@Injectable({
-    providedIn: 'root',
-})
+@Service()
 export class FormBuilderExtended {
     private readonly fb = inject(FormBuilder);
 

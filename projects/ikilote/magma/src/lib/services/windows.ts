@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ComponentRef, Injectable, Type, inject, signal } from '@angular/core';
+import { ComponentRef, Service, Type, inject, signal } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -14,7 +14,7 @@ export interface MagmaWindowPosition {
     y: number;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class MagmaWindows {
     private readonly overlay = inject(Overlay);
 

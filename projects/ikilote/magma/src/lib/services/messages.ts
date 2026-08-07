@@ -1,6 +1,6 @@
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { Injectable, Type, inject } from '@angular/core';
+import { Service, Type, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
@@ -22,7 +22,7 @@ export interface MagmaMessageInfo {
     time: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class MagmaMessages {
     private readonly overlay = inject(Overlay);
 

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Service } from '@angular/core';
 
 export enum LoggerLevel {
     log,
@@ -11,7 +11,7 @@ export enum LoggerLevel {
 /**
  * For persistence during the session of use
  */
-@Injectable({ providedIn: 'root' })
+@Service()
 export class Logger {
     static minLogLevel: keyof typeof LoggerLevel = 'info';
     static suffix = '';

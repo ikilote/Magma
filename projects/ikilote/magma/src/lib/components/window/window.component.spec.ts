@@ -160,7 +160,17 @@ describe('MagmaWindow', () => {
             mockElement.style.display = 'block';
             mockElement.style.position = 'absolute';
 
-            document.body.appendChild(mockElement);
+            // Make offsetWidth/offsetHeight reflect style values so the
+            // component's layout guards (size === element.offsetWidth) pass
+            // without a real layout engine.
+            Object.defineProperty(mockElement, 'offsetWidth', {
+                get: () => parseInt(mockElement.style.width) || 0,
+                configurable: true,
+            });
+            Object.defineProperty(mockElement, 'offsetHeight', {
+                get: () => parseInt(mockElement.style.height) || 0,
+                configurable: true,
+            });
 
             // Mock signals: we simulate the return of ViewChildren/ViewChild
             // If they are signals, we mock the function itself

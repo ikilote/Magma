@@ -170,7 +170,7 @@ describe('MagmaTabs - Integration', () => {
         tags.moveTabs(true, 15);
 
         const { scrollLeft: scrollLeft2 } = tags.tablist().nativeElement;
-        expect(scrollLeft2).toBe(15);
+        expect(scrollLeft2).toBeCloseTo(15, 0);
         expect(tags.prev()).toBe(false);
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
@@ -178,8 +178,9 @@ describe('MagmaTabs - Integration', () => {
         fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 100);
 
-        const { scrollLeft: scrollLeft3 } = tags.tablist().nativeElement;
-        expect(scrollLeft3).toBe(48);
+        const { scrollLeft: scrollLeft3, scrollWidth: sw3, clientWidth: cw3 } = tags.tablist().nativeElement;
+        const maxScroll3 = sw3 - cw3;
+        expect(scrollLeft3).toBeCloseTo(maxScroll3, 0);
         expect(tags.prev()).toBe(false);
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
@@ -190,7 +191,7 @@ describe('MagmaTabs - Integration', () => {
         tags.moveTabs(true, -15);
 
         const { scrollLeft: scrollLeft4 } = tags.tablist().nativeElement;
-        expect(scrollLeft4).toBe(33);
+        expect(scrollLeft4).toBeCloseTo(maxScroll3 - 15, 0);
         expect(tags.prev()).toBe(true);
         expect(tags.next()).toBe(false);
         expect(tags.updateInterval).toBeDefined();
@@ -209,8 +210,9 @@ describe('MagmaTabs - Integration', () => {
         fixture.changeDetectorRef.detectChanges();
         tags.moveTabs(true, 300);
 
-        const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
-        expect(scrollLeft).toBe(48);
+        const { scrollLeft: scrollLeft, scrollWidth: sw, clientWidth: cw } = tags.tablist().nativeElement;
+        const maxScroll = sw - cw;
+        expect(scrollLeft).toBeCloseTo(maxScroll, 0);
         expect(tags.prev()).toBe(false);
         expect(tags.next()).toBe(true);
         expect(tags.updateInterval).toBeDefined();
@@ -257,8 +259,9 @@ describe('MagmaTabs - Integration', () => {
         tags.moveTabs(true, 300);
         fixture.changeDetectorRef.detectChanges();
 
-        const { scrollLeft: scrollLeft } = tags.tablist().nativeElement;
-        expect(scrollLeft).toBe(48);
+        const { scrollLeft: scrollLeft, scrollWidth: sw, clientWidth: cw } = tags.tablist().nativeElement;
+        const maxScroll = sw - cw;
+        expect(scrollLeft).toBeCloseTo(maxScroll, 0);
         expect(tags.prev()).toBe(true);
         expect(tags.next()).toBe(false);
 

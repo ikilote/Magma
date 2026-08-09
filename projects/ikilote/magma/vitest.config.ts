@@ -26,10 +26,11 @@ export default defineConfig({
         isolate: true,
         browser: {
             enabled: true,
+            headless: true,
             instances: [
                 {
                     browser: 'chromium',
-                    provider: playwright({ headless: true }),
+                    provider: playwright(),
                 },
             ],
             screenshotFailures: false,

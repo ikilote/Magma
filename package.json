@@ -16,6 +16,7 @@
     "test": "ng test",
     "test:lib": "ng test @ikilote/magma",
     "test:lib:no-watch": "ng test @ikilote/magma --watch=false",
+    "test:lib:cross-browser": "ng test @ikilote/magma --watch=false --no-coverage --browsers=ChromiumHeadless --browsers=FirefoxHeadless --browsers=WebkitHeadless",
     "update-coverage-badges": "node scripts/update-coverage-badges.js",
     "generate:css-doc": "node scripts/generate-css-variables-doc.js && npx prettier --write CSS-VARIABLES.md"
   },

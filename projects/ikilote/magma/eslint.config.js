@@ -56,9 +56,9 @@ module.exports = defineConfig([
                 },
             ],
 
-            // Remaining occurrences are concentrated in `form-builder-extended`
-            // (wraps Angular's loosely typed FormBuilder) and `logger`.
-            '@typescript-eslint/no-explicit-any': 'warn',
+            // All occurrences have been resolved — promoted to error to prevent
+            // regressions. Specs are exempted (see override below).
+            '@typescript-eslint/no-explicit-any': 'error',
 
             '@angular-eslint/no-input-rename': 'error',
             '@angular-eslint/no-output-rename': 'error',

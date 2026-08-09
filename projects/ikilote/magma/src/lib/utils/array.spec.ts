@@ -467,6 +467,57 @@ describe('sortWithRule', () => {
             expect(array[2].name).toBe('Bob');
         });
 
+        it('should handle rule with type "none"', () => {
+            const array = [{ name: 'Charlie' }, { name: 'Alice' }, { name: 'Bob' }];
+
+            sortWithRule(array, { type: 'none' } as any);
+
+            // No sorting should occur
+            expect(array.map(item => item.name)).toEqual(['Charlie', 'Alice', 'Bob']);
+        });
+
+        it('should handle comma-separated attrs with fallback to second attr', () => {
+            const array = [
+                { first: undefined, second: 'Charlie' },
+                { first: undefined, second: 'Alice' },
+                { first: 'Direct', second: 'Bob' },
+            ];
+
+            sortWithRule(array, { attr: 'first,second', type: 'string' });
+
+            // 'Direct' sorts before 'Alice'/'Charlie' which use second attr
+            expect(array[0].first).toBe(undefined);
+            expect(array[0].second).toBe('Alice');
+            expect(array[1].first).toBe(undefined);
+            expect(array[1].second).toBe('Charlie');
+            expect(array[2].first).toBe('Direct');
+        });
+
+        it('should handle comma-separated attrs where first attr resolves', () => {
+            const array = [
+                { first: 'Charlie', second: 'X' },
+                { first: 'Alice', second: 'Y' },
+                { first: 'Bob', second: 'Z' },
+            ];
+
+            sortWithRule(array, { attr: 'first,second', type: 'string' });
+
+            // Should sort by first attr since it resolves
+            expect(array.map(item => item.first)).toEqual(['Alice', 'Bob', 'Charlie']);
+        });
+
+        it('should use second attr when first is undefined in comma-separated attrs', () => {
+            const array = [{ first: 'Zulu', second: 'X' }, { second: 'Bravo' }, { second: 'Alpha' }];
+
+            sortWithRule(array, { attr: 'first,second', type: 'string' });
+
+            // Items without first: use second, items with first: use first
+            // 'Alpha' < 'Bravo' < 'Zulu'
+            expect(array[0].second).toBe('Alpha');
+            expect(array[1].second).toBe('Bravo');
+            expect(array[2].first).toBe('Zulu');
+        });
+
         it('should handle unknown type by using string comparison', () => {
             const array = [{ value: 'Charlie' }, { value: 'Alice' }, { value: 'Bob' }];
 

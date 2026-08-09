@@ -230,6 +230,23 @@ describe('jsonParse', () => {
         }
     });
 
+    it('should handle Blink engine with position beyond all lines', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Blink' } } as any);
+
+        const invalidJson = 'a\n\nb';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Unexpected token at position 999');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            // Position is beyond all lines so textPosition remains empty
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
+
     it('should handle Gecko engine without line/column in message', () => {
         bowserParseSpy.mockReturnValue({ engine: { name: 'Gecko' } } as any);
 
@@ -303,6 +320,57 @@ describe('jsonParse', () => {
         const invalidJson = '{"key": "value"';
         vi.spyOn(JSON, 'parse').mockImplementation(() => {
             throw new SyntaxError('JSON Parse error: ');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
+
+    it('should handle error without message property', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Blink' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            const err = new SyntaxError();
+            Object.defineProperty(err, 'message', { value: undefined });
+            throw err;
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).message).toBe('');
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
+
+    it('should handle Gecko engine where "at line" matches but full regex does not', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'Gecko' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Unexpected token at line malformed');
+        });
+
+        expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);
+        try {
+            jsonParse(invalidJson);
+        } catch (error) {
+            expect((error as ExceptionJsonParse).cause).toBe('');
+        }
+    });
+
+    it('should handle WebKit engine where message does not match JSON Parse error pattern', () => {
+        bowserParseSpy.mockReturnValue({ engine: { name: 'WebKit' } } as any);
+
+        const invalidJson = '{"key": "value"';
+        vi.spyOn(JSON, 'parse').mockImplementation(() => {
+            throw new SyntaxError('Unexpected token');
         });
 
         expect(() => jsonParse(invalidJson)).toThrowError(ExceptionJsonParse);

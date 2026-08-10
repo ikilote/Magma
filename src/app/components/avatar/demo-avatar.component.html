@@ -3,6 +3,7 @@
 @if (ctrlForm) {
   <section class="gap">
     <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+      <h3>Options</h3>
       <mg-input class="s-12">
         <mg-input-label>Image src</mg-input-label>
         <mg-input-text formControlName="src" />
@@ -23,7 +24,7 @@
         <mg-input-text formControlName="alt" />
       </mg-input>
     </form>
-    <div class="s-5 s-6-x s-12-m">
+    <div class="s-3 s-6-x s-12-m">
       <h3>Render</h3>
       <div class="avatar-demo-grid">
         <mg-avatar
@@ -34,20 +35,20 @@
         />
       </div>
     </div>
-    <div class="s-4 s-12-x">
+    <div class="s-6 s-12-x">
       <code-tabs
         [code]="[
           { type: 'html', code: codeHtml },
           { type: 'ts', code: codeTs },
-          { type: 'css-edit', code: codeCss },
+          { type: 'css-edit', code: codeCss, title: 'css' },
         ]"
       />
     </div>
   </section>
 }
-<hr />
+
+<h3>Examples</h3>
 <div>
-  <h3 class="s-12">Examples</h3>
   <div class="s-4 s-12-l">
     <h4>Sizes</h4>
     <div class="avatar-demo-grid">

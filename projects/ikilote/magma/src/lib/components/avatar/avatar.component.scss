@@ -2,34 +2,34 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border-radius: var(--mg-avatar-radius);
+    border-radius: var(--avatar-radius);
     background: hsl(var(--color), 60%, 70%);
     overflow: hidden;
-    color: var(--mg-avatar-color);
+    color: var(--avatar-color);
     user-select: none;
 
     &.avatar-small {
-        width: var(--mg-avatar-size-small);
-        height: var(--mg-avatar-size-small);
-        font-size: var(--mg-avatar-font-size-small);
+        width: var(--avatar-size-small);
+        height: var(--avatar-size-small);
+        font-size: var(--avatar-font-size-small);
     }
 
     &.avatar-medium {
-        width: var(--mg-avatar-size-medium);
-        height: var(--mg-avatar-size-medium);
-        font-size: var(--mg-avatar-font-size-medium);
+        width: var(--avatar-size-medium);
+        height: var(--avatar-size-medium);
+        font-size: var(--avatar-font-size-medium);
     }
 
     &.avatar-large {
-        width: var(--mg-avatar-size-large);
-        height: var(--mg-avatar-size-large);
-        font-size: var(--mg-avatar-font-size-large);
+        width: var(--avatar-size-large);
+        height: var(--avatar-size-large);
+        font-size: var(--avatar-font-size-large);
     }
 
     &.avatar-extra {
-        width: var(--mg-avatar-size-extra);
-        height: var(--mg-avatar-size-extra);
-        font-size: var(--mg-avatar-font-size-extra);
+        width: var(--avatar-size-extra);
+        height: var(--avatar-size-extra);
+        font-size: var(--avatar-font-size-extra);
     }
 
     img {

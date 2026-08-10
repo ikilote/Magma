@@ -133,7 +133,7 @@ export class MyComponent {}`;
         if (this.ctrlForm.value.size !== 'large') {
             attrs['size'] = this.ctrlForm.value.size;
         }
-        if (this.ctrlForm.value.luminosity !== 'dark') {
+        if (this.ctrlForm.value.label && this.ctrlForm.value.luminosity !== 'dark') {
             attrs['luminosity'] = this.ctrlForm.value.luminosity;
         }
 

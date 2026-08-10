@@ -14,10 +14,6 @@
         <mg-input-select formControlName="size" [data]="sizeOptions" />
       </mg-input>
       <mg-input class="s-12">
-        <mg-input-label>Label luminosity background</mg-input-label>
-        <mg-input-select formControlName="luminosity" [data]="luminosityOptions" />
-      </mg-input>
-      <mg-input class="s-12">
         <mg-input-label>Content</mg-input-label>
         <mg-input-text formControlName="content" />
       </mg-input>
@@ -25,6 +21,12 @@
         <mg-input-label>Label (two-part mode)</mg-input-label>
         <mg-input-text formControlName="label" placeholder="e.g. version" />
       </mg-input>
+      @if (ctrlForm.value.label) {
+        <mg-input class="s-12">
+          <mg-input-label>Label luminosity background</mg-input-label>
+          <mg-input-select formControlName="luminosity" [data]="luminosityOptions" />
+        </mg-input>
+      }
       <mg-input class="s-12">
         <mg-input-label>Custom color</mg-input-label>
         <mg-input-color formControlName="color" clearButton />

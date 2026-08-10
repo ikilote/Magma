@@ -1,0 +1,69 @@
+<h1>Avatar</h1>
+
+@if (ctrlForm) {
+  <section class="gap">
+    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+      <mg-input class="s-12">
+        <mg-input-label>Image src</mg-input-label>
+        <mg-input-text formControlName="src" />
+      </mg-input>
+
+      <mg-input class="s-12">
+        <mg-input-label>Initials</mg-input-label>
+        <mg-input-text formControlName="initials" maxlength="3" />
+      </mg-input>
+
+      <mg-input class="s-12">
+        <mg-input-label>Size</mg-input-label>
+        <mg-input-select formControlName="size" [data]="sizeOptions" />
+      </mg-input>
+
+      <mg-input class="s-12">
+        <mg-input-label>Alt</mg-input-label>
+        <mg-input-text formControlName="alt" />
+      </mg-input>
+    </form>
+    <div class="s-5 s-6-x s-12-m">
+      <h3>Render</h3>
+      <div class="avatar-demo-grid">
+        <mg-avatar
+          [src]="ctrlForm.value.src || undefined"
+          [initials]="ctrlForm.value.initials || ''"
+          [size]="$any(ctrlForm.value.size)"
+          [alt]="ctrlForm.value.alt || ''"
+        />
+      </div>
+    </div>
+    <div class="s-4 s-12-x">
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+          { type: 'css-edit', code: codeCss },
+        ]"
+      />
+    </div>
+  </section>
+}
+<hr />
+<div>
+  <h3 class="s-12">Examples</h3>
+  <div class="s-4 s-12-l">
+    <h4>Sizes</h4>
+    <div class="avatar-demo-grid">
+      <mg-avatar size="small" initials="SM" />
+      <mg-avatar size="medium" initials="MD" />
+      <mg-avatar size="large" initials="LG" />
+      <mg-avatar size="extra" initials="XT" />
+    </div>
+  </div>
+  <div class="s-4 s-12-l">
+    <h4>With image</h4>
+    <div class="avatar-demo-grid">
+      <mg-avatar [src]="avatarA" alt="User logo: Alice" size="small" />
+      <mg-avatar [src]="avatarB" alt="User logo: Brigit" size="medium" />
+      <mg-avatar [src]="avatarC" alt="User logo: Carol" size="large" />
+      <mg-avatar [src]="avatarD" alt="User logo: Charles" size="extra" />
+    </div>
+  </div>
+</div>

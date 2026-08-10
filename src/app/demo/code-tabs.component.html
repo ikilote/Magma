@@ -5,7 +5,14 @@
   @for (item of code(); track $index) {
     <mg-tab-content [id]="item.title ?? item.type">
       @let code = item.code;
-      @if (typeof code === 'string') {
+      @if (item.type === 'css-edit') {
+        @for (line of item.code; track $index) {
+          <div class="css-item">
+            <code>{{ line.name }}:</code>
+            <input type="text" [value]="line.value" (keyup)="varUpdate(line, $event)" />
+          </div>
+        }
+      } @else if (typeof code === 'string') {
         <button (click)="clipboard(code)">copy</button>
         <code dir="ltr"><pre [highlight]="$any(code)" [language]="item.type"></pre></code>
       } @else if (typeof code === 'object' && $any(code).code) {

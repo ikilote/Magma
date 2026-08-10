@@ -154,7 +154,7 @@ body {
     /* MARK: global */
     /* Transparency checkerboard. Conventional grey pattern used by image
        editors to signal an alpha channel; deliberately not derived from the
-       palette so the "this is transparent" signal stays recognisable
+       palette so the "this is transparent" signal stays recognizable
        whatever the theme. Consumers set the tile size at the usage site. */
     --transparency-checkerboard: conic-gradient(
         #ccc 0.25turn,
@@ -169,6 +169,11 @@ body {
     --font-mono:
         'Roboto Mono', 'FreeMono', 'Liberation Mono', 'Ubuntu Mono', 'Courier New', 'Droid Sans Mono', Courier,
         monospace;
+    --font-extra: 2.3em;
+    --font-large: 1.35em;
+    --font-medium: 1em;
+    --font-small: 0.85em;
+    --font-very-small: 0.75em;
     --input-focus-color: var(--neutral950);
 
     /* MARK: semantic layer */
@@ -281,7 +286,7 @@ body {
     --chip-border-color: var(--color-border);
     --chip-border-radius: 16px;
     --chip-padding: 6px 14px;
-    --chip-font-size: 0.85em;
+    --chip-font-size: var(--font-small);
     --chip-hover-background: var(--color-primary);
     --chip-hover-color: var(--color-on-primary);
     --chip-hover-border-color: var(--color-primary-hover);
@@ -511,6 +516,18 @@ body {
     --contrib-calendar-tile-color-lvl2: var(--success400);
     --contrib-calendar-tile-color-lvl3: var(--success500);
     --contrib-calendar-tile-color-lvl4: var(--success600);
+
+    /* MARK: avatar */
+    --avatar-radius: 50%;
+    --avatar-color: var(--primary950);
+    --avatar-size-small: 28px;
+    --avatar-size-medium: 40px;
+    --avatar-size-large: 56px;
+    --avatar-size-extra: 80px;
+    --avatar-font-size-small: var(--font-small);
+    --avatar-font-size-medium: var(--font-medium);
+    --avatar-font-size-large: var(--font-large);
+    --avatar-font-size-extra: var(--font-extra);
 
     /* MARK: window */
     --window-min-width: 150px;

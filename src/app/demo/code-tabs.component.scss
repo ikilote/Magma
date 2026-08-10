@@ -25,3 +25,15 @@ button {
         display: initial;
     }
 }
+
+.css-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 5px;
+
+    code {
+        padding: 2px 5px;
+        white-space: nowrap;
+    }
+}

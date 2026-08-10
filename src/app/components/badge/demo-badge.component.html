@@ -1,0 +1,79 @@
+<h1>Badge</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+      <h4>Options</h4>
+
+      <mg-input class="s-12">
+        <mg-input-label>Theme</mg-input-label>
+        <mg-input-select formControlName="theme" [data]="themeOptions" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Size</mg-input-label>
+        <mg-input-select formControlName="size" [data]="sizeOptions" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Label luminosity background</mg-input-label>
+        <mg-input-select formControlName="luminosity" [data]="luminosityOptions" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Content</mg-input-label>
+        <mg-input-text formControlName="content" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Label (two-part mode)</mg-input-label>
+        <mg-input-text formControlName="label" placeholder="e.g. version" />
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Custom color</mg-input-label>
+        <mg-input-color formControlName="color" clearButton />
+      </mg-input>
+    </form>
+    <div class="s-3 s-6-x s-12-m">
+      <h4>Render</h4>
+      <div class="badge-demo-grid">
+        <mg-badge
+          [theme]="$any(ctrlForm.value.theme)"
+          [size]="$any(ctrlForm.value.size)"
+          [luminosity]="$any(ctrlForm.value.luminosity)"
+          [color]="ctrlForm.value.color || undefined"
+        >
+          @if (ctrlForm.value.label) {
+            <mg-badge-label>{{ ctrlForm.value.label }}</mg-badge-label>
+          }
+          {{ ctrlForm.value.content }}
+        </mg-badge>
+      </div>
+    </div>
+    <div class="s-6 s-12-x">
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+          { type: 'css-edit', code: codeCss, title: 'css' },
+        ]"
+      />
+    </div>
+  </section>
+}
+
+<h3>Examples</h3>
+
+<h4>All themes</h4>
+<div class="badge-demo-grid">
+  <mg-badge theme="neutral">Neutral</mg-badge>
+  <mg-badge theme="primary">Primary</mg-badge>
+  <mg-badge theme="success">Success</mg-badge>
+  <mg-badge theme="warning">Warning</mg-badge>
+  <mg-badge theme="alert">Alert</mg-badge>
+  <mg-badge theme="info">Info</mg-badge>
+</div>
+
+<h4>Two-part badges</h4>
+<div class="badge-demo-grid">
+  <mg-badge theme="success"><mg-badge-label>version</mg-badge-label>1.2.0</mg-badge>
+  <mg-badge theme="alert"><mg-badge-label>build</mg-badge-label>failing</mg-badge>
+  <mg-badge theme="primary"><mg-badge-label>npm</mg-badge-label>2.0.0</mg-badge>
+  <mg-badge theme="info"><mg-badge-label>coverage</mg-badge-label>98%</mg-badge>
+</div>

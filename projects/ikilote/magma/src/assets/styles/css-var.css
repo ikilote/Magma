@@ -476,6 +476,29 @@ body {
     --tooltip-border-color: var(--color-border);
     --tooltip-cursor: help;
 
+    /* MARK: badge */
+    --badge-radius: 12px;
+    --badge-padding: 2px 10px;
+    --badge-small-font-size: var(--font-very-small);
+    --badge-small-padding: 1px 6px;
+    --badge-large-font-size: var(--font-small);
+    --badge-large-padding: 2px 10px;
+    --badge-font-size-small: var(--font-very-small);
+    --badge-neutral-background: var(--neutral300);
+    --badge-neutral-color: contrast-color(var(--neutral300));
+    --badge-primary-background: var(--primary500);
+    --badge-primary-color: contrast-color(var(--primary500));
+    --badge-success-background: var(--success500);
+    --badge-success-color: contrast-color(var(--success500));
+    --badge-warning-background: var(--warn500);
+    --badge-warning-color: contrast-color(var(--warn500));
+    --badge-alert-background: var(--alert500);
+    --badge-alert-color: contrast-color(var(--alert500));
+    --badge-info-background: var(--primary200);
+    --badge-info-color: contrast-color(var(--primary200));
+    --badge-background-label-dark: black 50%;
+    --badge-background-label-light: white 50%;
+
     /* MARK: page */
     --page-item-text-color: var(--neutral900);
     --page-item-border-color: var(--neutral500);

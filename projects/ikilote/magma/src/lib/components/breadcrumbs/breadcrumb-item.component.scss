@@ -1,0 +1,30 @@
+:host {
+    display: contents;
+}
+
+:is(mg-breadcrumb) + :host li::before {
+    margin-right: var(--breadcrumbs-gap);
+    content: var(--breadcrumbs-separator);
+    color: var(--breadcrumbs-separator-color);
+}
+
+li {
+    display: inline-flex;
+    align-items: center;
+    font-size: var(--breadcrumbs-font-size);
+
+    a {
+        color: var(--breadcrumbs-link-color);
+        text-decoration: none;
+
+        &:hover {
+            color: var(--breadcrumbs-link-hover-color);
+            text-decoration: underline;
+        }
+    }
+
+    &.active {
+        color: var(--breadcrumbs-active-color);
+        font-weight: var(--breadcrumbs-active-font-weight);
+    }
+}

@@ -1,0 +1,89 @@
+<h1>Breadcrumbs</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+      <h3>Options</h3>
+      <p>
+        <mg-input>
+          <mg-input-label>Separator</mg-input-label>
+          <mg-input-text formControlName="separator" [datalist]="['/', '>', '»']" />
+          <mg-input-desc>override CSS var: <code>--breadcrumbs-separator</code></mg-input-desc>
+        </mg-input>
+      </p>
+      <div>
+        <mg-input class="s-6">
+          <mg-input-label>Use routerLink</mg-input-label>
+          <mg-input-checkbox formControlName="useRouterLink" mode="toggle" />
+        </mg-input>
+      </div>
+
+      <h3>Add step</h3>
+      <div [formGroup]="addForm">
+        <p>
+          <mg-input>
+            <mg-input-label>Label</mg-input-label>
+            <mg-input-text formControlName="label" />
+          </mg-input>
+        </p>
+        <p>
+          <mg-input>
+            <mg-input-label>Link</mg-input-label>
+            <mg-input-text formControlName="link" />
+          </mg-input>
+        </p>
+        <p>
+          <button (click)="addStep()">Add step</button>
+          <button (click)="resetSteps()">Reset</button>
+        </p>
+      </div>
+
+      <h4>Steps ({{ steps.length }})</h4>
+      <ul class="step-list">
+        @for (step of steps; track $index; let last = $last) {
+          <li>
+            <div class="step">
+              <div>
+                {{ step.label }}
+                @if (last) {
+                  (active)
+                }
+              </div>
+              @if (step.link) {
+                <small>{{ step.link }}</small>
+              }
+            </div>
+            <button class="remove" (click)="removeStep($index)">×</button>
+          </li>
+        }
+      </ul>
+    </form>
+
+    <div class="s-4 s-6-x s-12-m">
+      <h4>Render</h4>
+      <mg-breadcrumbs [separator]="this.ctrlForm.value.separator">
+        @for (step of steps; track $index; let last = $last) {
+          @if (last) {
+            <mg-breadcrumb active>{{ step.label }}</mg-breadcrumb>
+          } @else if (ctrlForm.value.useRouterLink && step.link) {
+            <mg-breadcrumb [link]="step.link">{{ step.label }}</mg-breadcrumb>
+          } @else if (step.link) {
+            <mg-breadcrumb [href]="step.link">{{ step.label }}</mg-breadcrumb>
+          } @else {
+            <mg-breadcrumb>{{ step.label }}</mg-breadcrumb>
+          }
+        }
+      </mg-breadcrumbs>
+    </div>
+
+    <div class="s-5 s-12-x">
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+          { type: 'css-edit', code: codeCss, title: 'css' },
+        ]"
+      />
+    </div>
+  </section>
+}

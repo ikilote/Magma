@@ -3,7 +3,7 @@
 @if (ctrlForm) {
   <section>
     <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
-      <h4>Options</h4>
+      <h3>Options</h3>
 
       <mg-input class="s-12">
         <mg-input-label>Theme</mg-input-label>
@@ -33,7 +33,7 @@
       </mg-input>
     </form>
     <div class="s-3 s-6-x s-12-m">
-      <h4>Render</h4>
+      <h3>Render</h3>
       <div class="badge-demo-grid">
         <mg-badge
           [theme]="$any(ctrlForm.value.theme)"

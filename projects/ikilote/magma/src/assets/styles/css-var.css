@@ -280,6 +280,16 @@ body {
     --link-hover-color: var(--neutral990);
     --link-focus-border-color: var(--input-focus-color);
 
+    /* MARK: breadcrumbs */
+    --breadcrumbs-gap: 8px;
+    --breadcrumbs-font-size: 0.9em;
+    --breadcrumbs-separator: '/';
+    --breadcrumbs-separator-color: var(--neutral600);
+    --breadcrumbs-link-color: var(--link-color);
+    --breadcrumbs-link-hover-color: var(--link-hover-color);
+    --breadcrumbs-active-color: var(--neutral950);
+    --breadcrumbs-active-font-weight: 600;
+
     /* MARK: chip */
     --chip-background: var(--color-surface-raised);
     --chip-color: var(--text-color);

@@ -1,0 +1,10 @@
+<ng-template #content><ng-content /></ng-template>
+<li [class.active]="active()" [attr.aria-current]="active() ? 'page' : null">
+  @if (!active() && link()) {
+    <a [routerLink]="link()"><ng-container [ngTemplateOutlet]="content" /></a>
+  } @else if (!active() && href()) {
+    <a [href]="href()"><ng-container [ngTemplateOutlet]="content" /></a>
+  } @else {
+    <span><ng-container [ngTemplateOutlet]="content" /></span>
+  }
+</li>

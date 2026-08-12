@@ -1,0 +1,42 @@
+@for (tag of resolvedTags(); track tag.value) {
+  <div
+    class="tag"
+    role="listitem"
+    [class.clickable]="allowClick()"
+    (clickEnter)="onTagClick(tag)"
+    [disabled]="!allowClick()"
+  >
+    <span class="tag-label">{{ tag.label }}</span>
+    @if (!readOnly() && !disabled() && tag.removable) {
+      <button
+        type="button"
+        (click)="remove(tag); $event.stopPropagation()"
+        [attr.aria-label]="tag.removeI18n || removeAriaLabel().replace('%item', tag.label)"
+      >
+        ×
+      </button>
+    }
+  </div>
+}
+@if (!readOnly() && !disabled() && !hideInput()) {
+  <label class="tag-input" [attr.data-value]="inputValue()">
+    <input
+      #input
+      [attr.list]="proposals().length ? 'mg-tag-proposals-' + resolvedTags().length : null"
+      [placeholder]="placeholder()"
+      (keyup.enter)="onEnter()"
+      (blur)="onBlur()"
+      (keyup)="inputValue.set($event.target.value)"
+      size="5"
+      aria-label="addAriaLabel()"
+    />
+  </label>
+
+  @if (proposals().length) {
+    <datalist [id]="'mg-tag-proposals-' + resolvedTags().length">
+      @for (proposal of proposals(); track proposal) {
+        <option [value]="proposal"></option>
+      }
+    </datalist>
+  }
+}

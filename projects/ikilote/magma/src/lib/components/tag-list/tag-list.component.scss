@@ -1,0 +1,98 @@
+:host {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--tag-list-gap);
+
+    &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+}
+
+.tag {
+    display: flex;
+    align-items: center;
+    border-radius: var(--tag-item-radius);
+    background: var(--tag-item-background);
+    padding: var(--tag-item-padding);
+    min-height: var(--tag-item-min-height);
+    color: var(--tag-item-color);
+    font-size: var(--tag-item-font-size);
+
+    &.clickable {
+        cursor: pointer;
+
+        &:hover {
+            background: var(--tag-item-hover-background);
+        }
+    }
+}
+
+.tag-label:only-child {
+    padding-right: 10px;
+}
+
+button {
+    all: unset;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.7;
+    cursor: pointer;
+    margin: 0 4px;
+    border: none;
+    background: transparent;
+    padding: 0 4px;
+    color: var(--tag-item-remove-color);
+    font-size: 1.1em;
+
+    &:hover,
+    &:focus-visible {
+        opacity: 1;
+        color: var(--tag-item-remove-color-hover);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-focus-ring);
+        outline-offset: 0;
+        border-radius: 2px;
+    }
+}
+
+label.tag-input {
+    display: inline-grid;
+    position: relative;
+    align-items: center;
+    outline: 1px solid var(--tag-input-border-color);
+    border-radius: var(--tag-item-radius);
+    background: var(--tag-input-background);
+
+    &::after,
+    input {
+        all: unset;
+        grid-area: 1 / 1;
+        appearance: none;
+        margin: 0;
+        outline: none;
+        border: none;
+        background: none;
+        padding: 5px 10px;
+        width: auto;
+        min-width: 1em;
+        resize: none;
+        font: inherit;
+    }
+
+    &:has(> input:focus) {
+        outline-color: var(--tag-input-focus-border-color);
+        outline-width: 2px;
+    }
+
+    &::after {
+        visibility: hidden;
+        content: attr(data-value) ' ';
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+}

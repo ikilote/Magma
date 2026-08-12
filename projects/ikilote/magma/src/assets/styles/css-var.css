@@ -586,6 +586,21 @@ body {
     --window-bar-background: var(--neutral300);
     --window-bar-background-active: var(--neutral400);
 
+    /* MARK: tag-list */
+    --tag-list-gap: 6px;
+    --tag-item-radius: 15px;
+    --tag-item-background: var(--primary100);
+    --tag-item-padding: 3px 0 3px 10px;
+    --tag-item-min-height: 26px;
+    --tag-item-color: inherit;
+    --tag-item-font-size: inherit;
+    --tag-item-hover-background: var(--primary050);
+    --tag-item-remove-color: currentColor;
+    --tag-item-remove-color-hover: var(--alert500);
+    --tag-input-border-color: var(--primary100);
+    --tag-input-background: transparent;
+    --tag-input-focus-border-color: var(--primary300);
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--input-focus-border-color);

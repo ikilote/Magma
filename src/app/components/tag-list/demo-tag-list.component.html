@@ -1,0 +1,127 @@
+<h1>Tag list</h1>
+
+<!-- Section 1: Data-driven mode -->
+<section>
+  <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlFormData">
+    <h4>Data-driven mode</h4>
+    <div>
+      <mg-input class="s-6">
+        <mg-input-label>Read only</mg-input-label>
+        <mg-input-checkbox formControlName="readOnly" mode="toggle" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>Allow click</mg-input-label>
+        <mg-input-checkbox formControlName="allowClick" mode="toggle" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>With proposals</mg-input-label>
+        <mg-input-checkbox formControlName="withProposals" mode="toggle" />
+      </mg-input>
+      <mg-input class="s-6">
+        <mg-input-label>Hide input</mg-input-label>
+        <mg-input-checkbox formControlName="hideInput" mode="toggle" />
+      </mg-input>
+    </div>
+  </form>
+  <div class="s-5 s-6-x s-12-m">
+    <h4>Render</h4>
+    <mg-tag-list
+      [tags]="tags"
+      [proposals]="ctrlFormData.value.withProposals ? proposals : []"
+      [readOnly]="ctrlFormData.value.readOnly"
+      [allowClick]="ctrlFormData.value.allowClick"
+      [hideInput]="ctrlFormData.value.hideInput"
+      (tagsChange)="onTagsChange($event)"
+      (tagClick)="onTagClick($event)"
+      placeholder="Add tag..."
+    />
+    <div class="event-log">
+      <div><strong>Tags:</strong> {{ tags.join(', ') }}</div>
+      @if (lastAction) {
+        <div><strong>Last action:</strong> {{ lastAction }}</div>
+      }
+      @if (lastClick) {
+        <div><strong>Last click:</strong> {{ lastClick }}</div>
+      }
+    </div>
+  </div>
+  <div class="s-4 s-12-x">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlData },
+        { type: 'ts', code: codeTsData },
+      ]"
+    />
+  </div>
+</section>
+
+<hr />
+
+<!-- Section 2: Declarative mode -->
+<section>
+  <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlFormDecl">
+    <h4>Declarative mode</h4>
+    <div>
+      <mg-input class="s-6">
+        <mg-input-label>Read only</mg-input-label>
+        <mg-input-checkbox formControlName="readOnly" mode="toggle" />
+      </mg-input>
+    </div>
+  </form>
+  <div class="s-5 s-6-x s-12-m">
+    <h4>Render</h4>
+    <mg-tag-list [readOnly]="ctrlFormDecl.value.readOnly" (tagsChange)="onDeclTagsChange($event)">
+      <mg-tag value="angular">Angular</mg-tag>
+      <mg-tag value="typescript">TypeScript</mg-tag>
+      <mg-tag value="rxjs" removable="false">RxJS (non removable)</mg-tag>
+    </mg-tag-list>
+    @if (declLastAction) {
+      <div class="event-log">
+        <div><strong>Last action:</strong> {{ declLastAction }}</div>
+      </div>
+    }
+  </div>
+  <div class="s-4 s-12-x">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlDeclarative },
+        { type: 'ts', code: codeTsDeclarative },
+      ]"
+    />
+  </div>
+</section>
+
+<hr />
+
+<!-- Section 3: Form mode (ControlValueAccessor) -->
+<section>
+  <div class="s-3 s-6-x s-12-m">
+    <h4>Form mode (ControlValueAccessor)</h4>
+    <p>
+      <mg-input>
+        <mg-input-label>Set value programmatically</mg-input-label>
+        <mg-input-text [formControl]="formSetValue" />
+      </mg-input>
+    </p>
+    <p>
+      <button (click)="addToForm()">Add to form</button>
+      <button (click)="resetForm()">Reset</button>
+    </p>
+  </div>
+  <div class="s-5 s-6-x s-12-m">
+    <h4>Render</h4>
+    <mg-tag-list [formControl]="formTags" placeholder="Add framework..." />
+    <div class="event-log">
+      <div><strong>FormControl value:</strong> {{ formTags.value?.join(', ') }}</div>
+      <div><strong>Touched:</strong> {{ formTags.touched }}</div>
+    </div>
+  </div>
+  <div class="s-4 s-12-x">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlForm },
+        { type: 'ts', code: codeTsForm },
+      ]"
+    />
+  </div>
+</section>

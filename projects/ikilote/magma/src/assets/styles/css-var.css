@@ -516,6 +516,11 @@ body {
     --page-item-current-background: var(--primary200);
     --page-item-hover-background: var(--neutral300);
 
+    /* MARK: expansion-panel */
+    --expansion-panel-padding: 5px;
+    --expansion-panel-arrow-size: 20px;
+    --expansion-panel-transition-duration: 0.5s;
+
     /* MARK: walkthrough */
     --walkthrough-backdrop: rgba(0, 0, 0, 0.7);
 

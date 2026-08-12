@@ -15,7 +15,7 @@ summary {
     cursor: pointer;
     border: var(--block-border);
     border-radius: var(--radius);
-    padding: 5px;
+    padding: var(--expansion-panel-padding);
 
     &[disabled] {
         pointer-events: none;
@@ -32,15 +32,15 @@ summary {
             top: 0;
 
             transform: rotate(var(--pos));
-            transform-origin: 10px 10px;
+            transform-origin: calc(var(--expansion-panel-arrow-size) / 2) calc(var(--expansion-panel-arrow-size) / 2);
             transition:
-                transform 0.5s,
-                top 0.5s;
+                transform var(--expansion-panel-transition-duration),
+                top var(--expansion-panel-transition-duration);
             inset-inline-end: 2px;
-            width: 20px;
-            height: 20px;
+            width: var(--expansion-panel-arrow-size);
+            height: var(--expansion-panel-arrow-size);
             content: '▶';
-            line-height: 20px;
+            line-height: var(--expansion-panel-arrow-size);
             text-align: center;
 
             @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
@@ -61,5 +61,5 @@ summary {
     border-start-end-radius: 0;
     border-end-start-radius: var(--block-radius);
     border-end-end-radius: var(--block-radius);
-    padding: 5px;
+    padding: var(--expansion-panel-padding);
 }

@@ -34,6 +34,10 @@ describe('MagmaWindowsContainer', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        TestBed.resetTestingModule();
+    });
+
     it('should create', () => {
         expect(component).toBeTruthy();
     });

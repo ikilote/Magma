@@ -108,7 +108,7 @@ export class MagmaWindowsZone implements MagmaResizeHostElement {
     /**
      * Find the MagmaWindow component instance for a given MagmaWindowInfos id.
      */
-    private getWindowInstance(id: string): MagmaWindow | undefined {
-        return this.windowComponents().find(w => w.component()?.id === id);
+    getWindowInstance(id: string): MagmaWindow | null {
+        return this.windowComponents().find(w => w.component()?.id === id) ?? null;
     }
 }

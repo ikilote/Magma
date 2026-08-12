@@ -31,6 +31,8 @@
     "@angular/platform-browser": "^22.0.5",
     "@angular/platform-browser-dynamic": "^22.0.5",
     "@angular/router": "^22.0.5",
+    "@dicebear/core": "^10.4.0",
+    "@dicebear/styles": "^10.4.0",
     "@ikilote/json2html": "^1.0.0",
     "@ikilote/num-formatter": "^1.0.0",
     "autosize": "^6.0.1",

@@ -4,7 +4,7 @@ import { ComponentRef, Service, Type, inject, signal } from '@angular/core';
 
 import { Subject } from 'rxjs';
 
-import { MagmaWindowInfos, MagmaWindowInitParams } from '../components/window/window.component';
+import { MagmaWindow, MagmaWindowInfos, MagmaWindowInitParams } from '../components/window/window.component';
 import { MagmaWindowsZone } from '../components/window/windows-zone.component';
 
 let index = 0;
@@ -98,6 +98,22 @@ export class MagmaWindows {
      */
     getWindowPosition(id: string): MagmaWindowPosition | null {
         return this.component?.instance.getWindowPosition(id) ?? null;
+    }
+
+    /**
+     * Get the instance of a window.
+     * Returns null if the window is not found.
+     */
+    getWindowInstance(id: string): MagmaWindow | null {
+        return this.component?.instance.getWindowInstance(id) ?? null;
+    }
+
+    /**
+     * Get the data of a window.
+     * Returns null if the window is not found.
+     */
+    getWindowData(id: string): MagmaWindowInfos | null {
+        return this.windows?.find(e => e.id === id) ?? null;
     }
 
     private init() {

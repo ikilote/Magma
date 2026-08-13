@@ -1,127 +1,301 @@
 <h1>Tag list</h1>
 
-<!-- Section 1: Data-driven mode -->
-<section>
-  <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlFormData">
-    <h4>Data-driven mode</h4>
-    <div>
-      <mg-input class="s-6">
-        <mg-input-label>Read only</mg-input-label>
-        <mg-input-checkbox formControlName="readOnly" mode="toggle" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>Allow click</mg-input-label>
-        <mg-input-checkbox formControlName="allowClick" mode="toggle" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>With proposals</mg-input-label>
-        <mg-input-checkbox formControlName="withProposals" mode="toggle" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>Hide input</mg-input-label>
-        <mg-input-checkbox formControlName="hideInput" mode="toggle" />
-      </mg-input>
-    </div>
-  </form>
-  <div class="s-5 s-6-x s-12-m">
-    <h4>Render</h4>
-    <mg-tag-list
-      [tags]="tags"
-      [proposals]="ctrlFormData.value.withProposals ? proposals : []"
-      [readOnly]="ctrlFormData.value.readOnly"
-      [allowClick]="ctrlFormData.value.allowClick"
-      [hideInput]="ctrlFormData.value.hideInput"
-      (tagsChange)="onTagsChange($event)"
-      (tagClick)="onTagClick($event)"
-      placeholder="Add tag..."
-    />
-    <div class="event-log">
-      <div><strong>Tags:</strong> {{ tags.join(', ') }}</div>
-      @if (lastAction) {
-        <div><strong>Last action:</strong> {{ lastAction }}</div>
-      }
-      @if (lastClick) {
-        <div><strong>Last click:</strong> {{ lastClick }}</div>
-      }
-    </div>
-  </div>
-  <div class="s-4 s-12-x">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlData },
-        { type: 'ts', code: codeTsData },
-      ]"
-    />
-  </div>
-</section>
-
-<hr />
-
-<!-- Section 2: Declarative mode -->
-<section>
-  <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlFormDecl">
-    <h4>Declarative mode</h4>
-    <div>
-      <mg-input class="s-6">
-        <mg-input-label>Read only</mg-input-label>
-        <mg-input-checkbox formControlName="readOnly" mode="toggle" />
-      </mg-input>
-    </div>
-  </form>
-  <div class="s-5 s-6-x s-12-m">
-    <h4>Render</h4>
-    <mg-tag-list [readOnly]="ctrlFormDecl.value.readOnly" (tagsChange)="onDeclTagsChange($event)">
-      <mg-tag value="angular">Angular</mg-tag>
-      <mg-tag value="typescript">TypeScript</mg-tag>
-      <mg-tag value="rxjs" removable="false">RxJS (non removable)</mg-tag>
-    </mg-tag-list>
-    @if (declLastAction) {
-      <div class="event-log">
-        <div><strong>Last action:</strong> {{ declLastAction }}</div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <!-- Section 1: Data-driven mode (string[]) -->
+    <section>
+      <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlFormData">
+        <h4>Data-driven mode (string[])</h4>
+        <div>
+          <mg-input class="s-6">
+            <mg-input-label>Read only</mg-input-label>
+            <mg-input-checkbox formControlName="readOnly" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>Disabled</mg-input-label>
+            <mg-input-checkbox formControlName="disabled" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>Allow click</mg-input-label>
+            <mg-input-checkbox formControlName="allowClick" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>With proposals</mg-input-label>
+            <mg-input-checkbox formControlName="withProposals" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>Hide input</mg-input-label>
+            <mg-input-checkbox formControlName="hideInput" mode="toggle" />
+          </mg-input>
+        </div>
+      </form>
+      <div class="s-5 s-6-x s-12-m">
+        <h4>Render</h4>
+        <mg-tag-list
+          [tags]="tags"
+          [proposals]="ctrlFormData.value.withProposals ? proposals : []"
+          [readOnly]="ctrlFormData.value.readOnly"
+          [disabled]="ctrlFormData.value.disabled"
+          [allowClick]="ctrlFormData.value.allowClick"
+          [hideInput]="ctrlFormData.value.hideInput"
+          (tagsChange)="onTagsChange($event)"
+          (tagClick)="onTagClick($event)"
+          placeholder="Add tag..."
+        />
+        <div class="event-log">
+          <div><strong>Tags:</strong> {{ tags.join(', ') }}</div>
+          @if (lastAction) {
+            <div><code>tagsChange</code> {{ lastAction }}</div>
+          }
+          @if (lastClick) {
+            <div><code>tagClick</code> {{ lastClick }}</div>
+          }
+        </div>
       </div>
-    }
-  </div>
-  <div class="s-4 s-12-x">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlDeclarative },
-        { type: 'ts', code: codeTsDeclarative },
-      ]"
-    />
-  </div>
-</section>
+      <div class="s-4 s-12-x">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlData },
+            { type: 'ts', code: codeTsData },
+          ]"
+        />
+      </div>
+    </section>
 
-<hr />
+    <hr />
 
-<!-- Section 3: Form mode (ControlValueAccessor) -->
-<section>
-  <div class="s-3 s-6-x s-12-m">
-    <h4>Form mode (ControlValueAccessor)</h4>
-    <p>
-      <mg-input>
-        <mg-input-label>Set value programmatically</mg-input-label>
-        <mg-input-text [formControl]="formSetValue" />
-      </mg-input>
-    </p>
-    <p>
-      <button (click)="addToForm()">Add to form</button>
-      <button (click)="resetForm()">Reset</button>
-    </p>
-  </div>
-  <div class="s-5 s-6-x s-12-m">
-    <h4>Render</h4>
-    <mg-tag-list [formControl]="formTags" placeholder="Add framework..." />
-    <div class="event-log">
-      <div><strong>FormControl value:</strong> {{ formTags.value?.join(', ') }}</div>
-      <div><strong>Touched:</strong> {{ formTags.touched }}</div>
-    </div>
-  </div>
-  <div class="s-4 s-12-x">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlForm },
-        { type: 'ts', code: codeTsForm },
-      ]"
-    />
-  </div>
-</section>
+    <!-- Section 2: Data-driven mode (MagmaTagItem[]) -->
+    <section>
+      <div class="s-3 s-6-x s-12-m">
+        <h4>Data-driven mode (MagmaTagItem[])</h4>
+        <p>Using objects for custom labels, removable control, and i18n support.</p>
+      </div>
+      <div class="s-5 s-6-x s-12-m">
+        <h4>Render</h4>
+        <mg-tag-list
+          [tags]="tagItems"
+          [allowClick]="true"
+          (tagsChange)="onTagItemsChange($event)"
+          (tagClick)="onTagItemClick($event)"
+          placeholder="Add..."
+        />
+        <div class="event-log">
+          <div><strong>Tags:</strong> {{ tagItemsDisplay }}</div>
+          @if (tagItemLastAction) {
+            <div><code>tagsChange</code> {{ tagItemLastAction }}</div>
+          }
+          @if (tagItemLastClick) {
+            <div><code>tagClick</code> {{ tagItemLastClick }}</div>
+          }
+        </div>
+      </div>
+      <div class="s-4 s-12-x">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlTagItem },
+            { type: 'ts', code: codeTsTagItem },
+          ]"
+        />
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Section 3: Declarative mode -->
+    <section>
+      <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlFormDecl">
+        <h4>Declarative mode</h4>
+        <p>Tags defined via <code>&lt;mg-tag&gt;</code> children. Supports adding dynamic tags.</p>
+        <div>
+          <mg-input class="s-6">
+            <mg-input-label>Read only</mg-input-label>
+            <mg-input-checkbox formControlName="readOnly" mode="toggle" />
+          </mg-input>
+        </div>
+      </form>
+      <div class="s-5 s-6-x s-12-m">
+        <h4>Render</h4>
+        <mg-tag-list [readOnly]="ctrlFormDecl.value.readOnly" (tagsChange)="onDeclTagsChange($event)">
+          <mg-tag value="angular">Angular</mg-tag>
+          <mg-tag value="typescript">TypeScript</mg-tag>
+          <mg-tag value="rxjs" removable="false">RxJS (non removable)</mg-tag>
+        </mg-tag-list>
+        <div class="event-log">
+          @if (declLastAction) {
+            <div><code>tagsChange</code> {{ declLastAction }}</div>
+          } @else {
+            <div>Add or remove a tag to see the output</div>
+          }
+        </div>
+      </div>
+      <div class="s-4 s-12-x">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlDeclarative },
+            { type: 'ts', code: codeTsDeclarative },
+          ]"
+        />
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Section 4: Form mode (ControlValueAccessor) -->
+    <section>
+      <div class="s-3 s-6-x s-12-m">
+        <h4>Form mode (ControlValueAccessor)</h4>
+        <p>Integrates with Angular Reactive Forms via <code>formControl</code> / <code>formControlName</code>.</p>
+        <p>
+          <mg-input>
+            <mg-input-label>Add value</mg-input-label>
+            <mg-input-text [formControl]="formSetValue" />
+          </mg-input>
+        </p>
+        <p>
+          <button (click)="addToForm()">Add to form</button>
+          <button (click)="resetForm()">Reset</button>
+        </p>
+      </div>
+      <div class="s-5 s-6-x s-12-m">
+        <h4>Render</h4>
+        <mg-tag-list [formControl]="formTags" placeholder="Add framework..." />
+        <div class="event-log">
+          <div><strong>FormControl value:</strong> {{ formTags.value?.join(', ') }}</div>
+          <div><strong>Touched:</strong> {{ formTags.touched }}</div>
+          <div><strong>Dirty:</strong> {{ formTags.dirty }}</div>
+        </div>
+      </div>
+      <div class="s-4 s-12-x">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlForm },
+            { type: 'ts', code: codeTsForm },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>tags</code></td>
+            <td mg><code>(string | MagmaTagItem)[]</code></td>
+            <td mg>—</td>
+            <td mg>Data-driven mode: provides tags as an array</td>
+          </tr>
+          <tr mg>
+            <td mg><code>proposals</code></td>
+            <td mg><code>string[]</code></td>
+            <td mg><code>[]</code></td>
+            <td mg>Autocomplete suggestions for the inline input</td>
+          </tr>
+          <tr mg>
+            <td mg><code>readOnly</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Hides remove buttons and input</td>
+          </tr>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Disables the component (form integration)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>allowClick</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Enables tag click emission</td>
+          </tr>
+          <tr mg>
+            <td mg><code>hideInput</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Hides the inline input, use <code>add()</code> method instead</td>
+          </tr>
+          <tr mg>
+            <td mg><code>placeholder</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>Placeholder for the inline input</td>
+          </tr>
+          <tr mg>
+            <td mg><code>removeAriaLabel</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Remove: %item'</code></td>
+            <td mg>Aria-label format for remove button (<code>%item</code> replaced)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>addAriaLabel</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Add tag'</code></td>
+            <td mg>Aria-label for the input</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>tagsChange</code></td>
+            <td mg><code>string[]</code></td>
+            <td mg>Emitted when the tag list changes (add/remove)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>tagClick</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Emitted when a tag is clicked (requires <code>allowClick</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Methods</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Return</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>add(tag: string | MagmaTagItem)</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Programmatically adds a tag. Returns <code>false</code> if duplicate/empty/disabled.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>remove(tag: string | MagmaTagItem)</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Programmatically removes a tag.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>MagmaTagItem interface</h4>
+      <code-tabs [code]="[{ type: 'ts', code: codeInterface }]" />
+    </section>
+  </mg-tab-content>
+</mg-tabs>

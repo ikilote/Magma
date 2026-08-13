@@ -75,18 +75,20 @@ describe('MagmaTabTitle', () => {
     });
 
     afterEach(async () => {
+        // Restore real timers FIRST to ensure setTimeout works in cleanup
+        vi.useRealTimers();
+
         // Clean up focus before destroying fixture
         if (document.activeElement && document.activeElement !== document.body) {
             (document.activeElement as HTMLElement).blur();
         }
         document.body.focus();
 
-        // Wait for async operations to complete BEFORE clearing timers
+        // Wait for async operations to complete
         await new Promise(resolve => setTimeout(resolve, 100));
 
         fixture?.destroy();
         vi.clearAllTimers();
-        vi.useRealTimers();
         TestBed.resetTestingModule();
     });
 
@@ -195,9 +197,9 @@ class StandaloneTabTitleHost {}
 
 describe('MagmaTabTitle - no tabs reference', () => {
     afterEach(async () => {
+        vi.useRealTimers();
         await new Promise(resolve => setTimeout(resolve, 50));
         vi.clearAllTimers();
-        vi.useRealTimers();
         TestBed.resetTestingModule();
     });
 

@@ -169,7 +169,8 @@ export class MagmaTagList implements ControlValueAccessor {
             return;
         }
         const current = this.getCurrentValues();
-        const updated = current.filter(v => v !== (typeof tag === 'string' ? tag : tag.value));
+        const tagValue = typeof tag === 'string' ? tag : tag.value;
+        const updated = current.filter(v => (typeof v === 'string' ? v : v.value) !== tagValue);
         this.emitChange(updated);
     }
 
@@ -211,14 +212,12 @@ export class MagmaTagList implements ControlValueAccessor {
 
     private getCurrentValues(): (string | MagmaTagItem)[] {
         const dataInput = this.tags();
-        console.log('valeeee', dataInput, [...this.internalTags()]);
         return dataInput ? [...dataInput] : [...this.internalTags()];
     }
 
     private emitChange(updated: (string | MagmaTagItem)[]): void {
         // CVA mode
         const updatedList = updated.map<string>(e => (typeof e === 'string' ? e : e.value));
-        console.log('updatedList', updatedList, [...this.internalTags()]);
         this.internalTags.set(updatedList);
         this.onChange(updatedList);
 

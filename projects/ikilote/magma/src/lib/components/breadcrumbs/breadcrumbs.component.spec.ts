@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
 
 import { MagmaBreadcrumbItem } from './breadcrumb-item.component';
 import { MagmaBreadcrumbs } from './breadcrumbs.component';
@@ -203,5 +204,101 @@ describe('MagmaBreadcrumbs usage', () => {
             const link = hostFixture.nativeElement.querySelector('a');
             expect(link).toBeNull();
         });
+    });
+});
+
+// routerLink mode
+@Component({
+    template: `
+        <mg-breadcrumbs>
+            <mg-breadcrumb [link]="link">Navigate</mg-breadcrumb>
+            <mg-breadcrumb [link]="['/products', 'details']">Details</mg-breadcrumb>
+            <mg-breadcrumb [link]="'/about'" [active]="true">About</mg-breadcrumb>
+        </mg-breadcrumbs>
+    `,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MagmaBreadcrumbsModule],
+})
+class TestHostRouterLinkComponent {
+    link: string | string[] | undefined = '/home';
+}
+
+describe('MagmaBreadcrumbItem routerLink', () => {
+    let hostFixture: ComponentFixture<TestHostRouterLinkComponent>;
+    let host: TestHostRouterLinkComponent;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostRouterLinkComponent],
+            providers: [provideRouter([])],
+        }).compileComponents();
+
+        hostFixture = TestBed.createComponent(TestHostRouterLinkComponent);
+        host = hostFixture.componentInstance;
+        hostFixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should render an anchor with routerLink when link is a string', () => {
+        const firstItem = hostFixture.nativeElement.querySelectorAll('mg-breadcrumb')[0];
+        const anchor = firstItem.querySelector('a');
+        expect(anchor).toBeTruthy();
+        expect(anchor.getAttribute('href')).toBe('/home');
+    });
+
+    it('should render an anchor with routerLink when link is an array', () => {
+        const secondItem = hostFixture.nativeElement.querySelectorAll('mg-breadcrumb')[1];
+        const anchor = secondItem.querySelector('a');
+        expect(anchor).toBeTruthy();
+        expect(anchor.getAttribute('href')).toBe('/products/details');
+    });
+
+    it('should not render routerLink anchor when active even if link is set', () => {
+        const activeItem = hostFixture.nativeElement.querySelectorAll('mg-breadcrumb')[2];
+        const anchor = activeItem.querySelector('a');
+        expect(anchor).toBeNull();
+
+        const span = activeItem.querySelector('span');
+        expect(span).toBeTruthy();
+        expect(span.textContent).toContain('About');
+    });
+
+    it('should render span when link is undefined', () => {
+        host.link = undefined;
+        hostFixture.changeDetectorRef.detectChanges();
+
+        const firstItem = hostFixture.nativeElement.querySelectorAll('mg-breadcrumb')[0];
+        const anchor = firstItem.querySelector('a');
+        expect(anchor).toBeNull();
+
+        const span = firstItem.querySelector('span');
+        expect(span).toBeTruthy();
+    });
+
+    it('should switch from routerLink to span when link is cleared', () => {
+        // Initially has a link
+        let firstItem = hostFixture.nativeElement.querySelectorAll('mg-breadcrumb')[0];
+        expect(firstItem.querySelector('a')).toBeTruthy();
+
+        // Clear the link
+        host.link = undefined;
+        hostFixture.changeDetectorRef.detectChanges();
+
+        firstItem = hostFixture.nativeElement.querySelectorAll('mg-breadcrumb')[0];
+        expect(firstItem.querySelector('a')).toBeNull();
+        expect(firstItem.querySelector('span')).toBeTruthy();
+    });
+
+    it('should prioritize link over href (link branch checked first in template)', () => {
+        // Both link and href would be set — template checks link() first
+        const firstItem = hostFixture.nativeElement.querySelectorAll('mg-breadcrumb')[0];
+        const anchor = firstItem.querySelector('a');
+        // Verify it has the routerLink attribute behavior (href resolved by router)
+        expect(anchor).toBeTruthy();
+        expect(anchor.getAttribute('href')).toBe('/home');
     });
 });

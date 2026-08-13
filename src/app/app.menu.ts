@@ -27,9 +27,27 @@ export const menu: Menu = [
         groupName: 'Components',
         items: [
             {
+                routerLink: '/component/avatar',
+                label: 'Avatar',
+                status: 'new',
+                keys: ['avatar', 'profile', 'user image', 'initials'],
+            },
+            {
+                routerLink: '/component/badge',
+                label: 'Badge',
+                status: 'new',
+                keys: ['badge', 'counter', 'label', 'dot', 'pill'],
+            },
+            {
                 routerLink: '/component/block',
                 label: 'Block',
                 keys: ['container', 'card', 'layout'],
+            },
+            {
+                routerLink: '/component/breadcrumbs',
+                label: 'Breadcrumbs',
+                status: 'new',
+                keys: ['breadcrumb', 'navigation', 'path', 'trail'],
             },
             {
                 routerLink: '/component/color-picker',
@@ -119,6 +137,12 @@ export const menu: Menu = [
                 routerLink: '/component/tabs',
                 label: 'Tabs',
                 keys: ['tabbed', 'navigation', 'tab'],
+            },
+            {
+                routerLink: '/component/tag-list',
+                label: 'Tag list',
+                status: 'new',
+                keys: ['tag', 'tags', 'chips', 'filter', 'tag list', 'criteria'],
             },
             {
                 routerLink: '/component/walkthrough',

@@ -221,6 +221,43 @@ describe('MagmaWindows Service', () => {
         });
     });
 
+    describe('getWindowInstance', () => {
+        it('should delegate to the zone component getWindowInstance', () => {
+            service.openWindow(class {});
+            const mockWindow = { id: 'test-win' } as any;
+            const instanceSpy = vi.fn().mockReturnValue(mockWindow);
+            componentRefSpy.instance.getWindowInstance = instanceSpy;
+
+            const result = service.getWindowInstance('test-win');
+
+            expect(instanceSpy).toHaveBeenCalledWith('test-win');
+            expect(result).toBe(mockWindow);
+        });
+
+        it('should return null if no component is present', () => {
+            const result = service.getWindowInstance('non-existent');
+            expect(result).toBeNull();
+        });
+    });
+
+    describe('getWindowData', () => {
+        it('should return the window info by id', () => {
+            const win = service.openWindow(class {});
+
+            const result = service.getWindowData(win.id);
+
+            expect(result).toBe(win);
+        });
+
+        it('should return null for a non-existent id', () => {
+            service.openWindow(class {});
+
+            const result = service.getWindowData('non-existent-id');
+
+            expect(result).toBeNull();
+        });
+    });
+
     describe('focusWindowById', () => {
         it('should delegate to the zone component select() with the matching window', () => {
             const win1 = service.openWindow(class {});

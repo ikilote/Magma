@@ -15,9 +15,32 @@ export const routes: Routes = [
         path: 'component',
         children: [
             {
+                path: 'avatar',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/avatar/demo-avatar.component').then(m => m.DemoAvatarComponent),
+            },
+            {
+                path: 'badge',
+                pathMatch: 'full',
+                loadComponent: () => import('./components/badge/demo-badge.component').then(m => m.DemoBadgeComponent),
+            },
+            {
                 path: 'block',
                 pathMatch: 'full',
                 loadComponent: () => import('./components/block/demo-block.component').then(m => m.DemoBlockComponent),
+            },
+            {
+                path: 'breadcrumbs',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/breadcrumbs/demo-breadcrumbs.component').then(m => m.DemoBreadcrumbsComponent),
+            },
+            {
+                path: 'tag-list',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/tag-list/demo-tag-list.component').then(m => m.DemoTagListComponent),
             },
             {
                 path: 'color-picker',

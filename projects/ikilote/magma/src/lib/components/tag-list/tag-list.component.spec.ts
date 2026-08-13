@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
+import { vi } from 'vitest';
+
 import { MagmaTagList, MagmaTagListModule } from './tag-list.component';
 
 describe('MagmaTagList', () => {
@@ -260,6 +262,97 @@ describe('MagmaTagList declarative mode', () => {
     });
 });
 
+// MagmaTagItem mode
+@Component({
+    template: `<mg-tag-list
+        [tags]="tags"
+        [allowClick]="allowClick"
+        (tagsChange)="onTagsChange($event)"
+        (tagClick)="onTagClick($event)"
+    />`,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MagmaTagListModule],
+})
+class TestTagItemComponent {
+    tags: (string | { value: string; label: string; removable: boolean })[] = [
+        { value: 'ng', label: 'Angular', removable: true },
+        { value: 'ts', label: 'TypeScript', removable: true },
+        { value: 'rx', label: 'RxJS', removable: false },
+    ];
+    allowClick = false;
+
+    lastTags?: string[];
+    lastClick?: string;
+
+    onTagsChange(tags: string[]) {
+        this.lastTags = tags;
+    }
+    onTagClick(value: string) {
+        this.lastClick = value;
+    }
+}
+
+describe('MagmaTagList MagmaTagItem mode', () => {
+    let hostFixture: ComponentFixture<TestTagItemComponent>;
+    let host: TestTagItemComponent;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestTagItemComponent],
+        }).compileComponents();
+
+        hostFixture = TestBed.createComponent(TestTagItemComponent);
+        host = hostFixture.componentInstance;
+        hostFixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        TestBed.resetTestingModule();
+    });
+
+    it('should display tags with their labels', () => {
+        const labels = hostFixture.nativeElement.querySelectorAll('.tag-label');
+        expect(labels[0].textContent).toContain('Angular');
+        expect(labels[1].textContent).toContain('TypeScript');
+        expect(labels[2].textContent).toContain('RxJS');
+    });
+
+    it('should respect removable=false on MagmaTagItem', () => {
+        const buttons = hostFixture.nativeElement.querySelectorAll('.tag button');
+        // Only 2 remove buttons (RxJS is not removable)
+        expect(buttons.length).toBe(2);
+    });
+
+    it('should emit correct values on remove with MagmaTagItem objects', () => {
+        const button = hostFixture.nativeElement.querySelector('.tag button');
+        button.click();
+        hostFixture.changeDetectorRef.detectChanges();
+
+        expect(host.lastTags).toBeDefined();
+        expect(host.lastTags!.length).toBe(2);
+        expect(host.lastTags!.includes('ng')).toBe(false);
+        expect(host.lastTags!.includes('ts')).toBe(true);
+        expect(host.lastTags!.includes('rx')).toBe(true);
+    });
+
+    it('should emit tagClick with value when allowClick is true', () => {
+        host.allowClick = true;
+        hostFixture.changeDetectorRef.detectChanges();
+
+        const tag = hostFixture.nativeElement.querySelector('.tag');
+        tag.click();
+
+        expect(host.lastClick).toBe('ng');
+    });
+
+    it('should not emit tagClick when allowClick is false', () => {
+        const tag = hostFixture.nativeElement.querySelector('.tag');
+        tag.click();
+
+        expect(host.lastClick).toBeUndefined();
+    });
+});
+
 // CVA mode
 @Component({
     template: `<mg-tag-list [formControl]="ctrl" />`,
@@ -318,5 +411,230 @@ describe('MagmaTagList ControlValueAccessor', () => {
 
         const items = hostFixture.nativeElement.querySelectorAll('.tag');
         expect(items.length).toBe(2);
+    });
+});
+
+// Programmatic add() method
+describe('MagmaTagList programmatic add()', () => {
+    let component: MagmaTagList;
+    let fixture: ComponentFixture<MagmaTagList>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaTagList],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaTagList);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        TestBed.resetTestingModule();
+    });
+
+    it('should add a string tag programmatically', () => {
+        const result = component.add('Angular');
+        expect(result).toBe(true);
+        expect(component.resolvedTags().length).toBe(1);
+        expect(component.resolvedTags()[0].value).toBe('Angular');
+    });
+
+    it('should add a MagmaTagItem programmatically', () => {
+        const result = component.add({ value: 'ng', label: 'Angular', removable: true });
+        expect(result).toBe(true);
+        expect(component.resolvedTags().length).toBe(1);
+        expect(component.resolvedTags()[0].value).toBe('ng');
+    });
+
+    it('should return false and not add when readOnly', () => {
+        fixture.componentRef.setInput('readOnly', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        const result = component.add('Angular');
+        expect(result).toBe(false);
+        expect(component.resolvedTags().length).toBe(0);
+    });
+
+    it('should return false and not add when disabled', () => {
+        fixture.componentRef.setInput('disabled', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        const result = component.add('Angular');
+        expect(result).toBe(false);
+        expect(component.resolvedTags().length).toBe(0);
+    });
+
+    it('should not add duplicate values', () => {
+        component.add('Angular');
+        const result = component.add('Angular');
+        expect(result).toBe(false);
+        expect(component.resolvedTags().length).toBe(1);
+    });
+
+    it('should not add empty string', () => {
+        const result = component.add('');
+        expect(result).toBe(false);
+        expect(component.resolvedTags().length).toBe(0);
+    });
+
+    it('should emit tagsChange on successful add', () => {
+        let emitted: string[] | undefined;
+        component.tagsChange.subscribe(tags => (emitted = tags));
+
+        component.add('Angular');
+
+        expect(emitted).toEqual(['Angular']);
+    });
+});
+
+// Disabled state
+@Component({
+    template: `<mg-tag-list [tags]="tags" [disabled]="true" (tagsChange)="onTagsChange($event)" />`,
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MagmaTagListModule],
+})
+class TestDisabledComponent {
+    tags = ['Angular', 'TypeScript'];
+    lastTags?: string[];
+
+    onTagsChange(tags: string[]) {
+        this.lastTags = tags;
+    }
+}
+
+describe('MagmaTagList disabled state', () => {
+    let hostFixture: ComponentFixture<TestDisabledComponent>;
+    let host: TestDisabledComponent;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestDisabledComponent],
+        }).compileComponents();
+
+        hostFixture = TestBed.createComponent(TestDisabledComponent);
+        host = hostFixture.componentInstance;
+        hostFixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        TestBed.resetTestingModule();
+    });
+
+    it('should hide remove buttons when disabled', () => {
+        const buttons = hostFixture.nativeElement.querySelectorAll('.tag button');
+        expect(buttons.length).toBe(0);
+    });
+
+    it('should hide the input when disabled', () => {
+        const input = hostFixture.nativeElement.querySelector('input');
+        expect(input).toBeNull();
+    });
+
+    it('should add disabled class to host', () => {
+        const host = hostFixture.nativeElement.querySelector('mg-tag-list');
+        expect(host.classList.contains('disabled')).toBe(true);
+    });
+});
+
+// onBlur and onEnter edge cases
+describe('MagmaTagList onBlur and edge cases', () => {
+    let component: MagmaTagList;
+    let fixture: ComponentFixture<MagmaTagList>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [MagmaTagList],
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(MagmaTagList);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        TestBed.resetTestingModule();
+    });
+
+    it('should call onTouched on blur', () => {
+        const touchedSpy = vi.fn();
+        component.registerOnTouched(touchedSpy);
+
+        component.onBlur();
+
+        expect(touchedSpy).toHaveBeenCalled();
+    });
+
+    it('should do nothing on onEnter when readOnly', () => {
+        fixture.componentRef.setInput('readOnly', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        let emitted = false;
+        component.tagsChange.subscribe(() => (emitted = true));
+
+        component.onEnter();
+        expect(emitted).toBe(false);
+    });
+
+    it('should do nothing on onEnter when disabled', () => {
+        fixture.componentRef.setInput('disabled', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        let emitted = false;
+        component.tagsChange.subscribe(() => (emitted = true));
+
+        component.onEnter();
+        expect(emitted).toBe(false);
+    });
+
+    it('should do nothing on onEnter when input is hidden (hideInput)', () => {
+        fixture.componentRef.setInput('hideInput', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        let emitted = false;
+        component.tagsChange.subscribe(() => (emitted = true));
+
+        component.onEnter();
+        expect(emitted).toBe(false);
+    });
+
+    it('should not emit on remove when readOnly', () => {
+        component.add('Angular');
+
+        fixture.componentRef.setInput('readOnly', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        let emitted = false;
+        component.tagsChange.subscribe(() => (emitted = true));
+
+        component.remove('Angular');
+        expect(emitted).toBe(false);
+    });
+
+    it('should not emit on remove when disabled', () => {
+        component.add('Angular');
+
+        fixture.componentRef.setInput('disabled', true);
+        fixture.changeDetectorRef.detectChanges();
+
+        let emitted = false;
+        component.tagsChange.subscribe(() => (emitted = true));
+
+        component.remove('Angular');
+        expect(emitted).toBe(false);
+    });
+
+    it('should handle writeValue with null', () => {
+        component.writeValue(null);
+        expect(component.resolvedTags().length).toBe(0);
+    });
+
+    it('should register onChange callback', () => {
+        const changeFn = vi.fn();
+        component.registerOnChange(changeFn);
+
+        component.add('test');
+
+        expect(changeFn).toHaveBeenCalledWith(['test']);
     });
 });

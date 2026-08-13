@@ -6,6 +6,9 @@ export * from 'ng-select2-component';
 
 // components
 export * from './lib/components/block/block.component';
+export * from './lib/components/breadcrumbs/breadcrumb-item.component';
+export * from './lib/components/breadcrumbs/breadcrumbs.component';
+export * from './lib/components/breadcrumbs/breadcrumbs.module';
 export * from './lib/components/color-picker/color-picker.component';
 export * from './lib/components/color-picker/color-picker.directive';
 export * from './lib/components/context-menu/context-menu.component';
@@ -52,6 +55,8 @@ export * from './lib/components/tabs/tab-content.component';
 export * from './lib/components/tabs/tab-title.component';
 export * from './lib/components/tabs/tabs.component';
 export * from './lib/components/tabs/tabs.module';
+export * from './lib/components/tag-list/tag-list.component';
+export * from './lib/components/tag-list/tag.component';
 export * from './lib/components/walkthrough/walkthrough-step.directive';
 export * from './lib/components/walkthrough/walkthrough.component';
 export * from './lib/components/window/window.component';

@@ -5,6 +5,8 @@
 export * from 'ng-select2-component';
 
 // components
+export * from './lib/components/avatar/avatar.component';
+export * from './lib/components/badge/badge.component';
 export * from './lib/components/block/block.component';
 export * from './lib/components/breadcrumbs/breadcrumb-item.component';
 export * from './lib/components/breadcrumbs/breadcrumbs.component';

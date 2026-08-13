@@ -4,8 +4,10 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import {
     FormBuilderExtended,
+    MagmaBlock,
     MagmaInput,
     MagmaInputElement,
+    MagmaInputNumber,
     MagmaInputText,
     MagmaScrollableModule,
 } from '@ikilote/magma';
@@ -24,6 +26,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInput,
         MagmaInputElement,
         MagmaInputText,
+        MagmaBlock,
+        MagmaInputNumber,
     ],
 })
 export class DemoScrollableComponent {
@@ -32,7 +36,6 @@ export class DemoScrollableComponent {
     ctrlForm: FormGroup<{
         stickySelector: FormControl<string>;
         speedMax: FormControl<string>;
-        frameTime: FormControl<string>;
         reducer: FormControl<string>;
     }>;
 
@@ -76,7 +79,6 @@ export class MyComponent {
         this.ctrlForm = this.fb.groupWithError({
             stickySelector: { default: '.scroll-nav' },
             speedMax: { default: '50' },
-            frameTime: { default: '16' },
             reducer: { default: '2' },
         });
         this.codeGeneration();
@@ -109,9 +111,6 @@ export class MyComponent {
         if (this.ctrlForm.value.speedMax && this.ctrlForm.value.speedMax !== '50') {
             containerAttrs['mgScrollableSpeedMax'] = this.ctrlForm.value.speedMax;
         }
-        if (this.ctrlForm.value.frameTime && this.ctrlForm.value.frameTime !== '16') {
-            containerAttrs['mgScrollableFrameTime'] = this.ctrlForm.value.frameTime;
-        }
         if (this.ctrlForm.value.reducer && this.ctrlForm.value.reducer !== '2') {
             containerAttrs['mgScrollableReducer'] = this.ctrlForm.value.reducer;
         }
@@ -124,7 +123,7 @@ export class MyComponent {
             attrs: { class: 'scroll-nav' },
             body: [
                 { tag: 'button', attrs: { mgScrollGoto: 'intro' }, body: 'Intro' },
-                { tag: 'button', attrs: { mgScrollGoto: 'features' }, body: 'Features' },
+                { tag: 'button', attrs: { mgScrollGoto: 'features', mgScrollJump: null }, body: 'Features' },
                 { tag: 'button', attrs: { mgScrollGoto: 'usage' }, body: 'Usage' },
             ],
         });

@@ -3,52 +3,44 @@
 @if (ctrlForm) {
   <section>
     <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
-      <p>
-        <mg-input>
-          <mg-input-label>Sticky selector</mg-input-label>
-          <mg-input-text formControlName="stickySelector" />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>Speed max (px/frame)</mg-input-label>
-          <mg-input-text formControlName="speedMax" />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>Frame time (ms)</mg-input-label>
-          <mg-input-text formControlName="frameTime" />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>Reducer (easing divisor)</mg-input-label>
-          <mg-input-text formControlName="reducer" />
-        </mg-input>
-      </p>
+      <h3 class="s-12">Options</h3>
+      <mg-input class="s-12">
+        <mg-input-label>Sticky CSS selector</mg-input-label>
+        <mg-input-text formControlName="stickySelector" />
+        <mg-input-desc>Default: <code>''</code></mg-input-desc>
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Speed max </mg-input-label>
+        <mg-input-number formControlName="speedMax" min="1" />
+        <mg-input-suffix>px/frame</mg-input-suffix>
+        <mg-input-desc>Minimal value: <code>1</code>, default: <code>50</code></mg-input-desc>
+      </mg-input>
+      <mg-input class="s-12">
+        <mg-input-label>Reducer (easing divisor)</mg-input-label>
+        <mg-input-number formControlName="reducer" min="1" />
+        <mg-input-desc>Minimal value: <code>1</code>, default: <code>2</code></mg-input-desc>
+      </mg-input>
     </form>
     <div class="s-5 s-6-x s-12-m">
-      <h4>Render</h4>
+      <h3>Render</h3>
 
-      <div class="info-bar">
-        <span><strong>Scroll position:</strong> {{ scrollPosition }}px</span>
-        <span><strong>Current section:</strong> {{ currentSection || '—' }}</span>
-      </div>
+      <mg-block class="info-bar">
+        <span class="s-6"><strong>Scroll position:</strong> {{ scrollPosition }}px</span>
+        <span class="s-6"><strong>Current section:</strong> {{ currentSection || '—' }}</span>
+      </mg-block>
 
       <div
         class="scroll-container"
         mgScrollable
         [mgScrollableSticky]="ctrlForm.value.stickySelector || undefined"
         [mgScrollableSpeedMax]="ctrlForm.value.speedMax"
-        [mgScrollableFrameTime]="ctrlForm.value.frameTime"
         [mgScrollableReducer]="ctrlForm.value.reducer"
         (scrolled)="onScrolled($event)"
         (changedTo)="onChangedTo($event)"
       >
         <nav class="scroll-nav">
           <button mgScrollGoto="intro">Intro</button>
-          <button mgScrollGoto="features">Features</button>
+          <button mgScrollGoto="features" mgScrollJump>Features (Jump)</button>
           <button mgScrollGoto="usage">Usage</button>
           <button mgScrollGoto="api">API</button>
         </nav>
@@ -102,12 +94,13 @@
         </section>
       </div>
     </div>
+
     <div class="s-4 s-12-x">
       <code-tabs
         [code]="[
           { type: 'html', code: codeHtml },
           { type: 'ts', code: codeTs },
-          { type: 'scss', code: codeCss },
+          { type: 'css', code: codeCss },
         ]"
       />
     </div>

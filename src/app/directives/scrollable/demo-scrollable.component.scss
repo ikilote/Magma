@@ -1,16 +1,6 @@
-.info-bar {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 12px;
-    border: var(--block-border);
-    border-radius: 4px;
-    background: var(--block-background);
-    padding: 8px 12px;
-    font-size: 0.9em;
-}
-
 .scroll-container {
     position: relative;
+    margin-top: 12px;
     border: var(--block-border);
     border-radius: var(--block-radius);
     height: 350px;

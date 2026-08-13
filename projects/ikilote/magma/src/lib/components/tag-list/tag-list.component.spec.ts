@@ -250,15 +250,53 @@ describe('MagmaTagList declarative mode', () => {
         expect(items.length).toBe(3);
     });
 
-    it('should display labels from value', () => {
+    it('should display labels from projected content', () => {
         const labels = hostFixture.nativeElement.querySelectorAll('.tag-label');
-        expect(labels[0].textContent).toContain('angular');
+        expect(labels[0].textContent).toContain('Angular');
     });
 
     it('should respect removable=false', () => {
         const buttons = hostFixture.nativeElement.querySelectorAll('.tag button');
         // Only 2 buttons (rxjs is not removable)
         expect(buttons.length).toBe(2);
+    });
+
+    it('should emit tagsChange including declared tags on add via Enter', () => {
+        const input = hostFixture.nativeElement.querySelector('input') as HTMLInputElement;
+        input.value = 'Signals';
+        input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', bubbles: true }));
+        hostFixture.changeDetectorRef.detectChanges();
+
+        expect(host.lastTags).toBeDefined();
+        expect(host.lastTags!).toContain('angular');
+        expect(host.lastTags!).toContain('typescript');
+        expect(host.lastTags!).toContain('rxjs');
+        expect(host.lastTags!).toContain('Signals');
+        expect(host.lastTags!.length).toBe(4);
+    });
+
+    it('should not allow adding a value that matches a declared tag', () => {
+        const input = hostFixture.nativeElement.querySelector('input') as HTMLInputElement;
+        input.value = 'angular';
+        input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', bubbles: true }));
+        hostFixture.changeDetectorRef.detectChanges();
+
+        // Should not emit because 'angular' already exists as a declared tag
+        expect(host.lastTags).toBeUndefined();
+    });
+
+    it('should display dynamically added tags alongside declared tags', () => {
+        const input = hostFixture.nativeElement.querySelector('input') as HTMLInputElement;
+        input.value = 'Signals';
+        input.dispatchEvent(new KeyboardEvent('keyup', { key: 'Enter', bubbles: true }));
+        hostFixture.changeDetectorRef.detectChanges();
+
+        const items = hostFixture.nativeElement.querySelectorAll('.tag');
+        expect(items.length).toBe(4);
+
+        const labels = hostFixture.nativeElement.querySelectorAll('.tag-label');
+        const labelTexts = Array.from(labels).map((l: any) => l.textContent.trim());
+        expect(labelTexts).toContain('Signals');
     });
 });
 

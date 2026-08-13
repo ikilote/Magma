@@ -99,14 +99,28 @@ export class MagmaTagList implements ControlValueAccessor {
     /** Resolved tag items (merges declarative + data-driven) */
     readonly resolvedTags = computed<MagmaTagItem[]>(() => {
         const declared = this.declaredTags();
+        const declaredItems: MagmaTagItem[] = declared.map(tag => ({
+            value: tag.value(),
+            label: tag.elementRef.nativeElement.textContent?.trim() || tag.value(),
+            removeI18n: this.removeAriaLabel().replace(
+                '%item',
+                tag.elementRef.nativeElement.textContent?.trim() || tag.value(),
+            ),
+            removable: tag.removable(),
+        }));
+
         if (declared.length > 0) {
-            // Declarative mode: tags come from <mg-tag> children
-            return declared.map(tag => ({
-                value: tag.value(),
-                label: tag.value(), // label from ng-content isn't accessible, use value
-                removeI18n: this.removeAriaLabel().replace('%item', tag.value()),
-                removable: tag.removable(),
-            }));
+            // Declarative mode: start with declared tags, then append dynamically added ones
+            const declaredValues = declaredItems.map(t => t.value);
+            const dynamicTags = this.internalTags()
+                .filter(v => !declaredValues.includes(v))
+                .map(value => ({
+                    value,
+                    label: value,
+                    removeI18n: this.removeAriaLabel().replace('%item', value),
+                    removable: true,
+                }));
+            return [...declaredItems, ...dynamicTags];
         }
 
         // Data-driven or CVA mode
@@ -212,7 +226,19 @@ export class MagmaTagList implements ControlValueAccessor {
 
     private getCurrentValues(): (string | MagmaTagItem)[] {
         const dataInput = this.tags();
-        return dataInput ? [...dataInput] : [...this.internalTags()];
+        if (dataInput) {
+            return [...dataInput];
+        }
+
+        // In declarative mode, merge declared tag values with dynamically added ones
+        const declared = this.declaredTags();
+        if (declared.length > 0) {
+            const declaredValues = declared.map(t => t.value());
+            const dynamicValues = this.internalTags().filter(v => !declaredValues.includes(v));
+            return [...declaredValues, ...dynamicValues];
+        }
+
+        return [...this.internalTags()];
     }
 
     private emitChange(updated: (string | MagmaTagItem)[]): void {

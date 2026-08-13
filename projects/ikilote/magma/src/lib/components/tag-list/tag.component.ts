@@ -1,4 +1,4 @@
-import { Component, booleanAttribute, input } from '@angular/core';
+import { Component, ElementRef, booleanAttribute, inject, input } from '@angular/core';
 
 @Component({
     selector: 'mg-tag',
@@ -6,6 +6,8 @@ import { Component, booleanAttribute, input } from '@angular/core';
     styles: [':host { display: none; }'],
 })
 export class MagmaTag {
+    readonly elementRef = inject(ElementRef);
+
     /** Value associated with this tag (used in the string[] model) */
     readonly value = input.required<string>();
 

@@ -67,6 +67,11 @@ describe('downloadFile', () => {
 });
 
 describe('blobToBase64', () => {
+    beforeEach(() => {
+        // Ensure real timers are active (guard against contamination from other tests)
+        vi.useRealTimers();
+    });
+
     it('should convert a Blob to base64 and resolve the promise with the correct result', async () => {
         const mockBlob = new Blob(['test'], { type: 'text/plain' });
 
@@ -109,6 +114,8 @@ describe('ulrToBase64', () => {
     let mockFetch: Mock;
 
     beforeEach(() => {
+        // Ensure real timers are active (guard against contamination from other tests)
+        vi.useRealTimers();
         mockFetch = vi.spyOn(window, 'fetch');
     });
 

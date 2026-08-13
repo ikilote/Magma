@@ -30,6 +30,11 @@ describe('FormBuilderExtended', () => {
         vi.spyOn(MagmaValidators, 'inList').mockImplementation(MockMagmaValidators.inList);
     });
 
+    afterEach(() => {
+        vi.restoreAllMocks();
+        TestBed.resetTestingModule();
+    });
+
     it('should be created', () => {
         expect(service).toBeTruthy();
     });

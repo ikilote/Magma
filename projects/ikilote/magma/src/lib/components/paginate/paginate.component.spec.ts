@@ -42,6 +42,7 @@ describe('MagmaPagination', () => {
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should show total if showTotal is true', () => {

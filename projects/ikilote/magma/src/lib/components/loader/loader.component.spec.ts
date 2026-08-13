@@ -32,6 +32,11 @@ describe('MagmaLoader', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
     it('should not be loading by default', () => {
         expect(component.loading()).toBe(false);
         expect(fixture.nativeElement.classList.contains('loading')).toBe(false);
@@ -69,10 +74,17 @@ describe('MagmaLoader', () => {
     let loader: MagmaLoader;
 
     beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostComponent] }).compileComponents();
+
         hostFixture = TestBed.createComponent(TestHostComponent);
         loader = hostFixture.debugElement.query(By.directive(MagmaLoader)).componentInstance;
 
         hostFixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
     });
 
     it('should project content when loading is true', () => {

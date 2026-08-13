@@ -88,6 +88,7 @@ describe('MagmaWalkthroughContent through MagmaWalkthrough', () => {
         fixture?.destroy();
         vi.clearAllTimers();
         vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create walkthrough component', async () => {

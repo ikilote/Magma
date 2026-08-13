@@ -16,6 +16,11 @@ describe('MagmaBlockMessage', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
     it('should apply "info" class when type is "info"', () => {
         fixture.componentRef.setInput('type', 'info');
         fixture.changeDetectorRef.detectChanges();
@@ -81,22 +86,24 @@ describe('MagmaBlockMessage', () => {
 class TestHostComponent {}
 
 describe('MagmaBlockMessage - Content Projection', () => {
-    let fixture: ComponentFixture<MagmaBlockMessage>;
+    let fixture: ComponentFixture<TestHostComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [TestHostComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(MagmaBlockMessage);
+        fixture = TestBed.createComponent(TestHostComponent);
         fixture.changeDetectorRef.detectChanges();
     });
 
-    it('should project content inside ng-content', () => {
-        const hostFixture = TestBed.createComponent(TestHostComponent);
-        hostFixture.changeDetectorRef.detectChanges();
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
+    });
 
-        const customContent = hostFixture.debugElement.query(By.css('.custom-content'));
+    it('should project content inside ng-content', () => {
+        const customContent = fixture.debugElement.query(By.css('.custom-content'));
         expect(customContent).toBeTruthy();
         expect(customContent.nativeElement.textContent).toContain('This is a message');
     });

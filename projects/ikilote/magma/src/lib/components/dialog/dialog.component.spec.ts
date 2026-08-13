@@ -22,6 +22,8 @@ describe('MagmaDialog', () => {
 
     afterEach(() => {
         fixture?.destroy();
+        vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

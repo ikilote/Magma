@@ -62,8 +62,10 @@ describe('InfoMessagesComponent', () => {
         fixture.changeDetectorRef.detectChanges();
     });
 
-    afterAll(() => {
+    afterEach(() => {
         messagesService.clearMessages();
+        fixture?.destroy();
+        TestBed.resetTestingModule();
     });
 
     it('should not display any messages initially', () => {

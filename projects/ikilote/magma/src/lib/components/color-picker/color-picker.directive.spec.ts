@@ -39,6 +39,9 @@ describe('MagmaColorPicker Directive', () => {
     });
 
     afterEach(async () => {
+        // Ensure real timers are active before any setTimeout in cleanup
+        vi.useRealTimers();
+
         // Clean up overlay and unsubscribe
         if (MagmaColorPicker._overlayRef) {
             MagmaColorPicker._overlayRef.dispose();
@@ -50,6 +53,7 @@ describe('MagmaColorPicker Directive', () => {
         await new Promise(resolve => setTimeout(resolve, 100));
 
         fixture?.destroy();
+        TestBed.resetTestingModule();
     });
 
     it('should create directive', () => {

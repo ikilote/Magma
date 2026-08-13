@@ -15,6 +15,8 @@ describe('Timing', () => {
     afterEach(() => {
         // Clean up all timers after each test
         Timing.stopAll();
+        vi.clearAllTimers();
+        vi.useRealTimers();
     });
 
     // 1. Tests for `Timing.start`

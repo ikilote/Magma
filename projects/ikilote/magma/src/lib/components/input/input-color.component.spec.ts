@@ -33,6 +33,7 @@ describe('MagmaInputColor', () => {
         // Clear timers AFTER destroying fixture
         vi.clearAllTimers();
         vi.useRealTimers();
+        TestBed.resetTestingModule();
     });
 
     it('should create', () => {

@@ -1,0 +1,115 @@
+<h1>Scrollable</h1>
+
+@if (ctrlForm) {
+  <section>
+    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+      <p>
+        <mg-input>
+          <mg-input-label>Sticky selector</mg-input-label>
+          <mg-input-text formControlName="stickySelector" />
+        </mg-input>
+      </p>
+      <p>
+        <mg-input>
+          <mg-input-label>Speed max (px/frame)</mg-input-label>
+          <mg-input-text formControlName="speedMax" />
+        </mg-input>
+      </p>
+      <p>
+        <mg-input>
+          <mg-input-label>Frame time (ms)</mg-input-label>
+          <mg-input-text formControlName="frameTime" />
+        </mg-input>
+      </p>
+      <p>
+        <mg-input>
+          <mg-input-label>Reducer (easing divisor)</mg-input-label>
+          <mg-input-text formControlName="reducer" />
+        </mg-input>
+      </p>
+    </form>
+    <div class="s-5 s-6-x s-12-m">
+      <h4>Render</h4>
+
+      <div class="info-bar">
+        <span><strong>Scroll position:</strong> {{ scrollPosition }}px</span>
+        <span><strong>Current section:</strong> {{ currentSection || '—' }}</span>
+      </div>
+
+      <div
+        class="scroll-container"
+        mgScrollable
+        [mgScrollableSticky]="ctrlForm.value.stickySelector || undefined"
+        [mgScrollableSpeedMax]="ctrlForm.value.speedMax"
+        [mgScrollableFrameTime]="ctrlForm.value.frameTime"
+        [mgScrollableReducer]="ctrlForm.value.reducer"
+        (scrolled)="onScrolled($event)"
+        (changedTo)="onChangedTo($event)"
+      >
+        <nav class="scroll-nav">
+          <button mgScrollGoto="intro">Intro</button>
+          <button mgScrollGoto="features">Features</button>
+          <button mgScrollGoto="usage">Usage</button>
+          <button mgScrollGoto="api">API</button>
+        </nav>
+
+        <section mgScrollTarget="intro" class="scroll-section">
+          <h2>Introduction</h2>
+          <p>
+            The scrollable directive provides animated scroll navigation between sections of a scrollable container.
+          </p>
+          <p>
+            It uses <code>requestAnimationFrame</code> for smooth, performant scrolling and stops on user wheel
+            interaction.
+          </p>
+          <p>
+            Three directives work together: <code>[mgScrollable]</code> on the container,
+            <code>[mgScrollTarget]</code> on sections, and <code>[mgScrollGoto]</code> on navigation buttons.
+          </p>
+        </section>
+
+        <section mgScrollTarget="features" class="scroll-section">
+          <h2>Features</h2>
+          <ul>
+            <li>Animated scroll with configurable speed</li>
+            <li>Interrupt on wheel interaction</li>
+            <li>Position tracking via outputs</li>
+            <li>Instant jump (non-animated) option</li>
+            <li>Keyboard accessible navigation (Enter/Space)</li>
+            <li>Sticky element offset via <code>mgScrollableSticky</code></li>
+          </ul>
+        </section>
+
+        <section mgScrollTarget="usage" class="scroll-section">
+          <h2>Usage</h2>
+          <p>
+            Place <code>[mgScrollable]</code> on a scrollable container (with <code>overflow: auto</code> and a fixed
+            height).
+          </p>
+          <p>Mark sections with <code>[mgScrollTarget]="'sectionId'"</code>.</p>
+          <p>Create navigation buttons with <code>[mgScrollGoto]="'sectionId'"</code>.</p>
+          <p>
+            Use <code>[mgScrollableSticky]=".nav-class"</code> to offset the scroll target by the height of a sticky
+            navigation element.
+          </p>
+        </section>
+
+        <section mgScrollTarget="api" class="scroll-section">
+          <h2>API Reference</h2>
+          <p><strong>Inputs:</strong> scrollSpeedMax, scrollIntervalTime, scrollReducer, mgScrollableSticky</p>
+          <p><strong>Outputs:</strong> scrolled, scrolledTo, changedTo, clicked</p>
+          <p><strong>Methods:</strong> goTo(id), scrollTo(pos), jumpTo(pos), position(), positionsTarget()</p>
+        </section>
+      </div>
+    </div>
+    <div class="s-4 s-12-x">
+      <code-tabs
+        [code]="[
+          { type: 'html', code: codeHtml },
+          { type: 'ts', code: codeTs },
+          { type: 'scss', code: codeCss },
+        ]"
+      />
+    </div>
+  </section>
+}

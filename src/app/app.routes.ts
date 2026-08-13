@@ -187,6 +187,12 @@ export const routes: Routes = [
                     import('./directives/click-enter/demo-click-enter.component').then(m => m.DemoClickEnterComponent),
             },
             {
+                path: 'scrollable',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/scrollable/demo-scrollable.component').then(m => m.DemoScrollableComponent),
+            },
+            {
                 path: 'click-outside',
                 pathMatch: 'full',
                 loadComponent: () =>

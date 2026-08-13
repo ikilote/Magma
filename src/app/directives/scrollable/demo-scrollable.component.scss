@@ -1,0 +1,42 @@
+.info-bar {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 12px;
+    border: var(--block-border);
+    border-radius: 4px;
+    background: var(--block-background);
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+.scroll-container {
+    position: relative;
+    border: var(--block-border);
+    border-radius: var(--block-radius);
+    height: 350px;
+    overflow: auto;
+}
+
+.scroll-nav {
+    display: flex;
+    position: sticky;
+    top: 0;
+    gap: 8px;
+    z-index: 1;
+    border-bottom: var(--block-border);
+    background: var(--block-background);
+    padding: 12px;
+}
+
+.scroll-section {
+    padding: 24px 16px;
+    min-height: 250px;
+
+    & + .scroll-section {
+        border-top: 1px dashed var(--block-border-color, #ccc);
+    }
+
+    h2 {
+        margin-top: 0;
+    }
+}

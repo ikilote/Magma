@@ -72,7 +72,6 @@ export const menu: Menu = [
             {
                 routerLink: '/component/dialog',
                 label: 'Dialog',
-                status: 'update',
                 keys: ['dialog', 'modal', 'popup', 'window'],
             },
             {
@@ -93,13 +92,11 @@ export const menu: Menu = [
             {
                 routerLink: '/component/input',
                 label: 'Inputs',
-                status: 'update',
                 keys: ['form fields', 'input', 'text field'],
             },
             {
                 routerLink: '/component/light-dark',
                 label: 'Light-dark',
-                status: 'update',
                 keys: ['light dark', 'theme', 'dark mode', 'light mode'],
             },
             {
@@ -152,7 +149,6 @@ export const menu: Menu = [
             {
                 routerLink: '/component/window',
                 label: 'Window',
-                status: 'update',
                 keys: ['popup window', 'dialog window'],
             },
         ],
@@ -166,6 +162,12 @@ export const menu: Menu = [
                 keys: ['enter key', 'keyboard enter'],
             },
             {
+                routerLink: '/directive/scrollable',
+                label: 'Scrollable',
+                status: 'new',
+                keys: ['scroll', 'animated scroll', 'scroll navigation', 'scroll to', 'anchor'],
+            },
+            {
                 routerLink: '/directive/click-outside',
                 label: 'Click Outside',
                 keys: ['outside click', 'blur click', 'close on outside click'],
@@ -173,7 +175,6 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/limit-focus',
                 label: 'Limit-focus',
-                status: 'update',
                 keys: ['focus trap', 'focus control', 'focus limit'],
             },
             {
@@ -189,13 +190,11 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/sortable',
                 label: 'Sortable',
-                status: 'update',
                 keys: ['sort', 'reorder'],
             },
             {
                 routerLink: '/directive/stop-propagation',
                 label: 'Stop Propagation',
-                status: 'update',
                 keys: ['event stop', 'propagation'],
             },
             {
@@ -263,7 +262,6 @@ export const menu: Menu = [
             {
                 routerLink: '/service/windows',
                 label: 'Windows',
-                status: 'update',
                 keys: ['window service', 'popup windows', 'window utilities'],
             },
         ],
@@ -360,7 +358,6 @@ export const menu: Menu = [
             {
                 routerLink: '/style/chips',
                 label: 'Chips',
-                status: 'new',
                 keys: ['chip', 'tag', 'badge', 'filter', 'choice'],
             },
             {
@@ -381,7 +378,6 @@ export const menu: Menu = [
             {
                 routerLink: '/style/palette',
                 label: 'Palette',
-                status: 'update',
                 keys: ['colors', 'color palette', 'theme colors'],
             },
         ],

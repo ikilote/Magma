@@ -225,6 +225,10 @@ input[type='range'] {
 
 /* Firefox */
 @supports selector(::-moz-range-track) {
+    input[type='range'] {
+        height: 150px;
+    }
+
     input[type='range']::-moz-range-track {
         border: var(--color-picker-color-range-track-border);
         border-radius: 0;

@@ -2,11 +2,13 @@
   <div class="backdrop" (click)="toggleMenu(false)"></div>
   <div class="aside-content">
     <div class="title">
-      <h2>
-        <img src="/assets/images/magma.svg" alt="logo" />
-        <div>{{ title }}</div>
-        <small>{{ version }}</small>
-      </h2>
+      <a routerLink="/">
+        <h2>
+          <img src="/assets/images/magma.svg" alt="logo" />
+          <div>{{ title }}</div>
+          <small>{{ version }}</small>
+        </h2></a
+      >
       <button class="mobile-menu" (click)="toggleMenu(false)">×</button>
     </div>
     <div>

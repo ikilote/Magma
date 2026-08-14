@@ -7,6 +7,8 @@ import {
     MagmaExpansionPanelUpdateEvent,
     MagmaInput,
     MagmaInputCheckbox,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -16,7 +18,15 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-expansion-panel.component.html',
     styleUrl: './demo-expansion-panel.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FormsModule, CodeTabsComponent, MagmaExpansionPanelModule, MagmaInput, MagmaInputCheckbox],
+    imports: [
+        FormsModule,
+        CodeTabsComponent,
+        MagmaExpansionPanelModule,
+        MagmaInput,
+        MagmaInputCheckbox,
+        MagmaTabsModule,
+        MagmaTableModule,
+    ],
 })
 export class DemoExpansionPanelComponent {
     open = true;

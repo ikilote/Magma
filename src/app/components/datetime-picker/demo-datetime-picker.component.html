@@ -1,154 +1,366 @@
-<h1>Color picker</h1>
+<h1>Datetime picker</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlForm">
-      <mg-input class="s-12">
-        <mg-input-label>Datetime</mg-input-label>
-        <mg-input-date formControlName="datetime" mode="toggle" [type]="ctrlForm.value.type" />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>Type</mg-input-label>
-        <mg-input-select [data]="types" formControlName="type" nativeKeyboard />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>Readonly</mg-input-label>
-        <mg-input-checkbox formControlName="readonly" mode="toggle" />
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>Language</mg-input-label>
-        <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
-        <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>Min</mg-input-label>
-        <mg-input-date formControlName="min" />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>Max</mg-input-label>
-        <mg-input-date formControlName="max" />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>First day of the week</mg-input-label>
-        <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>weekend</mg-input-label>
-        <mg-input-select formControlName="weekend" [data]="weekdays" multiple />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>hideWeekendStyle</mg-input-label>
-        <mg-input-checkbox formControlName="hideWeekendStyle" mode="toggle" />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>hideWeekNumber</mg-input-label>
-        <mg-input-checkbox formControlName="hideWeekNumber" mode="toggle" />
-      </mg-input>
-    </form>
-    <div class="s-5 s-6-x s-12-m">
-      <h4>Component</h4>
-
-      <mg-datetime-picker
-        [value]="ctrlForm.value.datetime"
-        [readonly]="ctrlForm.value.readonly"
-        [type]="ctrlForm.value.type"
-        [lang]="ctrlForm.value.lang"
-        [min]="ctrlForm.value.min"
-        [max]="ctrlForm.value.max"
-        [firstDayOfWeek]="ctrlForm.value.day"
-        [weekend]="ctrlForm.value.weekend!"
-        [hideWeekendStyle]="ctrlForm.value.hideWeekendStyle"
-        [hideWeekNumber]="ctrlForm.value.hideWeekNumber"
-        (datetimeChange)="datetimeChangeComponent($event)"
-      />
-    </div>
-    <div class="s-3 s-12-x">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-
-  <hr />
-
-  <section>
-    <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlFormPopup">
-      <p>
-        <mg-input class="s-12">
-          <mg-input-label>Datetime</mg-input-label>
-          <mg-input-date formControlName="datetime" mode="toggle" [type]="ctrlFormPopup.value.type" />
-        </mg-input>
-        <mg-input class="s-6 s-12-x">
-          <mg-input-label>Disabled</mg-input-label>
-          <mg-input-checkbox formControlName="disabled" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-6 s-12-x">
-          <mg-input-label>Type</mg-input-label>
-          <mg-input-select [data]="types" formControlName="type" nativeKeyboard />
-        </mg-input>
-        <mg-input class="s-6 s-12-x">
-          <mg-input-label>Readonly</mg-input-label>
-          <mg-input-checkbox formControlName="readonly" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-12">
-          <mg-input-label>Language</mg-input-label>
-          <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
-          <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
-        </mg-input>
-        <mg-input class="s-6 s-12-x">
-          <mg-input-label>Min</mg-input-label>
-          <mg-input-date formControlName="min" />
-        </mg-input>
-        <mg-input class="s-6 s-12-x">
-          <mg-input-label>Max</mg-input-label>
-          <mg-input-date formControlName="max" />
-        </mg-input>
-        <mg-input class="s-6 s-12-x">
-          <mg-input-label>First day of the week</mg-input-label>
-          <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
-        </mg-input>
-      </p>
-    </form>
-    <div class="s-4 s-6-x s-12-m">
-      <h4>Directive</h4>
-      <div>
-        <p>
-          <button
-            [mgDatetimePicker]="ctrlFormPopup.value.datetime"
-            [mgDatetimePickerDisabled]="ctrlFormPopup.value.disabled"
-            [mgDatetimePickerReadonly]="ctrlFormPopup.value.readonly"
-            [mgDatetimePickerType]="ctrlFormPopup.value.type"
-            [mgDatetimePickerLang]="ctrlFormPopup.value.lang"
-            [mgDatetimePickerMin]="ctrlFormPopup.value.min"
-            [mgDatetimePickerMax]="ctrlFormPopup.value.max"
-            [mgDatetimePickerFirstDayOfWeek]="ctrlFormPopup.value.day"
-            [mgDatetimePickerWeekend]="ctrlFormPopup.value.weekend!"
-            [mgDatetimePickerhideWeekendStyle]="ctrlFormPopup.value.hideWeekendStyle"
-            [mgDatetimePickerHideWeekNumber]="ctrlFormPopup.value.hideWeekNumber"
-            (datetimeChange)="datetimeChange($event)"
-            (datetimeClose)="datetimeClose($event)"
-          >
-            Click me
-          </button>
-        </p>
-        <div>
-          datetimeChange : <code>{{ datetimeChangeValue }}</code>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlForm">
+          <mg-input class="s-12">
+            <mg-input-label>Datetime</mg-input-label>
+            <mg-input-date formControlName="datetime" mode="toggle" [type]="ctrlForm.value.type" />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>Type</mg-input-label>
+            <mg-input-select [data]="types" formControlName="type" nativeKeyboard />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>Readonly</mg-input-label>
+            <mg-input-checkbox formControlName="readonly" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Language</mg-input-label>
+            <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
+            <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>Min</mg-input-label>
+            <mg-input-date formControlName="min" />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>Max</mg-input-label>
+            <mg-input-date formControlName="max" />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>First day of the week</mg-input-label>
+            <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>weekend</mg-input-label>
+            <mg-input-select formControlName="weekend" [data]="weekdays" multiple />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>hideWeekendStyle</mg-input-label>
+            <mg-input-checkbox formControlName="hideWeekendStyle" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>hideWeekNumber</mg-input-label>
+            <mg-input-checkbox formControlName="hideWeekNumber" mode="toggle" />
+          </mg-input>
+        </form>
+        <div class="s-5 s-6-x s-12-m">
+          <h4>Component</h4>
+          <mg-datetime-picker
+            [value]="ctrlForm.value.datetime"
+            [readonly]="ctrlForm.value.readonly"
+            [type]="ctrlForm.value.type"
+            [lang]="ctrlForm.value.lang"
+            [min]="ctrlForm.value.min"
+            [max]="ctrlForm.value.max"
+            [firstDayOfWeek]="ctrlForm.value.day"
+            [weekend]="ctrlForm.value.weekend!"
+            [hideWeekendStyle]="ctrlForm.value.hideWeekendStyle"
+            [hideWeekNumber]="ctrlForm.value.hideWeekNumber"
+            (datetimeChange)="datetimeChangeComponent($event)"
+          />
         </div>
-        <div>
-          datetimeClose : <code>{{ datetimeCloseValue }}</code>
+        <div class="s-3 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
         </div>
-      </div>
-    </div>
-    <div class="s-4 s-12-x">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtmlPopup },
-          { type: 'ts', code: codeTsPopup },
-        ]"
-      />
-    </div>
-  </section>
-}
+      </section>
+
+      <hr />
+
+      <section>
+        <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlFormPopup">
+          <p>
+            <mg-input class="s-12">
+              <mg-input-label>Datetime</mg-input-label>
+              <mg-input-date formControlName="datetime" mode="toggle" [type]="ctrlFormPopup.value.type" />
+            </mg-input>
+            <mg-input class="s-6 s-12-x">
+              <mg-input-label>Disabled</mg-input-label>
+              <mg-input-checkbox formControlName="disabled" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-6 s-12-x">
+              <mg-input-label>Type</mg-input-label>
+              <mg-input-select [data]="types" formControlName="type" nativeKeyboard />
+            </mg-input>
+            <mg-input class="s-6 s-12-x">
+              <mg-input-label>Readonly</mg-input-label>
+              <mg-input-checkbox formControlName="readonly" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-12">
+              <mg-input-label>Language</mg-input-label>
+              <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
+              <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
+            </mg-input>
+            <mg-input class="s-6 s-12-x">
+              <mg-input-label>Min</mg-input-label>
+              <mg-input-date formControlName="min" />
+            </mg-input>
+            <mg-input class="s-6 s-12-x">
+              <mg-input-label>Max</mg-input-label>
+              <mg-input-date formControlName="max" />
+            </mg-input>
+            <mg-input class="s-6 s-12-x">
+              <mg-input-label>First day of the week</mg-input-label>
+              <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
+            </mg-input>
+          </p>
+        </form>
+        <div class="s-4 s-6-x s-12-m">
+          <h4>Directive</h4>
+          <div>
+            <p>
+              <button
+                [mgDatetimePicker]="ctrlFormPopup.value.datetime"
+                [mgDatetimePickerDisabled]="ctrlFormPopup.value.disabled"
+                [mgDatetimePickerReadonly]="ctrlFormPopup.value.readonly"
+                [mgDatetimePickerType]="ctrlFormPopup.value.type"
+                [mgDatetimePickerLang]="ctrlFormPopup.value.lang"
+                [mgDatetimePickerMin]="ctrlFormPopup.value.min"
+                [mgDatetimePickerMax]="ctrlFormPopup.value.max"
+                [mgDatetimePickerFirstDayOfWeek]="ctrlFormPopup.value.day"
+                [mgDatetimePickerWeekend]="ctrlFormPopup.value.weekend!"
+                [mgDatetimePickerhideWeekendStyle]="ctrlFormPopup.value.hideWeekendStyle"
+                [mgDatetimePickerHideWeekNumber]="ctrlFormPopup.value.hideWeekNumber"
+                (datetimeChange)="datetimeChange($event)"
+                (datetimeClose)="datetimeClose($event)"
+              >
+                Click me
+              </button>
+            </p>
+            <div>
+              datetimeChange : <code>{{ datetimeChangeValue }}</code>
+            </div>
+            <div>
+              datetimeClose : <code>{{ datetimeCloseValue }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="s-4 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtmlPopup },
+              { type: 'ts', code: codeTsPopup },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-datetime-picker</code> (component)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>value</code></td>
+            <td mg><code>string | number | Date | undefined</code></td>
+            <td mg><code>''</code></td>
+            <td mg>Initial date/time value</td>
+          </tr>
+          <tr mg>
+            <td mg><code>type</code></td>
+            <td mg>
+              <code>'date' | 'datetime-local' | 'datetime-seconds' | 'datetime-milli' | 'time' | undefined</code>
+            </td>
+            <td mg>—</td>
+            <td mg>Determines which fields are shown. Defaults to date-only.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>lang</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>BCP 47 locale for month/day names</td>
+          </tr>
+          <tr mg>
+            <td mg><code>min</code></td>
+            <td mg><code>string | number | Date | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Minimum selectable date</td>
+          </tr>
+          <tr mg>
+            <td mg><code>max</code></td>
+            <td mg><code>string | number | Date | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Maximum selectable date</td>
+          </tr>
+          <tr mg>
+            <td mg><code>readonly</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Makes the picker read-only</td>
+          </tr>
+          <tr mg>
+            <td mg><code>firstDayOfWeek</code></td>
+            <td mg><code>'Monday' | 'Sunday' | 'Saturday' | undefined</code></td>
+            <td mg>—</td>
+            <td mg>First day of the week in the calendar grid</td>
+          </tr>
+          <tr mg>
+            <td mg><code>weekend</code></td>
+            <td mg><code>WeekDay[]</code></td>
+            <td mg><code>['Sunday', 'Saturday']</code></td>
+            <td mg>Days treated as weekend</td>
+          </tr>
+          <tr mg>
+            <td mg><code>hideWeekendStyle</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Removes the visual distinction for weekend days</td>
+          </tr>
+          <tr mg>
+            <td mg><code>hideWeekNumber</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Hides the week number column</td>
+          </tr>
+          <tr mg>
+            <td mg><code>texts</code></td>
+            <td mg><code>MagmaDatetimeTexts | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Override ARIA label for the calendar table</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-datetime-picker</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>datetimeChange</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Emitted on every date/time selection (ISO string formatted according to <code>type</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>[mgDatetimePicker]</code> (directive)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgDatetimePicker</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Initial date/time value</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerType</code></td>
+            <td mg><code>MagmaDatetimeType | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Date/time type (same values as component)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerDisabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Prevents the overlay from opening</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerReadonly</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Opens the picker in read-only mode</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerLang</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Locale for the picker overlay</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerMin</code></td>
+            <td mg><code>string | number | Date | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Minimum selectable date</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerMax</code></td>
+            <td mg><code>string | number | Date | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Maximum selectable date</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerFirstDayOfWeek</code></td>
+            <td mg><code>MagmaDatetimePickerDays</code></td>
+            <td mg>—</td>
+            <td mg>First day of the week</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerWeekend</code></td>
+            <td mg><code>WeekDay[]</code></td>
+            <td mg><code>['Sunday', 'Saturday']</code></td>
+            <td mg>Days treated as weekend</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerhideWeekendStyle</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Removes weekend styling</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDatetimePickerHideWeekNumber</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Hides the week number column</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>[mgDatetimePicker]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>datetimeChange</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Emitted in real time as the user selects a date</td>
+          </tr>
+          <tr mg>
+            <td mg><code>datetimeClose</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Emitted when the overlay closes, only if the value changed</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

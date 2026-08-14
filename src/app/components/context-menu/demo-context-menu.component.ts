@@ -12,6 +12,7 @@ import {
     MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputRadio,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -54,6 +55,7 @@ export class ContextTestComponent extends AbstractContextMenuComponent {
         MagmaInputElement,
         MagmaInputRadio,
         MagmaInputCheckbox,
+        MagmaTabsModule,
     ],
 })
 export class DemoContextMenuComponent {

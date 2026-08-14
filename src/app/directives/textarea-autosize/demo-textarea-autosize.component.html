@@ -1,16 +1,53 @@
 <h1>Textarea autosize</h1>
 
-<div>
-  <div class="s-3 s-12-m">
-    <textarea autosize></textarea>
-  </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-3 s-12-m">
+        <textarea autosize></textarea>
+      </div>
 
-  <div class="s-9 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <div class="s-9 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>textarea[autosize]</code></h4>
+      <p>
+        Automatically resizes a <code>&lt;textarea&gt;</code> to fit its content. Uses the native CSS
+        <code>field-sizing: content</code> when supported, and falls back to the <code>autosize</code> library
+        otherwise.
+      </p>
+
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>autosizeDisabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Disables the autosize behaviour and restores normal textarea sizing</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

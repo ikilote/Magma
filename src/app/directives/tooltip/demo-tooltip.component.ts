@@ -8,6 +8,8 @@ import {
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
     MagmaTooltipDirective,
 } from '@ikilote/magma';
 
@@ -26,6 +28,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputText,
         MagmaInputNumber,
         MagmaInputElement,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoTooltipComponent {

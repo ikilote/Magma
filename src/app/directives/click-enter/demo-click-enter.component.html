@@ -1,50 +1,104 @@
 <h1>Click Enter</h1>
 
-<div>
-  <div class="s-2 s-12-m">
-    <div>Test <span (clickEnter)="click1()" [disabled]="ctrlForm1.value.disabled">Click zone</span> Test</div>
-    <p [formGroup]="ctrlForm1">
-      <mg-input>
-        <mg-input-checkbox mode="toggle" formControlName="disabled">Disabled</mg-input-checkbox>
-      </mg-input>
-    </p>
-  </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-2 s-12-m">
+        <div>Test <span (clickEnter)="click1()" [disabled]="ctrlForm1.value.disabled">Click zone</span> Test</div>
+        <p [formGroup]="ctrlForm1">
+          <mg-input>
+            <mg-input-checkbox mode="toggle" formControlName="disabled">Disabled</mg-input-checkbox>
+          </mg-input>
+        </p>
+      </div>
 
-  <div class="s-2 s-12-m">
-    <pre><code>{{ events1 }}</code></pre>
-  </div>
+      <div class="s-2 s-12-m">
+        <pre><code>{{ events1 }}</code></pre>
+      </div>
 
-  <div class="s-8 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
 
-<div>
-  <div class="s-2 s-12-m">
-    <mg-block (clickEnter)="click2()" [disabled]="ctrlForm2.value.disabled">Click</mg-block>
+    <div>
+      <div class="s-2 s-12-m">
+        <mg-block (clickEnter)="click2()" [disabled]="ctrlForm2.value.disabled">Click</mg-block>
 
-    <p [formGroup]="ctrlForm2">
-      <mg-input>
-        <mg-input-checkbox mode="toggle" formControlName="disabled">Disabled</mg-input-checkbox>
-      </mg-input>
-    </p>
-  </div>
+        <p [formGroup]="ctrlForm2">
+          <mg-input>
+            <mg-input-checkbox mode="toggle" formControlName="disabled">Disabled</mg-input-checkbox>
+          </mg-input>
+        </p>
+      </div>
 
-  <div class="s-2 s-12-m">
-    <pre><code>{{ events2 }}</code></pre>
-  </div>
+      <div class="s-2 s-12-m">
+        <pre><code>{{ events2 }}</code></pre>
+      </div>
 
-  <div class="s-8 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeBlockHtml },
-        { type: 'ts', code: codeTsBlock },
-      ]"
-    />
-  </div>
-</div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeBlockHtml },
+            { type: 'ts', code: codeTsBlock },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[clickEnter]</code></h4>
+      <p>
+        Makes any element behave like a button: adds <code>tabindex="0"</code> and <code>role="button"</code>, then
+        listens for <code>click</code> and <code>keydown.enter</code>.
+      </p>
+
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Disables the click/enter interaction and removes <code>tabindex</code> and <code>role</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>clickEnter</code></td>
+            <td mg><code>KeyboardEvent | MouseEvent</code></td>
+            <td mg>Emitted on mouse click or <kbd>Enter</kbd> keydown when not disabled</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

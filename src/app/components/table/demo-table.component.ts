@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-import { FormBuilderExtended, MagmaInput, MagmaInputCheckbox, MagmaTableModule } from '@ikilote/magma';
+import { FormBuilderExtended, MagmaInput, MagmaInputCheckbox, MagmaTableModule, MagmaTabsModule } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -11,7 +11,14 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-table.component.html',
     styleUrl: './demo-table.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaTableModule, ReactiveFormsModule, MagmaInput, MagmaInputCheckbox, CodeTabsComponent],
+    imports: [
+        MagmaTableModule,
+        ReactiveFormsModule,
+        MagmaInput,
+        MagmaInputCheckbox,
+        CodeTabsComponent,
+        MagmaTabsModule,
+    ],
 })
 export class DemoTableComponent {
     readonly fbe = inject(FormBuilderExtended);

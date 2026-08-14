@@ -1,79 +1,153 @@
 <h1>Loader</h1>
 
-@if (ctrlForm) {
-  <section>
-    <h2 class="s-12">Options</h2>
-    <div class="s-3 s-6-l s-12-s">
-      <mg-input class="s-8">
-        <mg-input-label>loading</mg-input-label>
-        <mg-input-checkbox [(ngModel)]="loadingValue" (ngModelChange)="codeGeneration()" mode="toggle" />
-      </mg-input>
-      <div><button (click)="loadingStart()">Start</button> <button (click)="loadingStop()">Stop</button></div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <div class="s-3 s-6-l s-12-s">
+          <mg-input class="s-8">
+            <mg-input-label>loading</mg-input-label>
+            <mg-input-checkbox [(ngModel)]="loadingValue" (ngModelChange)="codeGeneration()" mode="toggle" />
+          </mg-input>
+          <div><button (click)="loadingStart()">Start</button> <button (click)="loadingStop()">Stop</button></div>
 
-      <h3 class="s-12">Message</h3>
-      <form [formGroup]="ctrlForm">
-        <mg-input class="s-8">
-          <mg-input-label>message</mg-input-label>
-          <mg-input-text formControlName="message" />
-        </mg-input>
-        <h3 class="s-12">Progress</h3>
-        <mg-input class="s-8">
-          <mg-input-label>loaded</mg-input-label>
-          <mg-input-number formControlName="progressLoaded" min="0" noDecimal noNegative />
-        </mg-input>
-        <mg-input class="s-8">
-          <mg-input-label>progressTotal</mg-input-label>
-          <mg-input-number formControlName="progressTotal" min="1" noDecimal noNegative />
-        </mg-input>
-        <mg-input class="s-8">
-          <mg-input-label>progressSizeFormat</mg-input-label>
-          <mg-input-select formControlName="progressSizeFormat" [data]="progressSizeFormatData" />
-        </mg-input>
-      </form>
-    </div>
-    <div class="s-4 s-6-l s-12-s">
-      <h2>Preview</h2>
-      <div class="loader">
-        <mg-loader #loader [(loading)]="loadingValue" (loadingChange)="loadingChange($event)">
-          <mg-spinner />
-          @if (ctrlForm.value.message) {
-            <mg-loader-message>
-              {{ ctrlForm.value.message }}
-            </mg-loader-message>
-          }
-          @if (ctrlForm.value.progressLoaded || ctrlForm.value.progressTotal) {
-            <mg-progress
-              [loaded]="ctrlForm.value.progressLoaded"
-              [total]="ctrlForm.value.progressTotal"
-              [sizeFormat]="ctrlForm.value.progressSizeFormat"
-            />
-          }
-        </mg-loader>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum.
-        </p>
-        <p>
-          Vestibulum sagittis ligula eget ultrices gravida. Donec euismod at odio in laoreet. Aenean a vulputate felis.
-          Nam ultricies massa vitae enim ultricies, vitae pellentesque mauris lacinia. Ut non arcu lacus. Duis vel
-          scelerisque nulla. Vestibulum pulvinar dui enim, ut faucibus urna bibendum ullamcorper. Fusce enim elit,
-          mattis in faucibus sed, convallis sed elit. Sed diam turpis, pulvinar id blandit a, aliquet ac eros. Proin ac
-          cursus elit. Phasellus blandit facilisis nisi in varius. Maecenas interdum posuere elit in egestas. Sed
-          facilisis magna molestie velit ullamcorper tempus. Proin id efficitur dui. Maecenas pharetra nunc a dui porta,
-          egestas scelerisque est maximus. Duis vel imperdiet urna.
-        </p>
-      </div>
-    </div>
-    <div class="s-5 s-12-l">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-}
+          <h3 class="s-12">Message</h3>
+          <form [formGroup]="ctrlForm">
+            <mg-input class="s-8">
+              <mg-input-label>message</mg-input-label>
+              <mg-input-text formControlName="message" />
+            </mg-input>
+            <h3 class="s-12">Progress</h3>
+            <mg-input class="s-8">
+              <mg-input-label>loaded</mg-input-label>
+              <mg-input-number formControlName="progressLoaded" min="0" noDecimal noNegative />
+            </mg-input>
+            <mg-input class="s-8">
+              <mg-input-label>progressTotal</mg-input-label>
+              <mg-input-number formControlName="progressTotal" min="1" noDecimal noNegative />
+            </mg-input>
+            <mg-input class="s-8">
+              <mg-input-label>progressSizeFormat</mg-input-label>
+              <mg-input-select formControlName="progressSizeFormat" [data]="progressSizeFormatData" />
+            </mg-input>
+          </form>
+        </div>
+        <div class="s-4 s-6-l s-12-s">
+          <h2>Preview</h2>
+          <div class="loader">
+            <mg-loader #loader [(loading)]="loadingValue" (loadingChange)="loadingChange($event)">
+              <mg-spinner />
+              @if (ctrlForm.value.message) {
+                <mg-loader-message>
+                  {{ ctrlForm.value.message }}
+                </mg-loader-message>
+              }
+              @if (ctrlForm.value.progressLoaded || ctrlForm.value.progressTotal) {
+                <mg-progress
+                  [loaded]="ctrlForm.value.progressLoaded"
+                  [total]="ctrlForm.value.progressTotal"
+                  [sizeFormat]="ctrlForm.value.progressSizeFormat"
+                />
+              }
+            </mg-loader>
+            <p>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
+              dolore magna aliqua.
+            </p>
+          </div>
+        </div>
+        <div class="s-5 s-12-l">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Model — <code>mg-loader</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Model</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>loading</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Two-way binding. Controls the loading state and the overlay visibility.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-loader</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>loadingChange</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Emitted when the loading state changes (model binding)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Methods — <code>mg-loader</code> (<code>exportAs: 'loader'</code>)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Return</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>start()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Sets <code>loading</code> to <code>true</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>stop()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Sets <code>loading</code> to <code>false</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Child elements</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Selector</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mg-loader-message</code></td>
+            <td mg>Optional text shown inside the loader overlay</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

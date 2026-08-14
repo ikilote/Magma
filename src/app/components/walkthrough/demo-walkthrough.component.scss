@@ -2,3 +2,7 @@
     display: grid;
     grid-template: 'a b c d' / auto auto 1fr auto;
 }
+
+table {
+    width: 100%;
+}

@@ -1,24 +1,58 @@
 <h1>ngInit</h1>
 
-<div>
-  <div class="s-2 s-12-m">
-    <button (click)="add()">Add</button>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-2 s-12-m">
+        <button (click)="add()">Add</button>
 
-    @for (item of items; track $index) {
-      <div (ngInit)="ngInit(item)">item {{ item }}</div>
-    }
-  </div>
+        @for (item of items; track $index) {
+          <div (ngInit)="ngInit(item)">item {{ item }}</div>
+        }
+      </div>
 
-  <div class="s-2 s-12-m">
-    <pre><code>{{ events }}</code></pre>
-  </div>
+      <div class="s-2 s-12-m">
+        <pre><code>{{ events }}</code></pre>
+      </div>
 
-  <div class="s-8 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[ngInit]</code></h4>
+      <p>
+        Emits once when the host element is initialised (<code>ngOnInit</code>). Useful to react to
+        <code>&#64;for</code> items being rendered.
+      </p>
+
+      <h4>Outputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>ngInit</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Emitted exactly once when the element is initialized</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

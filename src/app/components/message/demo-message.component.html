@@ -1,92 +1,142 @@
 <h1>Message</h1>
 
-<h1>Unique block</h1>
-<div>
-  <div class="s-3 s-12-l">
-    <h3>Option</h3>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <h2>Unique block</h2>
     <div>
-      <mg-input class="s-12">
-        <mg-input-select [data]="data" [(ngModel)]="type" (ngModelChange)="codeUpdate()" />
-      </mg-input>
-    </div>
-  </div>
-  <div class="s-6 s-12-l">
-    <mg-message [type]="type">
-      <h1>Test</h1>
-      <p>Test</p>
-    </mg-message>
-  </div>
-  <div class="s-3 s-12-l">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
-
-<h1>Sub-block</h1>
-<div>
-  <div class="s-3 s-12-l"></div>
-  <div class="s-6 s-12-l">
-    <mg-message>
-      <mg-message-block>
-        <p>no type</p>
-      </mg-message-block>
-      <mg-message-block type="info">
-        <p>info</p>
-      </mg-message-block>
-      <mg-message-block type="success">
-        <p>success</p>
-      </mg-message-block>
-      <mg-message-block type="warn">
-        <p>warn</p>
-      </mg-message-block>
-      <mg-message-block type="error">
-        <p>error</p>
-      </mg-message-block>
-      <mg-message-block type="tip">
-        <p>tip</p>
-      </mg-message-block>
-    </mg-message>
-  </div>
-  <div class="s-3 s-12-l">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlSub },
-        { type: 'ts', code: codeTsSub },
-      ]"
-    />
-  </div>
-</div>
-
-<h1>Unique with grid</h1>
-<div>
-  <div class="s-3 s-12-l"></div>
-  <div class="s-6 s-12-l gap">
-    <mg-message [type]="type" class="s-12">
-      <h1>Test</h1>
-      <p>Test</p>
-    </mg-message>
-
-    <mg-message [type]="type" class="s-6">
-      <div>
-        <h1>Test div</h1>
-        <p>Test</p>
+      <div class="s-3 s-12-l">
+        <h3>Option</h3>
+        <div>
+          <mg-input class="s-12">
+            <mg-input-select [data]="data" [(ngModel)]="type" (ngModelChange)="codeUpdate()" />
+          </mg-input>
+        </div>
       </div>
-    </mg-message>
+      <div class="s-6 s-12-l">
+        <mg-message [type]="type">
+          <h1>Test</h1>
+          <p>Test</p>
+        </mg-message>
+      </div>
+      <div class="s-3 s-12-l">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
 
-    <mg-message class="s-6">
-      <p>Test</p>
-    </mg-message>
-  </div>
-  <div class="s-3 s-12-l">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlGrid },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+    <h2>Sub-block</h2>
+    <div>
+      <div class="s-3 s-12-l"></div>
+      <div class="s-6 s-12-l">
+        <mg-message>
+          <mg-message-block>
+            <p>no type</p>
+          </mg-message-block>
+          <mg-message-block type="info">
+            <p>info</p>
+          </mg-message-block>
+          <mg-message-block type="success">
+            <p>success</p>
+          </mg-message-block>
+          <mg-message-block type="warn">
+            <p>warn</p>
+          </mg-message-block>
+          <mg-message-block type="error">
+            <p>error</p>
+          </mg-message-block>
+          <mg-message-block type="tip">
+            <p>tip</p>
+          </mg-message-block>
+        </mg-message>
+      </div>
+      <div class="s-3 s-12-l">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlSub },
+            { type: 'ts', code: codeTsSub },
+          ]"
+        />
+      </div>
+    </div>
+
+    <h2>Unique with grid</h2>
+    <div>
+      <div class="s-3 s-12-l"></div>
+      <div class="s-6 s-12-l gap">
+        <mg-message [type]="type" class="s-12">
+          <h1>Test</h1>
+          <p>Test</p>
+        </mg-message>
+
+        <mg-message [type]="type" class="s-6">
+          <div>
+            <h1>Test div</h1>
+            <p>Test</p>
+          </div>
+        </mg-message>
+
+        <mg-message class="s-6">
+          <p>Test</p>
+        </mg-message>
+      </div>
+      <div class="s-3 s-12-l">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlGrid },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-message</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>type</code></td>
+            <td mg><code>'info' | 'success' | 'warn' | 'error' | 'tip'</code></td>
+            <td mg>—</td>
+            <td mg>Visual theme applied to the block. No type renders a neutral style.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>mg-message-block</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>type</code></td>
+            <td mg><code>'info' | 'success' | 'warn' | 'error' | 'tip'</code></td>
+            <td mg>—</td>
+            <td mg>Type of this sub-block when using <code>mg-message</code> with multiple sections</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

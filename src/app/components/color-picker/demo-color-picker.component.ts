@@ -11,6 +11,8 @@ import {
     MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -82,6 +84,8 @@ export const texts: MagmaColorPickerTexts = {
         MagmaInputElement,
         MagmaInputText,
         MagmaInputCheckbox,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoColorPickerComponent {

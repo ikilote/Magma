@@ -1,38 +1,80 @@
 <h1>Stop Propagation</h1>
 
-<div>
-  <div class="s-6 s-12-m">
-    <div class="s-12" (keydown)="keydown($event)">
-      <mg-input class="s-6">
-        <mg-input-label>no directive</mg-input-label>
-        <mg-input-text />
-      </mg-input>
-      <mg-input stopPropagation stopKeydown class="s-6">
-        <mg-input-label>stopPropagation stopKeydown</mg-input-label>
-        <mg-input-text />
-      </mg-input>
-    </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-6 s-12-m">
+        <div class="s-12" (keydown)="keydown($event)">
+          <mg-input class="s-6">
+            <mg-input-label>no directive</mg-input-label>
+            <mg-input-text />
+          </mg-input>
+          <mg-input stopPropagation stopKeydown class="s-6">
+            <mg-input-label>stopPropagation stopKeydown</mg-input-label>
+            <mg-input-text />
+          </mg-input>
+        </div>
 
-    <div class="s-12" (click)="click($event)">
-      <div class="s-6">
-        <button>no directive</button>
+        <div class="s-12" (click)="click($event)">
+          <div class="s-6">
+            <button>no directive</button>
+          </div>
+          <div class="s-6">
+            <button stopPropagation stopClick>stopPropagation stopClick</button>
+          </div>
+        </div>
+
+        @if (log) {
+          <pre class="s-12"><h4 class="s-12">Log</h4><code class="s-12">{{ log }}</code></pre>
+        }
       </div>
-      <div class="s-6">
-        <button stopPropagation stopClick>stopPropagation stopClick</button>
+
+      <div class="s-6 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
       </div>
     </div>
+  </mg-tab-content>
 
-    @if (log) {
-      <pre class="s-12"><h4 class="s-12">Log</h4><code  class="s-12">{{ log }}</code></pre>
-    }
-  </div>
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[stopPropagation]</code></h4>
+      <p>
+        Enables event propagation blocking on the host element. Add companion boolean attributes
+        (<code>stopClick</code>, <code>stopKeydown</code>) to choose which events to stop.
+      </p>
 
-  <div class="s-6 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>stopClick</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Calls <code>stopPropagation()</code> on <code>click</code> events</td>
+          </tr>
+          <tr mg>
+            <td mg><code>stopKeydown</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Calls <code>stopPropagation()</code> on <code>keydown</code> events</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

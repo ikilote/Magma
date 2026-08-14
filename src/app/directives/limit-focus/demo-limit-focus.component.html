@@ -1,91 +1,61 @@
 <h1>limitFocus & limitFocusFirst</h1>
 
-<div>
-  <div class="s-4 s-12-m">
-    <div limitFocus #limit="limitFocus">
-      <p>
-        <button class="hide">Test 0</button>
-        <button>Test 1</button>
-        <button limitFocusFirst="1">Test 2</button>
-        <button class="hide">Test 3</button>
-        <button>Test 4</button>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>Test 5</mg-input-label>
-          <mg-input-text />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>Test 6</mg-input-label>
-          <mg-input-textarea />
-        </mg-input>
-        <button tabIndex="-1">Test 7</button>
-        <button class="hidden">Test 8</button>
-        <span class="hide">
-          <button>Test 9</button>
-        </span>
-      </p>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-4 s-12-m">
+        <div limitFocus #limit="limitFocus">
+          <p>
+            <button class="hide">Test 0</button>
+            <button>Test 1</button>
+            <button limitFocusFirst="1">Test 2</button>
+            <button class="hide">Test 3</button>
+            <button>Test 4</button>
+          </p>
+          <p>
+            <mg-input>
+              <mg-input-label>Test 5</mg-input-label>
+              <mg-input-text />
+            </mg-input>
+          </p>
+          <p>
+            <mg-input>
+              <mg-input-label>Test 6</mg-input-label>
+              <mg-input-textarea />
+            </mg-input>
+            <button tabIndex="-1">Test 7</button>
+            <button class="hidden">Test 8</button>
+            <span class="hide">
+              <button>Test 9</button>
+            </span>
+          </p>
+        </div>
+
+        <p>
+          <button (click)="limit.focus()">Focus</button>
+        </p>
+      </div>
+
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+            { type: 'css', code: codeCss },
+          ]"
+        />
+      </div>
     </div>
 
-    <p>
-      <button (click)="limit.focus()">Focus</button>
-    </p>
-  </div>
+    <h2>Other tests</h2>
 
-  <div class="s-8 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-        { type: 'css', code: codeCss },
-      ]"
-    />
-  </div>
-</div>
+    <mg-block>
+      <button (click)="dialog.open()">Dialog</button> <button (click)="dialogTabs.open()">Dialog + Tabs</button>
+    </mg-block>
 
-<h2>Other tests</h2>
-
-<mg-block>
-  <button (click)="dialog.open()">Dialog</button> <button (click)="dialogTabs.open()">Dialog + Tabs</button>
-</mg-block>
-
-<mg-dialog #dialog closeBackdrop closeButton>
-  <h2>Test in dialog</h2>
-  <div limitFocus>
-    <p>
-      <button class="hide">Test 0</button>
-      <button>Test 1</button>
-      <button limitFocusFirst="1">Test 2</button>
-      <button class="hide">Test 3</button>
-      <button>Test 4</button>
-    </p>
-    <p>
-      <mg-input>
-        <mg-input-label>Test 5</mg-input-label>
-        <mg-input-text />
-      </mg-input>
-    </p>
-    <p>
-      <mg-input>
-        <mg-input-label>Test 6</mg-input-label>
-        <mg-input-textarea />
-      </mg-input>
-      <button tabIndex="-1">Test 7</button>
-      <button class="hidden">Test 8</button>
-      <span class="hide">
-        <button>Test 9</button>
-      </span>
-    </p>
-  </div>
-</mg-dialog>
-
-<mg-dialog #dialogTabs closeBackdrop closeButton>
-  <h2>Test in dialog</h2>
-  <mg-tabs>
-    <mg-tab-title id="tab1">Test 1</mg-tab-title>
-    <mg-tab-content id="tab1">
+    <mg-dialog #dialog closeBackdrop closeButton>
+      <h2>Test in dialog</h2>
       <div limitFocus>
         <p>
           <button class="hide">Test 0</button>
@@ -112,35 +82,121 @@
           </span>
         </p>
       </div>
-    </mg-tab-content>
-    <mg-tab-title id="tab2">Test 2</mg-tab-title>
-    <mg-tab-content id="tab2">
-      <div limitFocus>
-        <p>
-          <button class="hide">Test 0</button>
-          <button>Test 1</button>
-          <button limitFocusFirst="1">Test 2</button>
-          <button class="hide">Test 3</button>
-          <button>Test 4</button>
-        </p>
-        <p>
-          <mg-input>
-            <mg-input-label>Test 5</mg-input-label>
-            <mg-input-text />
-          </mg-input>
-        </p>
-        <p>
-          <mg-input>
-            <mg-input-label>Test 6</mg-input-label>
-            <mg-input-textarea />
-          </mg-input>
-          <button tabIndex="-1">Test 7</button>
-          <button class="hidden">Test 8</button>
-          <span class="hide">
-            <button>Test 9</button>
-          </span>
-        </p>
-      </div>
-    </mg-tab-content>
-  </mg-tabs>
-</mg-dialog>
+    </mg-dialog>
+
+    <mg-dialog #dialogTabs closeBackdrop closeButton>
+      <h2>Test in dialog</h2>
+      <mg-tabs>
+        <mg-tab-title id="tab1">Test 1</mg-tab-title>
+        <mg-tab-content id="tab1">
+          <div limitFocus>
+            <p>
+              <button class="hide">Test 0</button>
+              <button>Test 1</button>
+              <button limitFocusFirst="1">Test 2</button>
+              <button class="hide">Test 3</button>
+              <button>Test 4</button>
+            </p>
+            <p>
+              <mg-input>
+                <mg-input-label>Test 5</mg-input-label>
+                <mg-input-text />
+              </mg-input>
+            </p>
+            <p>
+              <mg-input>
+                <mg-input-label>Test 6</mg-input-label>
+                <mg-input-textarea />
+              </mg-input>
+              <button tabIndex="-1">Test 7</button>
+              <button class="hidden">Test 8</button>
+              <span class="hide">
+                <button>Test 9</button>
+              </span>
+            </p>
+          </div>
+        </mg-tab-content>
+        <mg-tab-title id="tab2">Test 2</mg-tab-title>
+        <mg-tab-content id="tab2">
+          <div limitFocus>
+            <p>
+              <button class="hide">Test 0</button>
+              <button>Test 1</button>
+              <button limitFocusFirst="1">Test 2</button>
+              <button class="hide">Test 3</button>
+              <button>Test 4</button>
+            </p>
+            <p>
+              <mg-input>
+                <mg-input-label>Test 5</mg-input-label>
+                <mg-input-text />
+              </mg-input>
+            </p>
+            <p>
+              <mg-input>
+                <mg-input-label>Test 6</mg-input-label>
+                <mg-input-textarea />
+              </mg-input>
+              <button tabIndex="-1">Test 7</button>
+              <button class="hidden">Test 8</button>
+              <span class="hide">
+                <button>Test 9</button>
+              </span>
+            </p>
+          </div>
+        </mg-tab-content>
+      </mg-tabs>
+    </mg-dialog>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[limitFocus]</code></h4>
+      <p>
+        <em>exportAs: <code>'limitFocus'</code></em
+        >. Traps keyboard focus within the host element: <kbd>Tab</kbd> and <kbd>Shift+Tab</kbd> cycle through focusable
+        children only. Focus returns to the origin element on destroy. Hidden or <code>tabindex="-1"</code> elements are
+        automatically excluded. A <code>MutationObserver</code> keeps the list up to date.
+      </p>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Return</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>focus()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Gives focus to the child with the lowest <code>limitFocusFirst</code> value</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Selector — <code>[limitFocusFirst]</code></h4>
+      <p>
+        Marks a focusable child as a priority focus target. When <code>limit.focus()</code> is called, the element with
+        the lowest numeric value gets focus.
+      </p>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>limitFocusFirst</code> <em>(required)</em></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg>Priority value — lower = focused first</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

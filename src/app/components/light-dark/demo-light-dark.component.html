@@ -1,37 +1,116 @@
 <h1>Light-dark</h1>
 
-<h2>Component</h2>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <h2>Component</h2>
 
-<section>
-  <div class="s-4 s-12-m">
-    <mg-light-dark />
-  </div>
-  <div class="s-8 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</section>
+    <section>
+      <div class="s-4 s-12-m">
+        <mg-light-dark />
+      </div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </section>
 
-<section>
-  <div class="s-4 s-12-m">
-    <mg-light-dark compact />
-  </div>
-  <div class="s-8 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlCompact },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</section>
+    <section>
+      <div class="s-4 s-12-m">
+        <mg-light-dark compact />
+      </div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlCompact },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </section>
 
-<h2>Service</h2>
+    <h2>Service</h2>
 
-<section>
-  <div class="s-12"><code-tabs [code]="[{ type: 'ts', code: codeTsService }]" /></div>
-</section>
+    <section>
+      <div class="s-12"><code-tabs [code]="[{ type: 'ts', code: codeTsService }]" /></div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-light-dark</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>compact</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>
+              When <code>true</code>, clicking the component directly toggles the theme (no dropdown). When
+              <code>false</code>, opens a dropdown with Light / Dark / System options.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-light-dark</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>themeChange</code></td>
+            <td mg><code>PreferenceInterfaceTheme</code></td>
+            <td mg>Emitted when the user switches theme</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Service — <code>LightDark</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>init</code></td>
+            <td mg><code>(preference?: 'light' | 'dark') => void</code></td>
+            <td mg>Initialises the theme. Without argument, uses the browser preference.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>toggleTheme</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Toggles between light and dark</td>
+          </tr>
+          <tr mg>
+            <td mg><code>changeThemeClass</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Applies the current theme class to <code>document.body</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

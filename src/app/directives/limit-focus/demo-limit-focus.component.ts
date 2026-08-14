@@ -10,6 +10,7 @@ import {
     MagmaInputTextarea,
     MagmaLimitFocusDirective,
     MagmaLimitFocusFirstDirective,
+    MagmaTableModule,
     MagmaTabsModule,
 } from '@ikilote/magma';
 
@@ -31,6 +32,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaBlock,
         MagmaDialog,
         MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoLimitFocusComponent {

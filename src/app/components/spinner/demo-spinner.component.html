@@ -1,43 +1,85 @@
 <h1>Spinner</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
-      <h2 class="s-12">Options</h2>
-      <mg-input class="s-8">
-        <mg-input-label>size</mg-input-label>
-        <mg-input-number formControlName="size" min="2" noDecimal noNegative />
-        <mg-input-suffix>px</mg-input-suffix>
-        <mg-input-desc>default.: <code>80</code></mg-input-desc>
-      </mg-input>
-      <mg-input class="s-8">
-        <mg-input-label>tickWidth</mg-input-label>
-        <mg-input-number formControlName="tickWidth" min="1" noDecimal noNegative />
-        <mg-input-suffix>px</mg-input-suffix>
-        <mg-input-desc>default.: <code>6</code></mg-input-desc>
-      </mg-input>
-      <mg-input class="s-8">
-        <mg-input-label>radius</mg-input-label>
-        <mg-input-number formControlName="radius" min="0" noDecimal noNegative />
-        <mg-input-suffix>px</mg-input-suffix>
-        <mg-input-desc>default.: <code>0</code></mg-input-desc>
-      </mg-input>
-    </form>
-    <div class="s-4 s-6-l s-12-s">
-      <h2>Preview</h2>
-      <mg-spinner
-        [size]="ctrlForm.value.size"
-        [tickWidth]="ctrlForm.value.tickWidth"
-        [radius]="ctrlForm.value.radius"
-      />
-    </div>
-    <div class="s-5 s-12-l">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-}
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+          <h2 class="s-12">Options</h2>
+          <mg-input class="s-8">
+            <mg-input-label>size</mg-input-label>
+            <mg-input-number formControlName="size" min="2" noDecimal noNegative />
+            <mg-input-suffix>px</mg-input-suffix>
+            <mg-input-desc>default.: <code>80</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-8">
+            <mg-input-label>tickWidth</mg-input-label>
+            <mg-input-number formControlName="tickWidth" min="1" noDecimal noNegative />
+            <mg-input-suffix>px</mg-input-suffix>
+            <mg-input-desc>default.: <code>6</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-8">
+            <mg-input-label>radius</mg-input-label>
+            <mg-input-number formControlName="radius" min="0" noDecimal noNegative />
+            <mg-input-suffix>px</mg-input-suffix>
+            <mg-input-desc>default.: <code>0</code></mg-input-desc>
+          </mg-input>
+        </form>
+        <div class="s-4 s-6-l s-12-s">
+          <h2>Preview</h2>
+          <mg-spinner
+            [size]="ctrlForm.value.size"
+            [tickWidth]="ctrlForm.value.tickWidth"
+            [radius]="ctrlForm.value.radius"
+          />
+        </div>
+        <div class="s-5 s-12-l">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-spinner</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>size</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>80</code></td>
+            <td mg>Overall size in px (sets CSS var <code>--height</code> / <code>--width</code>)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>tickWidth</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>6</code></td>
+            <td mg>Width of each tick in px (CSS var <code>--width</code>)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>radius</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>0</code></td>
+            <td mg>Border radius of each tick in px (CSS var <code>--radius</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

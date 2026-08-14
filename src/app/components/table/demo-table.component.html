@@ -1,428 +1,196 @@
 <h1>Table</h1>
 
-<div>
-  <div [formGroup]="form" class="s-4 s-12-l">
-    <h3 class="s-12">Dynamics test</h3>
-    <mg-input>
-      <mg-input-checkbox formControlName="row">Row</mg-input-checkbox>
-    </mg-input>
-    <mg-input>
-      <mg-input-checkbox formControlName="col">Col</mg-input-checkbox>
-    </mg-input>
-    <h3 class="s-12">Mouse over</h3>
-    <mg-input>
-      <mg-input-checkbox formControlName="hover">hover</mg-input-checkbox>
-    </mg-input>
-    <mg-input>
-      <mg-input-checkbox formControlName="hoverCell">hoverCell</mg-input-checkbox>
-    </mg-input>
-    <mg-input>
-      <mg-input-checkbox formControlName="hoverRow">hoverRow</mg-input-checkbox>
-    </mg-input>
-    <mg-input>
-      <mg-input-checkbox formControlName="hoverCol">hoverCol</mg-input-checkbox>
-    </mg-input>
-    <h3 class="s-12">Header</h3>
-    <mg-input>
-      <mg-input-checkbox formControlName="sticky">sticky header</mg-input-checkbox>
-    </mg-input>
-    <h3 class="s-12">Row</h3>
-    <mg-input>
-      <mg-input-checkbox formControlName="baseline">baseline</mg-input-checkbox>
-    </mg-input>
-  </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div [formGroup]="form" class="s-4 s-12-l">
+        <h3 class="s-12">Dynamics test</h3>
+        <mg-input>
+          <mg-input-checkbox formControlName="row">Row</mg-input-checkbox>
+        </mg-input>
+        <mg-input>
+          <mg-input-checkbox formControlName="col">Col</mg-input-checkbox>
+        </mg-input>
+        <h3 class="s-12">Mouse over</h3>
+        <mg-input>
+          <mg-input-checkbox formControlName="hover">hover</mg-input-checkbox>
+        </mg-input>
+        <mg-input>
+          <mg-input-checkbox formControlName="hoverCell">hoverCell</mg-input-checkbox>
+        </mg-input>
+        <mg-input>
+          <mg-input-checkbox formControlName="hoverRow">hoverRow</mg-input-checkbox>
+        </mg-input>
+        <mg-input>
+          <mg-input-checkbox formControlName="hoverCol">hoverCol</mg-input-checkbox>
+        </mg-input>
+        <h3 class="s-12">Header</h3>
+        <mg-input>
+          <mg-input-checkbox formControlName="sticky">sticky header</mg-input-checkbox>
+        </mg-input>
+        <h3 class="s-12">Row</h3>
+        <mg-input>
+          <mg-input-checkbox formControlName="baseline">baseline</mg-input-checkbox>
+        </mg-input>
+      </div>
 
-  <table
-    class="s-4 s-12-l"
-    mg
-    [hover]="form.value.hover"
-    [hoverCell]="form.value.hoverCell"
-    [hoverRow]="form.value.hoverRow"
-    [hoverCol]="form.value.hoverCol"
-  >
-    <thead mg [sticky]="form.value.sticky">
-      <tr mg>
-        <th mg>Test 1</th>
-        <th mg>Test 2</th>
-        <th mg>Test 3</th>
-        @if (form.value.col) {
-          <th mg>Test 4</th>
-        }
-        <th mg>Test 5</th>
-      </tr>
-    </thead>
-    <tbody mg>
-      <tr mg [baseline]="form.value.baseline">
-        <td mg>Test La test<br />dede</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      @if (form.value.row) {
-        <tr mg>
-          <td mg>Test 1</td>
-          <td mg>Test 2</td>
-          <td mg>Test 3</td>
-          @if (form.value.col) {
-            <td mg>Test 4</td>
+      <table
+        class="s-4 s-12-l"
+        mg
+        [hover]="form.value.hover"
+        [hoverCell]="form.value.hoverCell"
+        [hoverRow]="form.value.hoverRow"
+        [hoverCol]="form.value.hoverCol"
+      >
+        <thead mg [sticky]="form.value.sticky">
+          <tr mg>
+            <th mg>Test 1</th>
+            <th mg>Test 2</th>
+            <th mg>Test 3</th>
+            @if (form.value.col) {
+              <th mg>Test 4</th>
+            }
+            <th mg>Test 5</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg [baseline]="form.value.baseline">
+            <td mg>Test La test<br />dede</td>
+            <td mg>Test</td>
+            <td mg>Test</td>
+            @if (form.value.col) {
+              <td mg>Test</td>
+            }
+            <td mg>Test</td>
+          </tr>
+          @if (form.value.row) {
+            <tr mg>
+              <td mg>Test 1</td>
+              <td mg>Test 2</td>
+              <td mg>Test 3</td>
+              @if (form.value.col) {
+                <td mg>Test 4</td>
+              }
+              <td mg>Test 5</td>
+            </tr>
           }
-          <td mg>Test 5</td>
-        </tr>
-      }
-      <tr mg>
-        <td mg>Test A</td>
-        <td mg>Test B</td>
-        <td mg>Test C</td>
-        @if (form.value.col) {
-          <td mg>Test D</td>
-        }
-        <td mg>Test E</td>
-      </tr>
-      <tr mg>
-        <td mg>Test F</td>
-        <td mg>Test G</td>
-        <td mg>Test H</td>
-        @if (form.value.col) {
-          <td mg>Test I</td>
-        }
-        <td mg>Test J</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-      <tr mg>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        <td mg>Test</td>
-        @if (form.value.col) {
-          <td mg>Test</td>
-        }
-        <td mg>Test</td>
-      </tr>
-    </tbody>
-  </table>
+          @for (
+            i of [
+              0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28,
+              29, 30, 31, 32, 33, 34, 35,
+            ];
+            track i
+          ) {
+            <tr mg>
+              <td mg>Test A</td>
+              <td mg>Test B</td>
+              <td mg>Test C</td>
+              @if (form.value.col) {
+                <td mg>Test D</td>
+              }
+              <td mg>Test E</td>
+            </tr>
+          }
+        </tbody>
+      </table>
 
-  <div [formGroup]="form" class="s-4 s-12-l">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <div [formGroup]="form" class="s-4 s-12-l">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>table[mg]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>hover</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Highlights hovered row and column simultaneously</td>
+          </tr>
+          <tr mg>
+            <td mg><code>hoverRow</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Highlights the entire hovered row</td>
+          </tr>
+          <tr mg>
+            <td mg><code>hoverCol</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Highlights the entire hovered column</td>
+          </tr>
+          <tr mg>
+            <td mg><code>hoverCell</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Highlights only the hovered cell</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>thead[mg]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>sticky</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Makes the header row sticky while scrolling</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>tr[mg]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>baseline</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Aligns cell content to baseline instead of middle</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        All other native elements (<code>tbody</code>, <code>th</code>, <code>td</code>) just need the
+        <code>mg</code> attribute to receive the table styles.
+      </p>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

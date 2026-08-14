@@ -1,155 +1,354 @@
 <h1>Windows</h1>
 
-<section>
-  <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlFormZone">
-    <h3>Options</h3>
-    <p>
-      <mg-input class="s-12">
-        <mg-input-label>Component</mg-input-label>
-        <mg-input-select formControlName="component" [data]="component" />
-      </mg-input>
-    </p>
-    <p>
-      <mg-input class="s-4">
-        <mg-input-label>Position</mg-input-label>
-        <mg-input-select formControlName="position" [data]="position" />
-      </mg-input>
-      @if (ctrlFormZone.value.position === 'define') {
-        <mg-input class="s-4">
-          <mg-input-prefix>x</mg-input-prefix>
-          <mg-input-number formControlName="posX" /><mg-input-suffix>px</mg-input-suffix>
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-prefix>y</mg-input-prefix>
-          <mg-input-number formControlName="posY" /><mg-input-suffix>px</mg-input-suffix>
-        </mg-input>
-      }
-    </p>
-    <h4>Title bar</h4>
-    <p>
-      <mg-input class="s-4">
-        <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>type</mg-input-label>
-        <mg-input-select formControlName="barType" [data]="type" />
-      </mg-input>
-      @if (ctrlFormZone.value.barType === 'string') {
-        <mg-input class="s-4">
-          <mg-input-label>title</mg-input-label>
-          <mg-input-text formControlName="barTitle" />
-        </mg-input>
-      }
-      <mg-input class="s-4">
-        <mg-input-label>buttons</mg-input-label>
-        <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
-      </mg-input>
-    </p>
-    <h4>Window size</h4>
-    <p>
-      <mg-input class="s-4">
-        <mg-input-label>width</mg-input-label>
-        <mg-input-text formControlName="width" />
-        <mg-input-desc>px, %, etc.</mg-input-desc>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>minWidth</mg-input-label>
-        <mg-input-text formControlName="minWidth" />
-        <mg-input-desc>px, %, etc.</mg-input-desc>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>maxWidth</mg-input-label>
-        <mg-input-text formControlName="maxWidth" />
-        <mg-input-desc>px, %, etc.</mg-input-desc>
-      </mg-input>
-    </p>
-    <p>
-      <mg-input class="s-4">
-        <mg-input-label>height</mg-input-label>
-        <mg-input-text formControlName="height" />
-        <mg-input-desc>px, %, etc.</mg-input-desc>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>minHeight</mg-input-label>
-        <mg-input-text formControlName="minHeight" />
-        <mg-input-desc>px, %, etc.</mg-input-desc>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>maxHeight</mg-input-label>
-        <mg-input-text formControlName="maxHeight" />
-        <mg-input-desc>px, %, etc.</mg-input-desc>
-      </mg-input>
-    </p>
-    <p>
-      <mg-input class="s-4">
-        <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-label>fixed</mg-input-label>
-        <mg-input-select formControlName="fixed" [data]="fixed" />
-      </mg-input>
-      <mg-input class="s-4">
-        <mg-input-checkbox formControlName="over">over</mg-input-checkbox>
-      </mg-input>
-    </p>
-  </form>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlFormZone">
+        <h3>Options</h3>
+        <p>
+          <mg-input class="s-12">
+            <mg-input-label>Component</mg-input-label>
+            <mg-input-select formControlName="component" [data]="component" />
+          </mg-input>
+        </p>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-label>Position</mg-input-label>
+            <mg-input-select formControlName="position" [data]="position" />
+          </mg-input>
+          @if (ctrlFormZone.value.position === 'define') {
+            <mg-input class="s-4">
+              <mg-input-prefix>x</mg-input-prefix>
+              <mg-input-number formControlName="posX" /><mg-input-suffix>px</mg-input-suffix>
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-prefix>y</mg-input-prefix>
+              <mg-input-number formControlName="posY" /><mg-input-suffix>px</mg-input-suffix>
+            </mg-input>
+          }
+        </p>
+        <h4>Title bar</h4>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>type</mg-input-label>
+            <mg-input-select formControlName="barType" [data]="type" />
+          </mg-input>
+          @if (ctrlFormZone.value.barType === 'string') {
+            <mg-input class="s-4">
+              <mg-input-label>title</mg-input-label>
+              <mg-input-text formControlName="barTitle" />
+            </mg-input>
+          }
+          <mg-input class="s-4">
+            <mg-input-label>buttons</mg-input-label>
+            <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
+          </mg-input>
+        </p>
+        <h4>Window size</h4>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-label>width</mg-input-label>
+            <mg-input-text formControlName="width" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>minWidth</mg-input-label>
+            <mg-input-text formControlName="minWidth" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>maxWidth</mg-input-label>
+            <mg-input-text formControlName="maxWidth" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+        </p>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-label>height</mg-input-label>
+            <mg-input-text formControlName="height" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>minHeight</mg-input-label>
+            <mg-input-text formControlName="minHeight" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>maxHeight</mg-input-label>
+            <mg-input-text formControlName="maxHeight" />
+            <mg-input-desc>px, %, etc.</mg-input-desc>
+          </mg-input>
+        </p>
+        <p>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-label>fixed</mg-input-label>
+            <mg-input-select formControlName="fixed" [data]="fixed" />
+          </mg-input>
+          <mg-input class="s-4">
+            <mg-input-checkbox formControlName="over">over</mg-input-checkbox>
+          </mg-input>
+        </p>
+      </form>
 
-  <div class="s-8 s-12-s">
-    <h3>Test</h3>
-    @let componentName = ctrlFormZone.value.component.className | string: 'replace' : '_' : '';
-    <button (click)="openWindow()">Open <code>mg-window</code> with "{{ componentName }}" component</button>
+      <div class="s-8 s-12-s">
+        <h3>Test</h3>
+        @let componentName = ctrlFormZone.value.component.className | string: 'replace' : '_' : '';
+        <button (click)="openWindow()">Open <code>mg-window</code> with "{{ componentName }}" component</button>
 
-    <h3>Open windows</h3>
-    @if (windows.windows.length === 0) {
-      <p class="no-windows">No windows open.</p>
-    } @else {
+        <h3>Open windows</h3>
+        @if (windows.windows.length === 0) {
+          <p class="no-windows">No windows open.</p>
+        } @else {
+          <table mg>
+            <thead mg>
+              <tr mg>
+                <th mg>ID</th>
+                <th mg>Title</th>
+                <th mg>Position</th>
+                <th mg>Actions</th>
+              </tr>
+            </thead>
+            <tbody mg>
+              @for (win of windows.windows; track win.id) {
+                <tr mg>
+                  <td mg>
+                    <code>{{ win.id }}</code>
+                  </td>
+                  <td mg>{{ win.bar?.title || '—' }}</td>
+                  <td mg>
+                    @let pos = windows.getWindowPosition(win.id);
+                    @if (pos) {
+                      {{ pos.x }}, {{ pos.y }}
+                    } @else {
+                      —
+                    }
+                  </td>
+                  <td mg class="actions">
+                    <button (click)="windows.minimizeWindowById(win.id)" title="Minimize">
+                      <span class="icon-arrow-down"></span>
+                    </button>
+                    <button (click)="windows.restoreWindowById(win.id)" title="Restore">
+                      <span class="icon-minimize-2"></span>
+                    </button>
+                    <button (click)="windows.removeWindowById(win.id)" title="Close">
+                      <span class="icon-remove"></span>
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+
+        <h3>Code</h3>
+        <code-tabs
+          [code]="[
+            { type: 'ts', code: codeTsZone },
+            { type: 'ts', title: 'component', code: codeComponent[componentName] },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Service — <code>MagmaWindows</code></h4>
+      <p>
+        Injectable service that opens Angular components in floating, draggable overlay windows. Windows are managed
+        globally via CDK Overlay and a <code>MagmaWindowsZone</code> container.
+      </p>
+
+      <h4>Methods</h4>
       <table mg>
         <thead mg>
           <tr mg>
-            <th mg>ID</th>
-            <th mg>Title</th>
-            <th mg>Position</th>
-            <th mg>Actions</th>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
           </tr>
         </thead>
         <tbody mg>
-          @for (win of windows.windows; track win.id) {
-            <tr mg>
-              <td mg>
-                <code>{{ win.id }}</code>
-              </td>
-              <td mg>{{ win.bar?.title || '—' }}</td>
-              <td mg>
-                @let pos = windows.getWindowPosition(win.id);
-                @if (pos) {
-                  {{ pos.x }}, {{ pos.y }}
-                } @else {
-                  —
-                }
-              </td>
-              <td mg class="actions">
-                <button (click)="windows.minimizeWindowById(win.id)" title="Minimize">
-                  <span class="icon-arrow-down"></span>
-                </button>
-                <button (click)="windows.restoreWindowById(win.id)" title="Restore">
-                  <span class="icon-minimize-2"></span>
-                </button>
-                <button (click)="windows.removeWindowById(win.id)" title="Close">
-                  <span class="icon-remove"></span>
-                </button>
-              </td>
-            </tr>
-          }
+          <tr mg>
+            <td mg><code>openWindow</code></td>
+            <td mg>
+              <code
+                >(component: Type&lt;unknown&gt;, params?: MagmaWindowInitParams, focus?: boolean) =>
+                MagmaWindowInfos</code
+              >
+            </td>
+            <td mg>Opens a new window containing the given component. Returns the window info object.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>removeWindow</code></td>
+            <td mg><code>(window: MagmaWindowInfos) => void</code></td>
+            <td mg>Closes and removes a window by its info object</td>
+          </tr>
+          <tr mg>
+            <td mg><code>removeWindowById</code></td>
+            <td mg><code>(id: string) => void</code></td>
+            <td mg>Closes and removes a window by its id</td>
+          </tr>
+          <tr mg>
+            <td mg><code>focusWindowById</code></td>
+            <td mg><code>(id: string) => void</code></td>
+            <td mg>Brings a window to the front</td>
+          </tr>
+          <tr mg>
+            <td mg><code>minimizeWindowById</code></td>
+            <td mg><code>(id: string) => void</code></td>
+            <td mg>Minimizes a window (hidden but still registered)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>restoreWindowById</code></td>
+            <td mg><code>(id: string) => void</code></td>
+            <td mg>Restores a minimized window</td>
+          </tr>
+          <tr mg>
+            <td mg><code>getWindowPosition</code></td>
+            <td mg><code>(id: string) => MagmaWindowPosition | null</code></td>
+            <td mg>Returns the current <code>&#123; x, y &#125;</code> position of a window, or <code>null</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>getWindowInstance</code></td>
+            <td mg><code>(id: string) => MagmaWindow | null</code></td>
+            <td mg>Returns the <code>MagmaWindow</code> component instance</td>
+          </tr>
+          <tr mg>
+            <td mg><code>getWindowData</code></td>
+            <td mg><code>(id: string) => MagmaWindowInfos | null</code></td>
+            <td mg>Returns the metadata object for a window</td>
+          </tr>
         </tbody>
       </table>
-    }
 
-    <h3>Code</h3>
-    <code-tabs
-      [code]="[
-        { type: 'ts', code: codeTsZone },
-        { type: 'ts', title: 'component', code: codeComponent[componentName] },
-      ]"
-    />
-  </div>
-</section>
+      <h4>Properties</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>windows</code></td>
+            <td mg><code>MagmaWindowInfos[]</code></td>
+            <td mg>All currently open windows</td>
+          </tr>
+          <tr mg>
+            <td mg><code>onAddWindow</code></td>
+            <td mg><code>Subject&lt;MagmaWindowInfos&gt;</code></td>
+            <td mg>Emits when a window is opened</td>
+          </tr>
+          <tr mg>
+            <td mg><code>onRemoveWindow</code></td>
+            <td mg><code>Subject&lt;string&gt;</code></td>
+            <td mg>Emits the id when a window is closed</td>
+          </tr>
+          <tr mg>
+            <td mg><code>onMinimizeWindow</code></td>
+            <td mg><code>Subject&lt;string&gt;</code></td>
+            <td mg>Emits the id when a window is minimized</td>
+          </tr>
+          <tr mg>
+            <td mg><code>onRestoreWindow</code></td>
+            <td mg><code>Subject&lt;string&gt;</code></td>
+            <td mg>Emits the id when a window is restored</td>
+          </tr>
+          <tr mg>
+            <td mg><code>onFocusWindow</code></td>
+            <td mg><code>Subject&lt;string&gt;</code></td>
+            <td mg>Emits the id when a window is focused</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4><code>MagmaWindowInitParams</code> — window configuration</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>position</code></td>
+            <td mg><code>'default' | 'center' | &#123; x: number; y: number &#125;</code></td>
+            <td mg>Initial position of the window</td>
+          </tr>
+          <tr mg>
+            <td mg><code>bar</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Shows the title bar</td>
+          </tr>
+          <tr mg>
+            <td mg><code>barTitle</code></td>
+            <td mg><code>string | Type&lt;unknown&gt;</code></td>
+            <td mg>Title string or a component rendered in the bar</td>
+          </tr>
+          <tr mg>
+            <td mg><code>barButtons</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Shows minimize / maximize / close buttons in the bar</td>
+          </tr>
+          <tr mg>
+            <td mg><code>width / minWidth / maxWidth / height / minHeight / maxHeight</code></td>
+            <td mg><code>string</code></td>
+            <td mg>CSS size constraints for the window</td>
+          </tr>
+          <tr mg>
+            <td mg><code>fixed</code></td>
+            <td mg><code>boolean | 'top' | 'bottom' | 'left' | 'right'</code></td>
+            <td mg>Fixes the window to an edge or disables dragging</td>
+          </tr>
+          <tr mg>
+            <td mg><code>over</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Renders above all other windows (z-index bump)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>inputs</code></td>
+            <td mg><code>Record&lt;string, unknown&gt;</code></td>
+            <td mg>Inputs forwarded to the hosted component</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Creating window content — <code>AbstractWindowComponent</code></h4>
+      <p>Components hosted inside a window should extend <code>AbstractWindowComponent</code>.</p>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Member</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>parent</code> <em>(required input)</em></td>
+            <td mg><code>MagmaWindow</code></td>
+            <td mg>Reference to the hosting window, injected automatically</td>
+          </tr>
+          <tr mg>
+            <td mg><code>close()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Closes the parent window</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

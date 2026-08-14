@@ -1,97 +1,199 @@
 <h1>Paginate</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
-      <mg-input class="s-12">
-        <mg-input-label>linkId</mg-input-label>
-        <mg-input-text formControlName="linkId" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>page</mg-input-label>
-        <mg-input-number formControlName="page" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>total</mg-input-label>
-        <mg-input-number formControlName="total" />
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>base</mg-input-label>
-        <mg-input-text formControlName="base" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>size</mg-input-label>
-        <mg-input-number formControlName="size" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>start</mg-input-label>
-        <mg-input-number formControlName="start" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>middleStart</mg-input-label>
-        <mg-input-number formControlName="middleStart" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>middleEnd</mg-input-label>
-        <mg-input-number formControlName="middleEnd" />
-      </mg-input>
-      <mg-input class="s-6">
-        <mg-input-label>end</mg-input-label>
-        <mg-input-number formControlName="end" />
-      </mg-input>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+          <mg-input class="s-12">
+            <mg-input-label>linkId</mg-input-label>
+            <mg-input-text formControlName="linkId" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>page</mg-input-label>
+            <mg-input-number formControlName="page" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>total</mg-input-label>
+            <mg-input-number formControlName="total" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>base</mg-input-label>
+            <mg-input-text formControlName="base" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>size</mg-input-label>
+            <mg-input-number formControlName="size" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>start</mg-input-label>
+            <mg-input-number formControlName="start" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>middleStart</mg-input-label>
+            <mg-input-number formControlName="middleStart" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>middleEnd</mg-input-label>
+            <mg-input-number formControlName="middleEnd" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>end</mg-input-label>
+            <mg-input-number formControlName="end" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>showTotal</mg-input-label>
+            <mg-input-checkbox formControlName="showTotal" mode="toggle" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>textTotal</mg-input-label>
+            <mg-input-text formControlName="textTotal" />
+            <mg-input-desc><code>%</code> for total number</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>textPage</mg-input-label>
+            <mg-input-text formControlName="textPage" />
+            <mg-input-desc><code>%p</code> for page number | <code>%t</code> for total page</mg-input-desc>
+          </mg-input>
+        </form>
+        <div class="s-5 s-6-l s-12-s">
+          <mg-paginate
+            [linkId]="ctrlForm.value.linkId"
+            [page]="ctrlForm.value.page"
+            [total]="ctrlForm.value.total"
+            [base]="ctrlForm.value.base"
+            [size]="ctrlForm.value.size"
+            [start]="ctrlForm.value.start"
+            [middleStart]="ctrlForm.value.middleStart"
+            [middleEnd]="ctrlForm.value.middleEnd"
+            [end]="ctrlForm.value.end"
+            [showTotal]="ctrlForm.value.showTotal"
+            [textTotal]="ctrlForm.value.textTotal || ''"
+            [textPage]="ctrlForm.value.textPage || ''"
+          />
+          <p>...</p>
+          <mg-paginate
+            [linkId]="ctrlForm.value.linkId"
+            [page]="ctrlForm.value.page"
+            [total]="ctrlForm.value.total"
+            [base]="ctrlForm.value.base"
+            [size]="ctrlForm.value.size"
+            [start]="ctrlForm.value.start"
+            [middleStart]="ctrlForm.value.middleStart"
+            [middleEnd]="ctrlForm.value.middleEnd"
+            [end]="ctrlForm.value.end"
+            [showTotal]="ctrlForm.value.showTotal"
+            [textTotal]="ctrlForm.value.textTotal || ''"
+            [textPage]="ctrlForm.value.textPage || ''"
+          />
+        </div>
+        <div class="s-4 s-12-l">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
 
-      <mg-input class="s-6">
-        <mg-input-label>showTotal</mg-input-label>
-        <mg-input-checkbox formControlName="showTotal" mode="toggle" />
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>textTotal</mg-input-label>
-        <mg-input-text formControlName="textTotal" /> <mg-input-desc><code>%</code> for total number</mg-input-desc>
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>textPage</mg-input-label>
-        <mg-input-text formControlName="textPage" />
-        <mg-input-desc><code>%p</code> for page number | <code>%t</code> for total page</mg-input-desc>
-      </mg-input>
-    </form>
-    <div class="s-5 s-6-l s-12-s">
-      <mg-paginate
-        [linkId]="ctrlForm.value.linkId"
-        [page]="ctrlForm.value.page"
-        [total]="ctrlForm.value.total"
-        [base]="ctrlForm.value.base"
-        [size]="ctrlForm.value.size"
-        [start]="ctrlForm.value.start"
-        [middleStart]="ctrlForm.value.middleStart"
-        [middleEnd]="ctrlForm.value.middleEnd"
-        [end]="ctrlForm.value.end"
-        [showTotal]="ctrlForm.value.showTotal"
-        [textTotal]="ctrlForm.value.textTotal || ''"
-        [textPage]="ctrlForm.value.textPage || ''"
-      />
-      <p>...</p>
-      <mg-paginate
-        [linkId]="ctrlForm.value.linkId"
-        [page]="ctrlForm.value.page"
-        [total]="ctrlForm.value.total"
-        [base]="ctrlForm.value.base"
-        [size]="ctrlForm.value.size"
-        [start]="ctrlForm.value.start"
-        [middleStart]="ctrlForm.value.middleStart"
-        [middleEnd]="ctrlForm.value.middleEnd"
-        [end]="ctrlForm.value.end"
-        [showTotal]="ctrlForm.value.showTotal"
-        [textTotal]="ctrlForm.value.textTotal || ''"
-        [textPage]="ctrlForm.value.textPage || ''"
-      />
-    </div>
-    <div class="s-4 s-12-l">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-}
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-paginate</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>page</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>1</code></td>
+            <td mg>Current page number</td>
+          </tr>
+          <tr mg>
+            <td mg><code>total</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>0</code></td>
+            <td mg>Total number of items</td>
+          </tr>
+          <tr mg>
+            <td mg><code>size</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>25</code></td>
+            <td mg>Items per page</td>
+          </tr>
+          <tr mg>
+            <td mg><code>base</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Base URL for page links. Page number is appended.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>linkId</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Shared ID to synchronize multiple <code>mg-paginate</code> instances on the same page</td>
+          </tr>
+          <tr mg>
+            <td mg><code>start</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>3</code></td>
+            <td mg>Number of pages shown at the start</td>
+          </tr>
+          <tr mg>
+            <td mg><code>middleStart</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>3</code></td>
+            <td mg>Pages shown before the current page</td>
+          </tr>
+          <tr mg>
+            <td mg><code>middleEnd</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>3</code></td>
+            <td mg>Pages shown after the current page</td>
+          </tr>
+          <tr mg>
+            <td mg><code>end</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>3</code></td>
+            <td mg>Number of pages shown at the end</td>
+          </tr>
+          <tr mg>
+            <td mg><code>showTotal</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Shows the total item count</td>
+          </tr>
+          <tr mg>
+            <td mg><code>textTotal</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Total %'</code></td>
+            <td mg>Template for the total label. <code>%</code> is replaced with the total count.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>textPage</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Page %p / %t'</code></td>
+            <td mg><code>%p</code> = current page, <code>%t</code> = total pages</td>
+          </tr>
+          <tr mg>
+            <td mg><code>queryParams</code></td>
+            <td mg><code>Record&lt;string, unknown&gt;</code></td>
+            <td mg><code>&#123;&#125;</code></td>
+            <td mg>Extra query params added to each page link</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

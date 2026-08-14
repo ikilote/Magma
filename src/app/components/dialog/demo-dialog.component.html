@@ -1,62 +1,163 @@
 <h1>Dialog</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
-      <p>
-        <mg-input>
-          <mg-input-label>closeButton</mg-input-label>
-          <mg-input-checkbox formControlName="closeButton" mode="toggle">enabled</mg-input-checkbox>
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>closeBackdrop</mg-input-label>
-          <mg-input-checkbox formControlName="closeBackdrop" mode="toggle">enabled</mg-input-checkbox>
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>title</mg-input-label>
-          <mg-input-text formControlName="title" />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>label (ARIA if no title)</mg-input-label>
-          <mg-input-text formControlName="label" />
-        </mg-input>
-      </p>
-    </form>
-    <div class="s-4 s-4-l s-12-s">
-      <button (click)="dialog.open()">Open dialog</button>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
+          <p>
+            <mg-input>
+              <mg-input-label>closeButton</mg-input-label>
+              <mg-input-checkbox formControlName="closeButton" mode="toggle">enabled</mg-input-checkbox>
+            </mg-input>
+          </p>
+          <p>
+            <mg-input>
+              <mg-input-label>closeBackdrop</mg-input-label>
+              <mg-input-checkbox formControlName="closeBackdrop" mode="toggle">enabled</mg-input-checkbox>
+            </mg-input>
+          </p>
+          <p>
+            <mg-input>
+              <mg-input-label>title</mg-input-label>
+              <mg-input-text formControlName="title" />
+            </mg-input>
+          </p>
+          <p>
+            <mg-input>
+              <mg-input-label>label (ARIA if no title)</mg-input-label>
+              <mg-input-text formControlName="label" />
+            </mg-input>
+          </p>
+        </form>
+        <div class="s-4 s-4-l s-12-s">
+          <button (click)="dialog.open()">Open dialog</button>
 
-      <mg-dialog
-        #dialog
-        [closeButton]="ctrlForm.value.closeButton"
-        [closeBackdrop]="ctrlForm.value.closeBackdrop"
-        [title]="ctrlForm.value.title"
-        [label]="ctrlForm.value.label"
-      >
-        <p>Content dialog</p>
-        <p>
-          <button (click)="dialog.close()">Close</button>
-        </p>
-        <p>
-          @let l = [0];
-          @for (b of l; track $index) {
-            <button (click)="l.push(0)">Add</button>
-          }
-        </p>
-      </mg-dialog>
-    </div>
-    <div class="s-4 s-12-l">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-}
+          <mg-dialog
+            #dialog
+            [closeButton]="ctrlForm.value.closeButton"
+            [closeBackdrop]="ctrlForm.value.closeBackdrop"
+            [title]="ctrlForm.value.title"
+            [label]="ctrlForm.value.label"
+          >
+            <p>Content dialog</p>
+            <p>
+              <button (click)="dialog.close()">Close</button>
+            </p>
+            <p>
+              @let l = [0];
+              @for (b of l; track $index) {
+                <button (click)="l.push(0)">Add</button>
+              }
+            </p>
+          </mg-dialog>
+        </div>
+        <div class="s-4 s-12-l">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-dialog</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>closeButton</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Shows a close button in the top-right corner</td>
+          </tr>
+          <tr mg>
+            <td mg><code>closeBackdrop</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Closes the dialog when clicking outside it</td>
+          </tr>
+          <tr mg>
+            <td mg><code>closeButtonTitle</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Close'</code></td>
+            <td mg>Tooltip / aria-label for the close button</td>
+          </tr>
+          <tr mg>
+            <td mg><code>title</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Visible title rendered at the top of the dialog</td>
+          </tr>
+          <tr mg>
+            <td mg><code>label</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>ARIA label used when no visible title is present</td>
+          </tr>
+          <tr mg>
+            <td mg><code>id</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Custom id for the dialog element (auto-generated if omitted)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-dialog</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>closed</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Emitted when the dialog is closed</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Methods — <code>mg-dialog</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Return</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>open()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Opens the dialog</td>
+          </tr>
+          <tr mg>
+            <td mg><code>close()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Closes the dialog and emits <code>closed</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

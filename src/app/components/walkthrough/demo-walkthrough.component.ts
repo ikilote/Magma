@@ -10,6 +10,7 @@ import {
     MagmaInputElement,
     MagmaInputSelect,
     MagmaInputText,
+    MagmaTableModule,
     MagmaTabsModule,
     MagmaWalkthrough,
     MagmaWalkthroughStep,
@@ -36,6 +37,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputElement,
         MagmaInputCheckbox,
         MagmaInputSelect,
+        MagmaTableModule,
     ],
 })
 export class DemoWalkthroughComponent {

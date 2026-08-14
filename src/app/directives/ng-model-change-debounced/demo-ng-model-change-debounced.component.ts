@@ -7,6 +7,8 @@ import {
     MagmaInputNumber,
     MagmaInputText,
     MagmaNgModelChangeDebouncedDirective,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -24,6 +26,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputText,
         MagmaInputNumber,
         MagmaInputElement,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoNgModelChangeDebouncedComponent {

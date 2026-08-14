@@ -1,20 +1,53 @@
 <h1>Click Outside</h1>
 
-<div>
-  <div class="s-2 s-12-m">
-    <button (clickOutside)="clickOutside()" (click)="clickInside()">Click</button>
-  </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-2 s-12-m">
+        <button (clickOutside)="clickOutside()" (click)="clickInside()">Click</button>
+      </div>
 
-  <div class="s-2 s-12-m">
-    <pre><code>{{ events }}</code></pre>
-  </div>
+      <div class="s-2 s-12-m">
+        <pre><code>{{ events }}</code></pre>
+      </div>
 
-  <div class="s-8 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[clickOutside]</code></h4>
+      <p>
+        Listens to <code>document:click</code> events and emits only when the click originates outside the host element.
+      </p>
+
+      <h4>Outputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>clickOutside</code></td>
+            <td mg><code>Event</code></td>
+            <td mg>Emitted when the user clicks anywhere outside the host element</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

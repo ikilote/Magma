@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 
-import { MagmaNgInitDirective } from '@ikilote/magma';
+import { MagmaNgInitDirective, MagmaTableModule, MagmaTabsModule } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -9,7 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-ng-init.component.html',
     styleUrl: './demo-ng-init.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaNgInitDirective, CodeTabsComponent],
+    imports: [MagmaNgInitDirective, CodeTabsComponent, MagmaTabsModule, MagmaTableModule],
 })
 export class DemoNgInitComponent {
     readonly cd = inject(ChangeDetectorRef);

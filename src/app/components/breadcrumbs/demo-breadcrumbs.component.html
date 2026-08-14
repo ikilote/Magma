@@ -1,89 +1,151 @@
 <h1>Breadcrumbs</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
-      <h3>Options</h3>
-      <p>
-        <mg-input>
-          <mg-input-label>Separator</mg-input-label>
-          <mg-input-text formControlName="separator" [datalist]="['/', '>', '»']" />
-          <mg-input-desc>override CSS var: <code>--breadcrumbs-separator</code></mg-input-desc>
-        </mg-input>
-      </p>
-      <div>
-        <mg-input class="s-6">
-          <mg-input-label>Use routerLink</mg-input-label>
-          <mg-input-checkbox formControlName="useRouterLink" mode="toggle" />
-        </mg-input>
-      </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+          <h3>Options</h3>
+          <p>
+            <mg-input>
+              <mg-input-label>Separator</mg-input-label>
+              <mg-input-text formControlName="separator" [datalist]="['/', '>', '»']" />
+              <mg-input-desc>override CSS var: <code>--breadcrumbs-separator</code></mg-input-desc>
+            </mg-input>
+          </p>
+          <div>
+            <mg-input class="s-6">
+              <mg-input-label>Use routerLink</mg-input-label>
+              <mg-input-checkbox formControlName="useRouterLink" mode="toggle" />
+            </mg-input>
+          </div>
 
-      <h3>Add step</h3>
-      <div [formGroup]="addForm">
-        <p>
-          <mg-input>
-            <mg-input-label>Label</mg-input-label>
-            <mg-input-text formControlName="label" />
-          </mg-input>
-        </p>
-        <p>
-          <mg-input>
-            <mg-input-label>Link</mg-input-label>
-            <mg-input-text formControlName="link" />
-          </mg-input>
-        </p>
-        <p>
-          <button (click)="addStep()">Add step</button>
-          <button (click)="resetSteps()">Reset</button>
-        </p>
-      </div>
+          <h3>Add step</h3>
+          <div [formGroup]="addForm">
+            <p>
+              <mg-input>
+                <mg-input-label>Label</mg-input-label>
+                <mg-input-text formControlName="label" />
+              </mg-input>
+            </p>
+            <p>
+              <mg-input>
+                <mg-input-label>Link</mg-input-label>
+                <mg-input-text formControlName="link" />
+              </mg-input>
+            </p>
+            <p>
+              <button (click)="addStep()">Add step</button>
+              <button (click)="resetSteps()">Reset</button>
+            </p>
+          </div>
 
-      <h4>Steps ({{ steps.length }})</h4>
-      <ul class="step-list">
-        @for (step of steps; track $index; let last = $last) {
-          <li>
-            <div class="step">
-              <div>
-                {{ step.label }}
-                @if (last) {
-                  (active)
-                }
-              </div>
-              @if (step.link) {
-                <small>{{ step.link }}</small>
+          <h4>Steps ({{ steps.length }})</h4>
+          <ul class="step-list">
+            @for (step of steps; track $index; let last = $last) {
+              <li>
+                <div class="step">
+                  <div>
+                    {{ step.label }}
+                    @if (last) {
+                      (active)
+                    }
+                  </div>
+                  @if (step.link) {
+                    <small>{{ step.link }}</small>
+                  }
+                </div>
+                <button class="remove" (click)="removeStep($index)">×</button>
+              </li>
+            }
+          </ul>
+        </form>
+
+        <div class="s-4 s-6-x s-12-m">
+          <h4>Render</h4>
+          <mg-breadcrumbs [separator]="this.ctrlForm.value.separator">
+            @for (step of steps; track $index; let last = $last) {
+              @if (last) {
+                <mg-breadcrumb active>{{ step.label }}</mg-breadcrumb>
+              } @else if (ctrlForm.value.useRouterLink && step.link) {
+                <mg-breadcrumb [link]="step.link">{{ step.label }}</mg-breadcrumb>
+              } @else if (step.link) {
+                <mg-breadcrumb [href]="step.link">{{ step.label }}</mg-breadcrumb>
+              } @else {
+                <mg-breadcrumb>{{ step.label }}</mg-breadcrumb>
               }
-            </div>
-            <button class="remove" (click)="removeStep($index)">×</button>
-          </li>
-        }
-      </ul>
-    </form>
+            }
+          </mg-breadcrumbs>
+        </div>
 
-    <div class="s-4 s-6-x s-12-m">
-      <h4>Render</h4>
-      <mg-breadcrumbs [separator]="this.ctrlForm.value.separator">
-        @for (step of steps; track $index; let last = $last) {
-          @if (last) {
-            <mg-breadcrumb active>{{ step.label }}</mg-breadcrumb>
-          } @else if (ctrlForm.value.useRouterLink && step.link) {
-            <mg-breadcrumb [link]="step.link">{{ step.label }}</mg-breadcrumb>
-          } @else if (step.link) {
-            <mg-breadcrumb [href]="step.link">{{ step.label }}</mg-breadcrumb>
-          } @else {
-            <mg-breadcrumb>{{ step.label }}</mg-breadcrumb>
-          }
-        }
-      </mg-breadcrumbs>
-    </div>
+        <div class="s-5 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+              { type: 'css-edit', code: codeCss, title: 'css' },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
 
-    <div class="s-5 s-12-x">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-          { type: 'css-edit', code: codeCss, title: 'css' },
-        ]"
-      />
-    </div>
-  </section>
-}
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-breadcrumbs</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>separator</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Separator between items. Overrides CSS var <code>--breadcrumbs-separator</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>mg-breadcrumb</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>href</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Native href link. Use for external URLs or simple anchors.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>link</code></td>
+            <td mg><code>string | string[] | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Angular <code>routerLink</code>. Use for SPA navigation.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>active</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Marks this item as the current page (last item)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

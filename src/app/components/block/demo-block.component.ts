@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { MagmaBlock } from '@ikilote/magma';
+import { MagmaBlock, MagmaTabsModule } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -9,7 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-block.component.html',
     styleUrl: './demo-block.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaBlock, CodeTabsComponent],
+    imports: [MagmaBlock, CodeTabsComponent, MagmaTabsModule],
 })
 export class DemoBlockComponent {
     codeHtml = `<mg-block>

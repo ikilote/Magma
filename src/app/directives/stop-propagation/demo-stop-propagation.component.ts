@@ -1,6 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { MagmaInput, MagmaInputElement, MagmaInputText, MagmaStopPropagationDirective } from '@ikilote/magma';
+import {
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputText,
+    MagmaStopPropagationDirective,
+    MagmaTableModule,
+    MagmaTabsModule,
+} from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -9,7 +16,15 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-stop-propagation.component.html',
     styleUrl: './demo-stop-propagation.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaStopPropagationDirective, MagmaInput, MagmaInputText, MagmaInputElement, CodeTabsComponent],
+    imports: [
+        MagmaStopPropagationDirective,
+        MagmaInput,
+        MagmaInputText,
+        MagmaInputElement,
+        MagmaTabsModule,
+        CodeTabsComponent,
+        MagmaTableModule,
+    ],
 })
 export class DemoStopPropagationComponent {
     codeHtml = [

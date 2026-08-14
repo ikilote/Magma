@@ -13,6 +13,8 @@ import {
     MagmaInputDate,
     MagmaInputElement,
     MagmaInputSelect,
+    MagmaTableModule,
+    MagmaTabsModule,
     WeekDay,
 } from '@ikilote/magma';
 
@@ -36,6 +38,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputCheckbox,
         MagmaInputDate,
         MagmaInputSelect,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoDatetimePickerComponent {

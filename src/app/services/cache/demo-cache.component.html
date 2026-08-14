@@ -2,38 +2,117 @@
 
 <p>See the console <kbd>F12</kbd> for test</p>
 
-<section>
-  <div class="s-2 s-6-x s-12-m">
-    <button (click)="action()">action()</button>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <div class="s-2 s-6-x s-12-m">
+        <button (click)="action()">action()</button>
 
-    <div class="s-12">
-      <mg-input class="s-12">
-        <mg-input-label>Id</mg-input-label>
-        <mg-input-text [(ngModel)]="id" />
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>group</mg-input-label>
-        <mg-input-text [(ngModel)]="group" />
-      </mg-input>
-    </div>
-  </div>
+        <div class="s-12">
+          <mg-input class="s-12">
+            <mg-input-label>Id</mg-input-label>
+            <mg-input-text [(ngModel)]="id" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>group</mg-input-label>
+            <mg-input-text [(ngModel)]="group" />
+          </mg-input>
+        </div>
+      </div>
 
-  <div class="s-2 s-6-x s-12-m">
-    <button (click)="clearId()">clearId()</button>
-    <div class="s-12">
-      <mg-input class="s-12">
-        <mg-input-label>Id</mg-input-label>
-        <mg-input-text [(ngModel)]="idClear" />
-      </mg-input>
-    </div>
-    <button (click)="clearGroup()">clearGroup()</button>
-    <div class="s-12">
-      <mg-input>
-        <mg-input-label>group</mg-input-label>
-        <mg-input-text [(ngModel)]="groupClear" />
-      </mg-input>
-    </div>
-  </div>
+      <div class="s-2 s-6-x s-12-m">
+        <button (click)="clearId()">clearId()</button>
+        <div class="s-12">
+          <mg-input class="s-12">
+            <mg-input-label>Id</mg-input-label>
+            <mg-input-text [(ngModel)]="idClear" />
+          </mg-input>
+        </div>
+        <button (click)="clearGroup()">clearGroup()</button>
+        <div class="s-12">
+          <mg-input>
+            <mg-input-label>group</mg-input-label>
+            <mg-input-text [(ngModel)]="groupClear" />
+          </mg-input>
+        </div>
+      </div>
 
-  <div class="s-8 s-12-x"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
-</section>
+      <div class="s-8 s-12-x"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Service — <code>MagmaCache</code></h4>
+      <p>
+        Injectable cache layer for HTTP requests or any Observable. Results are stored by <code>id</code> and tagged
+        with one or more <code>group</code> names for bulk invalidation. The cache is static (shared across all injector
+        instances).
+      </p>
+
+      <h4>Methods</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>request</code></td>
+            <td mg>
+              <code
+                >&lt;T&gt;(id: string, group: string | string[], observable: Observable&lt;T&gt;, endDate?: Date) =>
+                Promise&lt;T&gt;</code
+              >
+            </td>
+            <td mg>
+              Returns the cached value if available. Otherwise executes the Observable, stores the result and returns
+              it. If <code>endDate</code> is past, the entry is invalidated first.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>clearById</code></td>
+            <td mg><code>(id: string) => void</code></td>
+            <td mg>Removes a single cached entry by its unique id</td>
+          </tr>
+          <tr mg>
+            <td mg><code>clearByGroupName</code></td>
+            <td mg><code>(groupName: string) => void</code></td>
+            <td mg>Removes all cached entries that belong to the given group</td>
+          </tr>
+          <tr mg>
+            <td mg><code>clearAll</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Clears the entire cache</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Helper — <code>flattenedListItems</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Function</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>flattenedListItems</code></td>
+            <td mg><code>(value: string | string[]) => string[]</code></td>
+            <td mg>
+              Converts a comma-separated string (e.g. <code>'Group1, Group2'</code>) or an array into a clean
+              <code>string[]</code>. Used to normalize the <code>group</code> parameter of <code>request()</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

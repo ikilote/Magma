@@ -8,6 +8,7 @@ import {
     MagmaInputText,
     MagmaSortableModule,
     MagmaTableModule,
+    MagmaTabsModule,
     NumFormatPipe,
 } from '@ikilote/magma';
 
@@ -28,6 +29,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInput,
         MagmaInputText,
         MagmaInputElement,
+        MagmaTabsModule,
     ],
 })
 export class DemoSortableComponent {

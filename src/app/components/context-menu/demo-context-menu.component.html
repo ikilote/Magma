@@ -1,45 +1,174 @@
 <h1>Context menu</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-4 s-12-m" [formGroup]="ctrlForm">
-      <p>
-        <mg-input>
-          <mg-input-label>contextMenuMode</mg-input-label>
-          <mg-input-radio formControlName="contextMenuMode" value="default">default (list)</mg-input-radio>
-          <mg-input-radio formControlName="contextMenuMode" value="bubble">bubble</mg-input-radio>
-        </mg-input>
-      </p>
-      <p>
-        <mg-input>
-          <mg-input-label>contextMenuDisabled</mg-input-label>
-          <mg-input-checkbox formControlName="contextMenuDisabled" mode="toggle">disabled</mg-input-checkbox>
-        </mg-input>
-      </p>
-    </form>
-    <div class="s-4 s-12-m">
-      <div
-        [mgContextMenu]="contextMenu"
-        [mgContextMenuMode]="ctrlForm.value.contextMenuMode"
-        [mgContextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
-      >
-        Right-click here to display the <button (click)="click()">context menu</button>.
-        <div
-          [mgContextMenu]="contextSubMenu"
-          [mgContextMenuMode]="ctrlForm.value.contextMenuMode"
-          [mgContextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
-        >
-          Right-click here to display an other context menu
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-4 s-12-m" [formGroup]="ctrlForm">
+          <p>
+            <mg-input>
+              <mg-input-label>contextMenuMode</mg-input-label>
+              <mg-input-radio formControlName="contextMenuMode" value="default">default (list)</mg-input-radio>
+              <mg-input-radio formControlName="contextMenuMode" value="bubble">bubble</mg-input-radio>
+            </mg-input>
+          </p>
+          <p>
+            <mg-input>
+              <mg-input-label>contextMenuDisabled</mg-input-label>
+              <mg-input-checkbox formControlName="contextMenuDisabled" mode="toggle">disabled</mg-input-checkbox>
+            </mg-input>
+          </p>
+        </form>
+        <div class="s-4 s-12-m">
+          <div
+            [mgContextMenu]="contextMenu"
+            [mgContextMenuMode]="ctrlForm.value.contextMenuMode"
+            [mgContextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
+          >
+            Right-click here to display the <button (click)="click()">context menu</button>.
+            <div
+              [mgContextMenu]="contextSubMenu"
+              [mgContextMenuMode]="ctrlForm.value.contextMenuMode"
+              [mgContextMenuDisabled]="ctrlForm.value.contextMenuDisabled"
+            >
+              Right-click here to display an other context menu
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="s-4 s-12-m">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: [{ code: codeTs }, { title: 'demo-context-test.component.ts', code: codeTsComponent }] },
-        ]"
-      />
-    </div>
-  </section>
-}
+        <div class="s-4 s-12-m">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              {
+                type: 'ts',
+                code: [{ code: codeTs }, { title: 'demo-context-test.component.ts', code: codeTsComponent }],
+              },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>[mgContextMenu]</code> (directive)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgContextMenu</code></td>
+            <td mg><code>ContextMenuData&lt;T&gt;</code></td>
+            <td mg>—</td>
+            <td mg>Menu configuration: <code>contextMenu</code> items array + optional <code>data</code> payload</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgContextMenuMode</code></td>
+            <td mg><code>'default' | 'bubble'</code></td>
+            <td mg><code>'default'</code></td>
+            <td mg><code>default</code> renders a list; <code>bubble</code> renders a circular layout</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgContextMenuDisabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Prevents the context menu from opening</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Methods — <code>MagmaContextMenu</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Return</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>open(event, menuData?, mode?)</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Opens the menu at the cursor position. Returns <code>false</code> if disabled or empty.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>close(event?)</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Closes the currently open context menu</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>ContextMenuData interface</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>contextMenu</code></td>
+            <td mg><code>ContextMenuItem[]</code></td>
+            <td mg>Array of menu items</td>
+          </tr>
+          <tr mg>
+            <td mg><code>data</code></td>
+            <td mg><code>T</code></td>
+            <td mg>Optional payload passed to each item's <code>action</code> callback</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>ContextMenuItem interface</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>label</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Displayed label</td>
+          </tr>
+          <tr mg>
+            <td mg><code>iconText</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Icon or emoji displayed beside the label</td>
+          </tr>
+          <tr mg>
+            <td mg><code>action</code></td>
+            <td mg><code>(data: T) => void</code></td>
+            <td mg>Callback executed when the item is clicked</td>
+          </tr>
+          <tr mg>
+            <td mg><code>component</code></td>
+            <td mg><code>Type&lt;AbstractContextMenuComponent&gt;</code></td>
+            <td mg>Alternative to <code>label</code>: renders a custom component inside the menu</td>
+          </tr>
+          <tr mg>
+            <td mg><code>inputs</code></td>
+            <td mg><code>Record&lt;string, unknown&gt;</code></td>
+            <td mg>Inputs forwarded to the custom component</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

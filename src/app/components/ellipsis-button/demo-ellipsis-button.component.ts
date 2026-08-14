@@ -2,7 +2,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-import { MagmaEllipsisButtonModule, MagmaInput, MagmaInputElement, MagmaInputText } from '@ikilote/magma';
+import {
+    MagmaEllipsisButtonModule,
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
+} from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -11,7 +18,16 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-ellipsis-button.component.html',
     styleUrl: './demo-ellipsis-button.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaEllipsisButtonModule, MagmaInput, MagmaInputElement, MagmaInputText, FormsModule, CodeTabsComponent],
+    imports: [
+        MagmaEllipsisButtonModule,
+        MagmaInput,
+        MagmaInputElement,
+        MagmaInputText,
+        FormsModule,
+        CodeTabsComponent,
+        MagmaTabsModule,
+        MagmaTableModule,
+    ],
 })
 export class DemoEllipsisButtonComponent {
     content = '';

@@ -1,108 +1,267 @@
 <h1>Scrollable</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
-      <h3 class="s-12">Options</h3>
-      <mg-input class="s-12">
-        <mg-input-label>Sticky CSS selector</mg-input-label>
-        <mg-input-text formControlName="stickySelector" />
-        <mg-input-desc>Default: <code>''</code></mg-input-desc>
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>Speed max </mg-input-label>
-        <mg-input-number formControlName="speedMax" min="1" />
-        <mg-input-suffix>px/frame</mg-input-suffix>
-        <mg-input-desc>Minimal value: <code>1</code>, default: <code>50</code></mg-input-desc>
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>Reducer (easing divisor)</mg-input-label>
-        <mg-input-number formControlName="reducer" min="1" />
-        <mg-input-desc>Minimal value: <code>1</code>, default: <code>2</code></mg-input-desc>
-      </mg-input>
-    </form>
-    <div class="s-5 s-6-x s-12-m">
-      <h3>Render</h3>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+          <h3 class="s-12">Options</h3>
+          <mg-input class="s-12">
+            <mg-input-label>Sticky CSS selector</mg-input-label>
+            <mg-input-text formControlName="stickySelector" />
+            <mg-input-desc>Default: <code>''</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Speed max</mg-input-label>
+            <mg-input-number formControlName="speedMax" min="1" />
+            <mg-input-suffix>px/frame</mg-input-suffix>
+            <mg-input-desc>Minimal value: <code>1</code>, default: <code>50</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Reducer (easing divisor)</mg-input-label>
+            <mg-input-number formControlName="reducer" min="1" />
+            <mg-input-desc>Minimal value: <code>1</code>, default: <code>2</code></mg-input-desc>
+          </mg-input>
+        </form>
+        <div class="s-5 s-6-x s-12-m">
+          <h3>Render</h3>
 
-      <mg-block class="info-bar">
-        <span class="s-6"><strong>Scroll position:</strong> {{ scrollPosition }}px</span>
-        <span class="s-6"><strong>Current section:</strong> {{ currentSection || '—' }}</span>
-      </mg-block>
+          <mg-block class="info-bar">
+            <span class="s-6"><strong>Scroll position:</strong> {{ scrollPosition }}px</span>
+            <span class="s-6"><strong>Current section:</strong> {{ currentSection || '—' }}</span>
+          </mg-block>
 
-      <div
-        class="scroll-container"
-        mgScrollable
-        [mgScrollableSticky]="ctrlForm.value.stickySelector || undefined"
-        [mgScrollableSpeedMax]="ctrlForm.value.speedMax"
-        [mgScrollableReducer]="ctrlForm.value.reducer"
-        (scrolled)="onScrolled($event)"
-        (changedTo)="onChangedTo($event)"
-      >
-        <nav class="scroll-nav">
-          <button mgScrollGoto="intro">Intro</button>
-          <button mgScrollGoto="features" mgScrollJump>Features (Jump)</button>
-          <button mgScrollGoto="usage">Usage</button>
-          <button mgScrollGoto="api">API</button>
-        </nav>
+          <div
+            class="scroll-container"
+            mgScrollable
+            [mgScrollableSticky]="ctrlForm.value.stickySelector || undefined"
+            [mgScrollableSpeedMax]="ctrlForm.value.speedMax"
+            [mgScrollableReducer]="ctrlForm.value.reducer"
+            (scrolled)="onScrolled($event)"
+            (changedTo)="onChangedTo($event)"
+          >
+            <nav class="scroll-nav">
+              <button mgScrollGoto="intro">Intro</button>
+              <button mgScrollGoto="features" mgScrollJump>Features (Jump)</button>
+              <button mgScrollGoto="usage">Usage</button>
+              <button mgScrollGoto="api-section">API</button>
+            </nav>
 
-        <section mgScrollTarget="intro" class="scroll-section">
-          <h2>Introduction</h2>
-          <p>
-            The scrollable directive provides animated scroll navigation between sections of a scrollable container.
-          </p>
-          <p>
-            It uses <code>requestAnimationFrame</code> for smooth, performant scrolling and stops on user wheel
-            interaction.
-          </p>
-          <p>
-            Three directives work together: <code>[mgScrollable]</code> on the container,
-            <code>[mgScrollTarget]</code> on sections, and <code>[mgScrollGoto]</code> on navigation buttons.
-          </p>
-        </section>
+            <section mgScrollTarget="intro" class="scroll-section">
+              <h2>Introduction</h2>
+              <p>
+                The scrollable directive provides animated scroll navigation between sections of a scrollable container.
+              </p>
+              <p>
+                It uses <code>requestAnimationFrame</code> for smooth, performant scrolling and stops on user wheel
+                interaction.
+              </p>
+              <p>
+                Three directives work together: <code>[mgScrollable]</code> on the container,
+                <code>[mgScrollTarget]</code> on sections, and <code>[mgScrollGoto]</code> on navigation buttons.
+              </p>
+            </section>
 
-        <section mgScrollTarget="features" class="scroll-section">
-          <h2>Features</h2>
-          <ul>
-            <li>Animated scroll with configurable speed</li>
-            <li>Interrupt on wheel interaction</li>
-            <li>Position tracking via outputs</li>
-            <li>Instant jump (non-animated) option</li>
-            <li>Keyboard accessible navigation (Enter/Space)</li>
-            <li>Sticky element offset via <code>mgScrollableSticky</code></li>
-          </ul>
-        </section>
+            <section mgScrollTarget="features" class="scroll-section">
+              <h2>Features</h2>
+              <ul>
+                <li>Animated scroll with configurable speed</li>
+                <li>Interrupt on wheel interaction</li>
+                <li>Position tracking via outputs</li>
+                <li>Instant jump (non-animated) option</li>
+                <li>Keyboard accessible navigation (Enter/Space)</li>
+                <li>Sticky element offset via <code>mgScrollableSticky</code></li>
+              </ul>
+            </section>
 
-        <section mgScrollTarget="usage" class="scroll-section">
-          <h2>Usage</h2>
-          <p>
-            Place <code>[mgScrollable]</code> on a scrollable container (with <code>overflow: auto</code> and a fixed
-            height).
-          </p>
-          <p>Mark sections with <code>[mgScrollTarget]="'sectionId'"</code>.</p>
-          <p>Create navigation buttons with <code>[mgScrollGoto]="'sectionId'"</code>.</p>
-          <p>
-            Use <code>[mgScrollableSticky]=".nav-class"</code> to offset the scroll target by the height of a sticky
-            navigation element.
-          </p>
-        </section>
+            <section mgScrollTarget="usage" class="scroll-section">
+              <h2>Usage</h2>
+              <p>
+                Place <code>[mgScrollable]</code> on a scrollable container (with <code>overflow: auto</code> and a
+                fixed height).
+              </p>
+              <p>Mark sections with <code>[mgScrollTarget]="'sectionId'"</code>.</p>
+              <p>Create navigation buttons with <code>[mgScrollGoto]="'sectionId'"</code>.</p>
+            </section>
 
-        <section mgScrollTarget="api" class="scroll-section">
-          <h2>API Reference</h2>
-          <p><strong>Inputs:</strong> scrollSpeedMax, scrollIntervalTime, scrollReducer, mgScrollableSticky</p>
-          <p><strong>Outputs:</strong> scrolled, scrolledTo, changedTo, clicked</p>
-          <p><strong>Methods:</strong> goTo(id), scrollTo(pos), jumpTo(pos), position(), positionsTarget()</p>
-        </section>
-      </div>
-    </div>
+            <section mgScrollTarget="api-section" class="scroll-section">
+              <h2>API section</h2>
+              <p>See the API Reference tab above for detailed inputs, outputs and methods.</p>
+            </section>
+          </div>
+        </div>
 
-    <div class="s-4 s-12-x">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-          { type: 'css', code: codeCss },
-        ]"
-      />
-    </div>
-  </section>
-}
+        <div class="s-4 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+              { type: 'css', code: codeCss },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>[mgScrollable]</code> (container)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgScrollable</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>CSS selector for an external scroll container. Uses the host element if not set.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgScrollableSticky</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>
+              CSS selector of a sticky element inside the container. Its height is subtracted from scroll offsets.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgScrollableSpeedMax</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>50</code></td>
+            <td mg>Maximum pixels scrolled per animation frame</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgScrollableReducer</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>2</code></td>
+            <td mg>Easing divisor — higher values give a slower, smoother deceleration</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>[mgScrollable]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>scrolled</code></td>
+            <td mg><code>number</code></td>
+            <td mg>Current scroll position (debounced 50ms)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>scrolledTo</code></td>
+            <td mg><code>number</code></td>
+            <td mg>Target position emitted after <code>scrollTo()</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>changedTo</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Id of the target emitted after <code>goTo()</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>clicked</code></td>
+            <td mg><code>&#123; position: string | number; action: 'goTo' | 'scrollTo' | 'jumpTo' &#125;</code></td>
+            <td mg>Emitted on every navigation action</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Methods — <code>[mgScrollable]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>goTo</code></td>
+            <td mg><code>(id: string, scrolling?: boolean) => void</code></td>
+            <td mg>Animated scroll to a registered target (pass <code>false</code> to jump)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>scrollTo</code></td>
+            <td mg><code>(pos: number | 'top' | 'bottom') => void</code></td>
+            <td mg>Animated scroll to an absolute position</td>
+          </tr>
+          <tr mg>
+            <td mg><code>jumpTo</code></td>
+            <td mg><code>(pos: number) => void</code></td>
+            <td mg>Instant (non-animated) scroll to an absolute position</td>
+          </tr>
+          <tr mg>
+            <td mg><code>position</code></td>
+            <td mg><code>() => number</code></td>
+            <td mg>Returns the current <code>scrollTop</code> of the targeted element</td>
+          </tr>
+          <tr mg>
+            <td mg><code>positionsTarget</code></td>
+            <td mg><code>() => Map&lt;string, MagmaScrollElementPosition&gt;</code></td>
+            <td mg>Returns position metadata for all registered targets</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>[mgScrollTarget]</code> (on section)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgScrollTarget</code> <em>(required)</em></td>
+            <td mg><code>string</code></td>
+            <td mg>Unique id used to register this element as a scroll target</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>[mgScrollGoto]</code> (on nav button)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgScrollGoto</code> <em>(required)</em></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Id of the <code>[mgScrollTarget]</code> to scroll to on click/enter/space</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgScrollJump</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>If <code>true</code>, uses <code>jumpTo</code> (instant) instead of animated scroll</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

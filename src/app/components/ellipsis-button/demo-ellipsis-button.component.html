@@ -1,34 +1,95 @@
 <h1>Ellipsis button</h1>
 
-<section>
-  <div class="s-4 s-12-m">
-    <h2>Options</h2>
-    <mg-input>
-      <mg-input-label>mg-ellipsis-content</mg-input-label>
-      <mg-input-text [(ngModel)]="content" (ngModelChange)="codeGeneration()" />
-      <mg-input-desc>Replace ellipsis</mg-input-desc>
-    </mg-input>
-  </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <div class="s-4 s-12-m">
+        <h2>Options</h2>
+        <mg-input>
+          <mg-input-label>mg-ellipsis-content</mg-input-label>
+          <mg-input-text [(ngModel)]="content" (ngModelChange)="codeGeneration()" />
+          <mg-input-desc>Replace ellipsis</mg-input-desc>
+        </mg-input>
+      </div>
 
-  <div class="s-2 s-12-m">
-    <h2>Render</h2>
-    <mg-ellipsis-button>
-      @if (content) {
-        <mg-ellipsis-content>{{ content }}</mg-ellipsis-content>
-      }
-      <mg-ellipsis-item (action)="action('1')"> Action 1 </mg-ellipsis-item>
-      <mg-ellipsis-item (action)="action('2')"> Action 2 </mg-ellipsis-item>
-      <mg-ellipsis-item (action)="action('3')"> Action with a long text to test the position </mg-ellipsis-item>
-    </mg-ellipsis-button>
-  </div>
+      <div class="s-2 s-12-m">
+        <h2>Render</h2>
+        <mg-ellipsis-button>
+          @if (content) {
+            <mg-ellipsis-content>{{ content }}</mg-ellipsis-content>
+          }
+          <mg-ellipsis-item (action)="action('1')"> Action 1 </mg-ellipsis-item>
+          <mg-ellipsis-item (action)="action('2')"> Action 2 </mg-ellipsis-item>
+          <mg-ellipsis-item (action)="action('3')"> Action with a long text to test the position </mg-ellipsis-item>
+        </mg-ellipsis-button>
+      </div>
 
-  <div class="s-6 s-12-m">
-    <h2>Code</h2>
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: [{ code: codeTs }] },
-      ]"
-    />
-  </div>
-</section>
+      <div class="s-6 s-12-m">
+        <h2>Code</h2>
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: [{ code: codeTs }] },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selectors — <code>mg-ellipsis-button</code> / <code>[mgEllipsisButton]</code></h4>
+      <p>
+        No inputs. Content children are <code>mg-ellipsis-item</code> and optionally <code>mg-ellipsis-content</code>.
+      </p>
+
+      <h4>Methods — <code>mg-ellipsis-button</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Return</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>open()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Opens the dropdown panel</td>
+          </tr>
+          <tr mg>
+            <td mg><code>close()</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Closes the dropdown panel and restores focus to the trigger button</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Child elements</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Selector</th>
+            <th mg>Output</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mg-ellipsis-content</code></td>
+            <td mg>—</td>
+            <td mg>Optional — replaces the default ellipsis (⋯) trigger label</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-ellipsis-item</code></td>
+            <td mg><code>action: void</code></td>
+            <td mg>A menu item. Emits <code>action</code> when clicked or activated via keyboard.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

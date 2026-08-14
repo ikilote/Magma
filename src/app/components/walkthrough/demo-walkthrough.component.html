@@ -441,3 +441,166 @@
     </mg-block>
   </mg-tab-content>
 </mg-tabs>
+
+<mg-tab-title id="api">API Reference</mg-tab-title>
+<mg-tab-content id="api">
+  <section>
+    <h4>Inputs — <code>mg-walkthrough</code></h4>
+    <p>
+      <em>exportAs: <code>'walkthrough'</code></em
+      >. No inputs — all configuration lives on <code>ng-template[mg-walkthrough-step]</code> children.
+    </p>
+
+    <h4>Methods — <code>mg-walkthrough</code></h4>
+    <table mg>
+      <thead mg>
+        <tr mg>
+          <th mg>Method</th>
+          <th mg>Signature</th>
+          <th mg>Description</th>
+        </tr>
+      </thead>
+      <tbody mg>
+        <tr mg>
+          <td mg><code>start</code></td>
+          <td mg><code>(params?: &#123; group?: string &#125;) => void</code></td>
+          <td mg>Starts the walkthrough at the step named <code>'first'</code> in the given group</td>
+        </tr>
+        <tr mg>
+          <td mg><code>changeStep</code></td>
+          <td mg><code>(stepName?: string, group?: string) => void</code></td>
+          <td mg>Navigates to a step. Closes if <code>stepName</code> is undefined.</td>
+        </tr>
+        <tr mg>
+          <td mg><code>close</code></td>
+          <td mg><code>() => void</code></td>
+          <td mg>Closes the walkthrough overlay</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Inputs — <code>ng-template[mg-walkthrough-step]</code></h4>
+    <table mg>
+      <thead mg>
+        <tr mg>
+          <th mg>Input</th>
+          <th mg>Type</th>
+          <th mg>Default</th>
+          <th mg>Description</th>
+        </tr>
+      </thead>
+      <tbody mg>
+        <tr mg>
+          <td mg><code>name</code> <em>(required)</em></td>
+          <td mg><code>string</code></td>
+          <td mg>—</td>
+          <td mg>Unique name. Entry point must be <code>'first'</code>.</td>
+        </tr>
+        <tr mg>
+          <td mg><code>selector</code> <em>(required)</em></td>
+          <td mg><code>string</code></td>
+          <td mg>—</td>
+          <td mg>CSS selector of the target element</td>
+        </tr>
+        <tr mg>
+          <td mg><code>group</code></td>
+          <td mg><code>string</code></td>
+          <td mg>—</td>
+          <td mg>Groups steps for independent walkthroughs</td>
+        </tr>
+        <tr mg>
+          <td mg><code>previousStep / nextStep</code></td>
+          <td mg><code>string</code></td>
+          <td mg>—</td>
+          <td mg>Name of the adjacent step</td>
+        </tr>
+        <tr mg>
+          <td mg><code>previousButtonName</code></td>
+          <td mg><code>string</code></td>
+          <td mg><code>'Previous'</code></td>
+          <td mg>Label for the previous button</td>
+        </tr>
+        <tr mg>
+          <td mg><code>nextButtonName</code></td>
+          <td mg><code>string</code></td>
+          <td mg><code>'Next'</code></td>
+          <td mg>Label for the next button</td>
+        </tr>
+        <tr mg>
+          <td mg><code>close</code></td>
+          <td mg><code>boolean</code></td>
+          <td mg><code>false</code></td>
+          <td mg>Shows the close button</td>
+        </tr>
+        <tr mg>
+          <td mg><code>closeButtonName</code></td>
+          <td mg><code>string</code></td>
+          <td mg><code>'Close'</code></td>
+          <td mg>Label for the close button</td>
+        </tr>
+        <tr mg>
+          <td mg><code>showElement</code></td>
+          <td mg><code>boolean</code></td>
+          <td mg><code>false</code></td>
+          <td mg>Highlights the target element through the backdrop</td>
+        </tr>
+        <tr mg>
+          <td mg><code>clickElementActive</code></td>
+          <td mg><code>boolean</code></td>
+          <td mg><code>false</code></td>
+          <td mg>Re-emits click on the highlighted element</td>
+        </tr>
+        <tr mg>
+          <td mg><code>clickElementOrigin</code></td>
+          <td mg><code>boolean</code></td>
+          <td mg><code>false</code></td>
+          <td mg>Passes the click through to the original element</td>
+        </tr>
+        <tr mg>
+          <td mg><code>backdropAction</code></td>
+          <td mg><code>'none' | 'close' | 'next' | 'clickElement'</code></td>
+          <td mg>—</td>
+          <td mg>Action triggered when clicking the backdrop</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>Outputs — <code>ng-template[mg-walkthrough-step]</code></h4>
+    <table mg>
+      <thead mg>
+        <tr mg>
+          <th mg>Output</th>
+          <th mg>Type</th>
+          <th mg>Description</th>
+        </tr>
+      </thead>
+      <tbody mg>
+        <tr mg>
+          <td mg><code>start</code></td>
+          <td mg><code>void</code></td>
+          <td mg>Emitted when this step becomes active</td>
+        </tr>
+        <tr mg>
+          <td mg><code>clickElement</code></td>
+          <td mg><code>void</code></td>
+          <td mg>Emitted when the highlighted element is clicked</td>
+        </tr>
+        <tr mg>
+          <td mg><code>clickNext</code></td>
+          <td mg><code>void</code></td>
+          <td mg>Emitted when Next is clicked</td>
+        </tr>
+        <tr mg>
+          <td mg><code>clickPrevious</code></td>
+          <td mg><code>void</code></td>
+          <td mg>Emitted when Previous is clicked</td>
+        </tr>
+        <tr mg>
+          <td mg><code>clickClose</code></td>
+          <td mg><code>void</code></td>
+          <td mg>Emitted when Close is clicked</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+</mg-tab-content>

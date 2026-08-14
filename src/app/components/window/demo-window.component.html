@@ -1,134 +1,325 @@
 <mg-windows-container>
   <h1>Window</h1>
 
-  @if (ctrlForm) {
-    <section>
-      <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
-        <h3>Options</h3>
-        <p>
-          <mg-input class="s-4">
-            <mg-input-label>Position</mg-input-label>
-            <mg-input-select formControlName="position" [data]="position" />
-          </mg-input>
-          @if (ctrlForm.value.position === 'define') {
-            <mg-input class="s-4">
-              <mg-input-prefix>x</mg-input-prefix>
-              <mg-input-number formControlName="posX" />
-              <mg-input-suffix>px</mg-input-suffix>
-            </mg-input>
-            <mg-input class="s-4">
-              <mg-input-prefix>y</mg-input-prefix>
-              <mg-input-number formControlName="posY" /><mg-input-suffix>px</mg-input-suffix>
-            </mg-input>
-          }
-        </p>
-        <h4>Title bar</h4>
-        <p>
-          <mg-input class="s-4">
-            <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-label>title</mg-input-label>
-            <mg-input-text formControlName="barTitle" />
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-label>buttons</mg-input-label>
-            <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
-          </mg-input>
-        </p>
-        <h4>Window size</h4>
-        <p>
-          <mg-input class="s-4">
-            <mg-input-label>width</mg-input-label>
-            <mg-input-text formControlName="width" />
-            <mg-input-desc>px, %, etc.</mg-input-desc>
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-label>minWidth</mg-input-label>
-            <mg-input-text formControlName="minWidth" />
-            <mg-input-desc>px, %, etc.</mg-input-desc>
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-label>maxWidth</mg-input-label>
-            <mg-input-text formControlName="maxWidth" />
-            <mg-input-desc>px, %, etc.</mg-input-desc>
-          </mg-input>
-        </p>
-        <p>
-          <mg-input class="s-4">
-            <mg-input-label>height</mg-input-label>
-            <mg-input-text formControlName="height" />
-            <mg-input-desc>px, %, etc.</mg-input-desc>
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-label>minHeight</mg-input-label>
-            <mg-input-text formControlName="minHeight" />
-            <mg-input-desc>px, %, etc.</mg-input-desc>
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-label>maxHeight</mg-input-label>
-            <mg-input-text formControlName="maxHeight" />
-            <mg-input-desc>px, %, etc.</mg-input-desc>
-          </mg-input>
-        </p>
-        <p>
-          <mg-input class="s-4">
-            <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-label>fixed</mg-input-label>
-            <mg-input-select formControlName="fixed" [data]="fixed" />
-          </mg-input>
-          <mg-input class="s-4">
-            <mg-input-checkbox formControlName="over">over</mg-input-checkbox>
-          </mg-input>
-        </p>
-      </form>
-      <div class="s-2 s-6-l s-12-s">
-        <button (click)="window.isOpen() ? window.close() : window.open()">
-          {{ window.isOpen() ? 'Close' : 'Open' }} window
-        </button>
+  <mg-tabs>
+    <mg-tab-title id="generator">Generator</mg-tab-title>
+    <mg-tab-content id="generator">
+      @if (ctrlForm) {
+        <section>
+          <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
+            <h3>Options</h3>
+            <p>
+              <mg-input class="s-4">
+                <mg-input-label>Position</mg-input-label>
+                <mg-input-select formControlName="position" [data]="position" />
+              </mg-input>
+              @if (ctrlForm.value.position === 'define') {
+                <mg-input class="s-4">
+                  <mg-input-prefix>x</mg-input-prefix>
+                  <mg-input-number formControlName="posX" />
+                  <mg-input-suffix>px</mg-input-suffix>
+                </mg-input>
+                <mg-input class="s-4">
+                  <mg-input-prefix>y</mg-input-prefix>
+                  <mg-input-number formControlName="posY" /><mg-input-suffix>px</mg-input-suffix>
+                </mg-input>
+              }
+            </p>
+            <h4>Title bar</h4>
+            <p>
+              <mg-input class="s-4">
+                <mg-input-checkbox formControlName="bar">Active</mg-input-checkbox>
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>title</mg-input-label>
+                <mg-input-text formControlName="barTitle" />
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>buttons</mg-input-label>
+                <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
+              </mg-input>
+            </p>
+            <h4>Window size</h4>
+            <p>
+              <mg-input class="s-4">
+                <mg-input-label>width</mg-input-label>
+                <mg-input-text formControlName="width" />
+                <mg-input-desc>px, %, etc.</mg-input-desc>
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>minWidth</mg-input-label>
+                <mg-input-text formControlName="minWidth" />
+                <mg-input-desc>px, %, etc.</mg-input-desc>
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>maxWidth</mg-input-label>
+                <mg-input-text formControlName="maxWidth" />
+                <mg-input-desc>px, %, etc.</mg-input-desc>
+              </mg-input>
+            </p>
+            <p>
+              <mg-input class="s-4">
+                <mg-input-label>height</mg-input-label>
+                <mg-input-text formControlName="height" />
+                <mg-input-desc>px, %, etc.</mg-input-desc>
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>minHeight</mg-input-label>
+                <mg-input-text formControlName="minHeight" />
+                <mg-input-desc>px, %, etc.</mg-input-desc>
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>maxHeight</mg-input-label>
+                <mg-input-text formControlName="maxHeight" />
+                <mg-input-desc>px, %, etc.</mg-input-desc>
+              </mg-input>
+            </p>
+            <p>
+              <mg-input class="s-4">
+                <mg-input-checkbox formControlName="lock">lock</mg-input-checkbox>
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-label>fixed</mg-input-label>
+                <mg-input-select formControlName="fixed" [data]="fixed" />
+              </mg-input>
+              <mg-input class="s-4">
+                <mg-input-checkbox formControlName="over">over</mg-input-checkbox>
+              </mg-input>
+            </p>
+          </form>
+          <div class="s-2 s-6-l s-12-s">
+            <button (click)="window.isOpen() ? window.close() : window.open()">
+              {{ window.isOpen() ? 'Close' : 'Open' }} window
+            </button>
 
-        <mg-window
-          #window
-          zoneSelector="mg-windows-container"
-          [position]="
-            ctrlForm.value.position === 'define'
-              ? { x: ctrlForm.value.posX ?? 0, y: ctrlForm.value.posY ?? 0 }
-              : ctrlForm.value.position
-          "
-          [bar]="ctrlForm.value.bar"
-          [barTitle]="ctrlForm.value.barTitle"
-          [barButtons]="ctrlForm.value.barButtons"
-          [width]="ctrlForm.value.width"
-          [minWidth]="ctrlForm.value.minWidth"
-          [maxWidth]="ctrlForm.value.maxWidth"
-          [height]="ctrlForm.value.height"
-          [minHeight]="ctrlForm.value.minHeight"
-          [maxHeight]="ctrlForm.value.maxHeight"
-          [fixed]="$any(ctrlForm.value.fixed === 'true' ? true : ctrlForm.value.fixed || undefined)"
-          [over]="ctrlForm.value.over"
-        >
-          <p>Content window</p>
-          <p>
-            <button (click)="window.close()">Close</button>
-          </p>
-          <p>
-            @let l = [0];
-            @for (b of l; track $index) {
-              <button (click)="l.push(0)">Add</button>
-            }
-          </p>
-        </mg-window>
-      </div>
-      <div class="s-6 s-12-l">
-        <code-tabs
-          [code]="[
-            { type: 'html', code: codeHtml },
-            { type: 'ts', code: codeTs },
-          ]"
-        />
-      </div>
-    </section>
-  }
+            <mg-window
+              #window
+              zoneSelector="mg-windows-container"
+              [position]="
+                ctrlForm.value.position === 'define'
+                  ? { x: ctrlForm.value.posX ?? 0, y: ctrlForm.value.posY ?? 0 }
+                  : ctrlForm.value.position
+              "
+              [bar]="ctrlForm.value.bar"
+              [barTitle]="ctrlForm.value.barTitle"
+              [barButtons]="ctrlForm.value.barButtons"
+              [width]="ctrlForm.value.width"
+              [minWidth]="ctrlForm.value.minWidth"
+              [maxWidth]="ctrlForm.value.maxWidth"
+              [height]="ctrlForm.value.height"
+              [minHeight]="ctrlForm.value.minHeight"
+              [maxHeight]="ctrlForm.value.maxHeight"
+              [fixed]="$any(ctrlForm.value.fixed === 'true' ? true : ctrlForm.value.fixed || undefined)"
+              [over]="ctrlForm.value.over"
+            >
+              <p>Content window</p>
+              <p>
+                <button (click)="window.close()">Close</button>
+              </p>
+              <p>
+                @let l = [0];
+                @for (b of l; track $index) {
+                  <button (click)="l.push(0)">Add</button>
+                }
+              </p>
+            </mg-window>
+          </div>
+          <div class="s-6 s-12-l">
+            <code-tabs
+              [code]="[
+                { type: 'html', code: codeHtml },
+                { type: 'ts', code: codeTs },
+              ]"
+            />
+          </div>
+        </section>
+      }
+    </mg-tab-content>
+
+    <mg-tab-title id="api">API Reference</mg-tab-title>
+    <mg-tab-content id="api">
+      <section>
+        <h4>Inputs — <code>mg-window</code></h4>
+        <table mg>
+          <thead mg>
+            <tr mg>
+              <th mg>Input</th>
+              <th mg>Type</th>
+              <th mg>Default</th>
+              <th mg>Description</th>
+            </tr>
+          </thead>
+          <tbody mg>
+            <tr mg>
+              <td mg><code>position</code></td>
+              <td mg><code>'default' | 'center' | &#123; x: number; y: number &#125;</code></td>
+              <td mg>—</td>
+              <td mg>Initial position of the window</td>
+            </tr>
+            <tr mg>
+              <td mg><code>zoneSelector</code></td>
+              <td mg><code>string</code></td>
+              <td mg>—</td>
+              <td mg>CSS selector for the drag-and-drop container zone</td>
+            </tr>
+            <tr mg>
+              <td mg><code>bar</code></td>
+              <td mg><code>boolean</code></td>
+              <td mg>—</td>
+              <td mg>Shows the title bar</td>
+            </tr>
+            <tr mg>
+              <td mg><code>barTitle</code></td>
+              <td mg><code>string</code></td>
+              <td mg>—</td>
+              <td mg>Title displayed in the bar</td>
+            </tr>
+            <tr mg>
+              <td mg><code>barButtons</code></td>
+              <td mg><code>boolean</code></td>
+              <td mg>—</td>
+              <td mg>Shows minimize / maximize / close buttons in the title bar</td>
+            </tr>
+            <tr mg>
+              <td mg><code>width / minWidth / maxWidth</code></td>
+              <td mg><code>string</code></td>
+              <td mg>—</td>
+              <td mg>CSS size constraints for the window width</td>
+            </tr>
+            <tr mg>
+              <td mg><code>height / minHeight / maxHeight</code></td>
+              <td mg><code>string</code></td>
+              <td mg>—</td>
+              <td mg>CSS size constraints for the window height</td>
+            </tr>
+            <tr mg>
+              <td mg><code>fixed</code></td>
+              <td mg><code>boolean | 'top' | 'bottom' | 'left' | 'right'</code></td>
+              <td mg>—</td>
+              <td mg>Fixes the window to an edge or disables dragging</td>
+            </tr>
+            <tr mg>
+              <td mg><code>over</code></td>
+              <td mg><code>boolean</code></td>
+              <td mg>—</td>
+              <td mg>Renders the window above all others (z-index bump)</td>
+            </tr>
+            <tr mg>
+              <td mg><code>focus</code></td>
+              <td mg><code>boolean</code></td>
+              <td mg>—</td>
+              <td mg>Brings the window to front on creation</td>
+            </tr>
+            <tr mg>
+              <td mg><code>id</code></td>
+              <td mg><code>string</code></td>
+              <td mg>—</td>
+              <td mg>Custom identifier (auto-generated if omitted)</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Model (two-way) — <code>mg-window</code></h4>
+        <table mg>
+          <thead mg>
+            <tr mg>
+              <th mg>Model</th>
+              <th mg>Type</th>
+              <th mg>Default</th>
+              <th mg>Description</th>
+            </tr>
+          </thead>
+          <tbody mg>
+            <tr mg>
+              <td mg><code>isOpen</code></td>
+              <td mg><code>boolean</code></td>
+              <td mg><code>false</code></td>
+              <td mg>Controls the visibility of the window</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Outputs — <code>mg-window</code></h4>
+        <table mg>
+          <thead mg>
+            <tr mg>
+              <th mg>Output</th>
+              <th mg>Type</th>
+              <th mg>Description</th>
+            </tr>
+          </thead>
+          <tbody mg>
+            <tr mg>
+              <td mg><code>closed</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Emitted when the window is closed</td>
+            </tr>
+            <tr mg>
+              <td mg><code>minimized</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Emitted when the window is minimized</td>
+            </tr>
+            <tr mg>
+              <td mg><code>maximized</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Emitted when the window is maximized / fullscreen</td>
+            </tr>
+            <tr mg>
+              <td mg><code>restored</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Emitted when the window is restored from minimized/maximized</td>
+            </tr>
+            <tr mg>
+              <td mg><code>focused</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Emitted when the window is focused</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h4>Methods — <code>mg-window</code></h4>
+        <table mg>
+          <thead mg>
+            <tr mg>
+              <th mg>Method</th>
+              <th mg>Return</th>
+              <th mg>Description</th>
+            </tr>
+          </thead>
+          <tbody mg>
+            <tr mg>
+              <td mg><code>open()</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Opens the window</td>
+            </tr>
+            <tr mg>
+              <td mg><code>close()</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Closes the window and emits <code>closed</code></td>
+            </tr>
+            <tr mg>
+              <td mg><code>minimize()</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Minimizes the window</td>
+            </tr>
+            <tr mg>
+              <td mg><code>restore()</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Restores from minimized or maximized state</td>
+            </tr>
+            <tr mg>
+              <td mg><code>change()</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Toggles fullscreen</td>
+            </tr>
+            <tr mg>
+              <td mg><code>updatePosition()</code></td>
+              <td mg><code>void</code></td>
+              <td mg>Recalculates the window position</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </mg-tab-content>
+  </mg-tabs>
 </mg-windows-container>

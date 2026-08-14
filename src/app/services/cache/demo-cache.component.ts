@@ -2,7 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
-import { MagmaCache, MagmaInput, MagmaInputElement, MagmaInputText } from '@ikilote/magma';
+import {
+    MagmaCache,
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
+} from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -11,7 +18,15 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-cache.component.html',
     styleUrl: './demo-cache.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FormsModule, CodeTabsComponent, MagmaInput, MagmaInputElement, MagmaInputText],
+    imports: [
+        FormsModule,
+        CodeTabsComponent,
+        MagmaInput,
+        MagmaInputElement,
+        MagmaInputText,
+        MagmaTabsModule,
+        MagmaTableModule,
+    ],
 })
 export class DemoCacheComponent {
     protected readonly cache = inject(MagmaCache);

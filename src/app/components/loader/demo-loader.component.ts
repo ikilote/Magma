@@ -15,6 +15,8 @@ import {
     MagmaLoaderMessage,
     MagmaProgress,
     MagmaSpinner,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { Select2Data } from 'ng-select2-component';
@@ -40,6 +42,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputText,
         MagmaInputSelect,
         MagmaInputCheckbox,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoLoaderComponent {

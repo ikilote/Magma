@@ -1,0 +1,94 @@
+<h1>Status</h1>
+
+<p>
+  Status indicators with a colored dot and optional text. Pure CSS — no Angular component needed. Uses the
+  <code>.status</code> class with a theme modifier.
+</p>
+
+<h2>Themes</h2>
+<section>
+  <div class="s-4 s-12-m">
+    <div class="status-group">
+      <span class="status status-success">Online</span>
+      <span class="status status-warning">Degraded</span>
+      <span class="status status-danger">Offline</span>
+      <span class="status status-info">Processing</span>
+      <span class="status status-neutral">Unknown</span>
+      <span class="status status-offline">Disconnected</span>
+    </div>
+  </div>
+  <div class="s-f"><code-tabs [code]="[{ type: 'html', code: basic }]" /></div>
+</section>
+
+<hr />
+
+<h2>Dot only (no text)</h2>
+<section>
+  <div class="s-3 s-12-m">
+    <div class="status-group inline">
+      <span class="status status-success"></span>
+      <span class="status status-warning"></span>
+      <span class="status status-danger"></span>
+      <span class="status status-info"></span>
+    </div>
+  </div>
+  <div class="s-f"><code-tabs [code]="[{ type: 'html', code: dotOnly }]" /></div>
+</section>
+
+<hr />
+
+<h2>Animated pulse</h2>
+<section>
+  <div class="s-3 s-12-m">
+    <div class="status-group">
+      <span class="status status-success status-pulse">Live</span>
+      <span class="status status-danger status-pulse">Recording</span>
+    </div>
+  </div>
+  <div class="s-f"><code-tabs [code]="[{ type: 'html', code: pulse }]" /></div>
+</section>
+
+<hr />
+
+<h2>CSS Variables</h2>
+<section>
+  <div class="s-12">
+    <code-tabs [code]="[{ type: 'scss', code: cssVars }]" />
+    <table>
+      <thead>
+        <tr>
+          <th>Variable</th>
+          <th>Default</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>--status-dot-size</code></td>
+          <td>8px</td>
+          <td>Diameter of the dot</td>
+        </tr>
+        <tr>
+          <td><code>--status-dot-color</code></td>
+          <td>currentColor</td>
+          <td>Color of the dot (overridden by theme)</td>
+        </tr>
+        <tr>
+          <td><code>--status-gap</code></td>
+          <td>6px</td>
+          <td>Space between dot and text</td>
+        </tr>
+        <tr>
+          <td><code>--status-color</code></td>
+          <td>inherit</td>
+          <td>Text color (overridden by theme)</td>
+        </tr>
+        <tr>
+          <td><code>--status-font-size</code></td>
+          <td>0.85em</td>
+          <td>Font size</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

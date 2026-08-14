@@ -1,37 +1,91 @@
 <h1>ngModelChange debounced</h1>
 
-<div>
-  <div class="s-2 s-12-m">
-    <mg-input>
-      <mg-input-label>ngModel debounced</mg-input-label>
-      <mg-input-text
-        [(ngModel)]="binding"
-        (ngModelChangeDebounced)="change($event)"
-        [ngModelChangeDebounceTime]="time"
-      />
-    </mg-input>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-2 s-12-m">
+        <mg-input>
+          <mg-input-label>ngModel debounced</mg-input-label>
+          <mg-input-text
+            [(ngModel)]="binding"
+            (ngModelChangeDebounced)="change($event)"
+            [ngModelChangeDebounceTime]="time"
+          />
+        </mg-input>
 
-    <p>
-      <mg-input>
-        <mg-input-label>Timer</mg-input-label>
-        <mg-input-number [(ngModel)]="time" />
-        <mg-input-suffix>ms</mg-input-suffix>
-      </mg-input>
-    </p>
-  </div>
+        <p>
+          <mg-input>
+            <mg-input-label>Timer</mg-input-label>
+            <mg-input-number [(ngModel)]="time" />
+            <mg-input-suffix>ms</mg-input-suffix>
+          </mg-input>
+        </p>
+      </div>
 
-  <div class="s-3 s-12-m">
-    <code>binding: {{ binding }}</code>
-    <hr />
-    <code>value: {{ value }}</code>
-  </div>
+      <div class="s-3 s-12-m">
+        <code>binding: {{ binding }}</code>
+        <hr />
+        <code>value: {{ value }}</code>
+      </div>
 
-  <div class="s-7 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml() },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <div class="s-7 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml() },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[ngModelChangeDebounced]</code></h4>
+      <p>
+        Adds a debounced version of <code>(ngModelChange)</code>. Must be placed on the same element as
+        <code>[(ngModel)]</code>. Skips the initial value and only emits when the value has changed.
+      </p>
+
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>ngModelChangeDebounceTime</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>500</code></td>
+            <td mg>Debounce delay in milliseconds. Dynamically reactive — changing it resets the timer.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>ngModelChangeDebounced</code></td>
+            <td mg><code>T</code></td>
+            <td mg>Emitted with the current value after the debounce delay, with deduplication</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

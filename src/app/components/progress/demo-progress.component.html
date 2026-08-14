@@ -1,37 +1,82 @@
 <h1>Progress</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
-      <h2 class="s-12">Options</h2>
-      <mg-input class="s-8">
-        <mg-input-label>loaded</mg-input-label>
-        <mg-input-number formControlName="loaded" min="0" noDecimal noNegative />
-      </mg-input>
-      <mg-input class="s-8">
-        <mg-input-label>total</mg-input-label>
-        <mg-input-number formControlName="total" min="1" noDecimal noNegative />
-      </mg-input>
-      <mg-input class="s-8">
-        <mg-input-label>sizeFormat</mg-input-label>
-        <mg-input-select formControlName="sizeFormat" [data]="sizeFormatData" />
-      </mg-input>
-    </form>
-    <div class="s-4 s-6-l s-12-s">
-      <h2>Preview</h2>
-      <mg-progress
-        [loaded]="ctrlForm.value.loaded"
-        [total]="ctrlForm.value.total"
-        [sizeFormat]="ctrlForm.value.sizeFormat"
-      />
-    </div>
-    <div class="s-5 s-12-l">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-}
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+          <h2 class="s-12">Options</h2>
+          <mg-input class="s-8">
+            <mg-input-label>loaded</mg-input-label>
+            <mg-input-number formControlName="loaded" min="0" noDecimal noNegative />
+          </mg-input>
+          <mg-input class="s-8">
+            <mg-input-label>total</mg-input-label>
+            <mg-input-number formControlName="total" min="1" noDecimal noNegative />
+          </mg-input>
+          <mg-input class="s-8">
+            <mg-input-label>sizeFormat</mg-input-label>
+            <mg-input-select formControlName="sizeFormat" [data]="sizeFormatData" />
+          </mg-input>
+        </form>
+        <div class="s-4 s-6-l s-12-s">
+          <h2>Preview</h2>
+          <mg-progress
+            [loaded]="ctrlForm.value.loaded"
+            [total]="ctrlForm.value.total"
+            [sizeFormat]="ctrlForm.value.sizeFormat"
+          />
+        </div>
+        <div class="s-5 s-12-l">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-progress</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>loaded</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Bytes (or units) already transferred</td>
+          </tr>
+          <tr mg>
+            <td mg><code>total</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Total bytes (or units). Used to compute the percentage bar</td>
+          </tr>
+          <tr mg>
+            <td mg><code>sizeFormat</code></td>
+            <td mg><code>FileSizePipeParams</code></td>
+            <td mg>—</td>
+            <td mg>
+              Options forwarded to the <code>fileSize</code> pipe. Supports <code>format</code>, <code>language</code>,
+              <code>translate</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

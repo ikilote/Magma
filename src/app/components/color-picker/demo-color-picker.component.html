@@ -1,130 +1,298 @@
 <h1>Color picker</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
-      <p>
-        <mg-input>
-          <mg-input-label>Color value</mg-input-label>
-          <mg-input-text formControlName="color" />
-        </mg-input>
-      </p>
-      <div>
-        <mg-input class="s-4">
-          <mg-input-label>Alpha</mg-input-label>
-          <mg-input-checkbox formControlName="alpha" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-label>Readonly</mg-input-label>
-          <mg-input-checkbox formControlName="readonly" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-label>Clear button</mg-input-label>
-          <mg-input-checkbox formControlName="clearButton" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-label>Palette</mg-input-label>
-          <mg-input-checkbox formControlName="palette" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-label>Texts</mg-input-label>
-          <mg-input-checkbox formControlName="texts" mode="toggle" />
-        </mg-input>
-      </div>
-    </form>
-    <div class="s-5 s-6-x s-12-m">
-      <h4>Component</h4>
-
-      <mg-color-picker
-        [color]="ctrlForm.value.color"
-        [alpha]="ctrlForm.value.alpha"
-        [clearButton]="ctrlForm.value.clearButton"
-        [readonly]="ctrlForm.value.readonly"
-        [palette]="ctrlForm.value.palette ? palette : undefined"
-        [texts]="ctrlForm.value.texts ? texts : undefined"
-        (colorChange)="colorChange($event)"
-      />
-    </div>
-    <div class="s-4 s-12-x">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-
-  <hr />
-
-  <section>
-    <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlFormPopup">
-      <p>
-        <mg-input>
-          <mg-input-label>colorPicker</mg-input-label>
-          <mg-input-text formControlName="color" />
-        </mg-input>
-      </p>
-      <p>
-        <mg-input class="s-3">
-          <mg-input-label>Alpha</mg-input-label>
-          <mg-input-checkbox formControlName="alpha" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-3">
-          <mg-input-label>Disabled</mg-input-label>
-          <mg-input-checkbox formControlName="disabled" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-3">
-          <mg-input-label>Readonly</mg-input-label>
-          <mg-input-checkbox formControlName="readonly" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-label>Clear button</mg-input-label>
-          <mg-input-checkbox formControlName="clearButton" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-label>Palette</mg-input-label>
-          <mg-input-checkbox formControlName="palette" mode="toggle" />
-        </mg-input>
-        <mg-input class="s-4">
-          <mg-input-label>Texts</mg-input-label>
-          <mg-input-checkbox formControlName="texts" mode="toggle" />
-        </mg-input>
-      </p>
-    </form>
-    <div class="s-4 s-6-x s-12-m">
-      <h4>Directive</h4>
-      <div>
-        <p>
-          <button
-            [colorPicker]="ctrlFormPopup.value.color"
-            [colorPickerAlpha]="ctrlFormPopup.value.alpha"
-            [colorPickerDisabled]="ctrlFormPopup.value.disabled"
-            [colorPickerReadonly]="ctrlFormPopup.value.readonly"
-            [colorPickerClearButton]="ctrlFormPopup.value.clearButton"
-            [colorPickerPalette]="ctrlFormPopup.value.palette ? palette : undefined"
-            [colorPickerTexts]="ctrlFormPopup.value.texts ? texts : undefined"
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+          <p>
+            <mg-input>
+              <mg-input-label>Color value</mg-input-label>
+              <mg-input-text formControlName="color" />
+            </mg-input>
+          </p>
+          <div>
+            <mg-input class="s-4">
+              <mg-input-label>Alpha</mg-input-label>
+              <mg-input-checkbox formControlName="alpha" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-label>Readonly</mg-input-label>
+              <mg-input-checkbox formControlName="readonly" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-label>Clear button</mg-input-label>
+              <mg-input-checkbox formControlName="clearButton" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-label>Palette</mg-input-label>
+              <mg-input-checkbox formControlName="palette" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-label>Texts</mg-input-label>
+              <mg-input-checkbox formControlName="texts" mode="toggle" />
+            </mg-input>
+          </div>
+        </form>
+        <div class="s-5 s-6-x s-12-m">
+          <h4>Component</h4>
+          <mg-color-picker
+            [color]="ctrlForm.value.color"
+            [alpha]="ctrlForm.value.alpha"
+            [clearButton]="ctrlForm.value.clearButton"
+            [readonly]="ctrlForm.value.readonly"
+            [palette]="ctrlForm.value.palette ? palette : undefined"
+            [texts]="ctrlForm.value.texts ? texts : undefined"
             (colorChange)="colorChange($event)"
-            (colorClose)="colorClose($event)"
-          >
-            Click me
-          </button>
-        </p>
-        <div>
-          colorChange : <code>{{ colorChangeValue }}</code>
+          />
         </div>
-        <div>
-          colorClose : <code>{{ colorCloseValue }}</code>
+        <div class="s-4 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
         </div>
-      </div>
-    </div>
-    <div class="s-4 s-12-x">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtmlPopup },
-          { type: 'ts', code: codeTsPopup },
-        ]"
-      />
-    </div>
-  </section>
-}
+      </section>
+
+      <hr />
+
+      <section>
+        <form class="s-4 s-6-x s-12-m" [formGroup]="ctrlFormPopup">
+          <p>
+            <mg-input>
+              <mg-input-label>colorPicker</mg-input-label>
+              <mg-input-text formControlName="color" />
+            </mg-input>
+          </p>
+          <p>
+            <mg-input class="s-3">
+              <mg-input-label>Alpha</mg-input-label>
+              <mg-input-checkbox formControlName="alpha" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-3">
+              <mg-input-label>Disabled</mg-input-label>
+              <mg-input-checkbox formControlName="disabled" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-3">
+              <mg-input-label>Readonly</mg-input-label>
+              <mg-input-checkbox formControlName="readonly" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-label>Clear button</mg-input-label>
+              <mg-input-checkbox formControlName="clearButton" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-label>Palette</mg-input-label>
+              <mg-input-checkbox formControlName="palette" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-label>Texts</mg-input-label>
+              <mg-input-checkbox formControlName="texts" mode="toggle" />
+            </mg-input>
+          </p>
+        </form>
+        <div class="s-4 s-6-x s-12-m">
+          <h4>Directive</h4>
+          <div>
+            <p>
+              <button
+                [colorPicker]="ctrlFormPopup.value.color"
+                [colorPickerAlpha]="ctrlFormPopup.value.alpha"
+                [colorPickerDisabled]="ctrlFormPopup.value.disabled"
+                [colorPickerReadonly]="ctrlFormPopup.value.readonly"
+                [colorPickerClearButton]="ctrlFormPopup.value.clearButton"
+                [colorPickerPalette]="ctrlFormPopup.value.palette ? palette : undefined"
+                [colorPickerTexts]="ctrlFormPopup.value.texts ? texts : undefined"
+                (colorChange)="colorChange($event)"
+                (colorClose)="colorClose($event)"
+              >
+                Click me
+              </button>
+            </p>
+            <div>
+              colorChange : <code>{{ colorChangeValue }}</code>
+            </div>
+            <div>
+              colorClose : <code>{{ colorCloseValue }}</code>
+            </div>
+          </div>
+        </div>
+        <div class="s-4 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtmlPopup },
+              { type: 'ts', code: codeTsPopup },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-color-picker</code> (component)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>color</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg><code>''</code></td>
+            <td mg>Initial color value (any CSS color format)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>alpha</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Enables the alpha channel slider</td>
+          </tr>
+          <tr mg>
+            <td mg><code>readonly</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Makes the picker read-only</td>
+          </tr>
+          <tr mg>
+            <td mg><code>clearButton</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Shows a clear button to reset the color</td>
+          </tr>
+          <tr mg>
+            <td mg><code>palette</code></td>
+            <td mg><code>string[] | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Custom color palette. Uses the built-in palette when undefined.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>texts</code></td>
+            <td mg><code>MagmaColorPickerTexts | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Override UI labels (<code>hsl</code>, <code>palette</code>, <code>cursorZoneLabel</code>)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>datalist</code></td>
+            <td mg><code>string[]</code></td>
+            <td mg>—</td>
+            <td mg>Predefined values for the hex input datalist</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-color-picker</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>colorChange</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Emitted on every color change (hex value)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>[colorPicker]</code> (directive)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>colorPicker</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Initial color value</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorPickerAlpha</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Enables the alpha channel</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorPickerDisabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Disables the picker overlay</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorPickerReadonly</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Makes the picker read-only</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorPickerClearButton</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Shows the clear button</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorPickerPalette</code></td>
+            <td mg><code>string[] | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Custom color palette</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorPickerTexts</code></td>
+            <td mg><code>MagmaColorPickerTexts</code></td>
+            <td mg>—</td>
+            <td mg>Override UI labels</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorPickerDatalist</code></td>
+            <td mg><code>string[] | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Predefined values for the hex input datalist</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>[colorPicker]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>colorChange</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Emitted in real time as the user picks a color</td>
+          </tr>
+          <tr mg>
+            <td mg><code>colorClose</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Emitted on overlay close, only if the color changed</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

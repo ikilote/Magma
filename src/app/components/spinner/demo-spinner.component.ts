@@ -2,7 +2,15 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
-import { FormBuilderExtended, MagmaInput, MagmaInputElement, MagmaInputNumber, MagmaSpinner } from '@ikilote/magma';
+import {
+    FormBuilderExtended,
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputNumber,
+    MagmaSpinner,
+    MagmaTableModule,
+    MagmaTabsModule,
+} from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -11,7 +19,16 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-spinner.component.html',
     styleUrl: './demo-spinner.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [CodeTabsComponent, ReactiveFormsModule, MagmaSpinner, MagmaInput, MagmaInputElement, MagmaInputNumber],
+    imports: [
+        CodeTabsComponent,
+        ReactiveFormsModule,
+        MagmaSpinner,
+        MagmaInput,
+        MagmaInputElement,
+        MagmaInputNumber,
+        MagmaTabsModule,
+        MagmaTableModule,
+    ],
 })
 export class DemoSpinnerComponent {
     readonly fb = inject(FormBuilderExtended);

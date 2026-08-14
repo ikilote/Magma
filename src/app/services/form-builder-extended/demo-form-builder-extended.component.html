@@ -4,54 +4,263 @@
   See also: <strong><a routerLink="/component/input">Inputs</a> » Errors</strong>
 </p>
 
-<div>
-  <form class="s-6" [formGroup]="ctrlForm" (submit)="submit()">
-    <h3 class="s-12">Form example</h3>
-    <div class="s-12">
-      <mg-input class="s-12">
-        <mg-input-label>Id</mg-input-label>
-        <mg-input-text formControlName="id" />
-      </mg-input>
-      <mg-input class="s-12">
-        <mg-input-label>group</mg-input-label>
-        <mg-input-text formControlName="group" />
-      </mg-input>
-      <h4 class="s-12">Group</h4>
-      <ng-container formGroupName="sub">
-        <mg-input class="s-12">
-          <mg-input-label>sub.id</mg-input-label>
-          <mg-input-text formControlName="id" />
-        </mg-input>
-      </ng-container>
-      <ng-container formArrayName="array">
-        <h4 class="s-12">Array</h4>
-        @for (control of ctrlForm.controls.array.controls; track $index; let index = $index) {
-          <ng-container [formGroupName]="index">
-            <mg-input class="s-10">
-              <mg-input-label>array.{{ index }}.id</mg-input-label>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <form class="s-6" [formGroup]="ctrlForm" (submit)="submit()">
+        <h3 class="s-12">Form example</h3>
+        <div class="s-12">
+          <mg-input class="s-12">
+            <mg-input-label>Id</mg-input-label>
+            <mg-input-text formControlName="id" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>group</mg-input-label>
+            <mg-input-text formControlName="group" />
+          </mg-input>
+          <h4 class="s-12">Group</h4>
+          <ng-container formGroupName="sub">
+            <mg-input class="s-12">
+              <mg-input-label>sub.id</mg-input-label>
               <mg-input-text formControlName="id" />
             </mg-input>
           </ng-container>
-          <div class="s-2">
-            <button (click)="remove($index)">Remove</button>
+          <ng-container formArrayName="array">
+            <h4 class="s-12">Array</h4>
+            @for (control of ctrlForm.controls.array.controls; track $index; let index = $index) {
+              <ng-container [formGroupName]="index">
+                <mg-input class="s-10">
+                  <mg-input-label>array.{{ index }}.id</mg-input-label>
+                  <mg-input-text formControlName="id" />
+                </mg-input>
+              </ng-container>
+              <div class="s-2">
+                <button (click)="remove($index)">Remove</button>
+              </div>
+            }
+          </ng-container>
+          <div>
+            <button (click)="add()">Add</button>
           </div>
-        }
-      </ng-container>
-      <div>
-        <button (click)="add()">Add</button>
+        </div>
+        <h3 class="s-12">Value from <code>ctrlForm.value</code></h3>
+        <div class="s-12">
+          <pre><code class="block">{{ ctrlForm.value | json }}</code></pre>
+        </div>
+      </form>
+      <div class="s-6">
+        <code-tabs
+          [code]="[
+            { type: 'ts', code: code.ts },
+            { type: 'html', code: code.html },
+          ]"
+        />
       </div>
     </div>
-    <h3 class="s-12">Value from <code>ctrlForm.value</code></h3>
-    <div class="s-12">
-      <pre><code class="block">{{ ctrlForm.value | json }}</code></pre>
-    </div>
-  </form>
-  <div class="s-6">
-    <code-tabs
-      [code]="[
-        { type: 'ts', code: code.ts },
-        { type: 'html', code: code.html },
-      ]"
-    />
-  </div>
-</div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Service — <code>FormBuilderExtended</code></h4>
+      <p>
+        Extends Angular's <code>FormBuilder</code> with inline validation message configuration and non-nullable
+        controls by default. Works with standard Angular Reactive Forms.
+      </p>
+
+      <h4>Methods</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>groupWithError</code></td>
+            <td mg><code>&lt;T&gt;(controls: T, options?) => FormGroup&lt;FormMapperExtended&lt;T&gt;&gt;</code></td>
+            <td mg>
+              Creates a strongly typed, non-nullable <code>FormGroup</code>. Each control is defined by a
+              <code>ParamsMessages</code> config object that declares <code>default</code>, validators, and error
+              messages. Existing <code>AbstractControl</code> instances (sub-groups, arrays) are passed through as-is.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>validateForm</code></td>
+            <td mg><code>(form: FormGroup | FormArray) => void</code></td>
+            <td mg>
+              Marks all controls as touched and calls <code>updateValueAndValidity()</code> recursively, triggering
+              validation error display.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>array</code></td>
+            <td mg><code>&lt;T extends AbstractControl&gt;(controls: T[], opts?) => FormArray&lt;T&gt;</code></td>
+            <td mg>Typed wrapper around <code>FormBuilder.array()</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4><code>ParamsMessages&lt;T&gt;</code> — control configuration</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>default</code></td>
+            <td mg><code>T</code></td>
+            <td mg>Initial value of the control</td>
+          </tr>
+          <tr mg>
+            <td mg><code>emptyOnInit</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>
+              If <code>true</code>, initialises the control with <code>undefined</code> instead of <code>default</code>
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>options</code></td>
+            <td mg><code>AbstractControlOptions</code></td>
+            <td mg>Standard Angular control options (<code>onlySelf</code>, <code>emitEvent</code>, …)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>control</code></td>
+            <td mg><code>ParamsMessagesControl</code></td>
+            <td mg>Validation rules with inline error messages (see below)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4><code>ParamsMessagesControl</code> — validators</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Key</th>
+            <th mg>State type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>required</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Maps to <code>Validators.required</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>minlength</code></td>
+            <td mg><code>number</code></td>
+            <td mg>Maps to <code>Validators.minLength(n)</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>maxlength</code></td>
+            <td mg><code>number</code></td>
+            <td mg>Maps to <code>Validators.maxLength(n)</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>min</code></td>
+            <td mg><code>number</code></td>
+            <td mg>Maps to <code>Validators.min(n)</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>max</code></td>
+            <td mg><code>number</code></td>
+            <td mg>Maps to <code>Validators.max(n)</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>pattern</code></td>
+            <td mg><code>string | RegExp</code></td>
+            <td mg>Maps to <code>Validators.pattern()</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>email</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Maps to <code>Validators.email</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>inlist</code></td>
+            <td mg><code>(string|number|boolean)[]</code></td>
+            <td mg>Custom validator — value must be in the provided list</td>
+          </tr>
+          <tr mg>
+            <td mg><code>custom</code></td>
+            <td mg><code>(value: unknown) => boolean</code></td>
+            <td mg>Custom validator function. Returns <code>true</code> if valid.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>message</code></td>
+            <td mg><code>string | ((params) => string)</code></td>
+            <td mg>
+              <p>
+                Fallback error message shown when no per-validator message matched. Supports
+                <code>&#123;token&#125;</code> interpolation. The token name is looked up in order: <code>state</code> →
+                Angular's <code>errorData</code> → <code>paramsData</code>.
+              </p>
+              <p>Each per-validator <code>message</code> property also supports the same tokens. (See next table)</p>
+              <p>
+                Alternatively, pass a <strong>function</strong> <code>(params) => string</code> to build the message
+                programmatically. The <code>params</code> object provides <code>type</code>, <code>state</code>,
+                <code>errorData</code>, <code>data</code>, and <code>params</code>.
+              </p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Validator</th>
+            <th mg>Available tokens</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>minlength</code></td>
+            <td mg>
+              <code>&#123;minlength&#125;</code> — configured min (state) · <code>&#123;requiredLength&#125;</code> —
+              same · <code>&#123;actualLength&#125;</code> — current length
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>maxlength</code></td>
+            <td mg>
+              <code>&#123;maxlength&#125;</code> — configured max (state) · <code>&#123;requiredLength&#125;</code> —
+              same · <code>&#123;actualLength&#125;</code> — current length
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>min</code></td>
+            <td mg>
+              <code>&#123;min&#125;</code> — configured min (state) · <code>&#123;actual&#125;</code> — current value
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>max</code></td>
+            <td mg>
+              <code>&#123;max&#125;</code> — configured max (state) · <code>&#123;actual&#125;</code> — current value
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>pattern</code></td>
+            <td mg>
+              <code>&#123;pattern&#125;</code> — configured pattern (state) · <code>&#123;requiredPattern&#125;</code> —
+              same · <code>&#123;actualValue&#125;</code> — current value
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>inlist</code></td>
+            <td mg><code>&#123;list&#125;</code> · <code>&#123;actualValue&#125;</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

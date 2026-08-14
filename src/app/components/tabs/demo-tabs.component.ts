@@ -11,6 +11,7 @@ import {
     MagmaInputText,
     MagmaInputTextarea,
     MagmaMessages,
+    MagmaTableModule,
     MagmaTabsModule,
 } from '@ikilote/magma';
 
@@ -32,6 +33,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputCheckbox,
         MagmaBlock,
         MagmaDialog,
+        MagmaTableModule,
     ],
 })
 export class DemoTabsComponent {

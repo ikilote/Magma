@@ -14,6 +14,8 @@ import {
     MagmaMessageType,
     MagmaMessages,
     MagmaStopPropagationDirective,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { Select2Data } from 'ng-select2-component';
@@ -62,6 +64,8 @@ export class ContextTestComponent {
         MagmaInputCheckbox,
         ArrayFilterPipe,
         CodeTabsComponent,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoInfoMessageComponent {

@@ -11,6 +11,8 @@ import {
     MagmaInputElement,
     MagmaInputSelect,
     MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { CSSVar, CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -28,6 +30,8 @@ import { CSSVar, CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputElement,
         MagmaInputSelect,
         MagmaInputText,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoAvatarComponent {

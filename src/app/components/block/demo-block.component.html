@@ -1,110 +1,100 @@
 <h1>Block</h1>
 
-<div>
-  <div class="s-9 s-12-l">
-    <h2>One block</h2>
-    <mg-block>
-      <h1>Test</h1>
-      <p>Test</p>
-    </mg-block>
-  </div>
-  <div class="s-3 s-12-l">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
-
-<div>
-  <div class="s-9 s-12-l">
-    <h2>With grid</h2>
-    <div class="gap">
-      <mg-block class="s-3 s-6-l s-12-s">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-3 s-6-l s-12-s">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-6 s-12-l">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-6 s-12-l">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-6">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-12">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-4">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-4">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-2">
-        <h1>Test</h1>
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
-      <mg-block class="s-1">
-        <p>Test</p>
-      </mg-block>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-9 s-12-l">
+        <h2>One block</h2>
+        <mg-block>
+          <h1>Test</h1>
+          <p>Test</p>
+        </mg-block>
+      </div>
+      <div class="s-3 s-12-l">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
     </div>
-  </div>
-  <div class="s-3 s-12-l">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlGridGad },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+
+    <div>
+      <div class="s-9 s-12-l">
+        <h2>With grid</h2>
+        <div class="gap">
+          <mg-block class="s-3 s-6-l s-12-s">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-3 s-6-l s-12-s">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-6 s-12-l">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-6 s-12-l">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-6">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-12">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-4">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-4">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-2">
+            <h1>Test</h1>
+            <p>Test</p>
+          </mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+          <mg-block class="s-1"><p>Test</p></mg-block>
+        </div>
+      </div>
+      <div class="s-3 s-12-l">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlGridGad },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <p>
+        <code>mg-block</code> is a structural container component with no inputs, outputs, or methods. It applies a
+        styled block layout via CSS and supports content projection. Use it with grid classes (<code>s-*</code>) for
+        responsive layouts.
+      </p>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

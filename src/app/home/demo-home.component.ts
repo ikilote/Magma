@@ -51,15 +51,15 @@ export class DemoHomeComponent {
     categories = [
         {
             name: 'Components',
-            description: '20+ ready-to-use UI components.',
+            description: '26 ready-to-use UI components.',
             link: '/component/spinner',
-            count: 20,
+            count: 26,
         },
         {
             name: 'Directives',
             description: 'Angular directives to enhance your templates.',
             link: '/directive/tooltip',
-            count: 9,
+            count: 10,
         },
         {
             name: 'Pipes',
@@ -71,7 +71,7 @@ export class DemoHomeComponent {
             name: 'Services',
             description: 'Reusable services for your applications.',
             link: '/service/cache',
-            count: 3,
+            count: 6,
         },
         {
             name: 'Utils',
@@ -83,7 +83,7 @@ export class DemoHomeComponent {
             name: 'Styles',
             description: 'Design system: palette, grid, icons.',
             link: '/style/palette',
-            count: 6,
+            count: 8,
         },
     ];
 }

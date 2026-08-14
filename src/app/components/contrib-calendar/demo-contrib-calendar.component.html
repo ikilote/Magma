@@ -1,74 +1,134 @@
 <h1>Contrib-calendar</h1>
 
-<div>
-  <div class="s-4 s-12-l">
-    <h2>Options</h2>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-4 s-12-l">
+        <h2>Options</h2>
 
-    <form [formGroup]="ctrlForm">
-      <mg-input class="s-12">
-        <mg-input-label>Language</mg-input-label>
-        <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
-        <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>Min</mg-input-label>
-        <mg-input-date formControlName="min" />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>Max</mg-input-label>
-        <mg-input-date formControlName="max" />
-      </mg-input>
-      <mg-input class="s-6 s-12-x">
-        <mg-input-label>First day of the week</mg-input-label>
-        <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
-      </mg-input>
-    </form>
+        <form [formGroup]="ctrlForm">
+          <mg-input class="s-12">
+            <mg-input-label>Language</mg-input-label>
+            <mg-input-select [data]="langues" formControlName="lang" nativeKeyboard />
+            <mg-input-desc>based on JS Internationalisation API (Intl)</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>Min</mg-input-label>
+            <mg-input-date formControlName="min" />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>Max</mg-input-label>
+            <mg-input-date formControlName="max" />
+          </mg-input>
+          <mg-input class="s-6 s-12-x">
+            <mg-input-label>First day of the week</mg-input-label>
+            <mg-input-select [data]="days" formControlName="day" nativeKeyboard />
+          </mg-input>
+        </form>
 
-    <h2>Calendar</h2>
+        <h2>Calendar</h2>
 
-    @if (formArray) {
-      <form [formGroup]="formArray">
-        <div formArrayName="items">
-          @for (item of items.controls; track $index; let i = $index) {
-            <div [formGroupName]="i">
-              <mg-input class="s-6 s-12-x">
-                <mg-input-label>Date</mg-input-label>
-                <mg-input-date formControlName="date" step="0" />
-              </mg-input>
-              <mg-input class="s-3 s-12-x">
-                <mg-input-label>Value</mg-input-label>
-                <mg-input-number formControlName="value" step="0" />
-              </mg-input>
-              <div class="s-f s-12-x">
-                <button type="button" (click)="removeItem(i)">Remove</button>
-              </div>
+        @if (formArray) {
+          <form [formGroup]="formArray">
+            <div formArrayName="items">
+              @for (item of items.controls; track $index; let i = $index) {
+                <div [formGroupName]="i">
+                  <mg-input class="s-6 s-12-x">
+                    <mg-input-label>Date</mg-input-label>
+                    <mg-input-date formControlName="date" step="0" />
+                  </mg-input>
+                  <mg-input class="s-3 s-12-x">
+                    <mg-input-label>Value</mg-input-label>
+                    <mg-input-number formControlName="value" step="0" />
+                  </mg-input>
+                  <div class="s-f s-12-x">
+                    <button type="button" (click)="removeItem(i)">Remove</button>
+                  </div>
+                </div>
+              }
             </div>
-          }
-        </div>
+            <div class="s-12">
+              <button type="button" (click)="addItem()">Add Row</button>
+            </div>
+          </form>
+        }
+      </div>
+      <div class="s-8 s-12-l gap">
         <div class="s-12">
-          <button type="button" (click)="addItem()">Add Row</button>
+          <mg-contrib-calendar
+            [calendar]="items.value"
+            [lang]="ctrlForm.value.lang"
+            [min]="ctrlForm.value.min"
+            [max]="ctrlForm.value.max"
+            [firstDayOfWeek]="ctrlForm.value.day"
+          />
         </div>
-      </form>
-    }
-  </div>
-  <div class="s-8 s-12-l gap">
-    <div class="s-12">
-      <mg-contrib-calendar
-        [calendar]="items.value"
-        [lang]="ctrlForm.value.lang"
-        [min]="ctrlForm.value.min"
-        [max]="ctrlForm.value.max"
-        [firstDayOfWeek]="ctrlForm.value.day"
-      />
-    </div>
 
-    <div class="s-12">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
+        <div class="s-12">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-contrib-calendar</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>calendar</code> <em>(required)</em></td>
+            <td mg><code>ContribCalendar</code></td>
+            <td mg>—</td>
+            <td mg>Array of <code>&#123; date: string | Date, value: number &#125;</code> entries</td>
+          </tr>
+          <tr mg>
+            <td mg><code>lang</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>BCP 47 locale for day/month names (uses browser default when unset)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>min</code></td>
+            <td mg><code>string | number | Date | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Minimum date to display</td>
+          </tr>
+          <tr mg>
+            <td mg><code>max</code></td>
+            <td mg><code>string | number | Date | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Maximum date to display</td>
+          </tr>
+          <tr mg>
+            <td mg><code>steps</code></td>
+            <td mg><code>&#123; value: number; color: string &#125;[]</code></td>
+            <td mg>4 levels</td>
+            <td mg>Color thresholds. Each step defines a minimum value and the matching color.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>firstDayOfWeek</code></td>
+            <td mg><code>'Monday' | 'Sunday' | 'Saturday' | undefined</code></td>
+            <td mg><code>'Monday'</code></td>
+            <td mg>First day of the week for the column headers</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

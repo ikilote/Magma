@@ -11,6 +11,8 @@ import {
     MagmaInputElement,
     MagmaInputNumber,
     MagmaInputSelect,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { days, langues } from '../../common/const';
@@ -30,6 +32,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputElement,
         MagmaInputNumber,
         MagmaInputDate,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoContribCalendarComponent {

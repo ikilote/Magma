@@ -11,6 +11,8 @@ import {
     MagmaInputElement,
     MagmaInputSelect,
     MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -30,6 +32,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputElement,
         MagmaInputSelect,
         MagmaInputText,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoBadgeComponent {

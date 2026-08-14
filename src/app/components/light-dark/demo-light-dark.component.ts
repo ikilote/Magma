@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { MagmaLightDark } from '@ikilote/magma';
+import { MagmaLightDark, MagmaTableModule, MagmaTabsModule } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -9,7 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-light-dark.component.html',
     styleUrl: './demo-light-dark.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaLightDark, CodeTabsComponent],
+    imports: [MagmaLightDark, CodeTabsComponent, MagmaTabsModule, MagmaTableModule],
 })
 export class DemoLightDarkComponent {
     codeHtml = '<mg-light-dark />';

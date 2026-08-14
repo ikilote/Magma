@@ -1,0 +1,142 @@
+<h1>Accessibility – Vision Themes</h1>
+
+<p>
+  Test how the Magma palette adapts for different types of color vision deficiency. Select a theme below to apply it
+  live and see how components look.
+</p>
+
+<mg-block class="s-12">
+  <h3>Select a vision theme</h3>
+  <div class="theme-selector">
+    <mg-input class="s-6">
+      <mg-input-label>Vision theme</mg-input-label>
+      <mg-input-select
+        [data]="themeSelectData"
+        [value]="visionThemeService.current()"
+        (update)="applyTheme($any($event))"
+      />
+    </mg-input>
+  </div>
+
+  <div class="theme-chips">
+    @for (theme of themes; track theme.key) {
+      <button
+        type="button"
+        class="chip"
+        [class.active]="visionThemeService.current() === theme.key"
+        (click)="applyTheme(theme.key)"
+      >
+        {{ theme.label }}
+      </button>
+    }
+  </div>
+
+  <h4>Component usage</h4>
+  <p>Use <code>mg-vision-theme</code> in your app to let users switch themes:</p>
+  <div class="component-demo">
+    <mg-vision-theme [compact]="false" />
+    <mg-vision-theme />
+  </div>
+</mg-block>
+
+<mg-block class="s-12 info-block">
+  <h3>{{ activeThemeInfo.label }}</h3>
+  <p>{{ activeThemeInfo.description }}</p>
+</mg-block>
+
+<mg-tabs>
+  <mg-tab-title id="preview">Components preview</mg-tab-title>
+  <mg-tab-title id="palette">Palette</mg-tab-title>
+  <mg-tab-title id="usage">Usage</mg-tab-title>
+
+  <mg-tab-content id="preview">
+    <section>
+      <h3>Buttons</h3>
+      <div class="button-row">
+        <button type="button">Default</button>
+        <button type="button" class="primary">Primary</button>
+        <button type="button" class="warn">Warn</button>
+        <button type="button" disabled>Disabled</button>
+      </div>
+    </section>
+
+    <section>
+      <h3>Messages</h3>
+      <mg-message>
+        <mg-message-block type="info">Info – neutral information</mg-message-block>
+        <mg-message-block type="success">Success – operation completed</mg-message-block>
+        <mg-message-block type="warn">Warning – potential issue ahead</mg-message-block>
+        <mg-message-block type="error">Error – something went wrong</mg-message-block>
+        <mg-message-block type="tip">Tip – useful suggestion</mg-message-block>
+      </mg-message>
+    </section>
+
+    <section>
+      <h3>Semantic color blocks</h3>
+      <p>
+        These blocks show the alert, warn, and success families side by side — the critical area for color blindness.
+      </p>
+      <div class="semantic-blocks">
+        <div class="semantic-block alert">
+          <span>Alert / Error</span>
+        </div>
+        <div class="semantic-block warn">
+          <span>Warning</span>
+        </div>
+        <div class="semantic-block success">
+          <span>Success</span>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h3>Links</h3>
+      <div>
+        <a href="javascript:void(0)">Standard link</a>
+        &nbsp;|&nbsp;
+        <span>Plain text for comparison</span>
+      </div>
+    </section>
+
+    <section>
+      <h3>Focus indicator</h3>
+      <p>Tab into the button below to check focus ring visibility.</p>
+      <button type="button" class="primary">Focus me</button>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-content id="palette">
+    @for (list of palette; track $index) {
+      <section>
+        <h3>{{ list.group }}</h3>
+        <div class="squares">
+          @for (color of list.list; track $index) {
+            <div class="swatch" style="--color: var(--{{ list.group + color }})">
+              <span class="swatch-label">{{ color }}</span>
+            </div>
+          }
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-content id="usage">
+    <section>
+      <h3>How to use accessibility themes</h3>
+
+      <p>Import the desired theme CSS file alongside <code>css-var.css</code>, then use the service or component.</p>
+
+      <code-tabs [code]="[{ type: 'css', code: cssSnippet }]"></code-tabs>
+
+      <h4>Available theme files</h4>
+      <ul>
+        <li><code>theme-protanopia.css</code> — Red-green color blindness (protanopia & deuteranopia)</li>
+        <li><code>theme-tritanopia.css</code> — Blue-yellow color blindness</li>
+        <li><code>theme-high-contrast.css</code> — Low vision / high contrast needs</li>
+      </ul>
+
+      <h4>Integration example</h4>
+      <code-tabs [code]="[{ type: 'ts', code: integrationCss }]"></code-tabs>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

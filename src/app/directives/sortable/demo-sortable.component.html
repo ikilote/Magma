@@ -1,95 +1,211 @@
 <h1>Sortable</h1>
 
-<h2>Basic usage</h2>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <h2>Basic usage</h2>
 
-<div>
-  <div class="s-6 s-12-m">
-    <table mg hover [sortable]="items" class="s-12">
-      <thead mg>
-        <tr mg>
-          <th mg [sortRule]="{ type: 'string', attr: 'col1', init: 'asc' }">Col 1</th>
-          <th mg sortRule="col2">Col 2</th>
-          <th mg [sortRule]="{ type: 'string', attr: 'col3' }">Col 3</th>
-          <th mg [sortRule]="{ type: 'string', attr: 'col4' }">Col 4</th>
-          <th mg [sortRule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
-          <th mg [sortRule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
-          <th mg sortRule="col6.value:number,col5.value:number">Col Num+</th>
-        </tr>
-      </thead>
-      <tbody mg>
-        @for (item of items; track $index) {
+    <div>
+      <div class="s-6 s-12-m">
+        <table mg hover [sortable]="items" class="s-12">
+          <thead mg>
+            <tr mg>
+              <th mg [sortRule]="{ type: 'string', attr: 'col1', init: 'asc' }">Col 1</th>
+              <th mg sortRule="col2">Col 2</th>
+              <th mg [sortRule]="{ type: 'string', attr: 'col3' }">Col 3</th>
+              <th mg [sortRule]="{ type: 'string', attr: 'col4' }">Col 4</th>
+              <th mg [sortRule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
+              <th mg [sortRule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
+              <th mg sortRule="col6.value:number,col5.value:number">Col Num+</th>
+            </tr>
+          </thead>
+          <tbody mg>
+            @for (item of items; track $index) {
+              <tr mg>
+                <td mg>{{ item.col1 }}</td>
+                <td mg>{{ item.col2 }}</td>
+                <td mg>{{ item.col3 }}</td>
+                <td mg>{{ item.col4 }}</td>
+                <td mg>{{ item.col5.value | numFormat }}</td>
+                <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
+                <td mg>{{ item.col6.value | numFormat }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="s-6 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+
+    <h2>With filter</h2>
+
+    <div>
+      <div class="s-6 s-12-m">
+        <mg-input class="s-6">
+          <mg-input-label>Filter</mg-input-label>
+          <mg-input-text clearCross id="browser-list-filter" maxlength="150" [(ngModel)]="filter" #inputFilter />
+        </mg-input>
+
+        <table
+          mg
+          hover
+          [sortable]="items"
+          [sortableFilterInput]="inputFilter"
+          [sortableFilter]="sortableFilter"
+          class="s-12"
+        >
+          <thead mg>
+            <tr mg>
+              <th mg [sortRule]="{ type: 'string', attr: 'col1' }">Col 1</th>
+              <th mg [sortRule]="{ type: 'string', attr: 'col2' }">Col 2</th>
+              <th mg [sortRule]="{ type: 'string', attr: 'col3' }">Col 3</th>
+              <th mg [sortRule]="{ type: 'string', attr: 'col4' }">Col 4</th>
+              <th mg [sortRule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
+              <th mg [sortRule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
+            </tr>
+          </thead>
+          <tbody mg>
+            @for (item of items; track $index) {
+              <tr mg>
+                <td mg>{{ item.col1 }}</td>
+                <td mg>{{ item.col2 }}</td>
+                <td mg>{{ item.col3 }}</td>
+                <td mg>{{ item.col4 }}</td>
+                <td mg>{{ item.col5.value | numFormat }}</td>
+                <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <div class="s-6 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlFilter },
+            { type: 'ts', code: codeTsFilter },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>[sortable]</code></h4>
+      <table mg>
+        <thead mg>
           <tr mg>
-            <td mg>{{ item.col1 }}</td>
-            <td mg>{{ item.col2 }}</td>
-            <td mg>{{ item.col3 }}</td>
-            <td mg>{{ item.col4 }}</td>
-            <td mg>{{ item.col5.value | numFormat }}</td>
-            <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
-            <td mg>{{ item.col6.value | numFormat }}</td>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
           </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-
-  <div class="s-6 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
-
-<h2>With filter</h2>
-
-<div>
-  <div class="s-6 s-12-m">
-    <mg-input class="s-6">
-      <mg-input-label>Filter</mg-input-label>
-      <mg-input-text clearCross id="browser-list-filter" maxlength="150" [(ngModel)]="filter" #inputFilter />
-    </mg-input>
-
-    <table
-      mg
-      hover
-      [sortable]="items"
-      [sortableFilterInput]="inputFilter"
-      [sortableFilter]="sortableFilter"
-      class="s-12"
-    >
-      <thead mg>
-        <tr mg>
-          <th mg [sortRule]="{ type: 'string', attr: 'col1' }">Col 1</th>
-          <th mg [sortRule]="{ type: 'string', attr: 'col2' }">Col 2</th>
-          <th mg [sortRule]="{ type: 'string', attr: 'col3' }">Col 3</th>
-          <th mg [sortRule]="{ type: 'string', attr: 'col4' }">Col 4</th>
-          <th mg [sortRule]="{ type: 'number', attr: 'col5.value' }">Col Num</th>
-          <th mg [sortRule]="{ type: 'date', attr: 'col5.date' }">Col Date</th>
-        </tr>
-      </thead>
-      <tbody mg>
-        @for (item of items; track $index) {
+        </thead>
+        <tbody mg>
           <tr mg>
-            <td mg>{{ item.col1 }}</td>
-            <td mg>{{ item.col2 }}</td>
-            <td mg>{{ item.col3 }}</td>
-            <td mg>{{ item.col4 }}</td>
-            <td mg>{{ item.col5.value | numFormat }}</td>
-            <td mg>{{ item.col5.date | date: 'yyyy-MM-dd' }}</td>
+            <td mg><code>sortable</code> <em>(required)</em></td>
+            <td mg><code>T[]</code></td>
+            <td mg>—</td>
+            <td mg>The data array to sort. The array is sorted in-place.</td>
           </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+          <tr mg>
+            <td mg><code>sortableFilterInput</code></td>
+            <td mg><code>HTMLInputElement | MagmaInputCommon | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Bound to an input element. Filters the list as the user types.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>sortableFilter</code></td>
+            <td mg><code>(key: string, item: T, index: number) => boolean</code></td>
+            <td mg>—</td>
+            <td mg>Custom filter function. Called for each item with the current filter string.</td>
+          </tr>
+        </tbody>
+      </table>
 
-  <div class="s-6 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtmlFilter },
-        { type: 'ts', code: codeTsFilter },
-      ]"
-    />
-  </div>
-</div>
+      <h4>Outputs — <code>[sortable]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>sortableChange</code></td>
+            <td mg><code>T[]</code></td>
+            <td mg>Emitted after each sort or filter operation with the updated list</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>[sortRule]</code> (on <code>th</code>)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>sortRule</code></td>
+            <td mg><code>MagmaSortRules</code></td>
+            <td mg>—</td>
+            <td mg>
+              Sort rule for this column. Can be:
+              <ul>
+                <li>
+                  A string: <code>'path.to.attr'</code>, <code>'path:number:desc'</code>, multi:
+                  <code>'a:number,b:date'</code>
+                </li>
+                <li>
+                  An object: <code>&#123; type: 'string'|'number'|'date', attr: '...', init?: 'asc'|'desc' &#125;</code>
+                </li>
+                <li><code>&#123; type: 'none' &#125;</code> — column not sortable</li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>CSS classes applied by <code>[sortRule]</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Class</th>
+            <th mg>Condition</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>sort-asc</code></td>
+            <td mg>Column is sorted ascending</td>
+          </tr>
+          <tr mg>
+            <td mg><code>sort-desc</code></td>
+            <td mg>Column is sorted descending</td>
+          </tr>
+          <tr mg>
+            <td mg><code>sort-cell</code></td>
+            <td mg>Column has <code>type: 'none'</code> (not sortable)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

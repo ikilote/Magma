@@ -4,7 +4,14 @@ import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } f
 import { RouterLink } from '@angular/router';
 
 import { Json2html, Json2htmlRef } from '@ikilote/json2html';
-import { FormBuilderExtended, MagmaInput, MagmaInputElement, MagmaInputText } from '@ikilote/magma';
+import {
+    FormBuilderExtended,
+    MagmaInput,
+    MagmaInputElement,
+    MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
+} from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -26,6 +33,8 @@ type MyArrayItem = FormGroup<{
         JsonPipe,
         CodeTabsComponent,
         RouterLink,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoFormBuilderExtended {

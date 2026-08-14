@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { MagmaClickOutsideDirective } from '@ikilote/magma';
+import { MagmaClickOutsideDirective, MagmaTableModule, MagmaTabsModule } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
 
@@ -9,7 +9,7 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-click-outside.component.html',
     styleUrl: './demo-click-outside.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaClickOutsideDirective, CodeTabsComponent],
+    imports: [MagmaClickOutsideDirective, CodeTabsComponent, MagmaTabsModule, MagmaTableModule],
 })
 export class DemoClickOutsideComponent {
     codeHtml = `<button (clickOutside)="clickOutside()" (click)="clickInside()">Click</button>`;

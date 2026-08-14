@@ -9,6 +9,8 @@ import {
     MagmaInputSelect,
     MagmaLoaderBlock,
     MagmaLoaderTile,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { Select2Data } from 'ng-select2-component';
@@ -28,6 +30,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputSelect,
         MagmaLoaderBlock,
         MagmaLoaderTile,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoLoaderBlockComponent {

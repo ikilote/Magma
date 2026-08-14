@@ -1,38 +1,77 @@
 <h1>Loader-block</h1>
 
-@if (ctrlForm) {
-  <section>
-    <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
-      <mg-input class="s-8">
-        <mg-input-label>Example</mg-input-label>
-        <mg-input-select formControlName="example" [data]="examples" />
-      </mg-input>
-    </form>
-    <div class="s-5 s-6-l s-12-s">
-      <h2>Preview</h2>
-      <div class="loader">
-        @switch (ctrlForm.value.example) {
-          @case ('example-1') {
-            <mg-loader-block><mg-loader-tile /><mg-loader-tile /></mg-loader-block>
-          }
-          @case ('example-2') {
-            <mg-loader-block>
-              <mg-loader-tile size="70px / 70px" />
-              <mg-loader-tile size="70px / 70px" />
-              <mg-loader-tile size="flex / 70px" />
-              <mg-loader-tile size="100% / 70px" />
-            </mg-loader-block>
-          }
-        }
-      </div>
-    </div>
-    <div class="s-4 s-12-l">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-        ]"
-      />
-    </div>
-  </section>
-}
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+          <mg-input class="s-8">
+            <mg-input-label>Example</mg-input-label>
+            <mg-input-select formControlName="example" [data]="examples" />
+          </mg-input>
+        </form>
+        <div class="s-5 s-6-l s-12-s">
+          <h2>Preview</h2>
+          <div class="loader">
+            @switch (ctrlForm.value.example) {
+              @case ('example-1') {
+                <mg-loader-block><mg-loader-tile /><mg-loader-tile /></mg-loader-block>
+              }
+              @case ('example-2') {
+                <mg-loader-block>
+                  <mg-loader-tile size="70px / 70px" />
+                  <mg-loader-tile size="70px / 70px" />
+                  <mg-loader-tile size="flex / 70px" />
+                  <mg-loader-tile size="100% / 70px" />
+                </mg-loader-block>
+              }
+            }
+          </div>
+        </div>
+        <div class="s-4 s-12-l">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4><code>mg-loader-block</code></h4>
+      <p>
+        Skeleton container with no inputs. Accepts <code>mg-loader-tile</code> children and arranges them in a flex row.
+      </p>
+
+      <h4>Inputs — <code>mg-loader-tile</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>size</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>
+              Shorthand for <code>width / height</code>. Use <code>flex</code> for a flexible dimension and
+              <code>100%</code> for full-width. Examples: <code>'70px / 70px'</code>, <code>'flex / 40px'</code>,
+              <code>'100% / 20px'</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

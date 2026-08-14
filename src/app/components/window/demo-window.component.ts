@@ -10,6 +10,8 @@ import {
     MagmaInputNumber,
     MagmaInputSelect,
     MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
     MagmaWindow,
     MagmaWindows,
     MagmaWindowsContainer,
@@ -35,6 +37,8 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
         MagmaInputText,
         MagmaWindow,
         MagmaWindowsContainer,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoWindowComponent {

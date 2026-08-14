@@ -9,6 +9,8 @@ import {
     MagmaInputCheckbox,
     MagmaInputElement,
     MagmaInputText,
+    MagmaTableModule,
+    MagmaTabsModule,
 } from '@ikilote/magma';
 
 import { CodeTabsComponent } from '../../demo/code-tabs.component';
@@ -31,6 +33,8 @@ interface BreadcrumbStep {
         MagmaInputElement,
         MagmaInputCheckbox,
         MagmaInputText,
+        MagmaTabsModule,
+        MagmaTableModule,
     ],
 })
 export class DemoBreadcrumbsComponent {

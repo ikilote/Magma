@@ -1,70 +1,118 @@
 <h1>Avatar</h1>
 
-@if (ctrlForm) {
-  <section class="gap">
-    <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
-      <h3>Options</h3>
-      <mg-input class="s-12">
-        <mg-input-label>Image src</mg-input-label>
-        <mg-input-text formControlName="src" />
-      </mg-input>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section class="gap">
+        <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+          <h3>Options</h3>
+          <mg-input class="s-12">
+            <mg-input-label>Image src</mg-input-label>
+            <mg-input-text formControlName="src" />
+          </mg-input>
 
-      <mg-input class="s-12">
-        <mg-input-label>Initials</mg-input-label>
-        <mg-input-text formControlName="initials" maxlength="3" />
-      </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Initials</mg-input-label>
+            <mg-input-text formControlName="initials" maxlength="3" />
+          </mg-input>
 
-      <mg-input class="s-12">
-        <mg-input-label>Size</mg-input-label>
-        <mg-input-select formControlName="size" [data]="sizeOptions" />
-      </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Size</mg-input-label>
+            <mg-input-select formControlName="size" [data]="sizeOptions" />
+          </mg-input>
 
-      <mg-input class="s-12">
-        <mg-input-label>Alt</mg-input-label>
-        <mg-input-text formControlName="alt" />
-      </mg-input>
-    </form>
-    <div class="s-3 s-6-x s-12-m">
-      <h3>Render</h3>
-      <div class="avatar-demo-grid">
-        <mg-avatar
-          [src]="ctrlForm.value.src || undefined"
-          [initials]="ctrlForm.value.initials || ''"
-          [size]="$any(ctrlForm.value.size)"
-          [alt]="ctrlForm.value.alt || ''"
-        />
+          <mg-input class="s-12">
+            <mg-input-label>Alt</mg-input-label>
+            <mg-input-text formControlName="alt" />
+          </mg-input>
+        </form>
+        <div class="s-3 s-6-x s-12-m">
+          <h3>Render</h3>
+          <div class="avatar-demo-grid">
+            <mg-avatar
+              [src]="ctrlForm.value.src || undefined"
+              [initials]="ctrlForm.value.initials || ''"
+              [size]="$any(ctrlForm.value.size)"
+              [alt]="ctrlForm.value.alt || ''"
+            />
+          </div>
+        </div>
+        <div class="s-6 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+              { type: 'css-edit', code: codeCss, title: 'css' },
+            ]"
+          />
+        </div>
+      </section>
+    }
+
+    <h3>Examples</h3>
+    <div>
+      <div class="s-4 s-12-l">
+        <h4>Sizes</h4>
+        <div class="avatar-demo-grid">
+          <mg-avatar size="small" initials="SM" />
+          <mg-avatar size="medium" initials="MD" />
+          <mg-avatar size="large" initials="LG" />
+          <mg-avatar size="extra" initials="XT" />
+        </div>
+      </div>
+      <div class="s-4 s-12-l">
+        <h4>With image</h4>
+        <div class="avatar-demo-grid">
+          <mg-avatar [src]="avatarA" alt="User logo: Alice" size="small" />
+          <mg-avatar [src]="avatarB" alt="User logo: Brigit" size="medium" />
+          <mg-avatar [src]="avatarC" alt="User logo: Carol" size="large" />
+          <mg-avatar [src]="avatarD" alt="User logo: Charles" size="extra" />
+        </div>
       </div>
     </div>
-    <div class="s-6 s-12-x">
-      <code-tabs
-        [code]="[
-          { type: 'html', code: codeHtml },
-          { type: 'ts', code: codeTs },
-          { type: 'css-edit', code: codeCss, title: 'css' },
-        ]"
-      />
-    </div>
-  </section>
-}
+  </mg-tab-content>
 
-<h3>Examples</h3>
-<div>
-  <div class="s-4 s-12-l">
-    <h4>Sizes</h4>
-    <div class="avatar-demo-grid">
-      <mg-avatar size="small" initials="SM" />
-      <mg-avatar size="medium" initials="MD" />
-      <mg-avatar size="large" initials="LG" />
-      <mg-avatar size="extra" initials="XT" />
-    </div>
-  </div>
-  <div class="s-4 s-12-l">
-    <h4>With image</h4>
-    <div class="avatar-demo-grid">
-      <mg-avatar [src]="avatarA" alt="User logo: Alice" size="small" />
-      <mg-avatar [src]="avatarB" alt="User logo: Brigit" size="medium" />
-      <mg-avatar [src]="avatarC" alt="User logo: Carol" size="large" />
-      <mg-avatar [src]="avatarD" alt="User logo: Charles" size="extra" />
-    </div>
-  </div>
-</div>
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-avatar</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>src</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Image URL for the avatar</td>
+          </tr>
+          <tr mg>
+            <td mg><code>initials</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>Fallback text (1–3 chars) shown when no image is available</td>
+          </tr>
+          <tr mg>
+            <td mg><code>size</code></td>
+            <td mg><code>'small' | 'medium' | 'large' | 'extra'</code></td>
+            <td mg><code>'medium'</code></td>
+            <td mg>Size of the avatar</td>
+          </tr>
+          <tr mg>
+            <td mg><code>alt</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>Alt text for the image (also used for color generation)</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

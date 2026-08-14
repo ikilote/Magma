@@ -1,47 +1,101 @@
 <h1>mgTooltip</h1>
 
-<div>
-  <div class="s-3 s-12-m" [formGroup]="ctrlForm">
-    <mg-input class="s-12">
-      <mg-input-label>Text</mg-input-label>
-      <mg-input-text formControlName="text" />
-    </mg-input>
-    <mg-input class="s-12">
-      <mg-input-label>mgTooltipEntryDelay</mg-input-label>
-      <mg-input-number formControlName="mgTooltipEntryDelay" />
-      <mg-input-suffix>ms</mg-input-suffix>
-      <mg-input-desc>default: <code>200</code></mg-input-desc>
-    </mg-input>
-    <mg-input class="s-12">
-      <mg-input-label>mgTooltipDisplayDelay</mg-input-label>
-      <mg-input-number formControlName="mgTooltipDisplayDelay" />
-      <mg-input-suffix>ms</mg-input-suffix>
-      <mg-input-desc>default: <code>0</code> = infinity </mg-input-desc>
-    </mg-input>
-    <mg-input class="s-12">
-      <mg-input-label>mgTooltipDescribedBy</mg-input-label>
-      <mg-input-text formControlName="mgTooltipDescribedBy" />
-      <mg-input-desc>define an id for <code>aria-describedBy</code>, if not define: autogenerate</mg-input-desc>
-    </mg-input>
-  </div>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <div>
+      <div class="s-3 s-12-m" [formGroup]="ctrlForm">
+        <mg-input class="s-12">
+          <mg-input-label>Text</mg-input-label>
+          <mg-input-text formControlName="text" />
+        </mg-input>
+        <mg-input class="s-12">
+          <mg-input-label>mgTooltipEntryDelay</mg-input-label>
+          <mg-input-number formControlName="mgTooltipEntryDelay" />
+          <mg-input-suffix>ms</mg-input-suffix>
+          <mg-input-desc>default: <code>200</code></mg-input-desc>
+        </mg-input>
+        <mg-input class="s-12">
+          <mg-input-label>mgTooltipDisplayDelay</mg-input-label>
+          <mg-input-number formControlName="mgTooltipDisplayDelay" />
+          <mg-input-suffix>ms</mg-input-suffix>
+          <mg-input-desc>default: <code>0</code> = infinity </mg-input-desc>
+        </mg-input>
+        <mg-input class="s-12">
+          <mg-input-label>mgTooltipDescribedBy</mg-input-label>
+          <mg-input-text formControlName="mgTooltipDescribedBy" />
+          <mg-input-desc>define an id for <code>aria-describedBy</code>, if not define: autogenerate</mg-input-desc>
+        </mg-input>
+      </div>
 
-  <div class="s-2 s-12-m">
-    <button
-      [mgTooltip]="ctrlForm.value.text!"
-      [mgTooltipEntryDelay]="ctrlForm.value.mgTooltipEntryDelay"
-      [mgTooltipDisplayDelay]="ctrlForm.value.mgTooltipDisplayDelay"
-      [mgTooltipDescribedBy]="ctrlForm.value.mgTooltipDescribedBy"
-    >
-      Example
-    </button>
-  </div>
+      <div class="s-2 s-12-m">
+        <button
+          [mgTooltip]="ctrlForm.value.text!"
+          [mgTooltipEntryDelay]="ctrlForm.value.mgTooltipEntryDelay"
+          [mgTooltipDisplayDelay]="ctrlForm.value.mgTooltipDisplayDelay"
+          [mgTooltipDescribedBy]="ctrlForm.value.mgTooltipDescribedBy"
+        >
+          Example
+        </button>
+      </div>
 
-  <div class="s-7 s-12-m">
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</div>
+      <div class="s-7 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[mgTooltip]</code></h4>
+      <p>
+        Shows a tooltip in a CDK Overlay on hover. Sets <code>aria-describedby</code> on the host for accessibility.
+        Cleans up the overlay on mouse leave or component destroy.
+      </p>
+
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgTooltip</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>Text displayed in the tooltip</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgTooltipEntryDelay</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>200</code></td>
+            <td mg>Delay in ms before the tooltip appears on hover</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgTooltipDisplayDelay</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>0</code></td>
+            <td mg>Duration in ms the tooltip stays visible (<code>0</code> = infinite)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgTooltipDescribedBy</code></td>
+            <td mg><code>string | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Custom id for <code>aria-describedby</code>. Auto-generated if not set.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

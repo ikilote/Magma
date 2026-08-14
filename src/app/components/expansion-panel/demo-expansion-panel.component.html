@@ -1,46 +1,123 @@
 <h1>Expansion-panel</h1>
 
-<section>
-  <form class="s-4 s-8-l s-12-s">
-    <h2>Option</h2>
-    <div>
-      <mg-input>
-        <mg-input-checkbox
-          mode="toggle"
-          [(ngModel)]="open"
-          [ngModelOptions]="{ standalone: true }"
-          (ngModelChange)="generator()"
-          >Open</mg-input-checkbox
-        >
-      </mg-input>
-    </div>
-    <mg-input>
-      <mg-input-checkbox
-        mode="toggle"
-        [(ngModel)]="disabled"
-        [ngModelOptions]="{ standalone: true }"
-        (ngModelChange)="generator()"
-        >Disabled</mg-input-checkbox
-      >
-    </mg-input>
-  </form>
-  <div class="s-4 s-4-l s-12-s">
-    <h2>Render</h2>
-    <mg-expansion-panel [open]="open" [disabled]="disabled" (update)="update($event)">
-      <mg-expansion-header><p>test</p> </mg-expansion-header>
-      <mg-expansion-content>
-        <h2>test</h2>
-        <p>test content</p>
-      </mg-expansion-content>
-    </mg-expansion-panel>
-  </div>
-  <div class="s-4 s-12-l">
-    <h2>Code</h2>
-    <code-tabs
-      [code]="[
-        { type: 'html', code: codeHtml },
-        { type: 'ts', code: codeTs },
-      ]"
-    />
-  </div>
-</section>
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <form class="s-4 s-8-l s-12-s">
+        <h2>Option</h2>
+        <div>
+          <mg-input>
+            <mg-input-checkbox
+              mode="toggle"
+              [(ngModel)]="open"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="generator()"
+              >Open</mg-input-checkbox
+            >
+          </mg-input>
+        </div>
+        <mg-input>
+          <mg-input-checkbox
+            mode="toggle"
+            [(ngModel)]="disabled"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="generator()"
+            >Disabled</mg-input-checkbox
+          >
+        </mg-input>
+      </form>
+      <div class="s-4 s-4-l s-12-s">
+        <h2>Render</h2>
+        <mg-expansion-panel [open]="open" [disabled]="disabled" (update)="update($event)">
+          <mg-expansion-header><p>test</p> </mg-expansion-header>
+          <mg-expansion-content>
+            <h2>test</h2>
+            <p>test content</p>
+          </mg-expansion-content>
+        </mg-expansion-panel>
+      </div>
+      <div class="s-4 s-12-l">
+        <h2>Code</h2>
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-expansion-panel</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>open</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Whether the panel is expanded</td>
+          </tr>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Prevents toggling the panel</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-expansion-panel</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>update</code></td>
+            <td mg><code>MagmaExpansionPanelUpdateEvent</code></td>
+            <td mg>
+              Emitted when the panel is toggled. Payload:
+              <code>&#123; open: boolean, component: MagmaExpansionPanel &#125;</code>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Child elements</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Selector</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mg-expansion-header</code></td>
+            <td mg>Always-visible header that toggles the panel</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-expansion-content</code></td>
+            <td mg>Content shown when the panel is expanded</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

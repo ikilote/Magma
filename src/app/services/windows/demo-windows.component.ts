@@ -12,6 +12,7 @@ import {
     MagmaInputSelect,
     MagmaInputText,
     MagmaTableModule,
+    MagmaTabsModule,
     MagmaWindowFixed,
     MagmaWindows,
     StringPipe,
@@ -73,6 +74,7 @@ class TestTilleComponent {}
         MagmaInputText,
         MagmaInputNumber,
         MagmaTableModule,
+        MagmaTabsModule,
         StringPipe,
     ],
 })

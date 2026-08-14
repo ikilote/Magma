@@ -13,4 +13,329 @@
   <mg-tab-content id="alignment">
     <demo-input-align />
   </mg-tab-content>
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-input</code> (container)</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>id</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Custom id for the wrapper element (auto-generated if omitted)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>typeValue</code></td>
+            <td mg><code>'default' | 'value' | 'array'</code></td>
+            <td mg><code>'default'</code></td>
+            <td mg>How checkbox values are accumulated: single boolean, single value, or array</td>
+          </tr>
+          <tr mg>
+            <td mg><code>returnValue</code></td>
+            <td mg><code>'default' | 'value' | 'boolean'</code></td>
+            <td mg><code>'default'</code></td>
+            <td mg>Shape of the value returned by checkbox/radio</td>
+          </tr>
+          <tr mg>
+            <td mg><code>alignMode</code></td>
+            <td mg><code>'row' | 'column'</code></td>
+            <td mg><code>'row'</code></td>
+            <td mg>Layout direction for grouped checkboxes/radios</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Shared inputs — all <code>mg-input-*</code> controls</h4>
+      <p>
+        These inputs are available on <code>mg-input-text</code>, <code>mg-input-number</code>,
+        <code>mg-input-textarea</code>, <code>mg-input-password</code>, <code>mg-input-checkbox</code>,
+        <code>mg-input-radio</code>, <code>mg-input-select</code>, <code>mg-input-color</code>,
+        <code>mg-input-date</code>, <code>mg-input-range</code>.
+      </p>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Disables the control</td>
+          </tr>
+          <tr mg>
+            <td mg><code>readonly</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Makes the control read-only</td>
+          </tr>
+          <tr mg>
+            <td mg><code>placeholder</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Placeholder text (text, number, password, select, textarea)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>placeholderAnimated</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Animated placeholder: <code>'30 3 1500 |'</code> — speed, repeats, interval, separator</td>
+          </tr>
+          <tr mg>
+            <td mg><code>datalist</code></td>
+            <td mg><code>string[] | number[]</code></td>
+            <td mg>—</td>
+            <td mg>Predefined suggestions (text, number, color, range)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Shared outputs — all <code>mg-input-*</code> controls</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>update</code></td>
+            <td mg><code>T</code></td>
+            <td mg>Emitted on confirmed change (blur / enter / selection)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>valueChange</code></td>
+            <td mg><code>T</code></td>
+            <td mg>Emitted on every input event (real-time)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Specific inputs — <code>mg-input-text</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>maxlength</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Maximum character length</td>
+          </tr>
+          <tr mg>
+            <td mg><code>clearCross</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Shows a clear (×) button inside the field</td>
+          </tr>
+          <tr mg>
+            <td mg><code>clearLabel</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Clear'</code></td>
+            <td mg>ARIA label for the clear button</td>
+          </tr>
+          <tr mg>
+            <td mg><code>type</code></td>
+            <td mg><code>'text' | 'email' | 'url' | 'tel'</code></td>
+            <td mg><code>'text'</code></td>
+            <td mg>Underlying HTML input type</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Specific inputs — <code>mg-input-number</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>step</code></td>
+            <td mg><code>number</code></td>
+            <td mg>—</td>
+            <td mg>Increment/decrement step for arrows and keyboard</td>
+          </tr>
+          <tr mg>
+            <td mg><code>min / max</code></td>
+            <td mg><code>number</code></td>
+            <td mg>—</td>
+            <td mg>Minimum and maximum allowed values</td>
+          </tr>
+          <tr mg>
+            <td mg><code>forceMinMax</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Clamps value to min/max on every keystroke</td>
+          </tr>
+          <tr mg>
+            <td mg><code>noDecimal</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Prevents decimal values</td>
+          </tr>
+          <tr mg>
+            <td mg><code>noNegative</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Prevents negative values</td>
+          </tr>
+          <tr mg>
+            <td mg><code>formater</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Display format pattern, e.g. <code>#,##0.00</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>showArrows</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Shows increment/decrement arrow buttons</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Specific inputs — <code>mg-input-checkbox</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>value</code></td>
+            <td mg><code>unknown</code></td>
+            <td mg>—</td>
+            <td mg>Value emitted when the checkbox is checked</td>
+          </tr>
+          <tr mg>
+            <td mg><code>checked</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Initial checked state</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mode</code></td>
+            <td mg><code>'checkbox' | 'toggle'</code></td>
+            <td mg><code>'checkbox'</code></td>
+            <td mg>Renders as a classic checkbox or a toggle switch</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Specific inputs — <code>mg-input-select</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>data</code></td>
+            <td mg><code>Select2Data</code></td>
+            <td mg><code>[]</code></td>
+            <td mg>Array of options (<code>&#123; value, label &#125;</code> or groups)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>multiple</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Allows selecting multiple options</td>
+          </tr>
+          <tr mg>
+            <td mg><code>overlay</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Opens the dropdown in a CDK overlay (useful inside scrollable containers)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>nativeKeyboard</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Enables native select-style keyboard navigation</td>
+          </tr>
+          <tr mg>
+            <td mg><code>noResultMessage</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Message shown when no option matches the search</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Child elements — <code>mg-input</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Selector</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mg-input-label</code></td>
+            <td mg>Visible label linked to the control</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-input-desc</code></td>
+            <td mg>Helper text below the control</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-input-error</code></td>
+            <td mg>Validation error message</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-input-prefix</code></td>
+            <td mg>Content placed inside the input, before the field</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-input-suffix</code></td>
+            <td mg>Content placed inside the input, after the field</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-input-before</code></td>
+            <td mg>Content placed outside the input wrapper, before it</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mg-input-after</code></td>
+            <td mg>Content placed outside the input wrapper, after it</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
 </mg-tabs>

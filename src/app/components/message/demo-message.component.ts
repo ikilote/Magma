@@ -8,6 +8,8 @@ import {
     MagmaInputSelect,
     MagmaMessage,
     MagmaMessageType,
+    MagmaTableModule,
+    MagmaTabsModule,
     Select2Data,
     Select2Option,
     enumToValueList,
@@ -20,7 +22,16 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     templateUrl: './demo-message.component.html',
     styleUrl: './demo-message.component.scss',
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MagmaMessage, MagmaBlockMessage, CodeTabsComponent, MagmaInput, MagmaInputSelect, FormsModule],
+    imports: [
+        MagmaMessage,
+        MagmaBlockMessage,
+        CodeTabsComponent,
+        MagmaInput,
+        MagmaInputSelect,
+        FormsModule,
+        MagmaTabsModule,
+        MagmaTableModule,
+    ],
 })
 export class DemoMessageComponent {
     codeHtml = '';

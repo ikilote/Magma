@@ -37,6 +37,11 @@ export const routes: Routes = [
                     import('./components/breadcrumbs/demo-breadcrumbs.component').then(m => m.DemoBreadcrumbsComponent),
             },
             {
+                path: 'card',
+                pathMatch: 'full',
+                loadComponent: () => import('./components/card/demo-card.component').then(m => m.DemoCardComponent),
+            },
+            {
                 path: 'tag-list',
                 pathMatch: 'full',
                 loadComponent: () =>

@@ -1,0 +1,121 @@
+<h1>Card</h1>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-x s-12-m" [formGroup]="ctrlForm">
+          <mg-input class="s-12">
+            <mg-input-label>Image (CSS url)</mg-input-label>
+            <mg-input-text formControlName="image" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Orientation</mg-input-label>
+            <mg-input-select formControlName="orientation" [data]="orientation" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Ratio</mg-input-label>
+            <mg-input-text formControlName="ratio" [datalist]="['1 / 3', '2 / 3', '2 / 3', '.5', '.25']" />
+            <mg-input-desc>e.g. <code>1 / 3</code> or <code>.5</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>Card height</mg-input-label>
+            <mg-input-number formControlName="cardHeight" />
+            <mg-input-suffix>px</mg-input-suffix>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>images height</mg-input-label>
+            <mg-input-text formControlName="imgHeight" />
+            <mg-input-desc>e.g. <code>200px</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="imageZoom" />
+            <mg-input-label>Image zoom on hover</mg-input-label>
+          </mg-input>
+        </form>
+        <div class="s-5 s-6-x s-12-m">
+          <h4>Render</h4>
+          <mg-card
+            [image]="ctrlForm.value.image || undefined"
+            [orientation]="$any(ctrlForm.value.orientation)"
+            [ratio]="$any(ctrlForm.value.ratio)"
+            [cardHeight]="$any(ctrlForm.value.cardHeight)"
+            [imgHeight]="$any(ctrlForm.value.imgHeight)"
+            [imageZoom]="!!ctrlForm.value.imageZoom"
+          >
+            <h3 mgCardHeader>Card title</h3>
+
+            <p>Card body content goes here.</p>
+          </mg-card>
+        </div>
+        <div class="s-4 s-12-x">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-card</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>image</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Image in CSS format, e.g. <code>url(assets/photo.jpg)</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>orientation</code></td>
+            <td mg><code>'horizontal' | 'vertical'</code></td>
+            <td mg><code>'horizontal'</code></td>
+            <td mg>Image on the left (horizontal) or on top (vertical)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>ratio</code></td>
+            <td mg><code>'1 / 3' | '1 / 2' | '2 / 3'</code></td>
+            <td mg><code>'1 / 3'</code></td>
+            <td mg>Ratio between image width and body width</td>
+          </tr>
+          <tr mg>
+            <td mg><code>cardHeight</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg>—</td>
+            <td mg>Fixed height of the card in px</td>
+          </tr>
+          <tr mg>
+            <td mg><code>imgHeight</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>Height of the image area as a CSS value (e.g. <code>200px</code>)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>imageZoom</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>
+              Enable a subtle zoom effect on the image on hover. Customizable via <code>--card-zoom-scale</code> and
+              <code>--card-zoom-duration</code>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

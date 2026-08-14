@@ -493,6 +493,17 @@ body {
     --block-margin: 12px;
     --block-background: var(--color-surface);
 
+    /* MARK: card */
+    --card-shadow: var(--block-shadow);
+    --card-border: var(--block-border);
+    --card-radius: var(--block-radius);
+    --card-background: var(--block-background);
+    --card-padding: 16px;
+    --card-ratio: 1 / 3;
+    --card-img-height: 100px;
+    --card-zoom-scale: 1.1;
+    --card-zoom-duration: 0.3s;
+
     /* MARK: table */
     --table-header-background: var(--color-surface-sunken);
     --table-header-background-hover: var(--neutral200);
@@ -645,6 +656,9 @@ body {
     --status-neutral-color: var(--text-color);
     --status-offline-dot-color: hsl(var(--neutralH, 0) var(--neutralS, 0%) 65%);
     --status-offline-color: hsl(var(--neutralH, 0) var(--neutralS, 0%) 50%);
+    --status-pulse-duration: 2s;
+    --status-pulse-opacity-max: 1;
+    --status-pulse-opacity-min: 0.4;
 
     /* MARK: light-dark */
     --light-dark-border-color: var(--primary950);

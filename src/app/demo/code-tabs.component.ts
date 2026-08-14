@@ -18,7 +18,7 @@ export class CodeTabsComponent {
     code = input.required<
         (
             | {
-                  type: 'html' | 'ts' | 'css' | 'scss' | 'txt';
+                  type: 'html' | 'ts' | 'css' | 'txt';
                   title?: string;
                   code: string | { title?: string; code: string } | (string | { title?: string; code: string })[];
               }

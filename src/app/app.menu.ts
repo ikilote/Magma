@@ -50,6 +50,12 @@ export const menu: Menu = [
                 keys: ['breadcrumb', 'navigation', 'path', 'trail'],
             },
             {
+                routerLink: '/component/card',
+                label: 'Card',
+                status: 'new',
+                keys: ['card', 'image card', 'media card', 'content card'],
+            },
+            {
                 routerLink: '/component/color-picker',
                 label: 'Color picker',
                 keys: ['palette', 'swatch', 'color selector'],

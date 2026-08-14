@@ -1,7 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
+import { Json2Js } from '@ikilote/json2html';
 import {
+    CookieBannerPosition,
     CookieConsent,
     CookieConsentOption,
     FormBuilderExtended,
@@ -46,11 +48,19 @@ export class DemoCookieConsentComponent {
         posLeft: FormControl<string>;
         posTop: FormControl<string>;
         posRight: FormControl<string>;
+        centerHorizontally: FormControl<string>;
+        centerVertically: FormControl<string>;
         customTexts: FormControl<boolean>;
         textTitle: FormControl<string>;
+        textPresentation: FormControl<string>;
         textAcceptAll: FormControl<string>;
         textRefuseAll: FormControl<string>;
         textManage: FormControl<string>;
+        textDialogTitle: FormControl<string>;
+        textDialogPresentation: FormControl<string>;
+        textAcceptLabel: FormControl<string>;
+        textSave: FormControl<string>;
+        textPolicyLink: FormControl<string>;
     }>;
 
     readonly demoOptions: CookieConsentOption[] = [
@@ -89,12 +99,34 @@ export class DemoCookieConsentComponent {
             posLeft: { default: '10px' },
             posTop: { default: '' },
             posRight: { default: '' },
+            centerHorizontally: { default: '' },
+            centerVertically: { default: '' },
             customTexts: { default: false },
             textTitle: { default: 'Cookie management' },
+            textPresentation: {
+                default:
+                    'This application uses cookies. Some are essential for proper operation.\
+Others are optional and help us analyze site usage.\
+Click “Accept all” to give your consent, or manage each option individually.',
+            },
             textAcceptAll: { default: 'Accept all' },
             textRefuseAll: { default: 'Refuse all' },
             textManage: { default: 'Manage preferences' },
+            textDialogTitle: { default: 'Cookie settings' },
+            textDialogPresentation: {
+                default:
+                    'By allowing these services, you accept the storage and reading of \
+cookies and the use of tracking technologies required for their operation.',
+            },
+            textAcceptLabel: { default: 'Accept' },
+            textSave: { default: 'Save' },
+            textPolicyLink: { default: 'Cookie policy' },
         });
+
+        this.ctrlForm.valueChanges.subscribe(() => {
+            this.updateCode();
+        });
+        this.updateCode();
     }
 
     launch() {
@@ -107,18 +139,28 @@ export class DemoCookieConsentComponent {
             posLeft,
             posTop,
             posRight,
+            centerHorizontally,
+            centerVertically,
             customTexts,
             textTitle,
+            textPresentation,
             textAcceptAll,
             textRefuseAll,
             textManage,
+            textDialogTitle,
+            textDialogPresentation,
+            textAcceptLabel,
+            textSave,
+            textPolicyLink,
         } = this.ctrlForm.value;
 
         const position = {
-            ...(posBottom ? { bottom: posBottom } : {}),
-            ...(posLeft ? { left: posLeft } : {}),
-            ...(posTop ? { top: posTop } : {}),
-            ...(posRight ? { right: posRight } : {}),
+            ...(posBottom ? ({ bottom: posBottom } as CookieBannerPosition) : {}),
+            ...(posLeft ? ({ left: posLeft } as CookieBannerPosition) : {}),
+            ...(posTop ? ({ top: posTop } as CookieBannerPosition) : {}),
+            ...(posRight ? ({ right: posRight } as CookieBannerPosition) : {}),
+            ...(centerHorizontally ? ({ centerHorizontally: centerHorizontally } as CookieBannerPosition) : {}),
+            ...(centerVertically ? ({ centerVertically: centerVertically } as CookieBannerPosition) : {}),
         };
 
         this.cookieConsent.init({
@@ -130,9 +172,15 @@ export class DemoCookieConsentComponent {
             texts: customTexts
                 ? {
                       title: textTitle ?? undefined,
+                      presentation: textPresentation ?? undefined,
                       acceptAll: textAcceptAll ?? undefined,
                       refuseAll: textRefuseAll ?? undefined,
                       managePreferences: textManage ?? undefined,
+                      dialogTitle: textDialogTitle ?? undefined,
+                      dialogPresentation: textDialogPresentation ?? undefined,
+                      acceptLabel: textAcceptLabel ?? undefined,
+                      save: textSave ?? undefined,
+                      policyLink: textPolicyLink ?? undefined,
                   }
                 : undefined,
         });
@@ -145,7 +193,56 @@ export class DemoCookieConsentComponent {
 
     // ── Code examples ────────────────────────────────────────────────────────
 
-    codeTs = `import { CookieConsent } from '@ikilote/magma';
+    updateCode() {
+        const {
+            forceOpen,
+            showPolicy,
+            policyUrl,
+            cookieDuration,
+            posBottom,
+            posLeft,
+            posTop,
+            posRight,
+            centerHorizontally,
+            centerVertically,
+            customTexts,
+            textTitle,
+            textPresentation,
+            textAcceptAll,
+            textRefuseAll,
+            textManage,
+            textDialogTitle,
+            textDialogPresentation,
+            textAcceptLabel,
+            textSave,
+            textPolicyLink,
+        } = this.ctrlForm.value;
+
+        const position = {
+            ...(posBottom ? ({ bottom: posBottom } as CookieBannerPosition) : {}),
+            ...(posLeft ? ({ left: posLeft } as CookieBannerPosition) : {}),
+            ...(posTop ? ({ top: posTop } as CookieBannerPosition) : {}),
+            ...(posRight ? ({ right: posRight } as CookieBannerPosition) : {}),
+            ...(centerHorizontally ? ({ centerHorizontally: centerHorizontally } as CookieBannerPosition) : {}),
+            ...(centerVertically ? ({ centerVertically: centerVertically } as CookieBannerPosition) : {}),
+        };
+
+        const texts = customTexts
+            ? {
+                  title: textTitle ?? undefined,
+                  presentation: textPresentation ?? undefined,
+                  acceptAll: textAcceptAll ?? undefined,
+                  refuseAll: textRefuseAll ?? undefined,
+                  managePreferences: textManage ?? undefined,
+                  dialogTitle: textDialogTitle ?? undefined,
+                  dialogPresentation: textDialogPresentation ?? undefined,
+                  acceptLabel: textAcceptLabel ?? undefined,
+                  save: textSave ?? undefined,
+                  policyLink: textPolicyLink ?? undefined,
+              }
+            : undefined;
+
+        this.codeTs = `import { CookieConsent } from '@ikilote/magma';
 
 @Component({
     selector: 'my-app',
@@ -169,14 +266,52 @@ export class AppComponent {
                     id: 'analytics',
                     label: 'Analytics',
                     description: 'Usage tracking.',
-                    onAccept: () => startAnalytics(),
-                    onRefuse: () => stopAnalytics(),
+                    onAccept: () => this.startAnalytics(),
+                    onRefuse: () => this.stopAnalytics(),
                 },
-            ],
-            policy: { show: true, url: '/cookie-policy' },
+            ],${
+                forceOpen
+                    ? `
+            forceOpen: true,`
+                    : ''
+            }${
+                showPolicy
+                    ? `
+            policy: {
+                show: true,
+                url: policyUrl ?? '${policyUrl}'
+            },`
+                    : ''
+            }${
+                cookieDuration
+                    ? `
+            cookieDuration: ${cookieDuration},`
+                    : ''
+            }${
+                Object.keys(position).length
+                    ? `
+            position: ${new Json2Js(position, { tabAdded: 3, tabAddedExceptFirst: true }).toString()},`
+                    : ''
+            }${
+                texts && Object.keys(texts).length
+                    ? `
+            texts: ${new Json2Js(texts, { tabAdded: 3, tabAddedExceptFirst: true }).toString()},`
+                    : ''
+            }
         });
     }
+
+    startAnalytics() {
+        // ...
+    }
+    
+    stopAnalytics() {
+        // ...
+    }
 }`;
+    }
+
+    codeTs = '';
 
     codeInterface = `interface CookieConsentOption {
     id: string;

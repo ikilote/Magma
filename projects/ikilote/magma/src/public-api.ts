@@ -16,6 +16,7 @@ export * from './lib/components/color-picker/color-picker.directive';
 export * from './lib/components/context-menu/context-menu.component';
 export * from './lib/components/context-menu/context-menu.directive';
 export * from './lib/components/contrib-calendar/contrib-calendar.component';
+export * from './lib/components/cookie-consent/cookie-consent.component';
 export * from './lib/components/datetime-picker/datetime-picker.component';
 export * from './lib/components/datetime-picker/datetime-picker.directive';
 export * from './lib/components/dialog/dialog.component';
@@ -90,6 +91,7 @@ export * from './lib/pipes/string.pipe';
 
 // services
 export * from './lib/services/cache';
+export * from './lib/services/cookie-consent';
 export * from './lib/services/form-builder-extended';
 export * from './lib/services/light-dark';
 export * from './lib/services/logger';

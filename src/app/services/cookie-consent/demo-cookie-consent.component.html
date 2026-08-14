@@ -1,0 +1,323 @@
+<h1>CookieConsent</h1>
+
+<p>
+  Service to manage cookie consent preferences with a banner and preferences dialog.<br />
+  Stores user choices in a cookie and triggers accept/refuse callbacks per option.
+</p>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <div class="s-6 s-12-s">
+        <h3>Configuration</h3>
+
+        <form [formGroup]="ctrlForm">
+          <h4>Behaviour</h4>
+          <p>
+            <mg-input class="s-12">
+              <mg-input-checkbox formControlName="forceOpen">
+                Force open (show banner even if consent already given)
+              </mg-input-checkbox>
+            </mg-input>
+          </p>
+
+          <h4>Policy</h4>
+          <p>
+            <mg-input class="s-4">
+              <mg-input-checkbox formControlName="showPolicy">Show policy link</mg-input-checkbox>
+            </mg-input>
+
+            @if (ctrlForm.value.showPolicy) {
+              <mg-input class="s-8">
+                <mg-input-label>Policy URL</mg-input-label>
+                <mg-input-text formControlName="policyUrl" />
+              </mg-input>
+            }
+          </p>
+
+          <h4>Cookie duration</h4>
+          <p>
+            <mg-input class="s-4">
+              <mg-input-label>cookieDuration</mg-input-label>
+              <mg-input-number formControlName="cookieDuration" />
+              <mg-input-suffix>days</mg-input-suffix>
+              <mg-input-desc>Default: 365 days</mg-input-desc>
+            </mg-input>
+          </p>
+
+          <h4>Position</h4>
+          <p>
+            <mg-input class="s-3">
+              <mg-input-label>bottom</mg-input-label>
+              <mg-input-text formControlName="posBottom" />
+              <mg-input-desc>e.g. 10px</mg-input-desc>
+            </mg-input>
+            <mg-input class="s-3">
+              <mg-input-label>left</mg-input-label>
+              <mg-input-text formControlName="posLeft" />
+              <mg-input-desc>e.g. 10px</mg-input-desc>
+            </mg-input>
+            <mg-input class="s-3">
+              <mg-input-label>top</mg-input-label>
+              <mg-input-text formControlName="posTop" />
+              <mg-input-desc>overrides bottom</mg-input-desc>
+            </mg-input>
+            <mg-input class="s-3">
+              <mg-input-label>right</mg-input-label>
+              <mg-input-text formControlName="posRight" />
+              <mg-input-desc>overrides left</mg-input-desc>
+            </mg-input>
+          </p>
+
+          <h4>Texts</h4>
+          <p>
+            <mg-input class="s-12">
+              <mg-input-checkbox formControlName="customTexts">Override default texts</mg-input-checkbox>
+            </mg-input>
+          </p>
+
+          @if (ctrlForm.value.customTexts) {
+            <p>
+              <mg-input class="s-6">
+                <mg-input-label>title</mg-input-label>
+                <mg-input-text formControlName="textTitle" />
+              </mg-input>
+              <mg-input class="s-6">
+                <mg-input-label>acceptAll</mg-input-label>
+                <mg-input-text formControlName="textAcceptAll" />
+              </mg-input>
+              <mg-input class="s-6">
+                <mg-input-label>refuseAll</mg-input-label>
+                <mg-input-text formControlName="textRefuseAll" />
+              </mg-input>
+              <mg-input class="s-6">
+                <mg-input-label>managePreferences</mg-input-label>
+                <mg-input-text formControlName="textManage" />
+              </mg-input>
+            </p>
+          }
+        </form>
+
+        <h3>Actions</h3>
+        <p class="actions">
+          <button class="primary" (click)="launch()">Init cookie consent</button>
+          <button class="secondary" (click)="reset()">Reset (delete cookie)</button>
+        </p>
+
+        <h3>Current state</h3>
+        @let options = cookieConsent.options();
+        @if (options.length === 0) {
+          <p class="empty">No options configured. Click "Init cookie consent" above.</p>
+        } @else {
+          <table mg>
+            <thead mg>
+              <tr mg>
+                <th mg>ID</th>
+                <th mg>Label</th>
+                <th mg>Accepted</th>
+                <th mg>Locked</th>
+              </tr>
+            </thead>
+            <tbody mg>
+              @for (opt of options; track opt.id) {
+                <tr mg>
+                  <td mg>
+                    <code>{{ opt.id }}</code>
+                  </td>
+                  <td mg>{{ opt.label || '—' }}</td>
+                  <td mg>{{ opt.accept ? '✓' : '✗' }}</td>
+                  <td mg>{{ opt.locked ? '🔒' : '' }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+
+      <div class="s-6 s-12-s">
+        <code-tabs
+          [code]="[
+            { type: 'ts', title: 'component', code: codeTs },
+            { type: 'ts', title: 'interfaces', code: codeInterface },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Service — <code>CookieConsent</code></h4>
+      <p>
+        Injectable service that shows a cookie consent banner via CDK Overlay. No template tag is needed — the banner is
+        injected automatically.
+      </p>
+
+      <h4>Methods</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>init</code></td>
+            <td mg><code>(config: CookieConsentConfig) => void</code></td>
+            <td mg>
+              Initialises consent. Shows the banner unless consent was already given (and <code>forceOpen</code> is
+              false).
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>remove</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Deletes the stored consent cookie</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Signals</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Signal</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>options</code></td>
+            <td mg><code>Signal&lt;CookieConsentOption[]&gt;</code></td>
+            <td mg>Current list of options with their accepted state</td>
+          </tr>
+          <tr mg>
+            <td mg><code>bannerVisible</code></td>
+            <td mg><code>WritableSignal&lt;boolean&gt;</code></td>
+            <td mg>Whether the banner overlay is currently visible</td>
+          </tr>
+          <tr mg>
+            <td mg><code>durationCookie</code></td>
+            <td mg><code>Signal&lt;number&gt;</code></td>
+            <td mg>Retention duration in days (default <code>365</code>)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4><code>CookieConsentConfig</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>options</code></td>
+            <td mg><code>CookieConsentOption[]</code></td>
+            <td mg>—</td>
+            <td mg>List of cookie preference options</td>
+          </tr>
+          <tr mg>
+            <td mg><code>forceOpen</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Shows the banner even if consent was already given</td>
+          </tr>
+          <tr mg>
+            <td mg><code>policy</code></td>
+            <td mg><code>&#123; show: boolean; url: string &#125;</code></td>
+            <td mg>—</td>
+            <td mg>Cookie policy link shown in the banner</td>
+          </tr>
+          <tr mg>
+            <td mg><code>position</code></td>
+            <td mg><code>CookieBannerPosition</code></td>
+            <td mg><code>bottom: 10px, left: 10px</code></td>
+            <td mg>
+              Banner position: <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code>,
+              <code>centerHorizontally</code>, <code>centerVertically</code>
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>bannerSize</code></td>
+            <td mg><code>OverlaySizeConfig</code></td>
+            <td mg><code>minHeight: 150, maxWidth: min(95vw, 800px)</code></td>
+            <td mg>CDK Overlay size constraints for the banner</td>
+          </tr>
+          <tr mg>
+            <td mg><code>cookieDuration</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>365</code></td>
+            <td mg>Cookie retention period in days</td>
+          </tr>
+          <tr mg>
+            <td mg><code>texts</code></td>
+            <td mg><code>Partial&lt;CookieConsentTexts&gt;</code></td>
+            <td mg>—</td>
+            <td mg>
+              Override default banner/dialog labels (<code>title</code>, <code>acceptAll</code>, <code>refuseAll</code>,
+              <code>managePreferences</code>, <code>dialogTitle</code>, <code>save</code>, <code>policyLink</code>, …)
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4><code>CookieConsentOption</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>id</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Unique identifier</td>
+          </tr>
+          <tr mg>
+            <td mg><code>label</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Display name</td>
+          </tr>
+          <tr mg>
+            <td mg><code>description</code></td>
+            <td mg><code>string</code></td>
+            <td mg>Shown in the preferences dialog</td>
+          </tr>
+          <tr mg>
+            <td mg><code>accept</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Initial accepted state</td>
+          </tr>
+          <tr mg>
+            <td mg><code>locked</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>If <code>true</code>, the user cannot change this option (always accepted)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>onAccept</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Callback executed when the option is accepted</td>
+          </tr>
+          <tr mg>
+            <td mg><code>onRefuse</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Callback executed when the option is refused</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

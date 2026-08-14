@@ -255,6 +255,12 @@ export const menu: Menu = [
         items: [
             { routerLink: '/service/cache', label: 'Cache', keys: ['cache', 'storage', 'memory', 'cache service'] },
             {
+                routerLink: '/service/cookie-consent',
+                label: 'CookieConsent',
+                status: 'new',
+                keys: ['cookie', 'consent', 'gdpr', 'privacy', 'cookie consent', 'cookie banner'],
+            },
+            {
                 routerLink: '/service/form-builder-extended',
                 label: 'FormBuilderExtended',
                 keys: ['form builder', 'form builder extended', 'form', 'form service'],

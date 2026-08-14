@@ -310,6 +310,14 @@ export const routes: Routes = [
                 loadComponent: () => import('./services/cache/demo-cache.component').then(m => m.DemoCacheComponent),
             },
             {
+                path: 'cookie-consent',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./services/cookie-consent/demo-cookie-consent.component').then(
+                        m => m.DemoCookieConsentComponent,
+                    ),
+            },
+            {
                 path: 'form-builder-extended',
                 pathMatch: 'full',
                 loadComponent: () =>

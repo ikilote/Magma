@@ -1,0 +1,14 @@
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.empty {
+    color: var(--neutral500);
+    font-style: italic;
+}
+
+table {
+    width: 100%;
+}

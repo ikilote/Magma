@@ -29,6 +29,17 @@ html {
     font-family: var(--font-family);
 }
 
+/* -------------------- separator --------------------------------------------------------
+    MARK: separator
+*/
+
+hr {
+    opacity: var(--separator-opacity);
+    margin: var(--separator-margin);
+    border: none;
+    border-top: 1px solid var(--separator-color);
+}
+
 /* -------------------- links ------------------------------------------------------------
     MARK: Links
 */

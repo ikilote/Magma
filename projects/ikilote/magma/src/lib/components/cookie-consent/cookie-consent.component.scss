@@ -1,0 +1,65 @@
+:host {
+    display: block;
+}
+
+// ── Banner ───────────────────────────────────────────────────────────────────
+
+.banner {
+    background: var(--cookie-consent-banner-background);
+    padding: var(--cookie-consent-banner-padding);
+}
+
+.banner-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--cookie-consent-actions-gap);
+}
+
+// ── Dialog ───────────────────────────────────────────────────────────────────
+
+.dialog-presentation {
+    margin: var(--cookie-consent-presentation-margin);
+}
+
+// ── Dialog Option row ────────────────────────────────────────────────────────
+
+.option {
+    display: grid;
+    grid-template:
+        'label toggle' minmax(0, auto)
+        'desc  toggle' auto
+        / 1fr var(--cookie-consent-option-toggle-width);
+    gap: var(--cookie-consent-option-gap);
+    margin-bottom: var(--cookie-consent-option-margin-bottom);
+    width: 100%;
+}
+
+.option-label {
+    grid-area: label;
+    font-weight: var(--cookie-consent-option-label-font-weight);
+}
+
+.option-desc {
+    grid-area: desc;
+    color: var(--cookie-consent-option-desc-color);
+    font-size: var(--cookie-consent-option-desc-font-size);
+}
+
+.option-toggle {
+    display: flex;
+    grid-area: toggle;
+    justify-content: center;
+    align-items: center;
+}
+
+// ── Dialog actions ───────────────────────────────────────────────────────────
+
+.dialog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: var(--cookie-consent-actions-gap);
+    margin-top: var(--cookie-consent-dialog-actions-margin-top);
+    padding-bottom: var(--cookie-consent-dialog-actions-padding-bottom);
+}

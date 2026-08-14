@@ -1,0 +1,50 @@
+@let texts = cookieConsent.texts();
+@let policy = cookieConsent.policy();
+@let options = cookieConsent.options();
+
+@if (cookieConsent.bannerVisible()) {
+  <div class="banner">
+    <h3 class="banner-title">{{ texts.title }}</h3>
+    <p class="banner-text">{{ texts.presentation }}</p>
+    <div class="banner-actions">
+      <button type="button" class="secondary" (click)="manage()">{{ texts.managePreferences }}</button>
+      <button type="button" class="secondary" (click)="acceptAll(false)">{{ texts.refuseAll }}</button>
+      <button type="button" class="primary" (click)="acceptAll(true)">{{ texts.acceptAll }}</button>
+    </div>
+  </div>
+}
+
+<mg-dialog #dialog [title]="texts.dialogTitle">
+  <p class="dialog-presentation">{{ texts.dialogPresentation }}</p>
+
+  @if (policy?.show) {
+    <p class="policy-link">
+      <a [href]="policy.url" target="_blank" rel="noopener">{{ texts.policyLink }}</a>
+    </p>
+  }
+
+  <hr />
+
+  @for (option of options; track option.id; let i = $index) {
+    <section class="option" [attr.data-id]="option.id">
+      <div class="option-label">{{ option.label }}</div>
+      <div class="option-desc">{{ option.description }}</div>
+      <div class="option-toggle">
+        <mg-input>
+          <mg-input-label>{{ texts.acceptLabel }}</mg-input-label>
+          <mg-input-checkbox
+            mode="toggle"
+            [checked]="!!option.accept"
+            [disabled]="!!option.locked"
+            (itemUpdate)="toggleOption(i)"
+          />
+        </mg-input>
+      </div>
+    </section>
+  }
+
+  <div class="dialog-actions">
+    <button type="button" class="secondary" (click)="acceptAll(false)">{{ texts.refuseAll }}</button>
+    <button type="button" class="primary" (click)="save()">{{ texts.save }}</button>
+  </div>
+</mg-dialog>

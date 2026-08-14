@@ -279,7 +279,7 @@ export class AppComponent {
                     ? `
             policy: {
                 show: true,
-                url: policyUrl ?? '${policyUrl}'
+                url: '${policyUrl}'
             },`
                     : ''
             }${
@@ -304,7 +304,7 @@ export class AppComponent {
     startAnalytics() {
         // ...
     }
-    
+
     stopAnalytics() {
         // ...
     }

@@ -108,14 +108,6 @@ export const routes: Routes = [
                 loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),
             },
             {
-                path: 'info-messages',
-                pathMatch: 'full',
-                loadComponent: () =>
-                    import('./components/info-messages/demo-info-messages.component').then(
-                        m => m.DemoInfoMessageComponent,
-                    ),
-            },
-            {
                 path: 'table',
                 pathMatch: 'full',
                 loadComponent: () => import('./components/table/demo-table.component').then(m => m.DemoTableComponent),
@@ -331,6 +323,12 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./services/windows/demo-windows.component').then(m => m.DemoWindowsComponent),
             },
+            {
+                path: 'messages',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./services/messages/demo-info-messages.component').then(m => m.DemoInfoMessageComponent),
+            },
         ],
     },
     {
@@ -457,6 +455,11 @@ export const routes: Routes = [
                 path: 'chips',
                 pathMatch: 'full',
                 loadComponent: () => import('./styles/chips/demo-chips.component').then(m => m.DemoChipsComponent),
+            },
+            {
+                path: 'status',
+                pathMatch: 'full',
+                loadComponent: () => import('./styles/status/demo-status.component').then(m => m.DemoStatusComponent),
             },
         ],
     },

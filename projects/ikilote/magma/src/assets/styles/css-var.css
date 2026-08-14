@@ -606,6 +606,27 @@ body {
     --tag-input-background: transparent;
     --tag-input-focus-border-color: var(--primary300);
 
+    /* MARK: status */
+    --status-gap: 6px;
+    --status-font-size: 0.85em;
+    --status-dot-size: 8px;
+    --status-color: var(--text-color);
+    --status-dot-color: currentColor;
+    --status-pulse-duration: 2s;
+    --status-success-dot-color: hsl(var(--successH, 120) 60% 40%);
+    --status-success-color: hsl(var(--successH, 120) 60% 30%);
+    --status-warning-dot-color: hsl(var(--warnH, 15) 80% 50%);
+    --status-warning-color: hsl(var(--warnH, 15) 80% 35%);
+    --status-danger-dot-color: hsl(var(--alertH, 0) 70% 50%);
+    --status-danger-color: hsl(var(--alertH, 0) 70% 40%);
+    --status-info-dot-color: hsl(var(--primaryH, 200) 60% 45%);
+    --status-info-color: hsl(var(--primaryH, 200) 60% 35%);
+    --status-neutral-dot-color: hsl(var(--neutralH, 0) var(--neutralS, 0%) 50%);
+    --status-neutral-color: var(--text-color);
+    --status-offline-dot-color: hsl(var(--neutralH, 0) var(--neutralS, 0%) 65%);
+    --status-offline-color: hsl(var(--neutralH, 0) var(--neutralS, 0%) 50%);
+
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--input-focus-border-color);

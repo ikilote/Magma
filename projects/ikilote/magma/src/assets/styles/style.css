@@ -1026,6 +1026,74 @@ pre.mono {
     }
 }
 
+/* -------------------- status ------------------------------------------------------------
+    MARK: Status
+*/
+
+.status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--status-gap);
+    color: var(--status-color);
+    font-size: var(--status-font-size);
+
+    &::before {
+        display: block;
+        flex-shrink: 0;
+        border-radius: 50%;
+        background: var(--status-dot-color);
+        width: var(--status-dot-size);
+        height: var(--status-dot-size);
+        content: '';
+    }
+
+    /* Themes */
+    &.status-success {
+        --status-dot-color: var(--status-success-dot-color);
+        --status-color: var(--status-success-color);
+    }
+
+    &.status-warning {
+        --status-dot-color: var(--status-warning-dot-color);
+        --status-color: var(--status-warning-color);
+    }
+
+    &.status-danger {
+        --status-dot-color: var(--status-danger-dot-color);
+        --status-color: var(--status-danger-color);
+    }
+
+    &.status-info {
+        --status-dot-color: var(--status-info-dot-color);
+        --status-color: var(--status-info-color);
+    }
+
+    &.status-neutral {
+        --status-dot-color: var(--status-neutral-dot-color);
+        --status-color: var(--status-neutral-color);
+    }
+
+    &.status-offline {
+        --status-dot-color: var(--status-offline-dot-color);
+        --status-color: var(--status-offline-color);
+    }
+
+    /* Animated pulse for online/active statuses */
+    &.status-pulse::before {
+        animation: status-pulse var(--status-pulse-duration) ease-in-out infinite;
+    }
+}
+
+@keyframes status-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.4;
+    }
+}
+
 /* -------------------- animation ----------------------------------------------------------
     MARK: animation
 */

@@ -85,11 +85,6 @@ export const menu: Menu = [
                 keys: ['accordion', 'panel', 'collapse'],
             },
             {
-                routerLink: '/component/info-messages',
-                label: 'Info-messages',
-                keys: ['notifications', 'alerts', 'info'],
-            },
-            {
                 routerLink: '/component/input',
                 label: 'Inputs',
                 keys: ['form fields', 'input', 'text field'],
@@ -266,6 +261,11 @@ export const menu: Menu = [
                 keys: ['form builder', 'form builder extended', 'form', 'form service'],
             },
             {
+                routerLink: '/service/messages',
+                label: 'Messages',
+                keys: ['notifications', 'alerts', 'info', 'messages'],
+            },
+            {
                 routerLink: '/service/windows',
                 label: 'Windows',
                 keys: ['window service', 'popup windows', 'window utilities'],
@@ -385,6 +385,12 @@ export const menu: Menu = [
                 routerLink: '/style/palette',
                 label: 'Palette',
                 keys: ['colors', 'color palette', 'theme colors'],
+            },
+            {
+                routerLink: '/style/status',
+                label: 'Status',
+                status: 'new',
+                keys: ['status', 'dot', 'indicator', 'online', 'offline', 'state'],
             },
         ],
     },

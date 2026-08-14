@@ -164,7 +164,6 @@ body {
     );
     --background: var(--neutral010);
     --text-color: var(--primary950);
-    --color-mode-border-color: var(--primary950);
     --font-family: 'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif;
     --font-mono:
         'Roboto Mono', 'FreeMono', 'Liberation Mono', 'Ubuntu Mono', 'Courier New', 'Droid Sans Mono', Courier,
@@ -174,7 +173,6 @@ body {
     --font-medium: 1em;
     --font-small: 0.85em;
     --font-very-small: 0.75em;
-    --input-focus-color: var(--neutral950);
 
     /* MARK: semantic layer */
     /* Role-based tokens shared across all components. Override these to
@@ -206,6 +204,11 @@ body {
     --color-primary-hover: var(--primary700);
     /* Focus ring: outline color for keyboard focus indicators. */
     --color-focus-ring: var(--primary500);
+
+    /* MARK: generic */
+    --separator-opacity: 0.2;
+    --separator-margin: 16px 0;
+    --separator-color: var(--color-border);
 
     /* MARK: context-menu */
     --context-menu-background: var(--color-surface-raised);
@@ -315,6 +318,23 @@ body {
     --dialog-close-background: var(--neutral300);
     --dialog-close-background-hover: var(--neutral500);
 
+    /* MARK: cookie-consent */
+    --cookie-consent-banner-background: var(--dialog-background);
+    --cookie-consent-banner-padding: 20px;
+    --cookie-consent-actions-gap: 8px;
+    --cookie-consent-presentation-margin: 0 0 12px;
+    --cookie-consent-separator-opacity: 0.2;
+    --cookie-consent-separator-margin: 16px 0;
+    --cookie-consent-separator-color: var(--color-border);
+    --cookie-consent-option-gap: 4px 20px;
+    --cookie-consent-option-margin-bottom: 16px;
+    --cookie-consent-option-toggle-width: 80px;
+    --cookie-consent-option-label-font-weight: 600;
+    --cookie-consent-option-desc-color: var(--neutral700);
+    --cookie-consent-option-desc-font-size: var(--font-small);
+    --cookie-consent-dialog-actions-margin-top: 16px;
+    --cookie-consent-dialog-actions-padding-bottom: 16px;
+
     /* MARK: input */
     --input-border-color: var(--color-border);
     --input-background: var(--primary050);
@@ -322,6 +342,7 @@ body {
     --input-background-transparent: color-mix(in hsl, var(--input-background) 60%, transparent);
     --input-item-color: var(--primary400);
     --input-item-active-color: var(--primary700);
+    --input-focus-color: var(--neutral950);
     --input-focus-border-color: var(--input-focus-color);
     --input-color-shadow: var(--neutral050);
     --input-checked-color: var(--primary500);
@@ -626,6 +647,22 @@ body {
     --status-offline-dot-color: hsl(var(--neutralH, 0) var(--neutralS, 0%) 65%);
     --status-offline-color: hsl(var(--neutralH, 0) var(--neutralS, 0%) 50%);
 
+    /* MARK: light-dark */
+    --light-dark-border-color: var(--primary950);
+    --light-dark-gap: 5px;
+    --light-dark-icon-size: 20px;
+    --light-dark-toggle-width: 40px;
+    --light-dark-toggle-height: 20px;
+    --light-dark-toggle-border-radius: 20px;
+    --light-dark-thumb-size: 16px;
+    --light-dark-thumb-margin: 2px;
+    --light-dark-transition-duration: 0.5s;
+    --light-dark-compact-border-radius: 20px;
+    --light-dark-compact-padding-x: 2px;
+    --light-dark-compact-height: 24px;
+    --light-dark-compact-icon-offset: -48px;
+    --light-dark-focus-outline-width: 3px;
+    --light-dark-focus-outline-offset: 1px;
 
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */

@@ -2,34 +2,34 @@
     display: inline-flex;
     align-items: center;
     vertical-align: middle;
-    gap: 5px;
+    gap: var(--light-dark-gap);
 
     &.dark .toggle::before {
-        inset-inline-start: calc(100% - 16px - 4px);
+        inset-inline-start: calc(100% - var(--light-dark-thumb-size) - var(--light-dark-thumb-margin));
     }
 
     &.compact {
         box-sizing: border-box;
-        border: 1px solid var(--color-mode-border-color);
-        border-radius: 20px;
-        padding: 0 2px;
-        height: 24px;
+        border: 1px solid var(--light-dark-border-color);
+        border-radius: var(--light-dark-compact-border-radius);
+        padding: 0 var(--light-dark-compact-padding-x);
+        height: var(--light-dark-compact-height);
         overflow: hidden;
         text-align: center;
 
         .light,
         .dark {
             z-index: 1;
-            transition: margin-top 0.5s;
+            transition: margin-top var(--light-dark-transition-duration);
             margin-top: 0;
-            font-size: 20px;
-            line-height: 20px;
+            font-size: var(--light-dark-icon-size);
+            line-height: var(--light-dark-icon-size);
         }
 
         &.light .dark,
         &.dark .light {
-            margin-top: -48px;
-            margin-top: -48px;
+            margin-top: var(--light-dark-compact-icon-offset);
+            margin-top: var(--light-dark-compact-icon-offset);
         }
 
         .toggle {
@@ -39,41 +39,41 @@
 
     &.compact.click-enter:focus,
     .click-enter:focus {
-        outline-width: 3px;
-        outline-offset: 1px;
+        outline-width: var(--light-dark-focus-outline-width);
+        outline-offset: var(--light-dark-focus-outline-offset);
     }
 }
 
 .light,
 .dark {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
+    width: var(--light-dark-icon-size);
+    height: var(--light-dark-icon-size);
+    font-size: var(--light-dark-icon-size);
 }
 
 .toggle {
     display: block;
     position: relative;
     align-items: center;
-    border: 1px solid var(--color-mode-border-color);
-    border-radius: 20px;
-    width: 40px;
-    height: 20px;
+    border: 1px solid var(--light-dark-border-color);
+    border-radius: var(--light-dark-toggle-border-radius);
+    width: var(--light-dark-toggle-width);
+    height: var(--light-dark-toggle-height);
 
     &::before {
         display: block;
         position: absolute;
-        transition: inset-inline-start 0.5s;
-        margin: 2px;
+        transition: inset-inline-start var(--light-dark-transition-duration);
+        margin: var(--light-dark-thumb-margin);
         inset-inline-start: 0;
         border-radius: 50%;
-        background: var(--color-mode-border-color);
-        width: 16px;
-        height: 16px;
+        background: var(--light-dark-border-color);
+        width: var(--light-dark-thumb-size);
+        height: var(--light-dark-thumb-size);
         content: ' ';
     }
 }
 
 path {
-    fill: var(--color-mode-border-color);
+    fill: var(--light-dark-border-color);
 }

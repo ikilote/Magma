@@ -17,6 +17,8 @@ import { MagmaClickEnterDirective } from './click-enter.directive';
 import { MagmaInputCommon } from '../components/input/input-common';
 import { sortWithRule } from '../utils/array';
 
+// ── Types ────────────────────────────────────────────────────────────────────
+
 /**
  * * MagmaSortRule : rule object
  * * MagmaSortRule[] : list of rule
@@ -63,6 +65,8 @@ export type MagmaSortRule =
           type: 'none';
       }
     | undefined;
+
+// ── Directive ─────────────────────────────────────────────────────────────────
 
 @Directive({
     selector: '[sortRule]',

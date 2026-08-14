@@ -7,8 +7,9 @@
 
 <h2>Themes</h2>
 <section>
-  <div class="s-4 s-12-m">
+  <div class="s-3 s-12-m">
     <div class="status-group">
+      <span class="status">Default</span>
       <span class="status status-success">Online</span>
       <span class="status status-warning">Degraded</span>
       <span class="status status-danger">Offline</span>
@@ -30,6 +31,8 @@
       <span class="status status-warning"></span>
       <span class="status status-danger"></span>
       <span class="status status-info"></span>
+      <span class="status status-neutral"></span>
+      <span class="status status-offline"></span>
     </div>
   </div>
   <div class="s-f"><code-tabs [code]="[{ type: 'html', code: dotOnly }]" /></div>
@@ -46,49 +49,4 @@
     </div>
   </div>
   <div class="s-f"><code-tabs [code]="[{ type: 'html', code: pulse }]" /></div>
-</section>
-
-<hr />
-
-<h2>CSS Variables</h2>
-<section>
-  <div class="s-12">
-    <code-tabs [code]="[{ type: 'css', code: cssVars }]" />
-    <table>
-      <thead>
-        <tr>
-          <th>Variable</th>
-          <th>Default</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>--status-dot-size</code></td>
-          <td>8px</td>
-          <td>Diameter of the dot</td>
-        </tr>
-        <tr>
-          <td><code>--status-dot-color</code></td>
-          <td>currentColor</td>
-          <td>Color of the dot (overridden by theme)</td>
-        </tr>
-        <tr>
-          <td><code>--status-gap</code></td>
-          <td>6px</td>
-          <td>Space between dot and text</td>
-        </tr>
-        <tr>
-          <td><code>--status-color</code></td>
-          <td>inherit</td>
-          <td>Text color (overridden by theme)</td>
-        </tr>
-        <tr>
-          <td><code>--status-font-size</code></td>
-          <td>0.85em</td>
-          <td>Font size</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
 </section>

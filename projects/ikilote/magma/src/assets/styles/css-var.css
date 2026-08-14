@@ -633,7 +633,6 @@ body {
     --status-dot-size: 8px;
     --status-color: var(--text-color);
     --status-dot-color: currentColor;
-    --status-pulse-duration: 2s;
     --status-success-dot-color: hsl(var(--successH, 120) 60% 40%);
     --status-success-color: hsl(var(--successH, 120) 60% 30%);
     --status-warning-dot-color: hsl(var(--warnH, 15) 80% 50%);

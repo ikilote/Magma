@@ -1087,10 +1087,10 @@ pre.mono {
 @keyframes status-pulse {
     0%,
     100% {
-        opacity: 1;
+        opacity: var(--status-pulse-opacity-max);
     }
     50% {
-        opacity: 0.4;
+        opacity: var(--status-pulse-opacity-min);
     }
 }
 

@@ -1,0 +1,34 @@
+/**
+ * Tritanopia theme
+ * ────────────────────────────────────────────────────────────────────────────
+ * Blue-yellow color blindness is rare (~0.01%) but still worth supporting.
+ * This theme avoids blue/yellow pairs and relies on red/cyan distinctions
+ * which tritanopes can perceive.
+ *
+ * Usage:
+ *   body.theme-tritanopia { ... }
+ */
+
+body.theme-tritanopia {
+    /* Primary: shifted to a red-magenta that is visible to tritanopes */
+    --primaryH: 350;
+
+    /* Alert: deep red (perceived as dark by tritanopes, distinct from cyan) */
+    --alertH: 0;
+
+    /* Warn: magenta-pink (replaces yellow which is invisible to tritanopes) */
+    --warnH: 330;
+
+    /* Success: cyan-teal (replaces green, clearly distinct from red/magenta) */
+    --successH: 180;
+
+    --primaryS: 20%;
+}
+
+body.theme-tritanopia.dark-mode {
+    --primaryH: 350;
+    --alertH: 0;
+    --warnH: 330;
+    --successH: 180;
+    --primaryS: 20%;
+}

@@ -1,0 +1,81 @@
+<button
+  type="button"
+  (click)="open()"
+  cdkOverlayOrigin
+  #button
+  #trigger="cdkOverlayOrigin"
+  [attr.aria-label]="ariaLabel() + ': ' + currentLabel()"
+  [attr.aria-expanded]="isOpen()"
+  aria-haspopup="listbox"
+>
+  <svg
+    class="icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    aria-hidden="true"
+  >
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+  @if (!compact()) {
+    <span class="label">{{ currentLabel() }}</span>
+  }
+</button>
+
+<ng-template
+  cdkConnectedOverlay
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="isOpen()"
+  cdkConnectedOverlayBackdropClass="cdk-overlay-ellipsis-backdrop"
+  cdkConnectedOverlayPanelClass="cdk-overlay-button"
+  (detach)="close()"
+  (backdropClick)="close()"
+>
+  <div
+    class="vision-theme-list"
+    [class.multiple]="multiple()"
+    limitFocus
+    role="listbox"
+    [attr.aria-multiselectable]="multiple()"
+    [attr.aria-label]="listAriaLabel()"
+  >
+    @for (theme of selectableThemes(); track theme.key) {
+      <button
+        type="button"
+        class="vision-theme-item"
+        [class.active]="isActive(theme.key)"
+        role="option"
+        [attr.aria-selected]="isActive(theme.key)"
+        (click)="selectTheme(theme.key)"
+        (keydown.enter)="selectTheme(theme.key)"
+      >
+        @if (multiple()) {
+          <label>
+            <input type="checkbox" [checked]="isActive(theme.key)" tabindex="-1" aria-hidden="true" />
+            <span></span>
+          </label>
+        }
+        <span class="item-content">
+          <span class="item-label">{{ theme.label }}</span>
+          <span class="item-desc">{{ theme.description }}</span>
+        </span>
+      </button>
+    }
+    @if (multiple() && visionThemeService.activeThemes().length > 0) {
+      <div class="vision-theme-divider"></div>
+      <button
+        type="button"
+        class="vision-theme-item clear-btn"
+        (click)="selectTheme('none')"
+        (keydown.enter)="selectTheme('none')"
+      >
+        <span class="item-label">{{ clearAllLabel() }}</span>
+      </button>
+    }
+  </div>
+</ng-template>

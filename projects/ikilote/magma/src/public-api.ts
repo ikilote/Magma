@@ -61,6 +61,7 @@ export * from './lib/components/tabs/tabs.component';
 export * from './lib/components/tabs/tabs.module';
 export * from './lib/components/tag-list/tag-list.component';
 export * from './lib/components/tag-list/tag.component';
+export * from './lib/components/vision-theme/vision-theme.component';
 export * from './lib/components/walkthrough/walkthrough-step.directive';
 export * from './lib/components/walkthrough/walkthrough.component';
 export * from './lib/components/window/window.component';
@@ -97,6 +98,7 @@ export * from './lib/services/form-builder-extended';
 export * from './lib/services/light-dark';
 export * from './lib/services/logger';
 export * from './lib/services/messages';
+export * from './lib/services/vision-theme';
 export * from './lib/services/windows';
 
 // utils

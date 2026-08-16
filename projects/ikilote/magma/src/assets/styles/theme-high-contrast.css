@@ -1,0 +1,263 @@
+/**
+ * High Contrast theme
+ * ────────────────────────────────────────────────────────────────────────────
+ * Designed for users with low vision who need maximum contrast between
+ * foreground and background elements, including under contrast-loss
+ * simulations (cataract, glare, low-vision filters).
+ *
+ * Key changes:
+ * - Lightness scale pushed to extremes (near-black text, near-white bg)
+ * - Semantic tokens explicitly overridden to guarantee WCAG AA (4.5:1 text, 3:1 non-text)
+ * - Increased border widths for better element distinction
+ * - Higher saturation on semantic colors for visibility
+ * - Neutral saturation at 0 to avoid any muddy tones
+ * - Messages: near-white background + near-black thick border → survives contrast-loss filters
+ *   The colored tinted backgrounds used in the default theme become indistinguishable
+ *   under low-vision simulations; this theme replaces them with a luminance-based approach.
+ *
+ * Usage:
+ *   body.theme-high-contrast { ... }
+ */
+
+body.theme-high-contrast {
+    /* ── Lightness scale: pushed to extremes ─────────────────────────────── */
+    --L000: 100%;
+    --L010: 97%;
+    --L025: 95%;
+    --L050: 92%;
+    --L100: 82%;
+    --L200: 68%;
+    --L300: 52%;
+    --L400: 38%;
+    --L500: 28%;
+    --L600: 18%;
+    --L700: 12%;
+    --L800: 7%;
+    --L900: 4%;
+    --L950: 2%;
+    --L990: 0%;
+
+    /* ── Hue / saturation ────────────────────────────────────────────────── */
+    --neutralH: 0;
+    --neutralS: 0%;
+    --primaryS: 35%;
+    --primarySsoft: 15%;
+
+    /* ── Semantic layer overrides ─────────────────────────────────────────── */
+    /* Force maximum contrast between text and surfaces */
+    --color-surface: var(--neutral000);
+    --color-surface-raised: var(--neutral010);
+    --color-surface-sunken: var(--neutral025);
+    --color-on-surface: var(--neutral990);
+    --color-on-surface-muted: var(--neutral800);
+    --color-border: var(--neutral800);
+    --color-border-strong: var(--neutral950);
+
+    /* Primary: dark enough background with white text */
+    --color-primary: var(--primary700);
+    --color-on-primary: var(--neutral000);
+    --color-primary-hover: var(--primary800);
+    --color-focus-ring: var(--neutral990);
+
+    /* ── Buttons ─────────────────────────────────────────────────────────── */
+    /* Primary button: white text on dark primary */
+    --button-primary-background: var(--color-primary);
+    --button-primary-color: var(--neutral000);
+    --button-primary-hover-background: var(--color-primary-hover);
+    --button-primary-active-background: var(--primary900);
+
+    /* Default button: dark text on light surface */
+    --button-default-background: var(--neutral010);
+    --button-default-color: var(--neutral990);
+    --button-default-hover-background: var(--neutral100);
+    --button-default-active-background: var(--neutral200);
+    --button-default-border-color: var(--neutral800);
+    --button-default-hover-border-color: var(--neutral900);
+    --button-default-active-border-color: var(--neutral950);
+    --button-default-border-width: 3px;
+
+    /* Warn button: white text on dark alert */
+    --button-warn-background: var(--alert600);
+    --button-warn-color: var(--neutral000);
+    --button-warn-hover-background: var(--alert700);
+    --button-warn-active-background: var(--alert800);
+
+    /* ── Inputs ──────────────────────────────────────────────────────────── */
+    --input-border-color: var(--neutral800);
+    --input-border-width: 2px;
+    --input-background: var(--neutral000);
+    --input-focus-color: var(--neutral990);
+    --input-focus-border-color: var(--neutral990);
+    --input-placeholder-color: var(--neutral700);
+    --input-error-color: var(--alert800);
+
+    /* ── Links ───────────────────────────────────────────────────────────── */
+    --link-color: var(--primary800);
+    --link-hover-color: var(--neutral990);
+
+    /* ── Messages ────────────────────────────────────────────────────────── */
+    /*
+     * Under a contrast-loss simulation (cataract, low-vision filters), tinted
+     * backgrounds all collapse toward the same mid-grey and become impossible
+     * to distinguish. The approach here is:
+     *   1. Near-white background on all message types → always readable text.
+     *   2. Near-black thick border on all types → survives luminance compression.
+     *   3. Colored border kept at high saturation for users who still see hue.
+     *   4. Thicker border on the message-block level via --message-border-width.
+     *
+     * The border color is deliberately kept saturated (not forced to neutral)
+     * so that users with residual color vision still benefit from the hue cue.
+     * The near-black text on near-white background provides the luminance cue
+     * for users who cannot perceive color at all.
+     */
+
+    /* Shared message structural overrides */
+    --message-border-width: 3px;
+    --message-shadow: none;
+
+    /* Info: near-white bg, dark neutral border — pure luminance signal */
+    --info-message-color: var(--neutral990);
+    --info-message-background: var(--neutral000);
+    --info-message-border-color: var(--neutral800);
+
+    /* Success: near-white bg, dark green border */
+    --success-message-color: var(--neutral990);
+    --success-message-background: var(--neutral000);
+    --success-message-border-color: var(--success700);
+
+    /* Warn: near-white bg, dark amber border */
+    --warn-message-color: var(--neutral990);
+    --warn-message-background: var(--neutral000);
+    --warn-message-border-color: var(--warn700);
+
+    /* Error: near-white bg, dark red border */
+    --error-message-color: var(--neutral990);
+    --error-message-background: var(--neutral000);
+    --error-message-border-color: var(--alert700);
+
+    /* Tip: near-white bg, dark primary border */
+    --tip-message-color: var(--neutral990);
+    --tip-message-background: var(--neutral000);
+    --tip-message-border-color: var(--primary700);
+
+    /* ── Semantic color blocks (accessibility demo) ──────────────────────── */
+    /* Same luminance-first strategy: near-white bg, thick border with semantic color */
+    --semantic-block-border-width: 4px;
+    --semantic-block-alert-background: var(--neutral000);
+    --semantic-block-alert-color: var(--neutral990);
+    --semantic-block-warn-background: var(--neutral000);
+    --semantic-block-warn-color: var(--neutral990);
+    --semantic-block-success-background: var(--neutral000);
+    --semantic-block-success-color: var(--neutral990);
+}
+
+body.theme-high-contrast.dark-mode {
+    /* ── Inverted lightness scale ────────────────────────────────────────── */
+    --L000: 0%;
+    --L010: 3%;
+    --L025: 5%;
+    --L050: 8%;
+    --L100: 12%;
+    --L200: 18%;
+    --L300: 28%;
+    --L400: 38%;
+    --L500: 52%;
+    --L600: 68%;
+    --L700: 78%;
+    --L800: 88%;
+    --L900: 93%;
+    --L950: 97%;
+    --L990: 100%;
+
+    --neutralH: 0;
+    --neutralS: 0%;
+    --primaryS: 35%;
+    --primarySsoft: 15%;
+
+    /* ── Semantic layer — dark mode ──────────────────────────────────────── */
+    --color-surface: var(--neutral000);
+    --color-surface-raised: var(--neutral010);
+    --color-surface-sunken: var(--neutral025);
+    --color-on-surface: var(--neutral990);
+    --color-on-surface-muted: var(--neutral800);
+    --color-border: var(--neutral800);
+    --color-border-strong: var(--neutral950);
+
+    /* Primary: light enough for dark bg with dark text */
+    --color-primary: var(--primary600);
+    --color-on-primary: var(--neutral000);
+    --color-primary-hover: var(--primary500);
+    --color-focus-ring: var(--neutral990);
+
+    /* ── Buttons — dark mode ─────────────────────────────────────────────── */
+    --button-primary-background: var(--color-primary);
+    --button-primary-color: var(--neutral000);
+    --button-primary-hover-background: var(--color-primary-hover);
+    --button-primary-active-background: var(--primary400);
+
+    --button-default-background: var(--neutral050);
+    --button-default-color: var(--neutral990);
+    --button-default-hover-background: var(--neutral100);
+    --button-default-active-background: var(--neutral200);
+    --button-default-border-color: var(--neutral700);
+    --button-default-hover-border-color: var(--neutral800);
+    --button-default-active-border-color: var(--neutral900);
+    --button-default-border-width: 3px;
+
+    --button-warn-background: var(--alert500);
+    --button-warn-color: var(--neutral990);
+    --button-warn-hover-background: var(--alert400);
+    --button-warn-active-background: var(--alert300);
+
+    /* ── Inputs — dark mode ──────────────────────────────────────────────── */
+    --input-border-color: var(--neutral700);
+    --input-border-width: 2px;
+    --input-background: var(--neutral050);
+    --input-focus-color: var(--neutral990);
+    --input-focus-border-color: var(--neutral990);
+    --input-placeholder-color: var(--neutral600);
+    --input-error-color: var(--alert500);
+
+    /* ── Links — dark mode ───────────────────────────────────────────────── */
+    --link-color: var(--primary700);
+    --link-hover-color: var(--neutral990);
+
+    /* ── Messages — dark mode ────────────────────────────────────────────── */
+    /* Same luminance-first strategy as light mode, adapted to dark surfaces */
+    --message-border-width: 3px;
+    --message-shadow: none;
+
+    /* Info: near-black bg, bright neutral border */
+    --info-message-color: var(--neutral990);
+    --info-message-background: var(--neutral000);
+    --info-message-border-color: var(--neutral700);
+
+    /* Success: near-black bg, bright green border */
+    --success-message-color: var(--neutral990);
+    --success-message-background: var(--neutral000);
+    --success-message-border-color: var(--success600);
+
+    /* Warn: near-black bg, bright amber border */
+    --warn-message-color: var(--neutral990);
+    --warn-message-background: var(--neutral000);
+    --warn-message-border-color: var(--warn600);
+
+    /* Error: near-black bg, bright red border */
+    --error-message-color: var(--neutral990);
+    --error-message-background: var(--neutral000);
+    --error-message-border-color: var(--alert600);
+
+    /* Tip: near-black bg, bright primary border */
+    --tip-message-color: var(--neutral990);
+    --tip-message-background: var(--neutral000);
+    --tip-message-border-color: var(--primary600);
+
+    /* ── Semantic color blocks (accessibility demo) — dark mode ──────────── */
+    --semantic-block-border-width: 4px;
+    --semantic-block-alert-background: var(--neutral000);
+    --semantic-block-alert-color: var(--neutral990);
+    --semantic-block-warn-background: var(--neutral000);
+    --semantic-block-warn-color: var(--neutral990);
+    --semantic-block-success-background: var(--neutral000);
+    --semantic-block-success-color: var(--neutral990);
+}

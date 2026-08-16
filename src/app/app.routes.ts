@@ -70,6 +70,14 @@ export const routes: Routes = [
                     import('./components/light-dark/demo-light-dark.component').then(m => m.DemoLightDarkComponent),
             },
             {
+                path: 'vision-theme',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/vision-theme/demo-vision-theme.component').then(
+                        m => m.DemoVisionThemeComponent,
+                    ),
+            },
+            {
                 path: 'context-menu',
                 pathMatch: 'full',
                 loadComponent: () =>
@@ -323,6 +331,14 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'vision-theme',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./services/vision-theme/demo-vision-theme-service.component').then(
+                        m => m.DemoVisionThemeServiceComponent,
+                    ),
+            },
+            {
                 path: 'windows',
                 pathMatch: 'full',
                 loadComponent: () =>
@@ -465,6 +481,14 @@ export const routes: Routes = [
                 path: 'status',
                 pathMatch: 'full',
                 loadComponent: () => import('./styles/status/demo-status.component').then(m => m.DemoStatusComponent),
+            },
+            {
+                path: 'accessibility',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./styles/accessibility/demo-accessibility.component').then(
+                        m => m.DemoAccessibilityComponent,
+                    ),
             },
         ],
     },

@@ -103,19 +103,22 @@ document.body.classList.add('theme-${key}');`;
     readonly integrationCss = `/* styles.css — import all themes you want to support */
 @import '@ikilote/magma/assets/styles/css-var.css';
 @import '@ikilote/magma/assets/styles/theme-protanopia.css';
+@import '@ikilote/magma/assets/styles/theme-deuteranopia.css';
 @import '@ikilote/magma/assets/styles/theme-tritanopia.css';
-@import '@ikilote/magma/assets/styles/theme-high-contrast.css';
+@import '@ikilote/magma/assets/styles/theme-achromatopsia.css';
+@import '@ikilote/magma/assets/styles/theme-high-contrast.css';`;
 
-/* Option 1: Use the service */
-import { VisionTheme } from '@ikilote/magma';
+    readonly integrationTs = `import { VisionTheme } from '@ikilote/magma';
 
 const visionTheme = inject(VisionTheme);
 visionTheme.set('protanopia');
-visionTheme.set('none'); // reset
+visionTheme.set('none'); // reset`;
 
-/* Option 2: Use the component */
-<mg-vision-theme />             // compact — click to cycle
-<mg-vision-theme [compact]="false" />  // with label`;
+    readonly integrationHtml = `<!-- Compact button (click to cycle) -->
+<mg-vision-theme compact />
+
+<!-- With label -->
+<mg-vision-theme />`;
 
     /** Applies the selected theme. */
     applyTheme(key: VisionThemeType | string) {

@@ -5,50 +5,49 @@
   live and see how components look.
 </p>
 
-<mg-block class="s-12">
-  <h3>Select a vision theme</h3>
-  <div class="theme-selector">
-    <mg-input class="s-6">
-      <mg-input-label>Vision theme</mg-input-label>
-      <mg-input-select
-        [data]="themeSelectData"
-        [value]="visionThemeService.current()"
-        (update)="applyTheme($any($event))"
-      />
-    </mg-input>
-  </div>
+<div class="gap">
+  <mg-block class="s-9 s-12-l">
+    <h3>Select a vision theme</h3>
+    <div class="theme-selector">
+      <mg-input class="s-6">
+        <mg-input-label>Vision theme</mg-input-label>
+        <mg-input-select
+          [data]="themeSelectData"
+          [value]="visionThemeService.current()"
+          (update)="applyTheme($any($event))"
+        />
+      </mg-input>
+    </div>
 
-  <div class="theme-chips">
-    @for (theme of themes; track theme.key) {
-      <button
-        type="button"
-        class="chip"
-        [class.active]="visionThemeService.current() === theme.key"
-        (click)="applyTheme(theme.key)"
-      >
-        {{ theme.label }}
-      </button>
-    }
-  </div>
+    <div class="theme-chips">
+      @for (theme of themes; track theme.key) {
+        <button
+          type="button"
+          class="chip"
+          [class.active]="visionThemeService.current() === theme.key"
+          (click)="applyTheme(theme.key)"
+        >
+          {{ theme.label }}
+        </button>
+      }
+    </div>
 
-  <h4>Component usage</h4>
-  <p>Use <code>mg-vision-theme</code> in your app to let users switch themes:</p>
-  <div class="component-demo">
-    <mg-vision-theme [compact]="false" />
-    <mg-vision-theme />
-  </div>
-</mg-block>
+    <h4>Component usage</h4>
+    <p>Use <code>mg-vision-theme</code> in your app to let users switch themes:</p>
+    <div class="component-demo">
+      <mg-vision-theme />
+      <mg-vision-theme compact />
+    </div>
+  </mg-block>
 
-<mg-block class="s-12 info-block">
-  <h3>{{ activeThemeInfo.label }}</h3>
-  <p>{{ activeThemeInfo.description }}</p>
-</mg-block>
+  <mg-block class="s-3 s-12-l">
+    <h3>{{ activeThemeInfo.label }}</h3>
+    <p>{{ activeThemeInfo.description }}</p>
+  </mg-block>
+</div>
 
 <mg-tabs>
   <mg-tab-title id="preview">Components preview</mg-tab-title>
-  <mg-tab-title id="palette">Palette</mg-tab-title>
-  <mg-tab-title id="usage">Usage</mg-tab-title>
-
   <mg-tab-content id="preview">
     <section>
       <h3>Buttons</h3>
@@ -105,6 +104,7 @@
     </section>
   </mg-tab-content>
 
+  <mg-tab-title id="palette">Palette</mg-tab-title>
   <mg-tab-content id="palette">
     @for (list of palette; track $index) {
       <section>
@@ -120,6 +120,7 @@
     }
   </mg-tab-content>
 
+  <mg-tab-title id="usage">Usage</mg-tab-title>
   <mg-tab-content id="usage">
     <section>
       <h3>How to use accessibility themes</h3>
@@ -130,13 +131,21 @@
 
       <h4>Available theme files</h4>
       <ul>
-        <li><code>theme-protanopia.css</code> — Red-green color blindness (protanopia & deuteranopia)</li>
+        <li><code>theme-protanopia.css</code> — Red-green color blindness (protanopia)</li>
+        <li><code>theme-deuteranopia.css</code> — Red-green color blindness (deuteranopia)</li>
         <li><code>theme-tritanopia.css</code> — Blue-yellow color blindness</li>
+        <li><code>theme-achromatopsia.css</code> — Complete color blindness (achromatopsia)</li>
         <li><code>theme-high-contrast.css</code> — Low vision / high contrast needs</li>
       </ul>
 
       <h4>Integration example</h4>
-      <code-tabs [code]="[{ type: 'ts', code: integrationCss }]"></code-tabs>
+      <code-tabs
+        [code]="[
+          { type: 'css', code: integrationCss },
+          { type: 'ts', code: integrationTs },
+          { type: 'html', code: integrationHtml },
+        ]"
+      ></code-tabs>
     </section>
   </mg-tab-content>
 </mg-tabs>

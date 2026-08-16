@@ -1,0 +1,34 @@
+/**
+ * Protanopia theme
+ * ────────────────────────────────────────────────────────────────────────────
+ * Red-blind color blindness affects ~1% of men and ~0.01% of women.
+ * Protanopes have no red cone sensitivity and cannot distinguish red from
+ * green or red from black. This theme replaces the traditional red/green
+ * semantics with blue/orange, which remain distinguishable for protanopes.
+ *
+ * Usage:
+ *   body.theme-protanopia { ... }
+ *
+ * Or import this file alongside css-var.css and toggle the class on <body>.
+ */
+
+body.theme-protanopia {
+    /* Alert: orange instead of red (clearly distinct from blue) */
+    --alertH: 30;
+
+    /* Warn: yellow-amber (warm, distinct from both blue and orange) */
+    --warnH: 50;
+
+    /* Success: blue instead of green (safe color for protanopia) */
+    --successH: 220;
+
+    /* Raise saturation so semantic colors pop even without hue discrimination */
+    --primaryS: 20%;
+}
+
+body.theme-protanopia.dark-mode {
+    --alertH: 30;
+    --warnH: 50;
+    --successH: 220;
+    --primaryS: 20%;
+}

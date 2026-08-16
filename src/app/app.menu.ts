@@ -4,7 +4,7 @@ export type Menu = {
         routerLink: string;
         label: string;
         keys: string[];
-        status?: 'new' | 'update';
+        status?: 'new' | 'update' | 'experimental';
     }[];
 }[];
 
@@ -143,6 +143,21 @@ export const menu: Menu = [
                 keys: ['tag', 'tags', 'chips', 'filter', 'tag list', 'criteria'],
             },
             {
+                routerLink: '/component/vision-theme',
+                label: 'Vision Theme',
+                status: 'experimental',
+                keys: [
+                    'vision',
+                    'accessibility',
+                    'a11y',
+                    'color blind',
+                    'protanopia',
+                    'tritanopia',
+                    'high contrast',
+                    'theme switcher',
+                ],
+            },
+            {
                 routerLink: '/component/walkthrough',
                 label: 'Walkthrough',
                 keys: ['tour', 'guide', 'onboarding'],
@@ -161,12 +176,6 @@ export const menu: Menu = [
                 routerLink: '/directive/click-enter',
                 label: 'Click Enter',
                 keys: ['enter key', 'keyboard enter'],
-            },
-            {
-                routerLink: '/directive/scrollable',
-                label: 'Scrollable',
-                status: 'new',
-                keys: ['scroll', 'animated scroll', 'scroll navigation', 'scroll to', 'anchor'],
             },
             {
                 routerLink: '/directive/click-outside',
@@ -192,6 +201,12 @@ export const menu: Menu = [
                 routerLink: '/directive/sortable',
                 label: 'Sortable',
                 keys: ['sort', 'reorder'],
+            },
+            {
+                routerLink: '/directive/scrollable',
+                label: 'Scrollable',
+                status: 'new',
+                keys: ['scroll', 'animated scroll', 'scroll navigation', 'scroll to', 'anchor'],
             },
             {
                 routerLink: '/directive/stop-propagation',
@@ -270,6 +285,12 @@ export const menu: Menu = [
                 routerLink: '/service/messages',
                 label: 'Messages',
                 keys: ['notifications', 'alerts', 'info', 'messages'],
+            },
+            {
+                routerLink: '/service/vision-theme',
+                label: 'VisionTheme',
+                status: 'experimental',
+                keys: ['vision theme', 'accessibility service', 'color blind', 'a11y'],
             },
             {
                 routerLink: '/service/windows',
@@ -397,6 +418,22 @@ export const menu: Menu = [
                 label: 'Status',
                 status: 'new',
                 keys: ['status', 'dot', 'indicator', 'online', 'offline', 'state'],
+            },
+            {
+                routerLink: '/style/accessibility',
+                label: 'Accessibility',
+                status: 'experimental',
+                keys: [
+                    'accessibility',
+                    'a11y',
+                    'color blind',
+                    'vision',
+                    'protanopia',
+                    'deuteranopia',
+                    'tritanopia',
+                    'high contrast',
+                    'low vision',
+                ],
             },
         ],
     },

@@ -1,0 +1,256 @@
+<h1>Vision Theme</h1>
+
+<p>
+  A component and service to switch between vision accessibility themes (protanopia, tritanopia, high contrast). Opens a
+  dropdown to pick a theme.
+</p>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+          <h3>Options</h3>
+          <div>
+            <mg-input class="s-6">
+              <mg-input-label>compact</mg-input-label>
+              <mg-input-checkbox formControlName="compact" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-6">
+              <mg-input-label>multiple</mg-input-label>
+              <mg-input-checkbox formControlName="multiple" mode="toggle" />
+            </mg-input>
+            <mg-input class="s-12">
+              <mg-input-label>ariaLabel</mg-input-label>
+              <mg-input-text formControlName="ariaLabel" placeholder="Vision accessibility theme" />
+            </mg-input>
+            <mg-input class="s-12">
+              <mg-input-label>listAriaLabel</mg-input-label>
+              <mg-input-text formControlName="listAriaLabel" placeholder="Vision themes" />
+            </mg-input>
+            <mg-input class="s-12">
+              <mg-input-label>clearAllLabel</mg-input-label>
+              <mg-input-text formControlName="clearAllLabel" placeholder="Clear all" />
+              <mg-input-desc>Only visible in <code>multiple</code> mode</mg-input-desc>
+            </mg-input>
+          </div>
+        </form>
+        <div class="s-4 s-6-l s-12-s">
+          <h3>Render</h3>
+          <mg-vision-theme
+            [compact]="ctrlForm.value.compact ?? true"
+            [multiple]="ctrlForm.value.multiple ?? false"
+            [ariaLabel]="ctrlForm.value.ariaLabel || 'Vision accessibility theme'"
+            [listAriaLabel]="ctrlForm.value.listAriaLabel || 'Vision themes'"
+            [clearAllLabel]="ctrlForm.value.clearAllLabel || 'Clear all'"
+            (themeChange)="onThemeChange($event)"
+            (themesChange)="onThemesChange($event)"
+          />
+          @if (lastEmitted) {
+            <p class="event-output">
+              Last emitted: <code>{{ lastEmitted }}</code>
+            </p>
+          }
+        </div>
+        <div class="s-5 s-12-l">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="examples">Examples</mg-tab-title>
+  <mg-tab-content id="examples">
+    <h2>Internationalization (i18n)</h2>
+
+    <p>
+      Pass custom <code>[themes]</code> with translated labels and descriptions. Also override
+      <code>ariaLabel</code> and <code>listAriaLabel</code> for full i18n.
+    </p>
+
+    <section>
+      <h3>French example</h3>
+      <div class="s-4 s-12-m">
+        <mg-vision-theme
+          [themes]="frenchThemes"
+          ariaLabel="Thème d'accessibilité visuelle"
+          listAriaLabel="Thèmes visuels"
+        />
+      </div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlI18n },
+            { type: 'ts', code: codeTsI18n },
+          ]"
+        />
+      </div>
+    </section>
+
+    <h2>Custom themes</h2>
+
+    <p>
+      Add your own themes — just provide a matching CSS file that declares
+      <code>body.theme-your-key &#123; ... &#125;</code> and add the entry to the list.
+    </p>
+
+    <section>
+      <h3>Extended theme list</h3>
+      <div class="s-4 s-12-m">
+        <mg-vision-theme [themes]="extendedThemes" />
+      </div>
+      <div class="s-8 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlCustom },
+            { type: 'ts', code: codeTsCustom },
+          ]"
+        />
+      </div>
+    </section>
+
+    <h2>Service</h2>
+
+    <section>
+      <div class="s-12">
+        <code-tabs [code]="[{ type: 'ts', code: codeTsService }]" />
+      </div>
+    </section>
+
+    <h2>CSS Import</h2>
+
+    <section>
+      <div class="s-12">
+        <p>Theme CSS files must be imported in your global styles for the body classes to take effect.</p>
+        <code-tabs [code]="[{ type: 'css', code: codeCssImport }]" />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-vision-theme</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>compact</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Show only the icon (<code>true</code>) or icon + label (<code>false</code>)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>multiple</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Allow selecting multiple themes simultaneously (checkbox mode)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>themes</code></td>
+            <td mg><code>VisionThemeInfo[]</code></td>
+            <td mg>Built-in 4 themes</td>
+            <td mg>Custom list of themes. Use for i18n or to add/remove themes.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>ariaLabel</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Vision accessibility theme'</code></td>
+            <td mg>ARIA label for the trigger button</td>
+          </tr>
+          <tr mg>
+            <td mg><code>listAriaLabel</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Vision themes'</code></td>
+            <td mg>ARIA label for the dropdown list</td>
+          </tr>
+          <tr mg>
+            <td mg><code>clearAllLabel</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Clear all'</code></td>
+            <td mg>Label for the "clear all" option in multiple mode</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-vision-theme</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>themeChange</code></td>
+            <td mg><code>VisionThemeType</code></td>
+            <td mg>Emitted when the user selects a theme (single mode)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>themesChange</code></td>
+            <td mg><code>VisionThemeType[]</code></td>
+            <td mg>Emitted with all active theme keys when selection changes (multiple mode)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Service — <code>VisionTheme</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>set</code></td>
+            <td mg><code>(key: VisionThemeType) => void</code></td>
+            <td mg>Sets the active theme</td>
+          </tr>
+          <tr mg>
+            <td mg><code>next</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Cycles to the next theme in the list</td>
+          </tr>
+          <tr mg>
+            <td mg><code>add</code></td>
+            <td mg><code>(key: VisionThemeType) => void</code></td>
+            <td mg>Adds a theme to the active set (multiple mode)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>toggle</code></td>
+            <td mg><code>(key: VisionThemeType) => void</code></td>
+            <td mg>Toggles a theme in the active set</td>
+          </tr>
+          <tr mg>
+            <td mg><code>activeThemes</code></td>
+            <td mg><code>Signal&lt;VisionThemeType[]&gt;</code></td>
+            <td mg>Signal with the currently active theme keys</td>
+          </tr>
+          <tr mg>
+            <td mg><code>isActive</code></td>
+            <td mg><code>(key: VisionThemeType) => boolean</code></td>
+            <td mg>Returns whether a given theme is currently active</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

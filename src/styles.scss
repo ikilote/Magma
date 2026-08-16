@@ -8,6 +8,21 @@
 @import url('../projects/ikilote/magma/src/assets/styles/css-var.css');
 @import url('../projects/ikilote/magma/src/assets/styles/style.css');
 
+/* Accessibility vision themes */
+@import url('../projects/ikilote/magma/src/assets/styles/theme-protanopia.css');
+@import url('../projects/ikilote/magma/src/assets/styles/theme-deuteranopia.css');
+@import url('../projects/ikilote/magma/src/assets/styles/theme-tritanopia.css');
+@import url('../projects/ikilote/magma/src/assets/styles/theme-achromatopsia.css');
+@import url('../projects/ikilote/magma/src/assets/styles/theme-high-contrast.css');
+
+/* OpenDyslexic font */
+@import 'open-dyslexic/open-dyslexic-regular.css';
+
+body.theme-dyslexia {
+    --font-family: 'OpenDyslexicRegular', sans-serif;
+    --input-line-height: 28px;
+}
+
 app-root {
     display: block;
     position: fixed;
@@ -44,5 +59,13 @@ code > pre {
     margin-inline-start: 5px;
     content: 'update';
     color: var(--warn500);
+    font-variant-position: super;
+}
+
+.experimental:dir(ltr)::after,
+.experimental:dir(rtl)::before {
+    margin-inline-start: 5px;
+    content: 'experimental';
+    color: var(--primary500);
     font-variant-position: super;
 }

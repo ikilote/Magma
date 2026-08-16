@@ -1,0 +1,212 @@
+<h1>VisionTheme Service</h1>
+
+<p>
+  The <code>VisionTheme</code> service manages vision accessibility themes. It adds/removes CSS classes on
+  <code>&lt;body&gt;</code> and provides reactive state.
+</p>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <form class="s-4 s-8-l s-12-s" [formGroup]="ctrlForm">
+        <h3>Options</h3>
+
+        <p>
+          <mg-input class="s-12">
+            <mg-input-label>Method</mg-input-label>
+            <mg-input-radio formControlName="method" value="set">set()</mg-input-radio>
+            <mg-input-radio formControlName="method" value="add">add()</mg-input-radio>
+            <mg-input-radio formControlName="method" value="toggle">toggle()</mg-input-radio>
+            <mg-input-radio formControlName="method" value="next">next()</mg-input-radio>
+            <mg-input-radio formControlName="method" value="previous">previous()</mg-input-radio>
+          </mg-input>
+        </p>
+
+        @if (['set', 'add', 'toggle'].includes(ctrlForm.value.method!)) {
+          <p>
+            <mg-input class="s-12">
+              <mg-input-label>Theme</mg-input-label>
+              <mg-input-select formControlName="theme" [data]="themes" />
+            </mg-input>
+          </p>
+        }
+      </form>
+
+      <div class="s-8 s-12-s">
+        <h3>Test</h3>
+        <div class="demo-actions">
+          <button type="button" class="primary" (click)="applyTheme()">
+            Apply <code>visionTheme.{{ ctrlForm.value.method }}()</code>
+          </button>
+          <button type="button" (click)="reset()">Reset</button>
+        </div>
+
+        <h3>Active state</h3>
+        <table mg>
+          <thead mg>
+            <tr mg>
+              <th mg>Property</th>
+              <th mg>Value</th>
+            </tr>
+          </thead>
+          <tbody mg>
+            <tr mg>
+              <td mg><code>current()</code></td>
+              <td mg>
+                <code>{{ visionThemeService.current() }}</code>
+              </td>
+            </tr>
+            <tr mg>
+              <td mg><code>activeThemes()</code></td>
+              <td mg>
+                @if (visionThemeService.activeThemes().length === 0) {
+                  <span class="no-theme">[]</span>
+                } @else {
+                  <code>[{{ visionThemeService.activeThemes().join(', ') }}]</code>
+                }
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="vision-theme-widget">Or use the component: <mg-vision-theme [compact]="false" /></p>
+
+        <code-tabs [code]="[{ type: 'ts', code: codeTs }]" />
+      </div>
+    </section>
+
+    <div>
+      <h2>CSS import (required)</h2>
+      <section class="s-12">
+        <p>The theme CSS files must be imported in your global styles for the body classes to take effect:</p>
+        <code-tabs [code]="[{ type: 'css', code: codeImport }]" />
+      </section>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Service — <code>VisionTheme</code></h4>
+      <p>
+        Manages vision accessibility themes by toggling CSS classes on <code>document.body</code>. Provides both a
+        reactive Signal and an RxJS Observable for the current theme.
+      </p>
+
+      <h4>Methods</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>set</code></td>
+            <td mg><code>(key: VisionThemeType) => void</code></td>
+            <td mg>Activates a theme exclusively. Use <code>'none'</code> to reset.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>add</code></td>
+            <td mg><code>(key: VisionThemeType) => void</code></td>
+            <td mg>Adds a theme to the active set (multiple mode)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>toggle</code></td>
+            <td mg><code>(key: VisionThemeType) => void</code></td>
+            <td mg>Toggles a theme on/off in the active set</td>
+          </tr>
+          <tr mg>
+            <td mg><code>remove</code></td>
+            <td mg><code>(key: VisionThemeType) => void</code></td>
+            <td mg>Removes a theme from the active set</td>
+          </tr>
+          <tr mg>
+            <td mg><code>next</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Cycles forward to the next theme in the list (wraps around)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>previous</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Cycles backward to the previous theme (wraps around)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>clear</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Removes all active themes, equivalent to <code>set('none')</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>isActive</code></td>
+            <td mg><code>(key: VisionThemeType) => boolean</code></td>
+            <td mg>Returns whether a theme is currently active</td>
+          </tr>
+          <tr mg>
+            <td mg><code>current</code></td>
+            <td mg><code>() => VisionThemeType</code></td>
+            <td mg>Returns the current theme key (single mode)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Reactive state</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>theme</code></td>
+            <td mg><code>Signal&lt;VisionThemeType&gt;</code></td>
+            <td mg>Current active theme as a Signal</td>
+          </tr>
+          <tr mg>
+            <td mg><code>activeThemes</code></td>
+            <td mg><code>Signal&lt;VisionThemeType[]&gt;</code></td>
+            <td mg>All currently active themes (multiple mode)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>themeChange$</code></td>
+            <td mg><code>Observable&lt;VisionThemeType&gt;</code></td>
+            <td mg>RxJS observable emitting on every theme change</td>
+          </tr>
+          <tr mg>
+            <td mg><code>activeThemesChange$</code></td>
+            <td mg><code>Observable&lt;VisionThemeType[]&gt;</code></td>
+            <td mg>RxJS observable emitting the full active list on every change</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Types</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Type</th>
+            <th mg>Values</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>VisionThemeType</code></td>
+            <td mg>
+              <code>'none' | 'protanopia' | 'deuteranopia' | 'tritanopia' | 'achromatopsia' | 'high-contrast'</code> (+
+              custom keys)
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>VisionThemeInfo</code></td>
+            <td mg><code>&#123; key: VisionThemeType; label: string; description?: string &#125;</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

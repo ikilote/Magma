@@ -1,0 +1,22 @@
+table {
+    width: 100%;
+}
+
+.demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.no-theme {
+    color: var(--neutral500);
+    font-style: italic;
+}
+
+.vision-theme-widget {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+}

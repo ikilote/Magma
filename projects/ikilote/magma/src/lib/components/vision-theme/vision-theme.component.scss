@@ -1,0 +1,188 @@
+:host {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+button {
+    all: unset;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--vision-theme-button-gap);
+    cursor: pointer;
+    border: var(--vision-theme-button-border-width) solid var(--color-border);
+    border-radius: var(--vision-theme-button-border-radius);
+    background: transparent;
+    padding: var(--vision-theme-button-padding);
+    color: var(--text-color);
+    font-size: inherit;
+    font-family: inherit;
+    user-select: none;
+
+    &:hover {
+        border-color: var(--color-border-strong);
+        background: var(--color-surface-raised);
+    }
+
+    &:focus-visible {
+        outline: var(--vision-theme-focus-outline-width) solid var(--color-focus-ring);
+        outline-offset: var(--vision-theme-focus-outline-offset);
+    }
+}
+
+:host(.has-theme) button {
+    border-color: var(--color-primary);
+    background: var(--color-surface-raised);
+}
+
+:host(.compact) button {
+    padding: var(--vision-theme-button-compact-padding);
+
+    .label {
+        display: none;
+    }
+}
+
+.icon {
+    flex-shrink: 0;
+    width: var(--vision-theme-icon-size);
+    height: var(--vision-theme-icon-size);
+}
+
+.label {
+    font-size: var(--vision-theme-label-font-size);
+    white-space: nowrap;
+}
+
+/* ── Dropdown list ───────────────────────────────────────────────────── */
+
+.vision-theme-list {
+    --separator-margin: var(--vision-theme-list-separator-margin);
+
+    box-shadow: var(--vision-theme-list-box-shadow);
+    border-radius: var(--vision-theme-list-border-radius);
+    background: var(--context-button-list-background);
+    padding: var(--vision-theme-list-padding);
+    min-width: var(--vision-theme-list-min-width);
+}
+
+.vision-theme-item {
+    all: unset;
+    display: block;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin: var(--vision-theme-item-margin);
+    border-radius: var(--vision-theme-item-border-radius);
+    background: var(--vision-theme-item-background);
+    padding: var(--vision-theme-item-padding);
+    width: calc(100% - 2 * var(--vision-theme-item-margin));
+
+    &:hover {
+        background: var(--vision-theme-item-hover-background);
+    }
+
+    &:focus-visible {
+        outline: var(--vision-theme-focus-outline-width) solid var(--color-focus-ring);
+        outline-offset: calc(-1 * var(--vision-theme-focus-outline-offset));
+    }
+
+    &.active {
+        background: var(--vision-theme-item-hover-background);
+    }
+
+    &.clear-btn {
+        opacity: var(--vision-theme-clear-btn-opacity);
+
+        .item-label {
+            font-style: italic;
+        }
+    }
+}
+
+/* ── Item content ────────────────────────────────────────────────────── */
+
+.vision-theme-list.multiple .vision-theme-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--vision-theme-item-gap);
+}
+
+.item-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--vision-theme-item-content-gap);
+}
+
+.item-label {
+    font-weight: 500;
+}
+
+.item-desc {
+    opacity: var(--vision-theme-item-desc-opacity);
+    font-size: var(--font-small);
+}
+
+/* ── Checkbox (multiple mode) ────────────────────────────────────────── */
+
+label {
+    --size: var(--vision-theme-checkbox-size);
+
+    position: relative;
+    width: var(--size);
+}
+
+input {
+    position: absolute;
+    opacity: 0.01;
+    border-radius: 5px;
+    width: 0.1px;
+    height: 0.1px;
+    font-size: 36px;
+
+    & + span {
+        display: block;
+        cursor: pointer;
+        box-sizing: border-box;
+        border: 1px solid var(--input-border-color);
+        border-radius: 5px;
+        background-color: var(--input-background);
+        width: var(--size);
+        height: var(--size);
+
+        &::before {
+            display: inline-block;
+            position: absolute;
+            top: 0px;
+            box-sizing: border-box;
+            margin-inline-end: 5px;
+            inset-inline-start: 0px;
+            outline: 2px solid transparent;
+            border: 1px solid transparent;
+            border-radius: 5px;
+            width: var(--size);
+            height: var(--size);
+            content: '';
+            font-size: 36px;
+        }
+    }
+
+    &:checked + span::before {
+        background-image: linear-gradient(var(--input-checked-color), var(--input-checked-color));
+        background-clip: content-box;
+        padding: 3px;
+    }
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────── */
+
+.vision-theme-divider {
+    opacity: var(--separator-opacity);
+    margin: var(--separator-margin);
+    border: none;
+    border-top: 1px solid var(--separator-color);
+}
+
+/* ── Single mode: active item bold ───────────────────────────────────── */
+
+.vision-theme-list:not(.multiple) .vision-theme-item.active {
+    font-weight: var(--vision-theme-item-active-font-weight);
+}

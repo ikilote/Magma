@@ -230,6 +230,33 @@ body {
     --ellipsis-item-background: var(--primary300);
     --ellipsis-item-hover-background: var(--primary400);
 
+    /* MARK: vision-theme */
+    --vision-theme-button-border-width: 1px;
+    --vision-theme-button-border-radius: 20px;
+    --vision-theme-button-gap: 6px;
+    --vision-theme-button-padding: 4px 10px;
+    --vision-theme-button-compact-padding: 4px 8px;
+    --vision-theme-label-font-size: var(--font-small);
+    --vision-theme-icon-size: 18px;
+    --vision-theme-focus-outline-width: 2px;
+    --vision-theme-focus-outline-offset: 2px;
+    --vision-theme-list-box-shadow: 2px 2px 8px var(--ellipsis-list-shadow-color);
+    --vision-theme-list-border-radius: 6px;
+    --vision-theme-list-padding: 2px;
+    --vision-theme-list-min-width: 220px;
+    --vision-theme-list-separator-margin: 2px 0;
+    --vision-theme-item-margin: 2px;
+    --vision-theme-item-border-radius: 4px;
+    --vision-theme-item-padding: 10px 20px 10px 10px;
+    --vision-theme-item-gap: 8px;
+    --vision-theme-item-content-gap: 2px;
+    --vision-theme-item-background: var(--primary050);
+    --vision-theme-item-hover-background: var(--ellipsis-item-hover-background);
+    --vision-theme-item-active-font-weight: 600;
+    --vision-theme-item-desc-opacity: 0.7;
+    --vision-theme-clear-btn-opacity: 0.8;
+    --vision-theme-checkbox-size: 26px;
+
     /* MARK: default button */
     --button-disabled-opacity: 0.25;
     --button-default-border-radius: 5px;

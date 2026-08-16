@@ -4,10 +4,10 @@
 
 ### ✅ New
 
-- **components**:
+- **Components**:
     - **Avatar**: new component (`mg-avatar`)
         - `[src]` — image URL
-        - `[initials]` — fallback initials (1–2 chars) shown when no image is available or image fails to load
+        - `[initials]` — fallback initials (1–3 chars) shown when no image is available or image fails to load
         - `[alt]` — alt text for the image
         - `[size]` — `small`, `medium` (default), `large`, `extra`
         - background color is derived automatically from initials/alt text
@@ -23,7 +23,7 @@
     - **Card**: new component (`mg-card`)
         - orientations: `horizontal` (default, image left) and `vertical` (image top)
         - `[image]` — background image URL in CSS format (e.g. `url(photo.jpg)`)
-        - `[ratio]` — image-to-body ratio: `'1 / 3'` (default), `'1 / 2'`, `'2 / 3'` or any CSS value
+        - `[ratio]` — image-to-body ratio: `'1 / 3'` (default), `'1 / 2'`, `'2 / 3'` or any ratio value (`.4`)
         - `[imgHeight]` — image area height (CSS value)
         - `[cardHeight]` — fixed card height in px
         - `[imageZoom]` — enable hover zoom effect on the image

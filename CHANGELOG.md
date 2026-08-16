@@ -1,5 +1,245 @@
 # Changelog of @ikilote/magma
 
+## 2.1.0 (2026-08-16)
+
+### ✅ New
+
+- **components**:
+    - **Avatar**: new component (`mg-avatar`)
+        - `[src]` — image URL
+        - `[initials]` — fallback initials (1–2 chars) shown when no image is available or image fails to load
+        - `[alt]` — alt text for the image
+        - `[size]` — `small`, `medium` (default), `large`, `extra`
+        - background color is derived automatically from initials/alt text
+    - **Badge**: new component (`mg-badge`)
+        - `[theme]` — `neutral` (default), `primary`, `success`, `warning`, `alert`, `info`
+        - `[size]` — `small`, `large` (default)
+        - `[luminosity]` — label luminosity: `dark` (default), `light`
+        - `[color]` — custom CSS color value, overrides `[theme]` when set
+        - supports `<mg-badge-label>` slot for rich content
+    - **Breadcrumbs**: new component (`mg-breadcrumbs`)
+        - declarative items via `<mg-breadcrumb-item>`
+        - configurable separator via `[separator]` input (overrides `--breadcrumbs-separator`)
+    - **Card**: new component (`mg-card`)
+        - orientations: `horizontal` (default, image left) and `vertical` (image top)
+        - `[image]` — background image URL in CSS format (e.g. `url(photo.jpg)`)
+        - `[ratio]` — image-to-body ratio: `'1 / 3'` (default), `'1 / 2'`, `'2 / 3'` or any CSS value
+        - `[imgHeight]` — image area height (CSS value)
+        - `[cardHeight]` — fixed card height in px
+        - `[imageZoom]` — enable hover zoom effect on the image
+    - **Tag-list**: new component (`mg-tag-list`)
+        - declarative mode via `<mg-tag>` children or data-driven via `[tags]` input
+        - implements `ControlValueAccessor` (compatible with reactive and template-driven forms)
+        - `[proposals]` — autocomplete suggestions for the inline input
+        - `[readOnly]` / `[disabled]` — read-only and disabled states
+        - `[allowClick]` — emit `(tagClick)` when a tag is clicked
+        - `[hideInput]` — hide the inline input (use `add()` method programmatically)
+        - `[placeholder]` — placeholder for the inline input
+        - `[removeAriaLabel]` / `[addAriaLabel]` — i18n labels for accessibility
+        - output: `(tagsChange)` — emits the updated string array
+        - programmatic API: `add()`, `remove()`
+- **Directive**:
+    - **Scrollable**: new directive (`[mgScrollable]`)
+        - animated scroll to registered targets (`[mgScrollTarget]`)
+        - scroll trigger via `[mgScrollGoto]` (click, Enter, Space)
+        - sticky offset support via `[mgScrollableSticky]`
+        - configurable external scroll container via `[mgScrollable]` (CSS selector)
+        - speed control: `[mgScrollableSpeedMax]`, `[mgScrollableReducer]`
+        - outputs: `(scrolled)`, `(scrolledTo)`, `(changedTo)`, `(clicked)`
+        - `goTo(id)`, `scrollTo(pos)`, `jumpTo(pos)` — programmatic API
+        - `positionsTarget()` — returns positions and current state of all registered targets
+- **Styles**:
+    - **Status**: new CSS utility (class `.status`)
+        - variants: `status-success`, `status-warning`, `status-danger`, `status-info`, `status-neutral`, `status-offline`
+        - optional pulse animation: `status-pulse`
+- **Services**:
+    - **Cookie-consent**: new service (`CookieConsent`)
+        - injected via CDK Overlay — no template tag needed
+        - `init(config)` — opens the consent banner; skips if consent cookie already exists (unless `forceOpen: true`)
+        - `setAll(accept)` — accept or refuse all options at once
+        - `save()` — persist choices to cookie and execute `onAccept`/`onRefuse` callbacks
+        - `remove()` — clear the stored consent cookie
+        - `closeOverlay()` — programmatically close the banner
+        - configurable options: `id`, `label`, `description`, `accept`, `locked`, `onAccept`, `onRefuse`
+        - configurable position, banner size, cookie duration and all UI texts
+        - signals: `options`, `texts`, `policy`, `bannerVisible`
+        - observable: `saved$` — emits after the user saves their preferences
+    - **Windows service**: add `getWindowInstance` & `getWindowData`
+
+#### ⚠️ _experimental_
+
+- **Vision-theme**: new component and service
+    - `mg-vision-theme` — dropdown button to select a visual accessibility theme
+    - `VisionTheme` service — programmatic control (`set()`, `next()`, active signal)
+    - built-in themes: `protanopia`, `deuteranopia`, `tritanopia`, `achromatopsia`, `high-contrast`
+    - `compact` mode (icon only)
+    - `multiple` mode (apply several themes simultaneously)
+    - fully translatable labels via `[themes]`, `ariaLabel`, `listAriaLabel`, `clearAllLabel` inputs
+    - outputs: `(themeChange)` (single), `(themesChange)` (multiple)
+    - full keyboard navigation and ARIA (`role="listbox"`, `role="option"`, `aria-selected`, `aria-expanded`, `aria-haspopup`)
+
+### 🎨 Style
+
+- **new CSS variables**:
+    - **Vision-theme** (new component):
+        - `--vision-theme-button-border-width` — button border width
+        - `--vision-theme-button-border-radius` — button border radius
+        - `--vision-theme-button-gap` — gap between icon and label
+        - `--vision-theme-button-padding` — button padding
+        - `--vision-theme-button-compact-padding` — compact mode button padding
+        - `--vision-theme-label-font-size` — label font size
+        - `--vision-theme-icon-size` — icon size
+        - `--vision-theme-focus-outline-width` — focus outline width
+        - `--vision-theme-focus-outline-offset` — focus outline offset
+        - `--vision-theme-list-box-shadow` — dropdown list shadow
+        - `--vision-theme-list-border-radius` — dropdown list border radius
+        - `--vision-theme-list-padding` — dropdown list padding
+        - `--vision-theme-list-min-width` — dropdown list minimum width
+        - `--vision-theme-list-separator-margin` — separator margin inside the list
+        - `--vision-theme-item-margin` — item margin
+        - `--vision-theme-item-border-radius` — item border radius
+        - `--vision-theme-item-padding` — item padding
+        - `--vision-theme-item-gap` — gap between checkbox and content (multiple mode)
+        - `--vision-theme-item-content-gap` — gap between label and description
+        - `--vision-theme-item-background` — item background
+        - `--vision-theme-item-hover-background` — item hover background
+        - `--vision-theme-item-active-font-weight` — active item font weight (single mode)
+        - `--vision-theme-item-desc-opacity` — description text opacity
+        - `--vision-theme-clear-btn-opacity` — "clear all" button opacity (multiple mode)
+        - `--vision-theme-checkbox-size` — checkbox size (multiple mode)
+    - **Cookie-consent** (new service):
+        - `--cookie-consent-banner-background` — banner background
+        - `--cookie-consent-banner-padding` — banner padding
+        - `--cookie-consent-actions-gap` — gap between action buttons
+        - `--cookie-consent-presentation-margin` — presentation text margin
+        - `--cookie-consent-separator-opacity` — separator opacity
+        - `--cookie-consent-separator-margin` — separator margin
+        - `--cookie-consent-separator-color` — separator color
+        - `--cookie-consent-option-gap` — gap in the option grid
+        - `--cookie-consent-option-margin-bottom` — option bottom margin
+        - `--cookie-consent-option-toggle-width` — option toggle width
+        - `--cookie-consent-option-label-font-weight` — option label font weight
+        - `--cookie-consent-option-desc-color` — option description text color
+        - `--cookie-consent-option-desc-font-size` — option description font size
+        - `--cookie-consent-dialog-actions-margin-top` — dialog actions top margin
+        - `--cookie-consent-dialog-actions-padding-bottom` — dialog actions bottom padding
+    - **Avatar** (new component):
+        - `--avatar-radius` — avatar border radius
+        - `--avatar-color` — avatar text color
+        - `--avatar-size-small` — small size
+        - `--avatar-size-medium` — medium size (default)
+        - `--avatar-size-large` — large size
+        - `--avatar-size-extra` — extra size
+        - `--avatar-font-size-small` — font size for small
+        - `--avatar-font-size-medium` — font size for medium
+        - `--avatar-font-size-large` — font size for large
+        - `--avatar-font-size-extra` — font size for extra
+    - **Badge** (new component):
+        - `--badge-radius` — badge border radius
+        - `--badge-padding` — badge padding
+        - `--badge-small-font-size` — small badge font size
+        - `--badge-small-padding` — small badge padding
+        - `--badge-large-font-size` — large badge font size
+        - `--badge-large-padding` — large badge padding
+        - `--badge-neutral-background` / `--badge-neutral-color`
+        - `--badge-primary-background` / `--badge-primary-color`
+        - `--badge-success-background` / `--badge-success-color`
+        - `--badge-warning-background` / `--badge-warning-color`
+        - `--badge-alert-background` / `--badge-alert-color`
+        - `--badge-info-background` / `--badge-info-color`
+    - **Breadcrumbs** (new component):
+        - `--breadcrumbs-gap` — gap between items
+        - `--breadcrumbs-font-size` — font size
+        - `--breadcrumbs-separator` — separator character (default `/`)
+        - `--breadcrumbs-separator-color` — separator color
+        - `--breadcrumbs-link-color` — link color
+        - `--breadcrumbs-link-hover-color` — link hover color
+        - `--breadcrumbs-active-color` — active item color
+        - `--breadcrumbs-active-font-weight` — active item font weight
+    - **Tag-list** (new component):
+        - `--tag-list-gap` — gap between tags
+        - `--tag-item-radius` — tag border radius
+        - `--tag-item-background` — tag background
+        - `--tag-item-padding` — tag padding
+        - `--tag-item-min-height` — tag minimum height
+        - `--tag-item-color` — tag text color
+        - `--tag-item-font-size` — tag font size
+        - `--tag-item-hover-background` — tag hover background
+        - `--tag-item-remove-color` — remove button color
+        - `--tag-item-remove-color-hover` — remove button hover color
+        - `--tag-input-border-color` — input border color
+        - `--tag-input-background` — input background
+        - `--tag-input-focus-border-color` — input focus border color
+    - **Card** (new component):
+        - `--card-shadow` — card box shadow
+        - `--card-border` — card border
+        - `--card-radius` — card border radius
+        - `--card-background` — card background
+        - `--card-padding` — card padding
+        - `--card-ratio` — image aspect ratio
+        - `--card-img-height` — image height
+        - `--card-zoom-scale` — image zoom scale on hover
+        - `--card-zoom-duration` — image zoom animation duration
+    - **Status** (new utility):
+        - `--status-gap` — gap between dot and label
+        - `--status-font-size` — text font size
+        - `--status-dot-size` — dot size
+        - `--status-color` — default text color
+        - `--status-dot-color` — default dot color
+        - `--status-success-dot-color` / `--status-success-color`
+        - `--status-warning-dot-color` / `--status-warning-color`
+        - `--status-danger-dot-color` / `--status-danger-color`
+        - `--status-info-dot-color` / `--status-info-color`
+        - `--status-neutral-dot-color` / `--status-neutral-color`
+        - `--status-offline-dot-color` / `--status-offline-color`
+        - `--status-pulse-duration` — pulse animation duration
+        - `--status-pulse-opacity-max` / `--status-pulse-opacity-min` — pulse opacity range
+    - **expansion-panel**: new variables
+        - `--expansion-panel-padding` — panel padding
+        - `--expansion-panel-arrow-size` — arrow icon size
+        - `--expansion-panel-transition-duration` — expand/collapse transition duration
+    - **light-dark**: new variables
+        - `--light-dark-border-color` — toggle border color
+        - `--light-dark-gap` — gap between toggle and label
+        - `--light-dark-icon-size` — icon size
+        - `--light-dark-toggle-width` / `--light-dark-toggle-height` / `--light-dark-toggle-border-radius` — toggle dimensions
+        - `--light-dark-thumb-size` / `--light-dark-thumb-margin` — thumb dimensions
+        - `--light-dark-transition-duration` — animation duration
+        - `--light-dark-compact-border-radius` — compact mode border radius
+        - `--light-dark-compact-padding-x` — compact mode horizontal padding
+        - `--light-dark-compact-height` — compact mode height
+        - `--light-dark-compact-icon-offset` — compact mode icon offset
+        - `--light-dark-focus-outline-width` — focus outline width
+        - `--light-dark-focus-outline-offset` — focus outline offset
+    - **global**:
+        - `--separator-opacity` / `--separator-margin` / `--separator-color` — separator tokens exposed globally
+        - `--font-extra` / `--font-large` / `--font-medium` / `--font-small` / `--font-very-small` — font size tokens exposed globally
+- **removed CSS variables**:
+    - `--color-mode-border-color` — replaced by `--light-dark-border-color`
+
+### 🐞 Fix
+
+- **color-picker**: fix color rendering in Firefox
+
+### 🎦 Demo
+
+- add pages for:
+    - **Avatar** (component)
+    - **Badge** (component)
+    - **Breadcrumbs** (component)
+    - **Card** (component)
+    - **Tag-list** (component)
+    - **Scrollable** (directive)
+    - **Cookie consent** (service)
+    - **Vision-theme** (component & service) ⚠️ _experimental_
+    - **Status** (styles)
+    - **Accessibility** (styles)
+- **Avatar**: use dicebear for demo illustrations
+- **Demo**: add home link on logo
+- **Demo**: add **API Reference** tab on component pages
+
+---
+
 ## 2.0.0 (2026-08-04)
 
 ### 🫢 Breaking

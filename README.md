@@ -13,7 +13,11 @@ It will evolve mainly according to my projects. But people want to use it and he
 
 ### Components
 
+- Avatar
+- Badge
 - Block
+- Breadcrumbs
+- Card
 - Color picker
 - Context-menu
     - List in options
@@ -44,14 +48,18 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Spinner
 - Table
 - Tabs
+- Tag-list
+- Vision Theme ⚠️ _experimental_
 - Walkthrough
 - Window
 
 ### Services
 
 - Cache
+- Cookie Consent
 - FormBuilderExtended
 - Logger
+- Vision Theme ⚠️ _experimental_
 - Windows
 
 ### Pipes
@@ -62,7 +70,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - math
 - numFormat
 - repeatFor
-- strRelace
+- strReplace
 - string
 
 ### Directive
@@ -72,6 +80,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Limit-focus
 - ngInit
 - ngModelChange debounced
+- Scrollable
 - Sortable
 - Stop Propagation
 - Tooltip
@@ -104,6 +113,7 @@ It will evolve mainly according to my projects. But people want to use it and he
 - Grid
     - Responsive
 - Palette
+- Status
 - LTR & RTL
 
 ### Theming
@@ -152,6 +162,7 @@ Add in `style.css`
 
 |   Magma | Angular |
 | ------: | ------: |
+| ≥ 2.0.x |    22.0 |
 | ≥ 1.8.x |    22.0 |
 | ≥ 1.1.x |    21.0 |
 |   1.0.0 |    20.x |
@@ -200,10 +211,10 @@ npm run update-coverage-badges
 
 ## Coverage
 
-[![Statements 98.93% (4181/4226)](https://test.ikilote.net/badge-custom.php?label=Statements&value=98.93%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Branches 98.51% (2647/2687)](https://test.ikilote.net/badge-custom.php?label=Branches&value=98.51%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Functions 95.9% (867/904)](https://test.ikilote.net/badge-custom.php?label=Functions&value=95.9%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
-[![Lines 99.85% (3378/3383)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.85%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Statements 98.76% (4882/4943)](https://test.ikilote.net/badge-custom.php?label=Statements&value=98.76%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Branches 98.4% (3015/3064)](https://test.ikilote.net/badge-custom.php?label=Branches&value=98.4%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Functions 95.63% (1008/1054)](https://test.ikilote.net/badge-custom.php?label=Functions&value=95.63%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
+[![Lines 99.74% (3903/3913)](https://test.ikilote.net/badge-custom.php?label=Lines&value=99.74%25&valueBgColor=4D9221)](https://magma.ikilote.net/coverage/@ikilote/magma/)
 
 ## License
 

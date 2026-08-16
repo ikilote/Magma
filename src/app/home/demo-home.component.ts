@@ -1,19 +1,29 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import {
+    MagmaBadge,
+    MagmaBadgeLabel,
     MagmaBlock,
+    MagmaBreadcrumbsModule,
     MagmaColorPickerComponent,
     MagmaContribCalendar,
     MagmaDatetimePickerComponent,
     MagmaInput,
+    MagmaInputCheckbox,
+    MagmaInputElement,
+    MagmaInputNumber,
+    MagmaInputRange,
     MagmaInputSelect,
+    MagmaInputText,
     MagmaLoaderBlock,
     MagmaLoaderTile,
     MagmaMessage,
     MagmaProgress,
     MagmaSpinner,
     MagmaTabsModule,
+    MagmaTagListModule,
     Select2OptionDirective,
 } from '@ikilote/magma';
 
@@ -24,6 +34,7 @@ import {
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         RouterLink,
+        FormsModule,
         MagmaSpinner,
         MagmaProgress,
         MagmaMessage,
@@ -35,12 +46,23 @@ import {
         MagmaLoaderBlock,
         MagmaLoaderTile,
         MagmaInput,
+        MagmaInputElement,
+        MagmaInputText,
+        MagmaInputNumber,
+        MagmaInputRange,
+        MagmaInputCheckbox,
         MagmaInputSelect,
+        MagmaBadge,
+        MagmaBadgeLabel,
+        MagmaBreadcrumbsModule,
+        MagmaTagListModule,
         Select2OptionDirective,
     ],
 })
 export class DemoHomeComponent {
     readonly today = new Date().toISOString().split('T')[0];
+
+    readonly tagListDemo = signal(['Angular', 'TypeScript', 'CSS']);
 
     readonly calendar = Array.from({ length: 365 }, (_, i) => {
         const d = new Date();
@@ -51,9 +73,9 @@ export class DemoHomeComponent {
     categories = [
         {
             name: 'Components',
-            description: '26 ready-to-use UI components.',
+            description: '30 ready-to-use UI components.',
             link: '/component/spinner',
-            count: 26,
+            count: 30,
         },
         {
             name: 'Directives',

@@ -13,9 +13,9 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { MagmaClickEnterDirective } from '@ikilote/magma';
-
 import { MagmaTag } from './tag.component';
+
+import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 
 export interface MagmaTagItem {
     value: string;

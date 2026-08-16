@@ -126,6 +126,11 @@ header {
     }
 }
 
+.badges {
+    display: flex;
+    gap: 8px;
+}
+
 @media (width < 600px) {
     header {
         .header-content {

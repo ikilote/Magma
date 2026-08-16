@@ -117,16 +117,90 @@
     <mg-block class="s-4 s-6-x s-12-l">
       <div class="showcase-card">
         <h3>Input</h3>
-        <div class="preview center">
+        <div class="preview">
           <mg-input>
+            <mg-input-label>Select</mg-input-label>
             <mg-input-select value="test-1">
-              <ng-option value="test-1"> Test 1 </ng-option>
-              <ng-option value="test-2"> Test 2 </ng-option>
-              <ng-option value="test-3"> Test 3 </ng-option>
+              <ng-option value="test-1">Option 1</ng-option>
+              <ng-option value="test-2">Option 2</ng-option>
+              <ng-option value="test-3">Option 3</ng-option>
             </mg-input-select>
+          </mg-input>
+          <mg-input>
+            <mg-input-label>Text</mg-input-label>
+            <mg-input-text placeholder="Enter text…" />
+          </mg-input>
+          <mg-input>
+            <mg-input-label>Number</mg-input-label>
+            <mg-input-number [value]="42" />
+          </mg-input>
+          <mg-input>
+            <mg-input-label>Range</mg-input-label>
+            <mg-input-range [value]="60" />
+          </mg-input>
+          <mg-input>
+            <mg-input-checkbox checked="" value="A">Checkbox A</mg-input-checkbox>
+            <mg-input-checkbox value="B">Checkbox B</mg-input-checkbox>
           </mg-input>
         </div>
         <a routerLink="/component/input">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Badge</h3>
+        <div class="preview center">
+          <div class="badges">
+            <mg-badge theme="neutral">neutral</mg-badge>
+            <mg-badge theme="primary">primary</mg-badge>
+            <mg-badge theme="info">info</mg-badge>
+          </div>
+          <div class="badges">
+            <mg-badge theme="success">success</mg-badge>
+            <mg-badge theme="warning">warning</mg-badge>
+            <mg-badge theme="alert">alert</mg-badge>
+          </div>
+          <div class="badges">
+            <mg-badge theme="success"><mg-badge-label>version</mg-badge-label>2.1.0</mg-badge>
+            <mg-badge color="#a00"><mg-badge-label>Angular</mg-badge-label>22</mg-badge>
+          </div>
+        </div>
+        <a routerLink="/component/badge">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Breadcrumbs</h3>
+        <div class="preview center">
+          <mg-breadcrumbs>
+            <mg-breadcrumb><a href="#">Home</a></mg-breadcrumb>
+            <mg-breadcrumb><a href="#">Components</a></mg-breadcrumb>
+            <mg-breadcrumb>Breadcrumbs</mg-breadcrumb>
+          </mg-breadcrumbs>
+          <mg-breadcrumbs separator="›">
+            <mg-breadcrumb><a href="#">Docs</a></mg-breadcrumb>
+            <mg-breadcrumb><a href="#">Directives</a></mg-breadcrumb>
+            <mg-breadcrumb>Scrollable</mg-breadcrumb>
+          </mg-breadcrumbs>
+          <mg-breadcrumbs separator="·">
+            <mg-breadcrumb><a href="#">A</a></mg-breadcrumb>
+            <mg-breadcrumb><a href="#">B</a></mg-breadcrumb>
+            <mg-breadcrumb>C</mg-breadcrumb>
+          </mg-breadcrumbs>
+        </div>
+        <a routerLink="/component/breadcrumbs">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Tag list</h3>
+        <div class="preview center">
+          <mg-tag-list [(ngModel)]="tagListDemo" placeholder="Add a tag…" />
+        </div>
+        <a routerLink="/component/tag-list">See docs →</a>
       </div>
     </mg-block>
   </div>

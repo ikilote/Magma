@@ -3,7 +3,7 @@
 > Generated from `projects/ikilote/magma/src/assets/styles/css-var.css` by `npm run generate:css-doc`.
 > Do not edit by hand: your changes would be overwritten.
 
-**409 variables** across 37 sections.
+**555 variables** across 48 sections.
 
 ## How to override
 
@@ -37,17 +37,21 @@ respectively; the remaining variables are scope-independent.
 - [palettes dark](#palettes-dark) · 23
 - [loader-tile (dark)](#loader-tile-dark) · 1
 - [palettes](#palettes) · 59
-- [global](#global) · 7
+- [global](#global) · 10
 - [semantic layer](#semantic-layer) · 11
+- [generic](#generic) · 3
 - [context-menu](#context-menu) · 12
 - [ellipsis-button](#ellipsis-button) · 4
+- [vision-theme](#vision-theme) · 25
 - [default button](#default-button) · 17
 - [primary button](#primary-button) · 12
 - [warn button](#warn-button) · 12
 - [link](#link) · 3
+- [breadcrumbs](#breadcrumbs) · 8
 - [chip](#chip) · 14
 - [dialog](#dialog) · 7
-- [input](#input) · 23
+- [cookie-consent](#cookie-consent) · 15
+- [input](#input) · 24
 - [item content-box](#item-content-box) · 12
 - [color-picker](#color-picker) · 14
 - [datetime-picker](#datetime-picker) · 15
@@ -58,16 +62,23 @@ respectively; the remaining variables are scope-independent.
 - [message floating](#message-floating) · 6
 - [grid](#grid) · 1
 - [block](#block) · 5
+- [card](#card) · 9
 - [table](#table) · 5
 - [tooltip](#tooltip) · 5
+- [badge](#badge) · 21
 - [page](#page) · 5
+- [expansion-panel](#expansion-panel) · 3
 - [walkthrough](#walkthrough) · 1
 - [click-enter](#click-enter) · 4
 - [spinner](#spinner) · 1
 - [loader](#loader) · 5
 - [loader-tile (base)](#loader-tile-base) · 1
 - [contrib-calendar](#contrib-calendar) · 10
+- [avatar](#avatar) · 10
 - [window](#window) · 22
+- [tag-list](#tag-list) · 13
+- [status](#status) · 20
+- [light-dark](#light-dark) · 15
 - [select2](#select2) · 24
 
 ## palettes light
@@ -229,10 +240,13 @@ Cross-component values.
 | `--transparency-checkerboard` | `conic-gradient( #ccc 0.25turn, #aaa 0.25turn 0.5turn, #ccc 0.5turn 0.75turn, #aaa 0.75turn )`                      | Conventional grey checkerboard signalling an alpha channel. Deliberately outside the palette: retinting it would break the "this is transparent" convention. Tile size is set at the usage site. |
 | `--background`                | `var(--neutral010)`                                                                                                 | Background.                                                                                                                                                                                      |
 | `--text-color`                | `var(--primary950)`                                                                                                 | Text color.                                                                                                                                                                                      |
-| `--color-mode-border-color`   | `var(--primary950)`                                                                                                 | Color mode border color.                                                                                                                                                                         |
 | `--font-family`               | `'Roboto', 'Segoe UI', Geneva, Verdana, sans-serif`                                                                 | Font family.                                                                                                                                                                                     |
 | `--font-mono`                 | `'Roboto Mono', 'FreeMono', 'Liberation Mono', 'Ubuntu Mono', 'Courier New', 'Droid Sans Mono', Courier, monospace` | Font mono.                                                                                                                                                                                       |
-| `--input-focus-color`         | `var(--neutral950)`                                                                                                 | Input focus color.                                                                                                                                                                               |
+| `--font-extra`                | `2.3em`                                                                                                             | Font extra.                                                                                                                                                                                      |
+| `--font-large`                | `1.35em`                                                                                                            | Font large.                                                                                                                                                                                      |
+| `--font-medium`               | `1em`                                                                                                               | Font medium.                                                                                                                                                                                     |
+| `--font-small`                | `0.85em`                                                                                                            | Font small.                                                                                                                                                                                      |
+| `--font-very-small`           | `0.75em`                                                                                                            | Font very small.                                                                                                                                                                                 |
 
 ## semantic layer
 
@@ -249,6 +263,14 @@ Cross-component values.
 | `--color-on-primary`       | `var(--neutral000)` | Color on primary.       |
 | `--color-primary-hover`    | `var(--primary700)` | Color primary hover.    |
 | `--color-focus-ring`       | `var(--primary500)` | Color focus ring.       |
+
+## generic
+
+| Variable              | Default               | Description        |
+| --------------------- | --------------------- | ------------------ |
+| `--separator-opacity` | `0.2`                 | Separator opacity. |
+| `--separator-margin`  | `16px 0`              | Separator margin.  |
+| `--separator-color`   | `var(--color-border)` | Separator color.   |
 
 ## context-menu
 
@@ -279,6 +301,36 @@ Ellipsis (kebab) button and its dropdown list (`mg-ellipsis-button`).
 | `--context-button-list-background` | `var(--color-surface-raised)` | Context button list background. |
 | `--ellipsis-item-background`       | `var(--primary300)`           | Ellipsis item background.       |
 | `--ellipsis-item-hover-background` | `var(--primary400)`           | Ellipsis item hover background. |
+
+## vision-theme
+
+| Variable                                 | Default                                         | Description                           |
+| ---------------------------------------- | ----------------------------------------------- | ------------------------------------- |
+| `--vision-theme-button-border-width`     | `1px`                                           | Vision theme button border width.     |
+| `--vision-theme-button-border-radius`    | `20px`                                          | Vision theme button border radius.    |
+| `--vision-theme-button-gap`              | `6px`                                           | Vision theme button gap.              |
+| `--vision-theme-button-padding`          | `4px 10px`                                      | Vision theme button padding.          |
+| `--vision-theme-button-compact-padding`  | `4px 8px`                                       | Vision theme button compact padding.  |
+| `--vision-theme-label-font-size`         | `var(--font-small)`                             | Vision theme label font size.         |
+| `--vision-theme-icon-size`               | `18px`                                          | Vision theme icon size.               |
+| `--vision-theme-focus-outline-width`     | `2px`                                           | Vision theme focus outline width.     |
+| `--vision-theme-focus-outline-offset`    | `2px`                                           | Vision theme focus outline offset.    |
+| `--vision-theme-list-box-shadow`         | `2px 2px 8px var(--ellipsis-list-shadow-color)` | Vision theme list box shadow.         |
+| `--vision-theme-list-border-radius`      | `6px`                                           | Vision theme list border radius.      |
+| `--vision-theme-list-padding`            | `2px`                                           | Vision theme list padding.            |
+| `--vision-theme-list-min-width`          | `220px`                                         | Vision theme list min width.          |
+| `--vision-theme-list-separator-margin`   | `2px 0`                                         | Vision theme list separator margin.   |
+| `--vision-theme-item-margin`             | `2px`                                           | Vision theme item margin.             |
+| `--vision-theme-item-border-radius`      | `4px`                                           | Vision theme item border radius.      |
+| `--vision-theme-item-padding`            | `10px 20px 10px 10px`                           | Vision theme item padding.            |
+| `--vision-theme-item-gap`                | `8px`                                           | Vision theme item gap.                |
+| `--vision-theme-item-content-gap`        | `2px`                                           | Vision theme item content gap.        |
+| `--vision-theme-item-background`         | `var(--primary050)`                             | Vision theme item background.         |
+| `--vision-theme-item-hover-background`   | `var(--ellipsis-item-hover-background)`         | Vision theme item hover background.   |
+| `--vision-theme-item-active-font-weight` | `600`                                           | Vision theme item active font weight. |
+| `--vision-theme-item-desc-opacity`       | `0.7`                                           | Vision theme item desc opacity.       |
+| `--vision-theme-clear-btn-opacity`       | `0.8`                                           | Vision theme clear btn opacity.       |
+| `--vision-theme-checkbox-size`           | `26px`                                          | Vision theme checkbox size.           |
 
 ## default button
 
@@ -352,6 +404,19 @@ Anchor and text-link styling.
 | `--link-hover-color`        | `var(--neutral990)`        | Link hover color.        |
 | `--link-focus-border-color` | `var(--input-focus-color)` | Link focus border color. |
 
+## breadcrumbs
+
+| Variable                           | Default                   | Description                     |
+| ---------------------------------- | ------------------------- | ------------------------------- |
+| `--breadcrumbs-gap`                | `8px`                     | Breadcrumbs gap.                |
+| `--breadcrumbs-font-size`          | `0.9em`                   | Breadcrumbs font size.          |
+| `--breadcrumbs-separator`          | `'/'`                     | Breadcrumbs separator.          |
+| `--breadcrumbs-separator-color`    | `var(--neutral600)`       | Breadcrumbs separator color.    |
+| `--breadcrumbs-link-color`         | `var(--link-color)`       | Breadcrumbs link color.         |
+| `--breadcrumbs-link-hover-color`   | `var(--link-hover-color)` | Breadcrumbs link hover color.   |
+| `--breadcrumbs-active-color`       | `var(--neutral950)`       | Breadcrumbs active color.       |
+| `--breadcrumbs-active-font-weight` | `600`                     | Breadcrumbs active font weight. |
+
 ## chip
 
 | Variable                     | Default                       | Description               |
@@ -361,7 +426,7 @@ Anchor and text-link styling.
 | `--chip-border-color`        | `var(--color-border)`         | Chip border color.        |
 | `--chip-border-radius`       | `16px`                        | Chip border radius.       |
 | `--chip-padding`             | `6px 14px`                    | Chip padding.             |
-| `--chip-font-size`           | `0.85em`                      | Chip font size.           |
+| `--chip-font-size`           | `var(--font-small)`           | Chip font size.           |
 | `--chip-hover-background`    | `var(--color-primary)`        | Chip hover background.    |
 | `--chip-hover-color`         | `var(--color-on-primary)`     | Chip hover color.         |
 | `--chip-hover-border-color`  | `var(--color-primary-hover)`  | Chip hover border color.  |
@@ -385,6 +450,26 @@ Modal dialog (`mg-dialog`).
 | `--dialog-close-background`              | `var(--neutral300)`                                               | Dialog close background.              |
 | `--dialog-close-background-hover`        | `var(--neutral500)`                                               | Dialog close background hover.        |
 
+## cookie-consent
+
+| Variable                                         | Default                    | Description                                   |
+| ------------------------------------------------ | -------------------------- | --------------------------------------------- |
+| `--cookie-consent-banner-background`             | `var(--dialog-background)` | Cookie consent banner background.             |
+| `--cookie-consent-banner-padding`                | `20px`                     | Cookie consent banner padding.                |
+| `--cookie-consent-actions-gap`                   | `8px`                      | Cookie consent actions gap.                   |
+| `--cookie-consent-presentation-margin`           | `0 0 12px`                 | Cookie consent presentation margin.           |
+| `--cookie-consent-separator-opacity`             | `0.2`                      | Cookie consent separator opacity.             |
+| `--cookie-consent-separator-margin`              | `16px 0`                   | Cookie consent separator margin.              |
+| `--cookie-consent-separator-color`               | `var(--color-border)`      | Cookie consent separator color.               |
+| `--cookie-consent-option-gap`                    | `4px 20px`                 | Cookie consent option gap.                    |
+| `--cookie-consent-option-margin-bottom`          | `16px`                     | Cookie consent option margin bottom.          |
+| `--cookie-consent-option-toggle-width`           | `80px`                     | Cookie consent option toggle width.           |
+| `--cookie-consent-option-label-font-weight`      | `600`                      | Cookie consent option label font weight.      |
+| `--cookie-consent-option-desc-color`             | `var(--neutral700)`        | Cookie consent option desc color.             |
+| `--cookie-consent-option-desc-font-size`         | `var(--font-small)`        | Cookie consent option desc font size.         |
+| `--cookie-consent-dialog-actions-margin-top`     | `16px`                     | Cookie consent dialog actions margin top.     |
+| `--cookie-consent-dialog-actions-padding-bottom` | `16px`                     | Cookie consent dialog actions padding bottom. |
+
 ## input
 
 Shared input styling: text, number, date, password, select, textarea, checkbox, radio, range.
@@ -397,6 +482,7 @@ Shared input styling: text, number, date, password, select, textarea, checkbox, 
 | `--input-background-transparent`    | `color-mix(in hsl, var(--input-background) 60%, transparent)` | Input background transparent.    |
 | `--input-item-color`                | `var(--primary400)`                                           | Input item color.                |
 | `--input-item-active-color`         | `var(--primary700)`                                           | Input item active color.         |
+| `--input-focus-color`               | `var(--neutral950)`                                           | Input focus color.               |
 | `--input-focus-border-color`        | `var(--input-focus-color)`                                    | Input focus border color.        |
 | `--input-color-shadow`              | `var(--neutral050)`                                           | Input color shadow.              |
 | `--input-checked-color`             | `var(--primary500)`                                           | Input checked color.             |
@@ -576,6 +662,20 @@ Block component (`mg-block`) and its variants.
 | `--block-margin`     | `12px`                           | Block margin.     |
 | `--block-background` | `var(--color-surface)`           | Block background. |
 
+## card
+
+| Variable               | Default                   | Description         |
+| ---------------------- | ------------------------- | ------------------- |
+| `--card-shadow`        | `var(--block-shadow)`     | Card shadow.        |
+| `--card-border`        | `var(--block-border)`     | Card border.        |
+| `--card-radius`        | `var(--block-radius)`     | Card radius.        |
+| `--card-background`    | `var(--block-background)` | Card background.    |
+| `--card-padding`       | `16px`                    | Card padding.       |
+| `--card-ratio`         | `1 / 3`                   | Card ratio.         |
+| `--card-img-height`    | `100px`                   | Card img height.    |
+| `--card-zoom-scale`    | `1.1`                     | Card zoom scale.    |
+| `--card-zoom-duration` | `0.3s`                    | Card zoom duration. |
+
 ## table
 
 Table component (`table[mg]`).
@@ -600,6 +700,32 @@ Tooltip directive (`[mgTooltip]`).
 | `--tooltip-border-color` | `var(--color-border)`         | Tooltip border color. |
 | `--tooltip-cursor`       | `help`                        | Tooltip cursor.       |
 
+## badge
+
+| Variable                         | Default                             | Description                   |
+| -------------------------------- | ----------------------------------- | ----------------------------- |
+| `--badge-radius`                 | `12px`                              | Badge radius.                 |
+| `--badge-padding`                | `2px 10px`                          | Badge padding.                |
+| `--badge-small-font-size`        | `var(--font-very-small)`            | Badge small font size.        |
+| `--badge-small-padding`          | `1px 6px`                           | Badge small padding.          |
+| `--badge-large-font-size`        | `var(--font-small)`                 | Badge large font size.        |
+| `--badge-large-padding`          | `2px 10px`                          | Badge large padding.          |
+| `--badge-font-size-small`        | `var(--font-very-small)`            | Badge font size small.        |
+| `--badge-neutral-background`     | `var(--neutral300)`                 | Badge neutral background.     |
+| `--badge-neutral-color`          | `contrast-color(var(--neutral300))` | Badge neutral color.          |
+| `--badge-primary-background`     | `var(--primary500)`                 | Badge primary background.     |
+| `--badge-primary-color`          | `contrast-color(var(--primary500))` | Badge primary color.          |
+| `--badge-success-background`     | `var(--success500)`                 | Badge success background.     |
+| `--badge-success-color`          | `contrast-color(var(--success500))` | Badge success color.          |
+| `--badge-warning-background`     | `var(--warn500)`                    | Badge warning background.     |
+| `--badge-warning-color`          | `contrast-color(var(--warn500))`    | Badge warning color.          |
+| `--badge-alert-background`       | `var(--alert500)`                   | Badge alert background.       |
+| `--badge-alert-color`            | `contrast-color(var(--alert500))`   | Badge alert color.            |
+| `--badge-info-background`        | `var(--primary200)`                 | Badge info background.        |
+| `--badge-info-color`             | `contrast-color(var(--primary200))` | Badge info color.             |
+| `--badge-background-label-dark`  | `black 50%`                         | Badge background label dark.  |
+| `--badge-background-label-light` | `white 50%`                         | Badge background label light. |
+
 ## page
 
 Page-level layout helpers.
@@ -611,6 +737,14 @@ Page-level layout helpers.
 | `--page-item-current-test-color` | `var(--primary700)` | Page item current test color. |
 | `--page-item-current-background` | `var(--primary200)` | Page item current background. |
 | `--page-item-hover-background`   | `var(--neutral300)` | Page item hover background.   |
+
+## expansion-panel
+
+| Variable                                | Default | Description                          |
+| --------------------------------------- | ------- | ------------------------------------ |
+| `--expansion-panel-padding`             | `5px`   | Expansion panel padding.             |
+| `--expansion-panel-arrow-size`          | `20px`  | Expansion panel arrow size.          |
+| `--expansion-panel-transition-duration` | `0.5s`  | Expansion panel transition duration. |
 
 ## walkthrough
 
@@ -676,6 +810,21 @@ Contribution calendar (`mg-contrib-calendar`).
 | `--contrib-calendar-tile-color-lvl3` | `var(--success500)`           | Contrib calendar tile color lvl3. |
 | `--contrib-calendar-tile-color-lvl4` | `var(--success600)`           | Contrib calendar tile color lvl4. |
 
+## avatar
+
+| Variable                    | Default              | Description              |
+| --------------------------- | -------------------- | ------------------------ |
+| `--avatar-radius`           | `50%`                | Avatar radius.           |
+| `--avatar-color`            | `var(--primary950)`  | Avatar color.            |
+| `--avatar-size-small`       | `28px`               | Avatar size small.       |
+| `--avatar-size-medium`      | `40px`               | Avatar size medium.      |
+| `--avatar-size-large`       | `56px`               | Avatar size large.       |
+| `--avatar-size-extra`       | `80px`               | Avatar size extra.       |
+| `--avatar-font-size-small`  | `var(--font-small)`  | Avatar font size small.  |
+| `--avatar-font-size-medium` | `var(--font-medium)` | Avatar font size medium. |
+| `--avatar-font-size-large`  | `var(--font-large)`  | Avatar font size large.  |
+| `--avatar-font-size-extra`  | `var(--font-extra)`  | Avatar font size extra.  |
+
 ## window
 
 | Variable                            | Default                       | Description                      |
@@ -702,6 +851,69 @@ Contribution calendar (`mg-contrib-calendar`).
 | `--window-bar-button-padding`       | `2px`                         | Window bar button padding.       |
 | `--window-bar-background`           | `var(--neutral300)`           | Window bar background.           |
 | `--window-bar-background-active`    | `var(--neutral400)`           | Window bar background active.    |
+
+## tag-list
+
+| Variable                         | Default             | Description                   |
+| -------------------------------- | ------------------- | ----------------------------- |
+| `--tag-list-gap`                 | `6px`               | Tag list gap.                 |
+| `--tag-item-radius`              | `15px`              | Tag item radius.              |
+| `--tag-item-background`          | `var(--primary100)` | Tag item background.          |
+| `--tag-item-padding`             | `3px 0 3px 10px`    | Tag item padding.             |
+| `--tag-item-min-height`          | `26px`              | Tag item min height.          |
+| `--tag-item-color`               | `inherit`           | Tag item color.               |
+| `--tag-item-font-size`           | `inherit`           | Tag item font size.           |
+| `--tag-item-hover-background`    | `var(--primary050)` | Tag item hover background.    |
+| `--tag-item-remove-color`        | `currentColor`      | Tag item remove color.        |
+| `--tag-item-remove-color-hover`  | `var(--alert500)`   | Tag item remove color hover.  |
+| `--tag-input-border-color`       | `var(--primary100)` | Tag input border color.       |
+| `--tag-input-background`         | `transparent`       | Tag input background.         |
+| `--tag-input-focus-border-color` | `var(--primary300)` | Tag input focus border color. |
+
+## status
+
+| Variable                     | Default                                           | Description               |
+| ---------------------------- | ------------------------------------------------- | ------------------------- |
+| `--status-gap`               | `6px`                                             | Status gap.               |
+| `--status-font-size`         | `0.85em`                                          | Status font size.         |
+| `--status-dot-size`          | `8px`                                             | Status dot size.          |
+| `--status-color`             | `var(--text-color)`                               | Status color.             |
+| `--status-dot-color`         | `currentColor`                                    | Status dot color.         |
+| `--status-success-dot-color` | `hsl(var(--successH, 120) 60% 40%)`               | Status success dot color. |
+| `--status-success-color`     | `hsl(var(--successH, 120) 60% 30%)`               | Status success color.     |
+| `--status-warning-dot-color` | `hsl(var(--warnH, 15) 80% 50%)`                   | Status warning dot color. |
+| `--status-warning-color`     | `hsl(var(--warnH, 15) 80% 35%)`                   | Status warning color.     |
+| `--status-danger-dot-color`  | `hsl(var(--alertH, 0) 70% 50%)`                   | Status danger dot color.  |
+| `--status-danger-color`      | `hsl(var(--alertH, 0) 70% 40%)`                   | Status danger color.      |
+| `--status-info-dot-color`    | `hsl(var(--primaryH, 200) 60% 45%)`               | Status info dot color.    |
+| `--status-info-color`        | `hsl(var(--primaryH, 200) 60% 35%)`               | Status info color.        |
+| `--status-neutral-dot-color` | `hsl(var(--neutralH, 0) var(--neutralS, 0%) 50%)` | Status neutral dot color. |
+| `--status-neutral-color`     | `var(--text-color)`                               | Status neutral color.     |
+| `--status-offline-dot-color` | `hsl(var(--neutralH, 0) var(--neutralS, 0%) 65%)` | Status offline dot color. |
+| `--status-offline-color`     | `hsl(var(--neutralH, 0) var(--neutralS, 0%) 50%)` | Status offline color.     |
+| `--status-pulse-duration`    | `2s`                                              | Status pulse duration.    |
+| `--status-pulse-opacity-max` | `1`                                               | Status pulse opacity max. |
+| `--status-pulse-opacity-min` | `0.4`                                             | Status pulse opacity min. |
+
+## light-dark
+
+| Variable                             | Default             | Description                       |
+| ------------------------------------ | ------------------- | --------------------------------- |
+| `--light-dark-border-color`          | `var(--primary950)` | Light dark border color.          |
+| `--light-dark-gap`                   | `5px`               | Light dark gap.                   |
+| `--light-dark-icon-size`             | `20px`              | Light dark icon size.             |
+| `--light-dark-toggle-width`          | `40px`              | Light dark toggle width.          |
+| `--light-dark-toggle-height`         | `20px`              | Light dark toggle height.         |
+| `--light-dark-toggle-border-radius`  | `20px`              | Light dark toggle border radius.  |
+| `--light-dark-thumb-size`            | `16px`              | Light dark thumb size.            |
+| `--light-dark-thumb-margin`          | `2px`               | Light dark thumb margin.          |
+| `--light-dark-transition-duration`   | `0.5s`              | Light dark transition duration.   |
+| `--light-dark-compact-border-radius` | `20px`              | Light dark compact border radius. |
+| `--light-dark-compact-padding-x`     | `2px`               | Light dark compact padding x.     |
+| `--light-dark-compact-height`        | `24px`              | Light dark compact height.        |
+| `--light-dark-compact-icon-offset`   | `-48px`             | Light dark compact icon offset.   |
+| `--light-dark-focus-outline-width`   | `3px`               | Light dark focus outline width.   |
+| `--light-dark-focus-outline-offset`  | `1px`               | Light dark focus outline offset.  |
 
 ## select2
 

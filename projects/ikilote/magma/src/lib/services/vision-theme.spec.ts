@@ -97,7 +97,11 @@ describe('VisionTheme', () => {
             service.next();
             expect(service.current()).toBe('protanopia');
             service.next();
+            expect(service.current()).toBe('deuteranopia');
+            service.next();
             expect(service.current()).toBe('tritanopia');
+            service.next();
+            expect(service.current()).toBe('achromatopsia');
             service.next();
             expect(service.current()).toBe('high-contrast');
             service.next();
@@ -108,6 +112,8 @@ describe('VisionTheme', () => {
             expect(service.current()).toBe('none');
             service.previous();
             expect(service.current()).toBe('high-contrast');
+            service.previous();
+            expect(service.current()).toBe('achromatopsia');
             service.previous();
             expect(service.current()).toBe('tritanopia');
         });
@@ -200,10 +206,12 @@ describe('VisionTheme', () => {
     });
 
     it('should expose available themes metadata', () => {
-        expect(service.availableThemes.length).toBe(4);
+        expect(service.availableThemes.length).toBe(6);
         expect(service.availableThemes[0].key).toBe('none');
         expect(service.availableThemes[1].key).toBe('protanopia');
-        expect(service.availableThemes[2].key).toBe('tritanopia');
-        expect(service.availableThemes[3].key).toBe('high-contrast');
+        expect(service.availableThemes[2].key).toBe('deuteranopia');
+        expect(service.availableThemes[3].key).toBe('tritanopia');
+        expect(service.availableThemes[4].key).toBe('achromatopsia');
+        expect(service.availableThemes[5].key).toBe('high-contrast');
     });
 });

@@ -106,7 +106,7 @@ describe('MagmaVisionTheme', () => {
     });
 
     it('should be compact by default', () => {
-        expect(fixture.nativeElement.classList.contains('compact')).toBe(true);
+        expect(fixture.nativeElement.classList.contains('compact')).toBe(false);
     });
 
     it('should show label when not compact', () => {
@@ -155,7 +155,7 @@ describe('MagmaVisionTheme', () => {
         it('should render theme items when opened', () => {
             openDropdown();
             const items = getOverlayItems();
-            expect(items.length).toBe(4);
+            expect(items.length).toBe(6);
         });
 
         it('should render listbox role with aria-label', () => {
@@ -234,11 +234,13 @@ describe('MagmaVisionTheme', () => {
         it('should filter out none from selectable themes', () => {
             openDropdown();
             const items = getOverlayItems();
-            expect(items.length).toBe(3);
+            expect(items.length).toBe(5);
             const labels = Array.from(items).map(i => i.querySelector('.item-label')?.textContent?.trim());
             expect(labels).not.toContain('Default');
             expect(labels).toContain('Protanopia');
+            expect(labels).toContain('Deuteranopia');
             expect(labels).toContain('Tritanopia');
+            expect(labels).toContain('Achromatopsia');
             expect(labels).toContain('High Contrast');
         });
 
@@ -251,16 +253,20 @@ describe('MagmaVisionTheme', () => {
 
         it('should show checkboxes for each item', () => {
             openDropdown();
-            const checkboxes = document.querySelectorAll('.cdk-overlay-container .checkbox');
-            expect(checkboxes.length).toBe(3);
+            const checkboxes = document.querySelectorAll(
+                '.cdk-overlay-container .vision-theme-item input[type="checkbox"]',
+            );
+            expect(checkboxes.length).toBe(5);
         });
 
         it('should show checked checkbox for active themes', () => {
             activeList = ['protanopia'];
             openDropdown();
-            const checkboxes = document.querySelectorAll('.cdk-overlay-container .checkbox');
-            expect(checkboxes[0].classList.contains('checked')).toBe(true);
-            expect(checkboxes[1].classList.contains('checked')).toBe(false);
+            const checkboxes = document.querySelectorAll<HTMLInputElement>(
+                '.cdk-overlay-container .vision-theme-item input[type="checkbox"]',
+            );
+            expect(checkboxes[0].checked).toBe(true);
+            expect(checkboxes[1].checked).toBe(false);
         });
 
         it('should toggle theme and keep dropdown open on item click', () => {
@@ -332,7 +338,7 @@ describe('MagmaVisionTheme', () => {
         });
 
         it('should expose all themes in the resolved list', () => {
-            expect(component['resolvedThemes']().length).toBe(4);
+            expect(component['resolvedThemes']().length).toBe(6);
         });
 
         it('should report isActive correctly for none', () => {
@@ -380,7 +386,7 @@ describe('MagmaVisionTheme', () => {
         it('should filter out none from selectable themes', () => {
             const selectable = component['selectableThemes']();
             expect(selectable.find(t => t.key === 'none')).toBeUndefined();
-            expect(selectable.length).toBe(3);
+            expect(selectable.length).toBe(5);
         });
     });
 

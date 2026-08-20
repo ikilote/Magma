@@ -10,9 +10,11 @@
 }
 div {
     transform: rotate(calc(var(--index) * 30deg));
+    transform: rotate(calc(sibling-index() * 30deg));
     transform-origin: calc(var(--height) / 2) calc(var(--height) / 2);
     animation: spinner 1.2s linear infinite;
     animation-delay: calc(var(--index) * 0.1s - 1.1s);
+    animation-delay: rotate(calc(sibling-index() * 30deg));
 
     &:after {
         display: block;

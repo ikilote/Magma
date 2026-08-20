@@ -1,19 +1,13 @@
 import { getCookie, removeCookie, setCookie } from './cookies';
 
 describe('Cookie Utilities', () => {
-    // Mock document.cookie
     let cookieStore: Record<string, string> = {};
     let cookieString = '';
 
-    // Mock Date object
-    let originalDate: typeof Date;
-
     beforeEach(() => {
-        // Reset cookie store before each test
         cookieStore = {};
         cookieString = '';
 
-        // Mock document.cookie getter and setter
         vi.spyOn(document, 'cookie', 'get').mockImplementation(() => {
             return Object.entries(cookieStore)
                 .map(([k, v]) => `${k}=${v}`)
@@ -26,37 +20,11 @@ describe('Cookie Utilities', () => {
             const [name, valuePart] = cookiePart.split('=');
             cookieStore[name.trim()] = valuePart;
         });
-
-        // Save original Date and create a mock
-        originalDate = window.Date;
-        const MockDate = class extends Date {
-            _mockTime: number | undefined;
-
-            constructor(...args: any[]) {
-                if (args.length === 0) {
-                    super();
-                    return this;
-                }
-                return new (originalDate as any)(...args);
-            }
-
-            override setTime(time: number): number {
-                this._mockTime = time;
-                return time;
-            }
-
-            override toUTCString(): string {
-                return 'Thu, 01 Jan 2025 00:00:00 GMT';
-            }
-        } as any;
-
-        // Replace global Date with our mock
-        (window as any).Date = MockDate;
     });
 
     afterEach(() => {
-        // Clean up mocks
-        (window as any).Date = originalDate;
+        vi.useRealTimers();
+        vi.restoreAllMocks();
     });
 
     describe('getCookie', () => {
@@ -85,21 +53,23 @@ describe('Cookie Utilities', () => {
 
     describe('setCookie', () => {
         it('should set a cookie with default parameters', () => {
+            vi.useFakeTimers();
+            vi.setSystemTime(new Date('2025-01-01T00:00:00.000Z'));
+
             setCookie('testCookie', 'testValue');
 
             expect(cookieStore['testCookie']).toBe('testValue');
-            expect(cookieString).toBe('testCookie=testValue; path=/; expires=Thu, 01 Jan 2025 00:00:00 GMT');
+            expect(cookieString).toBe('testCookie=testValue; path=/; expires=Wed, 08 Jan 2025 00:00:00 GMT');
         });
 
         it('should set a cookie with custom expiration and path', () => {
-            // Override the toUTCString method for this test
-            const mockDate = new (window as any).Date();
-            vi.spyOn(mockDate, 'toUTCString').mockReturnValue('Fri, 08 Jan 2025 00:00:00 GMT');
+            vi.useFakeTimers();
+            vi.setSystemTime(new Date('2025-01-01T00:00:00.000Z'));
 
             setCookie('testCookie', 'testValue', 7, '/custom-path');
 
             expect(cookieStore['testCookie']).toBe('testValue');
-            expect(cookieString).toBe('testCookie=testValue; path=/custom-path; expires=Thu, 01 Jan 2025 00:00:00 GMT');
+            expect(cookieString).toBe('testCookie=testValue; path=/custom-path; expires=Wed, 08 Jan 2025 00:00:00 GMT');
         });
     });
 
@@ -125,13 +95,9 @@ describe('Cookie Utilities', () => {
 
     describe('Integration Tests', () => {
         it('should set, get, and remove a cookie', () => {
-            // Set a cookie
             setCookie('integrationTest', 'testValue', 1);
-
-            // Get the cookie
             expect(getCookie('integrationTest')).toBe('testValue');
 
-            // Remove the cookie
             removeCookie('integrationTest');
             expect(getCookie('integrationTest')).toBe('');
         });

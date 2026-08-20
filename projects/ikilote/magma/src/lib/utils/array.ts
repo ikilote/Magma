@@ -105,15 +105,19 @@ function sortWithRuleFormater(rule: string): MagmaSortRule[] {
     return rules;
 }
 
-export function flattenedListItems(values: MagmaStringArray, pattern = /\s*,\s*/): string[] {
+export function flattenedListItems(
+    values: MagmaStringArray | null | undefined,
+    pattern = /\s*,\s*/,
+    flat = 20,
+): string[] {
+    if (values == null) {
+        return [];
+    }
     if (typeof values === 'string') {
         values = values.split(pattern);
     }
-    const list: string[] = [];
-    values?.flat(20).forEach(value => {
-        if (typeof value === 'string' && value) {
-            list.push(...value.split(pattern));
-        }
-    });
-    return list;
+    return (values as unknown[])
+        .flat(flat)
+        .filter((value): value is string => typeof value === 'string' && Boolean(value))
+        .flatMap(value => value.split(pattern));
 }

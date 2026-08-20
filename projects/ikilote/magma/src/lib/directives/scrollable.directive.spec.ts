@@ -379,7 +379,7 @@ describe('MagmaScrollableDirective with sticky offset', () => {
         Object.defineProperty(zone, 'offsetParent', { configurable: true, get: () => null });
 
         // Register target as a scroll target so goTo can use it
-        const MagmaScrollableView = (hostComponent.scrollable as any)['scrollableViews'];
+        const _MagmaScrollableView = (hostComponent.scrollable as any)['scrollableViews'];
         // Directly set scrollTop to simulate a real jump
         hostComponent.scrollable.goTo('section1', false);
 
@@ -507,10 +507,10 @@ describe('MagmaScrollableDirective — scrollToElement with HTMLElement target',
 
     it('should handle getStickyOffset when sticky element is not found', () => {
         // Use TestHostWithStickyComponent equivalent — but directly test via a selector that matches nothing
-        const zone = hostComponent.scrollable.targetedElement;
+        const _zone = hostComponent.scrollable.targetedElement;
 
         // Temporarily set mgScrollableSticky to a non-existent selector via private signal
-        const originalSignal = (hostComponent.scrollable as any)['mgScrollableSticky'];
+        const _originalSignal = (hostComponent.scrollable as any)['mgScrollableSticky'];
         vi.spyOn(hostComponent.scrollable, 'mgScrollableSticky').mockReturnValue('.non-existent-sticky');
 
         const offset = hostComponent.scrollable.getStickyOffset();

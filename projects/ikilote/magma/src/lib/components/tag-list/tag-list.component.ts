@@ -145,7 +145,9 @@ export class MagmaTagList implements ControlValueAccessor {
 
     // --- ControlValueAccessor ---
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onChange: (value: string[]) => void = () => {};
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     private onTouched: () => void = () => {};
 
     writeValue(value: string[] | null): void {

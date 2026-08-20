@@ -1,5 +1,4 @@
 export function numberAttributeOrUndefined(value: unknown): number | undefined {
-    return !isNaN(Number(value)) && isFinite(Number(value)) && !isNaN(parseFloat(String(value)))
-        ? Number(value)
-        : undefined;
+    const n = Number(value);
+    return !isNaN(n) && isFinite(n) && !isNaN(parseFloat(String(value))) ? n : undefined;
 }

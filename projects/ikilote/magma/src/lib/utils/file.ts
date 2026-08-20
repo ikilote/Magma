@@ -80,12 +80,12 @@ export function normalizeFileName(string: string, limit = 200) {
         string
             .toLocaleLowerCase()
             .normalize('NFD') // Decompose accented characters
-            .replace(/[\p{Diacritic}/|\\:*?"<>]/gu, '') // Remove accents
+            .replace(/\p{Diacritic}/gu, '') // Remove diacritics
             .replace(/[/|\\:*?"<>]/g, '') // Remove forbidden filename characters
             // The point of this pass is to strip non-ASCII, control characters included.
             // eslint-disable-next-line no-control-regex
-            .replace(/[^\x00-\x7F]/g, '_') // Remove all non-ASCII characters
-            .replace(/_+/g, '_') // Remove multiple underscore
+            .replace(/[^\x00-\x7F]/g, '_') // Replace remaining non-ASCII characters with underscore
+            .replace(/_+/g, '_') // Collapse consecutive underscores
             .substring(0, limit)
     );
 }

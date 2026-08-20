@@ -543,7 +543,7 @@ class TestDisabledComponent {
 
 describe('MagmaTagList disabled state', () => {
     let hostFixture: ComponentFixture<TestDisabledComponent>;
-    let host: TestDisabledComponent;
+    let _host: TestDisabledComponent;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
@@ -551,7 +551,7 @@ describe('MagmaTagList disabled state', () => {
         }).compileComponents();
 
         hostFixture = TestBed.createComponent(TestDisabledComponent);
-        host = hostFixture.componentInstance;
+        _host = hostFixture.componentInstance;
         hostFixture.changeDetectorRef.detectChanges();
     });
 

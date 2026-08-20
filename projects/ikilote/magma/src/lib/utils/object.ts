@@ -1,29 +1,20 @@
-export function objectsAreSame(
-    objA?: Record<string, unknown>,
-    objB?: Record<string, unknown>,
-    ignoreKeys: string[] = [],
-): boolean {
+export function objectsAreSame(objA?: object, objB?: object, ignoreKeys: string[] = []): boolean {
     if (objA === objB) {
         return true;
-    } else if (objA === undefined || objA === null || objB === undefined || objB === null) {
+    } else if (objA == null || objB == null) {
         return false;
     }
 
     let areTheSame = true;
 
-    const isObject = (a: unknown, b: unknown): a is Record<string, unknown> =>
-        typeof a === 'object' && !Array.isArray(a) && !!a && !!b;
+    const isPlainObject = (a: unknown): a is object => typeof a === 'object' && !Array.isArray(a) && a !== null;
 
     const compareValues = (a: unknown, b: unknown) => {
         if (Array.isArray(a)) {
             if (Array.isArray(b)) {
-                let aCopy = [...a];
-                let bCopy = [...b];
                 if (a.length === b.length) {
-                    aCopy = aCopy.map(a => (typeof a === 'number' ? a : `${a}`));
-                    aCopy.sort();
-                    bCopy = bCopy.map(a => (typeof a === 'number' ? a : `${a}`));
-                    bCopy.sort();
+                    const aCopy = [...a].map(v => (typeof v === 'number' ? v : `${v}`)).sort();
+                    const bCopy = [...b].map(v => (typeof v === 'number' ? v : `${v}`)).sort();
                     aCopy.forEach((ele, idx) => compareValues(ele, bCopy[idx]));
                 } else {
                     areTheSame = false;
@@ -31,27 +22,25 @@ export function objectsAreSame(
             } else {
                 areTheSame = false;
             }
-        } else if (
-            (!isObject(a, b) && a !== b) ||
-            (isObject(a, b) && !objectsAreSame(a as Record<string, unknown>, b as Record<string, unknown>, ignoreKeys))
-        ) {
+        } else if (isPlainObject(a) && isPlainObject(b)) {
+            if (!objectsAreSame(a, b, ignoreKeys)) {
+                areTheSame = false;
+            }
+        } else if (a !== b) {
             areTheSame = false;
         }
     };
 
-    const keysA = Object.entries(objA)
-        .filter(entry => !ignoreKeys.includes(entry[0]) && entry[1] !== undefined)
-        .map(e => e[0]);
-    const keysB = Object.entries(objB)
-        .filter(entry => !ignoreKeys.includes(entry[0]) && entry[1] !== undefined)
-        .map(e => e[0]);
+    const entriesA = Object.entries(objA).filter(([k, v]) => !ignoreKeys.includes(k) && v !== undefined);
+    const entriesB = Object.entries(objB).filter(([k, v]) => !ignoreKeys.includes(k) && v !== undefined);
 
-    if (keysA.length !== keysB.length) {
+    if (entriesA.length !== entriesB.length) {
         return false;
     }
 
-    for (const key of keysA) {
-        compareValues(objA[key], objB[key]);
+    const objBRecord = objB as Record<string, unknown>;
+    for (const [key, valA] of entriesA) {
+        compareValues(valA, objBRecord[key]);
         if (!areTheSame) {
             return false;
         }
@@ -72,14 +61,17 @@ export function objectNestedValue<T = unknown>(object: unknown, path: (string | 
     }, object) as T | undefined;
 }
 
-export function objectAssignNested(target: Record<string, unknown>, ...sources: Record<string, unknown>[]) {
+export function objectAssignNested<T extends object>(target: T, ...sources: object[]): T {
     sources.forEach(source => {
         Object.keys(source).forEach(key => {
-            const sourceVal = source[key];
-            const targetVal = target[key];
-            target[key] =
-                typeof targetVal === 'object' && typeof sourceVal === 'object'
-                    ? objectAssignNested(targetVal as Record<string, unknown>, sourceVal as Record<string, unknown>)
+            const sourceVal = (source as Record<string, unknown>)[key];
+            const targetVal = (target as Record<string, unknown>)[key];
+            (target as Record<string, unknown>)[key] =
+                typeof targetVal === 'object' &&
+                targetVal !== null &&
+                typeof sourceVal === 'object' &&
+                sourceVal !== null
+                    ? objectAssignNested(targetVal as object, sourceVal as object)
                     : sourceVal;
         });
     });

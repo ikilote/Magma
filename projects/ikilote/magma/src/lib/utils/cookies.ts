@@ -19,9 +19,8 @@ export function getCookie<T extends string>(name: string): T | undefined {
  * @param path path for cookie (default: `/`)
  */
 export function setCookie(name: string, value: string, days = 7, path = '/') {
-    const date = new Date();
-    date.setTime(addDuration(days, DurationTime.DAY).getTime());
-    document.cookie = `${name}=${value}; path=${path}; expires=${date.toUTCString()}`;
+    const expires = addDuration(days, DurationTime.DAY);
+    document.cookie = `${name}=${value}; path=${path}; expires=${expires.toUTCString()}`;
 }
 
 /**

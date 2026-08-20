@@ -1,5 +1,18 @@
 # Changelog of @ikilote/magma
 
+## 2.1.1 (2026-08-20)
+
+### 🐞 Fix
+
+- **tag-list**: CVA no-op callbacks `onChange` and `onTouched` are now explicitly suppressed via ESLint (`@typescript-eslint/no-empty-function`) instead of silent empty functions
+- **array**: removed redundant `: number` type annotation on the `flat` parameter of `flattenedListItems` (inferred from default value `20`)
+- **coercion**: `numberAttributeOrUndefined` — avoid calling `Number(value)` three times; result now cached in a local variable
+- **cookies**: `setCookie` — simplified date handling by using `addDuration` return value directly instead of creating an intermediate `Date` and calling `setTime`
+- **file**: `normalizeFileName` — split the diacritic-removal regex into two distinct passes (one for diacritics, one for forbidden filename characters) and improved inline comments
+- **object**:
+    - `objectsAreSame` — signature relaxed from `Record<string, unknown>` to `object`; null checks consolidated; `isPlainObject` helper extracted; array mapping/sorting inlined; iteration switched to `for...of` with destructuring for early exit
+    - `objectAssignNested` — return type is now `T` (generic); null guards added before recursive call
+
 ## 2.1.0 (2026-08-16)
 
 ### ✅ New
@@ -237,8 +250,6 @@
 - **Avatar**: use dicebear for demo illustrations
 - **Demo**: add home link on logo
 - **Demo**: add **API Reference** tab on component pages
-
----
 
 ## 2.0.0 (2026-08-04)
 

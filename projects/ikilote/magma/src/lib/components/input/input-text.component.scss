@@ -12,8 +12,10 @@ input:has(+ span) {
     width: 100%;
 }
 
-span {
+.to-content {
+    all: unset;
     display: inline-block;
+    border: 0;
     width: 0;
 
     &::before {

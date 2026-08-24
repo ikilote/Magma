@@ -1,5 +1,11 @@
 # Changelog of @ikilote/magma
 
+## 2.1.2 (2026-08-24)
+
+### 🐞 Fix
+
+- **input**: bad style button in input text & password
+
 ## 2.1.1 (2026-08-20)
 
 ### 🐞 Fix

@@ -50,7 +50,9 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoLoaderComponent {
     readonly fb = inject(FormBuilderExtended);
 
-    readonly loading = viewChild.required<MagmaLoader>('loader');
+    readonly loading = viewChild<MagmaLoader>('loader');
+
+    loadingValue = false;
 
     ctrlForm: FormGroup<{
         mode: FormControl<MagmaLoaderMode | undefined>;
@@ -128,7 +130,7 @@ export class DemoMagmaProgressComponent {
 
     @HostListener('window:keydown.esc')
     close() {
-        this.loading().stop();
+        this.loading()?.stop();
     }
 
     codeGeneration() {
@@ -141,7 +143,7 @@ export class DemoMagmaProgressComponent {
             tag: 'mg-loader',
             attrs: {
                 '#loader': null,
-                '[loading]': this.loading().loading() ? 'true' : 'false',
+                '[loading]': this.loading()?.loading() ? 'true' : 'false',
                 '(loadingChange)': 'loadingChange($event)',
             },
             body,

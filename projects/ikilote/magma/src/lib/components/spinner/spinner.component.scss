@@ -8,6 +8,7 @@
     width: var(--height);
     height: var(--height);
 }
+
 div {
     transform: rotate(calc(var(--index) * 30deg));
     transform: rotate(calc(sibling-index() * 30deg));

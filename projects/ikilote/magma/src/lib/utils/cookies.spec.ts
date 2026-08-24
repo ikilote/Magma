@@ -1,13 +1,16 @@
 import { getCookie, removeCookie, setCookie } from './cookies';
 
 describe('Cookie Utilities', () => {
+    // Mock document.cookie
     let cookieStore: Record<string, string> = {};
     let cookieString = '';
 
     beforeEach(() => {
+        // Reset cookie store before each test
         cookieStore = {};
         cookieString = '';
 
+        // Mock document.cookie getter and setter
         vi.spyOn(document, 'cookie', 'get').mockImplementation(() => {
             return Object.entries(cookieStore)
                 .map(([k, v]) => `${k}=${v}`)
@@ -95,9 +98,13 @@ describe('Cookie Utilities', () => {
 
     describe('Integration Tests', () => {
         it('should set, get, and remove a cookie', () => {
+            // Set a cookie
             setCookie('integrationTest', 'testValue', 1);
+
+            // Get the cookie
             expect(getCookie('integrationTest')).toBe('testValue');
 
+            // Remove the cookie
             removeCookie('integrationTest');
             expect(getCookie('integrationTest')).toBe('');
         });

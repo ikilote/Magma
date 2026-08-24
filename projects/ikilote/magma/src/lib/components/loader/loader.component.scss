@@ -18,3 +18,21 @@
     font-weight: 700;
     text-shadow: 0 0 3px var(--loader-text-shadow-color);
 }
+
+:host.fixed.loading {
+    position: fixed;
+    z-index: 1000;
+}
+
+:host.inline.loading {
+    display: inline-flex;
+    position: relative;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    backdrop-filter: none;
+    inset-inline-start: unset;
+    background: transparent;
+    width: auto;
+    height: auto;
+}

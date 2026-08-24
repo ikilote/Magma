@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, inject, viewChild } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js, Json2html, Json2htmlAttr, Json2htmlBody, Json2htmlRef } from '@ikilote/json2html';
@@ -13,6 +13,7 @@ import {
     MagmaInputText,
     MagmaLoader,
     MagmaLoaderMessage,
+    MagmaLoaderMode,
     MagmaProgress,
     MagmaSpinner,
     MagmaTableModule,
@@ -49,16 +50,21 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
 export class DemoLoaderComponent {
     readonly fb = inject(FormBuilderExtended);
 
-    readonly loading = viewChild<MagmaLoader>('loader');
-
-    loadingValue = false;
+    readonly loading = viewChild.required<MagmaLoader>('loader');
 
     ctrlForm: FormGroup<{
+        mode: FormControl<MagmaLoaderMode | undefined>;
         message: FormControl<string>;
         progressLoaded: FormControl<number>;
         progressTotal: FormControl<number>;
         progressSizeFormat: FormControl<FileSizePipeParams>;
     }>;
+
+    modeData: Select2Data = [
+        { label: 'absolute (default)', value: '' },
+        { label: 'fixed', value: 'fixed' },
+        { label: 'inline', value: 'inline' },
+    ];
 
     progressSizeFormatData: Select2Data = [
         { label: 'undefined', value: {} },
@@ -108,6 +114,7 @@ export class DemoMagmaProgressComponent {
 
     constructor() {
         this.ctrlForm = this.fb.groupWithError({
+            mode: { default: undefined as MagmaLoaderMode | undefined },
             message: { default: '' },
             progressLoaded: { default: 0, emptyOnInit: true },
             progressTotal: { default: 0, emptyOnInit: true },
@@ -117,6 +124,11 @@ export class DemoMagmaProgressComponent {
         this.ctrlForm.valueChanges.subscribe(() => {
             this.codeGeneration();
         });
+    }
+
+    @HostListener('window:keydown.esc')
+    close() {
+        this.loading().stop();
     }
 
     codeGeneration() {
@@ -129,7 +141,7 @@ export class DemoMagmaProgressComponent {
             tag: 'mg-loader',
             attrs: {
                 '#loader': null,
-                '[loading]': this.loadingValue ? 'true' : 'false',
+                '[loading]': this.loading().loading() ? 'true' : 'false',
                 '(loadingChange)': 'loadingChange($event)',
             },
             body,
@@ -137,6 +149,10 @@ export class DemoMagmaProgressComponent {
         const attrs: Json2htmlAttr = json.attrs!;
 
         // tag attr
+
+        if (value.mode) {
+            attrs['mode'] = value.mode;
+        }
 
         body.push({
             tag: 'mg-spiner',

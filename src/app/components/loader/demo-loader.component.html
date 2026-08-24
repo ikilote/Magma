@@ -6,28 +6,32 @@
     @if (ctrlForm) {
       <section>
         <div class="s-3 s-6-l s-12-s">
-          <mg-input class="s-8">
+          <mg-input class="s-12">
             <mg-input-label>loading</mg-input-label>
             <mg-input-checkbox [(ngModel)]="loadingValue" (ngModelChange)="codeGeneration()" mode="toggle" />
           </mg-input>
           <div><button (click)="loadingStart()">Start</button> <button (click)="loadingStop()">Stop</button></div>
 
           <h3 class="s-12">Message</h3>
-          <form [formGroup]="ctrlForm">
-            <mg-input class="s-8">
+          <form [formGroup]="ctrlForm" class="s-12">
+            <mg-input class="s-12">
+              <mg-input-label>mode</mg-input-label>
+              <mg-input-select formControlName="mode" [data]="modeData" />
+            </mg-input>
+            <mg-input class="s-12">
               <mg-input-label>message</mg-input-label>
               <mg-input-text formControlName="message" />
             </mg-input>
             <h3 class="s-12">Progress</h3>
-            <mg-input class="s-8">
+            <mg-input class="s-12">
               <mg-input-label>loaded</mg-input-label>
               <mg-input-number formControlName="progressLoaded" min="0" noDecimal noNegative />
             </mg-input>
-            <mg-input class="s-8">
+            <mg-input class="s-12">
               <mg-input-label>progressTotal</mg-input-label>
               <mg-input-number formControlName="progressTotal" min="1" noDecimal noNegative />
             </mg-input>
-            <mg-input class="s-8">
+            <mg-input class="s-12">
               <mg-input-label>progressSizeFormat</mg-input-label>
               <mg-input-select formControlName="progressSizeFormat" [data]="progressSizeFormatData" />
             </mg-input>
@@ -36,11 +40,22 @@
         <div class="s-4 s-6-l s-12-s">
           <h2>Preview</h2>
           <div class="loader">
-            <mg-loader #loader [(loading)]="loadingValue" (loadingChange)="loadingChange($event)">
+            <mg-loader
+              #loader
+              [(loading)]="loadingValue"
+              [mode]="ctrlForm.value.mode"
+              (loadingChange)="loadingChange($event)"
+            >
               <mg-spinner />
-              @if (ctrlForm.value.message) {
+              @if (ctrlForm.value.message || ctrlForm.value.mode === 'fixed') {
                 <mg-loader-message>
                   {{ ctrlForm.value.message }}
+                  @if (ctrlForm.value.message || ctrlForm.value.mode === 'fixed') {
+                    <br />
+                  }
+                  @if (ctrlForm.value.mode === 'fixed') {
+                    Press <kbd>Esc</kbd> to stop the loader.
+                  }
                 </mg-loader-message>
               }
               @if (ctrlForm.value.progressLoaded || ctrlForm.value.progressTotal) {
@@ -88,6 +103,15 @@
             <td mg><code>boolean</code></td>
             <td mg><code>false</code></td>
             <td mg>Two-way binding. Controls the loading state and the overlay visibility.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mode</code></td>
+            <td mg><code>'fixed' | 'inline' | undefined</code></td>
+            <td mg><code>undefined</code></td>
+            <td mg>
+              Display mode. <code>fixed</code> covers the full viewport, <code>inline</code> integrates into the normal
+              flow, <code>undefined</code> uses absolute positioning over the parent.
+            </td>
           </tr>
         </tbody>
       </table>

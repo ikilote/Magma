@@ -78,6 +78,9 @@ export class MagmaTagList implements ControlValueAccessor {
     /** Emitted when the tags list changes (data-driven mode) */
     readonly tagsChange = output<string[]>();
 
+    /** Emitted when the inline input value changes (useful for async proposals) */
+    readonly inputChange = output<string>();
+
     /** Emitted when a tag is clicked (requires allowClick) */
     readonly tagClick = output<string>();
 
@@ -218,6 +221,11 @@ export class MagmaTagList implements ControlValueAccessor {
         if (this.allowClick()) {
             this.tagClick.emit(tag.value);
         }
+    }
+
+    onInputChange(value: string): void {
+        this.inputValue.set(value);
+        this.inputChange.emit(value);
     }
 
     onBlur(): void {

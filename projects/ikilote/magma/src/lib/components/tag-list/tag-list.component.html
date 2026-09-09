@@ -26,7 +26,7 @@
       [placeholder]="placeholder()"
       (keyup.enter)="onEnter()"
       (blur)="onBlur()"
-      (keyup)="inputValue.set($event.target.value)"
+      (keyup)="onInputChange($event.target.value)"
       size="5"
       aria-label="addAriaLabel()"
     />

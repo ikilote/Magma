@@ -1,4 +1,4 @@
-import { Component, booleanAttribute, input, output } from '@angular/core';
+import { Component, booleanAttribute, input, model, output } from '@angular/core';
 
 export interface MagmaExpansionPanelUpdateEvent {
     open: boolean;
@@ -11,14 +11,20 @@ export interface MagmaExpansionPanelUpdateEvent {
     styleUrl: './expansion-panel.component.scss',
 })
 export class MagmaExpansionPanel {
-    open = input(false, { transform: booleanAttribute });
+    /**
+     * Whether the panel is open.
+     * Two-way bindable via `[(open)]` — used by `mg-accordion` to close panels programmatically.
+     */
+    open = model<boolean>(false);
     disabled = input(false, { transform: booleanAttribute });
 
     update = output<MagmaExpansionPanelUpdateEvent>();
 
     updateOpen(detail: HTMLDetailsElement) {
+        const nextOpen = !detail.open;
+        this.open.set(nextOpen);
         this.update.emit({
-            open: !detail.open,
+            open: nextOpen,
             component: this,
         });
     }

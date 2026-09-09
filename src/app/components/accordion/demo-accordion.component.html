@@ -1,0 +1,89 @@
+<h1>Accordion</h1>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <form class="s-3 s-6-x s-12-s" [formGroup]="ctrlForm">
+        <h3>Options</h3>
+        <p>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="multiple">multiple</mg-input-checkbox>
+          </mg-input>
+        </p>
+        <p>
+          <mg-input class="s-6">
+            <mg-input-label>Panels</mg-input-label>
+            <mg-input-number formControlName="panels" min="1" max="10" />
+          </mg-input>
+        </p>
+        <p>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="disabled">disabled</mg-input-checkbox>
+          </mg-input>
+        </p>
+      </form>
+
+      <div class="s-5 s-6-x s-12-s">
+        <h3>Render</h3>
+        <mg-accordion [multiple]="!!ctrlForm.value.multiple">
+          @for (i of [].constructor(panelCount); track $index) {
+            <mg-expansion-panel [disabled]="!!ctrlForm.value.disabled">
+              <mg-expansion-header>Section {{ $index + 1 }}</mg-expansion-header>
+              <mg-expansion-content>
+                <p>Content of section {{ $index + 1 }}.</p>
+              </mg-expansion-content>
+            </mg-expansion-panel>
+          }
+        </mg-accordion>
+      </div>
+
+      <div class="s-4 s-12-x">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Container — <code>mg-accordion</code></h4>
+      <p>
+        Wraps one or more <code>mg-expansion-panel</code> components. By default, only one panel can be open at a time.
+        Add the <code>multiple</code> attribute to allow multiple panels open simultaneously.
+      </p>
+
+      <h4>Inputs — <code>mg-accordion</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>multiple</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>
+              When true, multiple panels can be open simultaneously. By default only one panel is open at a time.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        For <code>mg-expansion-panel</code> inputs, outputs and child selectors, see the
+        <a routerLink="/component/expansion-panel">Expansion Panel</a> page.
+      </p>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

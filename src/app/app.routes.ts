@@ -108,6 +108,12 @@ export const routes: Routes = [
                     import('./components/dialog/demo-dialog.component').then(m => m.DemoDialogComponent),
             },
             {
+                path: 'accordion',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/accordion/demo-accordion.component').then(m => m.DemoAccordionComponent),
+            },
+            {
                 path: 'expansion-panel',
                 pathMatch: 'full',
                 loadComponent: () =>

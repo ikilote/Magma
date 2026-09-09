@@ -1,0 +1,18 @@
+:host {
+    display: block;
+}
+
+// Fuse adjacent panels: remove the top border from all panels except the first
+// and flatten the radius between them.
+::ng-deep mg-expansion-panel + mg-expansion-panel {
+    summary {
+        border-top: 0;
+        border-start-start-radius: 0;
+        border-start-end-radius: 0;
+    }
+
+    details:not([open]) summary {
+        border-end-start-radius: var(--block-radius);
+        border-end-end-radius: var(--block-radius);
+    }
+}

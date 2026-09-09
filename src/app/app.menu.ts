@@ -27,6 +27,12 @@ export const menu: Menu = [
         groupName: 'Components',
         items: [
             {
+                routerLink: '/component/accordion',
+                label: 'Accordion',
+                status: 'new',
+                keys: ['accordion', 'exclusive panel', 'one open', 'collapse group'],
+            },
+            {
                 routerLink: '/component/avatar',
                 label: 'Avatar',
                 status: 'new',

@@ -27,7 +27,20 @@ import { MagmaNgInitDirective } from '../../directives/ng-init.directive';
 import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from '../../directives/resizer';
 import { MagmaResize } from '../../directives/resizer.directive';
 
-export type MagmaWindowFixed = boolean | 'top' | 'left' | 'right' | 'bottom';
+export type MagmaWindowFixed =
+    | boolean
+    | 'top'
+    | 'left'
+    | 'right'
+    | 'bottom'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'top-flex'
+    | 'bottom-flex'
+    | 'left-flex'
+    | 'right-flex';
 export type MagmaWindowInitParamsTitle = string | { component: Type<unknown>; inputs?: Record<string, unknown> };
 
 export interface MagmaWindowInitParams {
@@ -80,6 +93,14 @@ let index = 0;
         '[class.fixed-bottom]': 'fixedEdgeClass() === "fixed-bottom"',
         '[class.fixed-left]': 'fixedEdgeClass() === "fixed-left"',
         '[class.fixed-right]': 'fixedEdgeClass() === "fixed-right"',
+        '[class.fixed-top-left]': 'fixedEdgeClass() === "fixed-top-left"',
+        '[class.fixed-top-right]': 'fixedEdgeClass() === "fixed-top-right"',
+        '[class.fixed-bottom-left]': 'fixedEdgeClass() === "fixed-bottom-left"',
+        '[class.fixed-bottom-right]': 'fixedEdgeClass() === "fixed-bottom-right"',
+        '[class.fixed-top-flex]': 'fixedEdgeClass() === "fixed-top-flex"',
+        '[class.fixed-bottom-flex]': 'fixedEdgeClass() === "fixed-bottom-flex"',
+        '[class.fixed-left-flex]': 'fixedEdgeClass() === "fixed-left-flex"',
+        '[class.fixed-right-flex]': 'fixedEdgeClass() === "fixed-right-flex"',
         '[class.active]': 'focus()',
         '[class.inactive]': '!focus()',
         '[class.minimized]': 'isMinimized()',

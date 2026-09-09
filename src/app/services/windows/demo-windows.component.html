@@ -310,8 +310,16 @@
           </tr>
           <tr mg>
             <td mg><code>fixed</code></td>
-            <td mg><code>boolean | 'top' | 'bottom' | 'left' | 'right'</code></td>
-            <td mg>Fixes the window to an edge or disables dragging</td>
+            <td mg>
+              <code
+                >boolean | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-left' |
+                'bottom-right' | 'top-flex' | 'bottom-flex' | 'left-flex' | 'right-flex'</code
+              >
+            </td>
+            <td mg>
+              Fixes the window to an edge, corner, or edge with stretch (<code>*-flex</code> variants add
+              <code>width: 100%</code> or <code>height: 100%</code>)
+            </td>
           </tr>
           <tr mg>
             <td mg><code>over</code></td>

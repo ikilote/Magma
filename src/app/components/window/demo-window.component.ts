@@ -76,6 +76,14 @@ export class DemoWindowComponent {
         { label: 'bottom', value: 'bottom' },
         { label: 'left', value: 'left' },
         { label: 'right', value: 'right' },
+        { label: 'top-left', value: 'top-left' },
+        { label: 'top-right', value: 'top-right' },
+        { label: 'bottom-left', value: 'bottom-left' },
+        { label: 'bottom-right', value: 'bottom-right' },
+        { label: 'top-flex', value: 'top-flex' },
+        { label: 'bottom-flex', value: 'bottom-flex' },
+        { label: 'left-flex', value: 'left-flex' },
+        { label: 'right-flex', value: 'right-flex' },
     ];
 
     codeHtml = '';

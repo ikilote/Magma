@@ -1,0 +1,158 @@
+<h1>Popover</h1>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <form class="s-4 s-8-l s-12-s">
+        <h2 class="s-12">Options</h2>
+        <mg-input class="s-6">
+          <mg-input-label>Position</mg-input-label>
+          <mg-input-select [(ngModel)]="position" [ngModelOptions]="{ standalone: true }" [data]="positionData" />
+        </mg-input>
+        <mg-input class="s-6"
+          >>
+          <mg-input-label>Trigger</mg-input-label>
+          <mg-input-select [(ngModel)]="trigger" [ngModelOptions]="{ standalone: true }" [data]="triggerData" />
+        </mg-input>
+        <mg-input class="s-12">
+          <mg-input-checkbox mode="toggle" [(ngModel)]="disabled" [ngModelOptions]="{ standalone: true }">
+            Disabled
+          </mg-input-checkbox>
+        </mg-input>
+      </form>
+
+      <div class="s-4 s-4-l s-12-s demo-area">
+        <h2>Render</h2>
+        <button
+          [mgPopover]="popTpl"
+          [mgPopoverPosition]="position"
+          [mgPopoverTrigger]="trigger"
+          [mgPopoverDisabled]="disabled"
+        >
+          Open popover
+        </button>
+
+        <ng-template #popTpl let-ctx>
+          <div class="popover-body">
+            <strong>Popover title</strong>
+            <p>This is interactive content inside the popover. Click outside or the button below to close.</p>
+            <button (click)="ctx.close()">Close</button>
+          </div>
+        </ng-template>
+      </div>
+
+      <div class="s-4 s-12-l">
+        <h2>Code</h2>
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtml },
+            { type: 'ts', code: codeTs },
+            { type: 'css', code: codeScss },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Directive — <code>[mgPopover]</code></h4>
+      <p>
+        Attach to any element to make it a popover trigger. The popover content is a
+        <code>TemplateRef</code> and can contain any interactive elements (buttons, forms, links…).
+      </p>
+      <p>
+        The template receives <code>let-ctx</code> context with a <code>close()</code> method to close the popover
+        programmatically.
+      </p>
+
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgPopover</code></td>
+            <td mg><code>TemplateRef</code></td>
+            <td mg>required</td>
+            <td mg>Template to render inside the popover panel.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgPopoverPosition</code></td>
+            <td mg><code>MagmaConnectedPosition</code></td>
+            <td mg><code>'bottom-start'</code></td>
+            <td mg>
+              Side relative to the trigger:
+              <code>top</code>, <code>bottom</code>, <code>left</code>, <code>right</code> with optional
+              <code>-start</code> / <code>-end</code> suffix.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgPopoverTrigger</code></td>
+            <td mg><code>'click' | 'hover'</code></td>
+            <td mg><code>'click'</code></td>
+            <td mg>What opens the popover.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgPopoverOffset</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>4</code></td>
+            <td mg>Gap in px between the trigger and the panel.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgPopoverDisabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>When true, the trigger is inert.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Template context</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Variable</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>$implicit.close</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Closes the popover from within the template (<code>let-ctx</code>).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Host bindings</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Attribute</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>aria-expanded</code></td>
+            <td mg>Reflects whether the popover is currently open.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>aria-controls</code></td>
+            <td mg>Points to the popover panel id.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

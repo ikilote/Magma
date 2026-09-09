@@ -214,6 +214,12 @@ export const menu: Menu = [
                 keys: ['event stop', 'propagation'],
             },
             {
+                routerLink: '/directive/popover',
+                label: 'Popover',
+                status: 'new',
+                keys: ['popover', 'overlay', 'floating content', 'interactive tooltip'],
+            },
+            {
                 routerLink: '/directive/tooltip',
                 label: 'Tooltip',
                 keys: ['hover tip', 'hint', 'help text'],

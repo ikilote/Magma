@@ -240,6 +240,12 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'popover',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/popover/demo-popover.component').then(m => m.DemoPopoverComponent),
+            },
+            {
                 path: 'tooltip',
                 pathMatch: 'full',
                 loadComponent: () =>

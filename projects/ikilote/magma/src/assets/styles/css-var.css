@@ -224,6 +224,33 @@ body {
     --context-menu-item-padding: 10px 20px 10px 10px;
     --context-menu-item-shadow-color: #0008;
 
+    /* MARK: menubar */
+    --menubar-background: var(--block-background);
+    --menubar-border: 1px solid transparent;
+    --menubar-text-color: inherit;
+    --menubar-font-size: 0.9rem;
+    --menubar-trigger-padding: 4px 10px;
+    --menubar-trigger-gap: 6px;
+    --menubar-trigger-radius: var(--block-radius, 4px);
+    --menubar-hover-background: var(--primary200);
+    --menubar-dropdown-background: var(--block-background);
+    --menubar-dropdown-border: var(--block-border);
+    --menubar-dropdown-radius: var(--block-radius, 4px);
+    --menubar-dropdown-shadow: 2px 2px 8px var(--block-shadow-color);
+    --menubar-dropdown-padding: 4px 0;
+    --menubar-dropdown-min-width: 160px;
+    --menubar-item-padding: 6px 12px;
+    --menubar-item-gap: 8px;
+    --menubar-item-hover-background: var(--primary300);
+    --menubar-item-hover-color: var(--neutral950);
+    --menubar-item-disabled-opacity: 0.45;
+    --menubar-item-arrow-opacity: 0.7;
+    --menubar-item-arrow-size: 0.65em;
+    --menubar-separator: 1px solid var(--primary500);
+    --menubar-separator-margin: 4px 8px;
+    --menubar-bar-separator: 1px solid var(--primary500);
+    --menubar-bar-separator-margin: 4px 2px;
+
     /* MARK: ellipsis-button */
     --ellipsis-list-shadow-color: #0005;
     --context-button-list-background: var(--color-surface-raised);

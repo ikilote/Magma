@@ -1,0 +1,50 @@
+:host {
+    display: block;
+}
+
+.mg-menubar-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    border-bottom: var(--menubar-border);
+    background: var(--menubar-background);
+    user-select: none;
+}
+
+.mg-menu-trigger {
+    display: flex;
+    align-items: center;
+    gap: var(--menubar-trigger-gap);
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: var(--menubar-trigger-radius);
+    background: transparent;
+    padding: var(--menubar-trigger-padding);
+    color: var(--menubar-text-color);
+    font: inherit;
+    font-size: var(--menubar-font-size);
+    white-space: nowrap;
+
+    &:hover,
+    &:focus-visible {
+        outline: none;
+        background: var(--menubar-hover-background);
+    }
+
+    .mg-menu-entry.open & {
+        background: var(--menubar-hover-background);
+    }
+}
+
+.mg-menu-icon {
+    font-size: 1em;
+    line-height: 1;
+}
+
+.mg-menubar-separator {
+    align-self: stretch;
+    margin: var(--menubar-bar-separator-margin);
+    border: none;
+    border-left: var(--menubar-bar-separator);
+    width: 0;
+}

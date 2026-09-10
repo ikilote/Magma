@@ -1,0 +1,84 @@
+:host {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-columns: auto 1fr;
+    box-shadow: var(--menubar-dropdown-shadow);
+    border: var(--menubar-dropdown-border);
+    border-radius: var(--menubar-dropdown-radius);
+    background: var(--menubar-dropdown-background);
+    padding: var(--menubar-dropdown-padding);
+    min-width: var(--menubar-dropdown-min-width);
+}
+
+.mg-menu-item {
+    all: unset;
+    display: grid;
+    grid: subgrid/subgrid;
+    grid-template-areas: 'icon content';
+    grid-column-start: span 2;
+    align-items: center;
+    gap: var(--menubar-item-gap);
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: var(--menubar-item-padding);
+    width: 100%;
+    color: var(--menubar-text-color);
+    font: inherit;
+    font-size: var(--menubar-font-size);
+    text-align: start;
+    white-space: nowrap;
+
+    &:hover:not(.disabled),
+    &:focus-visible:not(.disabled) {
+        background: var(--menubar-item-hover-background);
+        color: var(--menubar-item-hover-color);
+    }
+
+    &.disabled {
+        opacity: var(--menubar-item-disabled-opacity);
+        cursor: default;
+        pointer-events: none;
+    }
+
+    &.active-submenu {
+        background: var(--menubar-item-hover-background);
+        color: var(--menubar-item-hover-color);
+    }
+}
+
+.mg-menu-item-icon {
+    grid-area: icon;
+    flex-shrink: 0;
+    width: 1em;
+    font-size: 1em;
+    line-height: 1;
+    text-align: center;
+}
+
+.mg-menu-item-content {
+    display: flex;
+    grid-area: content;
+    align-items: center;
+    gap: var(--menubar-item-gap);
+}
+
+.mg-menu-item-label {
+    flex: 1;
+}
+
+.mg-menu-item-arrow {
+    flex-shrink: 0;
+    opacity: var(--menubar-item-arrow-opacity);
+    margin-inline-start: auto;
+    font-size: var(--menubar-item-arrow-size);
+}
+
+.mg-menu-separator {
+    display: grid;
+    grid: subgrid/subgrid;
+    grid-column-start: span 2;
+    margin: var(--menubar-separator-margin);
+    border: none;
+    border-top: var(--menubar-separator);
+    height: 0;
+}

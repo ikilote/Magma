@@ -1,0 +1,38 @@
+<ng-content />
+
+<div class="mg-menubar-bar" (clickOutside)="close()">
+  @for (menu of resolvedMenus; track $index; let i = $index) {
+    @if (menu.separator) {
+      <div class="mg-menubar-separator" role="separator"></div>
+    } @else {
+      <div class="mg-menu-entry" [class.open]="openIndex() === i">
+        <button
+          #trigger
+          class="mg-menu-trigger"
+          type="button"
+          role="menuitem"
+          [attr.aria-haspopup]="'menu'"
+          [attr.aria-expanded]="openIndex() === i"
+          (click)="toggle(i)"
+          (mouseenter)="!pointerMode.isKeyboard() && openIndex() !== -1 && openAt(i)"
+          (keydown.enter)="toggle(i)"
+          (keydown.space)="$event.preventDefault(); toggle(i)"
+          (keydown.arrowDown)="$event.preventDefault(); openAt(i, true)"
+          (keydown.arrowLeft)="$event.preventDefault(); navigateTrigger(i, -1)"
+          (keydown.arrowRight)="$event.preventDefault(); navigateTrigger(i, 1)"
+        >
+          @if (menu.icon) {
+            <span class="mg-menu-icon" aria-hidden="true">
+              @if (isIconUrl(menu.icon)) {
+                <img [src]="menu.icon" alt="" />
+              } @else {
+                {{ menu.icon }}
+              }
+            </span>
+          }
+          <span class="mg-menu-label">{{ menu.label }}</span>
+        </button>
+      </div>
+    }
+  }
+</div>

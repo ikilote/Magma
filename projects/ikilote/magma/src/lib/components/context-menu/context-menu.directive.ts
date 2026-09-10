@@ -4,6 +4,8 @@ import { Directive, HostListener, booleanAttribute, inject, input } from '@angul
 
 import { ContextMenuData, ContextMenuMode, MagmaContextMenuComponent } from './context-menu.component';
 
+import { redispatchAtPoint } from '../../utils/dom';
+
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
     { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom' },
@@ -65,14 +67,9 @@ export class MagmaContextMenu<T> {
         componentRef.setInput('context', this);
 
         overlayRef.backdropClick().subscribe((backdropEvent: MouseEvent) => {
-            MagmaContextMenu.closeAndRedispatch(
-                backdropEvent.clientX,
-                backdropEvent.clientY,
-                'click',
-                backdropEvent.button,
-            );
+            MagmaContextMenu.disposeOverlay();
+            redispatchAtPoint(backdropEvent.clientX, backdropEvent.clientY, 'click', backdropEvent.button);
         });
-
         MagmaContextMenu._overlayRef = overlayRef;
         return true;
     }
@@ -87,7 +84,8 @@ export class MagmaContextMenu<T> {
         if (MagmaContextMenu._overlayRef) {
             event.preventDefault();
             event.stopPropagation();
-            MagmaContextMenu.closeAndRedispatch(event.clientX, event.clientY, 'contextmenu', 2);
+            MagmaContextMenu.disposeOverlay();
+            redispatchAtPoint(event.clientX, event.clientY, 'contextmenu', 2);
         }
     }
 
@@ -113,32 +111,6 @@ export class MagmaContextMenu<T> {
         if (MagmaContextMenu._overlayRef) {
             MagmaContextMenu._overlayRef.dispose();
             MagmaContextMenu._overlayRef = undefined;
-        }
-    }
-
-    /**
-     * Close the overlay and redispatch an event to the element at (x, y).
-     * Uses setTimeout so the CDK backdrop is fully removed from the DOM
-     * before elementFromPoint is called.
-     */
-    private static closeAndRedispatch(x: number, y: number, eventType: string, button: number): void {
-        MagmaContextMenu.disposeOverlay();
-
-        if (isFinite(x) && isFinite(y)) {
-            setTimeout(() => {
-                const elementBelow = document.elementFromPoint(x, y);
-                if (elementBelow) {
-                    elementBelow.dispatchEvent(
-                        new MouseEvent(eventType, {
-                            bubbles: true,
-                            cancelable: true,
-                            clientX: x,
-                            clientY: y,
-                            button,
-                        }),
-                    );
-                }
-            });
         }
     }
 }

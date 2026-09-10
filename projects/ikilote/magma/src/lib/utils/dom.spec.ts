@@ -136,3 +136,101 @@ describe('DOM Utility Functions', () => {
         });
     });
 });
+
+describe('redispatchAtPoint', () => {
+    let redispatchAtPoint: (x: number, y: number, eventType: string, button?: number) => void;
+
+    beforeEach(async () => {
+        ({ redispatchAtPoint } = await import('./dom'));
+        vi.useFakeTimers();
+        vi.clearAllMocks();
+    });
+
+    afterEach(() => {
+        // Drain any pending timers so they don't bleed into the next test's spy
+        vi.runAllTimers();
+        vi.useRealTimers();
+    });
+
+    it('should dispatch a MouseEvent to the element at (x, y) after a tick', () => {
+        const target = document.createElement('button');
+        document.body.appendChild(target);
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(target);
+        const listener = vi.fn();
+        target.addEventListener('click', listener);
+
+        redispatchAtPoint(10, 20, 'click');
+        expect(listener).not.toHaveBeenCalled(); // not yet — deferred
+
+        vi.advanceTimersByTime(0);
+        expect(listener).toHaveBeenCalledTimes(1);
+
+        const evt = listener.mock.calls[0][0] as MouseEvent;
+        expect(evt.clientX).toBe(10);
+        expect(evt.clientY).toBe(20);
+        expect(evt.button).toBe(0);
+
+        target.remove();
+    });
+
+    it('should pass the button parameter to the event', () => {
+        const target = document.createElement('button');
+        document.body.appendChild(target);
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(target);
+        const listener = vi.fn();
+        target.addEventListener('contextmenu', listener);
+
+        redispatchAtPoint(5, 5, 'contextmenu', 2);
+        vi.advanceTimersByTime(0);
+
+        expect(listener).toHaveBeenCalledTimes(1);
+        expect((listener.mock.calls[0][0] as MouseEvent).button).toBe(2);
+
+        target.remove();
+    });
+
+    it('should not dispatch when elementFromPoint returns null', () => {
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(null);
+
+        expect(() => {
+            redispatchAtPoint(0, 0, 'click');
+            vi.advanceTimersByTime(0);
+        }).not.toThrow();
+    });
+
+    it('should not dispatch when x is non-finite', () => {
+        const spy = vi.spyOn(document, 'elementFromPoint').mockReturnValue(null);
+
+        redispatchAtPoint(Infinity, 0, 'click');
+        vi.advanceTimersByTime(0);
+
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should not dispatch when y is non-finite', () => {
+        const spy = vi.spyOn(document, 'elementFromPoint').mockReturnValue(null);
+
+        redispatchAtPoint(0, NaN, 'click');
+        vi.advanceTimersByTime(0);
+
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should dispatch a bubbling, cancelable event', () => {
+        const target = document.createElement('div');
+        document.body.appendChild(target);
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(target);
+        const listener = vi.fn();
+        document.body.addEventListener('click', listener);
+
+        redispatchAtPoint(0, 0, 'click');
+        vi.advanceTimersByTime(0);
+
+        expect(listener).toHaveBeenCalledTimes(1);
+        expect((listener.mock.calls[0][0] as MouseEvent).bubbles).toBe(true);
+        expect((listener.mock.calls[0][0] as MouseEvent).cancelable).toBe(true);
+
+        document.body.removeEventListener('click', listener);
+        target.remove();
+    });
+});

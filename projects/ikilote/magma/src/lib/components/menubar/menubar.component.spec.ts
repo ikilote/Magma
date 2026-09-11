@@ -365,7 +365,7 @@ describe('MagmaMenubarComponent', () => {
             fixture.detectChanges();
             vi.advanceTimersByTime(0);
 
-            const firstItem = document.querySelector('.mg-menu-item:not([disabled])') as HTMLElement;
+            const firstItem = document.querySelector('.cdk-overlay-pane .mg-menu-item:not([disabled])') as HTMLElement;
             expect(document.activeElement).toBe(firstItem);
         });
     });
@@ -438,6 +438,15 @@ describe('MagmaMenubarComponent', () => {
                 menubarEl.triggerEventHandler('keydown', { key: 'Escape', preventDefault: () => {} });
             }).not.toThrow();
             expect(menubar.openIndex()).toBe(-1);
+        });
+
+        it('should do nothing on unrecognised key', () => {
+            menubar.openAt(0);
+            fixture.changeDetectorRef.detectChanges();
+            const menubarEl = fixture.debugElement.query(By.directive(MagmaMenubarComponent));
+            expect(() => {
+                menubarEl.triggerEventHandler('keydown', { key: 'Tab', preventDefault: () => {} });
+            }).not.toThrow();
         });
     });
 
@@ -562,5 +571,181 @@ describe('MagmaMenubarComponent', () => {
 
         fixture.destroy();
         expect(document.querySelector('.cdk-overlay-pane')).toBeNull();
+    });
+
+    // ── openAt() guard (line 140) ─────────────────────────────────────────────
+
+    it('should do nothing when openAt() is called with an out-of-bounds index', () => {
+        menubar.openAt(99);
+        fixture.changeDetectorRef.detectChanges();
+        expect(document.querySelector('.cdk-overlay-pane')).toBeNull();
+    });
+
+    // ── focusDropdown (line 194) ──────────────────────────────────────────────
+
+    it('should call focusFirst on dropdown after focusDropdown()', () => {
+        menubar.openAt(0);
+        fixture.detectChanges();
+        vi.advanceTimersByTime(0);
+
+        const instance = menubar['_dropdownInstance']!;
+        const spy = vi.spyOn(instance, 'focusFirst');
+
+        menubar.focusDropdown();
+        vi.advanceTimersByTime(0);
+
+        expect(spy).toHaveBeenCalled();
+    });
+
+    it('should do nothing when focusDropdown() is called with no open menu', () => {
+        expect(() => {
+            menubar.focusDropdown();
+            vi.advanceTimersByTime(0);
+        }).not.toThrow();
+    });
+
+    // ── executeItem action call ───────────────────────────────────────────────
+
+    it('should call item.action when executeItem is called with a valid item', () => {
+        const spy = vi.fn();
+        menubar.executeItem({ label: 'Do', action: spy });
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call item.action when item has no action function', () => {
+        // action is undefined — should not throw
+        expect(() => menubar.executeItem({ label: 'NoOp' })).not.toThrow();
+    });
+
+    // ── closeRequested (lines 165-167) ────────────────────────────────────────
+
+    describe('closeRequested from dropdown', () => {
+        it('should close the menu and focus the trigger when dropdown emits closeRequested', () => {
+            menubar.openAt(0);
+            fixture.detectChanges();
+            vi.advanceTimersByTime(0);
+
+            const trigger = getTriggers(fixture)[0];
+            const focusSpy = vi.spyOn(trigger, 'focus');
+
+            const dropdownInstance = menubar['_dropdownInstance']!;
+            dropdownInstance.closeRequested.emit();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(menubar.openIndex()).toBe(-1);
+            expect(focusSpy).toHaveBeenCalled();
+        });
+
+        it('should navigate to prev menu when dropdown emits navigatePrev', () => {
+            menubar.openAt(1);
+            fixture.detectChanges();
+            vi.advanceTimersByTime(0);
+
+            const dropdownInstance: any = menubar['_dropdownInstance'];
+            dropdownInstance.navigatePrev.emit();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(menubar.openIndex()).toBe(0);
+        });
+
+        it('should navigate to next menu when dropdown emits navigateNext', () => {
+            menubar.openAt(1);
+            fixture.detectChanges();
+            vi.advanceTimersByTime(0);
+
+            const dropdownInstance: any = menubar['_dropdownInstance'];
+            dropdownInstance.navigateNext.emit();
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(menubar.openIndex()).toBe(2);
+        });
+
+        it('should execute item when dropdown emits itemSelected', () => {
+            menubar.openAt(0);
+            fixture.detectChanges();
+            vi.advanceTimersByTime(0);
+
+            const spy = vi.fn();
+            const item: MagmaMenuItemDef = { label: 'New', action: spy };
+
+            const dropdownInstance: any = menubar['_dropdownInstance'];
+            dropdownInstance.itemSelected.emit(item);
+
+            expect(spy).toHaveBeenCalled();
+            expect(menubar.openIndex()).toBe(-1);
+        });
+    });
+
+    // ── navigateTrigger without open menu (line 228) ──────────────────────────
+
+    describe('navigateTrigger without open menu', () => {
+        it('should focus next trigger without opening a menu', () => {
+            const triggers = getTriggers(fixture);
+            const focusSpy = vi.spyOn(triggers[1], 'focus');
+            menubar.navigateTrigger(0, 1);
+            expect(menubar.openIndex()).toBe(-1);
+            expect(focusSpy).toHaveBeenCalled();
+        });
+
+        it('should focus previous trigger without opening a menu', () => {
+            const triggers = getTriggers(fixture);
+            const focusSpy = vi.spyOn(triggers[0], 'focus');
+            menubar.navigateTrigger(1, -1);
+            expect(menubar.openIndex()).toBe(-1);
+            expect(focusSpy).toHaveBeenCalled();
+        });
+
+        it('should do nothing when navigable list is empty', () => {
+            menubar.resolvedMenus = [];
+            expect(() => menubar.navigateTrigger(0, 1)).not.toThrow();
+        });
+    });
+
+    // ── HTML icon rendering (lines 25-31) ─────────────────────────────────────
+
+    describe('icon rendering on triggers', () => {
+        let iconFixture: ComponentFixture<TestHostComponent>;
+        let iconMenubar: MagmaMenubarComponent;
+
+        beforeEach(async () => {
+            iconFixture = TestBed.createComponent(TestHostComponent);
+        });
+
+        afterEach(() => {
+            iconFixture?.destroy();
+            cleanupOverlayContainer();
+        });
+
+        it('should render a text icon in the trigger', () => {
+            iconFixture.componentInstance.menus = [{ label: 'File', icon: '📁', items: [] }];
+            iconFixture.changeDetectorRef.detectChanges();
+            iconMenubar = getMenubar(iconFixture as any);
+            iconFixture.detectChanges();
+
+            const icon = iconFixture.debugElement.query(By.css('.mg-menu-icon'));
+            expect(icon).not.toBeNull();
+            expect(icon.nativeElement.querySelector('img')).toBeNull();
+        });
+
+        it('should render a URL icon as <img> in the trigger', () => {
+            iconFixture.componentInstance.menus = [{ label: 'File', icon: '/icons/file.svg', items: [] }];
+            iconFixture.changeDetectorRef.detectChanges();
+            iconMenubar = getMenubar(iconFixture as any);
+            iconFixture.detectChanges();
+
+            const img = iconFixture.debugElement.query(By.css('.mg-menu-icon img'));
+            expect(img).not.toBeNull();
+            expect(img.nativeElement.getAttribute('src')).toBe('/icons/file.svg');
+        });
+
+        it('should not render icon span when icon is absent', () => {
+            iconFixture.componentInstance.menus = [{ label: 'File', items: [] }];
+            iconFixture.changeDetectorRef.detectChanges();
+            iconMenubar = getMenubar(iconFixture as any);
+            iconFixture.detectChanges();
+
+            const icon = iconFixture.debugElement.query(By.css('.mg-menu-icon'));
+            expect(icon).toBeNull();
+        });
     });
 });

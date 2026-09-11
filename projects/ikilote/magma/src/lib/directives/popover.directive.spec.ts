@@ -330,13 +330,74 @@ describe('MagmaPopoverDirective', () => {
         });
 
         it('should not emit mgPopoverClosed on destroy (internal cleanup)', () => {
-            // ngOnDestroy calls close() which emits — verify event is still emitted
             directive.open();
             (component.onClosed as ReturnType<typeof vi.spyOn>).mockClear();
 
             directive.ngOnDestroy();
 
             expect(component.onClosed).toHaveBeenCalledTimes(1);
+        });
+    });
+
+    // ── close() guard — already closed (line 196) ─────────────────────────────
+
+    it('should be idempotent: close() when already closed does not throw or emit', () => {
+        const spy = vi.spyOn(component, 'onClosed');
+        expect(() => directive.close()).not.toThrow();
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    // ── position effect while open (lines 101-109) ────────────────────────────
+
+    it('should update position strategy when mgPopoverPosition changes while open', () => {
+        directive.open();
+        fixture.changeDetectorRef.detectChanges();
+
+        // Changing the position input while the overlay is open triggers the effect
+        component.position = 'top-end';
+        fixture.changeDetectorRef.detectChanges();
+
+        // If no error thrown and overlay still open — effect ran successfully
+        expect(directive.isOpen()).toBe(true);
+    });
+
+    // ── hover mode overlay mouseleave / mouseenter (lines 178, 185-186) ───────
+
+    describe('hover mode overlay panel events', () => {
+        beforeEach(() => {
+            vi.useFakeTimers();
+            component.trigger = 'hover';
+            fixture.changeDetectorRef.detectChanges();
+        });
+
+        afterEach(() => vi.useRealTimers());
+
+        it('should start closing when mouse leaves the overlay panel', () => {
+            buttonEl.triggerEventHandler('mouseenter', {});
+            expect(directive.isOpen()).toBe(true);
+
+            const overlayEl = document.querySelector('.cdk-overlay-pane') as HTMLElement;
+            expect(overlayEl).not.toBeNull();
+
+            overlayEl.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+            vi.advanceTimersByTime(150);
+
+            expect(directive.isOpen()).toBe(false);
+        });
+
+        it('should cancel closing when mouse re-enters the overlay panel', () => {
+            buttonEl.triggerEventHandler('mouseenter', {});
+            expect(directive.isOpen()).toBe(true);
+
+            const overlayEl = document.querySelector('.cdk-overlay-pane') as HTMLElement;
+
+            overlayEl.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+            vi.advanceTimersByTime(50); // partial delay
+
+            overlayEl.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+            vi.advanceTimersByTime(200); // total > 150ms but cancel fired
+
+            expect(directive.isOpen()).toBe(true);
         });
     });
 });

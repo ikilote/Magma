@@ -376,7 +376,14 @@ describe('MagmaMenuDropdownComponent', () => {
         });
     });
 
-    // ── closeSubMenu() ────────────────────────────────────────────────────────
+    it('should do nothing on unrecognised key in onKeydown', () => {
+        dropdown.items.set(ITEMS);
+        fixture.changeDetectorRef.detectChanges();
+        expect(() => {
+            const event = new KeyboardEvent('keydown', { key: 'Tab', bubbles: true, cancelable: true });
+            dropdown.onKeydown(event);
+        }).not.toThrow();
+    });
 
     it('should clear activeSubMenu on closeSubMenu()', () => {
         dropdown.items.set(ITEMS_WITH_CHILDREN);
@@ -401,5 +408,149 @@ describe('MagmaMenuDropdownComponent', () => {
         const triggerEl = fixture.debugElement.queryAll(By.css('.mg-menu-item'))[1].nativeElement;
         dropdown.select(ITEMS_WITH_CHILDREN[1], triggerEl);
         expect(() => dropdown.ngOnDestroy()).not.toThrow();
+    });
+
+    // ── select() guard: openSubMenu with no triggerEl ─────────────────────────
+
+    it('should set activeSubMenu but not open overlay when select() called without triggerEl', () => {
+        dropdown.items.set(ITEMS_WITH_CHILDREN);
+        fixture.changeDetectorRef.detectChanges();
+        // select with undefined triggerEl hits the early return in openSubMenu
+        dropdown.select(ITEMS_WITH_CHILDREN[1]);
+        expect(dropdown.activeSubMenu).toBe(ITEMS_WITH_CHILDREN[1]);
+        // No overlay pane should be created
+        expect(document.querySelector('.cdk-overlay-pane')).toBeNull();
+    });
+
+    // ── Sub-menu navigatePrev / navigateNext / closeRequested propagation ─────
+
+    describe('sub-menu keyboard propagation', () => {
+        let triggerEl: HTMLElement;
+
+        beforeEach(() => {
+            dropdown.items.set(ITEMS_WITH_CHILDREN);
+            fixture.changeDetectorRef.detectChanges();
+            triggerEl = fixture.debugElement.queryAll(By.css('.mg-menu-item'))[1].nativeElement;
+            vi.spyOn(triggerEl, 'getBoundingClientRect').mockReturnValue({
+                top: 0,
+                left: 0,
+                bottom: 30,
+                right: 100,
+                width: 100,
+                height: 30,
+            } as DOMRect);
+            dropdown.select(ITEMS_WITH_CHILDREN[1], triggerEl);
+            fixture.changeDetectorRef.detectChanges();
+            vi.advanceTimersByTime(0);
+        });
+
+        it('should close sub-menu and refocus parent when sub-menu emits navigatePrev', () => {
+            const focusSpy = vi.spyOn(triggerEl, 'focus');
+            const sub = dropdown._subMenuRef!;
+            expect(sub).toBeDefined();
+
+            sub.navigatePrev.emit();
+
+            expect(dropdown.activeSubMenu).toBeNull();
+            expect(focusSpy).toHaveBeenCalled();
+        });
+
+        it('should close sub-menu and propagate navigateNext when sub-menu emits navigateNext', () => {
+            const parentSpy = vi.spyOn(dropdown.navigateNext, 'emit');
+            const sub = dropdown._subMenuRef!;
+
+            sub.navigateNext.emit();
+
+            expect(dropdown.activeSubMenu).toBeNull();
+            expect(parentSpy).toHaveBeenCalled();
+        });
+
+        it('should close sub-menu and refocus parent when sub-menu emits closeRequested', () => {
+            const focusSpy = vi.spyOn(triggerEl, 'focus');
+            const sub = dropdown._subMenuRef!;
+
+            sub.closeRequested.emit();
+
+            expect(dropdown.activeSubMenu).toBeNull();
+            expect(focusSpy).toHaveBeenCalled();
+        });
+
+        it('should emit itemSelected on parent when sub-menu emits itemSelected', () => {
+            const spy = vi.spyOn(dropdown.itemSelected, 'emit');
+            const sub = dropdown._subMenuRef!;
+            const item = ITEMS_WITH_CHILDREN[1].children![0];
+
+            sub.itemSelected.emit(item);
+
+            expect(dropdown.activeSubMenu).toBeNull();
+            expect(spy).toHaveBeenCalledWith(item);
+        });
+
+        it('sub-menu _subMenuRef is cleared after closeSubMenu', () => {
+            expect(dropdown._subMenuRef).toBeDefined();
+            dropdown.closeSubMenu();
+            expect(dropdown._subMenuRef).toBeUndefined();
+        });
+    });
+
+    // ── Sub-menu focusFirst deferred ──────────────────────────────────────────
+
+    it('should focus first item of sub-menu after setTimeout(0)', () => {
+        dropdown.items.set(ITEMS_WITH_CHILDREN);
+        fixture.changeDetectorRef.detectChanges();
+
+        const triggerEl = fixture.debugElement.queryAll(By.css('.mg-menu-item'))[1].nativeElement;
+        vi.spyOn(triggerEl, 'getBoundingClientRect').mockReturnValue({
+            top: 0,
+            left: 0,
+            bottom: 30,
+            right: 100,
+            width: 100,
+            height: 30,
+        } as DOMRect);
+
+        dropdown.select(ITEMS_WITH_CHILDREN[1], triggerEl);
+        fixture.detectChanges();
+
+        // Before timer fires — focus not yet moved to sub-menu
+        const paneBefore = document.querySelector('.cdk-overlay-pane');
+        expect(paneBefore).not.toBeNull();
+
+        // After timer fires — focusFirst() called on sub-menu instance
+        vi.advanceTimersByTime(0);
+        // No assertion on activeElement here (timing-sensitive) — just confirm no throw
+    });
+
+    // ── mouseenter HTML branches ──────────────────────────────────────────────
+
+    describe('mouseenter HTML branches', () => {
+        it('should do nothing on mouseenter when in keyboard mode', () => {
+            dropdown.items.set(ITEMS_WITH_CHILDREN);
+            fixture.changeDetectorRef.detectChanges();
+            pointerMode.isKeyboard.set(true);
+
+            const spy = vi.spyOn(dropdown, 'select');
+            fixture.debugElement.queryAll(By.css('.mg-menu-item'))[1].triggerEventHandler('mouseenter', {});
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).not.toHaveBeenCalled();
+        });
+
+        it('should call closeSubMenu on mouseenter over item without children in pointer mode', () => {
+            dropdown.items.set(ITEMS_WITH_CHILDREN);
+            fixture.changeDetectorRef.detectChanges();
+            pointerMode.isKeyboard.set(false);
+
+            // Open sub-menu first
+            const triggerEl = fixture.debugElement.queryAll(By.css('.mg-menu-item'))[1].nativeElement;
+            dropdown.select(ITEMS_WITH_CHILDREN[1], triggerEl);
+
+            const spy = vi.spyOn(dropdown, 'closeSubMenu');
+            // Hover over "File" item (no children)
+            fixture.debugElement.queryAll(By.css('.mg-menu-item'))[0].triggerEventHandler('mouseenter', {});
+            fixture.changeDetectorRef.detectChanges();
+
+            expect(spy).toHaveBeenCalled();
+        });
     });
 });

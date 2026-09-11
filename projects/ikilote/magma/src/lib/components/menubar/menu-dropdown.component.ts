@@ -51,6 +51,8 @@ export class MagmaMenuDropdownComponent implements OnDestroy {
     readonly itemRefs = viewChildren<ElementRef<HTMLElement>>('itemRef');
 
     private _subOverlayRef?: OverlayRef;
+    /** @internal Exposed for testing — the instance of the currently open sub-menu. */
+    _subMenuRef?: MagmaMenuDropdownComponent;
 
     // ── Lifecycle ─────────────────────────────────────────────────────────────
 
@@ -159,6 +161,7 @@ export class MagmaMenuDropdownComponent implements OnDestroy {
 
         const portal = new ComponentPortal(MagmaMenuDropdownComponent);
         const ref = overlayRef.attach(portal);
+        this._subMenuRef = ref.instance;
         ref.instance.label.set(item.label ?? '');
         ref.instance.items.set(item.children!);
         ref.instance.itemSelected.subscribe((child: MagmaMenuItemDef) => {
@@ -190,6 +193,7 @@ export class MagmaMenuDropdownComponent implements OnDestroy {
     closeSubMenu(): void {
         this.disposeSubOverlay();
         this.activeSubMenu = null;
+        this._subMenuRef = undefined;
     }
 
     /** Focus the first focusable item in this dropdown. */

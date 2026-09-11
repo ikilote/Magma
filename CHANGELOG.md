@@ -1,5 +1,87 @@
 # Changelog of @ikilote/magma
 
+## 2.2.0 (2026-09-11)
+
+### 🫢 Breaking
+
+- **Messages** — multi-zone refactor:
+    - `MagmaMessageInfo` — new required field `zone: string`; any code constructing or type-checking this interface must be updated
+    - `addMessage(message, options)` — `options` type changes from `{ type?, time? }` to `{ type?, time?, zone? }`
+    - **default zone position changed**: messages now appear at `{ bottom: '10px', right: '10px' }` instead of the previous `{ top: '50px', right: '0' }`; use `addZone('default', { position: { top: '50px', right: '0' } })` to restore the old position
+
+### ✅ New
+
+- **Components**:
+    - **Accordion**: new component (`mg-accordion`)
+        - groups multiple `mg-expansion-panel` elements
+        - collapse-others-on-open behavior (exclusive accordion mode)
+    - **Menubar**: new component (`mg-menubar`, `mg-menu`, `mg-menu-item`)
+        - declarative mode via `<mg-menu>` / `<mg-menu-item>` children
+        - data-driven mode via `[menus]` input (`MagmaMenuDef[]`)
+        - nested sub-menus with keyboard navigation (Arrow keys, Escape, Enter/Space)
+        - `[disabled]` and `[icon]` support per item
+        - visual separator support (`separator: true`)
+
+- **Directives**:
+    - **Popover**: new directive (`[mgPopover]`)
+        - positions a floating panel relative to its host element
+        - configurable placement
+        - opens/closes on trigger (click)
+
+- **Services**:
+    - **Messages** — multi-zone support:
+        - `addZone(id, config)` — register a named display zone with its own screen position (`MagmaMessageZoneConfig`)
+        - zones sharing the same position reuse a single CDK overlay bucket
+        - `addMessage(…, { zone })` — target a specific zone
+        - default zone (`'default'`) keeps backward-compatible position `{ bottom: '10px', right: '10px' }`
+        - new public interface: `MagmaMessageZoneConfig`
+
+### 🎨 Style
+
+- **new CSS variables**:
+    - **Menubar** (new component):
+        - `--menubar-background` — menubar background
+        - `--menubar-border` — menubar border
+        - `--menubar-text-color` — text color
+        - `--menubar-font-size` — font size
+        - `--menubar-trigger-padding` / `--menubar-trigger-gap` / `--menubar-trigger-radius` — trigger button layout
+        - `--menubar-hover-background` — trigger hover background
+        - `--menubar-dropdown-background` / `--menubar-dropdown-border` / `--menubar-dropdown-radius` / `--menubar-dropdown-shadow` — dropdown panel
+        - `--menubar-dropdown-padding` / `--menubar-dropdown-min-width` — dropdown sizing
+        - `--menubar-item-padding` / `--menubar-item-gap` — item layout
+        - `--menubar-item-hover-background` / `--menubar-item-hover-color` — item hover state
+        - `--menubar-item-disabled-opacity` — disabled item opacity
+        - `--menubar-item-arrow-opacity` / `--menubar-item-arrow-size` — sub-menu arrow
+        - `--menubar-separator` / `--menubar-separator-margin` — item separator
+        - `--menubar-bar-separator` / `--menubar-bar-separator-margin` — bar-level separator
+    - **Info-messages**:
+        - `--floating-message-border-width` — border width of floating message cards
+        - `--info-message-offset-block` / `--info-message-offset-inline` — positional offset for the overlay bucket
+        - `--info-message-progress-time-default` — default auto-dismiss duration
+- **removed CSS variables**:
+    - `--info-message-top` — replaced by the multi-zone position system (`addZone()`)
+
+### 🐞 Fix
+
+- **info-messages**: improved overlay positioning — each zone is now placed according to its registered position; CSS placement classes adapt layout (corner/edge alignment) per zone
+- **loader**: fix demo layout
+- **window**: add `flexible` layout mode alongside `normal`; additional fixed position values
+- **CDK backdrop**: improve click-event propagation through the overlay backdrop (`color-picker`, `datetime-picker`, `ellipsis-button`, `info-messages`, `menubar`, `vision-theme`, `popover`)
+
+### ✅ New (minor)
+
+- **loader**: add `fixed` and `inline` display modes
+- **tag-list**: add `(inputChange)` output — emits as the user types in the inline input
+- **window**: additional fixed position values
+
+### 🎦 Demo
+
+- add pages for:
+    - **Accordion** (component)
+    - **Menubar** (component)
+    - **Popover** (directive)
+- **info-messages**: extended demo with multi-zone positioning examples & component example
+
 ## 2.1.2 (2026-08-24)
 
 ### 🐞 Fix
@@ -1128,6 +1210,11 @@ Migration assistance: [migrate-colors.js](https://git.ikilote.net/-/project/58/u
 ### ✅ New
 
 - **Message**:
+    - `MagmaMessages.addMessage` — accepts a dynamic component as content instead of a plain string:
+        ```ts
+        addMessage({ component: MyComponent, input: { text: 'Hello' } });
+        ```
+        Type: `MagmaMessageContent = string | { component: Type<unknown>; input?: Record<string, unknown> }`
     - add component:
         - simple
         - sub-block

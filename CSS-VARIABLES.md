@@ -3,7 +3,7 @@
 > Generated from `projects/ikilote/magma/src/assets/styles/css-var.css` by `npm run generate:css-doc`.
 > Do not edit by hand: your changes would be overwritten.
 
-**555 variables** across 48 sections.
+**583 variables** across 49 sections.
 
 ## How to override
 
@@ -41,6 +41,7 @@ respectively; the remaining variables are scope-independent.
 - [semantic layer](#semantic-layer) · 11
 - [generic](#generic) · 3
 - [context-menu](#context-menu) · 12
+- [menubar](#menubar) · 25
 - [ellipsis-button](#ellipsis-button) · 4
 - [vision-theme](#vision-theme) · 25
 - [default button](#default-button) · 17
@@ -59,7 +60,7 @@ respectively; the remaining variables are scope-independent.
 - [scrollbar](#scrollbar) · 3
 - [message types](#message-types) · 25
 - [message inline](#message-inline) · 10
-- [message floating](#message-floating) · 6
+- [message floating](#message-floating) · 9
 - [grid](#grid) · 1
 - [block](#block) · 5
 - [card](#card) · 9
@@ -290,6 +291,36 @@ Context menu container and items (`context-menu`).
 | `--context-menu-item-radius`           | `4px`                         | Context menu item radius.           |
 | `--context-menu-item-padding`          | `10px 20px 10px 10px`         | Context menu item padding.          |
 | `--context-menu-item-shadow-color`     | `#0008`                       | Context menu item shadow color.     |
+
+## menubar
+
+| Variable                          | Default                                 | Description                    |
+| --------------------------------- | --------------------------------------- | ------------------------------ |
+| `--menubar-background`            | `var(--block-background)`               | Menubar background.            |
+| `--menubar-border`                | `1px solid transparent`                 | Menubar border.                |
+| `--menubar-text-color`            | `inherit`                               | Menubar text color.            |
+| `--menubar-font-size`             | `0.9rem`                                | Menubar font size.             |
+| `--menubar-trigger-padding`       | `4px 10px`                              | Menubar trigger padding.       |
+| `--menubar-trigger-gap`           | `6px`                                   | Menubar trigger gap.           |
+| `--menubar-trigger-radius`        | `var(--block-radius, 4px)`              | Menubar trigger radius.        |
+| `--menubar-hover-background`      | `var(--primary200)`                     | Menubar hover background.      |
+| `--menubar-dropdown-background`   | `var(--block-background)`               | Menubar dropdown background.   |
+| `--menubar-dropdown-border`       | `var(--block-border)`                   | Menubar dropdown border.       |
+| `--menubar-dropdown-radius`       | `var(--block-radius, 4px)`              | Menubar dropdown radius.       |
+| `--menubar-dropdown-shadow`       | `2px 2px 8px var(--block-shadow-color)` | Menubar dropdown shadow.       |
+| `--menubar-dropdown-padding`      | `4px 0`                                 | Menubar dropdown padding.      |
+| `--menubar-dropdown-min-width`    | `160px`                                 | Menubar dropdown min width.    |
+| `--menubar-item-padding`          | `6px 12px`                              | Menubar item padding.          |
+| `--menubar-item-gap`              | `8px`                                   | Menubar item gap.              |
+| `--menubar-item-hover-background` | `var(--primary300)`                     | Menubar item hover background. |
+| `--menubar-item-hover-color`      | `var(--neutral950)`                     | Menubar item hover color.      |
+| `--menubar-item-disabled-opacity` | `0.45`                                  | Menubar item disabled opacity. |
+| `--menubar-item-arrow-opacity`    | `0.7`                                   | Menubar item arrow opacity.    |
+| `--menubar-item-arrow-size`       | `0.65em`                                | Menubar item arrow size.       |
+| `--menubar-separator`             | `1px solid var(--primary500)`           | Menubar separator.             |
+| `--menubar-separator-margin`      | `4px 8px`                               | Menubar separator margin.      |
+| `--menubar-bar-separator`         | `1px solid var(--primary500)`           | Menubar bar separator.         |
+| `--menubar-bar-separator-margin`  | `4px 2px`                               | Menubar bar separator margin.  |
 
 ## ellipsis-button
 
@@ -636,10 +667,13 @@ Custom scrollbar appearance.
 | Variable                                 | Default                                   | Description                           |
 | ---------------------------------------- | ----------------------------------------- | ------------------------------------- |
 | `--floating-message-border-color`        | `var(--info-message-border-color)`        | Floating message border color.        |
+| `--floating-message-border-width`        | `1px`                                     | Floating message border width.        |
 | `--floating-message-background`          | `var(--info-message-background)`          | Floating message background.          |
 | `--floating-message-box-shadow-color`    | `var(--info-message-box-shadow-color)`    | Floating message box shadow color.    |
 | `--floating-message-progress-background` | `var(--info-message-progress-background)` | Floating message progress background. |
-| `--info-message-top`                     | `50px`                                    | Info message top.                     |
+| `--info-message-offset-block`            | `0px`                                     | Info message offset block.            |
+| `--info-message-offset-inline`           | `0px`                                     | Info message offset inline.           |
+| `--info-message-progress-time-default`   | `3s`                                      | Info message progress time default.   |
 | `--info-message-max-width`               | `300px`                                   | Info message max width.               |
 
 ## grid

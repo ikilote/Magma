@@ -5,6 +5,7 @@ import {
     ElementRef,
     OnDestroy,
     contentChildren,
+    inject,
     signal,
     viewChild,
 } from '@angular/core';
@@ -13,6 +14,8 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { MagmaEllipsisItemComponent } from './ellipsis-item.component';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
+import { MagmaPointerModeService } from '../../services/pointer-mode.service';
+import { redispatchAtPoint } from '../../utils/dom';
 
 @Component({
     selector: 'mg-ellipsis-button, [mgEllipsisButton]',
@@ -23,6 +26,7 @@ import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive
 export class MagmaEllipsisButton implements AfterContentChecked, OnDestroy {
     protected readonly element = viewChild<ElementRef<HTMLDivElement>>('element');
     protected readonly button = viewChild.required<ElementRef<HTMLButtonElement>>('button');
+    private readonly pointerMode = inject(MagmaPointerModeService);
 
     readonly inputs = contentChildren(MagmaEllipsisItemComponent);
 
@@ -37,9 +41,14 @@ export class MagmaEllipsisButton implements AfterContentChecked, OnDestroy {
 
     close() {
         this.isOpen.set(false);
-        setTimeout(() => {
-            this.button().nativeElement.focus();
-        });
+        if (this.pointerMode.isKeyboard()) {
+            setTimeout(() => this.button().nativeElement.focus());
+        }
+    }
+
+    closeAndRedispatch(event: MouseEvent) {
+        this.close();
+        redispatchAtPoint(event.clientX, event.clientY, 'click', event.button);
     }
 
     ngAfterContentChecked(): void {

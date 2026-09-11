@@ -63,7 +63,7 @@ export class MagmaMenuDropdownComponent implements OnDestroy {
     @HostListener('keydown', ['$event'])
     onKeydown(event: KeyboardEvent): void {
         const focusable = this.focusableItems();
-        const focused = document.activeElement as HTMLElement;
+        const focused = (event.target as HTMLElement) ?? (document.activeElement as HTMLElement);
         const idx = focusable.findIndex(el => el === focused);
 
         switch (event.key) {

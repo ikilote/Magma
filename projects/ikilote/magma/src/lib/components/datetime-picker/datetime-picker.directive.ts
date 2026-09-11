@@ -17,6 +17,7 @@ import { MagmaDatetimePickerComponent, MagmaDatetimePickerDays, MagmaDatetimeTyp
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
 import { WeekDay } from '../../utils/date';
+import { redispatchAtPoint } from '../../utils/dom';
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -102,8 +103,9 @@ export class MagmaDatetimePicker implements OnDestroy {
             this.datetimeChange.emit(value);
         });
 
-        overlayRef.backdropClick().subscribe(() => {
+        overlayRef.backdropClick().subscribe((e: MouseEvent) => {
             this.close();
+            redispatchAtPoint(e.clientX, e.clientY, 'click', e.button);
             if (datetime !== undefined && datetime !== initDatetime) {
                 this.datetimeClose.emit(datetime);
             }

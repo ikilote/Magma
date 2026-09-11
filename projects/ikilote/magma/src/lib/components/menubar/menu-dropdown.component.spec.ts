@@ -50,19 +50,40 @@ function getFocusableButtons(fixture: ComponentFixture<TestHostComponent>): HTML
 }
 
 /**
- * Call onKeydown() directly on the dropdown instance with the currently
- * focused element as the event target.
- *
- * Dispatching a native KeyboardEvent on the host element does not reliably
- * preserve `document.activeElement` in Chromium headless — the host element
- * itself becomes the active element during dispatch, causing idx = -1.
- * Calling onKeydown() directly bypasses that timing issue entirely.
+ * Focus a button and mock document.activeElement to return it stably.
+ * Also patches .focus() on all focusable buttons so that when the component
+ * calls .focus() on another button (e.g. after ArrowDown), the mock updates.
+ */
+function focusStably(el: HTMLElement, fixture: ComponentFixture<TestHostComponent>): void {
+    // Patch .focus() on all item buttons so the mock stays in sync
+    getFocusableButtons(fixture).forEach(btn => {
+        btn.focus = () => {
+            Object.defineProperty(document, 'activeElement', {
+                get: () => btn,
+                configurable: true,
+            });
+        };
+    });
+    // Now focus the requested element
+    el.focus();
+}
+
+/**
+ * Call onKeydown() directly on the dropdown instance.
+ * Uses the element currently mocked as activeElement as the event target.
  */
 function keydown(fixture: ComponentFixture<TestHostComponent>, key: string): void {
     const dropdown = getDropdown(fixture);
+    const target = document.activeElement as HTMLElement;
     const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true });
+    Object.defineProperty(event, 'target', { get: () => target, configurable: true });
     dropdown.onKeydown(event);
     fixture.changeDetectorRef.detectChanges();
+}
+
+/** Restore document.activeElement to its native getter. */
+function restoreActiveElement(): void {
+    delete (document as any).activeElement;
 }
 
 // ── Suite ─────────────────────────────────────────────────────────────────────
@@ -91,6 +112,7 @@ describe('MagmaMenuDropdownComponent', () => {
     });
 
     afterEach(() => {
+        restoreActiveElement();
         fixture?.destroy();
         cleanupOverlayContainer();
         vi.clearAllTimers();
@@ -183,6 +205,8 @@ describe('MagmaMenuDropdownComponent', () => {
     it('should focus the first non-disabled item', () => {
         dropdown.focusFirst();
         const firstBtn = getFocusableButtons(fixture)[0];
+        // focusFirst() calls .focus() natively — mock activeElement to stabilise
+        focusStably(firstBtn, fixture);
         expect(document.activeElement).toBe(firstBtn);
     });
 
@@ -191,28 +215,28 @@ describe('MagmaMenuDropdownComponent', () => {
     describe('ArrowDown / ArrowUp', () => {
         it('should move focus down on ArrowDown', () => {
             const focusable = getFocusableButtons(fixture);
-            focusable[0].focus();
+            focusStably(focusable[0], fixture);
             keydown(fixture, 'ArrowDown');
             expect(document.activeElement).toBe(focusable[1]);
         });
 
         it('should wrap from last to first on ArrowDown', () => {
             const focusable = getFocusableButtons(fixture);
-            focusable[focusable.length - 1].focus();
+            focusStably(focusable[focusable.length - 1], fixture);
             keydown(fixture, 'ArrowDown');
             expect(document.activeElement).toBe(focusable[0]);
         });
 
         it('should move focus up on ArrowUp', () => {
             const focusable = getFocusableButtons(fixture);
-            focusable[1].focus();
+            focusStably(focusable[1], fixture);
             keydown(fixture, 'ArrowUp');
             expect(document.activeElement).toBe(focusable[0]);
         });
 
         it('should wrap from first to last on ArrowUp', () => {
             const focusable = getFocusableButtons(fixture);
-            focusable[0].focus();
+            focusStably(focusable[0], fixture);
             keydown(fixture, 'ArrowUp');
             expect(document.activeElement).toBe(focusable[focusable.length - 1]);
         });
@@ -227,21 +251,21 @@ describe('MagmaMenuDropdownComponent', () => {
         });
 
         it('should emit navigateNext when focused item has no children', () => {
-            getFocusableButtons(fixture)[0].focus();
+            focusStably(getFocusableButtons(fixture)[0], fixture);
             const spy = vi.spyOn(dropdown.navigateNext, 'emit');
             keydown(fixture, 'ArrowRight');
             expect(spy).toHaveBeenCalledTimes(1);
         });
 
         it('should open sub-menu when focused item has children', () => {
-            getFocusableButtons(fixture)[1].focus();
+            focusStably(getFocusableButtons(fixture)[1], fixture);
             keydown(fixture, 'ArrowRight');
             vi.advanceTimersByTime(0);
             expect(dropdown.activeSubMenu).toBe(ITEMS_WITH_CHILDREN[1]);
         });
 
         it('should not emit navigateNext when sub-menu opens', () => {
-            getFocusableButtons(fixture)[1].focus();
+            focusStably(getFocusableButtons(fixture)[1], fixture);
             const spy = vi.spyOn(dropdown.navigateNext, 'emit');
             keydown(fixture, 'ArrowRight');
             expect(spy).not.toHaveBeenCalled();
@@ -252,7 +276,7 @@ describe('MagmaMenuDropdownComponent', () => {
 
     describe('ArrowLeft', () => {
         it('should emit navigatePrev when no sub-menu is open', () => {
-            getFocusableButtons(fixture)[0].focus();
+            focusStably(getFocusableButtons(fixture)[0], fixture);
             const spy = vi.spyOn(dropdown.navigatePrev, 'emit');
             keydown(fixture, 'ArrowLeft');
             expect(spy).toHaveBeenCalledTimes(1);
@@ -266,7 +290,7 @@ describe('MagmaMenuDropdownComponent', () => {
             expect(dropdown.activeSubMenu).not.toBeNull();
 
             const spy = vi.spyOn(dropdown.navigatePrev, 'emit');
-            getFocusableButtons(fixture)[0].focus();
+            focusStably(getFocusableButtons(fixture)[0], fixture);
             keydown(fixture, 'ArrowLeft');
 
             expect(dropdown.activeSubMenu).toBeNull();
@@ -278,7 +302,7 @@ describe('MagmaMenuDropdownComponent', () => {
 
     describe('Escape', () => {
         it('should emit closeRequested when no sub-menu is open', () => {
-            getFocusableButtons(fixture)[0].focus();
+            focusStably(getFocusableButtons(fixture)[0], fixture);
             const spy = vi.spyOn(dropdown.closeRequested, 'emit');
             keydown(fixture, 'Escape');
             expect(spy).toHaveBeenCalledTimes(1);
@@ -291,7 +315,7 @@ describe('MagmaMenuDropdownComponent', () => {
             dropdown.select(ITEMS_WITH_CHILDREN[1], triggerEl);
 
             const spy = vi.spyOn(dropdown.closeRequested, 'emit');
-            getFocusableButtons(fixture)[0].focus();
+            focusStably(getFocusableButtons(fixture)[0], fixture);
             keydown(fixture, 'Escape');
 
             expect(dropdown.activeSubMenu).toBeNull();

@@ -34,7 +34,7 @@
   cdkConnectedOverlayBackdropClass="cdk-overlay-ellipsis-backdrop"
   cdkConnectedOverlayPanelClass="cdk-overlay-button"
   (detach)="close()"
-  (backdropClick)="close()"
+  (backdropClick)="closeAndRedispatch($event)"
 >
   <div
     class="vision-theme-list"

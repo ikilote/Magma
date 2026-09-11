@@ -1,0 +1,236 @@
+<h1>Menubar</h1>
+
+<mg-tabs>
+  <mg-tab-title id="json">JSON mode</mg-tab-title>
+  <mg-tab-content id="json">
+    <section>
+      <div class="s-12">
+        <h2>Render</h2>
+        <mg-menubar [menus]="menus" (menuItemExecuted)="onAction($event)" />
+        @if (lastAction) {
+          <p class="last-action">
+            Last action: <strong>{{ lastAction }}</strong>
+          </p>
+        }
+      </div>
+      <div class="s-12">
+        <h2>Code</h2>
+        <code-tabs
+          [code]="[
+            { type: 'html', code: codeHtmlJson },
+            { type: 'ts', code: codeTs },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="tags">Tag mode</mg-tab-title>
+  <mg-tab-content id="tags">
+    <section>
+      <div class="s-12">
+        <h2>Render</h2>
+        <mg-menubar (menuItemExecuted)="onAction($event)">
+          <mg-menu label="File">
+            <mg-menu-item label="New" icon="📄" (action)="log('New')" />
+            <mg-menu-item label="Open…" icon="📂" (action)="log('Open')" />
+            <mg-menu-item [separator]="true" />
+            <mg-menu-item label="Quit" [disabled]="true" />
+          </mg-menu>
+          <mg-menu label="Edit">
+            <mg-menu-item label="Cut" (action)="log('Cut')" />
+            <mg-menu-item label="Copy" (action)="log('Copy')" />
+            <mg-menu-item label="Paste" (action)="log('Paste')" />
+          </mg-menu>
+          <mg-menu label="Help">
+            <mg-menu-item label="About" (action)="log('About')" />
+          </mg-menu>
+        </mg-menubar>
+        @if (lastAction) {
+          <p class="last-action">
+            Last action: <strong>{{ lastAction }}</strong>
+          </p>
+        }
+      </div>
+      <div class="s-12">
+        <h2>Code</h2>
+        <code-tabs [code]="[{ type: 'html', code: codeHtmlTags }]" />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-menubar</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>menus</code></td>
+            <td mg><code>MagmaMenuDef[]</code></td>
+            <td mg><code>[]</code></td>
+            <td mg>
+              JSON mode: list of top-level menu definitions. Ignored when tag-mode <code>mg-menu</code> children are
+              present.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>ariaLabel</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'Application menu'</code></td>
+            <td mg>Accessible label for the <code>role="menubar"</code> element.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-menubar</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>menuItemExecuted</code></td>
+            <td mg><code>MagmaMenuItemDef</code></td>
+            <td mg>Emitted after any item action is invoked.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Keyboard navigation</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Key</th>
+            <th mg>Context</th>
+            <th mg>Behavior</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>←</code> / <code>→</code></td>
+            <td mg>Focus on a menu trigger</td>
+            <td mg>Move to the previous / next top-level menu trigger, skipping separators.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>←</code> / <code>→</code></td>
+            <td mg>Inside an open dropdown</td>
+            <td mg>
+              <code>←</code> closes the current sub-menu (if open) or navigates to the previous top-level menu.
+              <code>→</code> opens the sub-menu of the focused item (if any) or navigates to the next top-level menu.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>↑</code> / <code>↓</code></td>
+            <td mg>Inside an open dropdown</td>
+            <td mg>Move through items. <code>↓</code> on a trigger opens the dropdown and focuses the first item.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>Enter</code> / <code>Space</code></td>
+            <td mg>Focused item</td>
+            <td mg>Activate the item or open its sub-menu.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>Escape</code></td>
+            <td mg>Any level</td>
+            <td mg>Close one level: sub-menu → parent item; top-level menu → trigger button.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Types — <code>MagmaMenuDef</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Field</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>label</code></td>
+            <td mg><code>string?</code></td>
+            <td mg>Top-level menu trigger label.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>icon</code></td>
+            <td mg><code>string?</code></td>
+            <td mg>
+              Icon shown before the label. Accepts a text character, emoji, ligature, or an image URL
+              (<code>http://…</code>, <code>/path/to/icon.png</code>, relative paths with image extension).
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>items</code></td>
+            <td mg><code>MagmaMenuItemDef[]?</code></td>
+            <td mg>Items inside this menu.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>separator</code></td>
+            <td mg><code>boolean?</code></td>
+            <td mg>Renders a vertical divider in the menubar instead of a menu trigger.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Types — <code>MagmaMenuItemDef</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Field</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>label</code></td>
+            <td mg><code>string?</code></td>
+            <td mg>Item label.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>icon</code></td>
+            <td mg><code>string?</code></td>
+            <td mg>
+              Icon shown before the label. Accepts a text character, emoji, ligature, or an image URL
+              (<code>http://…</code>, <code>/path/to/icon.png</code>, relative paths with image extension).
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>action</code></td>
+            <td mg><code>() => void</code></td>
+            <td mg>Called when the item is activated.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>separator</code></td>
+            <td mg><code>boolean?</code></td>
+            <td mg>Renders a horizontal divider instead of a clickable item.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean?</code></td>
+            <td mg>Prevents interaction.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>children</code></td>
+            <td mg><code>MagmaMenuItemDef[]?</code></td>
+            <td mg>Nested sub-menu. Opens to the right of the parent item.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

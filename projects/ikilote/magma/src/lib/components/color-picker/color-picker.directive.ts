@@ -18,6 +18,7 @@ import {
 import { MagmaColorPickerComponent, MagmaColorPickerTexts } from './color-picker.component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
+import { redispatchAtPoint } from '../../utils/dom';
 
 const connectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
@@ -103,8 +104,9 @@ export class MagmaColorPicker implements OnDestroy, OnChanges {
             this.colorChange.emit(value);
         });
 
-        overlayRef.backdropClick().subscribe(() => {
+        overlayRef.backdropClick().subscribe((e: MouseEvent) => {
             this.close();
+            redispatchAtPoint(e.clientX, e.clientY, 'click', e.button);
             if (color !== undefined && color !== initColor) {
                 this.colorClose.emit(color);
             }

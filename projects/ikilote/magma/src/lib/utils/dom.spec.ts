@@ -152,20 +152,20 @@ describe('redispatchAtPoint', () => {
         vi.useRealTimers();
     });
 
-    it('should dispatch a MouseEvent to the element at (x, y) after a tick', () => {
+    it('should dispatch a click MouseEvent with correct coordinates after a tick', () => {
         const target = document.createElement('button');
         document.body.appendChild(target);
         vi.spyOn(document, 'elementFromPoint').mockReturnValue(target);
-        const listener = vi.fn();
-        target.addEventListener('click', listener);
+        const clickListener = vi.fn();
+        target.addEventListener('click', clickListener);
 
         redispatchAtPoint(10, 20, 'click');
-        expect(listener).not.toHaveBeenCalled(); // not yet — deferred
+        expect(clickListener).not.toHaveBeenCalled(); // not yet — deferred
 
         vi.advanceTimersByTime(0);
-        expect(listener).toHaveBeenCalledTimes(1);
+        expect(clickListener).toHaveBeenCalledTimes(1);
 
-        const evt = listener.mock.calls[0][0] as MouseEvent;
+        const evt = clickListener.mock.calls[0][0] as MouseEvent;
         expect(evt.clientX).toBe(10);
         expect(evt.clientY).toBe(20);
         expect(evt.button).toBe(0);
@@ -173,18 +173,52 @@ describe('redispatchAtPoint', () => {
         target.remove();
     });
 
-    it('should pass the button parameter to the event', () => {
-        const target = document.createElement('button');
+    it('should dispatch mousedown and mouseup before click', () => {
+        const target = document.createElement('input');
         document.body.appendChild(target);
         vi.spyOn(document, 'elementFromPoint').mockReturnValue(target);
-        const listener = vi.fn();
-        target.addEventListener('contextmenu', listener);
+
+        const order: string[] = [];
+        target.addEventListener('mousedown', () => order.push('mousedown'));
+        target.addEventListener('mouseup', () => order.push('mouseup'));
+        target.addEventListener('click', () => order.push('click'));
+
+        redispatchAtPoint(10, 20, 'click');
+        vi.advanceTimersByTime(0);
+
+        expect(order).toEqual(['mousedown', 'mouseup', 'click']);
+
+        target.remove();
+    });
+
+    it('should NOT dispatch mousedown/mouseup for non-click event types', () => {
+        const target = document.createElement('div');
+        document.body.appendChild(target);
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(target);
+
+        const mousedownListener = vi.fn();
+        target.addEventListener('mousedown', mousedownListener);
 
         redispatchAtPoint(5, 5, 'contextmenu', 2);
         vi.advanceTimersByTime(0);
 
-        expect(listener).toHaveBeenCalledTimes(1);
-        expect((listener.mock.calls[0][0] as MouseEvent).button).toBe(2);
+        expect(mousedownListener).not.toHaveBeenCalled();
+
+        target.remove();
+    });
+
+    it('should pass the button parameter to all dispatched events', () => {
+        const target = document.createElement('button');
+        document.body.appendChild(target);
+        vi.spyOn(document, 'elementFromPoint').mockReturnValue(target);
+        const contextListener = vi.fn();
+        target.addEventListener('contextmenu', contextListener);
+
+        redispatchAtPoint(5, 5, 'contextmenu', 2);
+        vi.advanceTimersByTime(0);
+
+        expect(contextListener).toHaveBeenCalledTimes(1);
+        expect((contextListener.mock.calls[0][0] as MouseEvent).button).toBe(2);
 
         target.remove();
     });

@@ -12,7 +12,9 @@ import {
 } from '@angular/core';
 
 import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive';
+import { MagmaPointerModeService } from '../../services/pointer-mode.service';
 import { VISION_THEMES, VisionTheme, VisionThemeInfo, VisionThemeType } from '../../services/vision-theme';
+import { redispatchAtPoint } from '../../utils/dom';
 
 /**
  * Vision accessibility theme switcher component.
@@ -45,6 +47,7 @@ import { VISION_THEMES, VisionTheme, VisionThemeInfo, VisionThemeType } from '..
 export class MagmaVisionTheme {
     protected readonly visionThemeService = inject(VisionTheme);
     protected readonly button = viewChild.required<ElementRef<HTMLButtonElement>>('button');
+    private readonly pointerMode = inject(MagmaPointerModeService);
 
     /** When true, shows only the icon. When false, also shows the current theme label. */
     readonly compact = input(false, { transform: booleanAttribute });
@@ -108,12 +111,18 @@ export class MagmaVisionTheme {
         this.isOpen.set(true);
     }
 
-    /** Closes the dropdown and refocuses the trigger button. */
+    /** Closes the dropdown and refocuses the trigger button only in keyboard mode. */
     close() {
         this.isOpen.set(false);
-        setTimeout(() => {
-            this.button().nativeElement.focus();
-        });
+        if (this.pointerMode.isKeyboard()) {
+            setTimeout(() => this.button().nativeElement.focus());
+        }
+    }
+
+    /** Closes the dropdown, redispatches the backdrop click, and refocuses the trigger. */
+    closeAndRedispatch(event: MouseEvent) {
+        this.close();
+        redispatchAtPoint(event.clientX, event.clientY, 'click', event.button);
     }
 
     /** Handles item click depending on single/multi mode. */

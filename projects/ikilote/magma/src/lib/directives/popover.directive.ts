@@ -17,6 +17,7 @@ import {
     signal,
 } from '@angular/core';
 
+import { redispatchAtPoint } from '../utils/dom';
 import { MagmaConnectedPosition, toConnectedPositions } from '../utils/position';
 
 let popoverIndex = 0;
@@ -180,7 +181,10 @@ export class MagmaPopoverDirective implements OnDestroy {
         overlayRef.attach(portal);
 
         if (!isHover) {
-            overlayRef.backdropClick().subscribe(() => this.close());
+            overlayRef.backdropClick().subscribe((e: MouseEvent) => {
+                this.close();
+                redispatchAtPoint(e.clientX, e.clientY, 'click', e.button);
+            });
         }
 
         // Hover mode: keep popover open while mouse is on the trigger or the panel.

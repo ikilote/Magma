@@ -6,6 +6,8 @@ import { MagmaEllipsisButton } from './ellipsis-button.component';
 import { MagmaEllipsisButtonModule } from './ellipsis-button.module';
 import { MagmaEllipsisItemComponent } from './ellipsis-item.component';
 
+import { MagmaPointerModeService } from '../../services/pointer-mode.service';
+
 @Component({
     selector: 'app-host-component',
     template: `
@@ -85,7 +87,11 @@ describe('MagmaEllipsisButton (integration)', () => {
         expect(hostComponent.onAction).toHaveBeenCalledWith('1');
     });
 
-    it('should focus the button after closing the menu', async () => {
+    it('should focus the button after closing the menu (keyboard mode)', async () => {
+        // Focus refocus only happens in keyboard mode
+        const pointerMode = TestBed.inject(MagmaPointerModeService);
+        pointerMode.isKeyboard.set(true);
+
         const buttonElement = fixture.debugElement.query(By.css('button')).nativeElement;
         vi.spyOn(buttonElement, 'focus');
 

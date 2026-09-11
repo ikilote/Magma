@@ -25,13 +25,23 @@
           <mg-input-select formControlName="zone" [data]="zoneData" />
           <mg-input-desc>Each zone has its own screen position.</mg-input-desc>
         </mg-input>
-        <mg-input class="s-3 s-6-m s-12-s">
-          <mg-input-checkbox formControlName="component" mode="toggle">Component</mg-input-checkbox>
-        </mg-input>
       </div>
     }
 
-    <code-tabs [code]="[{ type: 'ts', code: ([codeTs, codeTsComponent] | arrayFilter: filter) }]" />
+    <code-tabs [code]="[{ type: 'ts', code: codeTs }]" />
+  </mg-tab-content>
+
+  <mg-tab-title id="component">Component</mg-tab-title>
+  <mg-tab-content id="component">
+    <section>
+      <p>
+        Instead of a plain string, <code>addMessage</code> accepts a dynamic Angular component via
+        <code>MagmaMessageContent</code>. The component receives its inputs through the <code>input</code> map.
+      </p>
+      <button (click)="sendComponentMessage()">Send component message</button>
+    </section>
+
+    <code-tabs [code]="[{ type: 'ts', code: codeComponent }]" />
   </mg-tab-content>
 
   <mg-tab-title id="zones">Zones</mg-tab-title>

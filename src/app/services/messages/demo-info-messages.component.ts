@@ -4,7 +4,6 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2Js } from '@ikilote/json2html';
 import {
-    ArrayFilterPipe,
     FormBuilderExtended,
     MagmaInfoMessageComponent,
     MagmaInput,
@@ -92,7 +91,6 @@ const DEFAULT_ZONE_ENTRY = {
         MagmaInputTextarea,
         MagmaInputSelect,
         MagmaInputCheckbox,
-        ArrayFilterPipe,
         CodeTabsComponent,
         MagmaTabsModule,
         MagmaTableModule,
@@ -119,7 +117,6 @@ export class DemoInfoMessageComponent {
     zoneData: Select2Data = [DEFAULT_ZONE_ENTRY, ...DEMO_ZONES].map(z => ({ value: z.id, label: z.label }));
 
     readonly formGroup: FormGroup<{
-        component: FormControl<boolean>;
         text: FormControl<string>;
         time: FormControl<string>;
         type: FormControl<MagmaMessageType>;
@@ -140,14 +137,13 @@ export class DemoInfoMessageComponent {
     newZoneError = '';
 
     codeTs = '';
-    codeTsComponent = '';
+    codeComponent = '';
 
     constructor() {
         // Register all demo zones upfront.
         DEMO_ZONES.forEach(z => this.mgMessages.addZone(z.id, z.config));
 
         this.formGroup = this.fbe.groupWithError({
-            component: { default: false },
             text: { default: 'Test' },
             time: { default: '' },
             type: { default: '' as MagmaMessageType },
@@ -166,25 +162,28 @@ export class DemoInfoMessageComponent {
 
         this.formGroup.valueChanges.subscribe(() => this.codeGenerator());
         this.codeGenerator();
+        this.buildComponentCode();
     }
 
     filter = (e: string) => !!e;
 
     sendMessage() {
-        const { component, text, time, type, zone } = this.formGroup.value;
+        const { text, time, type, zone } = this.formGroup.value;
 
-        if (component) {
-            this.mgMessages.addMessage(
-                { component: ContextTestComponent, input: { text, component: this } },
-                { time: time || undefined, type: type || undefined, zone: zone || undefined },
-            );
-        } else if (text) {
+        if (text) {
             this.mgMessages.addMessage(text, {
                 time: time || undefined,
                 type: type || undefined,
                 zone: zone || undefined,
             });
         }
+    }
+
+    sendComponentMessage() {
+        this.mgMessages.addMessage({
+            component: ContextTestComponent,
+            input: { text: 'Hello from a component!', component: this },
+        });
     }
 
     addCustomZone() {
@@ -233,7 +232,7 @@ export class DemoInfoMessageComponent {
     }
 
     codeGenerator() {
-        const { component, text, time, type, zone } = this.formGroup.value;
+        const { text, time, type, zone } = this.formGroup.value;
         const isDefaultZone = !zone || zone === 'default';
 
         // Only show addZone call for non-default zones.
@@ -261,14 +260,7 @@ ${
         : ''
 }
   sendMessage() {
-    this.mgMessages.addMessage(${
-        component
-            ? `{
-        component: ContextTestComponent,
-        input: { text: \`${text?.replaceAll('`', '\\`')}\`, component: this },
-    }`
-            : `\`${text?.replaceAll('`', '\\`')}\``
-    }${
+    this.mgMessages.addMessage(\`${text?.replaceAll('`', '\\`')}\`${
         hasOptions
             ? `, {${time ? `\n      time: "${time}",` : ''}${type ? `\n      type: MagmaMessageType.${type},` : ''}${
                   !isDefaultZone ? `\n      zone: '${zone}',` : ''
@@ -278,25 +270,36 @@ ${
     });
   }
 }`;
+    }
 
-        this.codeTsComponent = component
-            ? `@Component({
-    selector: 'block-test',
+    buildComponentCode() {
+        this.codeComponent = `import { MagmaMessages } from '@ikilote/magma';
+
+// The component to embed inside the message
+@Component({
+    selector: 'my-message',
     template: \`<div>
         {{ text() }}
-        <button (click)="action()" stopPropagation stopClick>Close</button>
+        <button (click)="dismiss()">Close</button>
     </div>\`,
-    imports: [MagmaStopPropagationDirective],
 })
-export class ContextTestComponent {
-    context = input<InfoMessageComponent>();
-    component = input<DemoInfoMessageComponent>();
+export class MyMessageComponent {
     text = input<string>();
-
-    action() { this.component()?.testComponent('Test component'); }
+    dismiss() { /* call removeMessage or any custom logic */ }
 }
-`
-            : '';
+
+// Sending a component message
+@Component({ ... })
+export class SendMessageComponent {
+  readonly mgMessages = inject(MagmaMessages);
+
+  send() {
+    this.mgMessages.addMessage({
+      component: MyMessageComponent,
+      input: { text: 'Hello from a component!' },
+    });
+  }
+}`;
     }
 
     testComponent(data: string) {

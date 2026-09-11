@@ -56,7 +56,6 @@ export class ContextTestComponent {
 // ── Predefined zones for the demo ─────────────────────────────────────────────
 
 const DEMO_ZONES: { id: string; label: string; config: MagmaMessageZoneConfig }[] = [
-    { id: 'bottom-right', label: 'bottom-right', config: { position: { bottom: '10px', right: '10px' } } },
     { id: 'top-right', label: 'top-right', config: { position: { top: '10px', right: '10px' } } },
     { id: 'top-left', label: 'top-left', config: { position: { top: '10px', left: '10px' } } },
     { id: 'bottom-left', label: 'bottom-left', config: { position: { bottom: '10px', left: '10px' } } },
@@ -71,6 +70,13 @@ const DEMO_ZONES: { id: string; label: string; config: MagmaMessageZoneConfig }[
         config: { position: { bottom: '0', centerHorizontally: '' } },
     },
 ];
+
+/** The default zone is auto-created by the service; listed here only for display purposes. */
+const DEFAULT_ZONE_ENTRY = {
+    id: 'default',
+    label: 'default (bottom-right)',
+    config: { position: { bottom: '10px', right: '10px' } } as MagmaMessageZoneConfig,
+};
 
 @Component({
     selector: 'demo-info-messages',
@@ -99,7 +105,7 @@ export class DemoInfoMessageComponent {
     readonly demoZones = DEMO_ZONES;
 
     /** All zones registered so far (predefined + custom). */
-    allZones: { id: string; label: string; config: MagmaMessageZoneConfig }[] = [...DEMO_ZONES];
+    allZones: { id: string; label: string; config: MagmaMessageZoneConfig }[] = [DEFAULT_ZONE_ENTRY, ...DEMO_ZONES];
 
     readonly typeData: Select2Data = [
         { value: '', label: 'default (info)' },
@@ -110,7 +116,7 @@ export class DemoInfoMessageComponent {
         { value: MagmaMessageType.success, label: 'success' },
     ];
 
-    zoneData: Select2Data = DEMO_ZONES.map(z => ({ value: z.id, label: z.label }));
+    zoneData: Select2Data = [DEFAULT_ZONE_ENTRY, ...DEMO_ZONES].map(z => ({ value: z.id, label: z.label }));
 
     readonly formGroup: FormGroup<{
         component: FormControl<boolean>;
@@ -145,7 +151,7 @@ export class DemoInfoMessageComponent {
             text: { default: 'Test' },
             time: { default: '' },
             type: { default: '' as MagmaMessageType },
-            zone: { default: 'bottom-right' },
+            zone: { default: 'default' },
         });
 
         this.newZoneForm = this.fbe.groupWithError({
@@ -228,24 +234,32 @@ export class DemoInfoMessageComponent {
 
     codeGenerator() {
         const { component, text, time, type, zone } = this.formGroup.value;
-        const hasOptions = time || type || zone;
-        // Build the addZone call for the selected zone.
-        const selectedZone = zone ? this.allZones.find(z => z.id === zone) : null;
+        const isDefaultZone = !zone || zone === 'default';
+
+        // Only show addZone call for non-default zones.
+        const selectedZone = !isDefaultZone ? this.allZones.find(z => z.id === zone) : null;
         const addZoneCode = selectedZone
             ? `\n    this.mgMessages.addZone('${selectedZone.id}', {
       position: ${new Json2Js(selectedZone.config.position, { tabAdded: 2, tabAddedExceptFirst: true }).toString()},
     });`
             : '';
 
+        const hasConstructor = !!addZoneCode;
+        const hasOptions = time || type || !isDefaultZone;
+
         this.codeTs = `import { MagmaMessages, MagmaMessageType } from '@ikilote/magma';
 
 @Component({ ... })
 export class SendMessageComponent {
   readonly mgMessages = inject(MagmaMessages);
-
+${
+    hasConstructor
+        ? `
   constructor() {${addZoneCode}
   }
-
+`
+        : ''
+}
   sendMessage() {
     this.mgMessages.addMessage(${
         component
@@ -257,7 +271,7 @@ export class SendMessageComponent {
     }${
         hasOptions
             ? `, {${time ? `\n      time: "${time}",` : ''}${type ? `\n      type: MagmaMessageType.${type},` : ''}${
-                  zone ? `\n      zone: '${zone}',` : ''
+                  !isDefaultZone ? `\n      zone: '${zone}',` : ''
               }
     }`
             : ''

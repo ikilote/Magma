@@ -56,7 +56,11 @@
                 <code>{{ zone.config.position | json }}</code>
               </td>
               <td mg>
-                <button (click)="mgMessages.addMessage('Hello from ' + zone.id, { zone: zone.id })">
+                <button
+                  (click)="
+                    mgMessages.addMessage('Hello from ' + zone.id, zone.id !== 'default' ? { zone: zone.id } : {})
+                  "
+                >
                   Send to {{ zone.label }}
                 </button>
               </td>
@@ -111,11 +115,12 @@
         same stack, grouped automatically.
       </p>
       <div class="zone-pair-demo">
-        <button (click)="mgMessages.addMessage('From zone-a', { zone: 'zone-a' })">
-          Send to zone-a (bottom-right)
+        <button (click)="mgMessages.addMessage('Hello from default')">Send to default (bottom-right)</button>
+        <button (click)="mgMessages.addMessage('Hello from bottom-left', { zone: 'bottom-left' })">
+          Send to bottom-left (different overlay)
         </button>
-        <button (click)="mgMessages.addMessage('From zone-b', { zone: 'zone-b' })">
-          Send to zone-b (bottom-right — same overlay)
+        <button (click)="mgMessages.addMessage('Hello from top-right', { zone: 'top-right' })">
+          Send to top-right (different overlay)
         </button>
       </div>
     </section>

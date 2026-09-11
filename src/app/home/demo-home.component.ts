@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 
 import {
+    MagmaAccordion,
     MagmaBadge,
     MagmaBadgeLabel,
     MagmaBlock,
@@ -10,6 +11,9 @@ import {
     MagmaColorPickerComponent,
     MagmaContribCalendar,
     MagmaDatetimePickerComponent,
+    MagmaExpansionContent,
+    MagmaExpansionHeader,
+    MagmaExpansionPanel,
     MagmaInput,
     MagmaInputCheckbox,
     MagmaInputElement,
@@ -17,11 +21,11 @@ import {
     MagmaInputRange,
     MagmaInputSelect,
     MagmaInputText,
-    MagmaLoaderBlock,
-    MagmaLoaderTile,
+    MagmaMenuDirective,
+    MagmaMenuItemDirective,
+    MagmaMenubarComponent,
     MagmaMessage,
     MagmaProgress,
-    MagmaSpinner,
     MagmaTabsModule,
     MagmaTagListModule,
     Select2OptionDirective,
@@ -35,7 +39,6 @@ import {
     imports: [
         RouterLink,
         FormsModule,
-        MagmaSpinner,
         MagmaProgress,
         MagmaMessage,
         MagmaTabsModule,
@@ -43,8 +46,6 @@ import {
         MagmaColorPickerComponent,
         MagmaDatetimePickerComponent,
         MagmaContribCalendar,
-        MagmaLoaderBlock,
-        MagmaLoaderTile,
         MagmaInput,
         MagmaInputElement,
         MagmaInputText,
@@ -56,6 +57,13 @@ import {
         MagmaBadgeLabel,
         MagmaBreadcrumbsModule,
         MagmaTagListModule,
+        MagmaAccordion,
+        MagmaExpansionContent,
+        MagmaExpansionHeader,
+        MagmaExpansionPanel,
+        MagmaMenubarComponent,
+        MagmaMenuDirective,
+        MagmaMenuItemDirective,
         Select2OptionDirective,
     ],
 })
@@ -73,15 +81,15 @@ export class DemoHomeComponent {
     categories = [
         {
             name: 'Components',
-            description: '30 ready-to-use UI components.',
+            description: '28 ready-to-use UI components.',
             link: '/component/spinner',
-            count: 30,
+            count: 28,
         },
         {
             name: 'Directives',
             description: 'Angular directives to enhance your templates.',
             link: '/directive/tooltip',
-            count: 10,
+            count: 11,
         },
         {
             name: 'Pipes',

@@ -92,30 +92,6 @@
 
     <mg-block class="s-4 s-6-x s-12-l">
       <div class="showcase-card">
-        <h3>Loader block</h3>
-        <div class="preview">
-          <mg-loader-block>
-            <mg-loader-tile />
-            <mg-loader-tile />
-            <mg-loader-tile size="100% / 40px" />
-          </mg-loader-block>
-        </div>
-        <a routerLink="/component/loader-block">See docs →</a>
-      </div>
-    </mg-block>
-
-    <mg-block class="s-4 s-6-x s-12-l">
-      <div class="showcase-card">
-        <h3>Spinner</h3>
-        <div class="preview center">
-          <mg-spinner [size]="60" />
-        </div>
-        <a routerLink="/component/spinner">See docs →</a>
-      </div>
-    </mg-block>
-
-    <mg-block class="s-4 s-6-x s-12-l">
-      <div class="showcase-card">
         <h3>Input</h3>
         <div class="preview">
           <mg-input>
@@ -201,6 +177,55 @@
           <mg-tag-list [(ngModel)]="tagListDemo" placeholder="Add a tag…" />
         </div>
         <a routerLink="/component/tag-list">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Accordion</h3>
+        <div class="preview" style="height: 160px; overflow: hidden">
+          <mg-accordion style="width: 240px">
+            <mg-expansion-panel>
+              <mg-expansion-header>Panel one</mg-expansion-header>
+              <mg-expansion-content>Content of the first panel.</mg-expansion-content>
+            </mg-expansion-panel>
+            <mg-expansion-panel>
+              <mg-expansion-header>Panel two</mg-expansion-header>
+              <mg-expansion-content>Content of the second panel.</mg-expansion-content>
+            </mg-expansion-panel>
+            <mg-expansion-panel>
+              <mg-expansion-header>Panel three</mg-expansion-header>
+              <mg-expansion-content>Content of the third panel.</mg-expansion-content>
+            </mg-expansion-panel>
+          </mg-accordion>
+        </div>
+        <a routerLink="/component/accordion">See docs →</a>
+      </div>
+    </mg-block>
+
+    <mg-block class="s-4 s-6-x s-12-l">
+      <div class="showcase-card">
+        <h3>Menubar</h3>
+        <div class="preview">
+          <mg-menubar>
+            <mg-menu label="File">
+              <mg-menu-item label="New" />
+              <mg-menu-item label="Open" />
+              <mg-menu-item [separator]="true" />
+              <mg-menu-item label="Exit" />
+            </mg-menu>
+            <mg-menu label="Edit">
+              <mg-menu-item label="Cut" />
+              <mg-menu-item label="Copy" />
+              <mg-menu-item label="Paste" />
+            </mg-menu>
+            <mg-menu label="View">
+              <mg-menu-item label="Zoom in" />
+              <mg-menu-item label="Zoom out" />
+            </mg-menu>
+          </mg-menubar>
+        </div>
+        <a routerLink="/component/menubar">See docs →</a>
       </div>
     </mg-block>
   </div>

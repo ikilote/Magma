@@ -1,4 +1,4 @@
-<h1>Info-messages</h1>
+<h1>Messages</h1>
 
 <mg-tabs>
   <mg-tab-title id="generator">Generator</mg-tab-title>
@@ -18,7 +18,12 @@
         </mg-input>
         <mg-input class="s-3 s-6-m s-12-s">
           <mg-input-label>Type</mg-input-label>
-          <mg-input-select formControlName="type" [data]="data" />
+          <mg-input-select formControlName="type" [data]="typeData" />
+        </mg-input>
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-label>Zone</mg-input-label>
+          <mg-input-select formControlName="zone" [data]="zoneData" />
+          <mg-input-desc>Each zone has its own screen position.</mg-input-desc>
         </mg-input>
         <mg-input class="s-3 s-6-m s-12-s">
           <mg-input-checkbox formControlName="component" mode="toggle">Component</mg-input-checkbox>
@@ -29,13 +34,100 @@
     <code-tabs [code]="[{ type: 'ts', code: ([codeTs, codeTsComponent] | arrayFilter: filter) }]" />
   </mg-tab-content>
 
+  <mg-tab-title id="zones">Zones</mg-tab-title>
+  <mg-tab-content id="zones">
+    <section>
+      <h4>Available zones</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Zone id</th>
+            <th mg>Position</th>
+            <th mg>Action</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          @for (zone of allZones; track zone.id) {
+            <tr mg>
+              <td mg>
+                <code>{{ zone.id }}</code>
+              </td>
+              <td mg>
+                <code>{{ zone.config.position | json }}</code>
+              </td>
+              <td mg>
+                <button (click)="mgMessages.addMessage('Hello from ' + zone.id, { zone: zone.id })">
+                  Send to {{ zone.label }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h4>Add a custom zone</h4>
+      @if (newZoneError) {
+        <p class="zone-error">{{ newZoneError }}</p>
+      }
+      <div [formGroup]="newZoneForm">
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-label>Zone id</mg-input-label>
+          <mg-input-text formControlName="id" />
+          <mg-input-desc>Unique identifier, e.g. <code>my-zone</code></mg-input-desc>
+        </mg-input>
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-label>top</mg-input-label>
+          <mg-input-text formControlName="top" />
+          <mg-input-desc>e.g. <code>10px</code></mg-input-desc>
+        </mg-input>
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-label>bottom</mg-input-label>
+          <mg-input-text formControlName="bottom" />
+        </mg-input>
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-label>left</mg-input-label>
+          <mg-input-text formControlName="left" />
+        </mg-input>
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-label>right</mg-input-label>
+          <mg-input-text formControlName="right" />
+        </mg-input>
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-checkbox formControlName="centerHorizontally" mode="toggle">Center horizontally</mg-input-checkbox>
+        </mg-input>
+        <mg-input class="s-3 s-6-m s-12-s">
+          <mg-input-checkbox formControlName="centerVertically" mode="toggle">Center vertically</mg-input-checkbox>
+        </mg-input>
+      </div>
+      <button (click)="addCustomZone()">Add zone</button>
+    </section>
+
+    <section>
+      <h4>Zones sharing the same position</h4>
+      <p>
+        Two zones registered with an identical position object share the same CDK overlay. Their messages appear in the
+        same stack, grouped automatically.
+      </p>
+      <div class="zone-pair-demo">
+        <button (click)="mgMessages.addMessage('From zone-a', { zone: 'zone-a' })">
+          Send to zone-a (bottom-right)
+        </button>
+        <button (click)="mgMessages.addMessage('From zone-b', { zone: 'zone-b' })">
+          Send to zone-b (bottom-right — same overlay)
+        </button>
+      </div>
+    </section>
+  </mg-tab-content>
+
   <mg-tab-title id="api">API Reference</mg-tab-title>
   <mg-tab-content id="api">
     <section>
       <h4>Service — <code>MagmaMessages</code></h4>
       <p>
-        Inject <code>MagmaMessages</code> and call its methods to display toast notifications. No template element
-        needed — the overlay is created automatically.
+        Inject <code>MagmaMessages</code> and call its methods to display stacked toast notifications. No template
+        element needed — overlays are created automatically via CDK.
       </p>
       <table mg>
         <thead mg>
@@ -47,24 +139,31 @@
         </thead>
         <tbody mg>
           <tr mg>
+            <td mg><code>addZone</code></td>
+            <td mg><code>(id: string, config: MagmaMessageZoneConfig) => void</code></td>
+            <td mg>
+              Register a named display zone with a screen position. Zones with the same position share one overlay.
+            </td>
+          </tr>
+          <tr mg>
             <td mg><code>addMessage</code></td>
             <td mg>
-              <code
-                >(message: MagmaMessageContent, options?: &#123; type?: MagmaMessageType; time?: string &#125;) =>
-                void</code
-              >
+              <code>(message, options?: &#123; type?, time?, zone? &#125;) => void</code>
             </td>
-            <td mg>Displays a toast. <code>time</code> defaults to <code>'3s'</code>.</td>
+            <td mg>
+              Display a toast. <code>zone</code> defaults to <code>'default'</code> (bottom-right).
+              <code>time</code> defaults to <code>'3s'</code>.
+            </td>
           </tr>
           <tr mg>
             <td mg><code>removeMessage</code></td>
             <td mg><code>(message: MagmaMessageInfo) => void</code></td>
-            <td mg>Removes a specific message from the queue</td>
+            <td mg>Remove a specific message.</td>
           </tr>
           <tr mg>
             <td mg><code>clearMessages</code></td>
             <td mg><code>() => void</code></td>
-            <td mg>Removes all messages at once</td>
+            <td mg>Remove all messages.</td>
           </tr>
         </tbody>
       </table>
@@ -86,6 +185,16 @@
             <td mg><code>MagmaMessageContent</code></td>
             <td mg>
               <code>string | &#123; component: Type&lt;unknown&gt;; input?: Record&lt;string, unknown&gt; &#125;</code>
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>MagmaMessageZoneConfig</code></td>
+            <td mg><code>&#123; position: MagmaOverlayPosition &#125;</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>MagmaOverlayPosition</code></td>
+            <td mg>
+              <code>&#123; top?, bottom?, left?, right?, centerHorizontally?, centerVertically? &#125;</code>
             </td>
           </tr>
         </tbody>

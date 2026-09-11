@@ -26,6 +26,13 @@ export class MagmaInfoMessageComponent {
 
     readonly message = input<MagmaMessageInfo>();
 
+    /**
+     * CSS placement classes forwarded from the parent `MagmaInfoMessagesComponent`.
+     * Combined with the message type and close state on the host element so that
+     * SCSS rules can adapt border-radius and animation to the zone's screen location.
+     */
+    readonly placementClasses = input<string[]>([]);
+
     // output
 
     readonly destruct = output<MagmaMessageInfo>();
@@ -37,7 +44,9 @@ export class MagmaInfoMessageComponent {
     protected _height!: number;
 
     protected classes() {
-        return [this.message()?.type, this._closeClass ? 'close' : null].filter(e => e);
+        return [...(this.placementClasses() ?? []), this.message()?.type, this._closeClass ? 'close' : null].filter(
+            e => e,
+        );
     }
 
     @HostListener('click')

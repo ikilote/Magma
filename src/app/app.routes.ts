@@ -122,6 +122,12 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: 'menubar',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/menubar/demo-menubar.component').then(m => m.DemoMenubarComponent),
+            },
+            {
                 path: 'input',
                 pathMatch: 'full',
                 loadComponent: () => import('./components/input/demo-input.component').then(m => m.DemoInputComponent),

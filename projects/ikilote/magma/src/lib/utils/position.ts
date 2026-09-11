@@ -36,6 +36,7 @@ export interface MagmaOverlayPosition {
 }
 
 /** Primary CDK position for each `MagmaConnectedPosition` value. */
+// prettier-ignore
 const POSITION_MAP: Record<MagmaConnectedPosition, ConnectedPosition> = {
     'top':          { originX: 'center', originY: 'top',    overlayX: 'center', overlayY: 'bottom' },
     'top-start':    { originX: 'start',  originY: 'top',    overlayX: 'start',  overlayY: 'bottom' },
@@ -52,6 +53,7 @@ const POSITION_MAP: Record<MagmaConnectedPosition, ConnectedPosition> = {
 };
 
 /** Opposite axis fallbacks — if primary doesn't fit, try the other side. */
+// prettier-ignore
 const FALLBACK_MAP: Record<MagmaConnectedPosition, MagmaConnectedPosition> = {
     'top':          'bottom',
     'top-start':    'bottom-start',
@@ -87,4 +89,57 @@ export function overlayPositionKey(pos: MagmaOverlayPosition): string {
                 .sort(([a], [b]) => a.localeCompare(b)),
         ),
     );
+}
+
+/**
+ * CSS classes derived from a `MagmaOverlayPosition`, applied to the message
+ * container so that styles can adapt to the zone's screen location.
+ *
+ * Vertical axis — one of:
+ *   `pos-top`    — anchored to the top edge   (`top` is set, or only `centerVertically`)
+ *   `pos-bottom` — anchored to the bottom edge (`bottom` is set, or neither top/bottom)
+ *   `pos-center-v` — vertically centred        (`centerVertically` is set without top/bottom)
+ *
+ * Horizontal axis — one of:
+ *   `pos-left`     — anchored to the left edge  (`left` is set)
+ *   `pos-right`    — anchored to the right edge (`right` is set, or neither left/right)
+ *   `pos-center-h` — horizontally centred       (`centerHorizontally` is set without left/right)
+ *
+ * Edge modifier — added when the value for the anchored side is `'0'` or `'0px'`:
+ *   `pos-edge-top` | `pos-edge-bottom` | `pos-edge-left` | `pos-edge-right`
+ */
+export function overlayPositionClasses(pos: MagmaOverlayPosition): string[] {
+    const classes: string[] = [];
+
+    const isEdge = (value: string | undefined) => value === '0' || value === '0px';
+
+    // ── Vertical ──────────────────────────────────────────────────────────────
+    if (pos.top !== undefined) {
+        classes.push('pos-top');
+        if (isEdge(pos.top)) classes.push('pos-edge-top');
+    } else if (pos.bottom !== undefined) {
+        classes.push('pos-bottom');
+        if (isEdge(pos.bottom)) classes.push('pos-edge-bottom');
+    } else if (pos.centerVertically !== undefined) {
+        classes.push('pos-center-v');
+    } else {
+        // No vertical anchor — treat as bottom (CDK default).
+        classes.push('pos-bottom');
+    }
+
+    // ── Horizontal ────────────────────────────────────────────────────────────
+    if (pos.left !== undefined) {
+        classes.push('pos-left');
+        if (isEdge(pos.left)) classes.push('pos-edge-left');
+    } else if (pos.right !== undefined) {
+        classes.push('pos-right');
+        if (isEdge(pos.right)) classes.push('pos-edge-right');
+    } else if (pos.centerHorizontally !== undefined) {
+        classes.push('pos-center-h');
+    } else {
+        // No horizontal anchor — treat as right (CDK default).
+        classes.push('pos-right');
+    }
+
+    return classes;
 }

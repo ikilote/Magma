@@ -35,13 +35,11 @@ export const menu: Menu = [
             {
                 routerLink: '/component/avatar',
                 label: 'Avatar',
-                status: 'new',
                 keys: ['avatar', 'profile', 'user image', 'initials'],
             },
             {
                 routerLink: '/component/badge',
                 label: 'Badge',
-                status: 'new',
                 keys: ['badge', 'counter', 'label', 'dot', 'pill'],
             },
             {
@@ -52,13 +50,11 @@ export const menu: Menu = [
             {
                 routerLink: '/component/breadcrumbs',
                 label: 'Breadcrumbs',
-                status: 'new',
                 keys: ['breadcrumb', 'navigation', 'path', 'trail'],
             },
             {
                 routerLink: '/component/card',
                 label: 'Card',
-                status: 'new',
                 keys: ['card', 'image card', 'media card', 'content card'],
             },
             {
@@ -95,6 +91,12 @@ export const menu: Menu = [
                 routerLink: '/component/expansion-panel',
                 label: 'Expansion panel',
                 keys: ['accordion', 'panel', 'collapse'],
+            },
+            {
+                routerLink: '/component/menubar',
+                label: 'Menubar',
+                status: 'new',
+                keys: ['menu bar', 'application menu', 'desktop menu', 'submenu'],
             },
             {
                 routerLink: '/component/input',
@@ -145,7 +147,6 @@ export const menu: Menu = [
             {
                 routerLink: '/component/tag-list',
                 label: 'Tag list',
-                status: 'new',
                 keys: ['tag', 'tags', 'chips', 'filter', 'tag list', 'criteria'],
             },
             {
@@ -211,7 +212,6 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/scrollable',
                 label: 'Scrollable',
-                status: 'new',
                 keys: ['scroll', 'animated scroll', 'scroll navigation', 'scroll to', 'anchor'],
             },
             {
@@ -285,7 +285,6 @@ export const menu: Menu = [
             {
                 routerLink: '/service/cookie-consent',
                 label: 'CookieConsent',
-                status: 'new',
                 keys: ['cookie', 'consent', 'gdpr', 'privacy', 'cookie consent', 'cookie banner'],
             },
             {
@@ -296,6 +295,7 @@ export const menu: Menu = [
             {
                 routerLink: '/service/messages',
                 label: 'Messages',
+                status: 'update',
                 keys: ['notifications', 'alerts', 'info', 'messages'],
             },
             {
@@ -428,7 +428,6 @@ export const menu: Menu = [
             {
                 routerLink: '/style/status',
                 label: 'Status',
-                status: 'new',
                 keys: ['status', 'dot', 'indicator', 'online', 'offline', 'state'],
             },
             {

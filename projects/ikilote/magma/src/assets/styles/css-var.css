@@ -531,10 +531,13 @@ body {
     /* Slot consumed by mg-info-message, plus its own layout values. The slot
        defaults to the info type; the modifier classes remap it. */
     --floating-message-border-color: var(--info-message-border-color);
+    --floating-message-border-width: 1px;
     --floating-message-background: var(--info-message-background);
     --floating-message-box-shadow-color: var(--info-message-box-shadow-color);
     --floating-message-progress-background: var(--info-message-progress-background);
-    --info-message-top: 50px;
+    --info-message-offset-block: 0px;
+    --info-message-offset-inline: 0px;
+    --info-message-progress-time-default: 3s;
     --info-message-max-width: 300px;
 
     /* MARK: grid */

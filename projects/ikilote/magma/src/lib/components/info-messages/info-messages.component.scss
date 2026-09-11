@@ -1,10 +1,48 @@
+// ── Container ─────────────────────────────────────────────────────────────────
+// The CDK GlobalPositionStrategy places this host on screen.
+// Placement classes (pos-top/bottom/left/right/center-h/v) drive
+// flex direction, alignment, and sizing.
+//
+// CSS custom properties (overridable by consumers):
+//   --info-message-offset-block    gap between messages and the top/bottom screen edge  (default: 0px)
+//   --info-message-offset-inline   gap between messages and the left/right screen edge  (default: 0px)
+
 :host {
     display: flex;
-    position: relative;
-    top: var(--info-message-top);
-    flex-direction: column;
-    align-items: flex-end;
-    width: 0;
+    flex-direction: column; // default (top): messages grow downward
+    align-items: flex-end; // default (right): messages hug the right edge
+    width: max-content;
     height: min-content;
     pointer-events: visiblePainted;
+
+    // ── Vertical axis ────────────────────────────────────────────────────────
+    // Bottom-anchored: reverse so newest messages push upward toward the anchor.
+    // Add margin-bottom so messages don't touch the screen edge.
+    &.pos-bottom {
+        flex-direction: column-reverse;
+        margin-block-end: var(--info-message-offset-block);
+    }
+
+    &.pos-top {
+        margin-block-start: var(--info-message-offset-block);
+    }
+
+    &.pos-center-v {
+        flex-direction: column;
+    }
+
+    // ── Horizontal axis ──────────────────────────────────────────────────────
+    &.pos-left {
+        align-items: flex-start;
+        margin-inline-start: var(--info-message-offset-inline);
+    }
+
+    &.pos-center-h {
+        align-items: center;
+    }
+
+    &.pos-right {
+        align-items: flex-end;
+        margin-inline-end: var(--info-message-offset-inline);
+    }
 }

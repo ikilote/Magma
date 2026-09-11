@@ -1,3 +1,21 @@
+// ── Individual message ────────────────────────────────────────────────────────
+// Placement classes (pos-top/bottom/left/right + pos-edge-*) control
+// border-radius and dismiss animation direction.
+//
+// Border-radius logic:
+//   The corner touching the screen edge is set to 0 (no gap → no radius).
+//   All other corners stay at 4px.
+//
+//   Horizontal sides (apply to all messages in the stack):
+//     pos-right + pos-edge-right → right side flat, left rounded (all messages)
+//     pos-left  + pos-edge-left  → left side flat, right rounded (all messages)
+//
+//   Vertical sides (apply only to :first-child — the message touching the edge):
+//     pos-bottom + pos-edge-bottom + :first-child → bottom flat, top rounded
+//     pos-top    + pos-edge-top    + :first-child → top flat, bottom rounded
+//
+//   Not flush (no pos-edge-*) → fully rounded on all sides.
+
 :host {
     display: block;
     position: relative;
@@ -6,22 +24,68 @@
     box-sizing: border-box;
     margin-bottom: 2px;
     box-shadow: 0 0 10px var(--floating-message-box-shadow-color);
-    border: 1px solid var(--floating-message-border-color);
-    border-inline-end: 0;
-    border-start-start-radius: 4px;
-    border-start-end-radius: 0;
-    border-end-start-radius: 4px;
-    border-end-end-radius: 0;
+    border: var(--floating-message-border-width) solid var(--floating-message-border-color);
+    border-radius: 4px; // base: fully rounded
     background: var(--floating-message-background);
     padding: 10px;
     width: max-content;
     min-width: 100px;
 
+    // ── Horizontal edge ───────────────────────────────────────────────────────
+
+    // Flush against the right edge: remove right border + flatten right corners.
+    &.pos-right.pos-edge-right {
+        margin-inline-end: calc(-1 * var(--floating-message-border-width));
+        border-inline-end: 0;
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+    }
+
+    // Flush against the left edge: remove left border + flatten left corners.
+    &.pos-left.pos-edge-left {
+        margin-inline-start: calc(-1 * var(--floating-message-border-width));
+        border-inline-start: 0;
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+    }
+
+    // ── Vertical edge ─────────────────────────────────────────────────────────
+    // Only the first child touches the screen edge — flatten its corners there.
+
+    // Flush against the bottom edge: only the bottom-most message (first-child in column-reverse).
+    &.pos-bottom.pos-edge-bottom:first-child {
+        margin-block-end: calc(-1 * var(--floating-message-border-width));
+        border-block-end: 0;
+        border-end-start-radius: 0;
+        border-end-end-radius: 0;
+    }
+
+    // Flush against the top edge: only the top-most message (first-child in column).
+    &.pos-top.pos-edge-top:first-child {
+        margin-block-start: calc(-1 * var(--floating-message-border-width));
+        border-block-start: 0;
+        border-start-start-radius: 0;
+        border-start-end-radius: 0;
+    }
+
+    // ── Corner corrections (two edges meet) ───────────────────────────────────
+    // When both a horizontal and a vertical edge are flush, the corner at their
+    // intersection was already flattened by both rules above — no extra rule needed.
+    // The opposite corner keeps its 4px radius from the base rule.
+
+    // ── Close animation ───────────────────────────────────────────────────────
+    // Default / top-anchored: slide upward on dismiss.
     &.close {
         animation: 0.7s linear both moveTop;
         overflow: hidden;
     }
 
+    // Bottom-anchored: slide downward toward the edge.
+    &.pos-bottom.close {
+        animation-name: moveBottom;
+    }
+
+    // ── Type themes ───────────────────────────────────────────────────────────
     &.error {
         --floating-message-border-color: var(--error-message-border-color);
         --floating-message-background: var(--error-message-background);
@@ -48,21 +112,25 @@
     }
 }
 
+// ── Message content ───────────────────────────────────────────────────────────
 .message {
     box-sizing: border-box;
     max-width: var(--info-message-max-width);
     white-space: pre-wrap;
 }
 
+// ── Progress bar ──────────────────────────────────────────────────────────────
 .progress {
     position: absolute;
     right: 0;
     bottom: 0;
-    animation: var(--info-message-progress-time, 3s) linear slidein;
+    animation: var(--info-message-progress-time, var(--info-message-progress-time-default)) linear slidein;
     background: var(--floating-message-progress-background);
     width: 100%;
     height: 5px;
 }
+
+// ── Keyframes ─────────────────────────────────────────────────────────────────
 
 @keyframes slidein {
     from {
@@ -73,6 +141,7 @@
     }
 }
 
+// Dismiss: slide toward the top anchor (or away from bottom).
 @keyframes moveTop {
     from {
         top: 0px;
@@ -87,6 +156,27 @@
     }
     to {
         top: calc(var(--current-pos) * -1 - 62px);
+        opacity: 0;
+        padding: 0 10px;
+        max-height: 0;
+    }
+}
+
+// Dismiss: slide toward the bottom anchor edge.
+@keyframes moveBottom {
+    from {
+        top: 0px;
+        opacity: 1;
+        padding: 5px 10px;
+        max-height: var(--current-height);
+    }
+    75% {
+        top: calc(var(--current-pos) + 62px);
+        padding: 5px 10px;
+        max-height: var(--current-height);
+    }
+    to {
+        top: calc(var(--current-pos) + 62px);
         opacity: 0;
         padding: 0 10px;
         max-height: 0;

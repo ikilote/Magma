@@ -3,12 +3,16 @@ import { ChangeDetectorRef, Component, OnInit, inject, input } from '@angular/co
 import { MagmaInfoMessageComponent } from './info-message.component';
 
 import { MagmaMessageInfo, MagmaMessages } from '../../services/messages';
+import { MagmaOverlayPosition, overlayPositionClasses } from '../../utils/position';
 
 @Component({
     selector: 'mg-info-messages',
     templateUrl: './info-messages.component.html',
     styleUrl: './info-messages.component.scss',
     imports: [MagmaInfoMessageComponent],
+    host: {
+        '[class]': 'placementClasses()',
+    },
 })
 export class MagmaInfoMessagesComponent implements OnInit {
     // inject
@@ -24,6 +28,13 @@ export class MagmaInfoMessagesComponent implements OnInit {
      */
     readonly zoneIds = input<Set<string>>(new Set(['default']));
 
+    /**
+     * Screen position of the overlay bucket this component lives in.
+     * Injected by `MagmaMessages.ensureBucket()`.
+     * Used to derive CSS placement classes so styles adapt to each corner/edge.
+     */
+    readonly position = input<MagmaOverlayPosition>({ bottom: '10px', right: '10px' });
+
     // template
 
     ngOnInit(): void {
@@ -34,6 +45,11 @@ export class MagmaInfoMessagesComponent implements OnInit {
 
     protected visibleMessages(): MagmaMessageInfo[] {
         return this.messages.messagesForZones(this.zoneIds());
+    }
+
+    /** CSS classes derived from the zone position, applied to :host and passed to children. */
+    protected placementClasses(): string[] {
+        return overlayPositionClasses(this.position());
     }
 
     destruct(message: MagmaMessageInfo) {

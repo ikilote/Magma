@@ -5,6 +5,7 @@ import type { Mocked } from 'vitest';
 
 import { MagmaVisionTheme } from './vision-theme.component';
 
+import { MagmaPointerModeService } from '../../services/pointer-mode.service';
 import { VISION_THEMES, VisionTheme, VisionThemeType } from '../../services/vision-theme';
 
 describe('MagmaVisionTheme', () => {
@@ -72,7 +73,13 @@ describe('MagmaVisionTheme', () => {
     });
 
     afterEach(() => {
+        // Close dropdown before destroying to detach the CDK overlay properly.
+        component?.close();
+        fixture?.detectChanges();
         fixture?.destroy();
+        // Remove any leftover CDK overlay containers from the DOM to avoid
+        // polluting subsequent test suites (input-radio, menubar, etc.).
+        document.querySelectorAll('.cdk-overlay-container').forEach(el => el.remove());
         TestBed.resetTestingModule();
     });
 
@@ -99,6 +106,18 @@ describe('MagmaVisionTheme', () => {
 
     it('should create', () => {
         expect(component).toBeTruthy();
+    });
+
+    it('should open the dropdown when the trigger button is clicked', () => {
+        const spy = vi.spyOn(component, 'open');
+        const button = fixture.nativeElement.querySelector('button[aria-haspopup="listbox"]') as HTMLButtonElement;
+
+        button.click();
+        fixture.detectChanges();
+
+        expect(spy).toHaveBeenCalled();
+        expect(component['isOpen']()).toBe(true);
+        expect(button.getAttribute('aria-expanded')).toBe('true');
     });
 
     it('should display current label as Default', () => {
@@ -445,6 +464,74 @@ describe('MagmaVisionTheme', () => {
             fixture.detectChanges();
             const label = fixture.nativeElement.querySelector('.label');
             expect(label.textContent.trim()).toBe('Défaut');
+        });
+    });
+
+    // ── close() keyboard focus ──────────────────────────────────────────────
+
+    describe('close()', () => {
+        it('should set isOpen to false', () => {
+            component.open();
+            expect(component['isOpen']()).toBe(true);
+            component.close();
+            expect(component['isOpen']()).toBe(false);
+        });
+
+        it('should refocus the trigger button when in keyboard mode', async () => {
+            const pointerMode = TestBed.inject(MagmaPointerModeService);
+            vi.spyOn(pointerMode, 'isKeyboard').mockReturnValue(true);
+
+            const button = fixture.nativeElement.querySelector('button[aria-haspopup="listbox"]') as HTMLButtonElement;
+            const focusSpy = vi.spyOn(button, 'focus');
+
+            component.open();
+            component.close();
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+
+            expect(focusSpy).toHaveBeenCalled();
+        });
+
+        it('should not refocus the button when in pointer mode', async () => {
+            const pointerMode = TestBed.inject(MagmaPointerModeService);
+            vi.spyOn(pointerMode, 'isKeyboard').mockReturnValue(false);
+
+            const button = fixture.nativeElement.querySelector('button[aria-haspopup="listbox"]') as HTMLButtonElement;
+            const focusSpy = vi.spyOn(button, 'focus');
+
+            component.open();
+            component.close();
+
+            await new Promise(resolve => setTimeout(resolve, 0));
+
+            expect(focusSpy).not.toHaveBeenCalled();
+        });
+    });
+
+    // ── closeAndRedispatch() ────────────────────────────────────────────────
+
+    describe('closeAndRedispatch()', () => {
+        it('should close the dropdown', () => {
+            component.open();
+            const fakeEvent = new MouseEvent('click', { clientX: 50, clientY: 75, button: 0 });
+            component.closeAndRedispatch(fakeEvent);
+            expect(component['isOpen']()).toBe(false);
+        });
+    });
+
+    // ── currentLabel() edge cases ───────────────────────────────────────────
+
+    describe('currentLabel() edge cases', () => {
+        it('should return the key itself when no matching theme info is found (single mode)', () => {
+            currentTheme = 'unknown-key' as any;
+            expect(component.currentLabel()).toBe('unknown-key');
+        });
+
+        it('should use key as fallback label in multiple mode when theme info is missing', () => {
+            fixture.componentRef.setInput('multiple', true);
+            activeList = ['unknown-key' as any];
+            fixture.detectChanges();
+            expect(component.currentLabel()).toContain('unknown-key');
         });
     });
 });

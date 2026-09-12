@@ -22,7 +22,7 @@
   <label class="tag-input" [attr.data-value]="inputValue()">
     <input
       #input
-      [attr.list]="proposals().length ? 'mg-tag-proposals-' + resolvedTags().length : null"
+      [attr.list]="proposals()?.length ? 'mg-tag-proposals-' + resolvedTags().length : null"
       [placeholder]="placeholder()"
       (keyup.enter)="onEnter()"
       (blur)="onBlur()"
@@ -32,7 +32,7 @@
     />
   </label>
 
-  @if (proposals().length) {
+  @if (proposals()?.length) {
     <datalist [id]="'mg-tag-proposals-' + resolvedTags().length">
       @for (proposal of proposals(); track proposal) {
         <option [value]="proposal"></option>

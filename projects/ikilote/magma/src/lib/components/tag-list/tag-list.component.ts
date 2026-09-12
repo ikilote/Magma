@@ -16,6 +16,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MagmaTag } from './tag.component';
 
 import { MagmaClickEnterDirective } from '../../directives/click-enter.directive';
+import { arrayAttribute } from '../../utils/coercion';
 
 export interface MagmaTagItem {
     value: string;
@@ -50,7 +51,7 @@ export class MagmaTagList implements ControlValueAccessor {
     readonly tags = input<(string | MagmaTagItem)[]>();
 
     /** Autocomplete proposals for the inline input */
-    readonly proposals = input<string[]>([]);
+    readonly proposals = input([], { transform: arrayAttribute<string> });
 
     /** When true, hides remove buttons and input */
     readonly readOnly = input(false, { transform: booleanAttribute });

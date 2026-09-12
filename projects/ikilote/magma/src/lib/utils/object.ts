@@ -1,3 +1,15 @@
+/**
+ * Performs a deep equality check between two objects.
+ *
+ * Arrays are compared by sorting their string representations before element-by-element comparison.
+ * Nested plain objects are compared recursively. Keys listed in `ignoreKeys` and properties
+ * with an `undefined` value are excluded from the comparison.
+ *
+ * @param objA       First object to compare.
+ * @param objB       Second object to compare.
+ * @param ignoreKeys List of property keys to exclude from the comparison.
+ * @returns `true` if both objects are considered equal, `false` otherwise.
+ */
 export function objectsAreSame(objA?: object, objB?: object, ignoreKeys: string[] = []): boolean {
     if (objA === objB) {
         return true;
@@ -49,6 +61,18 @@ export function objectsAreSame(objA?: object, objB?: object, ignoreKeys: string[
     return areTheSame;
 }
 
+/**
+ * Reads a nested property value from an object using a dot-separated path string
+ * or an array of keys/indices.
+ *
+ * @example
+ * objectNestedValue({ a: { b: 42 } }, 'a.b') // → 42
+ * objectNestedValue({ a: [1, 2] }, ['a', 1])  // → 2
+ *
+ * @param object Source object.
+ * @param path   Dot-separated string path or array of key segments.
+ * @returns The value at the given path, or `undefined` if any segment is missing.
+ */
 export function objectNestedValue<T = unknown>(object: unknown, path: (string | number)[] | string): T | undefined {
     if (typeof path === 'string') {
         path = path !== '' ? path.split('.') : [];
@@ -61,6 +85,17 @@ export function objectNestedValue<T = unknown>(object: unknown, path: (string | 
     }, object) as T | undefined;
 }
 
+/**
+ * Recursively merges one or more source objects into `target`, performing a deep
+ * assignment rather than a shallow `Object.assign`.
+ *
+ * Plain objects at matching keys are merged recursively; all other value types
+ * (primitives, arrays, class instances) are replaced by the source value.
+ *
+ * @param target  The object to mutate and return.
+ * @param sources One or more source objects whose properties are merged into `target`.
+ * @returns The mutated `target` object.
+ */
 export function objectAssignNested<T extends object>(target: T, ...sources: object[]): T {
     sources.forEach(source => {
         Object.keys(source).forEach(key => {

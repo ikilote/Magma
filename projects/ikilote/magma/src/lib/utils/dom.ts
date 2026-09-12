@@ -1,3 +1,11 @@
+/**
+ * Walks up the DOM tree from `element` to find the nearest ancestor
+ * (or the element itself) that has all the CSS classes listed in `cssClass`.
+ *
+ * @param element   Starting DOM element.
+ * @param cssClass  Space-separated list of CSS classes that the target must have.
+ * @returns The matching element, or `undefined` if none is found.
+ */
 export function getParentElementByClass(element: HTMLElement, cssClass: string): HTMLElement | undefined {
     return containClasses(element, cssClass.trim().split(/\s+/))
         ? element
@@ -6,6 +14,13 @@ export function getParentElementByClass(element: HTMLElement, cssClass: string):
           : undefined;
 }
 
+/**
+ * Returns `true` if the element's `classList` contains **all** of the given CSS classes.
+ *
+ * @param element    Target DOM element.
+ * @param cssClasses Array of CSS class names that must all be present.
+ * @returns `true` when every class is found, `false` otherwise (including when `classList` is absent).
+ */
 export function containClasses(element: HTMLElement | SVGSVGElement, cssClasses: string[]): boolean {
     if (!element.classList) {
         return false;

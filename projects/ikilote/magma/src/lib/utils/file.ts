@@ -1,3 +1,16 @@
+/**
+ * Triggers a file download in the browser.
+ *
+ * Handles three content shapes:
+ * - `Blob` — creates an object URL, triggers the download, then revokes it.
+ * - `string` starting with `data:` — uses the data-URI directly.
+ * - Any other `string` — wraps it in a `Blob` with the optional `contentType`, then downloads it.
+ *
+ * @param content     The file content (Blob, data-URI string, or raw string).
+ * @param fileName    Suggested filename for the download.
+ * @param contentType MIME type used when wrapping a raw string in a `Blob` (e.g. `'text/plain'`).
+ * @returns The temporary `<a>` element that was used to trigger the download.
+ */
 export function downloadFile(content: string | Blob, fileName: string, contentType?: string) {
     const a = document.createElement('a');
     if (content instanceof Blob) {
@@ -19,6 +32,12 @@ export function downloadFile(content: string | Blob, fileName: string, contentTy
     return a;
 }
 
+/**
+ * Converts a `Blob` to a base64-encoded data-URI string using `FileReader`.
+ *
+ * @param blob Source blob.
+ * @returns A promise that resolves with the data-URI string, or rejects on read error.
+ */
 export function blobToBase64(blob: Blob): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -28,6 +47,16 @@ export function blobToBase64(blob: Blob): Promise<string> {
     });
 }
 
+/**
+ * Fetches a remote image by URL and returns it as a base64-encoded data-URI.
+ *
+ * The request is made with CORS headers. The `application/octet-stream` MIME type
+ * returned by some servers is normalised to `image/webp` in the data-URI.
+ *
+ * @param url Absolute URL of the image to fetch.
+ * @returns A promise that resolves with the base64 data-URI (`string`) or an `ArrayBuffer`,
+ *          or rejects with an error describing the failure (CORS, HTTP status, FileReader).
+ */
 export async function ulrToBase64(url: string): Promise<string | ArrayBuffer> {
     const response = await fetch(url, {
         method: 'GET',

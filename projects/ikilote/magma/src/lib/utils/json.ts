@@ -1,9 +1,22 @@
 import Bowser from 'bowser';
 
+/**
+ * Deep-clones a JSON-serialisable value using `JSON.parse(JSON.stringify(...))`.
+ *
+ * @param o Value to clone. Must be serialisable to JSON (no functions, `undefined`, or circular refs).
+ * @returns A deep copy of `o`.
+ */
 export function jsonCopy<T>(o: T): T {
     return JSON.parse(JSON.stringify(o));
 }
 
+/**
+ * Error thrown when `jsonParse` encounters an invalid JSON string.
+ *
+ * The `cause` property contains a formatted excerpt of the source string
+ * with a caret (`^`) pointing to the position of the syntax error,
+ * making it easier to pinpoint issues in large JSON payloads.
+ */
 export class ExceptionJsonParse extends Error {
     override cause: string;
     constructor(message: string, cause: string) {

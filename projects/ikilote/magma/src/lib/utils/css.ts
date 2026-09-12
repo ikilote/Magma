@@ -62,11 +62,16 @@ export class Palette {
 
     private static _globalPalette: string[] | undefined;
 
+    /**
+     * Returns the cached global palette, computing it from the DOM on first access.
+     * Call `Palette.globalClear()` to invalidate the cache.
+     */
     static get globalPalette(): string[] | undefined {
         Palette._globalPalette ??= getPaletteList();
         return this._globalPalette;
     }
 
+    /** Invalidates the global palette cache so it is recomputed on next access. */
     static globalClear() {
         Palette._globalPalette = undefined;
     }
@@ -77,11 +82,16 @@ export class Palette {
 
     constructor(private params?: PaletteParams) {}
 
+    /**
+     * Returns the cached palette for this instance, computing it from the DOM on first access.
+     * Call `clear()` to invalidate the cache.
+     */
     get palette(): string[] | undefined {
         this._palette ??= getPaletteList(this.params);
         return this._palette;
     }
 
+    /** Invalidates the instance palette cache so it is recomputed on next access. */
     clear() {
         this._palette = undefined;
     }

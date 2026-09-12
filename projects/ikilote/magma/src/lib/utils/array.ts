@@ -83,6 +83,17 @@ export function sortWithRule<T = unknown>(
     }
 }
 
+/**
+ * Parse a compact rule string into a `MagmaSortRule[]`.
+ *
+ * Format: "attr[:type][:order][,attr[:type][:order]]"
+ *
+ * @example
+ * sortWithRuleFormater('name:string:asc,age:number:desc')
+ *
+ * @param rule compact rule string
+ * @returns array of sort rules
+ */
 function sortWithRuleFormater(rule: string): MagmaSortRule[] {
     const rules: MagmaSortRule[] = [];
     const list = rule.split(',');
@@ -105,6 +116,19 @@ function sortWithRuleFormater(rule: string): MagmaSortRule[] {
     return rules;
 }
 
+/**
+ * Flatten and split a potentially nested string array into a flat `string[]`.
+ *
+ * Handles three input shapes:
+ * - A plain `string` — split by `pattern`.
+ * - A (possibly nested) array of strings — flattened then each item split by `pattern`.
+ * - `null` / `undefined` — returns `[]`.
+ *
+ * @param values  Source value (string, nested array, or nullish).
+ * @param pattern Separator pattern used to split individual strings (default: comma with optional spaces).
+ * @param flat    Maximum recursion depth for Array.flat (default: 20).
+ * @returns Flat array of non-empty strings.
+ */
 export function flattenedListItems(
     values: MagmaStringArray | null | undefined,
     pattern = /\s*,\s*/,

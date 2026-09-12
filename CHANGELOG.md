@@ -1,5 +1,17 @@
 # Changelog of @ikilote/magma
 
+## 2.1.2 (2026-09-12)
+
+### ✅ New
+
+- **PointerMode**: expose the service in public-api
+
+### 🎦 Demo
+
+- add pages for:
+    - **Logger** (service)
+    - **PointerMode** (service)
+
 ## 2.2.0 (2026-09-11)
 
 ### 🫢 Breaking

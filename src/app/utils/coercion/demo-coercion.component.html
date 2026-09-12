@@ -1,7 +1,27 @@
 <h1>Coercion</h1>
 
-<h2>numberAttributeOrUndefined</h2>
+<p>
+  Transform functions for signal inputs, following the same pattern as Angular's built-in
+  <code>booleanAttribute</code> and <code>numberAttribute</code>.
+</p>
 
-<div>
-  <div class="s-12"><code-tabs [code]="[{ type: 'ts', code: codeTs }]" /></div>
+<h2><code>numberAttributeOrUndefined</code></h2>
+
+<p>
+  Converts a value to a <code>number</code>, or returns <code>undefined</code> if the value is empty or non-numeric.
+</p>
+
+<div class="s-12">
+  <code-tabs [code]="[{ type: 'ts', code: codeTsNumberAttribute }]" />
+</div>
+
+<h2><code>arrayAttribute</code></h2>
+
+<p>
+  Coerces <code>null</code> and <code>undefined</code> to an empty array <code>[]</code>, ensuring the signal always
+  holds a valid array even when the parent passes no binding or an explicit <code>undefined</code>.
+</p>
+
+<div class="s-12">
+  <code-tabs [code]="[{ type: 'ts', code: codeTsArrayAttribute }]" />
 </div>

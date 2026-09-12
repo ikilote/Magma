@@ -10,11 +10,19 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoCoercionComponent {
-    codeTs = `import { numberAttributeOrUndefined } from '@ikilote/magma';
+    readonly codeTsNumberAttribute = `import { numberAttributeOrUndefined } from '@ikilote/magma';
 
 @Component({ ... })
-export class TestComponent {
-    // number or undefined if input is empty
+export class MyComponent {
+    // number or undefined if input is empty / non-numeric
     readonly maxlength = input(undefined, { transform: numberAttributeOrUndefined });
+}`;
+
+    readonly codeTsArrayAttribute = `import { arrayAttribute } from '@ikilote/magma';
+
+@Component({ ... })
+export class MyComponent {
+    // always a string[], never null or undefined
+    readonly items = input([], { transform: arrayAttribute<string> });
 }`;
 }

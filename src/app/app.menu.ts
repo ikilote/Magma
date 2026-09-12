@@ -334,6 +334,7 @@ export const menu: Menu = [
             {
                 routerLink: '/utils/coercion',
                 label: 'Coercion',
+                status: 'update',
                 keys: ['type conversion', 'convert', 'cast'],
             },
             {

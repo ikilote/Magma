@@ -1,6 +1,21 @@
 # Changelog of @ikilote/magma
 
-## 2.1.2 (2026-09-12)
+## 2.2.2 (2026-09-12)
+
+### 🐞 Fix
+
+- **tag-list**: fix proposal list with `arrayAttribute`
+
+### ✅ New
+
+- **Utils**: add `arrayAttribute`
+
+### 🎦 Demo
+
+- update page for:
+    - **Coercion** (utils)
+
+## 2.2.1 (2026-09-12)
 
 ### ✅ New
 

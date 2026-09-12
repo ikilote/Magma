@@ -8,8 +8,30 @@
 <h2><code>numberAttributeOrUndefined</code></h2>
 
 <p>
-  Converts a value to a <code>number</code>, or returns <code>undefined</code> if the value is empty or non-numeric.
+  Converts a value to a <code>number</code>, or returns <code>undefined</code> if the value is empty, non-numeric,
+  <code>NaN</code>, or <code>Infinity</code>.
 </p>
+
+<table mg>
+  <thead mg>
+    <tr mg>
+      <th mg>Input</th>
+      <th mg>Result</th>
+    </tr>
+  </thead>
+  <tbody mg>
+    @for (ex of numberExamples; track ex.input) {
+      <tr mg>
+        <td mg>
+          <code>{{ ex.input }}</code>
+        </td>
+        <td mg>
+          <code>{{ ex.result }}</code>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
 
 <div class="s-12">
   <code-tabs [code]="[{ type: 'ts', code: codeTsNumberAttribute }]" />
@@ -21,6 +43,27 @@
   Coerces <code>null</code> and <code>undefined</code> to an empty array <code>[]</code>, ensuring the signal always
   holds a valid array even when the parent passes no binding or an explicit <code>undefined</code>.
 </p>
+
+<table mg>
+  <thead mg>
+    <tr mg>
+      <th mg>Input</th>
+      <th mg>Result</th>
+    </tr>
+  </thead>
+  <tbody mg>
+    @for (ex of arrayExamples; track ex.input) {
+      <tr mg>
+        <td mg>
+          <code>{{ ex.input }}</code>
+        </td>
+        <td mg>
+          <code>{{ ex.result }}</code>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
 
 <div class="s-12">
   <code-tabs [code]="[{ type: 'ts', code: codeTsArrayAttribute }]" />

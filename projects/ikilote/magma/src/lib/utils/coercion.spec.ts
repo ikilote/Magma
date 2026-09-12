@@ -1,4 +1,4 @@
-import { numberAttributeOrUndefined } from './coercion';
+import { arrayAttribute, numberAttributeOrUndefined } from './coercion';
 
 describe('numberAttributeOrUndefined', () => {
     // Test cases for valid numbers (as strings or numbers)
@@ -42,5 +42,30 @@ describe('numberAttributeOrUndefined', () => {
         expect(numberAttributeOrUndefined(NaN)).toBeUndefined();
         expect(numberAttributeOrUndefined(Infinity)).toBeUndefined();
         expect(numberAttributeOrUndefined(-Infinity)).toBeUndefined();
+    });
+});
+
+describe('arrayAttribute', () => {
+    it('should return the same array reference when given a valid array', () => {
+        const arr = ['a', 'b', 'c'];
+        expect(arrayAttribute(arr)).toBe(arr);
+    });
+
+    it('should return an empty array when given an empty array', () => {
+        expect(arrayAttribute([])).toEqual([]);
+    });
+
+    it('should return an empty array when given null', () => {
+        expect(arrayAttribute(null)).toEqual([]);
+    });
+
+    it('should return an empty array when given undefined', () => {
+        expect(arrayAttribute(undefined)).toEqual([]);
+    });
+
+    it('should return an empty array when given a non-array value at runtime', () => {
+        expect(arrayAttribute('foo' as unknown as string[])).toEqual([]);
+        expect(arrayAttribute(42 as unknown as number[])).toEqual([]);
+        expect(arrayAttribute({} as unknown as object[])).toEqual([]);
     });
 });

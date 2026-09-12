@@ -106,6 +106,7 @@ export * from './lib/services/form-builder-extended';
 export * from './lib/services/light-dark';
 export * from './lib/services/logger';
 export * from './lib/services/messages';
+export * from './lib/services/pointer-mode.service';
 export * from './lib/services/vision-theme';
 export * from './lib/services/windows';
 

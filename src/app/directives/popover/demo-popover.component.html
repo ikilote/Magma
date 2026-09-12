@@ -8,21 +8,36 @@
         <h2 class="s-12">Options</h2>
         <mg-input class="s-6">
           <mg-input-label>Position</mg-input-label>
-          <mg-input-select [(ngModel)]="position" [ngModelOptions]="{ standalone: true }" [data]="positionData" />
+          <mg-input-select
+            [(ngModel)]="position"
+            [ngModelOptions]="{ standalone: true }"
+            [data]="positionData"
+            (ngModelChange)="codeGeneration()"
+          />
         </mg-input>
         <mg-input class="s-6"
           >>
           <mg-input-label>Trigger</mg-input-label>
-          <mg-input-select [(ngModel)]="trigger" [ngModelOptions]="{ standalone: true }" [data]="triggerData" />
+          <mg-input-select
+            [(ngModel)]="trigger"
+            [ngModelOptions]="{ standalone: true }"
+            [data]="triggerData"
+            (ngModelChange)="codeGeneration()"
+          />
         </mg-input>
         <mg-input class="s-12">
-          <mg-input-checkbox mode="toggle" [(ngModel)]="disabled" [ngModelOptions]="{ standalone: true }">
+          <mg-input-checkbox
+            mode="toggle"
+            [(ngModel)]="disabled"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="codeGeneration()"
+          >
             Disabled
           </mg-input-checkbox>
         </mg-input>
       </form>
 
-      <div class="s-4 s-4-l s-12-s demo-area">
+      <div class="s-4 s-4-l s-12-s">
         <h2>Render</h2>
         <button
           [mgPopover]="popTpl"

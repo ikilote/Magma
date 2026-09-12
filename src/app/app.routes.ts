@@ -368,6 +368,17 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./services/messages/demo-info-messages.component').then(m => m.DemoInfoMessageComponent),
             },
+            {
+                path: 'logger',
+                pathMatch: 'full',
+                loadComponent: () => import('./services/logger/demo-logger.component').then(m => m.DemoLoggerComponent),
+            },
+            {
+                path: 'pointer-mode',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./services/pointer-mode/demo-pointer-mode.component').then(m => m.DemoPointerModeComponent),
+            },
         ],
     },
     {

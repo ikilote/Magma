@@ -1,0 +1,152 @@
+<h1>Logger</h1>
+
+<p>See the console <kbd>F12</kbd> for output</p>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <div class="s-3 s-6-m s-12-s">
+        <mg-input class="s-12">
+          <mg-input-label>Message</mg-input-label>
+          <mg-input-text [(ngModel)]="message" />
+        </mg-input>
+        <mg-input class="s-12">
+          <mg-input-label>Level</mg-input-label>
+          <mg-input-select [(ngModel)]="level" [data]="levelData" displaySearchStatus="hidden" />
+        </mg-input>
+        <button class="primary" (click)="send()">logger.log()</button>
+      </div>
+
+      <div class="s-3 s-6-m s-12-s">
+        <mg-input class="s-12">
+          <mg-input-label>Min level filter</mg-input-label>
+          <mg-input-select [(ngModel)]="currentMinLevel" [data]="minLevelData" displaySearchStatus="hidden" />
+          <mg-input-desc>Messages below this level are suppressed.</mg-input-desc>
+        </mg-input>
+        <mg-input class="s-12">
+          <mg-input-label>Suffix</mg-input-label>
+          <mg-input-text [(ngModel)]="currentSuffix" />
+          <mg-input-desc>Prepended to every message.</mg-input-desc>
+        </mg-input>
+      </div>
+
+      <div class="s-6 s-12-s">
+        <code-tabs [code]="[{ type: 'ts', code: codeTs }]" />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Service — <code>Logger</code></h4>
+      <p>
+        Thin injectable wrapper around the browser console. Adds a static minimum log level filter
+        (<code>Logger.minLogLevel</code>) and an optional prefix (<code>Logger.suffix</code>) applied to every message.
+      </p>
+
+      <h4>Static properties</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Property</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>Logger.minLogLevel</code></td>
+            <td mg><code>keyof typeof LoggerLevel</code></td>
+            <td mg><code>'info'</code></td>
+            <td mg>Messages whose level is strictly below this value are silently dropped.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>Logger.suffix</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>String prepended to every logged message.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Methods</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Method</th>
+            <th mg>Signature</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>log</code></td>
+            <td mg><code>(value: string, level?: LoggerLevel, ...extra: unknown[]) => void</code></td>
+            <td mg>Log with an explicit level. Default level: <code>LoggerLevel.log</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>info</code></td>
+            <td mg><code>(value: string, ...extra: unknown[]) => void</code></td>
+            <td mg>Shorthand for <code>LoggerLevel.info</code> → <code>console.info</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>debug</code></td>
+            <td mg><code>(value: string, ...extra: unknown[]) => void</code></td>
+            <td mg>Shorthand for <code>LoggerLevel.debug</code> → <code>console.debug</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>warn</code></td>
+            <td mg><code>(value: string, ...extra: unknown[]) => void</code></td>
+            <td mg>Shorthand for <code>LoggerLevel.warn</code> → <code>console.warn</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>error</code></td>
+            <td mg><code>(value: string, ...extra: unknown[]) => void</code></td>
+            <td mg>Shorthand for <code>LoggerLevel.error</code> → <code>console.error</code>.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4><code>LoggerLevel</code> enum</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Value</th>
+            <th mg>Numeric</th>
+            <th mg>Console method</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>LoggerLevel.log</code></td>
+            <td mg>0</td>
+            <td mg><code>console.log</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>LoggerLevel.info</code></td>
+            <td mg>1</td>
+            <td mg><code>console.info</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>LoggerLevel.debug</code></td>
+            <td mg>2</td>
+            <td mg><code>console.debug</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>LoggerLevel.warn</code></td>
+            <td mg>3</td>
+            <td mg><code>console.warn</code></td>
+          </tr>
+          <tr mg>
+            <td mg><code>LoggerLevel.error</code></td>
+            <td mg>4</td>
+            <td mg><code>console.error</code></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

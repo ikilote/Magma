@@ -101,7 +101,7 @@ export class DemoHomeComponent {
             name: 'Services',
             description: 'Reusable services for your applications.',
             link: '/service/cache',
-            count: 6,
+            count: 8,
         },
         {
             name: 'Utils',

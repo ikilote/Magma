@@ -299,6 +299,17 @@ export const menu: Menu = [
                 keys: ['notifications', 'alerts', 'info', 'messages'],
             },
             {
+                routerLink: '/service/logger',
+                label: 'Logger',
+                keys: ['log', 'console', 'debug', 'logger', 'logging'],
+            },
+            {
+                routerLink: '/service/pointer-mode',
+                label: 'PointerMode',
+                status: 'new',
+                keys: ['pointer', 'keyboard', 'mouse', 'focus', 'pointer mode'],
+            },
+            {
                 routerLink: '/service/vision-theme',
                 label: 'VisionTheme',
                 status: 'experimental',

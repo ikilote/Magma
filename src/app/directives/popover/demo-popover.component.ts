@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import {
     MagmaConnectedPosition,
     MagmaInput,
@@ -38,6 +39,8 @@ export class DemoPopoverComponent {
     trigger: 'click' | 'hover' = 'click';
     disabled = false;
 
+    codeHtml = '';
+
     readonly positionData: Select2Data = [
         'bottom',
         'bottom-start',
@@ -58,33 +61,60 @@ export class DemoPopoverComponent {
         { value: 'hover', label: 'hover' },
     ];
 
-    get codeHtml(): string {
-        return `<button [mgPopover]="popTpl"
-        mgPopoverPosition="${this.position}"
-        mgPopoverTrigger="${this.trigger}"${this.disabled ? '\n        mgPopoverDisabled' : ''}>
-  Open popover
-</button>
-
-<ng-template #popTpl let-ctx>
-  <div class="popover-body">
-    <p>Interactive content</p>
-    <button (click)="ctx.close()">Close</button>
-  </div>
-</ng-template>`;
-    }
-
-    codeTs = `import { MagmaPopoverDirective } from '@ikilote/magma';
+    readonly codeTs = `import { MagmaPopoverDirective } from '@ikilote/magma';
 
 @Component({
     imports: [MagmaPopoverDirective],
 })
 export class MyComponent {}`;
 
-    codeScss = `.popover-body {
+    readonly codeScss = `.popover-body {
   border: var(--block-border);
   border-radius: var(--block-radius);
   background: var(--block-background);
   padding: 16px;
   min-width: 220px;
 }`;
+
+    constructor() {
+        this.codeGeneration();
+    }
+
+    codeGeneration() {
+        const json: Json2htmlRef = {
+            tag: 'button',
+            attrs: {
+                '[mgPopover]': 'popTpl',
+            },
+            body: 'Open popover',
+        };
+        const attrs: Json2htmlAttr = json.attrs!;
+
+        if (this.position !== 'bottom-start') {
+            attrs['mgPopoverPosition'] = this.position;
+        }
+        if (this.trigger !== 'click') {
+            attrs['mgPopoverTrigger'] = this.trigger;
+        }
+        if (this.disabled) {
+            attrs['mgPopoverDisabled'] = null;
+        }
+
+        const template: Json2htmlRef = {
+            tag: 'ng-template',
+            attrs: { '#popTpl': null, 'let-ctx': null },
+            body: [
+                {
+                    tag: 'div',
+                    attrs: { class: 'popover-body' },
+                    body: [
+                        { tag: 'p', body: 'Interactive content' },
+                        { tag: 'button', attrs: { '(click)': 'ctx.close()' }, body: 'Close' },
+                    ],
+                },
+            ],
+        };
+
+        this.codeHtml = new Json2html(json).toString() + '\n\n' + new Json2html(template).toString();
+    }
 }

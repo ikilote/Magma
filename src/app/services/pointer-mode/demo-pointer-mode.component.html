@@ -1,0 +1,63 @@
+<h1>PointerMode</h1>
+
+<mg-tabs>
+  <mg-tab-title id="demo">Demo</mg-tab-title>
+  <mg-tab-content id="demo">
+    <section>
+      <p>
+        Current mode:
+        <strong>{{ pointerMode.isKeyboard() ? 'keyboard ⌨️' : 'pointer 🖱️' }}</strong>
+      </p>
+      <p>
+        Interact with the form below — click a field with the mouse or use <kbd>Tab</kbd> to navigate with the keyboard.
+        The mode updates in real time.
+      </p>
+
+      <div>
+        <mg-input class="s-3">
+          <mg-input-label>Name</mg-input-label>
+          <mg-input-text [(ngModel)]="name" />
+        </mg-input>
+        <mg-input class="s-3">
+          <mg-input-label>Email</mg-input-label>
+          <mg-input-text [(ngModel)]="email" />
+        </mg-input>
+        <button class="s-2" class="primary">Submit</button>
+      </div>
+
+      <code-tabs [code]="[{ type: 'ts', code: codeTs }]" />
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Service — <code>MagmaPointerModeService</code></h4>
+      <p>
+        Root-level service that tracks whether the user is currently navigating by keyboard or by pointer (mouse /
+        touch). Any <code>keydown</code> switches to keyboard mode; the next <code>mousemove</code> switches back to
+        pointer mode. It is shared across the entire application and used internally by components such as
+        <code>mg-menubar</code>.
+      </p>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Member</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>isKeyboard</code></td>
+            <td mg><code>Signal&lt;boolean&gt;</code></td>
+            <td mg>
+              <code>true</code> after any <code>keydown</code> event. Resets to <code>false</code> on the next
+              <code>mousemove</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

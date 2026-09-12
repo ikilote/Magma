@@ -2,22 +2,10 @@ table {
     width: 100%;
 }
 
-.demo-area {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-}
-
 .popover-body {
     border: var(--block-border);
     border-radius: var(--block-radius);
     background: var(--block-background);
     padding: 16px;
     min-width: 220px;
-
-    p {
-        margin: 8px 0;
-        font-size: 0.9em;
-    }
 }

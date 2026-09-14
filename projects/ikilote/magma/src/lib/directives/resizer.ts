@@ -28,6 +28,7 @@ export interface MagmaResizeHostElement {
     widthElementNumber: number;
     heightElementNumber: number;
     elementSize: number; // px
+    nativeElement?: HTMLElement;
 
     select(window: MagmaWindowInfos | MagmaWindow): void;
     remove(window: MagmaWindowInfos | MagmaWindow): void;

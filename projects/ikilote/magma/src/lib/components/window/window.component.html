@@ -14,10 +14,10 @@
     [resizerHost]="resizerHost()"
     [resizerDisabled]="comp?.size?.lock || isFixed()"
     (resizerStart)="mousedown()"
-    [style.width]="width() || comp?.size?.width?.init"
+    [style.width]="resolvedWidth()"
     [style.min-width]="minWidth() || comp?.size?.width?.min"
     [style.max-width]="maxWidth() || comp?.size?.width?.max"
-    [style.height]="height() || comp?.size?.height?.init"
+    [style.height]="resolvedHeight()"
     [style.min-height]="minHeight() || comp?.size?.height?.min"
     [style.max-height]="maxHeight() || comp?.size?.height?.max"
     (ngInit)="winInit()"
@@ -35,16 +35,20 @@
           }
           @if (barButtons() || comp?.bar?.buttons) {
             <div class="window-title-buttons">
-              <button type="button" class="bar-minimize" (click)="minimize()">
-                <span class="icon-under"></span>
-              </button>
-              <button type="button" class="bar-resize" (click)="change()">
-                @if (fullscreen()) {
-                  <span class="icon-windows"></span>
-                } @else {
-                  <span class="icon-fullscreen"></span>
-                }
-              </button>
+              @if (!barButtonHideMinimize() && !comp?.bar?.buttonHideMinimize) {
+                <button type="button" class="bar-minimize" (click)="minimize()">
+                  <span class="icon-under"></span>
+                </button>
+              }
+              @if (!barButtonHideMaximize() && !comp?.bar?.buttonHideMaximize) {
+                <button type="button" class="bar-resize" (click)="change()">
+                  @if (fullscreen()) {
+                    <span class="icon-windows"></span>
+                  } @else {
+                    <span class="icon-fullscreen"></span>
+                  }
+                </button>
+              }
               <button type="button" class="bar-close" (click)="close()"><span class="icon-remove"></span></button>
             </div>
           }

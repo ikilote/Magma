@@ -19,6 +19,10 @@ export class MagmaWindowsContainer implements MagmaResizeHostElement, AfterConte
     widthElementNumber = 0;
     elementSize = 1;
 
+    get nativeElement(): HTMLElement {
+        return this.element.nativeElement;
+    }
+
     ngAfterContentChecked(): void {
         this.heightElementNumber = this.element.nativeElement.offsetHeight;
         this.widthElementNumber = this.element.nativeElement.offsetWidth;

@@ -47,6 +47,14 @@
             <mg-input-label>buttons</mg-input-label>
             <mg-input-checkbox formControlName="barButtons">Active</mg-input-checkbox>
           </mg-input>
+          @if (ctrlFormZone.value.barButtons) {
+            <mg-input class="s-4">
+              <mg-input-checkbox formControlName="barButtonHideMinimize">hide minimize</mg-input-checkbox>
+            </mg-input>
+            <mg-input class="s-4">
+              <mg-input-checkbox formControlName="barButtonHideMaximize">hide maximize</mg-input-checkbox>
+            </mg-input>
+          }
         </p>
         <h4>Window size</h4>
         <p>
@@ -302,6 +310,16 @@
             <td mg><code>barButtons</code></td>
             <td mg><code>boolean</code></td>
             <td mg>Shows minimize / maximize / close buttons in the bar</td>
+          </tr>
+          <tr mg>
+            <td mg><code>bar.buttonHideMinimize</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Hides the minimize button (requires <code>bar.buttons</code>)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>bar.buttonHideMaximize</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg>Hides the maximize / fullscreen button (requires <code>bar.buttons</code>)</td>
           </tr>
           <tr mg>
             <td mg><code>width / minWidth / maxWidth / height / minHeight / maxHeight</code></td>

@@ -52,6 +52,8 @@ export class DemoWindowComponent {
         bar: FormControl<boolean>;
         barTitle: FormControl<string>;
         barButtons: FormControl<boolean>;
+        barButtonHideMinimize: FormControl<boolean>;
+        barButtonHideMaximize: FormControl<boolean>;
         width: FormControl<string>;
         minWidth: FormControl<string>;
         maxWidth: FormControl<string>;
@@ -109,6 +111,8 @@ export class DemoBlockComponent { }`;
             bar: { default: true },
             barTitle: { default: 'Title' },
             barButtons: { default: true },
+            barButtonHideMinimize: { default: false },
+            barButtonHideMaximize: { default: false },
             width: { default: '' },
             minWidth: { default: '' },
             maxWidth: { default: '' },
@@ -187,6 +191,12 @@ export class DemoBlockComponent { }`;
             }
             if (this.ctrlForm.value.barButtons) {
                 attr['barButtons'] = null;
+                if (this.ctrlForm.value.barButtonHideMinimize) {
+                    attr['barButtonHideMinimize'] = null;
+                }
+                if (this.ctrlForm.value.barButtonHideMaximize) {
+                    attr['barButtonHideMaximize'] = null;
+                }
             }
         }
 

@@ -8,7 +8,6 @@ import {
     HostListener,
     OnChanges,
     OnDestroy,
-    OnInit,
     SimpleChanges,
     Type,
     WritableSignal,
@@ -54,6 +53,8 @@ export interface MagmaWindowInitParams {
         active?: boolean;
         title?: MagmaWindowInitParamsTitle;
         buttons?: boolean;
+        buttonHideMinimize?: boolean;
+        buttonHideMaximize?: boolean;
     };
     size?: {
         lock?: boolean;
@@ -87,7 +88,7 @@ let index = 0;
     styleUrl: './window.component.scss',
     host: {
         '[style.--index]': '_index()',
-        '[style.position]': 'fixedEdgeClass() ? "absolute" : null',
+        '[style.position]': '"absolute"',
         '[class.fixed-edge]': '!!fixedEdgeClass()',
         '[class.fixed-top]': 'fixedEdgeClass() === "fixed-top"',
         '[class.fixed-bottom]': 'fixedEdgeClass() === "fixed-bottom"',
@@ -107,7 +108,7 @@ let index = 0;
     },
     imports: [CdkDrag, CdkDragHandle, MagmaLimitFocusDirective, NgComponentOutlet, MagmaResize, MagmaNgInitDirective],
 })
-export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges, OnDestroy {
+export class MagmaWindow extends MagmaResizeElement implements OnChanges, OnDestroy {
     protected readonly elementRef = inject(ElementRef);
 
     protected readonly cdkDrag = viewChildren(CdkDrag);
@@ -125,6 +126,8 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     readonly bar = input(undefined, { transform: booleanAttribute });
     readonly barTitle = input<string>();
     readonly barButtons = input(undefined, { transform: booleanAttribute });
+    readonly barButtonHideMinimize = input(false, { transform: booleanAttribute });
+    readonly barButtonHideMaximize = input(false, { transform: booleanAttribute });
     readonly width = input<string>();
     readonly minWidth = input<string>();
     readonly maxWidth = input<string>();
@@ -147,6 +150,17 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     protected readonly center = signal(false);
     protected readonly fullscreen = signal(false);
     protected readonly isMinimized = signal(false);
+
+    /** Dimensions appliquées en fullscreen (null = utiliser les inputs) */
+    protected readonly fullscreenWidth = signal<string | null>(null);
+    protected readonly fullscreenHeight = signal<string | null>(null);
+
+    protected readonly resolvedWidth = computed(
+        () => this.fullscreenWidth() ?? this.width() ?? this.component()?.size?.width?.init ?? null,
+    );
+    protected readonly resolvedHeight = computed(
+        () => this.fullscreenHeight() ?? this.height() ?? this.component()?.size?.height?.init ?? null,
+    );
 
     /** Whether drag should be disabled (fixed is truthy) */
     protected readonly isFixed = computed(() => !!this.fixed() || !!this.component()?.fixed);
@@ -184,11 +198,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
     }
 
     ngOnInit(): void {
-        if (!this.isEdgeFixed()) {
-            const { x, y } = this.currentPosition();
-            this.initPosition = { x, y };
-            this.updatePosition();
-        }
+        // initPosition is computed in winInit() once the DOM and resizerHost are ready
     }
 
     titleComponent(
@@ -290,9 +300,25 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         } else if (this.isEdgeFixed()) {
             // Edge-fixed: positioning is handled entirely by CSS, no drag positioning needed
         } else {
-            // First render: compute and apply initial position
+            // First render: recompute initPosition now that the zone is available,
+            // then apply the requested position. CDK setFreeDragPosition is in viewport
+            // coordinates relative to the element's natural DOM position, so we must
+            // offset by (zoneRect - elemRect) to land at 0,0 of the container.
             setTimeout(() => {
-                this.updatePosition();
+                const { x, y } = this.currentPosition();
+                this.initPosition = { x, y };
+
+                if (this.fullscreen()) {
+                    // Already fullscreen on first render: apply dimensions and position now
+                    const zone = this.getZone();
+                    const w = (zone?.offsetWidth ?? window.innerWidth) + 'px';
+                    const h = (zone?.offsetHeight ?? window.innerHeight) + 'px';
+                    this.fullscreenWidth.set(w);
+                    this.fullscreenHeight.set(h);
+                    this.cdkDrag()?.[0]?.setFreeDragPosition({ x, y });
+                } else {
+                    this.updatePosition();
+                }
             });
         }
     }
@@ -311,13 +337,20 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
      */
     getDragBoundary(): string {
         const selector = this.zoneSelector() || this.component()?.zoneSelector;
-        if (!selector) return 'body';
-
-        const zone = document.querySelector(selector);
-        if (zone && zone.contains(this.elementRef.nativeElement)) {
-            return selector;
+        if (selector) {
+            const zone = document.querySelector(selector);
+            if (zone && zone.contains(this.elementRef.nativeElement)) {
+                return selector;
+            }
+            // Zone exists but is not an ancestor (overlay mode) — use body as boundary
+            return 'body';
         }
-        // Zone exists but is not an ancestor (overlay mode) — use body as boundary
+        // No selector: if we have a resizerHost with a nativeElement that contains us, use it as boundary
+        const hostEl = this.resizerHost()?.nativeElement;
+        if (hostEl && hostEl.contains(this.elementRef.nativeElement)) {
+            // Return a unique selector for this element — use the mg-windows-container tag
+            return 'mg-windows-container';
+        }
         return 'body';
     }
 
@@ -355,13 +388,20 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
             this.cdkDrag()[0].setFreeDragPosition({ x, y });
 
             const zone = this.getZone();
-            element.style.width = (zone?.offsetWidth ?? window.innerWidth) + 'px';
-            element.style.height = (zone?.offsetHeight ?? window.innerHeight) + 'px';
+            const w = (zone?.offsetWidth ?? window.innerWidth) + 'px';
+            const h = (zone?.offsetHeight ?? window.innerHeight) + 'px';
+            this.fullscreenWidth.set(w);
+            this.fullscreenHeight.set(h);
         } else {
             this.restored.emit();
             this.cdkDrag()[0].setFreeDragPosition({ x: this.x[0], y: this.y[0] });
-            element.style.width = this.x[1] + 'px';
-            element.style.height = this.y[1] + 'px';
+            this.fullscreenWidth.set(null);
+            this.fullscreenHeight.set(null);
+            // Restore explicit pixel sizes saved before fullscreen
+            if (element) {
+                element.style.width = this.x[1] + 'px';
+                element.style.height = this.y[1] + 'px';
+            }
         }
     }
 
@@ -379,10 +419,14 @@ export class MagmaWindow extends MagmaResizeElement implements OnInit, OnChanges
         }
     }
 
-    private getZone() {
+    private getZone(): HTMLElement | null {
         const component = this.component();
         const zoneSelector = this.zoneSelector() || component?.zoneSelector;
-        return zoneSelector ? document.querySelector<HTMLElement>(zoneSelector) : null;
+        if (zoneSelector) {
+            return document.querySelector<HTMLElement>(zoneSelector);
+        }
+        // Fallback: use the host container element if available (declarative mg-windows-container usage)
+        return this.resizerHost()?.nativeElement ?? null;
     }
 
     override update(resize: ResizeDirection, data: [number, number]): void {

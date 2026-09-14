@@ -91,6 +91,8 @@ export class DemoWindowsComponent {
         barType: FormControl<'string' | 'component'>;
         barTitle: FormControl<string>;
         barButtons: FormControl<boolean>;
+        barButtonHideMinimize: FormControl<boolean>;
+        barButtonHideMaximize: FormControl<boolean>;
         width: FormControl<string>;
         minWidth: FormControl<string>;
         maxWidth: FormControl<string>;
@@ -170,6 +172,8 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
             barType: { default: 'string' as 'string' | 'component' },
             barTitle: { default: 'Title' },
             barButtons: { default: true },
+            barButtonHideMinimize: { default: false },
+            barButtonHideMaximize: { default: false },
             width: { default: '' },
             minWidth: { default: '' },
             maxWidth: { default: '' },
@@ -203,6 +207,8 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                         ? { component: TestTilleComponent }
                         : this.ctrlFormZone.value.barTitle,
                 buttons: this.ctrlFormZone.value.barButtons,
+                buttonHideMinimize: this.ctrlFormZone.value.barButtonHideMinimize || undefined,
+                buttonHideMaximize: this.ctrlFormZone.value.barButtonHideMaximize || undefined,
             },
             size: {
                 lock: this.ctrlFormZone.value.lock || undefined,
@@ -238,6 +244,8 @@ export class Test2WindowComponent extends AbstractWindowComponent {}`,
                         ? { component: 'TestTilleComponent', inputs: {} }
                         : this.ctrlFormZone.value.barTitle,
                 buttons: this.ctrlFormZone.value.barButtons,
+                buttonHideMinimize: this.ctrlFormZone.value.barButtonHideMinimize || undefined,
+                buttonHideMaximize: this.ctrlFormZone.value.barButtonHideMaximize || undefined,
             },
             size: {
                 lock: this.ctrlFormZone.value.lock || undefined,

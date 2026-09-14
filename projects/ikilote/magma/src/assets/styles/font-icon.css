@@ -32,11 +32,29 @@
 .icon-add:before {
     content: '\e91b';
 }
-.icon-arrow-down:before {
+.icon-admin:before {
+    content: '\e901';
+}
+.icon-arrow-down-2:before {
+    content: '\e944';
+}
+.icon-arrow-left-2:before {
+    content: '\e945';
+}
+.icon-arrow-right-2:before {
+    content: '\e946';
+}
+.icon-arrow-up-2:before {
+    content: '\e947';
+}
+.icon-arrow-down-1FBA6:before {
     content: '\1fba6';
 }
 .icon-background-color:before {
     content: '\e90c';
+}
+.icon-banned:before {
+    content: '\e903';
 }
 .icon-bookmark:before {
     content: '\e915';
@@ -46,6 +64,9 @@
 }
 .icon-clone:before {
     content: '\e919';
+}
+.icon-deleted:before {
+    content: '\e900';
 }
 .icon-down:before {
     content: '\e91e';
@@ -92,17 +113,23 @@
 .icon-minimize-2:before {
     content: '\e92b';
 }
-.icon-mode-columns:before {
-    content: '\e943';
+.icon-minus:before {
+    content: '\e948';
 }
 .icon-mode-axis:before {
     content: '\e923';
 }
-.icon-mode-bingo:before {
+.icon-mode-column:before {
+    content: '\e943';
+}
+.icon-mode-grid:before {
     content: '\e933';
 }
 .icon-mode-iceberg:before {
     content: '\e922';
+}
+.icon-mode-table:before {
+    content: '\e949';
 }
 .icon-mode-teams:before {
     content: '\e925';
@@ -110,11 +137,17 @@
 .icon-mode-tierlist:before {
     content: '\e924';
 }
+.icon-moderator:before {
+    content: '\e902';
+}
 .icon-moon:before {
     content: '\e90d';
 }
 .icon-not-verified:before {
     content: '\e907';
+}
+.icon-over:before {
+    content: '\e94a';
 }
 .icon-params:before {
     content: '\e92e';
@@ -170,8 +203,17 @@
 .icon-tile:before {
     content: '\e909';
 }
+.icon-under:before {
+    content: '\e94b';
+}
 .icon-up:before {
     content: '\e920';
+}
+.icon-user:before {
+    content: '\e905';
+}
+.icon-validated:before {
+    content: '\e904';
 }
 .icon-validated-A1:before {
     content: '\e942';
@@ -217,22 +259,4 @@
 }
 .icon-validated-E3:before {
     content: '\e934';
-}
-.icon-deleted:before {
-    content: '\e900';
-}
-.icon-admin:before {
-    content: '\e901';
-}
-.icon-moderator:before {
-    content: '\e902';
-}
-.icon-banned:before {
-    content: '\e903';
-}
-.icon-validated:before {
-    content: '\e904';
-}
-.icon-user:before {
-    content: '\e905';
 }

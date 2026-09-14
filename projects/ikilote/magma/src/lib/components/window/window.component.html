@@ -36,11 +36,11 @@
           @if (barButtons() || comp?.bar?.buttons) {
             <div class="window-title-buttons">
               <button type="button" class="bar-minimize" (click)="minimize()">
-                <span class="icon-arrow-down"></span>
+                <span class="icon-under"></span>
               </button>
               <button type="button" class="bar-resize" (click)="change()">
                 @if (fullscreen()) {
-                  <span class="icon-minimize-2"></span>
+                  <span class="icon-windows"></span>
                 } @else {
                   <span class="icon-fullscreen"></span>
                 }

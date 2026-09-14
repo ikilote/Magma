@@ -171,14 +171,13 @@
 
   @if (!hideDatePicker()) {
     <span
-      class="picker-icon"
+      class="picker-icon icon-calendar"
       [mgDatetimePicker]="$any(_value)"
       [mgDatetimePickerType]="type()"
       (datetimeClose)="datePickerClose($event)"
       stopPropagation
       stopKeydown
-      >📅</span
-    >
+    ></span>
   } @else {
     <span class="picker-hide"></span>
   }

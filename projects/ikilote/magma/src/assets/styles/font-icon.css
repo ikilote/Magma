@@ -35,6 +35,9 @@
 .icon-admin:before {
     content: '\e901';
 }
+.icon-arrow-down:before {
+    content: '\1fba6'; /* UNICODE 1fba6 */
+}
 .icon-arrow-down-2:before {
     content: '\e944';
 }
@@ -46,9 +49,6 @@
 }
 .icon-arrow-up-2:before {
     content: '\e947';
-}
-.icon-arrow-down-1FBA6:before {
-    content: '\1fba6';
 }
 .icon-background-color:before {
     content: '\e90c';
@@ -62,11 +62,20 @@
 .icon-browser:before {
     content: '\e913';
 }
+.icon-calendar:before {
+    content: '\e94c';
+}
 .icon-clone:before {
     content: '\e919';
 }
 .icon-deleted:before {
     content: '\e900';
+}
+.icon-dots-horizontal:before {
+    content: '\e94d';
+}
+.icon-dots-vertical:before {
+    content: '\e94e';
 }
 .icon-down:before {
     content: '\e91e';
@@ -82,6 +91,12 @@
 }
 .icon-expand:before {
     content: '\e931';
+}
+.icon-eye-close:before {
+    content: '\e94f';
+}
+.icon-eye-open:before {
+    content: '\e950';
 }
 .icon-fullscreen:before {
     content: '\e92c';
@@ -259,4 +274,7 @@
 }
 .icon-validated-E3:before {
     content: '\e934';
+}
+.icon-windows:before {
+    content: '\e951';
 }

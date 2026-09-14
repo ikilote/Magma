@@ -54,6 +54,10 @@ describe('MagmaWindowsContainer', () => {
             expect(component.widthElementNumber).toBe(1024);
             expect(component.heightElementNumber).toBe(768);
         });
+
+        it('should expose nativeElement from the host element', () => {
+            expect(component.nativeElement).toBe(fixture.nativeElement);
+        });
     });
 
     describe('Windows Management', () => {

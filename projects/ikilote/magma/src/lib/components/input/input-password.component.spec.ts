@@ -68,7 +68,7 @@ describe('MagmaInputPassword', () => {
     it('should render eye icon if eye is true', () => {
         fixture.componentRef.setInput('eye', true);
         fixture.changeDetectorRef.detectChanges();
-        const iconElement = fixture.debugElement.query(By.css('.icon-moon, .icon-sun'));
+        const iconElement = fixture.debugElement.query(By.css('.icon-eye-close, .icon-eye-open'));
         expect(iconElement).toBeTruthy();
     });
 

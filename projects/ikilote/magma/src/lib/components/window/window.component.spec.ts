@@ -460,6 +460,58 @@ describe('MagmaWindow', () => {
             expect(buttons.length).toBeGreaterThan(0);
         });
 
+        it('should hide minimize button when barButtonHideMinimize is true', () => {
+            fixture.componentRef.setInput('barButtonHideMinimize', true);
+            fixture.changeDetectorRef.detectChanges();
+            const minBtn = fixture.debugElement.query(By.css('button.bar-minimize'));
+            expect(minBtn).toBeNull();
+        });
+
+        it('should show minimize button when barButtonHideMinimize is false (default)', () => {
+            fixture.componentRef.setInput('barButtonHideMinimize', false);
+            fixture.changeDetectorRef.detectChanges();
+            const minBtn = fixture.debugElement.query(By.css('button.bar-minimize'));
+            expect(minBtn).toBeTruthy();
+        });
+
+        it('should hide maximize button when barButtonHideMaximize is true', () => {
+            fixture.componentRef.setInput('barButtonHideMaximize', true);
+            fixture.changeDetectorRef.detectChanges();
+            const maxBtn = fixture.debugElement.query(By.css('button.bar-resize'));
+            expect(maxBtn).toBeNull();
+        });
+
+        it('should show maximize button when barButtonHideMaximize is false (default)', () => {
+            fixture.componentRef.setInput('barButtonHideMaximize', false);
+            fixture.changeDetectorRef.detectChanges();
+            const maxBtn = fixture.debugElement.query(By.css('button.bar-resize'));
+            expect(maxBtn).toBeTruthy();
+        });
+
+        it('should hide minimize button via comp.bar.buttonHideMinimize', () => {
+            fixture.componentRef.setInput('barButtons', undefined);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                bar: { active: true, buttons: true, buttonHideMinimize: true },
+                index: signal(0),
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+            const minBtn = fixture.debugElement.query(By.css('button.bar-minimize'));
+            expect(minBtn).toBeNull();
+        });
+
+        it('should hide maximize button via comp.bar.buttonHideMaximize', () => {
+            fixture.componentRef.setInput('barButtons', undefined);
+            fixture.componentRef.setInput('component', {
+                id: 'test-win',
+                bar: { active: true, buttons: true, buttonHideMaximize: true },
+                index: signal(0),
+            } as any);
+            fixture.changeDetectorRef.detectChanges();
+            const maxBtn = fixture.debugElement.query(By.css('button.bar-resize'));
+            expect(maxBtn).toBeNull();
+        });
+
         it('should toggle fullscreen on button click', () => {
             const button = fixture.debugElement.query(By.css('.window-title-buttons button.bar-resize'));
             button.triggerEventHandler('click', null);
@@ -481,7 +533,7 @@ describe('MagmaWindow', () => {
 
             // Check icon change
             fixture.changeDetectorRef.detectChanges();
-            expect(fixture.debugElement.query(By.css('.icon-minimize-2'))).toBeTruthy();
+            expect(fixture.debugElement.query(By.css('.icon-windows'))).toBeTruthy();
         });
 
         it('should emit onClose and call remove when close is clicked', () => {
@@ -589,7 +641,8 @@ describe('MagmaWindow', () => {
             component.elementRef = {
                 nativeElement: { getBoundingClientRect: () => ({ left: 250, top: 350 }) },
             };
-            component.ngOnInit();
+            component.winInit();
+            vi.advanceTimersByTime(0);
             fixture.changeDetectorRef.detectChanges();
 
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
@@ -621,7 +674,8 @@ describe('MagmaWindow', () => {
                     offsetHeight: 100,
                 },
             };
-            component.ngOnInit();
+            component.winInit();
+            vi.advanceTimersByTime(0);
             fixture.changeDetectorRef.detectChanges();
 
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
@@ -685,7 +739,8 @@ describe('MagmaWindow', () => {
                     offsetHeight: 100,
                 },
             };
-            component.ngOnInit();
+            component.winInit();
+            vi.advanceTimersByTime(0);
             fixture.changeDetectorRef.detectChanges();
 
             expect(component.initPosition).toEqual({ x: -250, y: -350 });
@@ -745,8 +800,8 @@ describe('MagmaWindow', () => {
             expect(component?.['cdkDrag']()?.[0]?.setFreeDragPosition).toHaveBeenCalledWith({ x: 0, y: 0 });
 
             // Verify styles match the zone dimensions we mocked
-            expect(mockElement.style.width).toBe('1920px');
-            expect(mockElement.style.height).toBe('1080px');
+            expect(component['fullscreenWidth']()).toBe('1920px');
+            expect(component['fullscreenHeight']()).toBe('1080px');
         });
 
         it('should exit fullscreen: restore saved window coordinates and dimensions', () => {
@@ -778,8 +833,8 @@ describe('MagmaWindow', () => {
 
             component.change();
 
-            expect(mockElement.style.width).toBe(window.innerWidth + 'px');
-            expect(mockElement.style.height).toBe(window.innerHeight + 'px');
+            expect(component['fullscreenWidth']()).toBe(window.innerWidth + 'px');
+            expect(component['fullscreenHeight']()).toBe(window.innerHeight + 'px');
         });
     });
 
@@ -1051,7 +1106,7 @@ describe('MagmaWindow', () => {
             expect(component.updatePosition).not.toHaveBeenCalled();
         });
 
-        it('should call updatePosition in ngOnInit when NOT edge-fixed', () => {
+        it('should call updatePosition in winInit when NOT edge-fixed', () => {
             fixture.componentRef.setInput('fixed', true);
             fixture.componentRef.setInput('isOpen', true);
             fixture.changeDetectorRef.detectChanges();
@@ -1059,7 +1114,8 @@ describe('MagmaWindow', () => {
             vi.spyOn(component, 'updatePosition');
             // @ts-expect-error
             vi.spyOn(component, 'getZone').mockReturnValue(null);
-            component.ngOnInit();
+            component.winInit();
+            vi.advanceTimersByTime(0);
 
             expect(component.updatePosition).toHaveBeenCalled();
         });
@@ -1127,13 +1183,34 @@ describe('MagmaWindow', () => {
             expect(host.style.position).toBe('absolute');
         });
 
-        it('should NOT set position:absolute on host when fixed is boolean true', () => {
+        it('should set position:absolute on host when fixed is boolean true', () => {
             fixture.componentRef.setInput('fixed', true);
             fixture.componentRef.setInput('isOpen', true);
             fixture.changeDetectorRef.detectChanges();
 
             const host = fixture.debugElement.nativeElement as HTMLElement;
-            expect(host.style.position).toBe('');
+            expect(host.style.position).toBe('absolute');
+        });
+
+        it('should apply fullscreen dimensions in winInit when already fullscreen', () => {
+            fixture.componentRef.setInput('isOpen', true);
+            fixture.changeDetectorRef.detectChanges();
+
+            const dragSpy = new MockDragSpy();
+            // @ts-expect-error
+            vi.spyOn(component, 'cdkDrag').mockReturnValue([dragSpy] as any);
+            vi.spyOn(component, 'getZone' as any).mockReturnValue({
+                getBoundingClientRect: () => ({ left: 0, top: 0 }),
+                offsetWidth: 800,
+                offsetHeight: 600,
+            });
+            component['fullscreen'].set(true);
+
+            component.winInit();
+            vi.advanceTimersByTime(0);
+
+            expect(component['fullscreenWidth']()).toBe('800px');
+            expect(component['fullscreenHeight']()).toBe('600px');
         });
     });
 

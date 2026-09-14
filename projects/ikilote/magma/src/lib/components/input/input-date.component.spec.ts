@@ -1086,7 +1086,7 @@ describe('MagmaInputDate', () => {
 
             const pickerIcon = fixture.nativeElement.querySelector('.picker-icon');
             expect(pickerIcon).toBeTruthy();
-            expect(pickerIcon.textContent).toContain('📅');
+            expect(pickerIcon.classList.contains('icon-calendar')).toBe(true);
         });
 
         it('should hide date picker icon when hideDatePicker is true', () => {

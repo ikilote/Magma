@@ -364,6 +364,7 @@ describe('MagmaMenubarComponent', () => {
             // The portal needs a full detectChanges to render its items
             fixture.detectChanges();
             vi.advanceTimersByTime(0);
+            fixture.changeDetectorRef.detectChanges();
 
             const firstItem = document.querySelector('.cdk-overlay-pane .mg-menu-item:not([disabled])') as HTMLElement;
             expect(document.activeElement).toBe(firstItem);

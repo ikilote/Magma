@@ -1,14 +1,31 @@
 # Changelog of @ikilote/magma
 
-## 2.2.2 (2026-09-12)
+## 2.2.3 (2026-09-15)
+
+### ✅ New
+
+- **window**: add hide minimize and hide maximize parameter
+    - **mg-window**: `barButtonHideMinimize`, `barButtonHideMaximize`
+    - **MagmaWindows**: `bar.buttonHideMinimize`, `bar.buttonHideMaximize`
+- Update **Classicone** font (1.13)
+    - ellipsis-button
+    - input date & password
+    - window
 
 ### 🐞 Fix
 
-- **tag-list**: fix proposal list with `arrayAttribute`
+- **light-dark**: fix toggle
+- **mg-window**: fix window position in component mode
+
+## 2.2.2 (2026-09-12)
 
 ### ✅ New
 
 - **Utils**: add `arrayAttribute`
+
+### 🐞 Fix
+
+- **tag-list**: fix proposal list with `arrayAttribute`
 
 ### 🎦 Demo
 

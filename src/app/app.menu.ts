@@ -172,6 +172,7 @@ export const menu: Menu = [
             {
                 routerLink: '/component/window',
                 label: 'Window',
+                status: 'update',
                 keys: ['popup window', 'dialog window'],
             },
         ],
@@ -318,6 +319,7 @@ export const menu: Menu = [
             {
                 routerLink: '/service/windows',
                 label: 'Windows',
+                status: 'update',
                 keys: ['window service', 'popup windows', 'window utilities'],
             },
         ],

@@ -5,7 +5,7 @@
     gap: var(--light-dark-gap);
 
     &.dark .toggle::before {
-        inset-inline-start: calc(100% - var(--light-dark-thumb-size) - var(--light-dark-thumb-margin));
+        inset-inline-start: calc(100% - var(--light-dark-thumb-size) - var(--light-dark-thumb-margin) - 2px);
     }
 
     &.compact {

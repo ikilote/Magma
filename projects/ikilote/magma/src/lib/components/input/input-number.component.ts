@@ -72,7 +72,9 @@ export class MagmaInputNumber extends MagmaInputCommon<number | undefined> {
 
     override writeValue(value: number | undefined): void {
         super.writeValue(value);
-        this.inputElement!.value = String(this._value ?? '');
+        if (this.inputElement) {
+            this.inputElement.value = String(this._value ?? '');
+        }
     }
 
     changeValue(event: Event) {

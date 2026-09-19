@@ -3,7 +3,11 @@
     grid-template-rows: auto;
     grid-template-columns: auto 1fr;
     box-shadow: var(--menubar-dropdown-shadow);
+    // `--menubar-dropdown-border` (shorthand) stays for backward compatibility.
+    // The width/style/color parts are also exposed individually so a theme can
+    // set a multi-color 3D bevel (a `border:` shorthand accepts one color only).
     border: var(--menubar-dropdown-border);
+    border-color: var(--menubar-dropdown-border-color);
     border-radius: var(--menubar-dropdown-radius);
     background: var(--menubar-dropdown-background);
     padding: var(--menubar-dropdown-padding);

@@ -16,9 +16,16 @@
     align-items: center;
     gap: var(--menubar-trigger-gap);
     cursor: pointer;
-    border: 1px solid transparent;
+    // `box-shadow` is set explicitly (default `none`) so the trigger does not
+    // inherit the global `button` box-shadow; themes can override it per state.
+    box-shadow: var(--menubar-trigger-box-shadow);
+    // Border is applied via the shorthand plus a separate `border-color`, so a
+    // theme can set a multi-color 3D bevel (a `border:` shorthand takes one
+    // color only).
+    border: var(--menubar-trigger-border);
+    border-color: var(--menubar-trigger-border-color);
     border-radius: var(--menubar-trigger-radius);
-    background: transparent;
+    background: var(--menubar-trigger-background);
     padding: var(--menubar-trigger-padding);
     color: var(--menubar-text-color);
     font: inherit;
@@ -28,11 +35,17 @@
     &:hover,
     &:focus-visible {
         outline: none;
-        background: var(--menubar-hover-background);
+        box-shadow: var(--menubar-trigger-hover-box-shadow);
+        border: var(--menubar-trigger-hover-border);
+        border-color: var(--menubar-trigger-hover-border-color);
+        background: var(--menubar-trigger-hover-background);
     }
 
     .mg-menu-entry.open & {
-        background: var(--menubar-hover-background);
+        box-shadow: var(--menubar-trigger-open-box-shadow);
+        border: var(--menubar-trigger-open-border);
+        border-color: var(--menubar-trigger-open-border-color);
+        background: var(--menubar-trigger-open-background);
     }
 }
 

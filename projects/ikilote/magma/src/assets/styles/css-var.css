@@ -232,9 +232,24 @@ body {
     --menubar-trigger-padding: 4px 10px;
     --menubar-trigger-gap: 6px;
     --menubar-trigger-radius: var(--block-radius, 4px);
+    --menubar-trigger-border: 1px solid transparent;
+    --menubar-trigger-border-color: transparent;
+    --menubar-trigger-box-shadow: none;
+    --menubar-trigger-background: transparent;
     --menubar-hover-background: var(--primary200);
+    /* Trigger hover state (defaults derive from --menubar-hover-background) */
+    --menubar-trigger-hover-border: var(--menubar-trigger-border);
+    --menubar-trigger-hover-border-color: var(--menubar-trigger-border-color);
+    --menubar-trigger-hover-box-shadow: var(--menubar-trigger-box-shadow);
+    --menubar-trigger-hover-background: var(--menubar-hover-background);
+    /* Trigger open state (defaults follow the hover state) */
+    --menubar-trigger-open-border: var(--menubar-trigger-hover-border);
+    --menubar-trigger-open-border-color: var(--menubar-trigger-hover-border-color);
+    --menubar-trigger-open-box-shadow: var(--menubar-trigger-hover-box-shadow);
+    --menubar-trigger-open-background: var(--menubar-trigger-hover-background);
     --menubar-dropdown-background: var(--block-background);
     --menubar-dropdown-border: var(--block-border);
+    --menubar-dropdown-border-color: var(--primary500);
     --menubar-dropdown-radius: var(--block-radius, 4px);
     --menubar-dropdown-shadow: 2px 2px 8px var(--block-shadow-color);
     --menubar-dropdown-padding: 4px 0;

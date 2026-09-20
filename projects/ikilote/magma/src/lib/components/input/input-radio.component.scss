@@ -61,3 +61,78 @@ label {
     flex-wrap: wrap;
     gap: 5px 10px;
 }
+
+// ── badge & pill modes ──────────────────────────────────────────────────────
+.content:has(> :host:is(mg-input-radio):is(.variant-badge, .variant-pill)) {
+    gap: 12px 10px;
+}
+
+:host:is(.variant-badge, .variant-pill) {
+    input {
+        & + label {
+            position: static;
+            transition:
+                background-color 0.15s ease,
+                border-color 0.15s ease,
+                color 0.15s ease;
+            border: 1px solid var(--input-border-color);
+            border-radius: 999px;
+            background-color: var(--input-background);
+            padding-inline: 12px;
+            padding-block: 4px;
+
+            &::before {
+                display: none;
+            }
+        }
+
+        &:checked + label {
+            border-color: var(--input-checked-color);
+            background-color: var(--input-checked-color);
+            color: var(--input-background);
+        }
+
+        &:not([readonly]):disabled + label {
+            opacity: 0.5;
+        }
+
+        &:focus + label {
+            outline: 2px solid var(--input-focus-border-color);
+            outline-offset: 2px;
+        }
+    }
+
+    label {
+        padding-inline-start: 12px;
+
+        &.empty {
+            padding-inline-start: 12px;
+        }
+    }
+}
+
+// ── Pill mode ──────────────────────────────────────────────────────
+.content:has(> :host:is(mg-input-radio):is(.variant-pill)) {
+    gap: 12px 0;
+}
+
+:host:nth-child(n + 2 of .variant-pill) {
+    input + label {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+    }
+}
+
+:host:nth-last-child(n + 2 of .variant-pill) {
+    input + label {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+    }
+}
+:host(.variant-pill) {
+    input:focus {
+        & + label {
+            position: relative;
+        }
+    }
+}

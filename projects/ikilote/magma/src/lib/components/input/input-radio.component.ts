@@ -5,6 +5,8 @@ import { MagmaInputCommon } from './input-common';
 
 let counter = 0;
 
+export type MagmaInputRadioMode = 'radio' | 'badge' | 'pill';
+
 @Component({
     selector: 'mg-input-radio',
     templateUrl: './input-radio.component.html',
@@ -16,6 +18,8 @@ let counter = 0;
     ],
     host: {
         '[id]': '_id()',
+        '[class.variant-pill]': 'mode() === "pill"',
+        '[class.variant-badge]': 'mode() === "badge"',
     },
 })
 export class MagmaInputRadio extends MagmaInputCommon implements AfterContentChecked {
@@ -23,6 +27,8 @@ export class MagmaInputRadio extends MagmaInputCommon implements AfterContentChe
     protected override counter = counter++;
 
     override readonly value = input.required();
+
+    readonly mode = input<MagmaInputRadioMode>('radio');
 
     readonly checked = input(false, { transform: booleanAttribute });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined

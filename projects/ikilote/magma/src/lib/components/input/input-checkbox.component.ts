@@ -13,6 +13,8 @@ import { NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { MagmaInputCommon } from './input-common';
 
+export type MagmaInputCheckboxMode = 'checkbox' | 'toggle';
+
 let counter = 0;
 
 @Component({
@@ -36,7 +38,7 @@ export class MagmaInputCheckbox extends MagmaInputCommon implements DoCheck, Aft
 
     override readonly value = input<unknown>();
     readonly checked = input(false, { transform: booleanAttribute });
-    readonly mode = input<'checkbox' | 'toggle'>();
+    readonly mode = input<MagmaInputCheckboxMode>();
 
     testChecked: boolean | undefined = undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Angular signal inputs cannot be cleanly overridden to undefined

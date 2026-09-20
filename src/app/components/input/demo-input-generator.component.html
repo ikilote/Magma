@@ -285,6 +285,12 @@
             <mg-input-label>alignMode</mg-input-label>
             <mg-input-select formControlName="alignMode" [data]="alignMode" />
           </mg-input>
+          @if (formGenerator.value.type === 'radio') {
+            <mg-input class="s-3 s-6-m">
+              <mg-input-label>mode</mg-input-label>
+              <mg-input-select formControlName="radioVariant" [data]="radioMode" />
+            </mg-input>
+          }
 
           <div class="s-12">
             <mg-input class="s-4 s-6-m">
@@ -479,6 +485,7 @@
           @case ('radio') {
             <mg-input-radio
               [value]="formGenerator.value.subValue1"
+              [mode]="formGenerator.value.radioMode!"
               [readonly]="formGenerator.value.readonly"
               [disabled]="formGenerator.value.disabled ?? false"
               [(ngModel)]="valueRadio"
@@ -562,6 +569,7 @@
         @if (formGenerator.value.type === 'radio') {
           <mg-input-radio
             [value]="formGenerator.value.subValue2"
+            [mode]="formGenerator.value.radioMode!"
             [readonly]="formGenerator.value.readonly"
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueRadio"
@@ -575,6 +583,7 @@
         @if (formGenerator.value.type === 'radio') {
           <mg-input-radio
             [value]="formGenerator.value.subValue3"
+            [mode]="formGenerator.value.radioMode!"
             [readonly]="formGenerator.value.readonly"
             [disabled]="formGenerator.value.disabled ?? false"
             [(ngModel)]="valueRadio"

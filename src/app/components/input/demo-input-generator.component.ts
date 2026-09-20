@@ -14,6 +14,7 @@ import {
     MagmaInputNumber,
     MagmaInputPassword,
     MagmaInputRadio,
+    MagmaInputRadioMode,
     MagmaInputRange,
     MagmaInputSelect,
     MagmaInputText,
@@ -111,6 +112,9 @@ export class DemoInputGeneratorComponent {
         subValue3: FormControl<string>;
         alignMode: FormControl<'row' | 'column'>;
 
+        // radio
+        radioMode: FormControl<MagmaInputRadioMode>;
+
         // radio / checkbox / select
         multiple: FormControl<boolean>;
 
@@ -196,6 +200,11 @@ export class DemoInputGeneratorComponent {
         { value: 'value', label: 'value' },
         { value: 'boolean', label: 'boolean' },
     ];
+    radioMode: Select2Data = [
+        { label: 'radio', value: 'radio' },
+        { label: 'badge', value: 'badge' },
+        { label: 'pill', value: 'pill' },
+    ];
 
     typesDate = dateTypes;
 
@@ -251,6 +260,8 @@ export class DemoInputGeneratorComponent {
             subLabel3: { default: 'input label 3' },
             subValue3: { default: 'value3' },
             alignMode: { default: 'row' as 'row' | 'column' },
+            // radio
+            radioMode: { default: '' as MagmaInputRadioMode },
             // radio / checkbox / select
             multiple: { default: false },
             // select
@@ -543,6 +554,9 @@ export class DemoInputGeneratorComponent {
                 bodyInput.push(label);
             }
             attrInput['value'] = value;
+            if (type === 'radio' && fgValue.radioMode && fgValue.radioMode !== 'radio') {
+                attrInput['variant'] = fgValue.radioMode;
+            }
             if (type === 'checkbox' && fgValue.toggle) {
                 attrInput['mode'] = 'toggle';
             }

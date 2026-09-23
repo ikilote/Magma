@@ -34,6 +34,106 @@ export function containClasses(element: HTMLElement | SVGSVGElement, cssClasses:
 }
 
 /**
+ * Returns the deepest focused element, traversing nested shadow roots.
+ *
+ * `document.activeElement` stops at the shadow host when focus is inside a
+ * shadow tree. This function recursively follows `shadowRoot.activeElement`
+ * until it reaches the actual focused element.
+ *
+ * @param root  Starting document or shadow root. Defaults to `document`.
+ * @returns The deepest active element, or `null` if nothing is focused.
+ */
+export function deepActiveElement(root: Document | ShadowRoot = document): Element | null {
+    const active = root.activeElement;
+    return active?.shadowRoot ? (deepActiveElement(active.shadowRoot) ?? active) : active;
+}
+
+/**
+ * Shadow-DOM-aware equivalent of `Element.contains()`.
+ *
+ * `Element.contains()` does not cross shadow boundaries, so an element inside
+ * a shadow tree will not be detected as a descendant of the shadow host.
+ * This function first tries the native check, then recursively searches the
+ * shadow roots of all descendants.
+ *
+ * @param container  The ancestor element to search within.
+ * @param target     The element to look for.
+ * @returns `true` if `target` is `container` or a (shadow) descendant of it.
+ */
+export function deepContains(container: Element, target: Element): boolean {
+    if (container.contains(target)) {
+        return true;
+    }
+    for (const el of Array.from(container.querySelectorAll('*'))) {
+        if (el.shadowRoot && deepContains(el.shadowRoot as unknown as Element, target)) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Collects all focusable elements matching `selector` within `root`,
+ * recursively descending into shadow roots and distributed slot content.
+ *
+ * A plain `querySelectorAll` cannot pierce shadow boundaries. This function
+ * walks the regular DOM, and whenever it encounters an element with an open
+ * shadow root it recurses into it. Slot-assigned nodes are also traversed so
+ * that light-DOM children projected into a shadow tree are not missed.
+ *
+ * @param root      The element or shadow root to start from.
+ * @param selector  CSS selector identifying focusable elements.
+ * @param result    Accumulator array (pass an empty array on the first call).
+ */
+export function collectFocusable(
+    root: Element | ShadowRoot,
+    selector: string,
+    result: HTMLElement[] = [],
+): HTMLElement[] {
+    for (const el of Array.from(root.querySelectorAll<HTMLElement>(selector))) {
+        result.push(el);
+        if (el.shadowRoot) {
+            collectFocusable(el.shadowRoot, selector, result);
+        }
+    }
+    if (root instanceof ShadowRoot) {
+        for (const slot of Array.from(root.querySelectorAll('slot'))) {
+            for (const assigned of (slot as HTMLSlotElement).assignedElements({ flatten: true })) {
+                if (!result.includes(assigned as HTMLElement)) {
+                    if ((assigned as HTMLElement).matches?.(selector)) {
+                        result.push(assigned as HTMLElement);
+                    }
+                    collectFocusable(assigned, selector, result);
+                }
+            }
+        }
+    }
+    return result;
+}
+
+/**
+ * CSS selector that matches all natively focusable elements.
+ * Shared between `isFocusable` and `redispatchAtPoint`, and re-exported for
+ * use in directives (e.g. `limit-focus`) so the definition lives in one place.
+ */
+export const focusableSelector =
+    'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), ' +
+    'select:not(:disabled), [tabindex]:not([tabindex="-1"]), ' +
+    '[contenteditable]:not([contenteditable="false"]), details > summary, ' +
+    'audio[controls], video[controls]';
+
+/**
+ * Returns `true` if the element is focusable (matches {@link focusableSelector}).
+ *
+ * This covers all standard interactive elements: links, buttons, form controls,
+ * elements with a non-negative `tabindex`, editable regions, `<summary>`, and
+ * media elements with browser-native controls.  Disabled controls are excluded.
+ */
+export function isFocusable(el: Element): boolean {
+    return el.matches(focusableSelector);
+}
+
+/**
  * Dispatch a mouse event to the element visually located at (x, y) after
  * the overlay stack has been fully cleared from the DOM.
  *
@@ -54,12 +154,6 @@ export function containClasses(element: HTMLElement | SVGSVGElement, cssClasses:
  * @param eventType DOM event type to redispatch (e.g. `'click'`, `'contextmenu'`).
  * @param button    Mouse button index (0 = left, 1 = middle, 2 = right).
  */
-/** Returns true if the element is natively focusable as a form control. */
-function isFocusable(el: Element): boolean {
-    const tag = el.tagName.toLowerCase();
-    return tag === 'input' || tag === 'textarea' || tag === 'select';
-}
-
 export function redispatchAtPoint(x: number, y: number, eventType: string, button = 0): void {
     if (!isFinite(x) || !isFinite(y)) {
         return;
@@ -97,11 +191,11 @@ export function redispatchAtPoint(x: number, y: number, eventType: string, butto
         }
         target.dispatchEvent(new MouseEvent(eventType, init));
 
-        // If the target is a focusable form element (or contains one), focus it
+        // If the target is a focusable element (or contains one), focus it
         // explicitly — synthetic mouse events do not trigger native focus on inputs.
         const focusable = isFocusable(target)
             ? (target as HTMLElement)
-            : (target.querySelector<HTMLElement>('input, textarea, select, [tabindex]') ?? null);
+            : (target.querySelector<HTMLElement>(focusableSelector) ?? null);
         focusable?.focus();
     });
 }

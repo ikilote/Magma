@@ -1,10 +1,10 @@
 import { Directive, ElementRef, OnDestroy, OnInit, inject, input } from '@angular/core';
 
 import { numberAttributeOrUndefined } from '../utils/coercion';
+import { collectFocusable, deepActiveElement, deepContains, focusableSelector } from '../utils/dom';
 import { Subscriptions } from '../utils/subscriptions';
 
-export const focusRules =
-    'a[href], button:not(:disabled), input:not(:disabled), textarea:not(:disabled), select:not(:disabled), [tabindex]:not([tabindex="-1"]), [contenteditable]:not([contenteditable="false"]), details > summary, audio[controls], video[controls]';
+export const focusRules = focusableSelector;
 
 @Directive({
     selector: '[limitFocusFirst]',
@@ -44,7 +44,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
 
     constructor() {
         setTimeout(() => {
-            this.focusOrigin = document.activeElement as HTMLElement | null;
+            this.focusOrigin = deepActiveElement() as HTMLElement | null;
             this.limitFocus(this.focusElement);
         });
     }
@@ -97,7 +97,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             const list = listElement.filter(e => this.filter(e));
             const firstFocusableElement = list[0];
             const lastFocusableElement = list[list.length - 1];
-            const active = document.activeElement as HTMLElement | null;
+            const active = deepActiveElement() as HTMLElement | null;
 
             // If the focused element is inside the container but not in the
             // tab-cycle list (e.g. a tabpanel with tabindex="-1" that received
@@ -105,7 +105,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             // moves to the next element inside the container. Only trap when
             // focus has escaped outside the container entirely.
             const container = this.focusElement.nativeElement;
-            const isInsideContainer = active ? container.contains(active) : false;
+            const isInsideContainer = active ? deepContains(container, active) : false;
 
             if (event.shiftKey) {
                 if (active === firstFocusableElement) {
@@ -148,7 +148,6 @@ export class MagmaLimitFocusDirective implements OnDestroy {
     }
 
     private firstLastFocusableElement(div: HTMLDivElement): HTMLElement[] {
-        const focusableElements = div.querySelectorAll<HTMLElement>(this.focusRules);
-        return Array.from(focusableElements);
+        return collectFocusable(div, this.focusRules);
     }
 }

@@ -1,18 +1,27 @@
 :host {
     display: block;
-}
 
-// Fuse adjacent panels: remove the top border from all panels except the first
-// and flatten the radius between them.
-::ng-deep mg-expansion-panel + mg-expansion-panel {
-    summary {
-        border-top: 0;
-        border-start-start-radius: 0;
-        border-start-end-radius: 0;
+    // Fuse adjacent panels: remove the top border from all panels except the first
+    // and flatten the radius between them.
+    // NB: styles crossing into mg-expansion-panel need ::ng-deep because they
+    // target elements rendered inside another component's view.
+    & > ::ng-deep :nth-child(n + 2 of mg-expansion-panel) > details {
+        & > summary {
+            border-top: 0;
+            border-start-start-radius: 0;
+            border-start-end-radius: 0;
+        }
+
+        &[open] > .detail-content {
+            border-end-start-radius: 0;
+            border-end-end-radius: 0;
+        }
     }
 
-    details:not([open]) summary {
-        border-end-start-radius: var(--mg-block-radius);
-        border-end-end-radius: var(--mg-block-radius);
+    & > ::ng-deep :nth-last-child(n + 2 of mg-expansion-panel) > details {
+        & > summary {
+            border-end-start-radius: 0;
+            border-end-end-radius: 0;
+        }
     }
 }

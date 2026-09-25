@@ -14,20 +14,20 @@
 
 a {
     cursor: pointer;
-    border: 1px solid var(--page-item-border-color);
+    border: 1px solid var(--mg-page-item-border-color);
     border-radius: 5px;
     min-width: 40px;
-    color: var(--page-item-text-color);
+    color: var(--mg-page-item-text-color);
     text-align: center;
 
     &[aria-current] {
-        background: var(--page-item-current-background);
-        color: var(--page-item-current-test-color);
+        background: var(--mg-page-item-current-background);
+        color: var(--mg-page-item-current-test-color);
         font-weight: 700;
     }
 
     &:hover {
-        background: var(--page-item-hover-background);
+        background: var(--mg-page-item-hover-background);
     }
 }
 

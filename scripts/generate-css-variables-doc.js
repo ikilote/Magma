@@ -19,7 +19,7 @@ const TARGET = 'CSS-VARIABLES.md';
 /** Prose describing what each MARK section covers. */
 const SECTION_DOC = {
     palettes:
-        'Color palette derived from a single hue plus lightness steps. Override `--primaryH` to retint the whole library.',
+        'Color palette derived from a single hue plus lightness steps. Override `--mg-primaryH` to retint the whole library.',
     'palettes light': 'Lightness steps for light mode. Set on `body` / `body.light-mode`.',
     'palettes dark': 'Lightness steps for dark mode. Set on `body.dark-mode`.',
     global: 'Cross-component values.',
@@ -51,10 +51,11 @@ const SECTION_DOC = {
     select2: 'Styling passed through to the `ng-select2-component` dependency.',
 };
 
-/** Variables whose purpose is not obvious from the name alone. */
+/** Variables whose purpose is not obvious from the name alone. Keyed by the
+ *  prefixed name as it appears in css-var.css. */
 const NOTES = {
-    primaryH: 'Base hue (0-360) for the whole palette. **This is the single knob to retint the library.**',
-    transparency_checkerboard:
+    'mg-primaryH': 'Base hue (0-360) for the whole palette. **This is the single knob to retint the library.**',
+    'mg-transparency-checkerboard':
         'Conventional grey checkerboard signalling an alpha channel. Deliberately outside the palette: retinting it would break the "this is transparent" convention. Tile size is set at the usage site.',
 };
 
@@ -128,9 +129,11 @@ function titleOf(section, sections) {
 
 /** Turns `--button-primary-hover-background` into `Button primary hover background`. */
 function describe(name) {
-    const note = NOTES[name] ?? NOTES[name.replace(/-/g, '_')];
+    const note = NOTES[name];
     if (note) return note;
-    const words = name.replace(/-/g, ' ');
+    // Drop the --mg- prefix for the human-readable fallback so descriptions
+    // read "Dialog background." rather than "Mg dialog background."
+    const words = name.replace(/^mg-/, '').replace(/-/g, ' ');
     return words.charAt(0).toUpperCase() + words.slice(1) + '.';
 }
 
@@ -153,17 +156,17 @@ function render(sections) {
     out.push('```css');
     out.push('/* Retint the whole library */');
     out.push('body {');
-    out.push('    --primaryH: 280;');
+    out.push('    --mg-primaryH: 280;');
     out.push('}');
     out.push('');
     out.push('/* Override one component, globally */');
     out.push('body {');
-    out.push('    --dialog-background: #fdfdfd;');
+    out.push('    --mg-dialog-background: #fdfdfd;');
     out.push('}');
     out.push('');
     out.push('/* Override one instance only */');
     out.push('.my-dialog {');
-    out.push('    --dialog-background: #fdfdfd;');
+    out.push('    --mg-dialog-background: #fdfdfd;');
     out.push('}');
     out.push('```');
     out.push('');

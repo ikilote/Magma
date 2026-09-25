@@ -1,11 +1,11 @@
 body,
 html {
     margin: 0;
-    background: var(--background);
+    background: var(--mg-background);
     padding: 0;
     height: 100%;
     overflow: hidden;
-    color: var(--text-color);
+    color: var(--mg-text-color);
 }
 
 *,
@@ -17,7 +17,7 @@ html {
 }
 
 :focus {
-    outline: 2px solid var(--link-focus-border-color);
+    outline: 2px solid var(--mg-link-focus-border-color);
 
     [tabindex='-1']& {
         outline: none;
@@ -26,7 +26,7 @@ html {
 
 * {
     outline: 2px solid transparent;
-    font-family: var(--font-family);
+    font-family: var(--mg-font-family);
 }
 
 /* -------------------- separator --------------------------------------------------------
@@ -34,10 +34,10 @@ html {
 */
 
 hr {
-    opacity: var(--separator-opacity);
-    margin: var(--separator-margin);
+    opacity: var(--mg-separator-opacity);
+    margin: var(--mg-separator-margin);
     border: none;
-    border-top: 1px solid var(--separator-color);
+    border-top: 1px solid var(--mg-separator-color);
 }
 
 /* -------------------- links ------------------------------------------------------------
@@ -46,11 +46,11 @@ hr {
 
 a {
     cursor: pointer;
-    color: var(--link-color);
+    color: var(--mg-link-color);
     text-decoration: none;
 
     &:hover {
-        color: var(--link-hover-color);
+        color: var(--mg-link-hover-color);
     }
 
     table & {
@@ -63,67 +63,67 @@ a {
 */
 
 button,
-a.button {
+a.mg-button {
     display: inline-flex;
     align-items: center;
     gap: 10px;
     max-width: 100%;
 
-    &.primary {
-        --button-default-border-color: var(--button-primary-border-color);
-        --button-default-background: var(--button-primary-background);
-        --button-default-box-shadow: var(--button-primary-box-shadow);
-        --button-default-color: var(--button-primary-color);
-        --button-default-focus-border-color: var(--button-primary-focus-border-color);
-        --button-default-hover-border-color: var(--button-primary-hover-border-color);
-        --button-default-hover-background: var(--button-primary-hover-background);
-        --button-default-hover-box-shadow: var(--button-primary-hover-box-shadow);
-        --button-default-active-border-color: var(--button-primary-active-border-color);
-        --button-default-active-background: var(--button-primary-active-background);
-        --button-default-active-box-shadow: var(--button-primary-active-box-shadow);
-        --button-default-active-padding: var(--button-primary-active-padding);
+    &.mg-primary {
+        --mg-button-default-border-color: var(--mg-button-primary-border-color);
+        --mg-button-default-background: var(--mg-button-primary-background);
+        --mg-button-default-box-shadow: var(--mg-button-primary-box-shadow);
+        --mg-button-default-color: var(--mg-button-primary-color);
+        --mg-button-default-focus-border-color: var(--mg-button-primary-focus-border-color);
+        --mg-button-default-hover-border-color: var(--mg-button-primary-hover-border-color);
+        --mg-button-default-hover-background: var(--mg-button-primary-hover-background);
+        --mg-button-default-hover-box-shadow: var(--mg-button-primary-hover-box-shadow);
+        --mg-button-default-active-border-color: var(--mg-button-primary-active-border-color);
+        --mg-button-default-active-background: var(--mg-button-primary-active-background);
+        --mg-button-default-active-box-shadow: var(--mg-button-primary-active-box-shadow);
+        --mg-button-default-active-padding: var(--mg-button-primary-active-padding);
     }
 
-    &.warn {
-        --button-default-border-color: var(--button-warn-border-color);
-        --button-default-background: var(--button-warn-background);
-        --button-default-box-shadow: var(--button-warn-box-shadow);
-        --button-default-color: var(--button-warn-color);
-        --button-default-focus-border-color: var(--button-warn-focus-border-color);
-        --button-default-hover-border-color: var(--button-warn-hover-border-color);
-        --button-default-hover-background: var(--button-warn-hover-background);
-        --button-default-hover-box-shadow: var(--button-warn-hover-box-shadow);
-        --button-default-active-border-color: var(--button-warn-active-border-color);
-        --button-default-active-background: var(--button-warn-active-background);
-        --button-default-active-box-shadow: var(--button-warn-active-box-shadow);
-        --button-default-active-padding: var(--button-warn-active-padding);
+    &.mg-warn {
+        --mg-button-default-border-color: var(--mg-button-warn-border-color);
+        --mg-button-default-background: var(--mg-button-warn-background);
+        --mg-button-default-box-shadow: var(--mg-button-warn-box-shadow);
+        --mg-button-default-color: var(--mg-button-warn-color);
+        --mg-button-default-focus-border-color: var(--mg-button-warn-focus-border-color);
+        --mg-button-default-hover-border-color: var(--mg-button-warn-hover-border-color);
+        --mg-button-default-hover-background: var(--mg-button-warn-hover-background);
+        --mg-button-default-hover-box-shadow: var(--mg-button-warn-hover-box-shadow);
+        --mg-button-default-active-border-color: var(--mg-button-warn-active-border-color);
+        --mg-button-default-active-background: var(--mg-button-warn-active-background);
+        --mg-button-default-active-box-shadow: var(--mg-button-warn-active-box-shadow);
+        --mg-button-default-active-padding: var(--mg-button-warn-active-padding);
     }
 }
 
 button {
     &:disabled {
-        opacity: var(--button-disabled-opacity);
+        opacity: var(--mg-button-disabled-opacity);
         cursor: default;
 
-        --button-default-hover-border-color: var(--button-default-border-color);
-        --button-default-hover-background: var(--button-default-background);
-        --button-default-hover-box-shadow: var(--button-default-box-shadow);
+        --mg-button-default-hover-border-color: var(--mg-button-default-border-color);
+        --mg-button-default-hover-background: var(--mg-button-default-background);
+        --mg-button-default-hover-box-shadow: var(--mg-button-default-box-shadow);
     }
 
-    &.primary:disabled {
-        --button-default-hover-border-color: var(--button-primary-border-color);
-        --button-default-hover-background: var(--button-primary-background);
-        --button-default-hover-box-shadow: var(--button-primary-box-shadow);
+    &.mg-primary:disabled {
+        --mg-button-default-hover-border-color: var(--mg-button-primary-border-color);
+        --mg-button-default-hover-background: var(--mg-button-primary-background);
+        --mg-button-default-hover-box-shadow: var(--mg-button-primary-box-shadow);
     }
 
-    &.warn:disabled {
-        --button-default-hover-border-color: var(--button-warn-border-color);
-        --button-default-hover-background: var(--button-warn-background);
-        --button-default-hover-box-shadow: var(--button-warn-box-shadow);
+    &.mg-warn:disabled {
+        --mg-button-default-hover-border-color: var(--mg-button-warn-border-color);
+        --mg-button-default-hover-background: var(--mg-button-warn-background);
+        --mg-button-default-hover-box-shadow: var(--mg-button-warn-box-shadow);
     }
 }
 
-.buttons {
+.mg-buttons {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -142,57 +142,57 @@ button {
     MARK: Chip
 */
 
-.chip {
+.mg-chip {
     display: inline-flex;
     align-items: center;
     gap: 6px;
     cursor: pointer;
     margin: 0;
     box-shadow: none;
-    border: 1px solid var(--chip-border-color);
-    border-radius: var(--chip-border-radius);
-    background: var(--chip-background);
-    padding: var(--chip-padding);
-    color: var(--chip-color);
-    font-size: var(--chip-font-size);
+    border: 1px solid var(--mg-chip-border-color);
+    border-radius: var(--mg-chip-border-radius);
+    background: var(--mg-chip-background);
+    padding: var(--mg-chip-padding);
+    color: var(--mg-chip-color);
+    font-size: var(--mg-chip-font-size);
     line-height: 1.4;
     text-decoration: none;
 
     &:hover {
         box-shadow: none;
-        border: 1px solid var(--chip-hover-border-color);
-        background: var(--chip-hover-background);
-        padding: var(--chip-hover-padding);
-        color: var(--chip-hover-color);
+        border: 1px solid var(--mg-chip-hover-border-color);
+        background: var(--mg-chip-hover-background);
+        padding: var(--mg-chip-hover-padding);
+        color: var(--mg-chip-hover-color);
     }
 
     &:focus {
-        outline: 2px solid var(--link-focus-border-color);
-        border-color: var(--chip-border-color);
+        outline: 2px solid var(--mg-link-focus-border-color);
+        border-color: var(--mg-chip-border-color);
     }
 
     &:active {
         box-shadow: none;
-        border: 1px solid var(--chip-active-border-color);
-        background: var(--chip-active-background);
-        padding: var(--chip-active-padding);
-        color: var(--chip-active-color);
+        border: 1px solid var(--mg-chip-active-border-color);
+        background: var(--mg-chip-active-background);
+        padding: var(--mg-chip-active-padding);
+        color: var(--mg-chip-active-color);
     }
 
     &:disabled {
-        opacity: var(--button-disabled-opacity);
+        opacity: var(--mg-button-disabled-opacity);
         cursor: default;
     }
 
     &:disabled:hover {
-        border: 1px solid var(--chip-border-color);
-        background: var(--chip-background);
-        padding: var(--chip-padding);
-        color: var(--chip-color);
+        border: 1px solid var(--mg-chip-border-color);
+        background: var(--mg-chip-background);
+        padding: var(--mg-chip-padding);
+        color: var(--mg-chip-color);
     }
 }
 
-.chips {
+.mg-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
@@ -204,16 +204,16 @@ button {
 
 button,
 input::file-selector-button,
-a.button {
+a.mg-button {
     cursor: pointer;
-    margin: var(--button-default-margin);
+    margin: var(--mg-button-default-margin);
     outline: none;
-    box-shadow: var(--button-default-box-shadow);
-    border: var(--button-default-border-width) solid var(--button-default-border-color);
-    border-radius: var(--button-default-border-radius);
-    background: var(--button-default-background);
-    padding: var(--button-default-padding);
-    color: var(--button-default-color);
+    box-shadow: var(--mg-button-default-box-shadow);
+    border: var(--mg-button-default-border-width) solid var(--mg-button-default-border-color);
+    border-radius: var(--mg-button-default-border-radius);
+    background: var(--mg-button-default-background);
+    padding: var(--mg-button-default-padding);
+    color: var(--mg-button-default-color);
     font-size: 110%;
     text-decoration: none;
 }
@@ -225,26 +225,26 @@ input::file-selector-button {
 
 button:hover,
 input::file-selector-button:hover,
-a.button:hover {
-    box-shadow: var(--button-default-hover-box-shadow);
-    border: var(--button-default-border-width) solid var(--button-default-hover-border-color);
-    background: var(--button-default-hover-background);
-    color: var(--button-default-color);
+a.mg-button:hover {
+    box-shadow: var(--mg-button-default-hover-box-shadow);
+    border: var(--mg-button-default-border-width) solid var(--mg-button-default-hover-border-color);
+    background: var(--mg-button-default-hover-background);
+    color: var(--mg-button-default-color);
 }
 
 button:focus,
 input::file-selector-button:focus,
-a.button:focus {
-    border-color: var(--button-default-focus-border-color);
+a.mg-button:focus {
+    border-color: var(--mg-button-default-focus-border-color);
 }
 
 button:active,
 input::file-selector-button:active,
-a.button:active {
-    box-shadow: 0 0 6px var(--button-default-active-box-shadow);
-    border: var(--button-default-border-width) solid var(--button-default-active-border-color);
-    background: var(--button-default-active-background);
-    padding: var(--button-default-active-padding);
+a.mg-button:active {
+    box-shadow: 0 0 6px var(--mg-button-default-active-box-shadow);
+    border: var(--mg-button-default-border-width) solid var(--mg-button-default-active-border-color);
+    background: var(--mg-button-default-active-background);
+    padding: var(--mg-button-default-active-padding);
 }
 
 [type='file'] {
@@ -258,11 +258,11 @@ a.button:active {
 }
 
 input:not(:focus-visible):invalid {
-    text-decoration: underline wavy var(--alert500);
+    text-decoration: underline wavy var(--mg-alert500);
 }
 
 input::placeholder {
-    color: var(--input-placeholder-color);
+    color: var(--mg-input-placeholder-color);
 }
 
 /** Fix Chromium */
@@ -281,14 +281,14 @@ input[type='range'][orient='horizontal'] {
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
     box-sizing: border-box;
     outline: 2px solid transparent;
-    border: var(--input-border-width) solid var(--input-border-color);
-    border-radius: var(--input-border-radius);
-    background: var(--input-background);
-    padding: var(--input-padding);
+    border: var(--mg-input-border-width) solid var(--mg-input-border-color);
+    border-radius: var(--mg-input-border-radius);
+    background: var(--mg-input-background);
+    padding: var(--mg-input-padding);
     width: 100%;
-    color: var(--text-color);
-    font-size: var(--input-font-size);
-    line-height: var(--input-line-height);
+    color: var(--mg-text-color);
+    font-size: var(--mg-input-font-size);
+    line-height: var(--mg-input-line-height);
 }
 
 textarea {
@@ -301,11 +301,11 @@ textarea {
 
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select):focus,
 .input:focus-within {
-    outline-color: var(--input-focus-border-color);
+    outline-color: var(--mg-input-focus-border-color);
 }
 
 input:where([type='range'], [type='checkbox'], [type='radio']) {
-    accent-color: var(--primary500);
+    accent-color: var(--mg-primary500);
 }
 
 .select2-container-dropdown {
@@ -330,12 +330,12 @@ select2 {
     MARK: Tooltip
 */
 
-.tooltip {
-    cursor: var(--tooltip-cursor);
+.mg-tooltip {
+    cursor: var(--mg-tooltip-cursor);
 }
 
-.tooltip-panel,
-.tooltip-panel * {
+.mg-tooltip-panel,
+.mg-tooltip-panel * {
     pointer-events: none;
 }
 
@@ -343,20 +343,20 @@ select2 {
     MARK: Table / sortable
 */
 
-.sort-cell {
+.mg-sort-cell {
     cursor: pointer;
 
     &:hover {
-        background-color: var(--table-header-sortable-cell);
+        background-color: var(--mg-table-header-sortable-cell);
     }
 }
 
-.sort-asc::after {
+.mg-sort-asc::after {
     display: inline;
     content: ' ⮟';
 }
 
-.sort-desc::after {
+.mg-sort-desc::after {
     display: inline;
     content: ' ⮝';
 }
@@ -436,7 +436,7 @@ select2 {
     /* (0, 4, 1) */
     & > :not(.break, .sub, hr) {
         box-sizing: border-box;
-        padding: var(--grid-cell-padding);
+        padding: var(--mg-grid-cell-padding);
     }
 }
 
@@ -906,12 +906,12 @@ select2 {
 }
 
 .gap {
-    --grid-gap: var(--grid-cell-padding);
+    --grid-gap: var(--mg-grid-cell-padding);
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    gap: var(--grid-cell-padding) 0;
-    margin-inline-start: calc(-1 * var(--grid-cell-padding));
+    gap: var(--mg-grid-cell-padding) 0;
+    margin-inline-start: calc(-1 * var(--mg-grid-cell-padding));
 }
 
 /* -------------------- scrollbar ------------------------------------------------------------
@@ -930,22 +930,22 @@ select2 {
 
     body ::-webkit-scrollbar-thumb {
         border-radius: 5px;
-        background: var(--scrollbar-color);
+        background: var(--mg-scrollbar-color);
     }
     body ::-webkit-scrollbar-thumb:hover {
-        background: var(--scrollbar-color-hover);
+        background: var(--mg-scrollbar-color-hover);
     }
 }
 
 @supports not selector(::-webkit-scrollbar-button) {
     body {
-        scrollbar-color: var(--scrollbar-color) transparent;
-        scrollbar-width: var(--scrollbar-width);
+        scrollbar-color: var(--mg-scrollbar-color) transparent;
+        scrollbar-width: var(--mg-scrollbar-width);
     }
 }
 
 pre.mono {
-    font-family: var(--font-mono);
+    font-family: var(--mg-font-mono);
 }
 
 /* -------------------- click-enter -------------------------------------------------------
@@ -957,13 +957,13 @@ pre.mono {
     outline-offset: -1px;
 
     &:hover {
-        filter: var(--click-enter-hover-filter);
-        cursor: var(--click-enter-hover-cursor);
-        background: var(--click-enter-hover-background);
+        filter: var(--mg-click-enter-hover-filter);
+        cursor: var(--mg-click-enter-hover-cursor);
+        background: var(--mg-click-enter-hover-background);
     }
 
     &:focus {
-        outline-color: var(--input-focus-border-color);
+        outline-color: var(--mg-input-focus-border-color);
     }
 }
 
@@ -972,7 +972,7 @@ pre.mono {
 */
 
 .walkthrough-backdrop {
-    background-color: var(--walkthrough-backdrop);
+    background-color: var(--mg-walkthrough-backdrop);
 }
 
 /* -------------------- windows -----------------------------------------------------------
@@ -1030,67 +1030,67 @@ pre.mono {
     MARK: Status
 */
 
-.status {
+.mg-status {
     display: inline-flex;
     align-items: center;
-    gap: var(--status-gap);
-    color: var(--status-color);
-    font-size: var(--status-font-size);
+    gap: var(--mg-status-gap);
+    color: var(--mg-status-color);
+    font-size: var(--mg-status-font-size);
 
     &::before {
         display: block;
         flex-shrink: 0;
         border-radius: 50%;
-        background: var(--status-dot-color);
-        width: var(--status-dot-size);
-        height: var(--status-dot-size);
+        background: var(--mg-status-dot-color);
+        width: var(--mg-status-dot-size);
+        height: var(--mg-status-dot-size);
         content: '';
     }
 
     /* Themes */
-    &.status-success {
-        --status-dot-color: var(--status-success-dot-color);
-        --status-color: var(--status-success-color);
+    &.mg-status-success {
+        --mg-status-dot-color: var(--mg-status-success-dot-color);
+        --mg-status-color: var(--mg-status-success-color);
     }
 
-    &.status-warning {
-        --status-dot-color: var(--status-warning-dot-color);
-        --status-color: var(--status-warning-color);
+    &.mg-status-warning {
+        --mg-status-dot-color: var(--mg-status-warning-dot-color);
+        --mg-status-color: var(--mg-status-warning-color);
     }
 
-    &.status-danger {
-        --status-dot-color: var(--status-danger-dot-color);
-        --status-color: var(--status-danger-color);
+    &.mg-status-danger {
+        --mg-status-dot-color: var(--mg-status-danger-dot-color);
+        --mg-status-color: var(--mg-status-danger-color);
     }
 
-    &.status-info {
-        --status-dot-color: var(--status-info-dot-color);
-        --status-color: var(--status-info-color);
+    &.mg-status-info {
+        --mg-status-dot-color: var(--mg-status-info-dot-color);
+        --mg-status-color: var(--mg-status-info-color);
     }
 
-    &.status-neutral {
-        --status-dot-color: var(--status-neutral-dot-color);
-        --status-color: var(--status-neutral-color);
+    &.mg-status-neutral {
+        --mg-status-dot-color: var(--mg-status-neutral-dot-color);
+        --mg-status-color: var(--mg-status-neutral-color);
     }
 
-    &.status-offline {
-        --status-dot-color: var(--status-offline-dot-color);
-        --status-color: var(--status-offline-color);
+    &.mg-status-offline {
+        --mg-status-dot-color: var(--mg-status-offline-dot-color);
+        --mg-status-color: var(--mg-status-offline-color);
     }
 
     /* Animated pulse for online/active statuses */
-    &.status-pulse::before {
-        animation: status-pulse var(--status-pulse-duration) ease-in-out infinite;
+    &.mg-status-pulse::before {
+        animation: mg-status-pulse var(--mg-status-pulse-duration) ease-in-out infinite;
     }
 }
 
-@keyframes status-pulse {
+@keyframes mg-status-pulse {
     0%,
     100% {
-        opacity: var(--status-pulse-opacity-max);
+        opacity: var(--mg-status-pulse-opacity-max);
     }
     50% {
-        opacity: var(--status-pulse-opacity-min);
+        opacity: var(--mg-status-pulse-opacity-min);
     }
 }
 
@@ -1098,7 +1098,7 @@ pre.mono {
     MARK: animation
 */
 
-@keyframes fadeInScale {
+@keyframes mg-fade-in-scale {
     0% {
         transform: scale(0.8);
         opacity: 0;

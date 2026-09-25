@@ -35,17 +35,17 @@ let index = 0;
                 position: relative;
                 top: -15px;
                 opacity: 0;
-                animation: tooltip-slide 0.18s ease-out 0.5s;
+                animation: mg-tooltip-slide 0.18s ease-out 0.5s;
                 animation-fill-mode: forwards;
-                box-shadow: 2px 2px 5px var(--tooltip-shadow-color);
-                border: 1px solid var(--tooltip-border-color);
-                background: var(--tooltip-background);
+                box-shadow: 2px 2px 5px var(--mg-tooltip-shadow-color);
+                border: 1px solid var(--mg-tooltip-border-color);
+                background: var(--mg-tooltip-background);
                 padding: 6px;
-                color: var(--tooltip-text-color);
+                color: var(--mg-tooltip-text-color);
                 white-space: pre-wrap;
             }
 
-            @keyframes tooltip-slide {
+            @keyframes mg-tooltip-slide {
                 0% {
                     top: -15px;
                     opacity: 0;
@@ -70,7 +70,7 @@ export class MagmaTooltipComponent {
     selector: '[mgTooltip]',
     host: {
         '[aria-describedby]': 'describedBy()',
-        '[class.tooltip]': 'true',
+        '[class.mg-tooltip]': 'true',
     },
 })
 export class MagmaTooltipDirective implements OnDestroy {
@@ -139,7 +139,7 @@ export class MagmaTooltipDirective implements OnDestroy {
             clearTimeout(this.timer);
         }
         const overlayRef = this.overlay.create({
-            panelClass: 'tooltip-panel',
+            panelClass: 'mg-tooltip-panel',
             scrollStrategy: this.overlay.scrollStrategies.block(),
             positionStrategy: this.overlay
                 .position()

@@ -2,16 +2,16 @@
     display: grid;
     grid-template-rows: auto;
     grid-template-columns: auto 1fr;
-    box-shadow: var(--menubar-dropdown-shadow);
-    // `--menubar-dropdown-border` (shorthand) stays for backward compatibility.
+    box-shadow: var(--mg-menubar-dropdown-shadow);
+    // `--mg-menubar-dropdown-border` (shorthand) stays for backward compatibility.
     // The width/style/color parts are also exposed individually so a theme can
     // set a multi-color 3D bevel (a `border:` shorthand accepts one color only).
-    border: var(--menubar-dropdown-border);
-    border-color: var(--menubar-dropdown-border-color);
-    border-radius: var(--menubar-dropdown-radius);
-    background: var(--menubar-dropdown-background);
-    padding: var(--menubar-dropdown-padding);
-    min-width: var(--menubar-dropdown-min-width);
+    border: var(--mg-menubar-dropdown-border);
+    border-color: var(--mg-menubar-dropdown-border-color);
+    border-radius: var(--mg-menubar-dropdown-radius);
+    background: var(--mg-menubar-dropdown-background);
+    padding: var(--mg-menubar-dropdown-padding);
+    min-width: var(--mg-menubar-dropdown-min-width);
 }
 
 .mg-menu-item {
@@ -21,32 +21,32 @@
     grid-template-areas: 'icon content';
     grid-column-start: span 2;
     align-items: center;
-    gap: var(--menubar-item-gap);
+    gap: var(--mg-menubar-item-gap);
     cursor: pointer;
     box-sizing: border-box;
-    padding: var(--menubar-item-padding);
+    padding: var(--mg-menubar-item-padding);
     width: 100%;
-    color: var(--menubar-text-color);
+    color: var(--mg-menubar-text-color);
     font: inherit;
-    font-size: var(--menubar-font-size);
+    font-size: var(--mg-menubar-font-size);
     text-align: start;
     white-space: nowrap;
 
     &:hover:not(.disabled),
     &:focus-visible:not(.disabled) {
-        background: var(--menubar-item-hover-background);
-        color: var(--menubar-item-hover-color);
+        background: var(--mg-menubar-item-hover-background);
+        color: var(--mg-menubar-item-hover-color);
     }
 
     &.disabled {
-        opacity: var(--menubar-item-disabled-opacity);
+        opacity: var(--mg-menubar-item-disabled-opacity);
         cursor: default;
         pointer-events: none;
     }
 
     &.active-submenu {
-        background: var(--menubar-item-hover-background);
-        color: var(--menubar-item-hover-color);
+        background: var(--mg-menubar-item-hover-background);
+        color: var(--mg-menubar-item-hover-color);
     }
 }
 
@@ -63,7 +63,7 @@
     display: flex;
     grid-area: content;
     align-items: center;
-    gap: var(--menubar-item-gap);
+    gap: var(--mg-menubar-item-gap);
 }
 
 .mg-menu-item-label {
@@ -72,17 +72,17 @@
 
 .mg-menu-item-arrow {
     flex-shrink: 0;
-    opacity: var(--menubar-item-arrow-opacity);
+    opacity: var(--mg-menubar-item-arrow-opacity);
     margin-inline-start: auto;
-    font-size: var(--menubar-item-arrow-size);
+    font-size: var(--mg-menubar-item-arrow-size);
 }
 
 .mg-menu-separator {
     display: grid;
     grid: subgrid/subgrid;
     grid-column-start: span 2;
-    margin: var(--menubar-separator-margin);
+    margin: var(--mg-menubar-separator-margin);
     border: none;
-    border-top: var(--menubar-separator);
+    border-top: var(--mg-menubar-separator);
     height: 0;
 }

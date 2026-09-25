@@ -2,7 +2,7 @@
 
 :host:is(mg-input-prefix, mg-input-suffix) {
     position: relative;
-    line-height: var(--input-line-height);
+    line-height: var(--mg-input-line-height);
     white-space: nowrap;
 }
 
@@ -10,15 +10,15 @@
 :is(mg-input-text, mg-input-number, mg-input-password, mg-input-select) + :host:is(mg-input-suffix) {
     box-sizing: border-box;
     outline: 2px solid transparent;
-    border: 1px solid var(--input-border-color);
+    border: 1px solid var(--mg-input-border-color);
     border-inline-end-width: 0;
     border-start-start-radius: 3px;
     border-start-end-radius: 0;
     border-end-start-radius: 3px;
     border-end-end-radius: 0;
-    background: var(--input-background-affix);
+    background: var(--mg-input-background-affix);
     padding: 5px 3px;
-    color: var(--text-color);
+    color: var(--mg-text-color);
 }
 
 :is(mg-input-text, mg-input-number, mg-input-password, mg-input-select) + :host:is(mg-input-suffix) {
@@ -86,9 +86,9 @@
 
 :host:is(mg-input-error) {
     display: block;
-    color: var(--input-error-color);
+    color: var(--mg-input-error-color);
 }
 :has(> .bottom > :host:is(mg-input-error)) {
-    --input-border-color: var(--input-error-color);
-    --input-focus-border-color: var(--input-error-color);
+    --mg-input-border-color: var(--mg-input-error-color);
+    --mg-input-focus-border-color: var(--mg-input-error-color);
 }

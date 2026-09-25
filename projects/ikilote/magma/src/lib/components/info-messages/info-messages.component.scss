@@ -4,8 +4,8 @@
 // flex direction, alignment, and sizing.
 //
 // CSS custom properties (overridable by consumers):
-//   --info-message-offset-block    gap between messages and the top/bottom screen edge  (default: 0px)
-//   --info-message-offset-inline   gap between messages and the left/right screen edge  (default: 0px)
+//   --mg-info-message-offset-block    gap between messages and the top/bottom screen edge  (default: 0px)
+//   --mg-info-message-offset-inline   gap between messages and the left/right screen edge  (default: 0px)
 
 :host {
     display: flex;
@@ -20,11 +20,11 @@
     // Add margin-bottom so messages don't touch the screen edge.
     &.pos-bottom {
         flex-direction: column-reverse;
-        margin-block-end: var(--info-message-offset-block);
+        margin-block-end: var(--mg-info-message-offset-block);
     }
 
     &.pos-top {
-        margin-block-start: var(--info-message-offset-block);
+        margin-block-start: var(--mg-info-message-offset-block);
     }
 
     &.pos-center-v {
@@ -34,7 +34,7 @@
     // ── Horizontal axis ──────────────────────────────────────────────────────
     &.pos-left {
         align-items: flex-start;
-        margin-inline-start: var(--info-message-offset-inline);
+        margin-inline-start: var(--mg-info-message-offset-inline);
     }
 
     &.pos-center-h {
@@ -43,6 +43,6 @@
 
     &.pos-right {
         align-items: flex-end;
-        margin-inline-end: var(--info-message-offset-inline);
+        margin-inline-end: var(--mg-info-message-offset-inline);
     }
 }

@@ -12,7 +12,7 @@
     }
 
     details:not([open]) summary {
-        border-end-start-radius: var(--block-radius);
-        border-end-end-radius: var(--block-radius);
+        border-end-start-radius: var(--mg-block-radius);
+        border-end-end-radius: var(--mg-block-radius);
     }
 }

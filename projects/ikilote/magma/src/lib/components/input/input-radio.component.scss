@@ -13,14 +13,14 @@ input {
         &::before {
             display: inline-block;
             position: absolute;
-            top: var(--input-mark-top);
+            top: var(--mg-input-mark-top);
             box-sizing: border-box;
             margin-inline-end: 5px;
             inset-inline-start: 0px;
             outline: 2px solid transparent;
-            border: 1px solid var(--input-border-color);
+            border: 1px solid var(--mg-input-border-color);
             border-radius: 50%;
-            background-color: var(--input-background);
+            background-color: var(--mg-input-background);
             width: var(--size);
             height: var(--size);
             content: '';
@@ -29,7 +29,7 @@ input {
 }
 
 input:checked + label::before {
-    background-image: radial-gradient(var(--input-checked-color) 50%, transparent 55%);
+    background-image: radial-gradient(var(--mg-input-checked-color) 50%, transparent 55%);
 }
 
 input:not([readonly]):disabled + label::before {
@@ -42,7 +42,7 @@ input:disabled + label::before {
 }
 
 input:focus + label::before {
-    outline-color: var(--input-focus-border-color);
+    outline-color: var(--mg-input-focus-border-color);
 }
 
 label {
@@ -75,9 +75,9 @@ label {
                 background-color 0.15s ease,
                 border-color 0.15s ease,
                 color 0.15s ease;
-            border: 1px solid var(--input-border-color);
+            border: 1px solid var(--mg-input-border-color);
             border-radius: 999px;
-            background-color: var(--input-background);
+            background-color: var(--mg-input-background);
             padding-inline: 12px;
             padding-block: 4px;
 
@@ -87,9 +87,9 @@ label {
         }
 
         &:checked + label {
-            border-color: var(--input-checked-color);
-            background-color: var(--input-checked-color);
-            color: var(--input-background);
+            border-color: var(--mg-input-checked-color);
+            background-color: var(--mg-input-checked-color);
+            color: var(--mg-input-background);
         }
 
         &:not([readonly]):disabled + label {
@@ -97,7 +97,7 @@ label {
         }
 
         &:focus + label {
-            outline: 2px solid var(--input-focus-border-color);
+            outline: 2px solid var(--mg-input-focus-border-color);
             outline-offset: 2px;
         }
     }

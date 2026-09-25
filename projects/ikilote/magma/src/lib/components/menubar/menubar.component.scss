@@ -6,46 +6,46 @@
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    border-bottom: var(--menubar-border);
-    background: var(--menubar-background);
+    border-bottom: var(--mg-menubar-border);
+    background: var(--mg-menubar-background);
     user-select: none;
 }
 
 .mg-menu-trigger {
     display: flex;
     align-items: center;
-    gap: var(--menubar-trigger-gap);
+    gap: var(--mg-menubar-trigger-gap);
     cursor: pointer;
     // `box-shadow` is set explicitly (default `none`) so the trigger does not
     // inherit the global `button` box-shadow; themes can override it per state.
-    box-shadow: var(--menubar-trigger-box-shadow);
+    box-shadow: var(--mg-menubar-trigger-box-shadow);
     // Border is applied via the shorthand plus a separate `border-color`, so a
     // theme can set a multi-color 3D bevel (a `border:` shorthand takes one
     // color only).
-    border: var(--menubar-trigger-border);
-    border-color: var(--menubar-trigger-border-color);
-    border-radius: var(--menubar-trigger-radius);
-    background: var(--menubar-trigger-background);
-    padding: var(--menubar-trigger-padding);
-    color: var(--menubar-text-color);
+    border: var(--mg-menubar-trigger-border);
+    border-color: var(--mg-menubar-trigger-border-color);
+    border-radius: var(--mg-menubar-trigger-radius);
+    background: var(--mg-menubar-trigger-background);
+    padding: var(--mg-menubar-trigger-padding);
+    color: var(--mg-menubar-text-color);
     font: inherit;
-    font-size: var(--menubar-font-size);
+    font-size: var(--mg-menubar-font-size);
     white-space: nowrap;
 
     &:hover,
     &:focus-visible {
         outline: none;
-        box-shadow: var(--menubar-trigger-hover-box-shadow);
-        border: var(--menubar-trigger-hover-border);
-        border-color: var(--menubar-trigger-hover-border-color);
-        background: var(--menubar-trigger-hover-background);
+        box-shadow: var(--mg-menubar-trigger-hover-box-shadow);
+        border: var(--mg-menubar-trigger-hover-border);
+        border-color: var(--mg-menubar-trigger-hover-border-color);
+        background: var(--mg-menubar-trigger-hover-background);
     }
 
     .mg-menu-entry.open & {
-        box-shadow: var(--menubar-trigger-open-box-shadow);
-        border: var(--menubar-trigger-open-border);
-        border-color: var(--menubar-trigger-open-border-color);
-        background: var(--menubar-trigger-open-background);
+        box-shadow: var(--mg-menubar-trigger-open-box-shadow);
+        border: var(--mg-menubar-trigger-open-border);
+        border-color: var(--mg-menubar-trigger-open-border-color);
+        background: var(--mg-menubar-trigger-open-background);
     }
 }
 
@@ -56,8 +56,8 @@
 
 .mg-menubar-separator {
     align-self: stretch;
-    margin: var(--menubar-bar-separator-margin);
+    margin: var(--mg-menubar-bar-separator-margin);
     border: none;
-    border-left: var(--menubar-bar-separator);
+    border-left: var(--mg-menubar-bar-separator);
     width: 0;
 }

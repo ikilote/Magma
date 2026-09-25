@@ -9,7 +9,7 @@
     <div class="banner-actions">
       <button type="button" class="secondary" (click)="manage()">{{ texts.managePreferences }}</button>
       <button type="button" class="secondary" (click)="acceptAll(false)">{{ texts.refuseAll }}</button>
-      <button type="button" class="primary" (click)="acceptAll(true)">{{ texts.acceptAll }}</button>
+      <button type="button" class="mg-primary" (click)="acceptAll(true)">{{ texts.acceptAll }}</button>
     </div>
   </div>
 }
@@ -45,6 +45,6 @@
 
   <div class="dialog-actions">
     <button type="button" class="secondary" (click)="acceptAll(false)">{{ texts.refuseAll }}</button>
-    <button type="button" class="primary" (click)="save()">{{ texts.save }}</button>
+    <button type="button" class="mg-primary" (click)="save()">{{ texts.save }}</button>
   </div>
 </mg-dialog>

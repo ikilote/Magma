@@ -3,10 +3,10 @@
     cursor: pointer;
     margin: 2px;
     border-radius: 4px;
-    background: var(--ellipsis-item-background);
+    background: var(--mg-ellipsis-item-background);
     padding: 10px 20px 10px 10px;
 
     &:hover {
-        background: var(--ellipsis-item-hover-background);
+        background: var(--mg-ellipsis-item-hover-background);
     }
 }

@@ -17,8 +17,8 @@
 
     &.embedded {
         transition-duration: 0s;
-        box-shadow: 2px 2px 5px var(--datetime-picker-embedded-shadow-color);
-        background: var(--datetime-picker-embedded-background);
+        box-shadow: 2px 2px 5px var(--mg-datetime-picker-embedded-shadow-color);
+        background: var(--mg-datetime-picker-embedded-background);
         padding: 10px;
     }
 }
@@ -76,22 +76,22 @@
     }
 
     .head {
-        background: var(--datetime-picker-head-background);
+        background: var(--mg-datetime-picker-head-background);
         pointer-events: none;
         font-weight: bold;
     }
 
     .day {
-        background: var(--datetime-picker-day-background);
-        color: var(--datetime-picker-day-color);
+        background: var(--mg-datetime-picker-day-background);
+        color: var(--mg-datetime-picker-day-color);
 
         &.current-month {
-            background: var(--datetime-picker-day-current-month-background);
-            color: var(--datetime-picker-day-current-month-color);
+            background: var(--mg-datetime-picker-day-current-month-background);
+            color: var(--mg-datetime-picker-day-current-month-color);
         }
 
         &.today {
-            background: var(--datetime-picker-day-today-background);
+            background: var(--mg-datetime-picker-day-today-background);
             color: var(-datetime-picker-day-today-text);
             font-weight: bold;
         }
@@ -100,22 +100,22 @@
             font-weight: bold;
 
             &.current-month {
-                color: var(--datetime-picker-day-weekend-current-month-text);
+                color: var(--mg-datetime-picker-day-weekend-current-month-text);
             }
         }
 
         &.selected {
-            background: var(--datetime-picker-day-selected-background);
-            color: var(--datetime-picker-day-selected-color);
+            background: var(--mg-datetime-picker-day-selected-background);
+            color: var(--mg-datetime-picker-day-selected-color);
         }
 
         &[role]:hover {
-            background: var(--datetime-picker-day-selectable-background);
-            color: var(--datetime-picker-day-selectable-color);
+            background: var(--mg-datetime-picker-day-selectable-background);
+            color: var(--mg-datetime-picker-day-selectable-color);
         }
 
         &.disabled {
-            background: var(--datetime-picker-day-disabled-background);
+            background: var(--mg-datetime-picker-day-disabled-background);
         }
     }
 

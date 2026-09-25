@@ -1,18 +1,18 @@
 :host {
     display: flex;
-    box-shadow: var(--block-shadow);
-    border: var(--block-border);
-    border-radius: var(--block-radius);
-    background: var(--block-background);
+    box-shadow: var(--mg-block-shadow);
+    border: var(--mg-block-border);
+    border-radius: var(--mg-block-radius);
+    background: var(--mg-block-background);
 
     & > div {
-        margin: var(--block-margin);
-        width: calc(100% - var(--block-margin) * 2);
+        margin: var(--mg-block-margin);
+        width: calc(100% - var(--mg-block-margin) * 2);
         min-width: 0;
-        height: calc(100% - var(--block-margin) * 2);
+        height: calc(100% - var(--mg-block-margin) * 2);
     }
 
     &[tabindex]:not(button, a[href]):hover {
-        background: var(--click-enter-block-hover-background);
+        background: var(--mg-click-enter-block-hover-background);
     }
 }

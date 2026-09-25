@@ -9,14 +9,14 @@
     z-index: 1;
     backdrop-filter: blur(2px);
     inset-inline-start: 0;
-    background: var(--loader-background);
+    background: var(--mg-loader-background);
     width: 100%;
     height: 100%;
 
     // text
-    color: var(--loader-text-color);
+    color: var(--mg-loader-text-color);
     font-weight: 700;
-    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+    text-shadow: 0 0 3px var(--mg-loader-text-shadow-color);
 }
 
 :host.fixed.loading {

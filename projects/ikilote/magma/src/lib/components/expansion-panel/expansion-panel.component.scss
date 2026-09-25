@@ -1,10 +1,10 @@
 details {
     --pos: 90deg;
-    --radius: var(--block-radius);
+    --radius: var(--mg-block-radius);
 
     &[open] {
         --pos: -90deg;
-        --radius: var(--block-radius) var(--block-radius) 0 0;
+        --radius: var(--mg-block-radius) var(--mg-block-radius) 0 0;
     }
 }
 
@@ -13,9 +13,9 @@ summary {
     position: relative;
     align-items: center;
     cursor: pointer;
-    border: var(--block-border);
+    border: var(--mg-block-border);
     border-radius: var(--radius);
-    padding: var(--expansion-panel-padding);
+    padding: var(--mg-expansion-panel-padding);
 
     &[disabled] {
         pointer-events: none;
@@ -32,15 +32,15 @@ summary {
             top: 0;
 
             transform: rotate(var(--pos));
-            transform-origin: calc(var(--expansion-panel-arrow-size) / 2) calc(var(--expansion-panel-arrow-size) / 2);
+            transform-origin: calc(var(--mg-expansion-panel-arrow-size) / 2) calc(var(--mg-expansion-panel-arrow-size) / 2);
             transition:
-                transform var(--expansion-panel-transition-duration),
-                top var(--expansion-panel-transition-duration);
+                transform var(--mg-expansion-panel-transition-duration),
+                top var(--mg-expansion-panel-transition-duration);
             inset-inline-end: 2px;
-            width: var(--expansion-panel-arrow-size);
-            height: var(--expansion-panel-arrow-size);
+            width: var(--mg-expansion-panel-arrow-size);
+            height: var(--mg-expansion-panel-arrow-size);
             content: '▶';
-            line-height: var(--expansion-panel-arrow-size);
+            line-height: var(--mg-expansion-panel-arrow-size);
             text-align: center;
 
             @media screen and (-webkit-min-device-pixel-ratio: 0) and (min-resolution: 0.001dpcm) {
@@ -55,11 +55,11 @@ summary {
 }
 
 .detail-content {
-    border: var(--block-border);
+    border: var(--mg-block-border);
     border-top: 0;
     border-start-start-radius: 0;
     border-start-end-radius: 0;
-    border-end-start-radius: var(--block-radius);
-    border-end-end-radius: var(--block-radius);
-    padding: var(--expansion-panel-padding);
+    border-end-start-radius: var(--mg-block-radius);
+    border-end-end-radius: var(--mg-block-radius);
+    padding: var(--mg-expansion-panel-padding);
 }

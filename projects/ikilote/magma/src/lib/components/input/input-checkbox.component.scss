@@ -7,13 +7,13 @@ input + label::before {
 
 input:checked + label::before {
     box-sizing: border-box;
-    background-image: linear-gradient(var(--input-checked-color), var(--input-checked-color));
+    background-image: linear-gradient(var(--mg-input-checked-color), var(--mg-input-checked-color));
     background-clip: content-box;
     padding: 3px;
 }
 
 :host.toggle-switch {
-    --height: var(--input-line-height);
+    --height: var(--mg-input-line-height);
     --width: 40px;
     --top: 1px;
     --size: var(--width);
@@ -23,7 +23,7 @@ input:checked + label::before {
             &::before {
                 top: var(--top);
                 border-radius: calc(var(--height) / 2);
-                background: var(--input-background);
+                background: var(--mg-input-background);
                 width: var(--width);
                 height: var(--height);
             }
@@ -35,7 +35,7 @@ input:checked + label::before {
                 transition: inset-inline-start 0.2s;
                 inset-inline-start: 3px;
                 border-radius: 50%;
-                background-color: var(--input-item-color);
+                background-color: var(--mg-input-item-color);
                 width: calc(var(--height) - 4px);
                 height: calc(var(--height) - 4px);
                 content: '';
@@ -44,7 +44,7 @@ input:checked + label::before {
 
         &:checked + ::after {
             inset-inline-start: calc(var(--width) - var(--height) + 1px);
-            background-color: var(--input-item-active-color);
+            background-color: var(--mg-input-item-active-color);
         }
 
         & + ::before {
@@ -52,7 +52,7 @@ input:checked + label::before {
         }
 
         &:focus + ::before {
-            outline-color: var(--input-focus-border-color);
+            outline-color: var(--mg-input-focus-border-color);
         }
     }
 }

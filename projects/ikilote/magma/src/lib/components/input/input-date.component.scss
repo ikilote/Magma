@@ -8,8 +8,8 @@
 
 .picker-hide,
 .picker-icon {
-    --click-enter-hover-background: var(--input-background);
-    --click-enter-hover-filter: none;
+    --mg-click-enter-hover-background: var(--mg-input-background);
+    --mg-click-enter-hover-filter: none;
 
     display: flex;
     position: absolute;
@@ -18,10 +18,10 @@
     align-items: center;
     z-index: 52;
     inset-inline-end: 3px;
-    background: var(--input-background);
+    background: var(--mg-input-background);
     width: 26px;
     height: 26px;
-    color: var(--text-color);
+    color: var(--mg-text-color);
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -42,7 +42,7 @@ input[type='number'] {
     justify-content: flex-start;
 
     input {
-        --input-background: transparent;
+        --mg-input-background: transparent;
         margin: 0 2px;
         border: 0;
         padding: 0;
@@ -63,8 +63,8 @@ input[type='number'] {
         }
 
         &:focus {
-            --input-background: var(--primary300);
-            --input-placeholder-color: var(--primary950);
+            --mg-input-background: var(--mg-primary300);
+            --mg-input-placeholder-color: var(--mg-primary950);
         }
     }
 }

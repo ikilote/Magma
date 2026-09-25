@@ -1,37 +1,37 @@
 span {
-    --click-enter-hover-background:
+    --mg-click-enter-hover-background:
         linear-gradient(to bottom, var(--color) 0%, var(--color) 100%),
-        var(--transparency-checkerboard) top left / 10px 10px repeat;
+        var(--mg-transparency-checkerboard) top left / 10px 10px repeat;
 
     display: block;
     cursor: pointer;
     box-sizing: border-box;
     outline: 2px solid transparent;
-    border: 1px solid var(--input-border-color);
+    border: 1px solid var(--mg-input-border-color);
     border-radius: 3px;
-    background: var(--click-enter-hover-background);
+    background: var(--mg-click-enter-hover-background);
     width: 45px;
     height: 33px;
 
     &:focus {
-        box-shadow: inset 0 0 0 1px var(--neutral000);
+        box-shadow: inset 0 0 0 1px var(--mg-neutral000);
     }
 
     &.empty {
         background: linear-gradient(
             45deg,
-            var(--neutral050) 10px,
-            var(--alert500) 10px,
-            var(--alert500) 11px,
-            var(--neutral050) 11px,
-            var(--neutral050) 25px,
-            var(--alert500) 25px,
-            var(--alert500) 26px,
-            var(--neutral050) 26px,
-            var(--neutral050) 40px,
-            var(--alert500) 40px,
-            var(--alert500) 41px,
-            var(--neutral050) 41px
+            var(--mg-neutral050) 10px,
+            var(--mg-alert500) 10px,
+            var(--mg-alert500) 11px,
+            var(--mg-neutral050) 11px,
+            var(--mg-neutral050) 25px,
+            var(--mg-alert500) 25px,
+            var(--mg-alert500) 26px,
+            var(--mg-neutral050) 26px,
+            var(--mg-neutral050) 40px,
+            var(--mg-alert500) 40px,
+            var(--mg-alert500) 41px,
+            var(--mg-neutral050) 41px
         );
     }
 }

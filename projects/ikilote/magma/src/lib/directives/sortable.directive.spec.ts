@@ -72,8 +72,8 @@ describe('MagmaSortableModule', () => {
             sortableDirective.sortWithRule('name', 'asc');
             fixture.changeDetectorRef.detectChanges();
 
-            expect(classList.contains('sort-asc')).toBe(true);
-            expect(classList.contains('sort-desc')).toBe(false);
+            expect(classList.contains('mg-sort-asc')).toBe(true);
+            expect(classList.contains('mg-sort-desc')).toBe(false);
         });
 
         it('should apply "sort-desc" class when current rule and order match', () => {
@@ -81,16 +81,16 @@ describe('MagmaSortableModule', () => {
             sortableDirective.sortWithRule('name', 'desc');
             fixture.changeDetectorRef.detectChanges();
 
-            expect(classList.contains('sort-desc')).toBe(true);
-            expect(classList.contains('sort-asc')).toBe(false);
+            expect(classList.contains('mg-sort-desc')).toBe(true);
+            expect(classList.contains('mg-sort-asc')).toBe(false);
         });
 
         it('should apply "sort-desc" class when click on "sort-desc"', () => {
             componentInstance.sortRule = 'name';
             sortRuleDirectiveElement.nativeElement.click();
             fixture.changeDetectorRef.detectChanges();
-            expect(classList.contains('sort-asc')).toBe(true);
-            expect(classList.contains('sort-desc')).toBe(false);
+            expect(classList.contains('mg-sort-asc')).toBe(true);
+            expect(classList.contains('mg-sort-desc')).toBe(false);
 
             expect(componentInstance.sortable).toEqual([
                 { name: 'Alice', age: 30 },
@@ -99,8 +99,8 @@ describe('MagmaSortableModule', () => {
 
             sortRuleDirectiveElement.nativeElement.click();
             fixture.changeDetectorRef.detectChanges();
-            expect(classList.contains('sort-asc')).toBe(false);
-            expect(classList.contains('sort-desc')).toBe(true);
+            expect(classList.contains('mg-sort-asc')).toBe(false);
+            expect(classList.contains('mg-sort-desc')).toBe(true);
 
             expect(componentInstance.sortable).toEqual([
                 { name: 'Bob', age: 25 },
@@ -113,14 +113,14 @@ describe('MagmaSortableModule', () => {
         it('should apply "sort-cell" class when rule type is "none"', () => {
             componentInstance.sortRule = { type: 'none' };
             fixture.changeDetectorRef.detectChanges();
-            expect(classList.contains('sort-cell')).toBe(true);
+            expect(classList.contains('mg-sort-cell')).toBe(true);
         });
 
         it('should apply "sort-cell" class when rule type is "none"', () => {
             componentInstance.sortRule = [{ type: 'none' }];
             fixture.changeDetectorRef.detectChanges();
             sortRuleDirective.ngOnInit();
-            expect(classList.contains('sort-cell')).toBe(true);
+            expect(classList.contains('mg-sort-cell')).toBe(true);
         });
 
         it('should initialize with string rule', () => {

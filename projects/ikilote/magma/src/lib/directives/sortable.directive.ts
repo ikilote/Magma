@@ -84,17 +84,17 @@ export class MagmaSortRuleDirective implements OnInit {
         });
     }
 
-    @HostBinding('class.sort-asc')
+    @HostBinding('class.mg-sort-asc')
     get classSortAsc() {
         return this.sortable?.currentRuleOrder === true && this.sortable?.currentRule === this.sortRule();
     }
 
-    @HostBinding('class.sort-desc')
+    @HostBinding('class.mg-sort-desc')
     get classSortDesc() {
         return this.sortable?.currentRuleOrder === false && this.sortable?.currentRule === this.sortRule();
     }
 
-    @HostBinding('class.sort-cell')
+    @HostBinding('class.mg-sort-cell')
     get classSortCell() {
         return this.isNone();
     }

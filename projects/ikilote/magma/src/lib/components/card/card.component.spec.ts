@@ -156,14 +156,14 @@ describe('MagmaCard usage', () => {
             expect(cardEl.classList.contains('vertical')).toBe(true);
         });
 
-        it('should set --card-image CSS variable', () => {
+        it('should set --mg-card-image CSS variable', () => {
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-image')).toBe('url(test.jpg)');
+            expect(cardEl.style.getPropertyValue('--mg-card-image')).toBe('url(test.jpg)');
         });
 
-        it('should set --card-ratio CSS variable', () => {
+        it('should set --mg-card-ratio CSS variable', () => {
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-ratio')).toBe('1 / 3');
+            expect(cardEl.style.getPropertyValue('--mg-card-ratio')).toBe('1 / 3');
         });
 
         it('should update ratio CSS variable when input changes', () => {
@@ -171,23 +171,23 @@ describe('MagmaCard usage', () => {
             hostFixture.changeDetectorRef.detectChanges();
 
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-ratio')).toBe('1 / 2');
+            expect(cardEl.style.getPropertyValue('--mg-card-ratio')).toBe('1 / 2');
         });
 
-        it('should not set --card-height when cardHeight is undefined', () => {
+        it('should not set --mg-card-height when cardHeight is undefined', () => {
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-height')).toBe('');
+            expect(cardEl.style.getPropertyValue('--mg-card-height')).toBe('');
         });
 
-        it('should set --card-height CSS variable when cardHeight is provided', () => {
+        it('should set --mg-card-height CSS variable when cardHeight is provided', () => {
             hostFixture.componentInstance.cardHeight = 300;
             hostFixture.changeDetectorRef.detectChanges();
 
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-height')).toBe('300px');
+            expect(cardEl.style.getPropertyValue('--mg-card-height')).toBe('300px');
         });
 
-        it('should update --card-height when cardHeight changes', () => {
+        it('should update --mg-card-height when cardHeight changes', () => {
             hostFixture.componentInstance.cardHeight = 200;
             hostFixture.changeDetectorRef.detectChanges();
 
@@ -195,20 +195,20 @@ describe('MagmaCard usage', () => {
             hostFixture.changeDetectorRef.detectChanges();
 
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-height')).toBe('400px');
+            expect(cardEl.style.getPropertyValue('--mg-card-height')).toBe('400px');
         });
 
-        it('should not set --card-img-height when imgHeight is undefined', () => {
+        it('should not set --mg-card-img-height when imgHeight is undefined', () => {
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-img-height')).toBe('');
+            expect(cardEl.style.getPropertyValue('--mg-card-img-height')).toBe('');
         });
 
-        it('should set --card-img-height CSS variable when imgHeight is provided', () => {
+        it('should set --mg-card-img-height CSS variable when imgHeight is provided', () => {
             hostFixture.componentInstance.imgHeight = '250px';
             hostFixture.changeDetectorRef.detectChanges();
 
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-img-height')).toBe('250px');
+            expect(cardEl.style.getPropertyValue('--mg-card-img-height')).toBe('250px');
         });
 
         it('should accept a percentage value for imgHeight', () => {
@@ -216,7 +216,7 @@ describe('MagmaCard usage', () => {
             hostFixture.changeDetectorRef.detectChanges();
 
             const cardEl = hostFixture.nativeElement.querySelector('mg-card') as HTMLElement;
-            expect(cardEl.style.getPropertyValue('--card-img-height')).toBe('40%');
+            expect(cardEl.style.getPropertyValue('--mg-card-img-height')).toBe('40%');
         });
 
         it('should not add image-zoom class by default', () => {

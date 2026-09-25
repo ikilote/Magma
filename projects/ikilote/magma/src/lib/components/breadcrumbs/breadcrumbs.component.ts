@@ -5,7 +5,7 @@ import { Component, input } from '@angular/core';
     templateUrl: './breadcrumbs.component.html',
     styleUrl: './breadcrumbs.component.scss',
     host: {
-        '[style.--breadcrumbs-separator]': 'separator() ? `"${separator()?.trim()}"` : undefined',
+        '[style.--mg-breadcrumbs-separator]': 'separator() ? `"${separator()?.trim()}"` : undefined',
     },
 })
 export class MagmaBreadcrumbs {

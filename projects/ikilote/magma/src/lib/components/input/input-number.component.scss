@@ -14,7 +14,7 @@
         right: 4px;
         pointer-events: none;
         content: attr(data-number);
-        color: var(--text-color);
+        color: var(--mg-text-color);
     }
 
     &:focus-within {
@@ -23,7 +23,7 @@
         }
 
         input {
-            color: var(--text-color);
+            color: var(--mg-text-color);
         }
     }
 

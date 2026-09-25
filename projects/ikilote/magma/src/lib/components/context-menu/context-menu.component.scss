@@ -1,11 +1,11 @@
 :host {
     &.default {
         transition-duration: 0s;
-        box-shadow: var(--context-menu-box-shadow);
-        border: var(--context-menu-border);
-        border-color: var(--context-menu-border-color);
-        border-radius: var(--context-menu-border-radius);
-        background: var(--context-menu-background);
+        box-shadow: var(--mg-context-menu-box-shadow);
+        border: var(--mg-context-menu-border);
+        border-color: var(--mg-context-menu-border-color);
+        border-radius: var(--mg-context-menu-border-radius);
+        background: var(--mg-context-menu-background);
 
         menu {
             display: block;
@@ -19,12 +19,12 @@
 
             li {
                 display: flex;
-                gap: var(--context-menu-item-gap);
+                gap: var(--mg-context-menu-item-gap);
                 cursor: pointer;
-                margin: var(--context-menu-item-margin);
-                border-radius: var(--context-menu-item-radius);
-                background: var(--context-menu-item-background);
-                padding: var(--context-menu-item-padding);
+                margin: var(--mg-context-menu-item-margin);
+                border-radius: var(--mg-context-menu-item-radius);
+                background: var(--mg-context-menu-item-background);
+                padding: var(--mg-context-menu-item-padding);
 
                 &:hover {
                     --context-menu-item: var(--context-menu-item-hover);
@@ -66,10 +66,10 @@
             transition-duration: 0.5s;
             transition-property: opacity, transform, display;
             cursor: pointer;
-            box-shadow: var(--shadow-x) var(--shadow-y) 5px var(--context-menu-item-shadow-color);
-            border: 2px solid var(--context-menu-background);
+            box-shadow: var(--shadow-x) var(--shadow-y) 5px var(--mg-context-menu-item-shadow-color);
+            border: 2px solid var(--mg-context-menu-background);
             border-radius: 50%;
-            background: var(--context-menu-item-background);
+            background: var(--mg-context-menu-item-background);
             width: var(--size);
             height: var(--size);
             overflow: hidden;
@@ -90,7 +90,7 @@
             }
 
             &:hover {
-                --context-menu-item: var(--context-menu-item-background-hover);
+                --context-menu-item: var(--mg-context-menu-item-background-hover);
             }
 
             &.item-content {

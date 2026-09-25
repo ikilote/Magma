@@ -35,10 +35,10 @@ export class MagmaContribCalendar {
     readonly calendar = input.required<ContribCalendar>();
 
     readonly steps = input<MagmaContribCalendarSteps>([
-        { value: 1, color: 'var(--contrib-calendar-tile-color-lvl1)' },
-        { value: 6, color: 'var(--contrib-calendar-tile-color-lvl2)' },
-        { value: 11, color: 'var(--contrib-calendar-tile-color-lvl3)' },
-        { value: 16, color: 'var(--contrib-calendar-tile-color-lvl4)' },
+        { value: 1, color: 'var(--mg-contrib-calendar-tile-color-lvl1)' },
+        { value: 6, color: 'var(--mg-contrib-calendar-tile-color-lvl2)' },
+        { value: 11, color: 'var(--mg-contrib-calendar-tile-color-lvl3)' },
+        { value: 16, color: 'var(--mg-contrib-calendar-tile-color-lvl4)' },
     ]);
 
     readonly firstDayOfWeek = input<MagmaContribCalendarDays>();

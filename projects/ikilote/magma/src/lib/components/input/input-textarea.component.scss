@@ -5,11 +5,11 @@
     width: -webkit-fill-available;
     width: fill-available;
     height: var(--default, 100%);
-    min-height: var(--min, var(--input-textarea-min-height));
-    max-height: var(--max, var(--input-textarea-max-height));
+    min-height: var(--min, var(--mg-input-textarea-min-height));
+    max-height: var(--max, var(--mg-input-textarea-max-height));
 
     &.monospace {
-        --font-family: var(--font-mono);
+        --mg-font-family: var(--mg-font-mono);
     }
 
     & > div {
@@ -28,22 +28,22 @@
 textarea {
     margin: 0;
     height: var(--default, 100%);
-    min-height: var(--min, var(--input-textarea-min-height));
-    max-height: var(--max, var(--input-textarea-max-height));
+    min-height: var(--min, var(--mg-input-textarea-min-height));
+    max-height: var(--max, var(--mg-input-textarea-max-height));
     resize: var(--input-textarea-vertical, vertical);
 }
 
 .limit {
     --percent: calc(var(--size) / var(--total) * 360deg);
-    --width: var(--input-textarea-limit-size);
+    --width: var(--mg-input-textarea-limit-size);
     display: inline-block;
     margin-bottom: 3px;
-    outline: var(--input-textarea-limit-border);
+    outline: var(--mg-input-textarea-limit-border);
     outline-offset: 1px;
     border-radius: 50%;
     background-image: conic-gradient(
-        var(--input-textarea-limit-background) var(--percent),
-        var(--input-textarea-limit-color) var(--percent)
+        var(--mg-input-textarea-limit-background) var(--percent),
+        var(--mg-input-textarea-limit-color) var(--percent)
     );
     width: var(--width);
     min-width: var(--width);

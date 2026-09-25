@@ -1,10 +1,10 @@
 :host {
     display: flex;
-    box-shadow: var(--card-shadow);
-    border: var(--card-border);
-    border-radius: var(--card-radius);
-    background: var(--card-background);
-    height: var(--card-height);
+    box-shadow: var(--mg-card-shadow);
+    border: var(--mg-card-border);
+    border-radius: var(--mg-card-radius);
+    background: var(--mg-card-background);
+    height: var(--mg-card-height);
     overflow: hidden;
 
     &.vertical {
@@ -13,7 +13,7 @@
 
         .card-image {
             width: 100%;
-            height: var(--card-img-height, calc(var(--card-ratio) * 100%));
+            height: var(--mg-card-img-height, calc(var(--mg-card-ratio) * 100%));
         }
     }
 
@@ -24,24 +24,24 @@
 
 .card-image {
     position: relative;
-    width: calc(var(--card-ratio) * 100%);
-    min-height: var(--card-img-height);
+    width: calc(var(--mg-card-ratio) * 100%);
+    min-height: var(--mg-card-img-height);
     overflow: hidden;
 }
 
 .card-image-inner {
     position: absolute;
-    transition: transform var(--card-zoom-duration) ease;
+    transition: transform var(--mg-card-zoom-duration) ease;
     inset: 0;
-    background: var(--card-image) center center / cover no-repeat;
+    background: var(--mg-card-image) center center / cover no-repeat;
 }
 
 :host(.image-zoom):hover .card-image-inner {
-    transform: scale(var(--card-zoom-scale));
+    transform: scale(var(--mg-card-zoom-scale));
 }
 
 .card-body {
     flex: 1;
-    padding: var(--card-padding);
+    padding: var(--mg-card-padding);
     min-width: 0;
 }

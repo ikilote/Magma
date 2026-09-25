@@ -1,27 +1,27 @@
 :host {
     display: block;
     cursor: pointer;
-    border-bottom: 5px solid var(--tab-border-color);
+    border-bottom: 5px solid var(--mg-tab-border-color);
     padding: 5px 20px;
     font-weight: 700;
     font-size: 20px;
 
     &:not(.selected) {
-        color: var(--tab-text-color);
+        color: var(--mg-tab-text-color);
     }
 
     &.selected {
-        border-color: var(--tab-select-border-color);
+        border-color: var(--mg-tab-select-border-color);
     }
 
     &:hover {
-        border-color: var(--tab-hover-border-color);
-        color: var(--tab-text-border-color);
+        border-color: var(--mg-tab-hover-border-color);
+        color: var(--mg-tab-text-border-color);
     }
 }
 
 .compact > .tabs > :host {
-    border-bottom: 3px solid var(--tab-border-color);
+    border-bottom: 3px solid var(--mg-tab-border-color);
     padding: 3px 10px;
     font-weight: 500;
     font-size: 14px;

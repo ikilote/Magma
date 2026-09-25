@@ -86,16 +86,16 @@ describe('MagmaContribCalendar', () => {
             expect(color2).toBe(undefined);
 
             const color3 = component['getColor'](1);
-            expect(color3).toBe('var(--contrib-calendar-tile-color-lvl1)');
+            expect(color3).toBe('var(--mg-contrib-calendar-tile-color-lvl1)');
 
             const color4 = component['getColor'](6);
-            expect(color4).toBe('var(--contrib-calendar-tile-color-lvl2)');
+            expect(color4).toBe('var(--mg-contrib-calendar-tile-color-lvl2)');
 
             const color5 = component['getColor'](11);
-            expect(color5).toBe('var(--contrib-calendar-tile-color-lvl3)');
+            expect(color5).toBe('var(--mg-contrib-calendar-tile-color-lvl3)');
 
             const color6 = component['getColor'](16);
-            expect(color6).toBe('var(--contrib-calendar-tile-color-lvl4)');
+            expect(color6).toBe('var(--mg-contrib-calendar-tile-color-lvl4)');
         });
 
         it('should create a list of dates with values', () => {

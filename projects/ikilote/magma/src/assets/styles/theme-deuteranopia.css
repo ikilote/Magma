@@ -18,21 +18,21 @@
 
 body.theme-deuteranopia {
     /* Alert: orange instead of red (clearly distinct from blue) */
-    --alertH: 30;
+    --mg-alertH: 30;
 
     /* Warn: yellow-amber (warm, distinct from both blue and orange) */
-    --warnH: 50;
+    --mg-warnH: 50;
 
     /* Success: blue instead of green (safe color for deuteranopia) */
-    --successH: 220;
+    --mg-successH: 220;
 
     /* Raise saturation so semantic colors pop even without hue discrimination */
-    --primaryS: 20%;
+    --mg-primaryS: 20%;
 }
 
 body.theme-deuteranopia.dark-mode {
-    --alertH: 30;
-    --warnH: 50;
-    --successH: 220;
-    --primaryS: 20%;
+    --mg-alertH: 30;
+    --mg-warnH: 50;
+    --mg-successH: 220;
+    --mg-primaryS: 20%;
 }

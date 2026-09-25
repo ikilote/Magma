@@ -18,41 +18,41 @@
 
 body.theme-achromatopsia {
     /* ── Desaturate all color palettes to grayscale ─────────────────────── */
-    --primaryS: 0%;
-    --primarySsoft: 0%;
+    --mg-primaryS: 0%;
+    --mg-primarySsoft: 0%;
     --alertS: 0%;
     --warnS: 0%;
     --successS: 0%;
 
     /* ── Neutral palette: fully neutral (no warm/cool tint) ─────────────── */
-    --neutralS: 0%;
+    --mg-neutralS: 0%;
 
     /* ── Semantic tokens: rely on lightness contrast only ───────────────── */
 
     /* Alert: dark gray to differentiate from success/warn */
-    --alertH: 0;
+    --mg-alertH: 0;
 
     /* Warn: mid gray */
-    --warnH: 0;
+    --mg-warnH: 0;
 
     /* Success: lighter gray */
-    --successH: 0;
+    --mg-successH: 0;
 
     /* ── Borders: slightly thicker to compensate for missing color cues ─── */
-    --input-border-width: 2px;
-    --button-default-border-width: 2px;
+    --mg-input-border-width: 2px;
+    --mg-button-default-border-width: 2px;
 }
 
 body.theme-achromatopsia.dark-mode {
-    --primaryS: 0%;
-    --primarySsoft: 0%;
+    --mg-primaryS: 0%;
+    --mg-primarySsoft: 0%;
     --alertS: 0%;
     --warnS: 0%;
     --successS: 0%;
-    --neutralS: 0%;
-    --alertH: 0;
-    --warnH: 0;
-    --successH: 0;
-    --input-border-width: 2px;
-    --button-default-border-width: 2px;
+    --mg-neutralS: 0%;
+    --mg-alertH: 0;
+    --mg-warnH: 0;
+    --mg-successH: 0;
+    --mg-input-border-width: 2px;
+    --mg-button-default-border-width: 2px;
 }

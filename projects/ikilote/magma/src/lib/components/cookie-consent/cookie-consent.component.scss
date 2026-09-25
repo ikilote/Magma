@@ -5,21 +5,21 @@
 // ── Banner ───────────────────────────────────────────────────────────────────
 
 .banner {
-    background: var(--cookie-consent-banner-background);
-    padding: var(--cookie-consent-banner-padding);
+    background: var(--mg-cookie-consent-banner-background);
+    padding: var(--mg-cookie-consent-banner-padding);
 }
 
 .banner-actions {
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: var(--cookie-consent-actions-gap);
+    gap: var(--mg-cookie-consent-actions-gap);
 }
 
 // ── Dialog ───────────────────────────────────────────────────────────────────
 
 .dialog-presentation {
-    margin: var(--cookie-consent-presentation-margin);
+    margin: var(--mg-cookie-consent-presentation-margin);
 }
 
 // ── Dialog Option row ────────────────────────────────────────────────────────
@@ -29,21 +29,21 @@
     grid-template:
         'label toggle' minmax(0, auto)
         'desc  toggle' auto
-        / 1fr var(--cookie-consent-option-toggle-width);
-    gap: var(--cookie-consent-option-gap);
-    margin-bottom: var(--cookie-consent-option-margin-bottom);
+        / 1fr var(--mg-cookie-consent-option-toggle-width);
+    gap: var(--mg-cookie-consent-option-gap);
+    margin-bottom: var(--mg-cookie-consent-option-margin-bottom);
     width: 100%;
 }
 
 .option-label {
     grid-area: label;
-    font-weight: var(--cookie-consent-option-label-font-weight);
+    font-weight: var(--mg-cookie-consent-option-label-font-weight);
 }
 
 .option-desc {
     grid-area: desc;
-    color: var(--cookie-consent-option-desc-color);
-    font-size: var(--cookie-consent-option-desc-font-size);
+    color: var(--mg-cookie-consent-option-desc-color);
+    font-size: var(--mg-cookie-consent-option-desc-font-size);
 }
 
 .option-toggle {
@@ -59,7 +59,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;
-    gap: var(--cookie-consent-actions-gap);
-    margin-top: var(--cookie-consent-dialog-actions-margin-top);
-    padding-bottom: var(--cookie-consent-dialog-actions-padding-bottom);
+    gap: var(--mg-cookie-consent-actions-gap);
+    margin-top: var(--mg-cookie-consent-dialog-actions-margin-top);
+    padding-bottom: var(--mg-cookie-consent-dialog-actions-padding-bottom);
 }

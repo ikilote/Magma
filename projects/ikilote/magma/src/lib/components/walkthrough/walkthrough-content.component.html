@@ -4,7 +4,7 @@
     <ng-template [cdkPortalOutlet]="portal()" (attached)="update()" />
   </div>
 
-  <nav class="buttons">
+  <nav class="mg-buttons">
     @if (portal().previousStep()) {
       <button type="button" class="previous" (click)="previous()" (window:keydown.arrowLeft)="previous()">
         {{ portal().previousButtonName() }}

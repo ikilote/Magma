@@ -45,13 +45,13 @@
     font-size: 12px;
 
     .error {
-        color: var(--input-error-color);
+        color: var(--mg-input-error-color);
     }
 }
 
 :host:has(> .bottom > .error) {
-    --input-border-color: var(--input-error-color);
-    --input-focus-border-color: var(--input-error-color);
+    --mg-input-border-color: var(--mg-input-error-color);
+    --mg-input-focus-border-color: var(--mg-input-error-color);
 }
 
 label {

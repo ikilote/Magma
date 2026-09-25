@@ -7,39 +7,39 @@
 .progress-text {
     box-sizing: border-box;
     width: 100%;
-    color: var(--loader-text-color);
+    color: var(--mg-loader-text-color);
     font-size: 12px;
     text-align: end;
-    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+    text-shadow: 0 0 3px var(--mg-loader-text-shadow-color);
 }
 
 .progress {
     box-sizing: border-box;
-    border: 2px solid var(--loader-text-color);
-    background: var(--loader-progress-background);
+    border: 2px solid var(--mg-loader-text-color);
+    background: var(--mg-loader-progress-background);
     padding: 2px;
     width: 100%;
     height: 18px;
     overflow: hidden;
-    text-shadow: 0 0 3px var(--loader-text-shadow-color);
+    text-shadow: 0 0 3px var(--mg-loader-text-shadow-color);
 
     &::before {
         display: block;
-        background: var(--loader-progress-bar-background);
+        background: var(--mg-loader-progress-bar-background);
         width: calc(var(--progress) * 1%);
         height: 10px;
         content: '';
     }
 
     &.undetermined::before {
-        animation: move 2s linear infinite;
+        animation: mg-move 2s linear infinite;
         background: linear-gradient(
             -45deg,
-            var(--loader-progress-bar-background) 25%,
+            var(--mg-loader-progress-bar-background) 25%,
             transparent 25%,
             transparent 50%,
-            var(--loader-progress-bar-background) 50%,
-            var(--loader-progress-bar-background) 75%,
+            var(--mg-loader-progress-bar-background) 50%,
+            var(--mg-loader-progress-bar-background) 75%,
             transparent 75%,
             transparent
         );
@@ -47,7 +47,7 @@
     }
 }
 
-@keyframes move {
+@keyframes mg-move {
     from {
         background-position: 0 0;
     }

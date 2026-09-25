@@ -2,7 +2,7 @@
     display: inline-flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--tag-list-gap);
+    gap: var(--mg-tag-list-gap);
 
     &.disabled {
         opacity: 0.5;
@@ -13,18 +13,18 @@
 .tag {
     display: flex;
     align-items: center;
-    border-radius: var(--tag-item-radius);
-    background: var(--tag-item-background);
-    padding: var(--tag-item-padding);
-    min-height: var(--tag-item-min-height);
-    color: var(--tag-item-color);
-    font-size: var(--tag-item-font-size);
+    border-radius: var(--mg-tag-item-radius);
+    background: var(--mg-tag-item-background);
+    padding: var(--mg-tag-item-padding);
+    min-height: var(--mg-tag-item-min-height);
+    color: var(--mg-tag-item-color);
+    font-size: var(--mg-tag-item-font-size);
 
     &.clickable {
         cursor: pointer;
 
         &:hover {
-            background: var(--tag-item-hover-background);
+            background: var(--mg-tag-item-hover-background);
         }
     }
 }
@@ -44,17 +44,17 @@ button {
     border: none;
     background: transparent;
     padding: 0 4px;
-    color: var(--tag-item-remove-color);
+    color: var(--mg-tag-item-remove-color);
     font-size: 1.1em;
 
     &:hover,
     &:focus-visible {
         opacity: 1;
-        color: var(--tag-item-remove-color-hover);
+        color: var(--mg-tag-item-remove-color-hover);
     }
 
     &:focus-visible {
-        outline: 2px solid var(--color-focus-ring);
+        outline: 2px solid var(--mg-color-focus-ring);
         outline-offset: 0;
         border-radius: 2px;
     }
@@ -64,9 +64,9 @@ label.tag-input {
     display: inline-grid;
     position: relative;
     align-items: center;
-    outline: 1px solid var(--tag-input-border-color);
-    border-radius: var(--tag-item-radius);
-    background: var(--tag-input-background);
+    outline: 1px solid var(--mg-tag-input-border-color);
+    border-radius: var(--mg-tag-item-radius);
+    background: var(--mg-tag-input-background);
 
     &::after,
     input {
@@ -85,7 +85,7 @@ label.tag-input {
     }
 
     &:has(> input:focus) {
-        outline-color: var(--tag-input-focus-border-color);
+        outline-color: var(--mg-tag-input-focus-border-color);
         outline-width: 2px;
     }
 

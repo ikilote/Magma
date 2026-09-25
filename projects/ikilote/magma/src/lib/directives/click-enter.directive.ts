@@ -3,7 +3,7 @@ import { Directive, HostListener, Input, booleanAttribute, output } from '@angul
 @Directive({
     selector: '[clickEnter]',
     host: {
-        '[class.click-enter]': 'true',
+        '[class.mg-click-enter]': 'true',
         '[attr.tabindex]': '!disabled ? 0 : null',
         '[attr.role]': "!disabled ? 'button' : null",
     },

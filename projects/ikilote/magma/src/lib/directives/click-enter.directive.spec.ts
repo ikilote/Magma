@@ -56,8 +56,8 @@ describe('MagmaClickEnterDirective', () => {
 
     describe('Host Bindings', () => {
         it('should add click-enter class to host element', () => {
-            expect(clickableElement.nativeElement.classList.contains('click-enter')).toBe(true);
-            expect(disabledElement.nativeElement.classList.contains('click-enter')).toBe(true);
+            expect(clickableElement.nativeElement.classList.contains('mg-click-enter')).toBe(true);
+            expect(disabledElement.nativeElement.classList.contains('mg-click-enter')).toBe(true);
         });
 
         it('should set tabindex to 0 when not disabled', () => {

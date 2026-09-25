@@ -37,8 +37,8 @@
         }
     }
 
-    &.compact.click-enter:focus,
-    .click-enter:focus {
+    &.compact.mg-click-enter:focus,
+    .mg-click-enter:focus {
         outline-width: var(--mg-light-dark-focus-outline-width);
         outline-offset: var(--mg-light-dark-focus-outline-offset);
     }

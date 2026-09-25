@@ -8,10 +8,10 @@ let index = 0;
 @Directive({
     selector: '[resizer]',
     host: {
-        '[class.ew-resize]': "resize === 'left' || resize === 'right'",
-        '[class.ns-resize]': "resize === 'top' || resize === 'bottom'",
-        '[class.nw-resize]': "resize === 'top-left' || resize === 'bottom-right'",
-        '[class.ne-resize]': "resize === 'top-right' || resize === 'bottom-left'",
+        '[class.mg-ew-resize]': "resize === 'left' || resize === 'right'",
+        '[class.mg-ns-resize]': "resize === 'top' || resize === 'bottom'",
+        '[class.mg-nw-resize]': "resize === 'top-left' || resize === 'bottom-right'",
+        '[class.mg-ne-resize]': "resize === 'top-right' || resize === 'bottom-left'",
     },
 })
 export class MagmaResize {

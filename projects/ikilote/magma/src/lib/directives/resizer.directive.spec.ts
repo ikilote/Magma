@@ -83,14 +83,14 @@ describe('MagmaResize Directive', () => {
     describe('Edge Detection', () => {
         // Component width is 100px. (which is < 5px threshold)
         [
-            { x: 2, y: 15, resize: 'left', class: 'ew-resize' },
-            { x: 2, y: 2, resize: 'top-left', class: 'nw-resize' },
-            { x: 2, y: 98, resize: 'bottom-left', class: 'ne-resize' },
-            { x: 98, y: 50, resize: 'right', class: 'ew-resize' },
-            { x: 98, y: 2, resize: 'top-right', class: 'ne-resize' },
-            { x: 98, y: 98, resize: 'bottom-right', class: 'nw-resize' },
-            { x: 50, y: 2, resize: 'top', class: 'ns-resize' },
-            { x: 50, y: 98, resize: 'bottom', class: 'ns-resize' },
+            { x: 2, y: 15, resize: 'left', class: 'mg-ew-resize' },
+            { x: 2, y: 2, resize: 'top-left', class: 'mg-nw-resize' },
+            { x: 2, y: 98, resize: 'bottom-left', class: 'mg-ne-resize' },
+            { x: 98, y: 50, resize: 'right', class: 'mg-ew-resize' },
+            { x: 98, y: 2, resize: 'top-right', class: 'mg-ne-resize' },
+            { x: 98, y: 98, resize: 'bottom-right', class: 'mg-nw-resize' },
+            { x: 50, y: 2, resize: 'top', class: 'mg-ns-resize' },
+            { x: 50, y: 98, resize: 'bottom', class: 'mg-ns-resize' },
         ].forEach(data => {
             it(`should detect the ${data.resize} edge`, () => {
                 const rect = directiveEl.nativeElement.getBoundingClientRect();

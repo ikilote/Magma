@@ -952,7 +952,7 @@ pre.mono {
     MARK: Click-enter
 */
 
-.click-enter[tabindex]:not(button, a[href]) {
+.mg-click-enter[tabindex]:not(button, a[href]) {
     outline: 2px solid transparent;
     outline-offset: -1px;
 
@@ -971,7 +971,7 @@ pre.mono {
     MARK: Walkthrough
 */
 
-.walkthrough-backdrop {
+.mg-walkthrough-backdrop {
     background-color: var(--mg-walkthrough-backdrop);
 }
 
@@ -987,7 +987,7 @@ pre.mono {
         pointer-events: all;
     }
 
-    &:has(mg-window > :is(.ew-resize, .ns-resize)) {
+    &:has(mg-window > :is(.mg-ew-resize, .mg-ns-resize)) {
         pointer-events: all;
     }
 
@@ -997,22 +997,22 @@ pre.mono {
     }
 }
 
-.ew-resize {
+.mg-ew-resize {
     cursor: ew-resize;
 }
-.ns-resize {
+.mg-ns-resize {
     cursor: ns-resize;
 }
-.ne-resize {
+.mg-ne-resize {
     cursor: nesw-resize;
 }
-.nw-resize {
+.mg-nw-resize {
     cursor: nwse-resize;
 }
-.ew-resize,
-.ns-resize,
-.ne-resize,
-.nw-resize {
+.mg-ew-resize,
+.mg-ns-resize,
+.mg-ne-resize,
+.mg-nw-resize {
     user-select: none;
 
     &::before {

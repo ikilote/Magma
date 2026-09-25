@@ -294,7 +294,7 @@ export class MagmaDatetimePickerComponent implements OnChanges, OnDestroy {
         }
 
         if (move) {
-            const list = Array.from(this.element.nativeElement.querySelectorAll<HTMLDivElement>('.day.click-enter'));
+            const list = Array.from(this.element.nativeElement.querySelectorAll<HTMLDivElement>('.day.mg-click-enter'));
             const index = list.findIndex(e => e.classList.contains('selected'));
             const pos = index + move;
             if (list[pos]) {

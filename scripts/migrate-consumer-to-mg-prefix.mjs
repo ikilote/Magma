@@ -108,6 +108,12 @@ const CLASS_NAMES = [
     'status-neutral',
     'status-offline',
     'status-pulse',
+    'click-enter',
+    'walkthrough-backdrop',
+    'ew-resize',
+    'ns-resize',
+    'ne-resize',
+    'nw-resize',
 ].sort((a, b) => b.length - a.length);
 const classAlt = CLASS_NAMES.map(escape).join('|');
 const classToken = new RegExp(`(?<![\\w-])(${classAlt})(?![\\w-])`, 'g');

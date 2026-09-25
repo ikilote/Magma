@@ -44,7 +44,7 @@ export class MagmaWalkthrough {
                 element.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' });
                 const overlayRef = this.overlay.create({
                     hasBackdrop: true,
-                    backdropClass: 'walkthrough-backdrop',
+                    backdropClass: 'mg-walkthrough-backdrop',
                     panelClass: 'overlay-panel',
                     scrollStrategy: this.overlay.scrollStrategies.block(),
                     positionStrategy: this.overlay

@@ -5,6 +5,8 @@ import { Component, ComponentRef, contentChildren, inject } from '@angular/core'
 import { MagmaWalkthroughContent } from './walkthrough-content.component';
 import { MagmaWalkthroughStep } from './walkthrough-step.directive';
 
+import { deepQuerySelector } from '../../utils/dom';
+
 export const magmaWalkthroughConnectedPosition: ConnectedPosition[] = [
     { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top', offsetY: 10 },
     { originX: 'start', originY: 'top', overlayX: 'start', overlayY: 'bottom', offsetY: -10 },
@@ -37,7 +39,7 @@ export class MagmaWalkthrough {
         if (firstIndex !== -1) {
             this.portal = this.stepsDirective()[firstIndex];
 
-            const element = document.querySelector(this.portal.selector());
+            const element = deepQuerySelector(this.portal.selector());
             if (element) {
                 element.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' });
                 const overlayRef = this.overlay.create({
@@ -85,7 +87,7 @@ export class MagmaWalkthrough {
             this.portal = this.stepsDirective()[firstIndex];
             this.content.setInput('portal', this.portal);
 
-            const element = document.querySelector(this.portal.selector());
+            const element = deepQuerySelector(this.portal.selector());
             if (element && this.positionStrategy) {
                 element.scrollIntoView({ behavior: 'instant', block: 'center', inline: 'center' });
                 this.positionStrategy.setOrigin(element);

@@ -1,7 +1,7 @@
 import { Directive, ElementRef, OnDestroy, OnInit, inject, input } from '@angular/core';
 
 import { numberAttributeOrUndefined } from '../utils/coercion';
-import { collectFocusable, deepActiveElement, deepContains, focusableSelector } from '../utils/dom';
+import { collectFocusable, deepActiveElement, deepClosest, deepContains, focusableSelector } from '../utils/dom';
 import { Subscriptions } from '../utils/subscriptions';
 
 export const focusRules = focusableSelector;
@@ -134,7 +134,7 @@ export class MagmaLimitFocusDirective implements OnDestroy {
             getComputedStyle(e).visibility !== 'hidden' &&
             e.checkVisibility() &&
             e.tabIndex !== -1 &&
-            !e.closest('[inert]')
+            !deepClosest(e, '[inert]')
         );
     }
 

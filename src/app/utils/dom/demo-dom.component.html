@@ -33,7 +33,14 @@
     </p>
   </div>
 
-  <div class="s-5 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsGetParentElementByClass }]" /></div>
+  <div class="s-5 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlGetParentElementByClass },
+        { type: 'ts', code: codeTsGetParentElementByClass },
+      ]"
+    />
+  </div>
 </div>
 
 <h2>containClasses</h2>
@@ -69,5 +76,142 @@
     </p>
   </div>
 
-  <div class="s-5 s-12-m"><code-tabs [code]="[{ type: 'ts', code: codeTsContainClasses }]" /></div>
+  <div class="s-5 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlContainClasses },
+        { type: 'ts', code: codeTsContainClasses },
+      ]"
+    />
+  </div>
+</div>
+
+<h2>deepActiveElement <small>Shadow DOM aware</small></h2>
+<div>
+  <div class="s-5 s-12-m">
+    <p>
+      Unlike <code>document.activeElement</code>, this function traverses nested shadow roots to return the truly
+      focused element — useful when components use <code>ViewEncapsulation.ShadowDom</code>.
+    </p>
+    <p>Focus one of the fields below, then check the result.</p>
+    <div class="test-zone">
+      <button id="btn-a" (focus)="checkDeepActiveElement()">Button A</button>
+      <button id="btn-b" (focus)="checkDeepActiveElement()">Button B</button>
+      <input id="input-c" placeholder="Input C" (focus)="checkDeepActiveElement()" />
+    </div>
+    <p>
+      Deepest active element: <code>{{ activeElementResult }}</code>
+    </p>
+  </div>
+
+  <div class="s-7 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlDeepActiveElement },
+        { type: 'ts', code: codeTsDeepActiveElement },
+      ]"
+    />
+  </div>
+</div>
+
+<h2>deepContains <small>Shadow DOM aware</small></h2>
+<div>
+  <div class="s-5 s-12-m">
+    <p>
+      Unlike <code>container.contains(target)</code>, this function crosses shadow boundaries to check if an element is
+      a descendant.
+    </p>
+    <p>Click a child element — the check uses the blue container as root.</p>
+    <div #containsContainer class="test-zone" (click)="checkDeepContains($event.target)">
+      <span class="foo bar">child .foo .bar</span>
+      <span class="baz">child .baz</span>
+    </div>
+    <p>Outside the container</p>
+    <button (click)="checkDeepContains($event.target)">Outside button</button>
+    <p>
+      deepContains(container, clicked): <code>{{ containsResult === null ? '–' : containsResult }}</code>
+    </p>
+  </div>
+
+  <div class="s-7 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlDeepContains },
+        { type: 'ts', code: codeTsDeepContains },
+      ]"
+    />
+  </div>
+</div>
+
+<h2>deepClosest <small>Shadow DOM aware</small></h2>
+<div>
+  <div class="s-2 s-12-m">
+    <mg-input>
+      <mg-input-label>CSS selector</mg-input-label>
+      <mg-input-text value=".zone" #selectorInput />
+    </mg-input>
+  </div>
+
+  <div class="s-5 s-12-m">
+    <p>
+      Unlike <code>element.closest(selector)</code>, this function walks up through shadow boundaries to find the
+      nearest matching ancestor.
+    </p>
+    Click an element, then check its closest ancestor matching the selector.
+    <div (click)="checkDeepClosest($event.target, selectorInput.getValue() ?? '')" class="test-zone zone">
+      .test-zone .zone
+      <div class="inner">
+        .inner
+        <span class="leaf">leaf</span>
+      </div>
+    </div>
+    <p>
+      deepClosest(clicked, selector): <code>{{ closestResult }}</code>
+    </p>
+  </div>
+
+  <div class="s-5 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlDeepClosest },
+        { type: 'ts', code: codeTsDeepClosest },
+      ]"
+    />
+  </div>
+</div>
+
+<h2>deepQuerySelector <small>Shadow DOM aware</small></h2>
+<div>
+  <div class="s-2 s-12-m">
+    <mg-input>
+      <mg-input-label>CSS selector</mg-input-label>
+      <mg-input-text value="#deep-target" #qsInput />
+    </mg-input>
+  </div>
+
+  <div class="s-5 s-12-m">
+    <p>
+      Unlike <code>document.querySelector(selector)</code>, this function descends into shadow roots to find elements
+      that would otherwise be invisible.
+    </p>
+    <div #querySelectorZone class="test-zone">
+      <span id="deep-target" class="target">#deep-target</span>
+      <span id="other">other</span>
+    </div>
+    <p>
+      <button (click)="checkDeepQuerySelector(qsInput.getValue() ?? '')">Run deepQuerySelector()</button>
+    </p>
+    <p>
+      Result: <code>{{ querySelectorResult }}</code>
+    </p>
+  </div>
+
+  <div class="s-5 s-12-m">
+    <code-tabs
+      [code]="[
+        { type: 'html', code: codeHtmlDeepQuerySelector },
+        { type: 'ts', code: codeTsDeepQuerySelector },
+      ]"
+    />
+  </div>
 </div>

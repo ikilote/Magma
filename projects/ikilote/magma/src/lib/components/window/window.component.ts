@@ -25,6 +25,7 @@ import { MagmaLimitFocusDirective } from '../../directives/limit-focus.directive
 import { MagmaNgInitDirective } from '../../directives/ng-init.directive';
 import { MagmaResizeElement, MagmaResizeHostElement, ResizeDirection } from '../../directives/resizer';
 import { MagmaResize } from '../../directives/resizer.directive';
+import { deepContains, deepQuerySelector } from '../../utils/dom';
 
 export type MagmaWindowFixed =
     | boolean
@@ -338,8 +339,8 @@ export class MagmaWindow extends MagmaResizeElement implements OnChanges, OnDest
     getDragBoundary(): string {
         const selector = this.zoneSelector() || this.component()?.zoneSelector;
         if (selector) {
-            const zone = document.querySelector(selector);
-            if (zone && zone.contains(this.elementRef.nativeElement)) {
+            const zone = deepQuerySelector(selector);
+            if (zone && deepContains(zone, this.elementRef.nativeElement)) {
                 return selector;
             }
             // Zone exists but is not an ancestor (overlay mode) — use body as boundary
@@ -347,7 +348,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnChanges, OnDest
         }
         // No selector: if we have a resizerHost with a nativeElement that contains us, use it as boundary
         const hostEl = this.resizerHost()?.nativeElement;
-        if (hostEl && hostEl.contains(this.elementRef.nativeElement)) {
+        if (hostEl && deepContains(hostEl, this.elementRef.nativeElement)) {
             // Return a unique selector for this element — use the mg-windows-container tag
             return 'mg-windows-container';
         }
@@ -423,7 +424,7 @@ export class MagmaWindow extends MagmaResizeElement implements OnChanges, OnDest
         const component = this.component();
         const zoneSelector = this.zoneSelector() || component?.zoneSelector;
         if (zoneSelector) {
-            return document.querySelector<HTMLElement>(zoneSelector);
+            return deepQuerySelector<HTMLElement>(zoneSelector);
         }
         // Fallback: use the host container element if available (declarative mg-windows-container usage)
         return this.resizerHost()?.nativeElement ?? null;

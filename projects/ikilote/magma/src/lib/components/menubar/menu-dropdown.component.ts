@@ -5,6 +5,7 @@ import { Component, ElementRef, HostListener, OnDestroy, inject, output, signal,
 import { MagmaMenuItemDef } from './menubar.types';
 
 import { MagmaPointerModeService } from '../../services/pointer-mode.service';
+import { deepActiveElement } from '../../utils/dom';
 import { isIconUrl } from '../../utils/icon';
 
 /**
@@ -65,7 +66,7 @@ export class MagmaMenuDropdownComponent implements OnDestroy {
     @HostListener('keydown', ['$event'])
     onKeydown(event: KeyboardEvent): void {
         const focusable = this.focusableItems();
-        const focused = (event.target as HTMLElement) ?? (document.activeElement as HTMLElement);
+        const focused = (event.target as HTMLElement) ?? (deepActiveElement() as HTMLElement);
         const idx = focusable.findIndex(el => el === focused);
 
         switch (event.key) {

@@ -361,7 +361,9 @@ describe('MagmaMenubarComponent', () => {
 
             expect(menubar.openIndex()).toBe(0);
 
-            // The portal needs a full detectChanges to render its items
+            // Run multiple detectChanges cycles so the CDK portal populates its viewChildren
+            // before the focusFirst() setTimeout fires
+            fixture.detectChanges();
             fixture.detectChanges();
             vi.advanceTimersByTime(0);
             fixture.changeDetectorRef.detectChanges();

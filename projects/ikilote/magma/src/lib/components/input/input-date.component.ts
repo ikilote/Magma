@@ -5,6 +5,7 @@ import {
     SimpleChanges,
     booleanAttribute,
     computed,
+    inject,
     input,
     viewChildren,
 } from '@angular/core';
@@ -154,6 +155,8 @@ type fieldName = 'day' | 'month' | 'year' | 'hours' | 'minutes' | 'seconds' | 'm
 export class MagmaInputDate extends MagmaInputCommon<string | undefined> implements OnChanges {
     override readonly componentName: string = 'input-date';
     protected override counter = counter++;
+
+    private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
     readonly type = input<MagmaDatetimeType | 'datetime-seconds' | 'datetime-milli'>();
     protected readonly _type = computed(() => (types.includes(this.type()) ? this.type() : 'date')!);
@@ -479,7 +482,8 @@ export class MagmaInputDate extends MagmaInputCommon<string | undefined> impleme
     }
 
     private selectInput(rule: string) {
-        const element = document.querySelector<HTMLInputElement>(rule);
+        const host = this.elementRef.nativeElement as HTMLElement;
+        const element = host.querySelector<HTMLInputElement>(rule);
         if (element) {
             element.focus();
             element.select();

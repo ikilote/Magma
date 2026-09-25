@@ -659,12 +659,12 @@ describe('MagmaInputDate', () => {
 
     describe('Private methods', () => {
         it('should select element on focusNext', () => {
-            vi.spyOn(document, 'querySelector');
+            vi.spyOn(fixture.nativeElement, 'querySelector');
 
             // @ts-expect-error
             component.focusNext('test');
 
-            expect(document.querySelector).toHaveBeenCalledWith('#test + * + input');
+            expect(fixture.nativeElement.querySelector).toHaveBeenCalledWith('#test + * + input');
         });
 
         it('should select element on focusNext and select', () => {
@@ -680,12 +680,12 @@ describe('MagmaInputDate', () => {
         });
 
         it('should select element on focusPrev', () => {
-            vi.spyOn(document, 'querySelector');
+            vi.spyOn(fixture.nativeElement, 'querySelector');
 
             // @ts-expect-error
             component.focusPrev('test');
 
-            expect(document.querySelector).toHaveBeenCalledWith('input:has(+ * + #test)');
+            expect(fixture.nativeElement.querySelector).toHaveBeenCalledWith('input:has(+ * + #test)');
         });
 
         it('should select element on focusPrev and select', () => {

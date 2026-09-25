@@ -2,7 +2,9 @@ import {
     collectFocusable,
     containClasses,
     deepActiveElement,
+    deepClosest,
     deepContains,
+    deepQuerySelector,
     getParentElementByClass,
     isFocusable,
 } from './dom';
@@ -145,8 +147,14 @@ describe('DOM Utility Functions', () => {
 });
 
 describe('deepActiveElement', () => {
+    beforeEach(() => {
+        // Reset focus to body before each test to avoid cross-test contamination
+        (document.activeElement as HTMLElement)?.blur?.();
+    });
+
     it('should return document.activeElement when it has no shadowRoot', () => {
         const btn = document.createElement('button');
+        btn.id = 'deep-active-element-test';
         document.body.appendChild(btn);
         btn.focus();
         expect(deepActiveElement()).toBe(btn);
@@ -251,7 +259,139 @@ describe('deepContains', () => {
     });
 });
 
+describe('deepClosest', () => {
+    it('should return the element itself when it matches', () => {
+        const el = document.createElement('div');
+        el.className = 'target';
+        document.body.appendChild(el);
+        expect(deepClosest(el, '.target')).toBe(el);
+        el.remove();
+    });
+
+    it('should return null when given null', () => {
+        expect(deepClosest(null, '.target')).toBeNull();
+    });
+
+    it('should find a matching ancestor in the light DOM', () => {
+        const grandparent = document.createElement('div');
+        grandparent.className = 'ancestor';
+        const parent = document.createElement('div');
+        const child = document.createElement('span');
+        parent.appendChild(child);
+        grandparent.appendChild(parent);
+        document.body.appendChild(grandparent);
+
+        expect(deepClosest(child, '.ancestor')).toBe(grandparent);
+        grandparent.remove();
+    });
+
+    it('should return null when no ancestor matches', () => {
+        const parent = document.createElement('div');
+        const child = document.createElement('span');
+        parent.appendChild(child);
+        document.body.appendChild(parent);
+
+        expect(deepClosest(child, '.nonexistent')).toBeNull();
+        parent.remove();
+    });
+
+    it('should cross the shadow boundary to find a host ancestor', () => {
+        // outer host has class 'outer-host'; inner element lives inside its shadow root
+        const host = document.createElement('div');
+        host.className = 'outer-host';
+        document.body.appendChild(host);
+        const shadow = host.attachShadow({ mode: 'open' });
+        const inner = document.createElement('span');
+        shadow.appendChild(inner);
+
+        // inner has no parentElement at the top of the shadow → jump to host via getRootNode().host
+        expect(deepClosest(inner, '.outer-host')).toBe(host);
+
+        host.remove();
+    });
+
+    it('should return null when reaching the document root without a match', () => {
+        const host = document.createElement('div');
+        document.body.appendChild(host);
+        const shadow = host.attachShadow({ mode: 'open' });
+        const inner = document.createElement('span');
+        shadow.appendChild(inner);
+
+        // Crosses boundary but nothing matches all the way up
+        expect(deepClosest(inner, '.never-matches-anything')).toBeNull();
+
+        host.remove();
+    });
+});
+
+describe('deepQuerySelector', () => {
+    it('should find an element in the light DOM', () => {
+        const root = document.createElement('div');
+        const target = document.createElement('button');
+        target.id = 'dqs-target';
+        root.appendChild(target);
+        document.body.appendChild(root);
+
+        expect(deepQuerySelector('#dqs-target', root)).toBe(target);
+        root.remove();
+    });
+
+    it('should return null when nothing matches', () => {
+        const root = document.createElement('div');
+        document.body.appendChild(root);
+        expect(deepQuerySelector('#not-here', root)).toBeNull();
+        root.remove();
+    });
+
+    it('should find an element nested inside a shadow root', () => {
+        const root = document.createElement('div');
+        const host = document.createElement('div');
+        root.appendChild(host);
+        document.body.appendChild(root);
+
+        const shadow = host.attachShadow({ mode: 'open' });
+        const inner = document.createElement('button');
+        inner.id = 'dqs-shadow-target';
+        shadow.appendChild(inner);
+
+        expect(deepQuerySelector('#dqs-shadow-target', root)).toBe(inner);
+        root.remove();
+    });
+
+    it('should return null when shadow roots exist but none match', () => {
+        const root = document.createElement('div');
+        const host = document.createElement('div');
+        root.appendChild(host);
+        document.body.appendChild(root);
+
+        const shadow = host.attachShadow({ mode: 'open' });
+        shadow.appendChild(document.createElement('span'));
+
+        expect(deepQuerySelector('#missing', root)).toBeNull();
+        root.remove();
+    });
+});
+
 describe('collectFocusable', () => {
+    // Custom elements defined in these tests persist (you cannot un-define them), but
+    // their instances and any other test nodes must be removed so they don't leak into
+    // other test files sharing the same browser DOM (isolate keeps modules separate,
+    // but the Playwright page DOM is shared within a fork).
+    afterEach(() => {
+        document
+            .querySelectorAll(
+                'test-slot-host-traverse, test-slot-host-dedup, test-nested-shadow-outer, test-nested-shadow-inner',
+            )
+            .forEach(el => el.remove());
+        // Remove any stray elements added directly to body by these tests
+        Array.from(document.body.children).forEach(child => {
+            const id = (child as HTMLElement).id;
+            if (!id?.startsWith('root') && child.tagName !== 'SCRIPT' && child.tagName !== 'STYLE') {
+                child.remove();
+            }
+        });
+    });
+
     it('should collect focusable elements from a plain DOM tree', () => {
         const root = document.createElement('div');
         const btn = document.createElement('button');
@@ -296,40 +436,35 @@ describe('collectFocusable', () => {
     });
 
     it('should recurse into nested shadow roots of elements found by querySelectorAll', () => {
-        // To exercise line 96: collectFocusable(el.shadowRoot, ...) where el was found
-        // by querySelectorAll. We build the structure manually:
-        // outerHost (shadow) → innerHost (shadow) → button
+        // Exercises the `el.shadowRoot` recursion branch: an element returned by
+        // querySelectorAll that itself hosts a shadow root with focusable children.
+        // Structure: outerHost (shadow) → innerHost (shadow) → button
         const outerHost = document.createElement('div');
         const outerShadow = outerHost.attachShadow({ mode: 'open' });
         document.body.appendChild(outerHost);
 
-        const innerHost = document.createElement('div');
-        outerShadow.appendChild(innerHost);
+        try {
+            const innerHost = document.createElement('div');
+            outerShadow.appendChild(innerHost);
 
-        const innerShadow = innerHost.attachShadow({ mode: 'open' });
-        const nestedBtn = document.createElement('button');
-        nestedBtn.id = 'nested-btn';
-        innerShadow.appendChild(nestedBtn);
+            const innerShadow = innerHost.attachShadow({ mode: 'open' });
+            const nestedBtn = document.createElement('button');
+            nestedBtn.id = 'nested-btn';
+            innerShadow.appendChild(nestedBtn);
 
-        // collectFocusable on outerShadow:
-        //   outerShadow.querySelectorAll('button') → [innerHost is a div, not button]
-        //   but outerShadow.querySelectorAll('div') → [innerHost]
-        // We need a selector that matches innerHost... or we use '*' to find it.
-        // Actually the point is: if querySelectorAll finds an el with shadowRoot,
-        // it recurses. Let's find innerHost by searching 'div' with shadowRoot.
-        const result = collectFocusable(outerShadow, 'div');
-        // innerHost has a shadowRoot → recursion finds nestedBtn indirectly? No,
-        // nestedBtn is inside innerShadow and we search 'div' there, not 'button'.
-        // The coverage point is just that the `el.shadowRoot` branch is entered.
-        // A better approach: search '*' and verify the button is found.
-        const allResult = collectFocusable(outerShadow, '*');
-        expect(allResult.some(el => el.id === 'nested-btn')).toBe(true);
-
-        outerHost.remove();
+            // Using '*' so innerHost is matched, its shadowRoot is entered, and the
+            // nested button is collected from the inner shadow tree.
+            const result = collectFocusable(outerShadow, '*');
+            expect(result.some(el => el.id === 'nested-btn')).toBe(true);
+        } finally {
+            outerHost.remove();
+        }
     });
 
     it('should traverse assigned slot elements', async () => {
-        // Use a real custom element with slot so assignedElements() is populated by the browser.
+        // collectFocusable recurses into slotted elements via collectFocusable(assigned, ...),
+        // which searches the DESCENDANTS of each assigned element. So the focusable target
+        // must be a child of a slotted wrapper element.
         const tagName = 'test-slot-host-traverse';
         if (!customElements.get(tagName)) {
             customElements.define(
@@ -344,33 +479,34 @@ describe('collectFocusable', () => {
         }
         const host = document.createElement(tagName);
         document.body.appendChild(host);
-        const slottedBtn = document.createElement('button');
-        host.appendChild(slottedBtn);
 
-        // Let the browser process slot assignment
-        await customElements.whenDefined(tagName);
-        await new Promise(r => setTimeout(r, 0));
+        try {
+            // Slotted wrapper containing a focusable button as descendant
+            const wrapper = document.createElement('div');
+            const slottedBtn = document.createElement('button');
+            wrapper.appendChild(slottedBtn);
+            host.appendChild(wrapper);
 
-        const shadow = host.shadowRoot!;
-        expect(shadow).not.toBeNull();
+            // Let the browser process slot assignment
+            await customElements.whenDefined(tagName);
+            await new Promise(r => setTimeout(r, 0));
 
-        // Diagnostic: check instanceof and slot assignment
-        const isInstanceOf = shadow instanceof ShadowRoot;
-        const slot = shadow.querySelector('slot') as HTMLSlotElement | null;
-        const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+            const shadow = host.shadowRoot!;
+            expect(shadow).not.toBeNull();
 
-        // If instanceof doesn't work, the slot-traversal branch won't run.
-        // In that case we verify the behavior matches: no crash, just empty from that branch.
-        if (!isInstanceOf || assigned.length === 0) {
-            // Environment limitation: slot assignment not available in this test context.
-            // Verify the function at least runs without error.
-            expect(() => collectFocusable(shadow, 'button')).not.toThrow();
-        } else {
-            const result = collectFocusable(shadow, 'button');
-            expect(result).toContain(slottedBtn);
+            const slot = shadow.querySelector('slot') as HTMLSlotElement | null;
+            const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+
+            if (!(shadow instanceof ShadowRoot) || assigned.length === 0) {
+                // Environment limitation: slot assignment not available in this test context.
+                expect(() => collectFocusable(shadow, 'button')).not.toThrow();
+            } else {
+                const result = collectFocusable(shadow, 'button');
+                expect(result).toContain(slottedBtn);
+            }
+        } finally {
+            host.remove();
         }
-
-        host.remove();
     });
 
     it('should not add duplicates from slot traversal', async () => {
@@ -388,26 +524,30 @@ describe('collectFocusable', () => {
         }
         const host = document.createElement(tagName);
         document.body.appendChild(host);
-        const slottedBtn = document.createElement('button');
-        host.appendChild(slottedBtn);
 
-        await customElements.whenDefined(tagName);
-        await new Promise(r => setTimeout(r, 0));
+        try {
+            const wrapper = document.createElement('div');
+            const slottedBtn = document.createElement('button');
+            wrapper.appendChild(slottedBtn);
+            host.appendChild(wrapper);
 
-        const shadow = host.shadowRoot!;
-        const slot = shadow.querySelector('slot') as HTMLSlotElement | null;
-        const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+            await customElements.whenDefined(tagName);
+            await new Promise(r => setTimeout(r, 0));
 
-        if (assigned.length === 0) {
-            // Slot assignment not available: just verify no crash
-            expect(() => collectFocusable(shadow, 'button')).not.toThrow();
-        } else {
-            const result = collectFocusable(shadow, 'button');
-            const count = result.filter(el => el === slottedBtn).length;
-            expect(count).toBe(1);
+            const shadow = host.shadowRoot!;
+            const slot = shadow.querySelector('slot') as HTMLSlotElement | null;
+            const assigned = slot?.assignedElements({ flatten: true }) ?? [];
+
+            if (!(shadow instanceof ShadowRoot) || assigned.length === 0) {
+                expect(() => collectFocusable(shadow, 'button')).not.toThrow();
+            } else {
+                const result = collectFocusable(shadow, 'button');
+                const count = result.filter(el => el === slottedBtn).length;
+                expect(count).toBe(1);
+            }
+        } finally {
+            host.remove();
         }
-
-        host.remove();
     });
 
     it('should return an empty array when no elements match', () => {

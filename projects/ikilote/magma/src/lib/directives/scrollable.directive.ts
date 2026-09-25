@@ -16,6 +16,8 @@ import {
 import { fromEvent } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
 
+import { deepQuerySelector } from '../utils/dom';
+
 export type MagmaScrollPosition = 'top' | 'bottom';
 
 export class MagmaScrollableView {
@@ -199,7 +201,7 @@ export class MagmaScrollableDirective implements AfterViewInit, OnDestroy {
 
         const selector = this.mgScrollable();
         if (selector) {
-            const parent = document.querySelector(selector) as HTMLElement;
+            const parent = deepQuerySelector<HTMLElement>(selector);
             if (parent) {
                 this.targetedElement = parent;
             }

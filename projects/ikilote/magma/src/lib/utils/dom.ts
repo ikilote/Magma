@@ -34,6 +34,68 @@ export function containClasses(element: HTMLElement | SVGSVGElement, cssClasses:
 }
 
 /**
+ * Shadow-DOM-aware equivalent of `Element.closest()`.
+ *
+ * `Element.closest()` stops at the shadow boundary and cannot find an ancestor
+ * that lives in a parent shadow tree or in the light DOM above a shadow host.
+ * This function walks up through the regular DOM using `parentElement`, and
+ * when it reaches the top of a shadow tree it crosses the boundary via
+ * `getRootNode().host` to continue the search in the outer document.
+ *
+ * @param element   Starting element.
+ * @param selector  CSS selector to match against each ancestor.
+ * @returns The nearest matching ancestor (including the element itself), or
+ *          `null` if none is found up to the document root.
+ */
+export function deepClosest(element: Element | null, selector: string): Element | null {
+    let current: Element | null = element;
+    while (current) {
+        if (current.matches(selector)) {
+            return current;
+        }
+        if (current.parentElement) {
+            current = current.parentElement;
+        } else {
+            // Top of a shadow root — jump to the host element in the outer tree
+            const root = current.getRootNode();
+            current = root instanceof ShadowRoot ? root.host : null;
+        }
+    }
+    return null;
+}
+
+/**
+ * Shadow-DOM-aware equivalent of `document.querySelector()`.
+ *
+ * `document.querySelector()` cannot find elements that live inside a shadow
+ * root.  This function performs a depth-first search starting from `root`,
+ * recursing into every open `shadowRoot` it encounters so that elements nested
+ * arbitrarily deep in shadow trees are reachable.
+ *
+ * @param selector  CSS selector to match.
+ * @param root      Search root. Defaults to `document`.
+ * @returns The first matching element in depth-first order, or `null`.
+ */
+export function deepQuerySelector<T extends Element = Element>(
+    selector: string,
+    root: Document | Element | ShadowRoot = document,
+): T | null {
+    const found = root.querySelector<T>(selector);
+    if (found) {
+        return found;
+    }
+    for (const el of Array.from(root.querySelectorAll('*'))) {
+        if (el.shadowRoot) {
+            const inner = deepQuerySelector<T>(selector, el.shadowRoot);
+            if (inner) {
+                return inner;
+            }
+        }
+    }
+    return null;
+}
+
+/**
  * Returns the deepest focused element, traversing nested shadow roots.
  *
  * `document.activeElement` stops at the shadow host when focus is inside a
@@ -100,9 +162,6 @@ export function collectFocusable(
         for (const slot of Array.from(root.querySelectorAll('slot'))) {
             for (const assigned of (slot as HTMLSlotElement).assignedElements({ flatten: true })) {
                 if (!result.includes(assigned as HTMLElement)) {
-                    if ((assigned as HTMLElement).matches?.(selector)) {
-                        result.push(assigned as HTMLElement);
-                    }
                     collectFocusable(assigned, selector, result);
                 }
             }

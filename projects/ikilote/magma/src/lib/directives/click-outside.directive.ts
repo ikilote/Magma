@@ -1,5 +1,7 @@
 import { Directive, ElementRef, HostListener, inject, output } from '@angular/core';
 
+import { deepContains } from '../utils/dom';
+
 @Directive({
     selector: '[clickOutside]',
 })
@@ -10,7 +12,7 @@ export class MagmaClickOutsideDirective {
 
     @HostListener('window:click', ['$event'])
     onClick(event: Event) {
-        const clickedInside = this.elementRef.nativeElement.contains(event.target);
+        const clickedInside = deepContains(this.elementRef.nativeElement, event.target as Element);
         if (!clickedInside) {
             this.clickOutside.emit(event);
         }

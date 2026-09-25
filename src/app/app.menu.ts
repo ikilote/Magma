@@ -93,12 +93,6 @@ export const menu: Menu = [
                 keys: ['accordion', 'panel', 'collapse'],
             },
             {
-                routerLink: '/component/menubar',
-                label: 'Menubar',
-                status: 'new',
-                keys: ['menu bar', 'application menu', 'desktop menu', 'submenu'],
-            },
-            {
                 routerLink: '/component/input',
                 label: 'Inputs',
                 keys: ['form fields', 'input', 'text field'],
@@ -118,7 +112,17 @@ export const menu: Menu = [
                 label: 'Loader-block',
                 keys: ['block loader', 'loading block'],
             },
-            { routerLink: '/component/message', label: 'Message', keys: ['toast', 'notification', 'alert'] },
+            {
+                routerLink: '/component/message',
+                label: 'Message',
+                keys: ['information', 'warning', 'notification', 'alert'],
+            },
+            {
+                routerLink: '/component/menubar',
+                label: 'Menubar',
+                status: 'new',
+                keys: ['menu bar', 'application menu', 'desktop menu', 'submenu'],
+            },
             {
                 routerLink: '/component/paginate',
                 label: 'Paginate',
@@ -294,15 +298,15 @@ export const menu: Menu = [
                 keys: ['form builder', 'form builder extended', 'form', 'form service'],
             },
             {
+                routerLink: '/service/logger',
+                label: 'Logger',
+                keys: ['log', 'console', 'debug', 'logger', 'logging'],
+            },
+            {
                 routerLink: '/service/messages',
                 label: 'Messages',
                 status: 'update',
                 keys: ['notifications', 'alerts', 'info', 'messages'],
-            },
-            {
-                routerLink: '/service/logger',
-                label: 'Logger',
-                keys: ['log', 'console', 'debug', 'logger', 'logging'],
             },
             {
                 routerLink: '/service/pointer-mode',

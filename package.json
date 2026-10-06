@@ -40,7 +40,7 @@
     "colorjs.io": "^0.7.1",
     "highlight.js": "^11.11.1",
     "marked": "^18.0.7",
-    "ng-select2-component": "^19.0.2",
+    "ng-select2-component": "19.1.0",
     "ngx-highlightjs": "^14.0.1",
     "ngx-markdown": "^22.0.0",
     "open-dyslexic": "^1.0.3",

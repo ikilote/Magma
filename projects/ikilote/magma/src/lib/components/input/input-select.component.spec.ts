@@ -74,6 +74,7 @@ describe('MagmaInputSelect', () => {
             { name: 'ariaInvalid', value: true },
             { name: 'ariaResetButtonDescription', value: 'Reset' },
             { name: 'nativeKeyboard', value: true },
+            { name: 'typeahead', value: true },
             { name: 'highlightText', value: true },
             { name: 'showOptionCheckbox', value: true },
         ];

@@ -185,6 +185,14 @@ export class MagmaInputSelect extends MagmaInputCommon implements DoCheck {
     /** like native select keyboard navigation (only single mode) */
     readonly nativeKeyboard = input<boolean, unknown>(false, { transform: booleanAttribute });
 
+    /**
+     * Typeahead/search mode (single mode only).
+     * The visible selection area becomes a text input; the value bound via ngModel
+     * is the raw text typed by the user (or the label of a selected suggestion).
+     * The dropdown shows filtered suggestions while typing.
+     */
+    readonly typeahead = input<boolean, unknown>(false, { transform: booleanAttribute });
+
     // ----------------------- output
 
     readonly autoCreateItem = output<Select2AutoCreateEvent<Select2UpdateValue>>();

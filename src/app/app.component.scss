@@ -15,7 +15,7 @@ aside {
         flex-direction: column;
         box-sizing: border-box;
         margin: 0;
-        background: var(--neutral100);
+        background: var(--mg-neutral100);
         padding: 10px;
         height: 100%;
     }
@@ -77,7 +77,7 @@ ul {
 
             &:hover,
             &.active {
-                background: var(--neutral100);
+                background: var(--mg-neutral100);
             }
         }
 
@@ -99,7 +99,7 @@ main {
 }
 
 .selected {
-    background: var(--neutral200);
+    background: var(--mg-neutral200);
 }
 
 .info {

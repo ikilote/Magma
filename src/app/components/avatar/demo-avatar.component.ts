@@ -62,11 +62,11 @@ export class DemoAvatarComponent {
 export class MyComponent {}`;
 
     codeCss: CSSVar[] = [
-        { name: '--avatar-size-small', value: '28px' },
-        { name: '--avatar-size-medium', value: '40px' },
-        { name: '--avatar-size-large', value: '56px' },
-        { name: '--avatar-color', value: 'hsl(210, 50%, 20%)' },
-        { name: '--avatar-radius', value: '50%' },
+        { name: '--mg-avatar-size-small', value: '28px' },
+        { name: '--mg-avatar-size-medium', value: '40px' },
+        { name: '--mg-avatar-size-large', value: '56px' },
+        { name: '--mg-avatar-color', value: 'hsl(210, 50%, 20%)' },
+        { name: '--mg-avatar-radius', value: '50%' },
     ];
 
     style = new Style(definition);

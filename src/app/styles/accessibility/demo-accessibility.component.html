@@ -23,7 +23,7 @@
       @for (theme of themes; track theme.key) {
         <button
           type="button"
-          class="chip"
+          class="mg-chip"
           [class.active]="visionThemeService.current() === theme.key"
           (click)="applyTheme(theme.key)"
         >
@@ -53,8 +53,8 @@
       <h3>Buttons</h3>
       <div class="button-row">
         <button type="button">Default</button>
-        <button type="button" class="primary">Primary</button>
-        <button type="button" class="warn">Warn</button>
+        <button type="button" class="mg-primary">Primary</button>
+        <button type="button" class="mg-warn">Warn</button>
         <button type="button" disabled>Disabled</button>
       </div>
     </section>
@@ -100,7 +100,7 @@
     <section>
       <h3>Focus indicator</h3>
       <p>Tab into the button below to check focus ring visibility.</p>
-      <button type="button" class="primary">Focus me</button>
+      <button type="button" class="mg-primary">Focus me</button>
     </section>
   </mg-tab-content>
 

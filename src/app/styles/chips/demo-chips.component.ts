@@ -10,12 +10,12 @@ import { CodeTabsComponent } from '../../demo/code-tabs.component';
     imports: [CodeTabsComponent],
 })
 export class DemoChipsComponent {
-    single = '<button class="chip">Chip</button>';
-    group = `<div class="chips">
-  <button class="chip">Option A</button>
-  <button class="chip">Option B</button>
-  <button class="chip">Option C</button>
+    single = '<button class="mg-chip">Chip</button>';
+    group = `<div class="mg-chips">
+  <button class="mg-chip">Option A</button>
+  <button class="mg-chip">Option B</button>
+  <button class="mg-chip">Option C</button>
 </div>`;
-    disabled = '<button class="chip" disabled>Disabled</button>';
-    link = '<a href="/style/chips" class="chip">Link chip</a>';
+    disabled = '<button class="mg-chip" disabled>Disabled</button>';
+    link = '<a href="/style/chips" class="mg-chip">Link chip</a>';
 }

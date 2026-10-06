@@ -177,7 +177,7 @@ readonly extendedThemes: VisionThemeInfo[] = [
 ];
 
 // Create a matching CSS file: theme-dyslexia.css
-body.theme-dyslexia { --font-family: 'OpenDyslexic', sans-serif; }`;
+body.theme-dyslexia { --mg-font-family: 'OpenDyslexic', sans-serif; }`;
 
     readonly codeTsService = `import { VisionTheme } from '@ikilote/magma';
 

@@ -69,9 +69,9 @@ export class DemoPopoverComponent {
 export class MyComponent {}`;
 
     readonly codeScss = `.popover-body {
-  border: var(--block-border);
-  border-radius: var(--block-radius);
-  background: var(--block-background);
+  border: var(--mg-block-border);
+  border-radius: var(--mg-block-radius);
+  background: var(--mg-block-background);
   padding: 16px;
   min-width: 220px;
 }`;

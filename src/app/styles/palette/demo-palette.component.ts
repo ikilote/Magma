@@ -67,28 +67,28 @@ export class DemoPaletteComponent {
      * is tweakable here.
      */
     readonly knobs: PaletteKnob[] = [
-        { name: 'primaryH', variable: '--primaryH', label: 'Primary hue', min: 0, max: 360, unit: '' },
-        { name: 'primaryS', variable: '--primaryS', label: 'Primary saturation', min: 0, max: 100, unit: '%' },
+        { name: 'primaryH', variable: '--mg-primaryH', label: 'Primary hue', min: 0, max: 360, unit: '' },
+        { name: 'primaryS', variable: '--mg-primaryS', label: 'Primary saturation', min: 0, max: 100, unit: '%' },
         {
             name: 'primarySsoft',
-            variable: '--primarySsoft',
+            variable: '--mg-primarySsoft',
             label: 'Primary soft saturation (050 and 950 steps)',
             min: 0,
             max: 100,
             unit: '%',
         },
-        { name: 'neutralH', variable: '--neutralH', label: 'Neutral hue', min: 0, max: 360, unit: '' },
+        { name: 'neutralH', variable: '--mg-neutralH', label: 'Neutral hue', min: 0, max: 360, unit: '' },
         {
             name: 'neutralS',
-            variable: '--neutralS',
+            variable: '--mg-neutralS',
             label: 'Neutral saturation (0% is a pure grey)',
             min: 0,
             max: 100,
             unit: '%',
         },
-        { name: 'alertH', variable: '--alertH', label: 'Alert hue', min: 0, max: 360, unit: '' },
-        { name: 'warnH', variable: '--warnH', label: 'Warn hue', min: 0, max: 360, unit: '' },
-        { name: 'successH', variable: '--successH', label: 'Success hue', min: 0, max: 360, unit: '' },
+        { name: 'alertH', variable: '--mg-alertH', label: 'Alert hue', min: 0, max: 360, unit: '' },
+        { name: 'warnH', variable: '--mg-warnH', label: 'Warn hue', min: 0, max: 360, unit: '' },
+        { name: 'successH', variable: '--mg-successH', label: 'Success hue', min: 0, max: 360, unit: '' },
     ];
 
     /** Sample options for the select in the Components tab. */
@@ -206,52 +206,52 @@ export class DemoPaletteComponent {
 
     private readonly pairDefs: { fgVar: string; bgVar: string }[] = [
         // ── Semantic layer ──────────────────────────────────────────────────
-        { fgVar: '--color-on-surface', bgVar: '--color-surface' },
-        { fgVar: '--color-on-surface', bgVar: '--color-surface-raised' },
-        { fgVar: '--color-on-surface', bgVar: '--color-surface-sunken' },
-        { fgVar: '--color-on-surface-muted', bgVar: '--color-surface' },
-        { fgVar: '--color-on-surface-muted', bgVar: '--color-surface-raised' },
-        { fgVar: '--color-border', bgVar: '--color-surface' },
-        { fgVar: '--color-border', bgVar: '--color-surface-raised' },
-        { fgVar: '--color-border-strong', bgVar: '--color-surface' },
-        { fgVar: '--color-on-primary', bgVar: '--color-primary' },
-        { fgVar: '--color-on-primary', bgVar: '--color-primary-hover' },
+        { fgVar: '--mg-color-on-surface', bgVar: '--mg-color-surface' },
+        { fgVar: '--mg-color-on-surface', bgVar: '--mg-color-surface-raised' },
+        { fgVar: '--mg-color-on-surface', bgVar: '--mg-color-surface-sunken' },
+        { fgVar: '--mg-color-on-surface-muted', bgVar: '--mg-color-surface' },
+        { fgVar: '--mg-color-on-surface-muted', bgVar: '--mg-color-surface-raised' },
+        { fgVar: '--mg-color-border', bgVar: '--mg-color-surface' },
+        { fgVar: '--mg-color-border', bgVar: '--mg-color-surface-raised' },
+        { fgVar: '--mg-color-border-strong', bgVar: '--mg-color-surface' },
+        { fgVar: '--mg-color-on-primary', bgVar: '--mg-color-primary' },
+        { fgVar: '--mg-color-on-primary', bgVar: '--mg-color-primary-hover' },
 
         // ── Links ───────────────────────────────────────────────────────────
-        { fgVar: '--link-color', bgVar: '--color-surface' },
-        { fgVar: '--link-color', bgVar: '--color-surface-raised' },
-        { fgVar: '--link-hover-color', bgVar: '--color-surface' },
+        { fgVar: '--mg-link-color', bgVar: '--mg-color-surface' },
+        { fgVar: '--mg-link-color', bgVar: '--mg-color-surface-raised' },
+        { fgVar: '--mg-link-hover-color', bgVar: '--mg-color-surface' },
 
         // ── Default button ──────────────────────────────────────────────────
-        { fgVar: '--button-default-color', bgVar: '--button-default-background' },
-        { fgVar: '--button-default-color', bgVar: '--button-default-hover-background' },
-        { fgVar: '--button-default-color', bgVar: '--button-default-active-background' },
+        { fgVar: '--mg-button-default-color', bgVar: '--mg-button-default-background' },
+        { fgVar: '--mg-button-default-color', bgVar: '--mg-button-default-hover-background' },
+        { fgVar: '--mg-button-default-color', bgVar: '--mg-button-default-active-background' },
 
         // ── Primary button ──────────────────────────────────────────────────
-        { fgVar: '--button-primary-color', bgVar: '--button-primary-background' },
-        { fgVar: '--button-primary-color', bgVar: '--button-primary-hover-background' },
-        { fgVar: '--button-primary-color', bgVar: '--button-primary-active-background' },
+        { fgVar: '--mg-button-primary-color', bgVar: '--mg-button-primary-background' },
+        { fgVar: '--mg-button-primary-color', bgVar: '--mg-button-primary-hover-background' },
+        { fgVar: '--mg-button-primary-color', bgVar: '--mg-button-primary-active-background' },
 
         // ── Warn button ─────────────────────────────────────────────────────
-        { fgVar: '--button-warn-color', bgVar: '--button-warn-background' },
-        { fgVar: '--button-warn-color', bgVar: '--button-warn-hover-background' },
-        { fgVar: '--button-warn-color', bgVar: '--button-warn-active-background' },
+        { fgVar: '--mg-button-warn-color', bgVar: '--mg-button-warn-background' },
+        { fgVar: '--mg-button-warn-color', bgVar: '--mg-button-warn-hover-background' },
+        { fgVar: '--mg-button-warn-color', bgVar: '--mg-button-warn-active-background' },
 
         // ── Inputs ──────────────────────────────────────────────────────────
-        { fgVar: '--color-on-surface', bgVar: '--input-background' },
-        { fgVar: '--input-placeholder-color', bgVar: '--input-background' },
-        { fgVar: '--input-error-color', bgVar: '--input-background' },
+        { fgVar: '--mg-color-on-surface', bgVar: '--mg-input-background' },
+        { fgVar: '--mg-input-placeholder-color', bgVar: '--mg-input-background' },
+        { fgVar: '--mg-input-error-color', bgVar: '--mg-input-background' },
 
         // ── Messages ────────────────────────────────────────────────────────
-        { fgVar: '--info-message-color', bgVar: '--info-message-background' },
-        { fgVar: '--success-message-color', bgVar: '--success-message-background' },
-        { fgVar: '--warn-message-color', bgVar: '--warn-message-background' },
-        { fgVar: '--error-message-color', bgVar: '--error-message-background' },
-        { fgVar: '--tip-message-color', bgVar: '--tip-message-background' },
+        { fgVar: '--mg-info-message-color', bgVar: '--mg-info-message-background' },
+        { fgVar: '--mg-success-message-color', bgVar: '--mg-success-message-background' },
+        { fgVar: '--mg-warn-message-color', bgVar: '--mg-warn-message-background' },
+        { fgVar: '--mg-error-message-color', bgVar: '--mg-error-message-background' },
+        { fgVar: '--mg-tip-message-color', bgVar: '--mg-tip-message-background' },
 
         // ── Focus ring ──────────────────────────────────────────────────────
-        { fgVar: '--color-focus-ring', bgVar: '--color-surface' },
-        { fgVar: '--color-focus-ring', bgVar: '--color-surface-raised' },
+        { fgVar: '--mg-color-focus-ring', bgVar: '--mg-color-surface' },
+        { fgVar: '--mg-color-focus-ring', bgVar: '--mg-color-surface-raised' },
     ];
 
     private updateContrastPairs() {

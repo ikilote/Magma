@@ -32,21 +32,21 @@
         text-align: center;
 
         &.alert {
-            border: var(--semantic-block-border-width, 2px) solid var(--alert700);
-            background: var(--semantic-block-alert-background, var(--alert200));
-            color: var(--semantic-block-alert-color, var(--alert950));
+            border: var(--semantic-block-border-width, 2px) solid var(--mg-alert700);
+            background: var(--semantic-block-alert-background, var(--mg-alert200));
+            color: var(--semantic-block-alert-color, var(--mg-alert950));
         }
 
         &.warn {
-            border: var(--semantic-block-border-width, 2px) solid var(--warn700);
-            background: var(--semantic-block-warn-background, var(--warn200));
-            color: var(--semantic-block-warn-color, var(--warn950));
+            border: var(--semantic-block-border-width, 2px) solid var(--mg-warn700);
+            background: var(--semantic-block-warn-background, var(--mg-warn200));
+            color: var(--semantic-block-warn-color, var(--mg-warn950));
         }
 
         &.success {
-            border: var(--semantic-block-border-width, 2px) solid var(--success700);
-            background: var(--semantic-block-success-background, var(--success200));
-            color: var(--semantic-block-success-color, var(--success950));
+            border: var(--semantic-block-border-width, 2px) solid var(--mg-success700);
+            background: var(--semantic-block-success-background, var(--mg-success200));
+            color: var(--semantic-block-success-color, var(--mg-success950));
         }
     }
 }
@@ -62,7 +62,7 @@
         position: relative;
         justify-content: center;
         align-items: flex-end;
-        border: 1px solid var(--color-border);
+        border: 1px solid var(--mg-color-border);
         border-radius: 4px;
         background: var(--color);
         width: 48px;
@@ -71,9 +71,9 @@
         .swatch-label {
             opacity: 0.8;
             border-radius: 2px;
-            background: var(--color-surface);
+            background: var(--mg-color-surface);
             padding: 1px 3px;
-            color: var(--color-on-surface);
+            color: var(--mg-color-on-surface);
             font-size: 10px;
         }
     }

@@ -9,9 +9,9 @@
   <mg-block class="s-12">
     <h3>Theme presets</h3>
     <p>Pick a starting point, then fine-tune the sliders below.</p>
-    <div class="chips">
+    <div class="mg-chips">
       @for (theme of themes; track theme.name) {
-        <button type="button" class="chip" (click)="applyTheme(theme)" [title]="theme.description">
+        <button type="button" class="mg-chip" (click)="applyTheme(theme)" [title]="theme.description">
           {{ theme.name }}
         </button>
       }
@@ -82,8 +82,8 @@
       <h3>Buttons</h3>
       <div>
         <button type="button">Default</button>
-        <button type="button" class="primary">Primary</button>
-        <button type="button" class="warn">Warn</button>
+        <button type="button" class="mg-primary">Primary</button>
+        <button type="button" class="mg-warn">Warn</button>
         <button type="button" disabled>Disabled</button>
       </div>
     </section>

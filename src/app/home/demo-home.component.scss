@@ -12,7 +12,7 @@ header {
     display: flex;
     justify-content: center;
     margin: -20px -20px 40px;
-    background: linear-gradient(-135deg, var(--primary300) -5%, var(--primary200) 95%);
+    background: linear-gradient(-135deg, var(--mg-primary300) -5%, var(--mg-primary200) 95%);
     padding: 60px 20px;
 
     .header-content {
@@ -30,7 +30,7 @@ header {
 
     .header-desc {
         margin: 0 0 24px;
-        color: var(--neutral600);
+        color: var(--mg-neutral600);
         font-size: 1.1rem;
     }
 
@@ -86,7 +86,7 @@ header {
     text-decoration: none;
 
     .category-desc {
-        color: var(--neutral600);
+        color: var(--mg-neutral600);
         font-size: 0.875rem;
     }
 
@@ -102,9 +102,9 @@ header {
 
     .category-count {
         border-radius: 20px;
-        background: var(--primary100);
+        background: var(--mg-primary100);
         padding: 2px 10px;
-        color: var(--primary500);
+        color: var(--mg-primary500);
         font-weight: 600;
         font-size: 0.8rem;
     }
@@ -121,7 +121,7 @@ header {
     pre {
         display: inline-block;
         margin: 0 0 20px;
-        background: var(--neutral200);
+        background: var(--mg-neutral200);
         padding: 12px 20px;
     }
 }

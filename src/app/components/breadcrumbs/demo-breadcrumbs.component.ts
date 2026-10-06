@@ -67,14 +67,14 @@ export class DemoBreadcrumbsComponent {
 export class MyComponent {}`;
 
     codeCss = [
-        { name: '--breadcrumbs-gap', value: '8px' },
-        { name: '--breadcrumbs-font-size', value: '0.9em' },
-        { name: '--breadcrumbs-separator', value: "'/'" },
-        { name: '--breadcrumbs-separator-color', value: 'var(--neutral600)' },
-        { name: '--breadcrumbs-link-color', value: 'var(--link-color)' },
-        { name: '--breadcrumbs-link-hover-color', value: 'var(--link-hover-color)' },
-        { name: '--breadcrumbs-active-color', value: 'var(--neutral950)' },
-        { name: '--breadcrumbs-active-font-weight', value: '600' },
+        { name: '--mg-breadcrumbs-gap', value: '8px' },
+        { name: '--mg-breadcrumbs-font-size', value: '0.9em' },
+        { name: '--mg-breadcrumbs-separator', value: "'/'" },
+        { name: '--mg-breadcrumbs-separator-color', value: 'var(--mg-neutral600)' },
+        { name: '--mg-breadcrumbs-link-color', value: 'var(--mg-link-color)' },
+        { name: '--mg-breadcrumbs-link-hover-color', value: 'var(--mg-link-hover-color)' },
+        { name: '--mg-breadcrumbs-active-color', value: 'var(--mg-neutral950)' },
+        { name: '--mg-breadcrumbs-active-font-weight', value: '600' },
     ];
 
     constructor() {

@@ -1,8 +1,8 @@
 .scroll-container {
     position: relative;
     margin-top: 12px;
-    border: var(--block-border);
-    border-radius: var(--block-radius);
+    border: var(--mg-block-border);
+    border-radius: var(--mg-block-radius);
     height: 350px;
     overflow: auto;
 }
@@ -13,8 +13,8 @@
     top: 0;
     gap: 8px;
     z-index: 1;
-    border-bottom: var(--block-border);
-    background: var(--block-background);
+    border-bottom: var(--mg-block-border);
+    background: var(--mg-block-background);
     padding: 12px;
 }
 

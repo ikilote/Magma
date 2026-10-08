@@ -59,6 +59,7 @@ export class AppComponent {
     constructor() {
         this.lightDark.init();
         Json2html.default.webComponentSelfClosing = true;
+        Json2html.default.attrPosition = 'prettier';
 
         this.router.events
             .pipe(

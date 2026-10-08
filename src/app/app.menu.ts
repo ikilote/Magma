@@ -29,7 +29,6 @@ export const menu: Menu = [
             {
                 routerLink: '/component/accordion',
                 label: 'Accordion',
-                status: 'new',
                 keys: ['accordion', 'exclusive panel', 'one open', 'collapse group'],
             },
             {
@@ -95,7 +94,21 @@ export const menu: Menu = [
             {
                 routerLink: '/component/input',
                 label: 'Inputs',
-                keys: ['form fields', 'input', 'text field'],
+                status: 'update',
+                keys: [
+                    'form fields',
+                    'input',
+                    'text field',
+                    'textarea',
+                    'password',
+                    'number',
+                    'range',
+                    'checkbox',
+                    'radio',
+                    'select',
+                    'color',
+                    'date',
+                ],
             },
             {
                 routerLink: '/component/light-dark',
@@ -120,7 +133,6 @@ export const menu: Menu = [
             {
                 routerLink: '/component/menubar',
                 label: 'Menubar',
-                status: 'new',
                 keys: ['menu bar', 'application menu', 'desktop menu', 'submenu'],
             },
             {
@@ -176,7 +188,6 @@ export const menu: Menu = [
             {
                 routerLink: '/component/window',
                 label: 'Window',
-                status: 'update',
                 keys: ['popup window', 'dialog window'],
             },
         ],
@@ -197,6 +208,7 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/limit-focus',
                 label: 'Limit-focus',
+                status: 'update',
                 keys: ['focus trap', 'focus control', 'focus limit'],
             },
             {
@@ -227,7 +239,6 @@ export const menu: Menu = [
             {
                 routerLink: '/directive/popover',
                 label: 'Popover',
-                status: 'new',
                 keys: ['popover', 'overlay', 'floating content', 'interactive tooltip'],
             },
             {
@@ -305,13 +316,11 @@ export const menu: Menu = [
             {
                 routerLink: '/service/messages',
                 label: 'Messages',
-                status: 'update',
                 keys: ['notifications', 'alerts', 'info', 'messages'],
             },
             {
                 routerLink: '/service/pointer-mode',
                 label: 'PointerMode',
-                status: 'new',
                 keys: ['pointer', 'keyboard', 'mouse', 'focus', 'pointer mode'],
             },
             {
@@ -323,7 +332,6 @@ export const menu: Menu = [
             {
                 routerLink: '/service/windows',
                 label: 'Windows',
-                status: 'update',
                 keys: ['window service', 'popup windows', 'window utilities'],
             },
         ],
@@ -340,7 +348,6 @@ export const menu: Menu = [
             {
                 routerLink: '/utils/coercion',
                 label: 'Coercion',
-                status: 'update',
                 keys: ['type conversion', 'convert', 'cast'],
             },
             {
@@ -421,6 +428,7 @@ export const menu: Menu = [
             {
                 routerLink: '/style/chips',
                 label: 'Chips',
+                status: 'update',
                 keys: ['chip', 'tag', 'badge', 'filter', 'choice'],
             },
             {
@@ -441,11 +449,13 @@ export const menu: Menu = [
             {
                 routerLink: '/style/palette',
                 label: 'Palette',
+                status: 'update',
                 keys: ['colors', 'color palette', 'theme colors'],
             },
             {
                 routerLink: '/style/status',
                 label: 'Status',
+                status: 'update',
                 keys: ['status', 'dot', 'indicator', 'online', 'offline', 'state'],
             },
             {

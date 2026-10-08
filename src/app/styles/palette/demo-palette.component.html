@@ -49,7 +49,7 @@
         <div>{{ list.group }}</div>
         <div class="squares">
           @for (color of list.list; track $index) {
-            <div style="--color: var(--{{ list.group + color }})"></div>
+            <div style="--color: var(--mg-{{ list.group + color }})"></div>
           }
         </div>
       </section>
@@ -68,8 +68,8 @@
         <h3>{{ list.group }}</h3>
         <div class="list">
           @for (color of list.list; track $index) {
-            <figure style="--color: var(--{{ list.group + color }})">
-              <figcaption>--{{ list.group + color }}</figcaption>
+            <figure style="--color: var(--mg-{{ list.group + color }})">
+              <figcaption>--mg-{{ list.group + color }}</figcaption>
             </figure>
           }
         </div>

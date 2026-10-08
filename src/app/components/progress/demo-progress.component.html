@@ -16,15 +16,49 @@
             <mg-input-number formControlName="total" min="1" noDecimal noNegative />
           </mg-input>
           <mg-input class="s-8">
-            <mg-input-label>sizeFormat</mg-input-label>
-            <mg-input-select formControlName="sizeFormat" [data]="sizeFormatData" />
+            <mg-input-label>displayFormat</mg-input-label>
+            <mg-input-select formControlName="displayFormat" [data]="displayFormatData" />
           </mg-input>
+          @if (ctrlForm.value.displayFormat === 'raw') {
+            <mg-input class="s-8">
+              <mg-input-label>unit</mg-input-label>
+              <mg-input-text formControlName="unit" placeholder="e.g. items, étapes…" />
+            </mg-input>
+          }
+          @if (ctrlForm.value.displayFormat === 'percent' || ctrlForm.value.displayFormat === 'raw') {
+            <mg-input class="s-8">
+              <mg-input-label>numberFormatPattern</mg-input-label>
+              <mg-input-text formControlName="numberFormatPattern" placeholder="#,###" />
+              <mg-input-desc>Example: <code>#,###.00</code> or <code>#,##0</code></mg-input-desc>
+            </mg-input>
+            <mg-input class="s-8">
+              <mg-input-label>numberFormatDecimalSymbol</mg-input-label>
+              <mg-input-text formControlName="numberFormatDecimalSymbol" placeholder="." />
+              <mg-input-desc>Decimal separator symbol</mg-input-desc>
+            </mg-input>
+            <mg-input class="s-8">
+              <mg-input-label>numberFormatSeparator</mg-input-label>
+              <mg-input-text formControlName="numberFormatSeparator" placeholder="(none)" />
+              <mg-input-desc>Grouping separator symbol</mg-input-desc>
+            </mg-input>
+          }
+          @if (ctrlForm.value.displayFormat === 'size' || !ctrlForm.value.displayFormat) {
+            <mg-input class="s-8">
+              <mg-input-label>sizeFormat</mg-input-label>
+              <mg-input-select formControlName="sizeFormat" [data]="sizeFormatData" />
+            </mg-input>
+          }
         </form>
         <div class="s-4 s-6-l s-12-s">
           <h2>Preview</h2>
           <mg-progress
             [loaded]="ctrlForm.value.loaded"
             [total]="ctrlForm.value.total"
+            [displayFormat]="ctrlForm.value.displayFormat || 'size'"
+            [unit]="ctrlForm.value.unit ?? ''"
+            [numberFormatPattern]="ctrlForm.value.numberFormatPattern || '#,###'"
+            [numberFormatDecimalSymbol]="ctrlForm.value.numberFormatDecimalSymbol ?? ''"
+            [numberFormatSeparator]="ctrlForm.value.numberFormatSeparator ?? ''"
             [sizeFormat]="ctrlForm.value.sizeFormat"
           />
         </div>
@@ -58,21 +92,68 @@
             <td mg><code>loaded</code></td>
             <td mg><code>number | undefined</code></td>
             <td mg>—</td>
-            <td mg>Bytes (or units) already transferred</td>
+            <td mg>Value already loaded / transferred</td>
           </tr>
           <tr mg>
             <td mg><code>total</code></td>
             <td mg><code>number | undefined</code></td>
             <td mg>—</td>
-            <td mg>Total bytes (or units). Used to compute the percentage bar</td>
+            <td mg>Total value. Used to compute the progress bar percentage</td>
+          </tr>
+          <tr mg>
+            <td mg><code>displayFormat</code></td>
+            <td mg><code>'size' | 'percent' | 'raw'</code></td>
+            <td mg><code>'size'</code></td>
+            <td mg>
+              Controls how the progress text is formatted.
+              <code>size</code>: file size via <code>fileSize</code> pipe. <code>percent</code>: shows
+              <code>loaded / total</code> as a percentage. <code>raw</code>: shows raw numbers with an optional
+              <code>unit</code> suffix.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>unit</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>
+              Unit label appended after the numbers when <code>displayFormat</code> is <code>'raw'</code> (e.g.
+              <code>'items'</code>, <code>'étapes'</code>).
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>numberFormatPattern</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'#,###'</code></td>
+            <td mg>
+              Number pattern (NumFormatter) used when <code>displayFormat</code> is <code>'percent'</code> or
+              <code>'raw'</code> (e.g. <code>'#,###'</code>, <code>'#,###.00'</code>).
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>numberFormatDecimalSymbol</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>
+              Decimal separator symbol used when <code>displayFormat</code> is <code>'percent'</code> or
+              <code>'raw'</code>. Empty keeps the default (<code>'.'</code>).
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>numberFormatSeparator</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>''</code></td>
+            <td mg>
+              Grouping (thousands) separator symbol used when <code>displayFormat</code> is <code>'percent'</code> or
+              <code>'raw'</code> (e.g. <code>'\u00A0'</code> to display <code>1&nbsp;000</code>).
+            </td>
           </tr>
           <tr mg>
             <td mg><code>sizeFormat</code></td>
             <td mg><code>FileSizePipeParams</code></td>
             <td mg>—</td>
             <td mg>
-              Options forwarded to the <code>fileSize</code> pipe. Supports <code>format</code>, <code>language</code>,
-              <code>translate</code>.
+              Options forwarded to the <code>fileSize</code> pipe when <code>displayFormat</code> is
+              <code>'size'</code>. Supports <code>format</code>, <code>language</code>, <code>translate</code>.
             </td>
           </tr>
         </tbody>

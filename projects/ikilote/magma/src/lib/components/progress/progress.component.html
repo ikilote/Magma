@@ -1,5 +1,6 @@
 @let _loaded = loaded();
 @let _total = total();
+@let _format = displayFormat();
 <div>
   @if (_loaded !== undefined && _total && _total > 0) {
     <div class="progress" [style.--progress]="(_loaded / _total) * 100"></div>
@@ -7,14 +8,20 @@
     <div class="progress undetermined"></div>
   }
   <div class="progress-text">
-    @if (_loaded !== undefined) {
-      {{ _loaded | fileSize: sizeFormat() }}
-    }
-    @if (_loaded !== undefined && _total && _total > 0) {
-      /
-    }
-    @if (_total && _total > 0) {
-      {{ _total | fileSize: sizeFormat() }}
+    @if (_format === 'percent') {
+      {{ percentLabel() }}
+    } @else if (_format === 'raw') {
+      {{ rawLabel() }}
+    } @else {
+      @if (_loaded !== undefined) {
+        {{ _loaded | fileSize: sizeFormat() }}
+      }
+      @if (_loaded !== undefined && _total && _total > 0) {
+        /
+      }
+      @if (_total && _total > 0) {
+        {{ _total | fileSize: sizeFormat() }}
+      }
     }
   </div>
 </div>

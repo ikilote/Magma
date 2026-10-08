@@ -88,12 +88,16 @@ describe('MagmaLimitFocusDirective', () => {
         if (document.activeElement && document.activeElement !== document.body) {
             (document.activeElement as HTMLElement).blur();
         }
-        document.body.focus();
 
         // Wait for async operations to complete BEFORE clearing timers
         await new Promise(resolve => setTimeout(resolve, 10));
 
+        // Destroy the fixture first, then remove its host element from the DOM so no
+        // focusable element (e.g. #button1) leaks into the document for later specs.
+        const hostEl = fixture?.nativeElement as HTMLElement | undefined;
         fixture?.destroy();
+        hostEl?.remove();
+
         vi.clearAllTimers();
         vi.useRealTimers();
         TestBed.resetTestingModule();

@@ -135,6 +135,11 @@ describe('MagmaMenubarComponent', () => {
     });
 
     afterEach(() => {
+        // Release any residual focus so a focused leftover element from a prior
+        // spec cannot interfere with activeElement assertions here.
+        if (document.activeElement && document.activeElement !== document.body) {
+            (document.activeElement as HTMLElement).blur();
+        }
         fixture?.destroy();
         cleanupOverlayContainer();
         vi.clearAllTimers();

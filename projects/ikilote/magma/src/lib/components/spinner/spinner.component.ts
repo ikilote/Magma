@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 
+import { RepeatForPipe } from '../../pipes/repeat-for.pipe';
 import { numberAttributeOrUndefined } from '../../utils/coercion';
 
 @Component({
@@ -11,6 +12,7 @@ import { numberAttributeOrUndefined } from '../../utils/coercion';
         '[style.--width.px]': 'tickWidth()',
         '[style.--radius.px]': 'radius()',
     },
+    imports: [RepeatForPipe],
 })
 export class MagmaSpinner {
     // input

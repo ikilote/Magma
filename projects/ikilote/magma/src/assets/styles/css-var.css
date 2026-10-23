@@ -197,11 +197,11 @@ body {
     /* Border strong: accentuated borders (focus indicators, strong dividers). */
     --mg-color-border-strong: var(--mg-neutral700);
     /* Primary: main accent color (buttons, active states). */
-    --mg-color-primary: var(--mg-primary500);
+    --mg-color-primary: var(--mg-primary300);
     /* On primary: text/icon color on a primary-colored background. */
     --mg-color-on-primary: var(--mg-neutral000);
     /* Primary hover: accent color on pointer hover. */
-    --mg-color-primary-hover: var(--mg-primary700);
+    --mg-color-primary-hover: var(--mg-primary500);
     /* Focus ring: outline color for keyboard focus indicators. */
     --mg-color-focus-ring: var(--mg-primary500);
 
@@ -216,8 +216,8 @@ body {
     --mg-context-menu-border-color: transparent;
     --mg-context-menu-box-shadow: 2px 2px 5px #0005;
     --mg-context-menu-border-radius: 6px;
-    --mg-context-menu-item-background: var(--mg-primary300);
-    --mg-context-menu-item-background-hover: var(--mg-primary400);
+    --mg-context-menu-item-background: var(--mg-primary200);
+    --mg-context-menu-item-background-hover: var(--mg-primary300);
     --mg-context-menu-item-gap: 10px;
     --mg-context-menu-item-margin: 2px;
     --mg-context-menu-item-radius: 4px;
@@ -348,7 +348,7 @@ body {
     --mg-button-warn-active-padding: var(--mg-button-default-padding);
 
     /* MARK: link */
-    --mg-link-color: var(--mg-primary700);
+    --mg-link-color: var(--mg-primary800);
     --mg-link-hover-color: var(--mg-neutral990);
     --mg-link-focus-border-color: var(--mg-input-focus-color);
 
@@ -379,13 +379,14 @@ body {
     --mg-chip-active-padding: var(--mg-chip-padding);
 
     /* MARK: dialog */
+    --mg-dialog-backdrop-filter: blur(2px);
     --mg-dialog-backdrop-background: color-mix(in hsl, var(--mg-primary050) 60%, transparent);
     --mg-dialog-backdrop-background-no-filter: color-mix(in hsl, var(--mg-primary050) 70%, transparent);
     --mg-dialog-background: var(--mg-color-surface-raised);
-    --mg-dialog-shadow-color: color-mix(in hsl, var(--mg-color-surface-raised) 30%, transparent);
-    --mg-dialog-close-shadow-color: var(--mg-neutral500);
-    --mg-dialog-close-background: var(--mg-neutral300);
-    --mg-dialog-close-background-hover: var(--mg-neutral500);
+    --mg-dialog-shadow-color: #0005;
+    --mg-dialog-close-shadow-color: var(--mg-neutral300);
+    --mg-dialog-close-background: var(--mg-neutral100);
+    --mg-dialog-close-background-hover: var(--mg-neutral300);
 
     /* MARK: cookie-consent */
     --mg-cookie-consent-banner-background: var(--mg-dialog-background);
@@ -407,7 +408,7 @@ body {
     /* MARK: input */
     --mg-input-border-color: var(--mg-color-border);
     --mg-input-background: var(--mg-primary050);
-    --mg-input-background-affix: var(--mg-primary300);
+    --mg-input-background-affix: var(--mg-primary100);
     --mg-input-background-transparent: color-mix(in hsl, var(--mg-input-background) 60%, transparent);
     --mg-input-item-color: var(--mg-primary400);
     --mg-input-item-active-color: var(--mg-primary700);
@@ -429,6 +430,7 @@ body {
     --mg-input-line-height: 21px;
     --mg-input-mark-top: -2px;
     --mg-input-placeholder-color: var(--mg-color-on-surface-muted);
+    --mg-input-picker-icon-color: var(--mg-neutral800);
 
     /* MARK: item content-box */
     --mg-content-title-text-color: var(--mg-neutral990);

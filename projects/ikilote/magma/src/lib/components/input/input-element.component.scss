@@ -6,8 +6,12 @@
     white-space: nowrap;
 }
 
-:host:is(mg-input-prefix):has(+ ::ng-deep :is(mg-input-text, mg-input-number, mg-input-password, mg-input-select)),
-:is(mg-input-text, mg-input-number, mg-input-password, mg-input-select) + :host:is(mg-input-suffix) {
+:host:is(mg-input-prefix):has(
+        + ::ng-deep
+            :is(mg-input-text, mg-input-number, mg-input-password, mg-input-select, mg-input-segmented.mode-unified)
+    ),
+:is(mg-input-text, mg-input-number, mg-input-password, mg-input-select, mg-input-segmented.mode-unified)
+    + :host:is(mg-input-suffix) {
     box-sizing: border-box;
     outline: 2px solid transparent;
     border: 1px solid var(--mg-input-border-color);
@@ -21,7 +25,8 @@
     color: var(--mg-text-color);
 }
 
-:is(mg-input-text, mg-input-number, mg-input-password, mg-input-select) + :host:is(mg-input-suffix) {
+:is(mg-input-text, mg-input-number, mg-input-password, mg-input-select, mg-input-segmented.mode-unified)
+    + :host:is(mg-input-suffix) {
     border-inline-start-width: 0;
     border-inline-end-width: 1px;
     border-start-start-radius: 0;
@@ -32,18 +37,27 @@
 
 // affix -> input style
 
-:host:is(mg-input-prefix) + ::ng-deep :is(mg-input-text, mg-input-number, mg-input-password) input {
+:host:is(mg-input-prefix)
+    + ::ng-deep
+    :is(mg-input-text, mg-input-number, mg-input-password, mg-input-segmented.mode-unified)
+    :where(input, .input) {
     position: relative; // for focus
     border-start-start-radius: 0;
     border-end-start-radius: 0;
 }
 
-:is(mg-input-text, mg-input-number, mg-input-password):has(+ :host:is(mg-input-suffix)) ::ng-deep input {
+:is(mg-input-text, mg-input-number, mg-input-password, mg-input-segmented.mode-unified):has(+ :host:is(mg-input-suffix))
+    ::ng-deep
+    :where(input, .input) {
     border-start-end-radius: 0;
     border-end-end-radius: 0;
 }
 
-:is(mg-input-text, mg-input-number, mg-input-password):focus-within:has(+ :host:is(mg-input-suffix)) ::ng-deep input {
+:is(mg-input-text, mg-input-number, mg-input-password, mg-input-segmented.mode-unified):focus-within:has(
+        + :host:is(mg-input-suffix)
+    )
+    ::ng-deep
+    :where(input, .input) {
     position: relative; // for focus
     z-index: 1; // for focus
 }

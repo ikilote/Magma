@@ -1,0 +1,136 @@
+:host {
+    display: inline-block;
+}
+
+/* Hidden SMS-autofill relay input */
+.segmented-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    opacity: 0;
+    margin: 0;
+    border: 0;
+    padding: 0;
+    pointer-events: none;
+    white-space: nowrap;
+}
+
+/* ── Layout ────────────────────────────────────────────────────────────── */
+
+.segmented-group {
+    display: inline-flex;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 4px;
+}
+
+/* ── Base cell ─────────────────────────────────────────────────────────── */
+
+.segmented-cell {
+    -moz-appearance: textfield;
+    appearance: textfield;
+    transition:
+        border-color 0.15s,
+        outline-color 0.15s;
+    box-sizing: border-box;
+    outline: 2px solid transparent;
+    border: var(--mg-input-border-width, 1px) solid var(--mg-input-border-color);
+    border-radius: var(--mg-input-border-radius, 3px);
+    background: var(--mg-input-background);
+    padding: 0;
+    /* Separate mode: fixed width per character */
+    width: 2.4em;
+    min-width: 0;
+    height: calc(var(--mg-input-line-height, 21px) + 10px + 2 * var(--mg-input-border-width, 1px));
+    color: var(--mg-text-color);
+    font-size: var(--mg-input-font-size, 16px);
+    line-height: var(--mg-input-line-height, 21px);
+    text-align: center;
+
+    &:focus {
+        z-index: 1;
+        outline-color: var(--mg-input-focus-border-color);
+        border-color: var(--mg-input-focus-border-color);
+    }
+
+    &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+    &:not(:placeholder-shown) {
+        border-color: var(--mg-input-item-active-color);
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+/* ── Separator ─────────────────────────────────────────────────────────── */
+
+.segmented-separator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--mg-input-item-color);
+    font-size: var(--mg-input-font-size, 16px);
+    user-select: none;
+}
+
+/* ── Mode: grouped ─────────────────────────────────────────────────────── */
+/*
+ * One <input> per group. Each input is sized by its `size` attribute so it
+ * naturally fills `maxlength` characters. Groups have a gap between them;
+ * the separator sits in that gap.
+ */
+
+:host.mode-grouped {
+    .segmented-group {
+        align-items: center;
+        gap: 8px;
+    }
+
+    .segmented-cell {
+        padding-inline: 0.4em;
+        /* compensate letter-spacing on the last char */
+        padding-inline-end: calc(0.4em + 0.2em);
+        /* Let the browser use the size attribute for natural width */
+        width: auto;
+        /* letter-spacing adds visual breathing room between characters */
+        letter-spacing: 0.2em;
+        text-align: center;
+    }
+}
+
+/* ── Mode: unified ─────────────────────────────────────────────────────── */
+/*
+ * One <input> per group, all fused into one continuous block.
+ * Separators share the same border/background so they look inline.
+ */
+
+:host.mode-unified {
+    .segmented-group {
+        position: relative;
+        top: 1px;
+        gap: 0;
+        padding: 0;
+        height: calc(var(--mg-input-line-height, 21px) + 10px + 2 * var(--mg-input-border-width, 1px));
+    }
+
+    input {
+        margin: 0;
+        outline: 0;
+        border: 0;
+        background: transparent;
+        width: auto;
+
+        &:focus {
+            outline: 0;
+        }
+    }
+}

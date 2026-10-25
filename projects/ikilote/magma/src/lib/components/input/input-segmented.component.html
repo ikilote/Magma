@@ -1,0 +1,88 @@
+@if (!onError()) {
+  <!--
+    Hidden input for SMS autofill (autocomplete="one-time-code").
+    Invisible but readable by the OS credential manager.
+  -->
+  @if (autocomplete() && isNumericOnly()) {
+    <input
+      type="text"
+      inputmode="numeric"
+      autocomplete="one-time-code"
+      [name]="_name()"
+      [id]="_id() + '-input'"
+      [value]="_value ?? ''"
+      [disabled]="disabled()"
+      [attr.maxlength]="slotCount()"
+      class="segmented-hidden"
+      aria-hidden="true"
+      tabindex="-1"
+    />
+  }
+
+  <div
+    class="segmented-group"
+    [class.input]="mode() === 'unified'"
+    role="group"
+    [attr.aria-label]="placeholder() || 'Segmented input'"
+    [attr.aria-disabled]="disabled() || null"
+  >
+    @if (!isFused()) {
+      <!-- ── Separate mode: one <input> per character ─────────────────── -->
+      @for (entry of entries(); track $index) {
+        @if (entry.separator) {
+          <span class="segmented-separator" aria-hidden="true">{{ entry.separator }}</span>
+        } @else {
+          <input
+            #cell
+            class="segmented-cell"
+            [type]="inputTypeFor(entry.type!)"
+            [attr.inputmode]="inputModeFor(entry.type!)"
+            [name]="_name() + '-' + entry.index"
+            [id]="_id() + '-cell-' + entry.index"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
+            [attr.data-pos]="groupPositions().get(entry.index)"
+            [attr.aria-label]="'Cell ' + (entry.index + 1) + ' of ' + slotCount()"
+            [attr.autocomplete]="autocomplete() && isNumericOnly() && entry.index === 0 ? 'one-time-code' : 'off'"
+            maxlength="2"
+            (input)="onCellInput($event, entry.index)"
+            (keydown)="onCellKeydown($event, entry.index)"
+            (paste)="onCellPaste($event, entry.index)"
+            (focus)="onCellFocus($event)"
+            (blur)="onTouched()"
+          />
+        }
+      }
+    } @else {
+      <!-- ── Grouped / unified mode: one <input> per group ─────────────── -->
+      @for (entry of groupEntries(); track $index) {
+        @if (entry.separator) {
+          <span class="segmented-separator" aria-hidden="true">{{ entry.separator }}</span>
+        } @else {
+          <input
+            #cell
+            class="segmented-cell"
+            [type]="inputTypeFor($any(entry).type)"
+            [attr.inputmode]="inputModeFor($any(entry).type)"
+            [name]="_name() + '-g' + entry.index"
+            [id]="_id() + '-group-' + entry.index"
+            [disabled]="disabled()"
+            [readonly]="readonly()"
+            [attr.maxlength]="$any(entry).maxlength"
+            [attr.size]="$any(entry).maxlength"
+            [value]="groupValues[entry.index] ?? ''"
+            [attr.aria-label]="'Group ' + (entry.index + 1) + ' of ' + groupEntries().length"
+            [attr.autocomplete]="autocomplete() && isNumericOnly() && entry.index === 0 ? 'one-time-code' : 'off'"
+            (input)="onGroupInput($event, entry.index)"
+            (keydown)="onGroupKeydown($event, entry.index)"
+            (paste)="onGroupPaste($event, entry.index)"
+            (focus)="onCellFocus($event)"
+            (blur)="onTouched()"
+          />
+        }
+      }
+    }
+  </div>
+} @else {
+  Error
+}

@@ -37,6 +37,7 @@ export * from './lib/components/input/input-number.component';
 export * from './lib/components/input/input-password.component';
 export * from './lib/components/input/input-radio.component';
 export * from './lib/components/input/input-range.component';
+export * from './lib/components/input/input-segmented.component';
 export * from './lib/components/input/input-select.component';
 export * from './lib/components/input/input-text.component';
 export * from './lib/components/input/input-textarea.component';

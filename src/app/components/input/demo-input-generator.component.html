@@ -50,6 +50,7 @@
           <mg-input-radio formControlName="type" value="select" class="update">select</mg-input-radio>
           <mg-input-radio formControlName="type" value="color">color</mg-input-radio>
           <mg-input-radio formControlName="type" value="date">date</mg-input-radio>
+          <mg-input-radio formControlName="type" value="segmented" class="new">segmented</mg-input-radio>
         </mg-input>
         <mg-input class="s-12">
           <mg-input-label>Type of access value</mg-input-label>
@@ -258,6 +259,25 @@
           <mg-input class="s-3 s-6-m">
             <mg-input-label>Datalist</mg-input-label>
             <mg-input-checkbox formControlName="datalist" mode="toggle" />
+          </mg-input>
+        }
+        @if (formGenerator.value.type === 'segmented') {
+          <mg-input class="s-6 s-12-m">
+            <mg-input-label>Pattern</mg-input-label>
+            <mg-input-text formControlName="segmentedPattern" />
+            <mg-input-desc>
+              <code>0</code> digit · <code>x</code>/<code>X</code> alphanumeric · <code>a</code>/<code>A</code> letter ·
+              <code>*</code> masked digit · any other char = separator
+            </mg-input-desc>
+          </mg-input>
+          <mg-input class="s-3 s-6-m">
+            <mg-input-label>Mode</mg-input-label>
+            <mg-input-select formControlName="segmentedMode" [data]="segmentedMode" />
+          </mg-input>
+          <mg-input class="s-3 s-6-m">
+            <mg-input-label>Autocomplete</mg-input-label>
+            <mg-input-checkbox formControlName="segmentedAutocomplete" mode="toggle" />
+            <mg-input-desc>SMS one-time-code autofill</mg-input-desc>
           </mg-input>
         }
         @if (formGenerator.value.type === 'checkbox') {
@@ -535,6 +555,20 @@
               id="mg-input-color-gen"
             />
           }
+          @case ('segmented') {
+            <mg-input-segmented
+              [pattern]="formGenerator.value.segmentedPattern ?? '000000'"
+              [mode]="formGenerator.value.segmentedMode ?? 'separate'"
+              [autocomplete]="formGenerator.value.segmentedAutocomplete ?? false"
+              [readonly]="formGenerator.value.readonly"
+              [disabled]="formGenerator.value.disabled ?? false"
+              [(ngModel)]="valueSegmented"
+              (ngModelChange)="codeGeneration()"
+              (update)="onEvent('update', $event)"
+              (valueChange)="onEvent('change', $event)"
+              id="mg-input-segmented-gen"
+            />
+          }
         }
         @if (formGenerator.value.multiple && formGenerator.value.type === 'checkbox') {
           <mg-input-checkbox
@@ -633,6 +667,8 @@
           {{ valueRange | json }}
         } @else if (formGenerator.value.type === 'date') {
           {{ valueDate | json }}
+        } @else if (formGenerator.value.type === 'segmented') {
+          {{ valueSegmented | json }}
         }
       </code>
     </p>

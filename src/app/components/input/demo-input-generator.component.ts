@@ -16,6 +16,7 @@ import {
     MagmaInputRadio,
     MagmaInputRadioMode,
     MagmaInputRange,
+    MagmaInputSegmented,
     MagmaInputSelect,
     MagmaInputText,
     MagmaInputTextarea,
@@ -46,6 +47,7 @@ import { palette, texts } from '../color-picker/demo-color-picker.component';
         MagmaInputNumber,
         MagmaInputRange,
         MagmaInputSelect,
+        MagmaInputSegmented,
         FormsModule,
         ReactiveFormsModule,
         CodeTabsComponent,
@@ -71,7 +73,17 @@ export class DemoInputGeneratorComponent {
         label: FormControl<string>;
         desc: FormControl<string>;
         type: FormControl<
-            'text' | 'textarea' | 'password' | 'color' | 'checkbox' | 'radio' | 'number' | 'select' | 'range' | 'date'
+            | 'text'
+            | 'textarea'
+            | 'password'
+            | 'color'
+            | 'checkbox'
+            | 'radio'
+            | 'number'
+            | 'select'
+            | 'range'
+            | 'date'
+            | 'segmented'
         >;
         access: FormControl<'none' | 'value' | 'ngModel' | 'formControlName'>;
         selectedEvents: FormControl<string[]>;
@@ -140,6 +152,11 @@ export class DemoInputGeneratorComponent {
         typeDate: FormControl<MagmaDatetimeType>;
         hideDatePicker: FormControl<boolean>;
 
+        // segmented
+        segmentedPattern: FormControl<string>;
+        segmentedAutocomplete: FormControl<boolean>;
+        segmentedMode: FormControl<'separate' | 'grouped' | 'unified'>;
+
         // color
         alpha: FormControl<boolean>;
         clearButton: FormControl<boolean>;
@@ -157,6 +174,7 @@ export class DemoInputGeneratorComponent {
     valueRadio = 'value2';
     valueSelect = 'test2';
     valueColor = 'yellow';
+    valueSegmented = '';
 
     logEvents = '';
 
@@ -206,6 +224,12 @@ export class DemoInputGeneratorComponent {
         { label: 'pill', value: 'pill' },
     ];
 
+    segmentedMode: Select2Data = [
+        { value: 'separate', label: 'separate' },
+        { value: 'grouped', label: 'grouped' },
+        { value: 'unified', label: 'unified' },
+    ];
+
     typesDate = dateTypes;
 
     constructor() {
@@ -223,7 +247,8 @@ export class DemoInputGeneratorComponent {
                     | 'checkbox'
                     | 'radio'
                     | 'range'
-                    | 'date',
+                    | 'date'
+                    | 'segmented',
             },
             access: { default: 'none' as 'value' | 'none' | 'ngModel' | 'formControlName' },
             selectedEvents: { default: [] as string[] },
@@ -250,7 +275,7 @@ export class DemoInputGeneratorComponent {
             minHeight: { default: '' },
             maxHeight: { default: '' },
             textareaDesc: { default: '' },
-            // text
+            // password
             eye: { default: false },
             // radio / checkbox
             subLabel1: { default: 'input label 1' },
@@ -282,6 +307,10 @@ export class DemoInputGeneratorComponent {
             // date
             hideDatePicker: { default: false },
             typeDate: { default: '' as MagmaDatetimeType },
+            // segmented
+            segmentedPattern: { default: '000000' },
+            segmentedAutocomplete: { default: false },
+            segmentedMode: { default: 'separate' as 'separate' | 'grouped' | 'unified' },
             // color
             alpha: { default: false },
             clearButton: { default: false },
@@ -424,6 +453,9 @@ export class DemoInputGeneratorComponent {
                 break;
             case 'date':
                 imports.push(`MagmaInputDate`);
+                break;
+            case 'segmented':
+                imports.push(`MagmaInputSegmented`);
                 break;
             case 'select':
                 imports.push(`MagmaInputSelect`);
@@ -587,7 +619,6 @@ export class DemoInputGeneratorComponent {
                 attrInput['[datalist]'] = `[${this.datalistRange}]`.replaceAll(',', ', ');
             }
         }
-
         if (type === 'number') {
             if (fgValue.forceMinMax) {
                 attrInput['forceMinMax'] = null;
@@ -670,6 +701,17 @@ export class DemoInputGeneratorComponent {
             }
             if (fgValue.datalist) {
                 attrInput['[datalist]'] = `['${this.datalistText}']`.replaceAll(',', "', '");
+            }
+        }
+        if (type === 'segmented') {
+            if (fgValue.segmentedPattern) {
+                attrInput['pattern'] = fgValue.segmentedPattern;
+            }
+            if (fgValue.segmentedMode && fgValue.segmentedMode !== 'separate') {
+                attrInput['mode'] = fgValue.segmentedMode;
+            }
+            if (fgValue.segmentedAutocomplete) {
+                attrInput['autocomplete'] = null;
             }
         }
         if (type === 'number' || type === 'textarea' || type === 'text' || type === 'password' || type === 'select') {

@@ -233,6 +233,10 @@
             <mg-input-label>clearCross</mg-input-label>
             <mg-input-checkbox formControlName="clearCross" mode="toggle" />
           </mg-input>
+          <mg-input class="s-3 s-6-m">
+            <mg-input-label>textCase</mg-input-label>
+            <mg-input-select formControlName="textCase" [data]="textCaseOptions" />
+          </mg-input>
         }
         @if (formGenerator.value.type === 'password') {
           <mg-input class="s-3 s-6-m">
@@ -390,6 +394,7 @@
               (ngModelChange)="codeGeneration()"
               [maxlength]="formGenerator.value.maxLength ?? null"
               [clearCross]="formGenerator.value.clearCross"
+              [textCase]="formGenerator.value.textCase || null"
               [placeholder]="formGenerator.value.placeholder"
               [placeholderAnimated]="formGenerator.value.placeholderAnimated"
               [readonly]="formGenerator.value.readonly"

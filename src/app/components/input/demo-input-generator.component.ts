@@ -102,6 +102,7 @@ export class DemoInputGeneratorComponent {
         // text
         maxLength: FormControl<number>;
         clearCross: FormControl<boolean>;
+        textCase: FormControl<'upper' | 'lower' | ''>;
 
         // textarea
         displayLimit: FormControl<number>;
@@ -230,6 +231,12 @@ export class DemoInputGeneratorComponent {
         { value: 'unified', label: 'unified' },
     ];
 
+    textCaseOptions: Select2Data = [
+        { value: '', label: 'none' },
+        { value: 'upper', label: 'upper' },
+        { value: 'lower', label: 'lower' },
+    ];
+
     typesDate = dateTypes;
 
     constructor() {
@@ -267,6 +274,7 @@ export class DemoInputGeneratorComponent {
             // text
             maxLength: { default: 0, emptyOnInit: true },
             clearCross: { default: false },
+            textCase: { default: '' as 'upper' | 'lower' | '' },
             // textarea
             displayLimit: { default: 0, emptyOnInit: true },
             autosize: { default: false },
@@ -698,6 +706,9 @@ export class DemoInputGeneratorComponent {
         if (type === 'text') {
             if (fgValue.clearCross) {
                 attrInput['clearCross'] = null;
+            }
+            if (fgValue.textCase) {
+                attrInput['textCase'] = fgValue.textCase;
             }
             if (fgValue.datalist) {
                 attrInput['[datalist]'] = `['${this.datalistText}']`.replaceAll(',', "', '");

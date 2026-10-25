@@ -297,6 +297,105 @@
         </tbody>
       </table>
 
+      <h4>Specific inputs — <code>mg-input-segmented</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>pattern</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'000000'</code></td>
+            <td mg>
+              Defines the structure of the input. Each character sets the type and position of a slot or a visual
+              separator.<br />
+              <code>0</code> = digit &nbsp;·&nbsp; <code>*</code> = masked digit &nbsp;·&nbsp; <code>a</code>/<code
+                >A</code
+              >
+              = letter &nbsp;·&nbsp; <code>x</code>/<code>X</code> = alphanumeric &nbsp;·&nbsp; <code>\</code> = escape
+              next char as literal separator &nbsp;·&nbsp; any other char = visual separator
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>mode</code></td>
+            <td mg><code>'separate' | 'grouped' | 'unified'</code></td>
+            <td mg><code>'separate'</code></td>
+            <td mg>
+              Visual layout mode.<br />
+              <code>separate</code> — one bordered cell per character.<br />
+              <code>grouped</code> — cells within a group share one input field, groups remain separated.<br />
+              <code>unified</code> — all groups and separators fused into one continuous block.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>autocomplete</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>
+              When <code>true</code> and the pattern is numeric-only, enables
+              <code>autocomplete="one-time-code"</code> on the first cell for SMS autofill. Opt in explicitly for OTP
+              use cases.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Disables all cells</td>
+          </tr>
+          <tr mg>
+            <td mg><code>readonly</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Makes all cells read-only</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Pattern examples — <code>mg-input-segmented</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Pattern</th>
+            <th mg>Use case</th>
+            <th mg>Slots</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>000000</code></td>
+            <td mg>6-digit OTP / verification code</td>
+            <td mg>6</td>
+          </tr>
+          <tr mg>
+            <td mg><code>0000-0000-0000-0000</code></td>
+            <td mg>Credit card number</td>
+            <td mg>16</td>
+          </tr>
+          <tr mg>
+            <td mg><code>****</code></td>
+            <td mg>4-digit masked PIN</td>
+            <td mg>4</td>
+          </tr>
+          <tr mg>
+            <td mg><code>XXXX-XXXX-XXXX</code></td>
+            <td mg>Alphanumeric license key</td>
+            <td mg>12</td>
+          </tr>
+          <tr mg>
+            <td mg><code>AA00 0000 0000 0000 0000 000</code></td>
+            <td mg>IBAN (FR format)</td>
+            <td mg>27</td>
+          </tr>
+        </tbody>
+      </table>
+
       <h4>Child elements — <code>mg-input</code></h4>
       <table mg>
         <thead mg>

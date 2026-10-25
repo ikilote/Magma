@@ -77,6 +77,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 4px;
     color: var(--mg-input-item-color);
     font-size: var(--mg-input-font-size, 16px);
     user-select: none;
@@ -92,7 +93,6 @@
 :host.mode-grouped {
     .segmented-group {
         align-items: center;
-        gap: 8px;
     }
 
     .segmented-cell {

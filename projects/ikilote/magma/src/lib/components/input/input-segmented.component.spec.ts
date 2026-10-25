@@ -173,6 +173,54 @@ describe('MagmaInputSegmented', () => {
             expect(seps[0].separator).toBe('-');
         });
 
+        it('should treat backslash-escaped char as literal separator', () => {
+            // '\\0' in TS string = the two chars \ and 0 passed to the component
+            fixture.componentRef.setInput('pattern', '\\0');
+            const entries = component.entries();
+            expect(entries.length).toBe(1);
+            expect(entries[0].separator).toBe('0');
+        });
+
+        it('should allow escaping reserved slot chars as separators', () => {
+            // pattern: 00\x00 → slot, slot, literal 'x' separator, slot, slot
+            fixture.componentRef.setInput('pattern', '00\\x00');
+            const slots = component.entries().filter(e => !e.separator);
+            const seps = component.entries().filter(e => e.separator !== undefined);
+            expect(slots.length).toBe(4);
+            expect(seps.length).toBe(1);
+            expect(seps[0].separator).toBe('x');
+        });
+
+        it('should treat trailing backslash as regular separator', () => {
+            // A lone trailing \ has no next char → treated as a separator itself
+            fixture.componentRef.setInput('pattern', '00\\');
+            const entries = component.entries();
+            const seps = entries.filter(e => e.separator !== undefined);
+            // The \ at the end is a lone escape with no following char — treated as separator
+            expect(seps.length).toBe(1);
+            expect(seps[0].separator).toBe('\\');
+        });
+
+        it('should split into separate groups when slot types differ without separator', () => {
+            // 'a0' → alpha then numeric: _buildGroupEntries flushes on type change → 2 groups
+            fixture.componentRef.setInput('pattern', 'a0');
+            fixture.componentRef.setInput('mode', 'grouped');
+            fixture.changeDetectorRef.detectChanges();
+            const groups = component['_groups']();
+            expect(groups.length).toBe(2);
+            expect(groups[0].type).toBe('alpha');
+            expect(groups[1].type).toBe('numeric');
+        });
+
+        it('should keep same-type consecutive slots in one group without separator', () => {
+            // 'aaa' → all alpha, single group
+            fixture.componentRef.setInput('pattern', 'aaa');
+            fixture.componentRef.setInput('mode', 'grouped');
+            fixture.changeDetectorRef.detectChanges();
+            expect(component['_groups']().length).toBe(1);
+            expect(component['_groups']()[0].maxlength).toBe(3);
+        });
+
         it('should detect numeric-only pattern', () => {
             expect(component.isNumericOnly()).toBe(true);
         });
@@ -772,6 +820,43 @@ describe('MagmaInputSegmented', () => {
                 vi.spyOn(component, 'onChange');
                 component.onGroupPaste(makePasteEvent('12345678') as any, 0);
                 expect(component.onChange).toHaveBeenCalled();
+            });
+        });
+
+        describe('heterogeneous group (mixed types without separator)', () => {
+            // Pattern 'a0': alpha slot + numeric slot → split into 2 groups by _buildGroupEntries
+            // But 'aaa-xx-aaa': same issue applies — group.type was used globally before fix
+
+            it('should accept only alpha in alpha position of mixed-adjacent pattern', () => {
+                fixture.componentRef.setInput('pattern', 'aaa-xx-aaa');
+                fixture.componentRef.setInput('mode', 'grouped');
+                fixture.changeDetectorRef.detectChanges();
+                vi.spyOn(component, 'onChange');
+                // Group 0 = 'aaa' (alpha), group 1 = 'xx' (alphanumeric)
+                const fakeInput = { value: 'ABC', selectionStart: 3, setSelectionRange: vi.fn() } as any;
+                component.onGroupInput({ target: fakeInput } as any, 0);
+                expect(component.groupValues[0]).toBe('ABC');
+                expect(component.onChange).toHaveBeenCalled();
+            });
+
+            it('should reject digits in alpha group of aaa-xx-aaa', () => {
+                fixture.componentRef.setInput('pattern', 'aaa-xx-aaa');
+                fixture.componentRef.setInput('mode', 'grouped');
+                fixture.changeDetectorRef.detectChanges();
+                const fakeInput = { value: '123', selectionStart: 0, setSelectionRange: vi.fn() } as any;
+                component.onGroupInput({ target: fakeInput } as any, 0);
+                expect(component.groupValues[0]).toBe('');
+            });
+
+            it('onGroupPaste: should validate each slot type individually for mixed pattern', () => {
+                fixture.componentRef.setInput('pattern', 'aaa-xx-aaa');
+                fixture.componentRef.setInput('mode', 'grouped');
+                fixture.changeDetectorRef.detectChanges();
+                // Paste 'ABC12DEF' — group 0 (alpha): ABC ok, group 1 (alphanumeric): 12 ok, group 2 (alpha): DEF ok
+                component.onGroupPaste(makePasteEvent('ABC12DEF') as any, 0);
+                expect(component.groupValues[0]).toBe('ABC');
+                expect(component.groupValues[1]).toBe('12');
+                expect(component.groupValues[2]).toBe('DEF');
             });
         });
     });

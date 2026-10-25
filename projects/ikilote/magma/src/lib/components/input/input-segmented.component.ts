@@ -55,13 +55,14 @@ type GroupEntry = SegmentedGroup | SegmentedSeparator;
  * Segmented input where the structure is driven by a **pattern string**.
  *
  * Pattern characters:
- * | Char      | Accepted input     |
- * |-----------|-------------------|
- * | `0`       | digit (0–9)       |
- * | `x` / `X` | alphanumeric      |
- * | `a` / `A` | letter only       |
- * | `*`       | digit, masked (•) |
- * | any other | visual separator  |
+ * | Char        | Accepted input                                 |
+ * |-------------|------------------------------------------------|
+ * | `0`         | digit (0–9)                                    |
+ * | `x` / `X`   | alphanumeric                                   |
+ * | `a` / `A`   | letter only                                    |
+ * | `*`         | digit, masked (•)                              |
+ * | `\` + char  | literal separator (escapes `0`, `x`, `a`, `*`) |
+ * | any other   | visual separator                               |
  *
  * **Modes:**
  * - `separate` (default) — one `<input>` per character, individual borders
@@ -96,7 +97,9 @@ export class MagmaInputSegmented extends MagmaInputCommon<string> implements OnC
     override readonly componentName = 'input-segmented';
     protected override counter = counter++;
 
-    /** Pattern string defining the structure (e.g. `"0000-0000"`, `"000000"`). */
+    /** Pattern string defining the structure (e.g. `"0000-0000"`, `"000000"`).
+     *  Use `\` to escape a reserved character as a literal separator (e.g. `"\\0"` displays `0`).
+     */
     readonly pattern = input('000000');
 
     /**
@@ -282,19 +285,24 @@ export class MagmaInputSegmented extends MagmaInputCommon<string> implements OnC
         const group = groups[groupIndex];
         if (!group) return;
 
-        // Filter out non-allowed chars, keep cursor position
+        // Map slot index → slot for O(1) lookup
+        const slotMap = new Map(this._inputSlots().map(s => [s.index, s]));
+
+        // Filter each char against the type of its own slot position in the group
         const raw = input.value;
         const selStart = input.selectionStart ?? raw.length;
         const filtered = raw
             .split('')
-            .filter(c => this._charAllowed(c, group.type))
+            .filter((c, pos) => {
+                const slot = slotMap.get(group.slotIndices[pos]);
+                return slot ? this._charAllowed(c, slot.type) : false;
+            })
             .slice(0, group.maxlength)
             .join('');
 
         // Only rewrite if filtering actually changed something
         if (filtered !== raw) {
             input.value = filtered;
-            // Restore cursor position (clamped to new length)
             const pos = Math.min(selStart, filtered.length);
             input.setSelectionRange(pos, pos);
         }
@@ -366,14 +374,19 @@ export class MagmaInputSegmented extends MagmaInputCommon<string> implements OnC
         event.preventDefault();
         const stripped = (event.clipboardData?.getData('text') ?? '').replace(/[^a-zA-Z0-9]/g, '');
         const groups = this._groups();
+        const slotMap = new Map(this._inputSlots().map(s => [s.index, s]));
         let charIdx = 0;
 
         for (let gi = groupIndex; gi < groups.length && charIdx < stripped.length; gi++) {
             const group = groups[gi];
+            // Validate each char against the type of the specific slot it maps to
             const allowed = stripped
                 .slice(charIdx)
                 .split('')
-                .filter(c => this._charAllowed(c, group.type))
+                .filter((c, pos) => {
+                    const slot = slotMap.get(group.slotIndices[pos]);
+                    return slot ? this._charAllowed(c, slot.type) : false;
+                })
                 .slice(0, group.maxlength)
                 .join('');
 
@@ -412,7 +425,17 @@ export class MagmaInputSegmented extends MagmaInputCommon<string> implements OnC
     private _parsePattern(pattern: string): SegmentedEntry[] {
         const entries: SegmentedEntry[] = [];
         let slotIdx = 0;
-        for (const ch of pattern) {
+        let i = 0;
+        while (i < pattern.length) {
+            const ch = pattern[i];
+
+            // Escape character: treat next char as a literal separator
+            if (ch === '\\' && i + 1 < pattern.length) {
+                entries.push({ index: -1, separator: pattern[i + 1] });
+                i += 2;
+                continue;
+            }
+
             switch (ch) {
                 case '0':
                     entries.push({ index: slotIdx++, type: 'numeric' });
@@ -431,6 +454,7 @@ export class MagmaInputSegmented extends MagmaInputCommon<string> implements OnC
                 default:
                     entries.push({ index: -1, separator: ch });
             }
+            i++;
         }
         return entries;
     }
@@ -456,7 +480,12 @@ export class MagmaInputSegmented extends MagmaInputCommon<string> implements OnC
                 flush();
                 result.push({ index: -1, separator: e.separator });
             } else {
-                currentSlots.push(e as SegmentedSlot);
+                const slot = e as SegmentedSlot;
+                // Flush when the slot type changes within a group (no separator)
+                if (currentSlots.length && currentSlots[0].type !== slot.type) {
+                    flush();
+                }
+                currentSlots.push(slot);
             }
         }
         flush();

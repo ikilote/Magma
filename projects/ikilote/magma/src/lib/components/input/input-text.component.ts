@@ -30,6 +30,8 @@ export class MagmaInputText extends MagmaInputCommon<string> {
     /** Label for the clear button. Defaults to English. */
     readonly clearLabel = input('Clear');
     readonly type = input<'text' | 'email' | 'url' | 'tel'>('text');
+    /** Forces the value to uppercase ('upper') or lowercase ('lower'). */
+    readonly textCase = input<'upper' | 'lower' | null>(null);
 
     readonly input = viewChildren<ElementRef<HTMLInputElement>>('input');
 
@@ -37,23 +39,38 @@ export class MagmaInputText extends MagmaInputCommon<string> {
         return this.input()?.[0]?.nativeElement;
     }
 
+    private applyCase(value: string): string {
+        if (this.textCase() === 'upper') return value.toUpperCase();
+        if (this.textCase() === 'lower') return value.toLowerCase();
+        return value;
+    }
+
     override writeValue(value: string): void {
-        super.writeValue(value);
+        const transformed = this.applyCase((value as string) ?? '');
+        super.writeValue(transformed);
         if (this.inputElement) {
-            this.inputElement.value = (value as string) ?? '';
+            this.inputElement.value = transformed;
         }
     }
 
     changeValue(event: Event) {
         event?.stopPropagation();
-        const value = ((event as InputEvent).target as HTMLInputElement).value;
+        const raw = ((event as InputEvent).target as HTMLInputElement).value;
+        const value = this.applyCase(raw);
+        if (this.inputElement && value !== raw) {
+            this.inputElement.value = value;
+        }
         super.writeValue(value);
         this.onChange(value);
         this.update.emit(value);
     }
 
     inputValue(event: Event) {
-        const value = ((event as InputEvent).target as HTMLInputElement).value;
+        const raw = ((event as InputEvent).target as HTMLInputElement).value;
+        const value = this.applyCase(raw);
+        if (this.inputElement && value !== raw) {
+            this.inputElement.value = value;
+        }
         super.writeValue(value);
         this.onChange(value);
         this.valueChange.emit(value);

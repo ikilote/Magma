@@ -505,14 +505,11 @@
         animation: mg-spinner-comet 1.2s linear infinite;
         inset: 0;
         border-radius: 50%;
-        // Tail: transparent → color over ~270°, then solid head for last 30°
         background: conic-gradient(
             from var(--comet-angle),
-            transparent 0deg,
-            color-mix(in hsl, var(--mg-spinner-color) 10%, transparent) 180deg,
-            color-mix(in hsl, var(--mg-spinner-color) 60%, transparent) 300deg,
-            var(--mg-spinner-color) 330deg,
-            var(--mg-spinner-color) 360deg
+            var(--mg-spinner-color) 0deg,
+            transparent 0deg 45deg,
+            var(--mg-spinner-color) 270deg 360deg
         );
     }
 }

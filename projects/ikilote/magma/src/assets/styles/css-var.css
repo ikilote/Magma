@@ -751,6 +751,18 @@ body {
     --mg-light-dark-focus-outline-width: 3px;
     --mg-light-dark-focus-outline-offset: 1px;
 
+    /* MARK: timeline */
+    --mg-timeline-axis-size: 80px;
+    --mg-timeline-tick-size: 60px;
+    --mg-timeline-track-size: 40px;
+    --mg-timeline-bar-radius: 4px;
+    --mg-timeline-bar-gap: 3px;
+    --mg-timeline-axis-font-size: var(--mg-font-small);
+    --mg-timeline-item-font-size: var(--mg-font-very-small);
+    --mg-timeline-item-color: var(--mg-primary200);
+    --mg-timeline-axis-color: var(--mg-color-on-surface-muted);
+    --mg-timeline-grid-color: var(--mg-color-border);
+
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */
     --select2-selection-focus-border-color: var(--mg-input-focus-border-color);

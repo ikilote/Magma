@@ -231,8 +231,12 @@ describe('MagmaMessages', () => {
         it('should return messages matching the given zone ids', () => {
             service.addZone('zone-a', { position: { top: '0px' } });
             service.addZone('zone-b', { position: { bottom: '0px' } });
+            service.addZone('zone-c', { position: { centerVertically: '0px', centerHorizontally: '0px' } });
+            service.addZone('zone-d', { position: { left: '0px' } });
             service.addMessage('A', { zone: 'zone-a' });
             service.addMessage('B', { zone: 'zone-b' });
+            service.addMessage('C', { zone: 'zone-c' });
+            service.addMessage('D', { zone: 'zone-d' });
             service.addMessage('Default');
 
             const result = service.messagesForZones(new Set(['zone-a']));

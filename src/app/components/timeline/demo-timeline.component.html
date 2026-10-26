@@ -1,0 +1,349 @@
+<h1>Timeline</h1>
+
+<mg-tabs>
+  <mg-tab-title id="preview">Preview</mg-tab-title>
+  <mg-tab-content id="preview">
+    @if (ctrlForm) {
+      <section>
+        <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
+          <h2 class="s-12">Options</h2>
+          <mg-input class="s-12">
+            <mg-input-label>lang</mg-input-label>
+            <mg-input-select formControlName="lang" [data]="langues" />
+            <mg-input-desc
+              >Locale for tick labels (e.g. month names). Visible with unit="month" or "day".</mg-input-desc
+            >
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>direction</mg-input-label>
+            <mg-input-select formControlName="direction" [data]="directionData" />
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>unit</mg-input-label>
+            <mg-input-select formControlName="unit" [data]="unitData" />
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>start</mg-input-label>
+            <mg-input-text formControlName="start" />
+            <mg-input-desc>Year (e.g. 2008) or ISO date (e.g. 2025-01-01)</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-6">
+            <mg-input-label>end</mg-input-label>
+            <mg-input-text formControlName="end" />
+            <mg-input-desc>Year (e.g. 2026) or ISO date (e.g. 2025-06-30)</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>tickSize (px)</mg-input-label>
+            <mg-input-number formControlName="tickSize" min="20" noDecimal noNegative />
+            <mg-input-desc>Size of each tick cell in px. Default: 60</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>trackSize (px)</mg-input-label>
+            <mg-input-number formControlName="trackSize" min="20" noDecimal noNegative />
+            <mg-input-desc>Size of each item track in px (CSS var only). Default: 40</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>minGap (px)</mg-input-label>
+            <mg-input-number formControlName="minGap" min="0" noDecimal noNegative />
+            <mg-input-desc>Min visual gap before stacking items. Default: 10</mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-checkbox formControlName="showGrid">showGrid</mg-input-checkbox>
+          </mg-input>
+        </form>
+
+        <div class="s-9 s-6-l s-12-s">
+          <h2>Preview</h2>
+          <mg-timeline
+            [direction]="ctrlForm.value.direction || 'vertical'"
+            [lang]="ctrlForm.value.lang || undefined"
+            [start]="ctrlForm.value.start"
+            [end]="ctrlForm.value.end"
+            [unit]="ctrlForm.value.unit || 'year'"
+            [showGrid]="ctrlForm.value.showGrid ?? true"
+            [tickSize]="ctrlForm.value.tickSize"
+            [minGap]="ctrlForm.value.minGap"
+            [style.--mg-timeline-track-size.px]="ctrlForm.value.trackSize"
+            (itemClick)="onItemClick($event)"
+          >
+            @for (item of currentItems(); track item.label) {
+              <mg-timeline-item
+                [start]="item.start"
+                [end]="item.end"
+                [color]="item.color"
+                [link]="item.link"
+                [disabled]="item.disabled ?? false"
+                >{{ item.label }}</mg-timeline-item
+              >
+            }
+          </mg-timeline>
+        </div>
+
+        <div class="s-12">
+          @if (lastClick) {
+            <h3>Last itemClick</h3>
+            <table mg>
+              <tbody mg>
+                <tr mg>
+                  <td mg><code>label</code></td>
+                  <td mg>{{ lastClick.label ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>contentHtml</code></td>
+                  <td mg>
+                    <code>{{ lastClick.contentHtml }}</code>
+                  </td>
+                </tr>
+                <tr mg>
+                  <td mg><code>start</code></td>
+                  <td mg>{{ lastClick.start }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>end</code></td>
+                  <td mg>{{ lastClick.end ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>color</code></td>
+                  <td mg>{{ lastClick.color ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>link</code></td>
+                  <td mg>{{ lastClick.link ?? '—' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          }
+        </div>
+
+        <div class="s-12">
+          <code-tabs
+            [code]="[
+              { type: 'html', code: codeHtml },
+              { type: 'ts', code: codeTs },
+            ]"
+          />
+        </div>
+      </section>
+    }
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Inputs — <code>mg-timeline</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>direction</code></td>
+            <td mg><code>'horizontal' | 'vertical'</code></td>
+            <td mg><code>'horizontal'</code></td>
+            <td mg>
+              Layout direction. <code>horizontal</code>: time flows right, items are rows. <code>vertical</code>: time
+              flows down, items are columns.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>start</code></td>
+            <td mg><code>number | string | Date</code></td>
+            <td mg>—</td>
+            <td mg>Explicit start of the time axis. Auto-computed from items if omitted.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>end</code></td>
+            <td mg><code>number | string | Date</code></td>
+            <td mg>—</td>
+            <td mg>Explicit end of the time axis. Auto-computed from items if omitted.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>unit</code></td>
+            <td mg><code>'year' | 'month' | 'day'</code></td>
+            <td mg><code>'year'</code></td>
+            <td mg>Granularity of the time axis ticks.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>lang</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>BCP-47 locale tag for tick labels (e.g. <code>'fr'</code>, <code>'en'</code>).</td>
+          </tr>
+          <tr mg>
+            <td mg><code>axisSize</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'80px'</code></td>
+            <td mg>Width (horizontal) or height (vertical) of the label column/row.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>tickSize</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>60</code></td>
+            <td mg>
+              Size in px of each tick cell. Also drives <code>--mg-timeline-tick-size</code>. Used internally to compute
+              the <code>minGap</code> fraction.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>minGap</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>10</code></td>
+            <td mg>
+              Minimum visual gap in px between two items before they are placed on a separate track. Items closer than
+              this threshold are treated as overlapping even if their exact positions do not touch.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>showGrid</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>true</code></td>
+            <td mg>Whether to show the grid lines aligned with each tick.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs — <code>mg-timeline</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>itemClick</code></td>
+            <td mg><code>MagmaTimelineClickEvent</code></td>
+            <td mg>
+              Emitted when an item bar is clicked. Not fired when the item has a <code>link</code> (the
+              <code>&lt;a&gt;</code> handles navigation instead). The event contains <code>label</code>,
+              <code>contentHtml</code>, <code>start</code>, <code>end</code>, <code>color</code>, <code>link</code> and
+              the original <code>MouseEvent</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>CSS variables — <code>mg-timeline</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Variable</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>--mg-timeline-tick-size</code></td>
+            <td mg><code>60px</code></td>
+            <td mg>Size of each tick cell. Prefer the <code>tickSize</code> input when possible.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-timeline-track-size</code></td>
+            <td mg><code>40px</code></td>
+            <td mg>Height (horizontal) or width (vertical) of each item track.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-timeline-bar-radius</code></td>
+            <td mg><code>4px</code></td>
+            <td mg>Border radius of the item bars.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-timeline-item-color</code></td>
+            <td mg><code>var(--mg-primary200)</code></td>
+            <td mg>Default bar background color.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-timeline-axis-color</code></td>
+            <td mg><code>var(--mg-color-on-surface-muted)</code></td>
+            <td mg>Tick label color.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-timeline-grid-color</code></td>
+            <td mg><code>var(--mg-color-border)</code></td>
+            <td mg>Grid line color.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-timeline-axis-font-size</code></td>
+            <td mg><code>var(--mg-font-small)</code></td>
+            <td mg>Font size of the tick labels.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-timeline-item-font-size</code></td>
+            <td mg><code>var(--mg-font-very-small)</code></td>
+            <td mg>Font size of the item labels inside bars.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>mg-timeline-item</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>label</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>
+              Fallback label when no content is projected. If HTML content is projected inside
+              <code>&lt;mg-timeline-item&gt;</code>, it takes priority over this input.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>start</code></td>
+            <td mg><code>number | string | Date</code></td>
+            <td mg>—</td>
+            <td mg>
+              Start of the item on the time axis (required). Accepts a year number, an ISO date string (e.g.
+              <code>'2008-09-12'</code>), or a <code>Date</code> object for sub-tick precision.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>end</code></td>
+            <td mg><code>number | string | Date</code></td>
+            <td mg>—</td>
+            <td mg>End of the item. If omitted, the item spans one tick.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>color</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>CSS color for the bar background. Overrides <code>--mg-timeline-item-color</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>link</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>URL — wraps the bar in an <code>&lt;a&gt;</code> element.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>linkTarget</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'_self'</code></td>
+            <td mg>Target attribute for the link.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>When true, suppresses the link interaction.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

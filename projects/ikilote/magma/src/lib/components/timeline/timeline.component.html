@@ -1,0 +1,42 @@
+<div class="timeline-grid">
+  <!-- Axis ticks -->
+  <div class="axis">
+    @for (tick of ticks(); track tick.index) {
+      <div class="tick" [style.--tick-pos]="$index + 1">{{ tick.label }}</div>
+    }
+  </div>
+
+  <!-- Grid lines (optional) -->
+  @if (showGrid()) {
+    <div class="grid-lines" aria-hidden="true">
+      @for (tick of ticks(); track tick.index) {
+        <div class="grid-line" [style.--tick-pos]="$index + 1"></div>
+      }
+    </div>
+  }
+
+  <!-- Items — positioned absolutely as % of total axis length -->
+  <div class="items">
+    @for (item of resolvedItems(); track $index) {
+      <div
+        class="item"
+        [class.has-link]="!!item.link && !item.disabled"
+        [class.disabled]="item.disabled"
+        [style.--item-offset-pct.px]="item.startOffset * (tickSize() ?? 60)"
+        [style.--item-span-pct.px]="item.spanLength * (tickSize() ?? 60)"
+        [style.--item-track]="item.trackIndex + 1"
+        [style.--item-color]="item.color || null"
+      >
+        @if (item.link && !item.disabled) {
+          <a class="item-inner" [href]="item.link" [target]="item.linkTarget">
+            <span class="item-label" [innerHTML]="item.contentHtml"></span>
+          </a>
+        } @else {
+          <div class="item-inner" (click)="onItemClick(item, $event)">
+            <span class="item-label" [innerHTML]="item.contentHtml"></span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

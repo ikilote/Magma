@@ -1,0 +1,238 @@
+// ─── CSS custom properties (overridable by consumer) ─────────────────────────
+// --mg-timeline-axis-size     : width of label col (h) / height of label row (v)
+// --mg-timeline-tick-size     : size of each tick cell
+// --mg-timeline-track-size    : size of each item track (row h / col v)
+// --mg-timeline-bar-radius    : border-radius of item bars
+// --mg-timeline-bar-gap       : gap between bars in the same tick
+// --mg-timeline-axis-font-size
+// --mg-timeline-item-font-size
+// --mg-timeline-item-color    : default bar background
+// --mg-timeline-axis-color    : tick label color
+// --mg-timeline-grid-color    : grid line color
+
+:host {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    scrollbar-gutter: stable;
+}
+
+// ─── Shared grid container ────────────────────────────────────────────────────
+
+.timeline-grid {
+    display: grid;
+    position: relative;
+}
+
+// ─── HORIZONTAL mode ─────────────────────────────────────────────────────────
+// Axis: row 1 (tick labels in subgrid columns)
+// Items: row 2, position: relative container — each item is absolutely placed
+
+:host(.horizontal) {
+    .timeline-grid {
+        grid-template-rows:
+            var(--mg-timeline-axis-size)
+            1fr;
+        grid-template-columns:
+            0
+            repeat(var(--mg-timeline-tick-count), var(--mg-timeline-tick-size));
+        min-width: calc(var(--mg-timeline-tick-count) * var(--mg-timeline-tick-size));
+    }
+
+    .axis {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-row: 1;
+        grid-column: 2 / -1;
+
+        .tick {
+            grid-column: var(--tick-pos);
+            border-inline-start: 1px solid var(--mg-timeline-grid-color);
+            padding-inline: 4px;
+            padding-block: 4px;
+            overflow: hidden;
+            color: var(--mg-timeline-axis-color);
+            font-size: var(--mg-timeline-axis-font-size);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .grid-lines {
+        display: grid;
+        grid-template-columns: subgrid;
+        grid-row: 2;
+        grid-column: 2 / -1;
+        // stretch to cover the full items height
+        align-self: stretch;
+        pointer-events: none;
+
+        .grid-line {
+            grid-column: var(--tick-pos);
+            border-inline-start: 1px solid var(--mg-timeline-grid-color);
+        }
+    }
+
+    // Items container: fixed height = trackCount × trackSize, items absolutely placed
+    .items {
+        position: relative;
+        grid-row: 2;
+        grid-column: 2 / -1;
+        height: calc(var(--mg-timeline-track-count) * var(--mg-timeline-track-size));
+    }
+
+    .item {
+        position: absolute;
+        box-sizing: border-box;
+        inset-block-start: calc((var(--item-track) - 1) * var(--mg-timeline-track-size));
+        inset-inline-start: var(--item-offset-pct);
+        padding: var(--mg-timeline-bar-gap);
+        width: var(--item-span-pct);
+        min-width: 0;
+        height: var(--mg-timeline-track-size);
+    }
+
+    .item-inner {
+        display: flex;
+        align-items: center;
+        cursor: default;
+        border-radius: var(--mg-timeline-bar-radius);
+        background: var(--item-color, var(--mg-timeline-item-color));
+        padding-inline: 6px;
+        height: 100%;
+        overflow: hidden;
+        color: inherit;
+        text-decoration: none;
+
+        .has-link & {
+            cursor: pointer;
+            &:hover {
+                filter: brightness(0.9);
+            }
+        }
+    }
+
+    .item-label {
+        overflow: hidden;
+        font-size: var(--mg-timeline-item-font-size);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}
+
+// ─── VERTICAL mode ───────────────────────────────────────────────────────────
+// Axis: col 1 (tick labels in subgrid rows)
+// Items: col 2+, position: relative container — each item is absolutely placed
+
+:host(.vertical) {
+    .timeline-grid {
+        grid-template-rows:
+            0
+            repeat(var(--mg-timeline-tick-count), var(--mg-timeline-tick-size));
+        grid-template-columns:
+            var(--mg-timeline-axis-size)
+            1fr;
+        min-height: calc(var(--mg-timeline-tick-count) * var(--mg-timeline-tick-size));
+    }
+
+    .axis {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: 2 / -1;
+        grid-column: 1;
+
+        .tick {
+            display: flex;
+            grid-row: var(--tick-pos);
+            align-items: flex-start;
+            border-block-start: 1px solid var(--mg-timeline-grid-color);
+            padding-inline: 4px;
+            padding-block: 4px;
+            overflow: hidden;
+            color: var(--mg-timeline-axis-color);
+            font-size: var(--mg-timeline-axis-font-size);
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .grid-lines {
+        display: grid;
+        grid-template-rows: subgrid;
+        grid-row: 2 / -1;
+        grid-column: 2;
+        align-self: stretch;
+        pointer-events: none;
+
+        .grid-line {
+            grid-row: var(--tick-pos);
+            border-block-start: 1px solid var(--mg-timeline-grid-color);
+        }
+    }
+
+    // Items container: fixed width = trackCount × trackSize, items absolutely placed
+    .items {
+        position: relative;
+        grid-row: 2 / -1;
+        grid-column: 2;
+        width: calc(var(--mg-timeline-track-count) * var(--mg-timeline-track-size));
+    }
+
+    .item {
+        position: absolute;
+        box-sizing: border-box;
+        inset-block-start: var(--item-offset-pct);
+        inset-inline-start: calc((var(--item-track) - 1) * var(--mg-timeline-track-size));
+        padding: var(--mg-timeline-bar-gap);
+        width: var(--mg-timeline-track-size);
+        height: var(--item-span-pct);
+        min-height: 0;
+    }
+
+    .item-inner {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        cursor: default;
+        box-shadow: 0 5px 5px #0008;
+        border-radius: var(--mg-timeline-bar-radius);
+        background: var(--item-color, var(--mg-timeline-item-color));
+        padding-block: 6px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        color: inherit;
+        text-decoration: none;
+
+        .has-link & {
+            cursor: pointer;
+            &:hover {
+                filter: brightness(0.9);
+            }
+        }
+
+        &:hover {
+            position: relative;
+            z-index: 1;
+            background: var(--item-color, var(--mg-timeline-item-color));
+            height: auto;
+            min-height: 100%;
+            overflow: visible;
+
+            .item-label {
+                height: auto;
+                overflow: visible;
+            }
+        }
+    }
+
+    .item-label {
+        cursor: vertical-text;
+        height: var(--item-span-pct);
+        overflow: hidden;
+        font-size: var(--mg-timeline-item-font-size);
+        writing-mode: vertical-rl;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

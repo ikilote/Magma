@@ -48,6 +48,12 @@ export const routes: Routes = [
                     import('./components/tag-list/demo-tag-list.component').then(m => m.DemoTagListComponent),
             },
             {
+                path: 'timeline',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./components/timeline/demo-timeline.component').then(m => m.DemoTimelineComponent),
+            },
+            {
                 path: 'color-picker',
                 pathMatch: 'full',
                 loadComponent: () =>

@@ -1,3 +1,21 @@
-@for (i of 12 | repeatFor; track $index) {
-  <div></div>
+@switch (type()) {
+  @case ('ring') {
+    <div class="ring"></div>
+  }
+  @case ('dots') {
+    @for (i of 8 | repeatFor; track $index) {
+      <div></div>
+    }
+  }
+  @case ('bar') {
+    <div class="bar"></div>
+  }
+  @case ('pulse') {
+    <div class="pulse"></div>
+  }
+  @default {
+    @for (i of 12 | repeatFor; track $index) {
+      <div></div>
+    }
+  }
 }

@@ -148,6 +148,7 @@ export const menu: Menu = [
             {
                 routerLink: '/component/spinner',
                 label: 'Spinner',
+                status: 'update',
                 keys: ['loading spinner', 'loader', 'busy indicator'],
             },
             {
@@ -164,6 +165,12 @@ export const menu: Menu = [
                 routerLink: '/component/tag-list',
                 label: 'Tag list',
                 keys: ['tag', 'tags', 'chips', 'filter', 'tag list', 'criteria'],
+            },
+            {
+                routerLink: '/component/timeline',
+                label: 'Timeline',
+                status: 'new',
+                keys: ['timeline', 'gantt', 'chronology', 'time axis', 'schedule'],
             },
             {
                 routerLink: '/component/vision-theme',

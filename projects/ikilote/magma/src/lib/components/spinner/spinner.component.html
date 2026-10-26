@@ -2,8 +2,26 @@
   @case ('ring') {
     <div class="ring"></div>
   }
+  @case ('arc') {
+    <div class="arc"></div>
+  }
   @case ('dots') {
-    @for (i of 8 | repeatFor; track $index) {
+    @for (i of _resolvedCount() ?? 8 | repeatFor; track $index) {
+      <div></div>
+    }
+  }
+  @case ('chase') {
+    @for (i of _resolvedCount() ?? 8 | repeatFor; track $index) {
+      <div></div>
+    }
+  }
+  @case ('bounce') {
+    @for (i of _resolvedCount() ?? 3 | repeatFor; track $index) {
+      <div></div>
+    }
+  }
+  @case ('wave') {
+    @for (i of _resolvedCount() ?? 5 | repeatFor; track $index) {
       <div></div>
     }
   }
@@ -12,6 +30,58 @@
   }
   @case ('pulse') {
     <div class="pulse"></div>
+  }
+  @case ('ripple') {
+    <div></div>
+    <div></div>
+  }
+  @case ('flip') {
+    <div class="flip"></div>
+  }
+  @case ('orbit') {
+    <div class="orbit-center"></div>
+    <div class="orbit-ball"></div>
+  }
+  @case ('grid') {
+    @for (i of _resolvedCount() ?? 9 | repeatFor; track $index) {
+      <div></div>
+    }
+  }
+  @case ('blink') {
+    @for (i of _resolvedCount() ?? 3 | repeatFor; track $index) {
+      <div></div>
+    }
+  }
+  @case ('morph') {
+    <div class="morph"></div>
+  }
+  @case ('comet') {
+    <div class="comet"></div>
+  }
+  @case ('infinity') {
+    <div class="infinity-ball"></div>
+  }
+  @case ('heartbeat') {
+    <!--
+      viewBox: 200px wide, 60px tall, signal centré à y=30
+      Tracé ECG : ligne plate → petit bump → pic montant → pic descendant → rebond → ligne plate
+    -->
+    <svg class="heartbeat" viewBox="0 0 200 60" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <polyline
+        class="heartbeat-line"
+        points="
+        0,30
+        60,30
+        70,28
+        80,30
+        90,5
+        100,55
+        110,25
+        120,30
+        200,30
+      "
+      />
+    </svg>
   }
   @default {
     @for (i of 12 | repeatFor; track $index) {

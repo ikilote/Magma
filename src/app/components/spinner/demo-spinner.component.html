@@ -7,13 +7,15 @@
       <section>
         <form class="s-3 s-6-l s-12-s" [formGroup]="ctrlForm">
           <h2 class="s-12">Options</h2>
+
           <mg-input class="s-12">
             <mg-input-label>type</mg-input-label>
             <mg-input-select formControlName="type" [data]="typeOptions" />
             <mg-input-desc>default.: <code>ticks</code></mg-input-desc>
           </mg-input>
 
-          @if (!isBar) {
+          <!-- size — all except bar -->
+          @if (hasSize) {
             <mg-input class="s-8">
               <mg-input-label>size</mg-input-label>
               <mg-input-number formControlName="size" min="2" noDecimal noNegative />
@@ -22,6 +24,33 @@
             </mg-input>
           }
 
+          <!-- radius — ticks, bar, flip, grid -->
+          @if (hasRadius) {
+            <mg-input class="s-8">
+              <mg-input-label>radius</mg-input-label>
+              <mg-input-number formControlName="radius" min="0" noDecimal noNegative />
+              <mg-input-suffix>px</mg-input-suffix>
+              <mg-input-desc>
+                @if (isTicks) {
+                  Border-radius of each tick.
+                }
+                @if (isBar) {
+                  Border-radius of the bar container. default.: <code>3</code>
+                }
+                @if (isFlip) {
+                  Border-radius of the flipping shape. default.: <code>4</code>
+                }
+                @if (isGrid) {
+                  Border-radius of each grid cell. default.: <code>3</code>
+                }
+                @if (isMorph) {
+                  Border-radius of the morphing shape. default.: <code>4</code>
+                }
+              </mg-input-desc>
+            </mg-input>
+          }
+
+          <!-- ticks -->
           @if (isTicks) {
             <mg-input class="s-8">
               <mg-input-label>tickWidth</mg-input-label>
@@ -29,32 +58,105 @@
               <mg-input-suffix>px</mg-input-suffix>
               <mg-input-desc>Width of each tick. default.: <code>6</code></mg-input-desc>
             </mg-input>
-            <mg-input class="s-8">
-              <mg-input-label>radius</mg-input-label>
-              <mg-input-number formControlName="radius" min="0" noDecimal noNegative />
-              <mg-input-suffix>px</mg-input-suffix>
-              <mg-input-desc>Border-radius of each tick. default.: <code>0</code></mg-input-desc>
-            </mg-input>
           }
 
-          @if (isRing) {
+          <!-- ring / arc -->
+          @if (isRing || isArc || isRipple || isComet || isHeartbeat) {
             <mg-input class="s-8">
               <mg-input-label>strokeWidth</mg-input-label>
               <mg-input-number formControlName="strokeWidth" min="1" noDecimal noNegative />
               <mg-input-suffix>px</mg-input-suffix>
-              <mg-input-desc>Thickness of the ring stroke. default.: <code>6</code></mg-input-desc>
+              <mg-input-desc>
+                @if (isRing || isArc || isComet) {
+                  Stroke thickness. default.: <code>6</code>
+                }
+                @if (isRipple) {
+                  Ring border thickness. default.: <code>4</code>
+                }
+                @if (isHeartbeat) {
+                  Line thickness in px. default.: <code>3</code>
+                }
+              </mg-input-desc>
             </mg-input>
           }
 
-          @if (isDots) {
+          <!-- dots / chase -->
+          @if (isDots || isChase || isInfinity) {
             <mg-input class="s-8">
               <mg-input-label>dotSize</mg-input-label>
               <mg-input-number formControlName="dotSize" min="1" noDecimal noNegative />
               <mg-input-suffix>px</mg-input-suffix>
-              <mg-input-desc>Diameter of each dot. default.: <code>6</code></mg-input-desc>
+              <mg-input-desc>
+                @if (isDots || isChase) {
+                  Diameter of each dot. default.: <code>{{ isChase ? 8 : 6 }}</code>
+                }
+                @if (isInfinity) {
+                  Diameter of the moving ball. default.: <code>10</code>
+                }
+              </mg-input-desc>
+            </mg-input>
+          }
+          @if (isDots || isChase) {
+            <mg-input class="s-8">
+              <mg-input-label>count</mg-input-label>
+              <mg-input-number formControlName="count" min="2" noDecimal noNegative />
+              <mg-input-desc>Number of dots. default.: <code>8</code></mg-input-desc>
             </mg-input>
           }
 
+          <!-- minScale — dots, chase, pulse -->
+          @if (hasMinScale) {
+            <mg-input class="s-8">
+              <mg-input-label>minScale</mg-input-label>
+              <mg-input-number formControlName="minScale" min="0" max="1" step="0.05" noNegative />
+              <mg-input-desc>
+                Minimum scale at the faded end (0–1). default.:
+                @if (isDots) {
+                  <code>0.6</code>
+                }
+                @if (isChase) {
+                  <code>0.5</code>
+                }
+                @if (isPulse) {
+                  <code>0.2</code>
+                }
+              </mg-input-desc>
+            </mg-input>
+          }
+
+          <!-- bounce / wave / grid — count -->
+          @if (isBounce || isWave || isGrid || isBlink) {
+            <mg-input class="s-8">
+              <mg-input-label>count</mg-input-label>
+              <mg-input-number formControlName="count" min="2" noDecimal noNegative />
+              <mg-input-desc>
+                @if (isBounce) {
+                  Number of balls. default.: <code>3</code>
+                }
+                @if (isWave) {
+                  Number of bars. default.: <code>5</code>
+                }
+                @if (isGrid) {
+                  Number of cells. default.: <code>9</code>
+                }
+                @if (isBlink) {
+                  Number of dots. default.: <code>3</code>
+                }
+              </mg-input-desc>
+            </mg-input>
+          }
+
+          <!-- wave — bar width -->
+          @if (isWave) {
+            <mg-input class="s-8">
+              <mg-input-label>barItemWidth</mg-input-label>
+              <mg-input-number formControlName="barItemWidth" min="1" noDecimal noNegative />
+              <mg-input-suffix>px</mg-input-suffix>
+              <mg-input-desc>Width of each bar. default.: <code>6</code></mg-input-desc>
+            </mg-input>
+          }
+
+          <!-- bar -->
           @if (isBar) {
             <mg-input class="s-8">
               <mg-input-label>barWidth</mg-input-label>
@@ -68,27 +170,44 @@
               <mg-input-suffix>px</mg-input-suffix>
               <mg-input-desc>Height of the bar. default.: <code>6</code></mg-input-desc>
             </mg-input>
+          }
+
+          <!-- orbit -->
+          @if (isOrbit) {
             <mg-input class="s-8">
-              <mg-input-label>radius</mg-input-label>
-              <mg-input-number formControlName="radius" min="0" noDecimal noNegative />
+              <mg-input-label>orbitRadius</mg-input-label>
+              <mg-input-number formControlName="orbitRadius" min="4" noDecimal noNegative />
               <mg-input-suffix>px</mg-input-suffix>
-              <mg-input-desc>Border-radius of the bar container. default.: <code>3</code></mg-input-desc>
+              <mg-input-desc>Radius of the orbit path. default.: <code>size / 3</code></mg-input-desc>
+            </mg-input>
+            <mg-input class="s-8">
+              <mg-input-label>orbitBallSize</mg-input-label>
+              <mg-input-number formControlName="orbitBallSize" min="2" noDecimal noNegative />
+              <mg-input-suffix>px</mg-input-suffix>
+              <mg-input-desc>Diameter of the orbiting ball. default.: <code>12</code></mg-input-desc>
             </mg-input>
           }
         </form>
+
         <div class="s-4 s-6-l s-12-s">
           <h2>Preview</h2>
           <mg-spinner
             [type]="$any(ctrlForm.value.type)"
             [size]="ctrlForm.value.size"
+            [radius]="ctrlForm.value.radius"
             [tickWidth]="ctrlForm.value.tickWidth"
             [strokeWidth]="ctrlForm.value.strokeWidth"
             [dotSize]="ctrlForm.value.dotSize"
+            [count]="ctrlForm.value.count"
+            [minScale]="ctrlForm.value.minScale"
+            [barItemWidth]="ctrlForm.value.barItemWidth"
             [barWidth]="ctrlForm.value.barWidth"
             [barHeight]="ctrlForm.value.barHeight"
-            [radius]="ctrlForm.value.radius"
+            [orbitRadius]="ctrlForm.value.orbitRadius"
+            [orbitBallSize]="ctrlForm.value.orbitBallSize"
           />
         </div>
+
         <div class="s-5 s-12-l">
           <code-tabs
             [code]="[
@@ -106,26 +225,14 @@
     <section>
       <h3>All types</h3>
       <div style="display: flex; gap: 40px; flex-wrap: wrap; align-items: center; padding: 20px 0">
-        <div style="text-align: center">
-          <mg-spinner type="ticks" />
-          <p><code>ticks</code></p>
-        </div>
-        <div style="text-align: center">
-          <mg-spinner type="ring" />
-          <p><code>ring</code></p>
-        </div>
-        <div style="text-align: center">
-          <mg-spinner type="dots" />
-          <p><code>dots</code></p>
-        </div>
-        <div style="text-align: center">
-          <mg-spinner type="bar" />
-          <p><code>bar</code></p>
-        </div>
-        <div style="text-align: center">
-          <mg-spinner type="pulse" />
-          <p><code>pulse</code></p>
-        </div>
+        @for (opt of typeOptions; track opt.value) {
+          <div style="text-align: center">
+            <mg-spinner [type]="$any(opt.value)" />
+            <p>
+              <code>{{ opt.value }}</code>
+            </p>
+          </div>
+        }
       </div>
     </section>
   </mg-tab-content>
@@ -147,17 +254,29 @@
         <tbody mg>
           <tr mg>
             <td mg><code>type</code></td>
-            <td mg><code>'ticks' | 'ring' | 'dots' | 'bar' | 'pulse'</code></td>
+            <td mg>
+              <code
+                >'ticks' | 'ring' | 'arc' | 'dots' | 'chase' | 'bounce' | 'wave' | 'bar' | 'pulse' | 'ripple' | 'flip' |
+                'orbit' | 'grid' | 'blink' | 'morph' | 'comet' | 'infinity' | 'heartbeat'</code
+              >
+            </td>
             <td mg><code>'ticks'</code></td>
-            <td mg>all</td>
+            <td mg>—</td>
             <td mg>Visual style of the spinner</td>
           </tr>
           <tr mg>
             <td mg><code>size</code></td>
             <td mg><code>number | undefined</code></td>
             <td mg><code>80</code></td>
-            <td mg>ticks, ring, dots, pulse</td>
+            <td mg>all except <code>bar</code></td>
             <td mg>Overall size in px</td>
+          </tr>
+          <tr mg>
+            <td mg><code>radius</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>0</code></td>
+            <td mg>ticks, bar, flip, grid, morph</td>
+            <td mg>Border-radius in px</td>
           </tr>
           <tr mg>
             <td mg><code>tickWidth</code></td>
@@ -167,25 +286,39 @@
             <td mg>Width of each tick in px</td>
           </tr>
           <tr mg>
-            <td mg><code>radius</code></td>
-            <td mg><code>number | undefined</code></td>
-            <td mg><code>0</code></td>
-            <td mg>ticks, bar</td>
-            <td mg>Border-radius in px — tick shape for <code>ticks</code>, bar container for <code>bar</code></td>
-          </tr>
-          <tr mg>
             <td mg><code>strokeWidth</code></td>
             <td mg><code>number | undefined</code></td>
             <td mg><code>6</code></td>
-            <td mg>ring</td>
-            <td mg>Thickness of the ring stroke in px</td>
+            <td mg>ring, arc, ripple, comet, heartbeat</td>
+            <td mg>Stroke / border thickness in px</td>
           </tr>
           <tr mg>
             <td mg><code>dotSize</code></td>
             <td mg><code>number | undefined</code></td>
+            <td mg><code>6 (dots, blink) / 8 (chase) / 10 (infinity)</code></td>
+            <td mg>dots, chase, blink, infinity</td>
+            <td mg>Diameter of each dot / ball in px</td>
+          </tr>
+          <tr mg>
+            <td mg><code>count</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>8 / 3 / 5 / 9</code></td>
+            <td mg>dots, chase, bounce, wave, grid, blink</td>
+            <td mg>Number of elements</td>
+          </tr>
+          <tr mg>
+            <td mg><code>minScale</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>0.6 / 0.5 / 0.2</code></td>
+            <td mg>dots, chase, pulse</td>
+            <td mg>Minimum scale at the faded end of the animation (0–1)</td>
+          </tr>
+          <tr mg>
+            <td mg><code>barItemWidth</code></td>
+            <td mg><code>number | undefined</code></td>
             <td mg><code>6</code></td>
-            <td mg>dots</td>
-            <td mg>Diameter of each dot in px</td>
+            <td mg>wave</td>
+            <td mg>Width of each equalizer bar in px</td>
           </tr>
           <tr mg>
             <td mg><code>barWidth</code></td>
@@ -200,6 +333,20 @@
             <td mg><code>6</code></td>
             <td mg>bar</td>
             <td mg>Height of the bar in px</td>
+          </tr>
+          <tr mg>
+            <td mg><code>orbitRadius</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>size / 3</code></td>
+            <td mg>orbit</td>
+            <td mg>Radius of the orbit path in px</td>
+          </tr>
+          <tr mg>
+            <td mg><code>orbitBallSize</code></td>
+            <td mg><code>number | undefined</code></td>
+            <td mg><code>12</code></td>
+            <td mg>orbit</td>
+            <td mg>Diameter of the orbiting ball in px</td>
           </tr>
         </tbody>
       </table>

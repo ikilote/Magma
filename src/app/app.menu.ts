@@ -203,6 +203,12 @@ export const menu: Menu = [
         groupName: 'Directives',
         items: [
             {
+                routerLink: '/directive/card-3d',
+                label: 'Card 3D',
+                status: 'new',
+                keys: ['card', '3d', 'tilt', 'hover', 'mouse', 'perspective', 'animation'],
+            },
+            {
                 routerLink: '/directive/click-enter',
                 label: 'Click Enter',
                 keys: ['enter key', 'keyboard enter'],

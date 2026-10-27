@@ -78,6 +78,7 @@ export * from './lib/components/window/window.component';
 export * from './lib/components/window/windows-container.component';
 
 // directives
+export * from './lib/directives/card-3d.directive';
 export * from './lib/directives/click-enter.directive';
 export * from './lib/directives/click-outside.directive';
 export * from './lib/directives/limit-focus.directive';

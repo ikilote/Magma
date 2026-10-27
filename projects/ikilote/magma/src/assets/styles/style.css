@@ -1094,7 +1094,120 @@ pre.mono {
     }
 }
 
-/* -------------------- animation ----------------------------------------------------------
+/* -------------------- holographic layers (mgCard3d directive) --------------------------------------
+    MARK:  Card 3D
+*/
+
+.mg-card3d__glare,
+.mg-card3d__foil {
+    position: absolute;
+    z-index: 2;
+    transition: opacity 0.4s ease-out;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Effect wrapper. Hosts every layer (glare, foil, sheen) and carries the
+   optional user mask (--mg-card3d-mask) ONCE, so all layers are clipped to the
+   same zone. No per-layer mask, no fragile mask-composite on the foil. */
+.mg-card3d__fx {
+    position: absolute;
+    z-index: 2;
+    -webkit-mask-image: var(--mg-card3d-mask);
+    mask-image: var(--mg-card3d-mask);
+    -webkit-mask-mode: var(--mg-card3d-mask-mode);
+    mask-mode: var(--mg-card3d-mask-mode);
+    -webkit-mask-position: var(--mg-card3d-mask-position);
+    mask-position: var(--mg-card3d-mask-position);
+    -webkit-mask-size: var(--mg-card3d-mask-size);
+    mask-size: var(--mg-card3d-mask-size);
+    -webkit-mask-repeat: var(--mg-card3d-mask-repeat);
+    mask-repeat: var(--mg-card3d-mask-repeat);
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+/* Glare: a bright radial spot that tracks the pointer. soft-light keeps it
+   readable on both light and dark backgrounds (color-dodge can wash out). */
+.mg-card3d__glare {
+    opacity: calc(var(--mg-card3d-intensity) * var(--mg-card3d-glare-opacity));
+    mix-blend-mode: var(--mg-card3d-glare-blend);
+    background: radial-gradient(
+        farthest-corner circle at var(--mg-card3d-pointer-x) var(--mg-card3d-pointer-y),
+        hsla(0, 0%, 100%, 0.75) 0%,
+        hsla(0, 0%, 100%, 0.35) 25%,
+        hsla(0, 0%, 100%, 0) 60%,
+        hsla(0, 0%, 0%, 0.4) 100%
+    );
+}
+
+/* Foil: a textured holographic sheet. Two patterns are stacked:
+   1. a repeating diagonal rainbow (the iridescent bands),
+   2. a fine glitter/sparkle grid,
+   both revealed by a pointer-following gradient mask so the irisation only
+   shows where "light" hits. color-dodge + color-burn give the metallic sheen. */
+.mg-card3d__foil {
+    opacity: calc(var(--mg-card3d-intensity) * var(--mg-card3d-foil-opacity));
+    mix-blend-mode: var(--mg-card3d-foil-blend);
+
+    /* Pointer-following reveal: the foil only shows where the light hits. The
+       optional user mask is handled by the .mg-card3d__fx wrapper. */
+    -webkit-mask-image: radial-gradient(
+        farthest-corner circle at var(--mg-card3d-pointer-x) var(--mg-card3d-pointer-y),
+        black 0%,
+        rgba(0, 0, 0, 0.6) 40%,
+        transparent 90%
+    );
+    mask-image: radial-gradient(
+        farthest-corner circle at var(--mg-card3d-pointer-x) var(--mg-card3d-pointer-y),
+        black 0%,
+        rgba(0, 0, 0, 0.6) 40%,
+        transparent 90%
+    );
+    filter: brightness(0.9) contrast(1.4) saturate(1.2);
+    background-image: repeating-linear-gradient(-45deg, var(--mg-card3d-foil-colors)), var(--mg-card3d-foil-texture);
+    background-position:
+        var(--mg-card3d-bg-x) var(--mg-card3d-bg-y),
+        center;
+    background-size:
+        300% 300%,
+        var(--mg-card3d-foil-texture-size);
+    background-blend-mode: overlay;
+}
+
+/* Sheen: a directional light band that sweeps across the card following the
+   tilt angle, as if a fixed light source were reflecting off a glossy surface.
+   The angle and band position are driven by the directive from the tilt vector. */
+.mg-card3d__sheen {
+    position: absolute;
+    opacity: calc(var(--mg-card3d-sheen-intensity) * var(--mg-card3d-sheen-opacity));
+    z-index: 2;
+    mix-blend-mode: var(--mg-card3d-sheen-blend);
+    transition: opacity 0.4s ease-out;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(
+        var(--mg-card3d-sheen-angle),
+        transparent calc(var(--mg-card3d-sheen-pos) - var(--mg-card3d-sheen-width)),
+        hsla(0, 0%, 100%, 0.15) calc(var(--mg-card3d-sheen-pos) - var(--mg-card3d-sheen-width) * 0.4),
+        hsla(0, 0%, 100%, 0.85) var(--mg-card3d-sheen-pos),
+        hsla(0, 0%, 100%, 0.15) calc(var(--mg-card3d-sheen-pos) + var(--mg-card3d-sheen-width) * 0.4),
+        transparent calc(var(--mg-card3d-sheen-pos) + var(--mg-card3d-sheen-width))
+    );
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mg-card3d__glare,
+    .mg-card3d__foil,
+    .mg-card3d__sheen {
+        transition: none;
+    }
+}
+
+/* -------------------- Animation ----------------------------------------------------------
     MARK: animation
 */
 
@@ -1113,7 +1226,7 @@ pre.mono {
     }
 }
 
-/* -------------------- fixes ------------------------------------------------------------
+/* -------------------- Fixes ------------------------------------------------------------
     MARK: Fixes
 */
 

@@ -1,0 +1,392 @@
+<h1>Card 3D</h1>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <form class="s-3 s-12-m" [formGroup]="ctrlForm">
+        <h2 class="s-12">Options</h2>
+
+        <mg-input class="s-12">
+          <mg-input-label>mgCard3dMax</mg-input-label>
+          <mg-input-number formControlName="maxAngle" min="-45" max="45" noDecimal forceMinMax />
+          <mg-input-suffix>°</mg-input-suffix>
+          <mg-input-desc>default: <code>15</code></mg-input-desc>
+        </mg-input>
+
+        <mg-input class="s-12">
+          <mg-input-label>mgCard3dPerspective</mg-input-label>
+          <mg-input-number formControlName="perspective" min="100" noDecimal noNegative />
+          <mg-input-suffix>px</mg-input-suffix>
+          <mg-input-desc>default: <code>1000</code></mg-input-desc>
+        </mg-input>
+
+        <mg-input class="s-12">
+          <mg-input-label>mgCard3dScale</mg-input-label>
+          <mg-input-number formControlName="scale" min="0" max="5" step="0.01" forceMinMax />
+          <mg-input-desc>default: <code>1.05</code></mg-input-desc>
+        </mg-input>
+
+        <mg-input class="s-12">
+          <mg-input-checkbox formControlName="glare">mgCard3dGlare</mg-input-checkbox>
+          <mg-input-desc>default: <code>false</code></mg-input-desc>
+        </mg-input>
+
+        @if (hasGlare) {
+          <mg-input class="s-12">
+            <mg-input-label>mgCard3dGlareMax</mg-input-label>
+            <mg-input-number formControlName="glareMax" min="0" max="1" step="0.05" forceMinMax />
+            <mg-input-desc>default: <code>0.6</code></mg-input-desc>
+          </mg-input>
+        }
+
+        <mg-input class="s-12">
+          <mg-input-checkbox formControlName="sheen">mgCard3dSheen</mg-input-checkbox>
+          <mg-input-desc>Directional light reflection. default: <code>false</code></mg-input-desc>
+        </mg-input>
+
+        @if (hasSheen) {
+          <mg-input class="s-12">
+            <mg-input-label>mgCard3dLightAngle</mg-input-label>
+            <mg-input-number formControlName="lightAngle" min="0" max="360" noDecimal />
+            <mg-input-suffix>°</mg-input-suffix>
+            <mg-input-desc>Light source direction. default: <code>135</code></mg-input-desc>
+          </mg-input>
+          <mg-input class="s-12">
+            <mg-input-label>mgCard3dSheenMax</mg-input-label>
+            <mg-input-number formControlName="sheenMax" min="0" max="1" step="0.05" forceMinMax />
+            <mg-input-desc>default: <code>0.6</code></mg-input-desc>
+          </mg-input>
+        }
+      </form>
+
+      <div class="s-4 s-12-m preview-col">
+        <h2>Preview</h2>
+        <div class="card-wrapper">
+          <div
+            mgCard3d
+            [mgCard3dMax]="ctrlForm.value.maxAngle!"
+            [mgCard3dPerspective]="ctrlForm.value.perspective!"
+            [mgCard3dScale]="ctrlForm.value.scale!"
+            [mgCard3dGlare]="ctrlForm.value.glare!"
+            [mgCard3dGlareMax]="ctrlForm.value.glareMax!"
+            [mgCard3dSheen]="ctrlForm.value.sheen!"
+            [mgCard3dLightAngle]="ctrlForm.value.lightAngle!"
+            [mgCard3dSheenMax]="ctrlForm.value.sheenMax!"
+            class="card card--gradient"
+          >
+            <div class="card-icon">🎛️</div>
+            <h3>Hover me</h3>
+            <p>Live preview</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="s-5 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: [{ title: 'HTML', code: codeHtml }] },
+            { type: 'ts', code: codeTs },
+            { type: 'css', code: codeCss },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="examples">Examples</mg-tab-title>
+  <mg-tab-content id="examples">
+    <h3>Variants</h3>
+    <div class="cards-grid">
+      <div class="card-wrapper">
+        <div mgCard3d class="card">
+          <div class="card-icon">🌊</div>
+          <h3>Basic</h3>
+          <p>Default tilt (15°), no glare.</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dGlare class="card card--accent">
+          <div class="card-icon">✨</div>
+          <h3>Glare</h3>
+          <p>Holographic foil effect.</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div
+          mgCard3d
+          mgCard3dMax="25"
+          mgCard3dScale="1.08"
+          mgCard3dGlare
+          mgCard3dGlareMax="0.8"
+          class="card card--dark"
+        >
+          <div class="card-icon">🔥</div>
+          <h3>Strong</h3>
+          <p>Max 25°, scale 1.08.</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div
+          mgCard3d
+          mgCard3dMax="8"
+          mgCard3dScale="1.02"
+          mgCard3dGlare
+          mgCard3dGlareMax="0.3"
+          class="card card--light"
+        >
+          <div class="card-icon">🪶</div>
+          <h3>Subtle</h3>
+          <p>Max 8°, light touch.</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dMax="18" mgCard3dScale="1" class="card card--flat">
+          <div class="card-icon">📐</div>
+          <h3>No scale</h3>
+          <p>Tilt only, no zoom.</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dMax="20" mgCard3dSheen class="card card--accent">
+          <div class="card-icon">🔦</div>
+          <h3>Sheen</h3>
+          <p>Directional light reflection.</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div
+          mgCard3d
+          mgCard3dGlare
+          mgCard3dMax="-25"
+          mgCard3dSheen
+          mgCard3dGlareMax="0.8"
+          mgCard
+          class="card card--dark card--masked"
+        >
+          <div class="card-icon">🎭</div>
+          <h3>Masked</h3>
+          <p>Effects clipped to a mask image.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Custom <code>--mg-card3d-foil-colors</code></h3>
+    <div class="cards-grid">
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dGlare mgCard3dGlareMax="0.8" class="card card--dark">
+          <div class="card-icon">🌈</div>
+          <h3>Rainbow</h3>
+          <p>Default foil colors</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dGlare mgCard3dGlareMax="0.8" class="card card--foil-gold">
+          <div class="card-icon">🥇</div>
+          <h3>Gold</h3>
+          <p>Warm amber foil</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dGlare mgCard3dGlareMax="0.8" class="card card--foil-ice">
+          <div class="card-icon">❄️</div>
+          <h3>Ice</h3>
+          <p>Cold blue foil</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dGlare mgCard3dGlareMax="0.8" class="card card--foil-rose">
+          <div class="card-icon">🌸</div>
+          <h3>Rose</h3>
+          <p>Pink-magenta foil</p>
+        </div>
+      </div>
+
+      <div class="card-wrapper">
+        <div mgCard3d mgCard3dGlare mgCard3dGlareMax="0.8" class="card card--foil-emerald">
+          <div class="card-icon">💚</div>
+          <h3>Emerald</h3>
+          <p>Green foil</p>
+        </div>
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[mgCard3d]</code></h4>
+      <p>
+        Applies a CSS 3D tilt effect to the host element based on mouse cursor position. The perspective is set
+        automatically on the parent element on hover.
+      </p>
+      <p>
+        When <code>mgCard3dGlare</code> is enabled, a two-layer holographic effect is added: an iridescent rainbow foil
+        (<code>color-dodge</code>) whose hue rotates with the tilt angle, plus a specular streak band
+        (<code>overlay</code>) that sweeps across the card.
+      </p>
+
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgCard3dMax</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>15</code></td>
+            <td mg>Maximum tilt angle in degrees.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dPerspective</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>1000</code></td>
+            <td mg>CSS perspective distance (px) applied to the parent element on hover.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dLerp</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>0.12</code></td>
+            <td mg>Lerp speed while hovering (0.05–0.3). Lower = smoother, higher = more reactive.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dReturnLerp</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>0.05</code></td>
+            <td mg>Lerp speed when the pointer leaves. Lower = softer, slower return to rest.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dScale</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>1.05</code></td>
+            <td mg>Scale factor applied during hover.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dGlare</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Enables the iridescent holographic foil + specular streak effect.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dGlareMax</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>0.6</code></td>
+            <td mg>Maximum foil intensity (0–1).</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dSheen</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>
+              Directional light band that sweeps across the card with the tilt angle, like a fixed light reflection.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dLightAngle</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>135</code></td>
+            <td mg>Direction the sheen light comes from, in degrees (135 = top-left).</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgCard3dSheenMax</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>0.6</code></td>
+            <td mg>Maximum sheen intensity (0–1).</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>CSS custom property</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg style="width: 250px">Property</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>--mg-card3d-foil-colors</code></td>
+            <td mg>
+              Color-stop list for the repeating foil gradient. Defined globally in <code>css-var.css</code>. Override on
+              any ancestor or directly on the card element to change the foil palette.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-card3d-foil-texture</code></td>
+            <td mg>
+              <code>background-image</code> laid over the rainbow for the holographic grain (default: a fine glitter
+              grid). Override with any gradient or <code>url(...)</code> for a custom sparkle texture.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-card3d-foil-texture-size</code></td>
+            <td mg>Tile size of the foil texture layer. Default <code>12px 12px</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-card3d-mask</code></td>
+            <td mg>
+              Optional <code>mask-image</code> restricting all effects (glare, foil, sheen) to its opaque zones. Accepts
+              any mask value, e.g. <code>url('/art.png')</code> or
+              <code>linear-gradient(#000 60%, transparent 60%)</code>. Unset = whole card.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-card3d-mask-size</code></td>
+            <td mg>Size of the mask image. Default <code>100% 100%</code> (covers the whole card).</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-card3d-mask-position</code></td>
+            <td mg>Position of the mask image. Default <code>center</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-card3d-mask-repeat</code></td>
+            <td mg>Repeat behaviour of the mask image. Default <code>no-repeat</code>.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>--mg-card3d-mask-mode</code></td>
+            <td mg>
+              How the mask is interpreted: <code>alpha</code> (default, uses transparency) or <code>luminance</code>
+              (uses black/white).
+            </td>
+          </tr>
+          <tr mg>
+            <td mg>
+              <code>--mg-card3d-glare-blend</code>, <br /><code>--mg-card3d-foil-blend</code>, <br />
+              <code>--mg-card3d-sheen-blend</code>
+            </td>
+            <td mg>
+              <code>mix-blend-mode</code> of each layer. Defaults: <code>color-dodge</code> (glare, foil),
+              <code>overlay</code> (sheen). Use <code>soft-light</code> for a subtler look.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg>
+              <code>--mg-card3d-glare-opacity</code>, <br /><code>--mg-card3d-foil-opacity</code>, <br />
+              <code>--mg-card3d-sheen-opacity</code>
+            </td>
+            <td mg>
+              Max opacity of each layer at full intensity. Defaults: <code>1</code> / <code>0.85</code> /
+              <code>0.9</code>.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

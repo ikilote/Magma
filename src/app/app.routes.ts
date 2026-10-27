@@ -204,6 +204,12 @@ export const routes: Routes = [
         path: 'directive',
         children: [
             {
+                path: 'card-3d',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/card-3d/demo-card-3d.component').then(m => m.DemoCard3dComponent),
+            },
+            {
                 path: 'click-enter',
                 pathMatch: 'full',
                 loadComponent: () =>

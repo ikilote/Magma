@@ -639,6 +639,48 @@ body {
     /* MARK: spinner */
     --mg-spinner-color: var(--mg-color-primary);
 
+    /* MARK: card-3d */
+    /* Holographic foil color stops — used by the repeating rainbow gradient. */
+    --mg-card3d-foil-colors:
+        hsl(0, 100%, 60%) 0%, hsl(55, 100%, 58%) 14%, hsl(110, 100%, 52%) 28%, hsl(170, 100%, 52%) 42%,
+        hsl(225, 100%, 62%) 57%, hsl(275, 100%, 62%) 71%, hsl(315, 100%, 62%) 85%, hsl(360, 100%, 60%) 100%;
+    /* Foil texture layer laid over the rainbow — a fine glitter grid by default.
+       Override with any background-image value (e.g. url(...) for a real
+       sparkle texture) to change the holographic grain. */
+    --mg-card3d-foil-texture: repeating-linear-gradient(
+        45deg,
+        hsla(0, 0%, 100%, 0.25) 0px,
+        hsla(0, 0%, 100%, 0) 2px,
+        hsla(0, 0%, 100%, 0) 4px,
+        hsla(0, 0%, 100%, 0.25) 6px
+    );
+    /* Tile size of the foil texture layer. */
+    --mg-card3d-foil-texture-size: 12px 12px;
+    /* Max opacity of each layer (multiplied by the runtime intensity). */
+    --mg-card3d-glare-opacity: 1;
+    --mg-card3d-foil-opacity: 0.85;
+    --mg-card3d-sheen-opacity: 0.9;
+    /* Blend modes per layer — override to taste (e.g. soft-light for subtle). */
+    --mg-card3d-glare-blend: color-dodge;
+    --mg-card3d-foil-blend: color-dodge;
+    --mg-card3d-sheen-blend: overlay;
+    /* Runtime variables set by the directive (defaults = resting state). */
+    --mg-card3d-pointer-x: 50%;
+    --mg-card3d-pointer-y: 50%;
+    --mg-card3d-bg-x: 50%;
+    --mg-card3d-bg-y: 50%;
+    --mg-card3d-intensity: 0;
+    --mg-card3d-sheen-angle: 90deg;
+    --mg-card3d-sheen-pos: 50%;
+    --mg-card3d-sheen-width: 30%;
+    --mg-card3d-sheen-intensity: 0;
+    /* Optional mask restricting the effects to certain zones. */
+    --mg-card3d-mask: none;
+    --mg-card3d-mask-size: 100% 100%;
+    --mg-card3d-mask-position: center;
+    --mg-card3d-mask-repeat: no-repeat;
+    --mg-card3d-mask-mode: alpha;
+
     /* MARK: loader */
     --mg-loader-background: color-mix(in hsl, var(--mg-neutral050) 23%, transparent);
     --mg-loader-text-color: var(--mg-color-on-surface);

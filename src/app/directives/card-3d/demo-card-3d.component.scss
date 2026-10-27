@@ -1,0 +1,145 @@
+.preview-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 280px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 2rem;
+    padding: 2rem 1rem;
+}
+
+.card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    cursor: default;
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        0 1px 4px rgba(0, 0, 0, 0.06);
+    border-radius: 16px;
+    background: var(--mg-color-surface, #fff);
+    padding: 24px 20px;
+    width: 180px;
+    min-height: 200px;
+    user-select: none;
+    text-align: center;
+
+    h3 {
+        margin: 0;
+        font-size: 1rem;
+    }
+
+    p {
+        opacity: 0.8;
+        margin: 0;
+        font-size: 0.8rem;
+    }
+
+    &--accent {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+    }
+
+    &--dark {
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        color: #e0e0ff;
+    }
+
+    &--gradient {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 50%, #fda085 100%);
+        color: #fff;
+    }
+
+    &--light {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+        color: #333;
+    }
+
+    &--holo {
+        background: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #a8edea 100%);
+        color: #333;
+    }
+
+    &--flat {
+        border: 2px solid var(--mg-color-primary, #6200ea);
+        background: var(--mg-color-surface, #fff);
+        color: var(--mg-color-primary, #6200ea);
+    }
+
+    /* ── foil color variants ── */
+
+    &--foil-gold {
+        background: linear-gradient(135deg, #1a1209 0%, #2e1f08 100%);
+        color: #f5d78e;
+        --mg-card3d-foil-colors:
+            hsl(40, 100%, 55%) 0%, hsl(50, 100%, 65%) 25%, hsl(45, 90%, 50%) 50%, hsl(35, 100%, 45%) 75%,
+            hsl(40, 100%, 55%) 100%;
+    }
+
+    &--foil-ice {
+        background: linear-gradient(135deg, #071e2e 0%, #0a2a40 100%);
+        color: #a8d8f0;
+        --mg-card3d-foil-colors:
+            hsl(195, 100%, 60%) 0%, hsl(215, 100%, 65%) 33%, hsl(240, 100%, 70%) 66%, hsl(195, 100%, 60%) 100%;
+    }
+
+    &--foil-rose {
+        background: linear-gradient(135deg, #1f0a14 0%, #2e0d1e 100%);
+        color: #f0a8c8;
+        --mg-card3d-foil-colors:
+            hsl(330, 100%, 65%) 0%, hsl(310, 100%, 60%) 25%, hsl(345, 100%, 70%) 50%, hsl(315, 100%, 62%) 75%,
+            hsl(330, 100%, 65%) 100%;
+    }
+
+    &--foil-emerald {
+        background: linear-gradient(135deg, #051a0e 0%, #082a14 100%);
+        color: #a8f0c0;
+        --mg-card3d-foil-colors:
+            hsl(145, 100%, 45%) 0%, hsl(160, 100%, 52%) 33%, hsl(130, 100%, 48%) 66%, hsl(145, 100%, 45%) 100%;
+    }
+
+    /* Restrict the holographic effects to the shape of a mask image, like the
+       foil window on a real collectible card. Default mask-size (100% 100%)
+       already covers the whole card. */
+    &--masked {
+        --mg-card3d-mask: url('/assets/images/mask.png');
+        --mg-card3d-mask-mode: luminance;
+    }
+}
+
+.card-icon {
+    margin-bottom: 4px;
+    font-size: 2.5rem;
+    line-height: 1;
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 8px;
+    font-size: 0.875rem;
+
+    input[type='range'] {
+        width: 100%;
+    }
+
+    &.toggle {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+    }
+}

@@ -173,7 +173,7 @@
 }
 
 .main {
-    padding: 0 30px;
+    padding: 0 var(--mg-space-4xl);
     padding: auto;
     width: 100%;
     overflow: auto;
@@ -181,6 +181,6 @@
     scrollbar-gutter: stable;
 
     @media screen and (width < 600px) {
-        padding: 0 5px;
+        padding: 0 var(--mg-space-2xs);
     }
 }

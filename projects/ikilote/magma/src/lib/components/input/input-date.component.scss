@@ -22,7 +22,7 @@
     width: 26px;
     height: 26px;
     color: var(--mg-input-picker-icon-color);
-    font-size: 21px;
+    font-size: 1.3125rem; /* 21px */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -44,7 +44,7 @@ input[type='number'] {
 
     input {
         --mg-input-background: transparent;
-        margin: 0 2px;
+        margin: 0 var(--mg-space-3xs);
         border: 0;
         padding: 0;
         text-align: right;

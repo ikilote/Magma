@@ -42,7 +42,7 @@
 
 .bottom {
     grid-area: bottom;
-    font-size: 12px;
+    font-size: 0.75rem; /* 12px */
 
     .error {
         color: var(--mg-input-error-color);

@@ -54,7 +54,7 @@ a {
     }
 
     table & {
-        margin: auto 10px;
+        margin: auto var(--mg-space-md);
     }
 }
 
@@ -66,7 +66,7 @@ button,
 a.mg-button {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: var(--mg-space-md);
     max-width: 100%;
 
     &.mg-primary {
@@ -127,7 +127,7 @@ button {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 10px;
+    gap: var(--mg-space-md);
 
     & > button {
         margin: 0;
@@ -145,7 +145,7 @@ button {
 .mg-chip {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: var(--mg-space-xs);
     cursor: pointer;
     margin: 0;
     box-shadow: none;
@@ -195,7 +195,7 @@ button {
 .mg-chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--mg-space-sm);
 }
 
 /* -------------------- input / button ------------------------------------------------------------
@@ -252,9 +252,9 @@ a.mg-button:active {
 }
 
 [type='color'] {
-    min-width: 60px;
-    max-width: 200px;
-    height: 30px;
+    min-width: 3.75rem; /* 60px */
+    max-width: 12.5rem; /* 200px */
+    height: 1.875rem; /* 30px */
 }
 
 input:not(:focus-visible):invalid {
@@ -269,13 +269,13 @@ input::placeholder {
 input[type='range'][orient='vertical'] {
     vertical-align: bottom;
     appearance: slider-vertical;
-    width: 16px;
+    width: 1rem; /* 16px */
     writing-mode: vertical-lr;
     direction: rtl;
 }
 input[type='range'][orient='horizontal'] {
-    margin: 0 2px;
-    padding: 4px;
+    margin: 0 var(--mg-space-3xs);
+    padding: var(--mg-space-2xs);
 }
 
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select) {
@@ -292,7 +292,7 @@ input[type='range'][orient='horizontal'] {
 }
 
 textarea {
-    min-height: 31px;
+    min-height: 1.9375rem; /* 31px */
 }
 
 :where(input:not([type='checkbox'], [type='radio']), .input, textarea, select):disabled {

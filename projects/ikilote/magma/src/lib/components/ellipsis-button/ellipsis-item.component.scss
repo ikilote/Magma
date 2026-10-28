@@ -1,10 +1,10 @@
 :host {
     display: block;
     cursor: pointer;
-    margin: 2px;
+    margin: var(--mg-space-3xs);
     border-radius: 4px;
     background: var(--mg-ellipsis-item-background);
-    padding: 10px 20px 10px 10px;
+    padding: var(--mg-space-md) var(--mg-space-2xl) var(--mg-space-md) var(--mg-space-md);
 
     &:hover {
         --mg-click-enter-hover-background: var(--mg-ellipsis-item-hover-background);

@@ -19,7 +19,7 @@
         transition-duration: 0s;
         box-shadow: 2px 2px 5px var(--mg-datetime-picker-embedded-shadow-color);
         background: var(--mg-datetime-picker-embedded-background);
-        padding: 10px;
+        padding: var(--mg-space-md);
     }
 }
 
@@ -121,7 +121,7 @@
 
     .week {
         justify-content: right;
-        padding-right: 5px;
+        padding-right: var(--mg-space-2xs);
         font-size: smaller;
     }
 }

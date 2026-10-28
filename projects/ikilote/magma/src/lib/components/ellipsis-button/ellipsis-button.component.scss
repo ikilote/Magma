@@ -13,7 +13,7 @@ button {
 
 .ellipsis {
     top: -2px;
-    margin: auto 5px;
+    margin: auto var(--mg-space-2xs);
 
     &:not(:last-child) {
         display: none;

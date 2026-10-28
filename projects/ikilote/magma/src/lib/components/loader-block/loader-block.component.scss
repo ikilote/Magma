@@ -1,7 +1,7 @@
 :host {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: var(--mg-space-md);
     width: 100%;
     width: -moz-available;
     width: -webkit-fill-available;

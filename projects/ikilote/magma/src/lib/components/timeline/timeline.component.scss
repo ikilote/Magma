@@ -48,8 +48,8 @@
         .tick {
             grid-column: var(--tick-pos);
             border-inline-start: 1px solid var(--mg-timeline-grid-color);
-            padding-inline: 4px;
-            padding-block: 4px;
+            padding-inline: var(--mg-space-2xs);
+            padding-block: var(--mg-space-2xs);
             overflow: hidden;
             color: var(--mg-timeline-axis-color);
             font-size: var(--mg-timeline-axis-font-size);
@@ -96,9 +96,10 @@
         display: flex;
         align-items: center;
         cursor: default;
+        box-shadow: 0 5px 5px #0008;
         border-radius: var(--mg-timeline-bar-radius);
         background: var(--item-color, var(--mg-timeline-item-color));
-        padding-inline: 6px;
+        padding-inline: var(--mg-space-xs);
         height: 100%;
         overflow: hidden;
         color: inherit;
@@ -108,6 +109,20 @@
             cursor: pointer;
             &:hover {
                 filter: brightness(0.9);
+            }
+        }
+
+        &:hover {
+            position: relative;
+            z-index: 1;
+            background: var(--item-color, var(--mg-timeline-item-color));
+            width: min-content;
+            min-width: calc(100% - var(--mg-space-xs) * 2);
+            overflow: visible;
+
+            .item-label {
+                width: auto;
+                overflow: visible;
             }
         }
     }
@@ -146,8 +161,8 @@
             grid-row: var(--tick-pos);
             align-items: flex-start;
             border-block-start: 1px solid var(--mg-timeline-grid-color);
-            padding-inline: 4px;
-            padding-block: 4px;
+            padding-inline: var(--mg-space-2xs);
+            padding-block: var(--mg-space-2xs);
             overflow: hidden;
             color: var(--mg-timeline-axis-color);
             font-size: var(--mg-timeline-axis-font-size);
@@ -197,7 +212,7 @@
         box-shadow: 0 5px 5px #0008;
         border-radius: var(--mg-timeline-bar-radius);
         background: var(--item-color, var(--mg-timeline-item-color));
-        padding-block: 6px;
+        padding-block: var(--mg-space-xs);
         width: 100%;
         height: 100%;
         overflow: hidden;
@@ -216,7 +231,7 @@
             z-index: 1;
             background: var(--item-color, var(--mg-timeline-item-color));
             height: auto;
-            min-height: 100%;
+            min-height: calc(100% - var(--mg-space-xs) * 2);
             overflow: visible;
 
             .item-label {

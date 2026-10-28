@@ -22,12 +22,12 @@
     top: 0px;
     cursor: pointer;
     box-sizing: border-box;
-    margin-bottom: 2px;
+    margin-bottom: var(--mg-space-3xs);
     box-shadow: 0 0 10px var(--mg-floating-message-box-shadow-color);
     border: var(--mg-floating-message-border-width) solid var(--mg-floating-message-border-color);
     border-radius: 4px; // base: fully rounded
     background: var(--mg-floating-message-background);
-    padding: 10px;
+    padding: var(--mg-space-md);
     width: max-content;
     min-width: 100px;
 
@@ -146,18 +146,18 @@
     from {
         top: 0px;
         opacity: 1;
-        padding: 5px 10px;
+        padding: var(--mg-space-2xs) var(--mg-space-md);
         max-height: var(--current-height);
     }
     75% {
         top: calc(var(--current-pos) * -1 - 62px);
-        padding: 5px 10px;
+        padding: var(--mg-space-2xs) var(--mg-space-md);
         max-height: var(--current-height);
     }
     to {
         top: calc(var(--current-pos) * -1 - 62px);
         opacity: 0;
-        padding: 0 10px;
+        padding: 0 var(--mg-space-md);
         max-height: 0;
     }
 }
@@ -167,18 +167,18 @@
     from {
         top: 0px;
         opacity: 1;
-        padding: 5px 10px;
+        padding: var(--mg-space-2xs) var(--mg-space-md);
         max-height: var(--current-height);
     }
     75% {
         top: calc(var(--current-pos) + 62px);
-        padding: 5px 10px;
+        padding: var(--mg-space-2xs) var(--mg-space-md);
         max-height: var(--current-height);
     }
     to {
         top: calc(var(--current-pos) + 62px);
         opacity: 0;
-        padding: 0 10px;
+        padding: 0 var(--mg-space-md);
         max-height: 0;
     }
 }

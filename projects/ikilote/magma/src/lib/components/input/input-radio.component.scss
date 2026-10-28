@@ -15,7 +15,7 @@ input {
             position: absolute;
             top: var(--mg-input-mark-top);
             box-sizing: border-box;
-            margin-inline-end: 5px;
+            margin-inline-end: var(--mg-space-2xs);
             inset-inline-start: 0px;
             outline: 2px solid transparent;
             border: 1px solid var(--mg-input-border-color);
@@ -49,7 +49,7 @@ label {
     all: unset;
     position: relative;
     padding-inline-start: calc(var(--size) + 6px);
-    padding-inline-end: 5px;
+    padding-inline-end: var(--mg-space-2xs);
     line-height: 30px;
 
     &.empty {
@@ -59,12 +59,12 @@ label {
 
 .content:has(> :host:is(mg-input-radio)) {
     flex-wrap: wrap;
-    gap: 5px 10px;
+    gap: var(--mg-space-2xs) var(--mg-space-md);
 }
 
 // ── badge & pill modes ──────────────────────────────────────────────────────
 .content:has(> :host:is(mg-input-radio):is(.variant-badge, .variant-pill)) {
-    gap: 12px 10px;
+    gap: var(--mg-space-lg) var(--mg-space-md);
 }
 
 :host:is(.variant-badge, .variant-pill) {
@@ -78,8 +78,8 @@ label {
             border: 1px solid var(--mg-input-border-color);
             border-radius: 999px;
             background-color: var(--mg-input-background);
-            padding-inline: 12px;
-            padding-block: 4px;
+            padding-inline: var(--mg-space-lg);
+            padding-block: var(--mg-space-2xs);
 
             &::before {
                 display: none;
@@ -103,17 +103,17 @@ label {
     }
 
     label {
-        padding-inline-start: 12px;
+        padding-inline-start: var(--mg-space-lg);
 
         &.empty {
-            padding-inline-start: 12px;
+            padding-inline-start: var(--mg-space-lg);
         }
     }
 }
 
 // ── Pill mode ──────────────────────────────────────────────────────
 .content:has(> :host:is(mg-input-radio):is(.variant-pill)) {
-    gap: 12px 0;
+    gap: var(--mg-space-lg) 0;
 }
 
 :host:nth-child(n + 2 of .variant-pill) {

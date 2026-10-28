@@ -174,6 +174,22 @@ body {
     --mg-font-small: 0.85em;
     --mg-font-very-small: 0.75em;
 
+    /* MARK: spacing scale */
+    /* rem-based spacing scale. 1rem = 16px at the browser default, so these
+       tokens scale with the user's root font-size (accessibility). Use them
+       for padding, margin and gap. Border widths, shadow offsets and radii
+       stay in px on purpose: they should not grow with the font size. */
+    --mg-space-3xs: 0.125rem; /* 2px */
+    --mg-space-2xs: 0.25rem; /* 4px */
+    --mg-space-xs: 0.375rem; /* 6px */
+    --mg-space-sm: 0.5rem; /* 8px */
+    --mg-space-md: 0.625rem; /* 10px */
+    --mg-space-lg: 0.75rem; /* 12px */
+    --mg-space-xl: 1rem; /* 16px */
+    --mg-space-2xl: 1.25rem; /* 20px */
+    --mg-space-3xl: 1.5rem; /* 24px */
+    --mg-space-4xl: 1.875rem; /* 30px */
+
     /* MARK: semantic layer */
     /* Role-based tokens shared across all components. Override these to
        retheme globally without touching per-component variables.
@@ -207,7 +223,7 @@ body {
 
     /* MARK: generic */
     --mg-separator-opacity: 0.2;
-    --mg-separator-margin: 16px 0;
+    --mg-separator-margin: var(--mg-space-xl) 0;
     --mg-separator-color: var(--mg-color-border);
 
     /* MARK: context-menu */
@@ -218,10 +234,10 @@ body {
     --mg-context-menu-border-radius: 6px;
     --mg-context-menu-item-background: var(--mg-primary200);
     --mg-context-menu-item-background-hover: var(--mg-primary300);
-    --mg-context-menu-item-gap: 10px;
-    --mg-context-menu-item-margin: 2px;
+    --mg-context-menu-item-gap: var(--mg-space-md);
+    --mg-context-menu-item-margin: var(--mg-space-3xs);
     --mg-context-menu-item-radius: 4px;
-    --mg-context-menu-item-padding: 10px 20px 10px 10px;
+    --mg-context-menu-item-padding: var(--mg-space-md) var(--mg-space-2xl) var(--mg-space-md) var(--mg-space-md);
     --mg-context-menu-item-shadow-color: #0008;
 
     /* MARK: menubar */
@@ -229,8 +245,8 @@ body {
     --mg-menubar-border: 1px solid transparent;
     --mg-menubar-text-color: inherit;
     --mg-menubar-font-size: 0.9rem;
-    --mg-menubar-trigger-padding: 4px 10px;
-    --mg-menubar-trigger-gap: 6px;
+    --mg-menubar-trigger-padding: var(--mg-space-2xs) var(--mg-space-md);
+    --mg-menubar-trigger-gap: var(--mg-space-xs);
     --mg-menubar-trigger-radius: var(--mg-block-radius, 4px);
     --mg-menubar-trigger-border: 1px solid transparent;
     --mg-menubar-trigger-border-color: transparent;
@@ -252,19 +268,19 @@ body {
     --mg-menubar-dropdown-border-color: var(--mg-primary500);
     --mg-menubar-dropdown-radius: var(--mg-block-radius, 4px);
     --mg-menubar-dropdown-shadow: 2px 2px 8px var(--block-shadow-color);
-    --mg-menubar-dropdown-padding: 4px 0;
-    --mg-menubar-dropdown-min-width: 160px;
-    --mg-menubar-item-padding: 6px 12px;
-    --mg-menubar-item-gap: 8px;
+    --mg-menubar-dropdown-padding: var(--mg-space-2xs) 0;
+    --mg-menubar-dropdown-min-width: 10rem; /* 160px */
+    --mg-menubar-item-padding: var(--mg-space-xs) var(--mg-space-lg);
+    --mg-menubar-item-gap: var(--mg-space-sm);
     --mg-menubar-item-hover-background: var(--mg-primary300);
     --mg-menubar-item-hover-color: var(--mg-neutral950);
     --mg-menubar-item-disabled-opacity: 0.45;
     --mg-menubar-item-arrow-opacity: 0.7;
     --mg-menubar-item-arrow-size: 0.65em;
     --mg-menubar-separator: 1px solid var(--mg-primary500);
-    --mg-menubar-separator-margin: 4px 8px;
+    --mg-menubar-separator-margin: var(--mg-space-2xs) var(--mg-space-sm);
     --mg-menubar-bar-separator: 1px solid var(--mg-primary500);
-    --mg-menubar-bar-separator-margin: 4px 2px;
+    --mg-menubar-bar-separator-margin: var(--mg-space-2xs) var(--mg-space-3xs);
 
     /* MARK: ellipsis-button */
     --mg-ellipsis-list-shadow-color: #0005;
@@ -275,36 +291,36 @@ body {
     /* MARK: vision-theme */
     --mg-vision-theme-button-border-width: 1px;
     --mg-vision-theme-button-border-radius: 20px;
-    --mg-vision-theme-button-gap: 6px;
-    --mg-vision-theme-button-padding: 4px 10px;
-    --mg-vision-theme-button-compact-padding: 4px 8px;
+    --mg-vision-theme-button-gap: var(--mg-space-xs);
+    --mg-vision-theme-button-padding: var(--mg-space-2xs) var(--mg-space-md);
+    --mg-vision-theme-button-compact-padding: var(--mg-space-2xs) var(--mg-space-sm);
     --mg-vision-theme-label-font-size: var(--mg-font-small);
-    --mg-vision-theme-icon-size: 18px;
+    --mg-vision-theme-icon-size: 1.125rem; /* 18px */
     --mg-vision-theme-focus-outline-width: 2px;
     --mg-vision-theme-focus-outline-offset: 2px;
     --mg-vision-theme-list-box-shadow: 2px 2px 8px var(--mg-ellipsis-list-shadow-color);
     --mg-vision-theme-list-border-radius: 6px;
-    --mg-vision-theme-list-padding: 2px;
-    --mg-vision-theme-list-min-width: 220px;
-    --mg-vision-theme-list-separator-margin: 2px 0;
-    --mg-vision-theme-item-margin: 2px;
+    --mg-vision-theme-list-padding: var(--mg-space-3xs);
+    --mg-vision-theme-list-min-width: 13.75rem; /* 220px */
+    --mg-vision-theme-list-separator-margin: var(--mg-space-3xs) 0;
+    --mg-vision-theme-item-margin: var(--mg-space-3xs);
     --mg-vision-theme-item-border-radius: 4px;
-    --mg-vision-theme-item-padding: 10px 20px 10px 10px;
-    --mg-vision-theme-item-gap: 8px;
-    --mg-vision-theme-item-content-gap: 2px;
+    --mg-vision-theme-item-padding: var(--mg-space-md) var(--mg-space-2xl) var(--mg-space-md) var(--mg-space-md);
+    --mg-vision-theme-item-gap: var(--mg-space-sm);
+    --mg-vision-theme-item-content-gap: var(--mg-space-3xs);
     --mg-vision-theme-item-background: var(--mg-primary050);
     --mg-vision-theme-item-hover-background: var(--mg-ellipsis-item-hover-background);
     --mg-vision-theme-item-active-font-weight: 600;
     --mg-vision-theme-item-desc-opacity: 0.7;
     --mg-vision-theme-clear-btn-opacity: 0.8;
-    --mg-vision-theme-checkbox-size: 26px;
+    --mg-vision-theme-checkbox-size: 1.625rem; /* 26px */
 
     /* MARK: default button */
     --mg-button-disabled-opacity: 0.25;
     --mg-button-default-border-radius: 5px;
     --mg-button-default-border-width: 2px;
-    --mg-button-default-padding: 10px;
-    --mg-button-default-margin: 0 5px;
+    --mg-button-default-padding: var(--mg-space-md);
+    --mg-button-default-margin: 0 var(--mg-space-2xs);
 
     --mg-button-default-border-color: var(--mg-neutral300);
     --mg-button-default-background: var(--mg-color-surface-raised);
@@ -353,7 +369,7 @@ body {
     --mg-link-focus-border-color: var(--mg-input-focus-color);
 
     /* MARK: breadcrumbs */
-    --mg-breadcrumbs-gap: 8px;
+    --mg-breadcrumbs-gap: var(--mg-space-sm);
     --mg-breadcrumbs-font-size: 0.9em;
     --mg-breadcrumbs-separator: '/';
     --mg-breadcrumbs-separator-color: var(--mg-neutral600);
@@ -367,7 +383,7 @@ body {
     --mg-chip-color: var(--mg-text-color);
     --mg-chip-border-color: var(--mg-color-border);
     --mg-chip-border-radius: 16px;
-    --mg-chip-padding: 6px 14px;
+    --mg-chip-padding: var(--mg-space-xs) var(--mg-space-lg);
     --mg-chip-font-size: var(--mg-font-small);
     --mg-chip-hover-background: var(--mg-color-primary);
     --mg-chip-hover-color: var(--mg-color-on-primary);
@@ -390,20 +406,20 @@ body {
 
     /* MARK: cookie-consent */
     --mg-cookie-consent-banner-background: var(--mg-dialog-background);
-    --mg-cookie-consent-banner-padding: 20px;
-    --mg-cookie-consent-actions-gap: 8px;
-    --mg-cookie-consent-presentation-margin: 0 0 12px;
+    --mg-cookie-consent-banner-padding: var(--mg-space-2xl);
+    --mg-cookie-consent-actions-gap: var(--mg-space-sm);
+    --mg-cookie-consent-presentation-margin: 0 0 var(--mg-space-lg);
     --mg-cookie-consent-separator-opacity: 0.2;
-    --mg-cookie-consent-separator-margin: 16px 0;
+    --mg-cookie-consent-separator-margin: var(--mg-space-xl) 0;
     --mg-cookie-consent-separator-color: var(--mg-color-border);
-    --mg-cookie-consent-option-gap: 4px 20px;
-    --mg-cookie-consent-option-margin-bottom: 16px;
-    --mg-cookie-consent-option-toggle-width: 80px;
+    --mg-cookie-consent-option-gap: var(--mg-space-2xs) var(--mg-space-2xl);
+    --mg-cookie-consent-option-margin-bottom: var(--mg-space-xl);
+    --mg-cookie-consent-option-toggle-width: 5rem; /* 80px */
     --mg-cookie-consent-option-label-font-weight: 600;
     --mg-cookie-consent-option-desc-color: var(--mg-neutral700);
     --mg-cookie-consent-option-desc-font-size: var(--mg-font-small);
-    --mg-cookie-consent-dialog-actions-margin-top: 16px;
-    --mg-cookie-consent-dialog-actions-padding-bottom: 16px;
+    --mg-cookie-consent-dialog-actions-margin-top: var(--mg-space-xl);
+    --mg-cookie-consent-dialog-actions-padding-bottom: var(--mg-space-xl);
 
     /* MARK: input */
     --mg-input-border-color: var(--mg-color-border);
@@ -416,18 +432,18 @@ body {
     --mg-input-focus-border-color: var(--mg-input-focus-color);
     --mg-input-color-shadow: var(--mg-neutral050);
     --mg-input-checked-color: var(--mg-primary500);
-    --mg-input-textarea-min-height: 33px;
-    --mg-input-textarea-max-height: 500px;
-    --mg-input-textarea-limit-size: 16px;
+    --mg-input-textarea-min-height: 2.0625rem; /* 33px */
+    --mg-input-textarea-max-height: 31.25rem; /* 500px */
+    --mg-input-textarea-limit-size: 1rem; /* 16px */
     --mg-input-textarea-limit-background: var(--mg-neutral400);
     --mg-input-textarea-limit-color: var(--mg-primary600);
     --mg-input-textarea-limit-border: 1px solid var(--mg-neutral400);
     --mg-input-error-color: var(--mg-alert700);
     --mg-input-border-radius: 3px;
     --mg-input-border-width: 1px;
-    --mg-input-padding: 5px 3px;
-    --mg-input-font-size: 16px;
-    --mg-input-line-height: 21px;
+    --mg-input-padding: var(--mg-space-2xs) var(--mg-space-3xs);
+    --mg-input-font-size: 1rem; /* 16px */
+    --mg-input-line-height: 1.3125rem; /* 21px */
     --mg-input-mark-top: -2px;
     --mg-input-placeholder-color: var(--mg-color-on-surface-muted);
     --mg-input-picker-icon-color: var(--mg-neutral800);
@@ -456,7 +472,7 @@ body {
     --mg-color-picker-color-range-track-border: 1px solid var(--mg-neutral990);
     --mg-color-picker-color-range-thumb-border: 1px solid var(--mg-neutral990);
     --mg-color-picker-color-palette-item-by-line: 9;
-    --mg-color-picker-color-palette-item-height: 30px;
+    --mg-color-picker-color-palette-item-height: 1.875rem; /* 30px */
     --mg-color-picker-color-palette-item-border: 1px solid var(--mg-neutral990);
     --mg-color-picker-color-palette-item-border-hover: 1px solid var(--mg-neutral500);
     --mg-color-picker-color-palette-item-outline-selected: 3px solid #040404;
@@ -540,9 +556,9 @@ body {
     --mg-message-border-style: solid;
     --mg-message-radius: 3px;
     --mg-message-shadow: 0 0 12px 2px var(--mg-neutral200);
-    --mg-message-margin: 12px;
-    --mg-message-gap: 12px;
-    --mg-message-marquee-size: 20px;
+    --mg-message-margin: var(--mg-space-lg);
+    --mg-message-gap: var(--mg-space-lg);
+    --mg-message-marquee-size: var(--mg-space-2xl);
 
     /* MARK: message floating */
     /* Slot consumed by mg-info-message, plus its own layout values. The slot
@@ -555,16 +571,16 @@ body {
     --mg-info-message-offset-block: 0px;
     --mg-info-message-offset-inline: 0px;
     --mg-info-message-progress-time-default: 3s;
-    --mg-info-message-max-width: 300px;
+    --mg-info-message-max-width: 18.75rem; /* 300px */
 
     /* MARK: grid */
-    --mg-grid-cell-padding: 6px;
+    --mg-grid-cell-padding: var(--mg-space-xs);
 
     /* MARK: block */
     --mg-block-radius: 3px;
     --mg-block-border: 1px solid var(--mg-primary500);
     --mg-block-shadow: 0 0 24px 2px var(--mg-primary200);
-    --mg-block-margin: 12px;
+    --mg-block-margin: var(--mg-space-lg);
     --mg-block-background: var(--mg-color-surface);
 
     /* MARK: card */
@@ -572,9 +588,9 @@ body {
     --mg-card-border: var(--mg-block-border);
     --mg-card-radius: var(--mg-block-radius);
     --mg-card-background: var(--mg-block-background);
-    --mg-card-padding: 16px;
+    --mg-card-padding: var(--mg-space-xl);
     --mg-card-ratio: 1 / 3;
-    --mg-card-img-height: 100px;
+    --mg-card-img-height: 6.25rem; /* 100px */
     --mg-card-zoom-scale: 1.1;
     --mg-card-zoom-duration: 0.3s;
 
@@ -594,11 +610,11 @@ body {
 
     /* MARK: badge */
     --mg-badge-radius: 12px;
-    --mg-badge-padding: 2px 10px;
+    --mg-badge-padding: var(--mg-space-3xs) var(--mg-space-md);
     --mg-badge-small-font-size: var(--mg-font-very-small);
-    --mg-badge-small-padding: 1px 6px;
+    --mg-badge-small-padding: 1px var(--mg-space-xs);
     --mg-badge-large-font-size: var(--mg-font-small);
-    --mg-badge-large-padding: 2px 10px;
+    --mg-badge-large-padding: var(--mg-space-3xs) var(--mg-space-md);
     --mg-badge-font-size-small: var(--mg-font-very-small);
     --mg-badge-neutral-background: var(--mg-neutral300);
     --mg-badge-neutral-color: contrast-color(var(--mg-neutral300));
@@ -623,8 +639,8 @@ body {
     --mg-page-item-hover-background: var(--mg-neutral300);
 
     /* MARK: expansion-panel */
-    --mg-expansion-panel-padding: 5px;
-    --mg-expansion-panel-arrow-size: 20px;
+    --mg-expansion-panel-padding: var(--mg-space-2xs);
+    --mg-expansion-panel-arrow-size: 1.25rem; /* 20px */
     --mg-expansion-panel-transition-duration: 0.5s;
 
     /* MARK: walkthrough */
@@ -692,10 +708,10 @@ body {
     --mg-loading-item-color: var(--mg-primary200);
 
     /* MARK: contrib-calendar */
-    --mg-contrib-calendar-day-font-size: 12px;
+    --mg-contrib-calendar-day-font-size: 0.75rem; /* 12px */
     --mg-contrib-calendar-day-background: var(--mg-color-surface-raised);
-    --mg-contrib-calendar-month-font-size: 12px;
-    --mg-contrib-calendar-tile-size: 15px;
+    --mg-contrib-calendar-month-font-size: 0.75rem; /* 12px */
+    --mg-contrib-calendar-tile-size: 0.9375rem; /* 15px */
     --mg-contrib-calendar-tile-color-even: var(--mg-neutral100);
     --mg-contrib-calendar-tile-color-odd: var(--mg-neutral200);
     --mg-contrib-calendar-tile-color-lvl1: var(--mg-success300);
@@ -706,23 +722,23 @@ body {
     /* MARK: avatar */
     --mg-avatar-radius: 50%;
     --mg-avatar-color: var(--mg-primary950);
-    --mg-avatar-size-small: 28px;
-    --mg-avatar-size-medium: 40px;
-    --mg-avatar-size-large: 56px;
-    --mg-avatar-size-extra: 80px;
+    --mg-avatar-size-small: 1.75rem; /* 28px */
+    --mg-avatar-size-medium: 2.5rem; /* 40px */
+    --mg-avatar-size-large: 3.5rem; /* 56px */
+    --mg-avatar-size-extra: 5rem; /* 80px */
     --mg-avatar-font-size-small: var(--mg-font-small);
     --mg-avatar-font-size-medium: var(--mg-font-medium);
     --mg-avatar-font-size-large: var(--mg-font-large);
     --mg-avatar-font-size-extra: var(--mg-font-extra);
 
     /* MARK: window */
-    --mg-window-min-width: 150px;
-    --mg-window-min-height: 150px;
+    --mg-window-min-width: 9.375rem; /* 150px */
+    --mg-window-min-height: 9.375rem; /* 150px */
     --mg-window-background: var(--mg-color-surface-raised);
     --mg-window-shadow-color: var(--mg-dialog-shadow-color);
     --mg-window-content-border: none;
     --mg-window-content-border-color: transparent;
-    --mg-window-bar-padding: 0 0 0 5px;
+    --mg-window-bar-padding: 0 0 0 var(--mg-space-2xs);
     --mg-window-bar-height: auto;
     --mg-window-bar-color: inherit;
     --mg-window-bar-font-weight: normal;
@@ -732,19 +748,19 @@ body {
     --mg-window-bar-button-box-shadow: none;
     --mg-window-bar-button-focus-outline: 2px solid var(--mg-neutral900);
     --mg-window-bar-button-focus-offset: 1px;
-    --mg-window-bar-button-size: 24px;
-    --mg-window-bar-button-gap: 3px;
+    --mg-window-bar-button-size: 1.5rem; /* 24px */
+    --mg-window-bar-button-gap: var(--mg-space-3xs);
     --mg-window-bar-button-color: var(--mg-neutral950);
-    --mg-window-bar-button-padding: 2px;
+    --mg-window-bar-button-padding: var(--mg-space-3xs);
     --mg-window-bar-background: var(--mg-neutral300);
     --mg-window-bar-background-active: var(--mg-neutral400);
 
     /* MARK: tag-list */
-    --mg-tag-list-gap: 6px;
+    --mg-tag-list-gap: var(--mg-space-xs);
     --mg-tag-item-radius: 15px;
     --mg-tag-item-background: var(--mg-primary100);
-    --mg-tag-item-padding: 3px 0 3px 10px;
-    --mg-tag-item-min-height: 26px;
+    --mg-tag-item-padding: var(--mg-space-3xs) 0 var(--mg-space-3xs) var(--mg-space-md);
+    --mg-tag-item-min-height: 1.625rem; /* 26px */
     --mg-tag-item-color: inherit;
     --mg-tag-item-font-size: inherit;
     --mg-tag-item-hover-background: var(--mg-primary050);
@@ -755,9 +771,9 @@ body {
     --mg-tag-input-focus-border-color: var(--mg-primary300);
 
     /* MARK: status */
-    --mg-status-gap: 6px;
+    --mg-status-gap: var(--mg-space-xs);
     --mg-status-font-size: 0.85em;
-    --mg-status-dot-size: 8px;
+    --mg-status-dot-size: 0.5rem; /* 8px */
     --mg-status-color: var(--mg-text-color);
     --mg-status-dot-color: currentColor;
     --mg-status-success-dot-color: hsl(var(--mg-successH, 120) 60% 40%);
@@ -778,27 +794,27 @@ body {
 
     /* MARK: light-dark */
     --mg-light-dark-border-color: var(--mg-primary950);
-    --mg-light-dark-gap: 5px;
-    --mg-light-dark-icon-size: 20px;
-    --mg-light-dark-toggle-width: 40px;
-    --mg-light-dark-toggle-height: 20px;
+    --mg-light-dark-gap: var(--mg-space-2xs);
+    --mg-light-dark-icon-size: 1.25rem; /* 20px */
+    --mg-light-dark-toggle-width: 2.5rem; /* 40px */
+    --mg-light-dark-toggle-height: 1.25rem; /* 20px */
     --mg-light-dark-toggle-border-radius: 20px;
-    --mg-light-dark-thumb-size: 16px;
-    --mg-light-dark-thumb-margin: 2px;
+    --mg-light-dark-thumb-size: 1rem; /* 16px */
+    --mg-light-dark-thumb-margin: var(--mg-space-3xs);
     --mg-light-dark-transition-duration: 0.5s;
     --mg-light-dark-compact-border-radius: 20px;
-    --mg-light-dark-compact-padding-x: 2px;
-    --mg-light-dark-compact-height: 24px;
-    --mg-light-dark-compact-icon-offset: -48px;
+    --mg-light-dark-compact-padding-x: var(--mg-space-3xs);
+    --mg-light-dark-compact-height: 1.5rem; /* 24px */
+    --mg-light-dark-compact-icon-offset: -3rem; /* -48px */
     --mg-light-dark-focus-outline-width: 3px;
     --mg-light-dark-focus-outline-offset: 1px;
 
     /* MARK: timeline */
-    --mg-timeline-axis-size: 80px;
-    --mg-timeline-tick-size: 60px;
-    --mg-timeline-track-size: 40px;
+    --mg-timeline-axis-size: 5rem; /* 80px */
+    --mg-timeline-tick-size: 3.75rem; /* 60px */
+    --mg-timeline-track-size: 2.5rem; /* 40px */
     --mg-timeline-bar-radius: 4px;
-    --mg-timeline-bar-gap: 3px;
+    --mg-timeline-bar-gap: var(--mg-space-3xs);
     --mg-timeline-axis-font-size: var(--mg-font-small);
     --mg-timeline-item-font-size: var(--mg-font-very-small);
     --mg-timeline-item-color: var(--mg-primary200);
@@ -823,10 +839,10 @@ body {
     --select2-option-highlighted-background: var(--mg-primary400);
     --select2-search-border-color: var(--mg-input-border-color);
     --select2-search-background: var(--mg-text-color);
-    --select2-selection-line-height: 31px;
+    --select2-selection-line-height: 1.8125rem; /* 31px */
     --select2-selection-readonly-background: var(--mg-input-background);
 
-    --select2-selection-choice-line-height: 25px;
+    --select2-selection-choice-line-height: 1.5625rem; /* 25px */
     --select2-selection-choice-background: var(--mg-primary300);
     --select2-selection-choice-border-color: var(--mg-primary500);
     --select2-selection-choice-text-color: var(--mg-text-color);

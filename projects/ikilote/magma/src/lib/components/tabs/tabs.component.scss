@@ -10,13 +10,16 @@
         display: flex;
         position: relative;
         align-items: stretch;
-        margin-bottom: 5px;
+        margin-bottom: var(--mg-space-2xs);
         min-width: 0;
         min-height: 42px;
 
         nav {
             display: flex;
             flex: 1 1 auto;
+            /* Kept in px: this gap feeds the JS overflow measurement that shows
+               the scroll buttons. A rem value would shift with the root
+               font-size and move the threshold. */
             gap: 10px;
             border-bottom: 1px solid var(--mg-tabs-line-color);
             min-width: 0;
@@ -24,6 +27,8 @@
         }
 
         button {
+            /* Kept in px: these scroll buttons are part of the width
+               measurement that toggles the prev/next controls. */
             display: none;
             margin: 0 3px;
             padding: 6px;
@@ -41,10 +46,10 @@
     }
 
     .visually-hidden-focusable button {
-        margin-top: 15px;
+        margin-top: var(--mg-space-xl);
     }
 }
 
 :host.compact > .tabs {
-    gap: 5px;
+    gap: var(--mg-space-2xs);
 }

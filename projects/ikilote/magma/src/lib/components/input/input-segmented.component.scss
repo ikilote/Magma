@@ -23,7 +23,7 @@
     display: inline-flex;
     flex-wrap: nowrap;
     align-items: stretch;
-    gap: 4px;
+    gap: var(--mg-space-2xs);
 }
 
 /* ── Base cell ─────────────────────────────────────────────────────────── */
@@ -45,7 +45,7 @@
     min-width: 0;
     height: calc(var(--mg-input-line-height, 21px) + 10px + 2 * var(--mg-input-border-width, 1px));
     color: var(--mg-text-color);
-    font-size: var(--mg-input-font-size, 16px);
+    font-size: var(--mg-input-font-size, 1rem); /* 16px */
     line-height: var(--mg-input-line-height, 21px);
     text-align: center;
 
@@ -79,7 +79,7 @@
     align-items: center;
     min-width: 4px;
     color: var(--mg-input-item-color);
-    font-size: var(--mg-input-font-size, 16px);
+    font-size: var(--mg-input-font-size, 1rem); /* 16px */
     user-select: none;
 }
 

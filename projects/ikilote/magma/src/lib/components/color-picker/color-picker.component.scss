@@ -7,14 +7,14 @@
             'value  hue    alpha  . '
             'values values values values' /
             340px 1fr 1fr 0;
-        gap: 10px 30px;
+        gap: var(--mg-space-md) var(--mg-space-4xl);
     }
 
     &.embedded {
         transition-duration: 0s;
         box-shadow: 2px 2px 5px var(--mg-color-picker-embedded-shadow-color);
         background-color: var(--mg-color-picker-embedded-background);
-        padding: 10px;
+        padding: var(--mg-space-md);
     }
 
     &.readonly {
@@ -54,7 +54,7 @@ mg-tab-content {
         'color-view rgba'
         'color-view hexa' /
         auto 1fr;
-    gap: 5px 30px;
+    gap: var(--mg-space-2xs) var(--mg-space-4xl);
 }
 .input-zone {
     display: flex;
@@ -115,7 +115,7 @@ mg-tab-content {
 
 .hsla,
 .rgba {
-    font-size: 13px;
+    font-size: 0.8125rem; /* 13px */
 }
 
 // --------------------------------- RANGE ----------------------------------------------
@@ -267,7 +267,7 @@ input[type='range'] {
     display: grid;
     grid-template-columns: repeat(var(--mg-color-picker-color-palette-item-by-line), 1fr);
     gap: 1px;
-    margin-bottom: 10px;
+    margin-bottom: var(--mg-space-md);
 
     button {
         all: revert;

@@ -21,7 +21,7 @@
     border-end-start-radius: 3px;
     border-end-end-radius: 0;
     background: var(--mg-input-background-affix);
-    padding: 5px 3px;
+    padding: var(--mg-space-2xs) var(--mg-space-3xs);
     color: var(--mg-text-color);
 }
 
@@ -93,7 +93,7 @@
 
 :host:is(mg-input-desc) {
     display: block;
-    font-size: 12px;
+    font-size: 0.75rem; /* 12px */
 }
 
 // error

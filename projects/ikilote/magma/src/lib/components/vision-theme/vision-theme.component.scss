@@ -136,7 +136,7 @@ input {
     border-radius: 5px;
     width: 0.1px;
     height: 0.1px;
-    font-size: 36px;
+    font-size: 2.25rem; /* 36px */
 
     & + span {
         display: block;
@@ -153,7 +153,7 @@ input {
             position: absolute;
             top: 0px;
             box-sizing: border-box;
-            margin-inline-end: 5px;
+            margin-inline-end: var(--mg-space-2xs);
             inset-inline-start: 0px;
             outline: 2px solid transparent;
             border: 1px solid transparent;
@@ -161,14 +161,14 @@ input {
             width: var(--size);
             height: var(--size);
             content: '';
-            font-size: 36px;
+            font-size: 2.25rem; /* 36px */
         }
     }
 
     &:checked + span::before {
         background-image: linear-gradient(var(--mg-input-checked-color), var(--mg-input-checked-color));
         background-clip: content-box;
-        padding: 3px;
+        padding: var(--mg-space-3xs);
     }
 }
 

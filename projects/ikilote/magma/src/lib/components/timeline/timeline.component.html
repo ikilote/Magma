@@ -1,4 +1,10 @@
-<div class="timeline-grid">
+<div
+  class="timeline-grid"
+  mgDragScroll
+  [mgDragScrollDisabled]="!dragScroll()"
+  [mgDragScrollAxis]="dragAxis()"
+  mgDragScrollIgnore=".item"
+>
   <!-- Axis ticks -->
   <div class="axis">
     @for (tick of ticks(); track tick.index) {

@@ -81,6 +81,7 @@ export * from './lib/components/window/windows-container.component';
 export * from './lib/directives/card-3d.directive';
 export * from './lib/directives/click-enter.directive';
 export * from './lib/directives/click-outside.directive';
+export * from './lib/directives/drag-scroll.directive';
 export * from './lib/directives/limit-focus.directive';
 export * from './lib/directives/ng-init.directive';
 export * from './lib/directives/ng-model-change-debounced.directive';

@@ -219,6 +219,12 @@ export const menu: Menu = [
                 keys: ['outside click', 'blur click', 'close on outside click'],
             },
             {
+                routerLink: '/directive/drag-scroll',
+                label: 'Drag Scroll',
+                status: 'new',
+                keys: ['drag scroll', 'pan', 'grab', 'scroll', 'drag to scroll', 'panning', 'grab cursor'],
+            },
+            {
                 routerLink: '/directive/limit-focus',
                 label: 'Limit-focus',
                 status: 'update',

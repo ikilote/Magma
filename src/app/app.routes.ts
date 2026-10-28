@@ -210,6 +210,12 @@ export const routes: Routes = [
                     import('./directives/card-3d/demo-card-3d.component').then(m => m.DemoCard3dComponent),
             },
             {
+                path: 'drag-scroll',
+                pathMatch: 'full',
+                loadComponent: () =>
+                    import('./directives/drag-scroll/demo-drag-scroll.component').then(m => m.DemoDragScrollComponent),
+            },
+            {
                 path: 'click-enter',
                 pathMatch: 'full',
                 loadComponent: () =>

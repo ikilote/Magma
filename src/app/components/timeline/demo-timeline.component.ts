@@ -160,6 +160,7 @@ export class DemoTimelineComponent {
         tickSize: FormControl<number>;
         trackSize: FormControl<number>;
         minGap: FormControl<number>;
+        dragScroll: FormControl<boolean>;
     }>;
 
     codeHtml = '';
@@ -187,6 +188,7 @@ export class MyComponent {
             tickSize: { default: 60 },
             trackSize: { default: 60 },
             minGap: { default: 10 },
+            dragScroll: { default: false },
         });
 
         this.ctrlForm.get('unit')!.valueChanges.subscribe((unit: MagmaTimelineUnit) => {
@@ -237,6 +239,9 @@ export class MyComponent {
         }
         if (v.minGap !== undefined && v.minGap !== 10) {
             attrs['[minGap]'] = v.minGap;
+        }
+        if (v.dragScroll) {
+            attrs['dragScroll'] = null;
         }
         attrs['(itemClick)'] = 'onItemClick($event)';
 

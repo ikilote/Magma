@@ -2,6 +2,7 @@ import { Component, booleanAttribute, computed, contentChildren, input, output }
 
 import { MagmaTimelineItem } from './timeline-item.component';
 
+import { MagmaDragScrollAxis, MagmaDragScrollDirective } from '../../directives/drag-scroll.directive';
 import { numberAttributeOrUndefined } from '../../utils/coercion';
 import { isISODate } from '../../utils/date';
 
@@ -49,7 +50,7 @@ export interface MagmaTimelineTick {
     selector: 'mg-timeline',
     templateUrl: './timeline.component.html',
     styleUrl: './timeline.component.scss',
-    imports: [],
+    imports: [MagmaDragScrollDirective],
     host: {
         '[class.horizontal]': 'direction() === "horizontal"',
         '[class.vertical]': 'direction() === "vertical"',
@@ -95,6 +96,13 @@ export class MagmaTimeline {
      */
     readonly minGap = input(undefined, { transform: numberAttributeOrUndefined });
 
+    /**
+     * Let the user scroll the timeline by grabbing its background and dragging
+     * (panning), via the {@link MagmaDragScrollDirective}. The pan axis follows
+     * {@link direction} automatically. Default: false.
+     */
+    readonly dragScroll = input(false, { transform: booleanAttribute });
+
     // --- Outputs ---
 
     /** Emitted when an item bar is clicked (not fired if the item has a link). */
@@ -105,6 +113,9 @@ export class MagmaTimeline {
     readonly items = contentChildren(MagmaTimelineItem);
 
     // --- Computed ---
+
+    /** Pan axis for drag-scroll, derived from the layout direction. */
+    protected readonly dragAxis = computed<MagmaDragScrollAxis>(() => (this.direction() === 'vertical' ? 'y' : 'x'));
 
     protected readonly ticks = computed<MagmaTimelineTick[]>(() => {
         const items = this.items();

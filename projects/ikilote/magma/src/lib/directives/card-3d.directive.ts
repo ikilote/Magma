@@ -33,14 +33,14 @@ function intensityAttribute(value: unknown): number {
  * Usage:
  * ```html
  * <div mgCard3d>...</div>
- * <div mgCard3d [mgCard3dMax]="20" [mgCard3dGlare]="true">...</div>
+ * <div mgCard3d mgCard3dMax="20" mgCard3dGlare>...</div>
  * ```
  */
 @Directive({
     selector: '[mgCard3d]',
     host: {
         '[class.mg-card3d]': 'true',
-        '[class.mg-card3d--active]': 'hovered()',
+        '[class.mg-card3d__active]': 'hovered()',
         '[style.transform-style]': '"preserve-3d"',
         '[style.will-change]': '"transform"',
     },

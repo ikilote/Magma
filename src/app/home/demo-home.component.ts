@@ -81,15 +81,15 @@ export class DemoHomeComponent {
     categories = [
         {
             name: 'Components',
-            description: '28 ready-to-use UI components.',
+            description: '29 ready-to-use UI components + 11 input types.',
             link: '/component/spinner',
-            count: 28,
+            count: 40,
         },
         {
             name: 'Directives',
             description: 'Angular directives to enhance your templates.',
             link: '/directive/tooltip',
-            count: 11,
+            count: 13,
         },
         {
             name: 'Pipes',

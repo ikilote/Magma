@@ -1,0 +1,204 @@
+<h1>Drag Scroll</h1>
+
+<mg-tabs>
+  <mg-tab-title id="generator">Generator</mg-tab-title>
+  <mg-tab-content id="generator">
+    <section>
+      <form class="s-3 s-12-m" [formGroup]="ctrlForm">
+        <h2 class="s-12">Options</h2>
+
+        <mg-input class="s-12">
+          <mg-input-checkbox mode="toggle" formControlName="disabled">mgDragScrollDisabled</mg-input-checkbox>
+        </mg-input>
+
+        <mg-input class="s-12">
+          <mg-input-label>mgDragScrollAxis</mg-input-label>
+          <mg-input-select formControlName="axis" [data]="axisData" />
+          <mg-input-desc>default: <code>both</code></mg-input-desc>
+        </mg-input>
+
+        <mg-input class="s-12">
+          <mg-input-label>mgDragScrollThreshold</mg-input-label>
+          <mg-input-number formControlName="threshold" min="0" max="50" noDecimal noNegative />
+          <mg-input-suffix>px</mg-input-suffix>
+          <mg-input-desc>
+            Move distance before a drag starts.<br />
+            Default: <code>5</code>
+          </mg-input-desc>
+        </mg-input>
+
+        <mg-input class="s-12">
+          <mg-input-checkbox mode="toggle" formControlName="cursor">mgDragScrollCursor</mg-input-checkbox>
+          <mg-input-desc>Show the grab cursor.</mg-input-desc>
+        </mg-input>
+
+        <mg-input class="s-12">
+          <mg-input-label>mgDragScrollIgnore</mg-input-label>
+          <mg-input-text formControlName="ignore" placeholder=".no-pan, .slider" />
+          <mg-input-desc>CSS selector of zones that must not start a drag.</mg-input-desc>
+        </mg-input>
+      </form>
+
+      <div class="s-4 s-12-m preview-col">
+        <h2>Preview</h2>
+        <p class="hint">Grab the empty background and drag to scroll.</p>
+        <div
+          class="scroller"
+          mgDragScroll
+          [mgDragScrollDisabled]="ctrlForm.value.disabled"
+          [mgDragScrollAxis]="ctrlForm.value.axis!"
+          [mgDragScrollThreshold]="ctrlForm.value.threshold!"
+          [mgDragScrollCursor]="ctrlForm.value.cursor!"
+          [mgDragScrollIgnore]="ctrlForm.value.ignore!"
+        >
+          <div class="grid">
+            @for (n of cells; track n) {
+              <div class="cell" id="cell-{{ n }}">{{ n }}</div>
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="s-5 s-12-m">
+        <code-tabs
+          [code]="[
+            { type: 'html', code: [{ title: 'HTML', code: codeHtml }] },
+            { type: 'ts', code: codeTs },
+            { type: 'css', code: codeCss },
+          ]"
+        />
+      </div>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="examples">Examples</mg-tab-title>
+  <mg-tab-content id="examples">
+    <h3>Horizontal only</h3>
+    <p class="hint">A single wide row — drag left/right to pan the time-like strip.</p>
+    <div class="scroller scroller--row" mgDragScroll mgDragScrollAxis="x">
+      <div class="row">
+        @for (n of cells; track n) {
+          <span class="mg-chip">Item {{ n }}</span>
+        }
+      </div>
+    </div>
+
+    <h3>Both axes</h3>
+    <p class="hint">A large grid — pan in any direction from the background.</p>
+    <div class="scroller scroller--big" mgDragScroll>
+      <div class="grid grid--big">
+        @for (n of cells; track n) {
+          <div class="cell">{{ n }}</div>
+        }
+      </div>
+    </div>
+
+    <h3>Interactive children are preserved</h3>
+    <p class="hint">
+      Dragging the background scrolls; clicking a button still fires its action and is never swallowed.
+    </p>
+    <div class="scroller" mgDragScroll mgDragScrollAxis="x">
+      <div class="row">
+        @for (n of cells; track n) {
+          <button type="button" class="mg-primary">Button {{ n }}</button>
+        }
+      </div>
+    </div>
+  </mg-tab-content>
+
+  <mg-tab-title id="api">API Reference</mg-tab-title>
+  <mg-tab-content id="api">
+    <section>
+      <h4>Selector — <code>[mgDragScroll]</code></h4>
+      <p>
+        Lets the user scroll an overflowing element by grabbing its <strong>background</strong> and dragging, like
+        panning a map or a board. The host element must be scrollable (e.g. <code>overflow: auto</code>).
+      </p>
+      <p>
+        A drag starts only when the pointer goes down on the element's own background, not on an interactive child
+        (<code>a</code>, <code>button</code>, <code>input</code>, <code>textarea</code>, <code>select</code>,
+        <code>label</code>, <code>[draggable="true"]</code>, <code>[contenteditable]</code>, or any element carrying
+        <code>data-no-drag-scroll</code>). This keeps clicks on real content working while empty space becomes a scroll
+        handle. Pointer capture keeps the drag alive even when the cursor leaves the element, and the click that ends a
+        drag is swallowed so a grab over a link does not also trigger it.
+      </p>
+
+      <h4>Inputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>mgDragScrollDisabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Disable the behavior without removing the directive.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDragScrollAxis</code></td>
+            <td mg><code>'both' | 'x' | 'y'</code></td>
+            <td mg><code>'both'</code></td>
+            <td mg>Which axis can be panned.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDragScrollThreshold</code></td>
+            <td mg><code>number</code></td>
+            <td mg><code>5</code></td>
+            <td mg>Pixels the pointer must travel before a press becomes a drag (below this, clicks still fire).</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDragScrollCursor</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>Show the <code>grab</code> / <code>grabbing</code> cursor on the host.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>mgDragScrollIgnore</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>
+              CSS selector of zones that must not start a drag. A press on a matching element (or inside one) is left to
+              the content, in addition to the built-in checks.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Outputs</h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Output</th>
+            <th mg>Type</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>dragStart</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Emitted when a drag actually starts (after the threshold is crossed).</td>
+          </tr>
+          <tr mg>
+            <td mg><code>dragEnd</code></td>
+            <td mg><code>void</code></td>
+            <td mg>Emitted when a drag ends.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Opting a child out</h4>
+      <p>
+        Two ways to make a zone non-draggable: add <code>data-no-drag-scroll</code> to the element itself, or pass a CSS
+        selector to <code>mgDragScrollIgnore</code> to exclude zones without touching their markup (e.g. a custom slider
+        or a drawing surface). Both apply on top of the automatic exclusion of interactive elements.
+      </p>
+    </section>
+  </mg-tab-content>
+</mg-tabs>

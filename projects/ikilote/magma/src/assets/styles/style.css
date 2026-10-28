@@ -1207,6 +1207,34 @@ pre.mono {
     }
 }
 
+/* -------------------- drag-scroll ------------------------------------------------------------
+    MARK: Drag scroll
+*/
+
+/* Pan axis → touch-action, so touch gestures scroll the allowed axis only. */
+.mg-drag-scroll {
+    touch-action: none;
+}
+
+.mg-drag-scroll__pan-x {
+    touch-action: pan-y;
+}
+
+.mg-drag-scroll__pan-y {
+    touch-action: pan-x;
+}
+
+/* Opt-in grab cursor (mgDragScrollCursor). */
+.mg-drag-scroll__cursor {
+    cursor: grab;
+}
+
+/* While actively dragging: show the closed hand and freeze text selection. */
+.mg-drag-scroll__grabbing {
+    cursor: grabbing;
+    user-select: none;
+}
+
 /* -------------------- Animation ----------------------------------------------------------
     MARK: animation
 */

@@ -130,15 +130,15 @@ describe('MagmaCard3dDirective', () => {
         it('should set hovered signal on mouseenter and clear it on mouseleave', () => {
             directive.onMouseEnter();
             expect(directive.hovered()).toBe(true);
-            expect(el.classList.contains('mg-card3d--active')).toBe(false); // class updated on CD
+            expect(el.classList.contains('mg-card3d__active')).toBe(false); // class updated on CD
 
             fixture.changeDetectorRef.detectChanges();
-            expect(el.classList.contains('mg-card3d--active')).toBe(true);
+            expect(el.classList.contains('mg-card3d__active')).toBe(true);
 
             directive.onMouseLeave();
             expect(directive.hovered()).toBe(false);
             fixture.changeDetectorRef.detectChanges();
-            expect(el.classList.contains('mg-card3d--active')).toBe(false);
+            expect(el.classList.contains('mg-card3d__active')).toBe(false);
         });
 
         it('should set perspective on the parent on mouseenter', () => {

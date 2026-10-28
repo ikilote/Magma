@@ -11,17 +11,35 @@
 // --mg-timeline-grid-color    : grid line color
 
 :host {
-    display: block;
+    // Flex column so the scroll container below can be constrained by any size
+    // the consumer puts on `mg-timeline` (e.g. `max-height: 600px`). A plain
+    // block host does not propagate a percentage/max-height to its child, so
+    // the grid would spill out instead of scrolling — flex + `min-height: 0`
+    // on the child is what makes the constraint flow down.
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    overflow: auto;
-    scrollbar-gutter: stable;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 // ─── Shared grid container ────────────────────────────────────────────────────
+// This is the scroll container (overflow lives here, not on :host) so the
+// mgDragScroll directive — applied on this element in the template — can drive
+// scrollLeft/scrollTop. The grid tracks make the content larger than the host,
+// producing the scrollable overflow. `flex: 1` + `min-*: 0` let it fill the
+// host AND shrink below its content so the overflow becomes scrollable in both
+// axes.
 
 .timeline-grid {
     display: grid;
     position: relative;
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: 100%;
+    min-height: 0;
+    overflow: auto;
+    scrollbar-gutter: stable;
 }
 
 // ─── HORIZONTAL mode ─────────────────────────────────────────────────────────
@@ -36,7 +54,6 @@
         grid-template-columns:
             0
             repeat(var(--mg-timeline-tick-count), var(--mg-timeline-tick-size));
-        min-width: calc(var(--mg-timeline-tick-count) * var(--mg-timeline-tick-size));
     }
 
     .axis {
@@ -147,7 +164,6 @@
         grid-template-columns:
             var(--mg-timeline-axis-size)
             1fr;
-        min-height: calc(var(--mg-timeline-tick-count) * var(--mg-timeline-tick-size));
     }
 
     .axis {

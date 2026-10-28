@@ -10,9 +10,9 @@
           <mg-input class="s-12">
             <mg-input-label>lang</mg-input-label>
             <mg-input-select formControlName="lang" [data]="langues" />
-            <mg-input-desc
-              >Locale for tick labels (e.g. month names). Visible with unit="month" or "day".</mg-input-desc
-            >
+            <mg-input-desc>
+              Locale for tick labels (e.g. month names). Visible with <code>unit="month"</code> or <code>"day"</code>.
+            </mg-input-desc>
           </mg-input>
           <mg-input class="s-12">
             <mg-input-label>direction</mg-input-label>
@@ -25,27 +25,30 @@
           <mg-input class="s-6">
             <mg-input-label>start</mg-input-label>
             <mg-input-text formControlName="start" />
-            <mg-input-desc>Year (e.g. 2008) or ISO date (e.g. 2025-01-01)</mg-input-desc>
+            <mg-input-desc>Year (e.g. 2008) or ISO date (e.g. <code>2025-01-01</code>)</mg-input-desc>
           </mg-input>
           <mg-input class="s-6">
             <mg-input-label>end</mg-input-label>
             <mg-input-text formControlName="end" />
-            <mg-input-desc>Year (e.g. 2026) or ISO date (e.g. 2025-06-30)</mg-input-desc>
+            <mg-input-desc>Year (e.g. 2026) or ISO date (e.g. <code>2025-06-30</code>)</mg-input-desc>
           </mg-input>
           <mg-input class="s-12">
-            <mg-input-label>tickSize (px)</mg-input-label>
+            <mg-input-label>tickSize</mg-input-label>
             <mg-input-number formControlName="tickSize" min="20" noDecimal noNegative />
-            <mg-input-desc>Size of each tick cell in px. Default: 60</mg-input-desc>
+            <mg-input-suffix>px</mg-input-suffix>
+            <mg-input-desc>Size of each tick cell in px. Default: <code>60</code></mg-input-desc>
           </mg-input>
           <mg-input class="s-12">
-            <mg-input-label>trackSize (px)</mg-input-label>
+            <mg-input-label>trackSize</mg-input-label>
             <mg-input-number formControlName="trackSize" min="20" noDecimal noNegative />
-            <mg-input-desc>Size of each item track in px (CSS var only). Default: 40</mg-input-desc>
+            <mg-input-suffix>px</mg-input-suffix>
+            <mg-input-desc>Size of each item track in px (CSS var only). Default: <code>40</code></mg-input-desc>
           </mg-input>
           <mg-input class="s-12">
-            <mg-input-label>minGap (px)</mg-input-label>
+            <mg-input-label>minGap</mg-input-label>
             <mg-input-number formControlName="minGap" min="0" noDecimal noNegative />
-            <mg-input-desc>Min visual gap before stacking items. Default: 10</mg-input-desc>
+            <mg-input-suffix>px</mg-input-suffix>
+            <mg-input-desc>Min visual gap before stacking items. Default: <code>10</code></mg-input-desc>
           </mg-input>
           <mg-input class="s-12">
             <mg-input-checkbox formControlName="showGrid">showGrid</mg-input-checkbox>

@@ -119,7 +119,7 @@
         padding-inline: var(--mg-space-xs);
         height: 100%;
         overflow: hidden;
-        color: inherit;
+        color: contrast-color(var(--item-color, var(--mg-timeline-item-color)));
         text-decoration: none;
 
         .has-link & {
@@ -148,6 +148,61 @@
         font-size: var(--mg-timeline-item-font-size);
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    // ─── Annotations (horizontal: vertical marker lines) ──────────────────────
+    // Rendered inside .items (position: relative). --ann-offset is the px
+    // distance from the left edge of the ticks area.
+    .annotation {
+        position: absolute;
+        z-index: 2;
+        inset-block: 0;
+        top: 1.5rem;
+        inset-inline-start: var(--ann-offset);
+        width: 0;
+        pointer-events: none;
+
+        // Vertical line — extends up through the axis row
+        &::before {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            transform: translateX(-50%);
+            opacity: 0.6;
+            inset-inline-start: 0;
+            background: var(--ann-color, var(--mg-timeline-annotation-color));
+            width: var(--mg-timeline-annotation-line-width, 2px);
+            content: '';
+        }
+    }
+
+    .annotation-flag {
+        position: absolute;
+        transform: translateX(-50%);
+        cursor: default;
+        inset-block-start: 0;
+        inset-inline-start: 0;
+        border-radius: var(--mg-timeline-bar-radius);
+        background: var(--ann-color, var(--mg-timeline-annotation-color));
+        padding: var(--mg-space-3xs) var(--mg-space-2xs);
+        width: max-content;
+        max-width: var(--mg-timeline-axis-size);
+        pointer-events: auto;
+        color: contrast-color(var(--ann-color, var(--mg-timeline-annotation-color)));
+        font-size: var(--mg-timeline-annotation-font-size, var(--mg-font-very-small));
+        text-align: center;
+        text-decoration: none;
+
+        &.nowrap {
+            white-space: nowrap;
+        }
+
+        .has-link & {
+            cursor: pointer;
+            &:hover {
+                filter: brightness(0.9);
+            }
+        }
     }
 }
 
@@ -231,7 +286,7 @@
         width: 100%;
         height: 100%;
         overflow: hidden;
-        color: inherit;
+        color: contrast-color(var(--item-color, var(--mg-timeline-item-color)));
         text-decoration: none;
 
         .has-link & {
@@ -264,5 +319,77 @@
         writing-mode: vertical-rl;
         text-overflow: ellipsis;
         white-space: nowrap;
+    }
+
+    // ─── Annotations (vertical: horizontal marker lines) ─────────────────────
+    // .annotations spans the full grid (row 1/-1, col 1/-1) with height:0 and
+    // overflow:visible so it overlays .items without claiming grid space.
+    // padding-block-start shifts the origin to the ticks area (row 2).
+    .annotations {
+        position: relative;
+        grid-row: 1;
+        grid-column: 2;
+        align-self: stretch;
+        padding-inline-start: var(--mg-timeline-axis-size);
+        padding-block-start: var(--mg-timeline-axis-size);
+        width: 0;
+        height: 0;
+        overflow: visible;
+        pointer-events: none;
+    }
+
+    .annotation {
+        position: absolute;
+        z-index: 2;
+        inset-block-start: var(--ann-offset);
+        inset-inline-start: 0;
+        // Extend the line to cover the full grid width
+        width: 100vw;
+        height: 0;
+        pointer-events: none;
+
+        // The horizontal line
+        &::before {
+            position: absolute;
+            right: 0;
+            transform: translateY(-50%);
+            opacity: 0.6;
+            inset-block-start: 0;
+            inset-inline-start: calc(-1 * var(--mg-timeline-axis-size));
+            background: var(--ann-color, var(--mg-timeline-annotation-color));
+            height: var(--mg-timeline-annotation-line-width, 2px);
+            content: '';
+        }
+    }
+
+    .annotation-flag {
+        position: absolute;
+        transform: translateY(-50%);
+        cursor: default;
+        box-sizing: border-box;
+        inset-block-start: 0;
+        // Place in axis column (to the left of items area)
+        inset-inline-start: calc(-1 * var(--mg-timeline-axis-size));
+        border-radius: var(--mg-timeline-bar-radius);
+        background: var(--ann-color, var(--mg-timeline-annotation-color));
+        padding: var(--mg-space-3xs) var(--mg-space-2xs);
+        width: var(--mg-timeline-axis-size);
+        overflow: hidden;
+        pointer-events: auto;
+        color: contrast-color(var(--ann-color, var(--mg-timeline-annotation-color)));
+        font-size: var(--mg-timeline-annotation-font-size, var(--mg-font-very-small));
+        text-decoration: none;
+        text-overflow: ellipsis;
+
+        &.nowrap {
+            white-space: nowrap;
+        }
+
+        .has-link & {
+            cursor: pointer;
+            &:hover {
+                filter: brightness(0.9);
+            }
+        }
     }
 }

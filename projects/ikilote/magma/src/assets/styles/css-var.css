@@ -820,6 +820,9 @@ body {
     --mg-timeline-item-color: var(--mg-primary200);
     --mg-timeline-axis-color: var(--mg-color-on-surface-muted);
     --mg-timeline-grid-color: var(--mg-color-border);
+    --mg-timeline-annotation-color: var(--mg-alert500);
+    --mg-timeline-annotation-font-size: var(--mg-font-very-small);
+    --mg-timeline-annotation-line-width: 2px;
 
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */

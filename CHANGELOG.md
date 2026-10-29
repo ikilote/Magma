@@ -1,5 +1,69 @@
 # Changelog of @ikilote/magma
 
+## 3.0.0 (soon)
+
+### 🫢 Breaking
+
+All CSS variables, generic classes and `@keyframes` shipped by the library are now prefixed with `mg-` to avoid collisions with a consuming app's own tokens, classes and animations. Consumers overriding any of them must update the names.
+
+- **CSS variables**: every token is renamed, e.g. `--dialog-background` → `--mg-dialog-background`, `--primary500` → `--mg-primary500`, `--input-border-color` → `--mg-input-border-color` (~570 tokens). This includes the menubar trigger variables added below.
+- **Classes**:
+    - **chip**: `.chip` / `.chips` → `.mg-chip` / `.mg-chips`
+    - **buttons**: `.primary` → `.mg-primary`, `.warn` → `.mg-warn`, `a.button` → `a.mg-button`, `.buttons` → `.mg-buttons`
+    - **tooltip**: `.tooltip` → `.mg-tooltip`, `.tooltip-panel` → `.mg-tooltip-panel`
+    - **sortable**: `.sort-cell` / `.sort-asc` / `.sort-desc` → `.mg-sort-desc`
+    - **status**: `.status` → `.mg-status` / `.status-*` → `.mg-status-*`
+    - **click-enter**: `.click-enter` → `.mg-click-enter`
+    - **walkthrough**: `.walkthrough-backdrop` → `.mg-walkthrough-backdrop`
+    - **window (resize)**: `.ew-resize` / `.ns-resize` / `.ne-resize` / `.nw-resize` → `.mg-*-resize`
+- **@keyframes** (renamed to lowercase kebab-case): `fadeInScale` → `mg-fade-in-scale`, `slidein` → `mg-slide-in`, `moveTop` → `mg-move-top`, `moveBottom` → `mg-move-bottom`, `spinner` → `mg-spinner`, `move` → `mg-move`, `lighting` / `lighting-rtl` → `mg-lighting` / `mg-lighting-rtl`.
+
+A migration helper is provided for consuming apps: `scripts/migrate-consumer-to-mg-prefix.mjs` (rewrites variables safely, reports class collisions for manual review).
+
+```sh
+# Preview only (writes nothing) — run from the magma repo root
+node scripts/migrate-consumer-to-mg-prefix.mjs --app /path/to/app
+
+# Apply the CSS variable migration
+node scripts/migrate-consumer-to-mg-prefix.mjs --app /path/to/app --write
+
+# Also migrate generic classes (chip, primary, warn…) — review the report first
+node scripts/migrate-consumer-to-mg-prefix.mjs --app /path/to/app --classes --write
+```
+
+### ✅ New
+
+- **Shadow DOM**: full Shadow DOM support across components and directives — **input:date**, **menubar**, **walkthrough**, **mg-window**, **click-outside**, **limit-focus**, **scrollable**.
+- **Utils**
+    - **dom** : new Shadow-DOM-aware helpers: `deepActiveElement`, `deepClosest`, `deepContains`, `deepQuerySelector`, `collectFocusable`, `isFocusable`, and the `focusableSelector` constant.
+- **input**:
+    - **radio**: add badge & pill modes
+
+### 🐞 Fix
+
+- **input**: `@defer` is required in some cases. Fix that.
+- **accordion**/**expansion-panel**: fix border-radius.
+
+### 🎨 Style
+
+- **menubar**:
+    - the top-level trigger is a `<button>`, so it inherited the global button `box-shadow`. It now uses dedicated, themeable variables (default values keep the previous appearance):
+        - `--mg-menubar-trigger-border` / `--mg-menubar-trigger-border-color`
+        - `--mg-menubar-trigger-box-shadow`
+        - `--mg-menubar-trigger-background`
+        - `--mg-menubar-trigger-hover-border` / `--mg-menubar-trigger-hover-border-color`
+        - `--mg-menubar-trigger-hover-box-shadow`
+        - `--mg-menubar-trigger-hover-background`
+        - `--mg-menubar-trigger-open-border` / `--mg-menubar-trigger-open-border-color`
+        - `--mg-menubar-trigger-open-box-shadow`
+        - `--mg-menubar-trigger-open-background`
+        - `--mg-menubar-dropdown-border-color` (The `--mg-menubar-dropdown-border` shorthand is unchanged and still supported)
+    - separate `*-border-color` is provided per state so a multi-color 3D bevel can be applied (a `border:` shorthand takes one color only)
+
+### 🎦 Demo
+
+- **Utils** (**dom**): update page for the new Shadow DOM helpers.
+
 ## 2.2.3 (2026-09-15)
 
 ### ✅ New

@@ -13,6 +13,8 @@ import {
     MagmaTableModule,
     MagmaTabsModule,
     MagmaTimeline,
+    MagmaTimelineAnnotation,
+    MagmaTimelineAnnotationClickEvent,
     MagmaTimelineClickEvent,
     MagmaTimelineDirection,
     MagmaTimelineItem,
@@ -33,6 +35,13 @@ interface DemoItem {
     disabled?: boolean;
 }
 
+interface DemoAnnotation {
+    label: string;
+    start: number | string;
+    color?: string;
+    link?: string;
+}
+
 @Component({
     selector: 'demo-timeline',
     templateUrl: './demo-timeline.component.html',
@@ -43,6 +52,7 @@ interface DemoItem {
         CodeTabsComponent,
         MagmaTimeline,
         MagmaTimelineItem,
+        MagmaTimelineAnnotation,
         MagmaInput,
         MagmaInputElement,
         MagmaInputNumber,
@@ -128,6 +138,22 @@ export class DemoTimelineComponent {
         },
     ];
 
+    // ── annotations per unit ─────────────────────────────────────────────────
+    readonly yearAnnotations: DemoAnnotation[] = [
+        { label: 'Vocaloid', start: 2007, color: '#c86a6a' },
+        { label: 'Miku 10th', start: '2017-08-31', color: '#6ac8a8' },
+    ];
+
+    readonly monthAnnotations: DemoAnnotation[] = [
+        { label: 'Review', start: '2025-02-14', color: '#c86a6a' },
+        { label: 'Demo', start: '2025-04-15', color: '#7bc86a', link: 'https://example.com' },
+    ];
+
+    readonly dayAnnotations: DemoAnnotation[] = [
+        { label: 'Standup', start: '2025-06-05', color: '#a87bc8' },
+        { label: 'Retro', start: '2025-06-20', color: '#c8a86a' },
+    ];
+
     // Defaults per unit: [start, end]
     private readonly unitDefaults: Record<MagmaTimelineUnit, { start: number | string; end: number | string }> = {
         year: { start: 2008, end: 2026 },
@@ -148,7 +174,20 @@ export class DemoTimelineComponent {
         }
     });
 
+    readonly currentAnnotations = computed(() => {
+        switch (this.currentUnit()) {
+            case 'month':
+                return this.monthAnnotations;
+            case 'day':
+                return this.dayAnnotations;
+            default:
+                return this.yearAnnotations;
+        }
+    });
+
     lastClick: MagmaTimelineClickEvent | null = null;
+
+    lastAnnotationClick: MagmaTimelineAnnotationClickEvent | null = null;
 
     ctrlForm: FormGroup<{
         direction: FormControl<MagmaTimelineDirection>;
@@ -164,15 +203,19 @@ export class DemoTimelineComponent {
     }>;
 
     codeHtml = '';
-    codeTs = `import { MagmaTimeline, MagmaTimelineItem, MagmaTimelineClickEvent } from '@ikilote/magma';
+    codeTs = `import { MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation, MagmaTimelineClickEvent, MagmaTimelineAnnotationClickEvent } from '@ikilote/magma';
 
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    imports: [MagmaTimeline, MagmaTimelineItem],
+    imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
 })
 export class MyComponent {
     onItemClick(event: MagmaTimelineClickEvent) {
+        console.log(event);
+    }
+
+    onAnnotationClick(event: MagmaTimelineAnnotationClickEvent) {
         console.log(event);
     }
 }`;
@@ -181,7 +224,7 @@ export class MyComponent {
         this.ctrlForm = this.fbe.groupWithError({
             direction: { default: 'vertical' as MagmaTimelineDirection },
             lang: { default: '' },
-            start: { default: 2008 as number | string },
+            start: { default: 2006 as number | string },
             end: { default: 2026 as number | string },
             unit: { default: 'year' as MagmaTimelineUnit },
             showGrid: { default: true },
@@ -206,13 +249,17 @@ export class MyComponent {
         this.lastClick = event;
     }
 
+    onAnnotationClick(event: MagmaTimelineAnnotationClickEvent) {
+        this.lastAnnotationClick = event;
+    }
+
     codeGeneration() {
         const v = this.ctrlForm.value;
 
         const json: Json2htmlRef = {
             tag: 'mg-timeline',
             attrs: {},
-            body: this.buildCodeItems(v.unit ?? 'year'),
+            body: [...this.buildCodeItems(v.unit ?? 'year'), ...this.buildCodeAnnotations(v.unit ?? 'year')],
         };
         const attrs: Json2htmlAttr = json.attrs!;
 
@@ -244,6 +291,7 @@ export class MyComponent {
             attrs['dragScroll'] = null;
         }
         attrs['(itemClick)'] = 'onItemClick($event)';
+        attrs['(annotationClick)'] = 'onAnnotationClick($event)';
 
         this.codeHtml = new Json2html(json).toString();
     }
@@ -344,6 +392,57 @@ export class MyComponent {
                         tag: 'mg-timeline-item',
                         attrs: { '[start]': '2013', '[end]': '2017', color: '#6ac8a8' },
                         body: ['<strong>Bad∞End∞Night</strong>'],
+                        inline: true,
+                    },
+                ];
+        }
+    }
+
+    private buildCodeAnnotations(unit: MagmaTimelineUnit): Json2htmlRef[] {
+        switch (unit) {
+            case 'month':
+                return [
+                    {
+                        tag: 'mg-timeline-annotation',
+                        attrs: { start: '2025-02-14', color: '#c86a6a' },
+                        body: ['Review'],
+                        inline: true,
+                    },
+                    {
+                        tag: 'mg-timeline-annotation',
+                        attrs: { start: '2025-04-15', color: '#7bc86a', link: 'https://example.com' },
+                        body: ['Demo'],
+                        inline: true,
+                    },
+                ];
+            case 'day':
+                return [
+                    {
+                        tag: 'mg-timeline-annotation',
+                        attrs: { start: '2025-06-05', color: '#a87bc8' },
+                        body: ['Standup'],
+                        inline: true,
+                    },
+                    {
+                        tag: 'mg-timeline-annotation',
+                        attrs: { start: '2025-06-20', color: '#c8a86a' },
+                        body: ['Retro'],
+                        inline: true,
+                    },
+                ];
+            default:
+                // year
+                return [
+                    {
+                        tag: 'mg-timeline-annotation',
+                        attrs: { start: 2007, color: '#c86a6a' },
+                        body: ['Vocaloid'],
+                        inline: true,
+                    },
+                    {
+                        tag: 'mg-timeline-annotation',
+                        attrs: { start: '2017-08-31', color: '#6ac8a8' },
+                        body: ['Miku 10th'],
                         inline: true,
                     },
                 ];

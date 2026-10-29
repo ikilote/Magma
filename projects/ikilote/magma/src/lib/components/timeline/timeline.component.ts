@@ -1,5 +1,6 @@
 import { Component, booleanAttribute, computed, contentChildren, input, output } from '@angular/core';
 
+import { MagmaTimelineAnnotation } from './timeline-annotation.component';
 import { MagmaTimelineItem } from './timeline-item.component';
 
 import { MagmaDragScrollAxis, MagmaDragScrollDirective } from '../../directives/drag-scroll.directive';
@@ -44,6 +45,34 @@ export interface MagmaTimelineTick {
     label: string;
     /** Integer tick value (year, month-ordinal, day-ordinal) */
     index: number;
+}
+
+export interface MagmaTimelineAnnotationClickEvent {
+    /** Label input value (may be undefined if only content is projected) */
+    label: string | undefined;
+    /** Projected inner HTML content of the annotation */
+    contentHtml: string;
+    start: number | string | Date;
+    color: string | undefined;
+    link: string | undefined;
+    /** Original MouseEvent */
+    event: MouseEvent;
+}
+
+export interface MagmaTimelineResolvedAnnotation {
+    label: string | undefined;
+    /** Inner HTML from projected content, falls back to label input */
+    contentHtml: string;
+    /** Fractional offset from axis start, in ticks */
+    offset: number;
+    color: string | undefined;
+    link: string | undefined;
+    linkTarget: string;
+    disabled: boolean;
+    /** When true, the flag label does not wrap (white-space: nowrap) */
+    nowrap: boolean;
+    /** Reference to the original annotation for click events */
+    sourceAnnotation: MagmaTimelineAnnotation;
 }
 
 @Component({
@@ -108,9 +137,14 @@ export class MagmaTimeline {
     /** Emitted when an item bar is clicked (not fired if the item has a link). */
     readonly itemClick = output<MagmaTimelineClickEvent>();
 
+    /** Emitted when an annotation is clicked (not fired if the annotation has a link). */
+    readonly annotationClick = output<MagmaTimelineAnnotationClickEvent>();
+
     // --- Content children ---
 
     readonly items = contentChildren(MagmaTimelineItem);
+
+    readonly annotations = contentChildren(MagmaTimelineAnnotation);
 
     // --- Computed ---
 
@@ -119,11 +153,12 @@ export class MagmaTimeline {
 
     protected readonly ticks = computed<MagmaTimelineTick[]>(() => {
         const items = this.items();
-        if (!items.length) return [];
+        const annotations = this.annotations();
+        if (!items.length && !annotations.length) return [];
 
         const unit = this.unit();
-        const axisStart = this.floorToTick(this.resolveExact(this.start()) ?? this.minExact(items), unit);
-        const axisEnd = this.ceilToTick(this.resolveExact(this.end()) ?? this.maxExact(items), unit);
+        const axisStart = this.floorToTick(this.resolveExact(this.start()) ?? this.minExactValue(), unit);
+        const axisEnd = this.ceilToTick(this.resolveExact(this.end()) ?? this.maxExactValue(), unit);
 
         return this.buildTicks(axisStart, axisEnd, unit);
     });
@@ -196,6 +231,35 @@ export class MagmaTimeline {
         return Math.max(...items.map(i => i.trackIndex)) + 1;
     });
 
+    protected readonly resolvedAnnotations = computed<MagmaTimelineResolvedAnnotation[]>(() => {
+        const annotations = this.annotations();
+        const ticks = this.ticks();
+        if (!ticks.length || !annotations.length) return [];
+
+        const firstTick = ticks[0].index;
+        const lastTick = ticks[ticks.length - 1].index + 1; // end of last tick cell
+        const unit = this.unit();
+
+        return annotations.map(ann => {
+            const exactStart = this.resolveExact(ann.start())!;
+            // Clamp to axis bounds so annotations outside [start,end] stay visible
+            const clampedExact = Math.max(firstTick, Math.min(lastTick, exactStart));
+            const offset = this.exactToOffset(clampedExact, firstTick, unit);
+
+            return {
+                label: ann.label(),
+                contentHtml: ann.elementRef.nativeElement.innerHTML?.trim() || ann.label() || '',
+                offset,
+                color: ann.color(),
+                link: ann.link(),
+                linkTarget: ann.linkTarget(),
+                disabled: ann.disabled(),
+                nowrap: ann.nowrap(),
+                sourceAnnotation: ann,
+            };
+        });
+    });
+
     // ─── Event handlers ───────────────────────────────────────────────────────
 
     protected onItemClick(item: MagmaTimelineResolvedItem, event: MouseEvent): void {
@@ -208,6 +272,19 @@ export class MagmaTimeline {
             end: item.sourceItem.end(),
             color: item.color,
             link: item.link,
+            event,
+        });
+    }
+
+    protected onAnnotationClick(annotation: MagmaTimelineResolvedAnnotation, event: MouseEvent): void {
+        // Don't emit if annotation has a link — the <a> handles navigation
+        if (annotation.link && !annotation.disabled) return;
+        this.annotationClick.emit({
+            label: annotation.label,
+            contentHtml: annotation.contentHtml,
+            start: annotation.sourceAnnotation.start(),
+            color: annotation.color,
+            link: annotation.link,
             event,
         });
     }
@@ -278,17 +355,27 @@ export class MagmaTimeline {
         return exact - firstTick;
     }
 
-    private minExact(items: readonly MagmaTimelineItem[]): number {
-        return Math.min(...items.map(i => this.resolveExact(i.start()) ?? Infinity));
+    private minExactValue(): number {
+        const items = this.items();
+        const annotations = this.annotations();
+        const vals = [
+            ...items.map(i => this.resolveExact(i.start()) ?? Infinity),
+            ...annotations.map(a => this.resolveExact(a.start()) ?? Infinity),
+        ];
+        return vals.length ? Math.min(...vals) : Infinity;
     }
 
-    private maxExact(items: readonly MagmaTimelineItem[]): number {
-        return Math.max(
+    private maxExactValue(): number {
+        const items = this.items();
+        const annotations = this.annotations();
+        const vals = [
             ...items.map(i => {
                 const e = i.end();
                 return this.resolveExact(e !== undefined ? e : i.start()) ?? -Infinity;
             }),
-        );
+            ...annotations.map(a => this.resolveExact(a.start()) ?? -Infinity),
+        ];
+        return vals.length ? Math.max(...vals) : -Infinity;
     }
 
     private buildTicks(start: number, end: number, unit: MagmaTimelineUnit): MagmaTimelineTick[] {

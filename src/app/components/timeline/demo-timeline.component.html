@@ -73,6 +73,7 @@
             [dragScroll]="ctrlForm.value.dragScroll ?? false"
             [style.--mg-timeline-track-size.px]="ctrlForm.value.trackSize"
             (itemClick)="onItemClick($event)"
+            (annotationClick)="onAnnotationClick($event)"
           >
             @for (item of currentItems(); track item.label) {
               <mg-timeline-item
@@ -83,6 +84,11 @@
                 [disabled]="item.disabled ?? false"
                 >{{ item.label }}</mg-timeline-item
               >
+            }
+            @for (ann of currentAnnotations(); track ann.label) {
+              <mg-timeline-annotation [start]="ann.start" [color]="ann.color" [link]="ann.link">{{
+                ann.label
+              }}</mg-timeline-annotation>
             }
           </mg-timeline>
         </div>
@@ -117,6 +123,36 @@
                 <tr mg>
                   <td mg><code>link</code></td>
                   <td mg>{{ lastClick.link ?? '—' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          }
+
+          @if (lastAnnotationClick) {
+            <h3>Last annotationClick</h3>
+            <table mg>
+              <tbody mg>
+                <tr mg>
+                  <td mg><code>label</code></td>
+                  <td mg>{{ lastAnnotationClick.label ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>contentHtml</code></td>
+                  <td mg>
+                    <code>{{ lastAnnotationClick.contentHtml }}</code>
+                  </td>
+                </tr>
+                <tr mg>
+                  <td mg><code>start</code></td>
+                  <td mg>{{ lastAnnotationClick.start }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>color</code></td>
+                  <td mg>{{ lastAnnotationClick.color ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>link</code></td>
+                  <td mg>{{ lastAnnotationClick.link ?? '—' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -244,6 +280,16 @@
               the original <code>MouseEvent</code>.
             </td>
           </tr>
+          <tr mg>
+            <td mg><code>annotationClick</code></td>
+            <td mg><code>MagmaTimelineAnnotationClickEvent</code></td>
+            <td mg>
+              Emitted when an annotation flag is clicked. Not fired when the annotation has a <code>link</code> (the
+              <code>&lt;a&gt;</code> handles navigation instead). The event contains <code>label</code>,
+              <code>contentHtml</code>, <code>start</code>, <code>color</code>, <code>link</code> and the original
+              <code>MouseEvent</code>.
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -305,6 +351,76 @@
             <td mg><code>boolean</code></td>
             <td mg><code>false</code></td>
             <td mg>When true, suppresses the link interaction.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h4>Inputs — <code>mg-timeline-annotation</code></h4>
+      <table mg>
+        <thead mg>
+          <tr mg>
+            <th mg>Input</th>
+            <th mg>Type</th>
+            <th mg>Default</th>
+            <th mg>Description</th>
+          </tr>
+        </thead>
+        <tbody mg>
+          <tr mg>
+            <td mg><code>label</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>
+              Fallback label when no content is projected. If HTML content is projected inside
+              <code>&lt;mg-timeline-annotation&gt;</code>, it takes priority over this input.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>start</code></td>
+            <td mg><code>number | string | Date</code></td>
+            <td mg>—</td>
+            <td mg>
+              Position of the annotation on the time axis (required). Accepts a year number, an ISO date string (e.g.
+              <code>'2008-09-12'</code>), or a <code>Date</code> object. The annotation is rendered as a marker line at
+              this exact position.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>color</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>
+              CSS color for the annotation line and flag. Overrides
+              <code>--mg-timeline-annotation-color</code>.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>link</code></td>
+            <td mg><code>string</code></td>
+            <td mg>—</td>
+            <td mg>URL — wraps the annotation flag in an <code>&lt;a&gt;</code> element.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>linkTarget</code></td>
+            <td mg><code>string</code></td>
+            <td mg><code>'_self'</code></td>
+            <td mg>Target attribute for the link.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>disabled</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>false</code></td>
+            <td mg>When true, suppresses the link interaction.</td>
+          </tr>
+          <tr mg>
+            <td mg><code>nowrap</code></td>
+            <td mg><code>boolean</code></td>
+            <td mg><code>true</code></td>
+            <td mg>
+              When true (default), the annotation flag label stays on a single line (<code>white-space: nowrap</code>).
+              Set to <code>false</code> to let the text wrap — useful in vertical mode where the flag is constrained to
+              the axis column width.
+            </td>
           </tr>
         </tbody>
       </table>

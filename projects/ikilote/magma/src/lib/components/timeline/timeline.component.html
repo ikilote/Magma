@@ -3,7 +3,7 @@
   mgDragScroll
   [mgDragScrollDisabled]="!dragScroll()"
   [mgDragScrollAxis]="dragAxis()"
-  mgDragScrollIgnore=".item"
+  mgDragScrollIgnore=".item, .annotation-flag"
 >
   <!-- Axis ticks -->
   <div class="axis">
@@ -21,7 +21,7 @@
     </div>
   }
 
-  <!-- Items — positioned absolutely as % of total axis length -->
+  <!-- Items  -->
   <div class="items">
     @for (item of resolvedItems(); track $index) {
       <div
@@ -40,6 +40,29 @@
         } @else {
           <div class="item-inner" (click)="onItemClick(item, $event)">
             <span class="item-label" [innerHTML]="item.contentHtml"></span>
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Annotations -->
+  <div class="annotations">
+    @for (ann of resolvedAnnotations(); track $index) {
+      <div
+        class="annotation"
+        [class.has-link]="!!ann.link && !ann.disabled"
+        [class.disabled]="ann.disabled"
+        [style.--ann-offset.px]="ann.offset * (tickSize() ?? 60)"
+        [style.--ann-color]="ann.color || null"
+      >
+        @if (ann.link && !ann.disabled) {
+          <a class="annotation-flag" [class.nowrap]="ann.nowrap" [href]="ann.link" [target]="ann.linkTarget">
+            <span [innerHTML]="ann.contentHtml"></span>
+          </a>
+        } @else {
+          <div class="annotation-flag" [class.nowrap]="ann.nowrap" (click)="onAnnotationClick(ann, $event)">
+            <span [innerHTML]="ann.contentHtml"></span>
           </div>
         }
       </div>

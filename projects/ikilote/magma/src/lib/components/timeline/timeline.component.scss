@@ -132,9 +132,8 @@
         &:hover {
             position: relative;
             z-index: 1;
-            background: var(--item-color, var(--mg-timeline-item-color));
             width: min-content;
-            min-width: calc(100% - var(--mg-space-xs) * 2);
+            min-width: 100%;
             overflow: visible;
 
             .item-label {
@@ -245,7 +244,7 @@
         &:hover {
             position: relative;
             z-index: 1;
-            background: var(--item-color, var(--mg-timeline-item-color));
+            padding-block: var(--mg-space-xs) calc(var(--mg-space-xs) * 3);
             height: auto;
             min-height: calc(100% - var(--mg-space-xs) * 2);
             overflow: visible;

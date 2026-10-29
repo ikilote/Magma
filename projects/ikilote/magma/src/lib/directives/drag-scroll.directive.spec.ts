@@ -102,6 +102,12 @@ describe('MagmaDragScrollDirective', () => {
         });
     });
 
+    afterEach(() => {
+        fixture?.destroy();
+        vi.restoreAllMocks();
+        TestBed.resetTestingModule();
+    });
+
     /** Press, move past the threshold, then release — a full drag gesture. */
     function fullDrag(dx: number, dy: number, pointerId = 1): void {
         directive.onPointerDown(pointer('pointerdown', { clientX: 0, clientY: 0, pointerId }));

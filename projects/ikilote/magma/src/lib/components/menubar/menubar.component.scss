@@ -46,6 +46,15 @@
         border: var(--mg-menubar-trigger-open-border);
         border-color: var(--mg-menubar-trigger-open-border-color);
         background: var(--mg-menubar-trigger-open-background);
+
+        &:hover,
+        &:focus-visible {
+            outline: none;
+            box-shadow: var(--mg-menubar-trigger-open-hover-box-shadow);
+            border: var(--mg-menubar-trigger-open-hover-border);
+            border-color: var(--mg-menubar-trigger-open-hover-border-color);
+            background: var(--mg-menubar-trigger-open-hover-background);
+        }
     }
 }
 

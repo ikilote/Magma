@@ -263,6 +263,11 @@ body {
     --mg-menubar-trigger-open-border-color: var(--mg-menubar-trigger-hover-border-color);
     --mg-menubar-trigger-open-box-shadow: var(--mg-menubar-trigger-hover-box-shadow);
     --mg-menubar-trigger-open-background: var(--mg-menubar-trigger-hover-background);
+    /* Trigger open+hover state (defaults follow the open state) */
+    --mg-menubar-trigger-open-hover-border: var(--mg-menubar-trigger-open-border);
+    --mg-menubar-trigger-open-hover-border-color: var(--mg-menubar-trigger-open-border-color);
+    --mg-menubar-trigger-open-hover-box-shadow: var(--mg-menubar-trigger-open-box-shadow);
+    --mg-menubar-trigger-open-hover-background: var(--mg-menubar-trigger-open-background);
     --mg-menubar-dropdown-background: var(--mg-block-background);
     --mg-menubar-dropdown-border: var(--mg-block-border);
     --mg-menubar-dropdown-border-color: var(--mg-primary500);

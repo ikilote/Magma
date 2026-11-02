@@ -1,14 +1,23 @@
 // ─── CSS custom properties (overridable by consumer) ─────────────────────────
-// --mg-timeline-axis-size     : width of label col (h) / height of label row (v)
-// --mg-timeline-tick-size     : size of each tick cell
-// --mg-timeline-track-size    : size of each item track (row h / col v)
-// --mg-timeline-bar-radius    : border-radius of item bars
-// --mg-timeline-bar-gap       : gap between bars in the same tick
-// --mg-timeline-axis-font-size
-// --mg-timeline-item-font-size
-// --mg-timeline-item-color    : default bar background
-// --mg-timeline-axis-color    : tick label color
-// --mg-timeline-grid-color    : grid line color
+// --mg-timeline-axis-size              : width of label col (h) / height of label row (v)
+// --mg-timeline-tick-size              : size of each tick cell
+// --mg-timeline-track-size             : size of each item track (row h / col v)
+// --mg-timeline-bar-radius             : border-radius of item bars
+// --mg-timeline-bar-gap                : gap between bars in the same tick
+// --mg-timeline-axis-font-size         : font size of tick labels
+// --mg-timeline-item-font-size         : font size of item labels inside bars
+// --mg-timeline-item-color             : default bar background
+// --mg-timeline-axis-color             : tick label color
+// --mg-timeline-grid-color             : grid line color
+// --mg-timeline-annotation-color       : default annotation line/flag color
+// --mg-timeline-annotation-font-size   : font size of annotation flag labels
+// --mg-timeline-annotation-line-width  : thickness of the annotation line
+// --mg-timeline-tooltip-background     : tooltip card background
+// --mg-timeline-tooltip-color          : tooltip text color
+// --mg-timeline-tooltip-font-size      : tooltip text font size
+// --mg-timeline-tooltip-max-width      : max width of tooltip cards
+// --mg-timeline-tooltip-shadow         : box-shadow of tooltip cards
+// --mg-timeline-item-shadow            : box-shadow of item bars
 
 :host {
     display: flex;
@@ -99,7 +108,7 @@
         display: flex;
         align-items: center;
         cursor: default;
-        box-shadow: 0 5px 5px #0008;
+        box-shadow: var(--mg-timeline-item-shadow);
         border-radius: var(--mg-timeline-bar-radius);
         background: var(--item-color, var(--mg-timeline-item-color));
         padding-inline: var(--mg-space-xs);
@@ -115,11 +124,12 @@
             }
         }
 
-        &:hover {
+        &:hover,
+        &:focus {
             position: relative;
             z-index: 1;
             width: min-content;
-            min-width: 100%;
+            min-width: var(--item-span-pct);
             overflow: visible;
 
             .item-label {
@@ -141,10 +151,9 @@
         position: absolute;
         transform: translateX(-50%);
         z-index: 3;
-        inset-block-start: var(--mg-timeline-bar-gap, 2px);
+        inset-block-start: var(--mg-timeline-bar-gap);
         inset-inline-start: calc(
-            var(--mg-timeline-bar-gap, 2px) + var(--tip-arrow-pos) *
-                (var(--item-span-pct) - 2 * var(--mg-timeline-bar-gap, 2px))
+            var(--mg-timeline-bar-gap) + var(--tip-arrow-pos) * (var(--item-span-pct) - 2 * var(--mg-timeline-bar-gap))
         );
         border-inline: 5px solid transparent;
         border-block-start: 6px solid var(--tip-color, var(--mg-color-on-surface));
@@ -171,7 +180,7 @@
             opacity: 0.6;
             inset-inline-start: 0;
             background: var(--ann-color, var(--mg-timeline-annotation-color));
-            width: var(--mg-timeline-annotation-line-width, 2px);
+            width: var(--mg-timeline-annotation-line-width);
             content: '';
         }
     }
@@ -189,7 +198,7 @@
         max-width: var(--mg-timeline-axis-size);
         pointer-events: auto;
         color: contrast-color(var(--ann-color, var(--mg-timeline-annotation-color)));
-        font-size: var(--mg-timeline-annotation-font-size, var(--mg-font-very-small));
+        font-size: var(--mg-timeline-annotation-font-size);
         text-align: center;
         text-decoration: none;
 
@@ -277,7 +286,7 @@
         justify-content: center;
         align-items: flex-start;
         cursor: default;
-        box-shadow: 0 5px 5px #0008;
+        box-shadow: var(--mg-timeline-item-shadow);
         border-radius: var(--mg-timeline-bar-radius);
         background: var(--item-color, var(--mg-timeline-item-color));
         padding-block: var(--mg-space-xs);
@@ -294,7 +303,8 @@
             }
         }
 
-        &:hover {
+        &:hover,
+        &:focus {
             position: relative;
             z-index: 1;
             padding-block: var(--mg-space-xs) calc(var(--mg-space-xs) * 3);
@@ -326,10 +336,9 @@
         z-index: 3;
         filter: drop-shadow(-1.5px 0 0px #000);
         inset-block-start: calc(
-            var(--mg-timeline-bar-gap, 2px) + var(--tip-arrow-pos) *
-                (var(--item-span-pct) - 2 * var(--mg-timeline-bar-gap, 2px))
+            var(--mg-timeline-bar-gap) + var(--tip-arrow-pos) * (var(--item-span-pct) - 2 * var(--mg-timeline-bar-gap))
         );
-        inset-inline-start: var(--mg-timeline-bar-gap, 2px);
+        inset-inline-start: var(--mg-timeline-bar-gap);
         border-inline-end: 6px solid var(--tip-color, var(--mg-color-on-surface));
         border-block: 5px solid transparent;
         width: 0;
@@ -367,7 +376,7 @@
             inset-block-start: 0;
             inset-inline-start: calc(-1 * var(--mg-timeline-axis-size));
             background: var(--ann-color, var(--mg-timeline-annotation-color));
-            height: var(--mg-timeline-annotation-line-width, 2px);
+            height: var(--mg-timeline-annotation-line-width);
             content: '';
         }
     }
@@ -386,7 +395,7 @@
         overflow: hidden;
         pointer-events: auto;
         color: contrast-color(var(--ann-color, var(--mg-timeline-annotation-color)));
-        font-size: var(--mg-timeline-annotation-font-size, var(--mg-font-very-small));
+        font-size: var(--mg-timeline-annotation-font-size);
         text-decoration: none;
         text-overflow: ellipsis;
 
@@ -416,11 +425,11 @@
 .item-tooltip-panel.tooltip-grouped {
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 12px #0005;
-    border-radius: var(--mg-timeline-bar-radius, 4px);
-    background: var(--mg-timeline-tooltip-background, var(--mg-color-surface-raised));
+    box-shadow: var(--mg-timeline-tooltip-shadow);
+    border-radius: var(--mg-timeline-bar-radius);
+    background: var(--mg-timeline-tooltip-background);
     min-width: max-content;
-    max-width: var(--mg-timeline-tooltip-max-width, 16rem);
+    max-width: var(--mg-timeline-tooltip-max-width);
     overflow: hidden;
     white-space: normal;
 
@@ -440,30 +449,30 @@
 
 // ─── Shared entry card style (spread / vertical) ──────────────────────────────
 .item-tooltip-entry {
-    box-shadow: 0 4px 12px #0005;
-    border-radius: var(--mg-timeline-bar-radius, 4px);
-    background: var(--mg-timeline-tooltip-background, var(--mg-color-surface-raised));
+    box-shadow: var(--mg-timeline-tooltip-shadow);
+    border-radius: var(--mg-timeline-bar-radius);
+    background: var(--mg-timeline-tooltip-background);
     padding: var(--mg-space-xs) var(--mg-space-sm);
     width: max-content;
-    max-width: var(--mg-timeline-tooltip-max-width, 16rem);
+    max-width: var(--mg-timeline-tooltip-max-width);
     overflow: hidden;
     white-space: normal;
 
     &.has-date-pos {
-        border-inline-start: 3px solid var(--tip-color, var(--mg-timeline-tooltip-color, var(--mg-color-on-surface)));
+        border-inline-start: 3px solid var(--tip-color, var(--mg-timeline-tooltip-color));
     }
 }
 
 // ─── Shared tooltip text styles ───────────────────────────────────────────────
 .item-tooltip-date {
     margin-block-end: var(--mg-space-3xs);
-    color: var(--tip-color, var(--mg-timeline-tooltip-color, var(--mg-color-on-surface)));
+    color: var(--tip-color, var(--mg-timeline-tooltip-color));
     font-weight: 600;
-    font-size: var(--mg-timeline-tooltip-font-size, var(--mg-font-very-small));
+    font-size: var(--mg-timeline-tooltip-font-size);
 }
 
 .item-tooltip-content {
-    color: var(--mg-timeline-tooltip-color, var(--mg-color-on-surface));
-    font-size: var(--mg-timeline-tooltip-font-size, var(--mg-font-small));
+    color: var(--mg-timeline-tooltip-color);
+    font-size: var(--mg-timeline-tooltip-font-size);
     line-height: 1.4;
 }

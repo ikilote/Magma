@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { Json2html, Json2htmlAttr, Json2htmlRef } from '@ikilote/json2html';
 import {
@@ -17,7 +17,10 @@ import {
     MagmaTimelineAnnotationClickEvent,
     MagmaTimelineClickEvent,
     MagmaTimelineDirection,
+    MagmaTimelineHoverEvent,
     MagmaTimelineItem,
+    MagmaTimelineItemTooltip,
+    MagmaTimelineTooltipLayout,
     MagmaTimelineUnit,
 } from '@ikilote/magma';
 
@@ -33,6 +36,7 @@ interface DemoItem {
     color?: string;
     link?: string;
     disabled?: boolean;
+    tooltips?: { content: string; date?: string; color?: string }[];
 }
 
 interface DemoAnnotation {
@@ -49,9 +53,11 @@ interface DemoAnnotation {
     changeDetection: ChangeDetectionStrategy.Eager,
     imports: [
         ReactiveFormsModule,
+        FormsModule,
         CodeTabsComponent,
         MagmaTimeline,
         MagmaTimelineItem,
+        MagmaTimelineItemTooltip,
         MagmaTimelineAnnotation,
         MagmaInput,
         MagmaInputElement,
@@ -73,6 +79,11 @@ export class DemoTimelineComponent {
         { label: 'vertical', value: 'vertical' },
     ];
 
+    tooltipLayoutData: Select2Data = [
+        { label: 'grouped', value: 'grouped' },
+        { label: 'spread', value: 'spread' },
+    ];
+
     unitData: Select2Data = [
         { label: 'year', value: 'year' },
         { label: 'month', value: 'month' },
@@ -83,11 +94,30 @@ export class DemoTimelineComponent {
     readonly yearItems: DemoItem[] = [
         { label: 'Maker Hikōshiki Hatsune Mix', start: '2007-12-27', end: '2013-08-27', color: '#6a8fc8' },
         { label: 'hachune MIKU no nichijo ROIPARA!', start: '2008-05-27', end: '2013-03-27', color: '#6a8fc8' },
-        { label: 'Chibi Miku-san', start: '2008-09-27', end: '2024-03-27', color: '#7b7bc8' },
+        {
+            label: 'Chibi Miku-san',
+            start: '2008-09-27',
+            end: '2024-03-27',
+            color: '#7b7bc8',
+            tooltips: [
+                { content: 'Publication mensuelle, 15+ tomes.' },
+                { content: 'Sérialisé dans <em>Louden Comet</em>', date: '2008-09-27', color: '#3535b6' },
+                { content: 'Sérialisé dans <em>Louden Comet</em>', date: '2015-09-27', color: '#2a8b19' },
+            ],
+        },
         { label: 'Conpihan -Saya to Sayu no Daisakusen-', start: '2011-07-27', end: '2013-01-27' },
         { label: 'Mukashi Mukashi no Kyō no Boku', start: '2010-03-27', end: '2019-08-27', color: '#a87bc8' },
         { label: 'BLACK★ROCK SHOOTER ~B&W~', start: '2010-02-27', end: '2012-04-27', color: '#c86a6a' },
-        { label: 'Kagerō Days', start: '2012-04-27', end: '2015-04-27', color: '#c8a86a' },
+        {
+            label: 'Kagerō Days',
+            start: '2012-04-27',
+            end: '2015-04-27',
+            color: '#c8a86a',
+            tooltips: [
+                { content: 'Avr 2012 – Avr 2015' },
+                { content: '<strong>Kagerō Days</strong>', date: '2012-04-27' },
+            ],
+        },
         { label: 'BLACK★ROCK SHOOTER -Innocent Soul-', start: '2012-10-27', end: '2013-10-27', color: '#c86a6a' },
         { label: 'Shūnjin to Kamihikoki', start: '2013-03-27', end: '2014-03-27' },
         { label: 'Bad∞End∞Night Insane Party', start: '2013-07-27', end: '2017-09-27', color: '#6ac8a8' },
@@ -186,8 +216,40 @@ export class DemoTimelineComponent {
     });
 
     lastClick: MagmaTimelineClickEvent | null = null;
-
+    lastHover: MagmaTimelineHoverEvent | null = null;
     lastAnnotationClick: MagmaTimelineAnnotationClickEvent | null = null;
+
+    // ── Tooltip playground ───────────────────────────────────────────────────
+    /** The item being tested in the tooltip playground */
+    readonly playItem = signal({
+        label: 'Chibi Miku-san',
+        start: '2008-09-27',
+        end: '2024-03-27',
+        color: '#7b7bc8',
+    });
+
+    /** Editable list of tooltips for the playground */
+    readonly playTooltips = signal<{ content: string; date: string; color: string }[]>([
+        { content: 'Début de la sérialisation', date: '2008-09-27', color: '#3535b6' },
+        { content: 'Changement éditeur', date: '2015-06-01', color: '#c87b2a' },
+        { content: 'Fin de publication', date: '', color: '' },
+    ]);
+
+    addPlayTooltip(): void {
+        this.playTooltips.update(tips => [...tips, { content: 'Nouvelle note', date: '', color: '' }]);
+    }
+
+    removePlayTooltip(index: number): void {
+        this.playTooltips.update(tips => tips.filter((_, i) => i !== index));
+    }
+
+    updatePlayTooltip(index: number, field: 'content' | 'date' | 'color', value: string): void {
+        this.playTooltips.update(tips => tips.map((t, i) => (i === index ? { ...t, [field]: value } : t)));
+    }
+
+    updatePlayItem(field: 'label' | 'start' | 'end' | 'color', value: string): void {
+        this.playItem.update(item => ({ ...item, [field]: value }));
+    }
 
     ctrlForm: FormGroup<{
         direction: FormControl<MagmaTimelineDirection>;
@@ -195,6 +257,7 @@ export class DemoTimelineComponent {
         start: FormControl<number | string>;
         end: FormControl<number | string>;
         unit: FormControl<MagmaTimelineUnit>;
+        tooltipLayout: FormControl<MagmaTimelineTooltipLayout>;
         showGrid: FormControl<boolean>;
         tickSize: FormControl<number>;
         trackSize: FormControl<number>;
@@ -203,12 +266,12 @@ export class DemoTimelineComponent {
     }>;
 
     codeHtml = '';
-    codeTs = `import { MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation, MagmaTimelineClickEvent, MagmaTimelineAnnotationClickEvent } from '@ikilote/magma';
+    codeTs = `import { MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip, MagmaTimelineAnnotation, MagmaTimelineClickEvent, MagmaTimelineAnnotationClickEvent } from '@ikilote/magma';
 
 @Component({
     selector: 'my-component',
     templateUrl: './my-component.component.html',
-    imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip, MagmaTimelineAnnotation],
 })
 export class MyComponent {
     onItemClick(event: MagmaTimelineClickEvent) {
@@ -227,6 +290,7 @@ export class MyComponent {
             start: { default: 2006 as number | string },
             end: { default: 2026 as number | string },
             unit: { default: 'year' as MagmaTimelineUnit },
+            tooltipLayout: { default: 'grouped' as MagmaTimelineTooltipLayout },
             showGrid: { default: true },
             tickSize: { default: 60 },
             trackSize: { default: 60 },
@@ -247,6 +311,10 @@ export class MyComponent {
 
     onItemClick(event: MagmaTimelineClickEvent) {
         this.lastClick = event;
+    }
+
+    onItemHover(event: MagmaTimelineHoverEvent) {
+        this.lastHover = event;
     }
 
     onAnnotationClick(event: MagmaTimelineAnnotationClickEvent) {
@@ -289,6 +357,9 @@ export class MyComponent {
         }
         if (v.dragScroll) {
             attrs['dragScroll'] = null;
+        }
+        if (v.tooltipLayout && v.tooltipLayout !== 'grouped' && v.direction !== 'vertical') {
+            attrs['tooltipLayout'] = v.tooltipLayout;
         }
         attrs['(itemClick)'] = 'onItemClick($event)';
         attrs['(annotationClick)'] = 'onAnnotationClick($event)';

@@ -18,6 +18,16 @@
             <mg-input-label>direction</mg-input-label>
             <mg-input-select formControlName="direction" [data]="directionData" />
           </mg-input>
+          @if (ctrlForm.value.direction !== 'vertical') {
+            <mg-input class="s-12">
+              <mg-input-label>tooltipLayout</mg-input-label>
+              <mg-input-select formControlName="tooltipLayout" [data]="tooltipLayoutData" />
+              <mg-input-desc>
+                Horizontal tooltip layout: <code>grouped</code> stacks all entries in one panel,
+                <code>spread</code> positions each entry above its own mark (with JS overlap avoidance).
+              </mg-input-desc>
+            </mg-input>
+          }
           <mg-input class="s-12">
             <mg-input-label>unit</mg-input-label>
             <mg-input-select formControlName="unit" [data]="unitData" />
@@ -67,12 +77,16 @@
             [start]="ctrlForm.value.start"
             [end]="ctrlForm.value.end"
             [unit]="ctrlForm.value.unit || 'year'"
+            [tooltipLayout]="
+              ctrlForm.value.direction !== 'vertical' ? ctrlForm.value.tooltipLayout || 'grouped' : 'grouped'
+            "
             [showGrid]="ctrlForm.value.showGrid ?? true"
             [tickSize]="ctrlForm.value.tickSize"
             [minGap]="ctrlForm.value.minGap"
             [dragScroll]="ctrlForm.value.dragScroll ?? false"
             [style.--mg-timeline-track-size.px]="ctrlForm.value.trackSize"
             (itemClick)="onItemClick($event)"
+            (itemHover)="onItemHover($event)"
             (annotationClick)="onAnnotationClick($event)"
           >
             @for (item of currentItems(); track item.label) {
@@ -82,8 +96,13 @@
                 [color]="item.color"
                 [link]="item.link"
                 [disabled]="item.disabled ?? false"
-                >{{ item.label }}</mg-timeline-item
               >
+                @for (tip of item.tooltips ?? []; track $index) {
+                  <mg-timeline-item-tooltip [date]="tip.date" [color]="tip.color" [content]="tip.content">
+                  </mg-timeline-item-tooltip>
+                }
+                {{ item.label }}
+              </mg-timeline-item>
             }
             @for (ann of currentAnnotations(); track ann.label) {
               <mg-timeline-annotation [start]="ann.start" [color]="ann.color" [link]="ann.link">{{
@@ -93,7 +112,7 @@
           </mg-timeline>
         </div>
 
-        <div class="s-12">
+        <div class="s-6 s-12-s">
           @if (lastClick) {
             <h3>Last itemClick</h3>
             <table mg>
@@ -123,6 +142,40 @@
                 <tr mg>
                   <td mg><code>link</code></td>
                   <td mg>{{ lastClick.link ?? '—' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          }
+
+          @if (lastHover) {
+            <h3>Last itemHover</h3>
+            <table mg>
+              <tbody mg>
+                <tr mg>
+                  <td mg><code>label</code></td>
+                  <td mg>{{ lastHover.label ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>contentHtml</code></td>
+                  <td mg>
+                    <code>{{ lastHover.contentHtml }}</code>
+                  </td>
+                </tr>
+                <tr mg>
+                  <td mg><code>start</code></td>
+                  <td mg>{{ lastHover.start }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>end</code></td>
+                  <td mg>{{ lastHover.end ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>color</code></td>
+                  <td mg>{{ lastHover.color ?? '—' }}</td>
+                </tr>
+                <tr mg>
+                  <td mg><code>link</code></td>
+                  <td mg>{{ lastHover.link ?? '—' }}</td>
                 </tr>
               </tbody>
             </table>
@@ -159,7 +212,7 @@
           }
         </div>
 
-        <div class="s-12">
+        <div class="s-6 s-12-s">
           <code-tabs
             [code]="[
               { type: 'html', code: codeHtml },
@@ -257,6 +310,17 @@
               <code>direction</code> automatically (horizontal → <code>x</code>, vertical → <code>y</code>).
             </td>
           </tr>
+          <tr mg>
+            <td mg><code>tooltipLayout</code></td>
+            <td mg><code>'grouped' | 'spread'</code></td>
+            <td mg><code>'grouped'</code></td>
+            <td mg>
+              Controls how tooltip entries are displayed in <strong>horizontal</strong> mode. <code>grouped</code>: all
+              entries stacked in a single panel anchored to the first mark. <code>spread</code>: each entry is
+              individually positioned above its own mark, with JS-driven horizontal overlap avoidance. Has no effect in
+              vertical mode.
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -278,6 +342,14 @@
               <code>&lt;a&gt;</code> handles navigation instead). The event contains <code>label</code>,
               <code>contentHtml</code>, <code>start</code>, <code>end</code>, <code>color</code>, <code>link</code> and
               the original <code>MouseEvent</code>.
+            </td>
+          </tr>
+          <tr mg>
+            <td mg><code>itemHover</code></td>
+            <td mg><code>MagmaTimelineHoverEvent</code></td>
+            <td mg>
+              Emitted when the pointer enters an item bar. Not fired when the item has a <code>link</code>. The event
+              contains the same fields as <code>itemClick</code>.
             </td>
           </tr>
           <tr mg>
@@ -424,6 +496,136 @@
           </tr>
         </tbody>
       </table>
+    </section>
+  </mg-tab-content>
+
+  <mg-tab-title id="tooltips">Tooltip playground</mg-tab-title>
+  <mg-tab-content id="tooltips">
+    <section>
+      <h2 class="s-12">Item</h2>
+      <div class="s-grid">
+        <mg-input class="s-3 s-6-l s-12-s">
+          <mg-input-label>label</mg-input-label>
+          <mg-input-text [ngModel]="playItem().label" (ngModelChange)="updatePlayItem('label', $event)" />
+        </mg-input>
+        <mg-input class="s-3 s-6-l s-12-s">
+          <mg-input-label>start</mg-input-label>
+          <mg-input-text [ngModel]="playItem().start" (ngModelChange)="updatePlayItem('start', $event)" />
+        </mg-input>
+        <mg-input class="s-3 s-6-l s-12-s">
+          <mg-input-label>end</mg-input-label>
+          <mg-input-text [ngModel]="playItem().end" (ngModelChange)="updatePlayItem('end', $event)" />
+        </mg-input>
+        <mg-input class="s-3 s-6-l s-12-s">
+          <mg-input-label>color</mg-input-label>
+          <mg-input-text [ngModel]="playItem().color" (ngModelChange)="updatePlayItem('color', $event)" />
+        </mg-input>
+      </div>
+
+      <div class="s-grid" style="align-items: center; margin-block: var(--mg-space-xl) var(--mg-space-xs)">
+        <h2 style="margin: 0">Tooltips</h2>
+        <button type="button" (click)="addPlayTooltip()">+ Ajouter</button>
+      </div>
+      @for (tip of playTooltips(); track $index) {
+        <div
+          class="s-grid"
+          style="border-block-start: 1px solid var(--mg-color-border); padding-block: var(--mg-space-sm)"
+        >
+          <mg-input class="s-5 s-12-s">
+            <mg-input-label>content</mg-input-label>
+            <mg-input-text [ngModel]="tip.content" (ngModelChange)="updatePlayTooltip($index, 'content', $event)" />
+          </mg-input>
+          <mg-input class="s-3 s-6-l s-12-s">
+            <mg-input-label>date <small>(ISO, optionnel)</small></mg-input-label>
+            <mg-input-text
+              [ngModel]="tip.date"
+              (ngModelChange)="updatePlayTooltip($index, 'date', $event)"
+              placeholder="ex: 2012-04-27"
+            />
+          </mg-input>
+          <mg-input class="s-3 s-6-l s-12-s">
+            <mg-input-label>color <small>(optionnel)</small></mg-input-label>
+            <mg-input-text
+              [ngModel]="tip.color"
+              (ngModelChange)="updatePlayTooltip($index, 'color', $event)"
+              placeholder="ex: #c86a6a"
+            />
+          </mg-input>
+          <div class="s-1 s-12-s" style="display: flex; align-items: flex-end; padding-block-end: 0.25rem">
+            <button type="button" (click)="removePlayTooltip($index)">✕</button>
+          </div>
+        </div>
+      }
+
+      <h2 style="margin-block: var(--mg-space-xl) var(--mg-space-sm)">Preview</h2>
+      <p
+        style="
+          font-size: var(--mg-font-small);
+          color: var(--mg-color-on-surface-muted);
+          margin-block-end: var(--mg-space-lg);
+        "
+      >
+        Survolez l'item pour voir le panneau de tooltips. Les marques colorées indiquent les positions datées.
+      </p>
+      <div style="display: flex; gap: 2rem; flex-wrap: wrap; align-items: flex-start">
+        <div>
+          <h4>Horizontal — <code>grouped</code></h4>
+          <mg-timeline
+            direction="horizontal"
+            tooltipLayout="grouped"
+            [start]="playItem().start"
+            [end]="playItem().end"
+            unit="year"
+          >
+            <mg-timeline-item [start]="playItem().start" [end]="playItem().end" [color]="playItem().color">
+              @for (tip of playTooltips(); track $index) {
+                <mg-timeline-item-tooltip
+                  [date]="tip.date || undefined"
+                  [color]="tip.color || undefined"
+                  [content]="tip.content"
+                ></mg-timeline-item-tooltip>
+              }
+              {{ playItem().label }}
+            </mg-timeline-item>
+          </mg-timeline>
+        </div>
+        <div>
+          <h4>Horizontal — <code>spread</code></h4>
+          <mg-timeline
+            direction="horizontal"
+            tooltipLayout="spread"
+            [start]="playItem().start"
+            [end]="playItem().end"
+            unit="year"
+          >
+            <mg-timeline-item [start]="playItem().start" [end]="playItem().end" [color]="playItem().color">
+              @for (tip of playTooltips(); track $index) {
+                <mg-timeline-item-tooltip
+                  [date]="tip.date || undefined"
+                  [color]="tip.color || undefined"
+                  [content]="tip.content"
+                ></mg-timeline-item-tooltip>
+              }
+              {{ playItem().label }}
+            </mg-timeline-item>
+          </mg-timeline>
+        </div>
+        <div>
+          <h4>Vertical</h4>
+          <mg-timeline direction="vertical" [start]="playItem().start" [end]="playItem().end" unit="year">
+            <mg-timeline-item [start]="playItem().start" [end]="playItem().end" [color]="playItem().color">
+              @for (tip of playTooltips(); track $index) {
+                <mg-timeline-item-tooltip
+                  [date]="tip.date || undefined"
+                  [color]="tip.color || undefined"
+                  [content]="tip.content"
+                ></mg-timeline-item-tooltip>
+              }
+              {{ playItem().label }}
+            </mg-timeline-item>
+          </mg-timeline>
+        </div>
+      </div>
     </section>
   </mg-tab-content>
 </mg-tabs>

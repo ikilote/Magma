@@ -70,6 +70,7 @@ export * from './lib/components/tabs/tabs.module';
 export * from './lib/components/tag-list/tag-list.component';
 export * from './lib/components/tag-list/tag.component';
 export * from './lib/components/timeline/timeline-annotation.component';
+export * from './lib/components/timeline/timeline-item-tooltip.component';
 export * from './lib/components/timeline/timeline-item.component';
 export * from './lib/components/timeline/timeline.component';
 export * from './lib/components/vision-theme/vision-theme.component';

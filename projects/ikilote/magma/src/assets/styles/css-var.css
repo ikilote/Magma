@@ -828,6 +828,10 @@ body {
     --mg-timeline-annotation-color: var(--mg-alert500);
     --mg-timeline-annotation-font-size: var(--mg-font-very-small);
     --mg-timeline-annotation-line-width: 2px;
+    --mg-timeline-tooltip-background: var(--mg-color-surface-raised);
+    --mg-timeline-tooltip-color: var(--mg-color-on-surface);
+    --mg-timeline-tooltip-font-size: var(--mg-font-small);
+    --mg-timeline-tooltip-max-width: 16rem;
 
     /* -----external ------------------------------------------------------------------------------------------------*/
     /* MARK: select2 */

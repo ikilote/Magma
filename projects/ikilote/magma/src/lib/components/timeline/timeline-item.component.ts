@@ -1,4 +1,6 @@
-import { Component, ElementRef, booleanAttribute, inject, input } from '@angular/core';
+import { Component, ElementRef, booleanAttribute, contentChildren, inject, input } from '@angular/core';
+
+import { MagmaTimelineItemTooltip } from './timeline-item-tooltip.component';
 
 @Component({
     selector: 'mg-timeline-item',
@@ -28,4 +30,7 @@ export class MagmaTimelineItem {
 
     /** Whether the item is disabled (no link interaction) */
     readonly disabled = input(false, { transform: booleanAttribute });
+
+    /** Tooltip sub-components projected inside this item. */
+    readonly tooltips = contentChildren(MagmaTimelineItemTooltip);
 }

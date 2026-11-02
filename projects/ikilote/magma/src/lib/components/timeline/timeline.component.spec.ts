@@ -3198,8 +3198,8 @@ describe('MagmaTimeline — _pushOverlappingEntries (horizontal spread)', () => 
     });
 
     afterEach(() => {
-        (timeline as any)._closeEntryOverlays();
         vi.unstubAllGlobals();
+        (timeline as any)._closeEntryOverlays();
         hostFixture?.destroy();
         TestBed.resetTestingModule();
     });
@@ -3362,8 +3362,8 @@ describe('MagmaTimeline — _pushOverlappingEntries (vertical)', () => {
     });
 
     afterEach(() => {
-        (timeline as any)._closeEntryOverlays();
         vi.unstubAllGlobals();
+        (timeline as any)._closeEntryOverlays();
         hostFixture?.destroy();
         TestBed.resetTestingModule();
     });
@@ -3434,8 +3434,8 @@ describe('MagmaTimeline — scroll handler repositions overlays', () => {
     });
 
     afterEach(() => {
-        (timeline as any)._closeEntryOverlays();
         vi.unstubAllGlobals();
+        (timeline as any)._closeEntryOverlays();
         hostFixture?.destroy();
         TestBed.resetTestingModule();
     });
@@ -3611,8 +3611,8 @@ describe('MagmaTimeline — scroll handler (vertical mode)', () => {
     });
 
     afterEach(() => {
-        (timeline as any)._closeEntryOverlays();
         vi.unstubAllGlobals();
+        (timeline as any)._closeEntryOverlays();
         hostFixture?.destroy();
         TestBed.resetTestingModule();
     });

@@ -1,4 +1,4 @@
-import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ConnectedPosition, Overlay, OverlayRef } from '@angular/cdk/overlay';
 import { TemplatePortal } from '@angular/cdk/portal';
 import { NgTemplateOutlet } from '@angular/common';
 import {
@@ -120,6 +120,19 @@ export interface MagmaTimelineResolvedAnnotation {
     /** Reference to the original annotation for click events */
     sourceAnnotation: MagmaTimelineAnnotation;
 }
+
+// Prefer above, centred on the mark
+const markPosition: ConnectedPosition[] = [
+    { originX: 'center', originY: 'top', overlayX: 'center', overlayY: 'bottom', offsetY: -4 },
+    // Fallback: below
+    { originX: 'center', originY: 'bottom', overlayX: 'center', overlayY: 'top', offsetY: 4 },
+];
+
+// Prefer right, centred vertically on the mark
+const markPositionVertical: ConnectedPosition[] = [
+    { originX: 'end', originY: 'center', overlayX: 'start', overlayY: 'center', offsetX: 8 },
+    { originX: 'start', originY: 'center', overlayX: 'end', overlayY: 'center', offsetX: -8 },
+];
 
 @Component({
     selector: 'mg-timeline',
@@ -502,11 +515,9 @@ export class MagmaTimeline implements OnDestroy {
         // Filter out entries whose mark is outside the visible grid area
         const visible = gridRect
             ? entries.filter(e => {
-                  if (isVertical) {
-                      return e.anchorPx >= gridRect.top && e.anchorPx <= gridRect.bottom;
-                  } else {
-                      return e.anchorPx >= gridRect.left && e.anchorPx <= gridRect.right;
-                  }
+                  return isVertical
+                      ? e.anchorPx >= gridRect.top && e.anchorPx <= gridRect.bottom
+                      : e.anchorPx >= gridRect.left && e.anchorPx <= gridRect.right;
               })
             : entries;
 
@@ -540,11 +551,7 @@ export class MagmaTimeline implements OnDestroy {
                     positionStrategy: this.overlay
                         .position()
                         .flexibleConnectedTo(anchor)
-                        .withPositions([
-                            // Prefer right, centred vertically on the mark
-                            { originX: 'end', originY: 'center', overlayX: 'start', overlayY: 'center', offsetX: 8 },
-                            { originX: 'start', originY: 'center', overlayX: 'end', overlayY: 'center', offsetX: -8 },
-                        ])
+                        .withPositions(markPositionVertical)
                         .withPush(true)
                         .withViewportMargin(8),
                 });
@@ -564,24 +571,7 @@ export class MagmaTimeline implements OnDestroy {
                     positionStrategy: this.overlay
                         .position()
                         .flexibleConnectedTo(anchor)
-                        .withPositions([
-                            // Prefer above, centred on the mark
-                            {
-                                originX: 'center',
-                                originY: 'top',
-                                overlayX: 'center',
-                                overlayY: 'bottom',
-                                offsetY: -4,
-                            },
-                            // Fallback: below
-                            {
-                                originX: 'center',
-                                originY: 'bottom',
-                                overlayX: 'center',
-                                overlayY: 'top',
-                                offsetY: 4,
-                            },
-                        ])
+                        .withPositions(markPosition)
                         .withPush(true)
                         .withViewportMargin(8),
                 });

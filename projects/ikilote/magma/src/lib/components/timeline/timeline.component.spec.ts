@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 
+import { MagmaTimelineAnnotation } from './timeline-annotation.component';
+import { MagmaTimelineItemTooltip } from './timeline-item-tooltip.component';
 import { MagmaTimelineItem } from './timeline-item.component';
 import { MagmaTimeline, MagmaTimelineClickEvent } from './timeline.component';
 
@@ -153,6 +155,14 @@ describe('MagmaTimeline — standalone (no items)', () => {
 
         const gridLines = fixture.nativeElement.querySelector('.grid-lines');
         expect(gridLines).toBeNull();
+    });
+
+    it('should return Infinity from minExactValue when no items or annotations', () => {
+        expect((component as any).minExactValue()).toBe(Infinity);
+    });
+
+    it('should return -Infinity from maxExactValue when no items or annotations', () => {
+        expect((component as any).maxExactValue()).toBe(-Infinity);
     });
 });
 
@@ -1395,48 +1405,51 @@ describe('MagmaTimeline — resolveExact with invalid Date object', () => {
     });
 });
 
-describe('MagmaTimeline — maxExact resolveExact returns undefined branch', () => {
+describe('MagmaTimeline — maxExactValue/minExactValue resolveExact returns undefined branch', () => {
     /**
-     * To hit the `?? -Infinity` branch in maxExact, we need an item whose
-     * resolveExact() returns undefined. We can achieve this with a custom
-     * host where we pass an invalid value after the component is set up.
-     * The easiest way is to call the private method directly.
+     * To hit the `?? -Infinity` / `?? Infinity` fallback branches in
+     * maxExactValue() and minExactValue(), we need real content children
+     * whose start/end values are invalid Date objects so that resolveExact()
+     * returns undefined. A `new Date('invalid')` Date object satisfies this.
      */
-    let component: MagmaTimeline;
-    let fixture: ComponentFixture<MagmaTimeline>;
+    @Component({
+        template: `
+            <mg-timeline unit="year">
+                <mg-timeline-item [start]="invalidDate" [end]="invalidDate" label="Invalid" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem],
+    })
+    class TestHostInvalidDateComponent {
+        invalidDate = new Date('invalid');
+    }
+
+    let hostFixture: ComponentFixture<TestHostInvalidDateComponent>;
+    let timeline: MagmaTimeline;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MagmaTimeline],
+            imports: [TestHostInvalidDateComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(MagmaTimeline);
-        component = fixture.componentInstance;
-        fixture.changeDetectorRef.detectChanges();
+        hostFixture = TestBed.createComponent(TestHostInvalidDateComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
     });
 
     afterEach(() => {
-        fixture?.destroy();
+        hostFixture?.destroy();
         TestBed.resetTestingModule();
     });
 
-    it('should return -Infinity from maxExact when item resolveExact yields undefined', () => {
-        // Create a fake MagmaTimelineItem where both start() and end() resolve to undefined
-        const fakeItem = {
-            start: () => new Date('invalid'), // resolveExact returns undefined
-            end: () => new Date('invalid'), // resolveExact returns undefined
-        } as any;
-
-        const result = (component as any).maxExact([fakeItem]);
+    it('should return -Infinity from maxExactValue when item resolveExact yields undefined', () => {
+        const result = (timeline as any).maxExactValue();
         expect(result).toBe(-Infinity);
     });
 
-    it('should return Infinity from minExact when item resolveExact yields undefined', () => {
-        const fakeItem = {
-            start: () => new Date('invalid'),
-        } as any;
-
-        const result = (component as any).minExact([fakeItem]);
+    it('should return Infinity from minExactValue when item resolveExact yields undefined', () => {
+        const result = (timeline as any).minExactValue();
         expect(result).toBe(Infinity);
     });
 });
@@ -1585,5 +1598,2075 @@ describe('MagmaTimeline — track packing, item fits on track 1 (not 0)', () => 
         // A occupies 2020-2022 on track 0; B occupies 2020-2025 on track 1.
         // C starts at 2023 (after A) → fits track 0; this exercises the !occupied path at t=0
         expect(timeline['resolvedItems']()[2].trackIndex).toBe(0);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MagmaTimelineAnnotation — class instantiation and inputs
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — annotations rendering (resolvedAnnotations)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2021" label="Item" />
+                <mg-timeline-annotation [start]="2020" label="Ann A" color="#f00" />
+                <mg-timeline-annotation [start]="2021" label="Ann B" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationBasicComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationBasicComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationBasicComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationBasicComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should resolve 2 annotations', () => {
+        expect(timeline['resolvedAnnotations']().length).toBe(2);
+    });
+
+    it('first annotation label should be "Ann A"', () => {
+        expect(timeline['resolvedAnnotations']()[0].label).toBe('Ann A');
+    });
+
+    it('first annotation color should be "#f00"', () => {
+        expect(timeline['resolvedAnnotations']()[0].color).toBe('#f00');
+    });
+
+    it('second annotation color should be undefined', () => {
+        expect(timeline['resolvedAnnotations']()[1].color).toBeUndefined();
+    });
+
+    it('should render .annotation elements in the DOM', () => {
+        const annEls = hostFixture.nativeElement.querySelectorAll('.annotation');
+        expect(annEls.length).toBe(2);
+    });
+
+    it('annotation without link should render a div.annotation-flag', () => {
+        const flags = hostFixture.nativeElement.querySelectorAll('.annotation-flag');
+        expect(flags[0].tagName.toLowerCase()).toBe('div');
+    });
+
+    it('annotation offset for start=2020 on axis starting at 2020 should be 0', () => {
+        expect(timeline['resolvedAnnotations']()[0].offset).toBe(0);
+    });
+
+    it('should set --ann-color CSS var when color is provided', () => {
+        const annEl = hostFixture.nativeElement.querySelector('.annotation') as HTMLElement;
+        expect(annEl.style.getPropertyValue('--ann-color')).toBe('#f00');
+    });
+
+    it('should NOT set --ann-color when no color', () => {
+        const annEls = hostFixture.nativeElement.querySelectorAll('.annotation') as NodeListOf<HTMLElement>;
+        // Second annotation has no color → null → property cleared
+        expect(annEls[1].style.getPropertyValue('--ann-color')).toBe('');
+    });
+
+    it('contentHtml should fall back to label when no projected content', () => {
+        expect(timeline['resolvedAnnotations']()[0].contentHtml).toBe('Ann A');
+    });
+});
+
+describe('MagmaTimeline — annotation with link (renders <a>)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2021" label="Item" />
+                <mg-timeline-annotation [start]="2020" label="Linked" link="https://example.com" linkTarget="_blank" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationLinkComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationLinkComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationLinkComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationLinkComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('annotation with link should render an <a> element', () => {
+        const flag = hostFixture.nativeElement.querySelector('.annotation-flag');
+        expect(flag.tagName.toLowerCase()).toBe('a');
+    });
+
+    it('annotation <a> should have correct href', () => {
+        const a = hostFixture.nativeElement.querySelector('a.annotation-flag');
+        expect(a.getAttribute('href')).toBe('https://example.com');
+    });
+
+    it('annotation <a> should have target="_blank"', () => {
+        const a = hostFixture.nativeElement.querySelector('a.annotation-flag');
+        expect(a.getAttribute('target')).toBe('_blank');
+    });
+
+    it('annotation with link should add has-link class', () => {
+        const ann = hostFixture.nativeElement.querySelector('.annotation');
+        expect(ann.classList.contains('has-link')).toBe(true);
+    });
+
+    it('resolved annotation link should be set', () => {
+        expect(timeline['resolvedAnnotations']()[0].link).toBe('https://example.com');
+    });
+
+    it('resolved annotation linkTarget should be "_blank"', () => {
+        expect(timeline['resolvedAnnotations']()[0].linkTarget).toBe('_blank');
+    });
+});
+
+describe('MagmaTimeline — annotation disabled (renders div even with link)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2021" label="Item" />
+                <mg-timeline-annotation [start]="2020" label="Disabled" link="https://example.com" [disabled]="true" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationDisabledComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationDisabledComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationDisabledComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationDisabledComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('disabled annotation with link should still render a div.annotation-flag', () => {
+        const flag = hostFixture.nativeElement.querySelector('.annotation-flag');
+        expect(flag.tagName.toLowerCase()).toBe('div');
+    });
+
+    it('disabled annotation should add .disabled class on .annotation', () => {
+        const ann = hostFixture.nativeElement.querySelector('.annotation');
+        expect(ann.classList.contains('disabled')).toBe(true);
+    });
+
+    it('disabled annotation should NOT add has-link class', () => {
+        const ann = hostFixture.nativeElement.querySelector('.annotation');
+        expect(ann.classList.contains('has-link')).toBe(false);
+    });
+
+    it('resolved annotation disabled should be true', () => {
+        expect(timeline['resolvedAnnotations']()[0].disabled).toBe(true);
+    });
+});
+
+describe('MagmaTimeline — annotation nowrap input', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2021" label="Item" />
+                <mg-timeline-annotation [start]="2020" label="Wrap" [nowrap]="true" />
+                <mg-timeline-annotation [start]="2021" label="NoWrap" [nowrap]="false" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationNowrapComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationNowrapComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationNowrapComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationNowrapComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('first annotation nowrap should be true', () => {
+        expect(timeline['resolvedAnnotations']()[0].nowrap).toBe(true);
+    });
+
+    it('second annotation nowrap should be false', () => {
+        expect(timeline['resolvedAnnotations']()[1].nowrap).toBe(false);
+    });
+
+    it('annotation-flag with nowrap=true should have .nowrap class', () => {
+        const flags = hostFixture.nativeElement.querySelectorAll('.annotation-flag') as NodeListOf<HTMLElement>;
+        expect(flags[0].classList.contains('nowrap')).toBe(true);
+    });
+
+    it('annotation-flag with nowrap=false should NOT have .nowrap class', () => {
+        const flags = hostFixture.nativeElement.querySelectorAll('.annotation-flag') as NodeListOf<HTMLElement>;
+        expect(flags[1].classList.contains('nowrap')).toBe(false);
+    });
+});
+
+describe('MagmaTimeline — annotation clamping outside axis bounds', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2022" label="Item" />
+                <mg-timeline-annotation [start]="2015" label="Before" />
+                <mg-timeline-annotation [start]="2030" label="After" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationClampComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationClampComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationClampComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationClampComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('annotation before axis start should be clamped to offset 0', () => {
+        // axis starts at 2020, annotation at 2015 → clampedExact=2020 → offset=0
+        expect(timeline['resolvedAnnotations']()[0].offset).toBe(0);
+    });
+
+    it('annotation after axis end should be clamped to max offset', () => {
+        // axis ends at 2030 (last tick index), annotation at 2030 → clamped to lastTick
+        // offset = lastTick.index - firstTick.index = ticks.length - 1
+        const offset = timeline['resolvedAnnotations']()[1].offset;
+        const ticks = timeline['ticks']();
+        expect(offset).toBe(ticks.length - 1);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// onAnnotationClick output
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — onAnnotationClick output', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2021" label="Item" />
+                <mg-timeline-annotation [start]="2020" label="Clickable" color="#abc" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationClickComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationClickComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationClickComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationClickComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should emit annotationClick when clicking annotation-flag div', () => {
+        const spy = vi.spyOn(timeline.annotationClick, 'emit');
+        const flag = hostFixture.nativeElement.querySelector('.annotation-flag') as HTMLElement;
+        flag.click();
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('annotationClick payload should have correct label', () => {
+        const spy = vi.spyOn(timeline.annotationClick, 'emit');
+        const flag = hostFixture.nativeElement.querySelector('.annotation-flag') as HTMLElement;
+        flag.click();
+        expect(spy.mock.calls[0][0].label).toBe('Clickable');
+    });
+
+    it('annotationClick payload should have correct color', () => {
+        const spy = vi.spyOn(timeline.annotationClick, 'emit');
+        const flag = hostFixture.nativeElement.querySelector('.annotation-flag') as HTMLElement;
+        flag.click();
+        expect(spy.mock.calls[0][0].color).toBe('#abc');
+    });
+
+    it('annotationClick payload should have start=2020', () => {
+        const spy = vi.spyOn(timeline.annotationClick, 'emit');
+        const flag = hostFixture.nativeElement.querySelector('.annotation-flag') as HTMLElement;
+        flag.click();
+        expect(spy.mock.calls[0][0].start).toBe(2020);
+    });
+
+    it('annotationClick payload should include the original MouseEvent', () => {
+        const spy = vi.spyOn(timeline.annotationClick, 'emit');
+        const flag = hostFixture.nativeElement.querySelector('.annotation-flag') as HTMLElement;
+        flag.click();
+        expect(spy.mock.calls[0][0].event).toBeInstanceOf(MouseEvent);
+    });
+});
+
+describe('MagmaTimeline — onAnnotationClick guard (link prevents emit)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2021" label="Item" />
+                <mg-timeline-annotation [start]="2020" label="Linked" link="https://example.com" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationLinkedClickComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationLinkedClickComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationLinkedClickComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationLinkedClickComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should NOT emit annotationClick when annotation has a link and is not disabled', () => {
+        const spy = vi.spyOn(timeline.annotationClick, 'emit');
+        // With link + !disabled → rendered as <a>, no click handler → guard in onAnnotationClick
+        const ann = timeline['resolvedAnnotations']()[0];
+        (timeline as any).onAnnotationClick(ann, new MouseEvent('click'));
+        expect(spy).not.toHaveBeenCalled();
+    });
+
+    it('should emit annotationClick when annotation has a link but is disabled', () => {
+        const spy = vi.spyOn(timeline.annotationClick, 'emit');
+        const ann = { ...timeline['resolvedAnnotations']()[0], disabled: true };
+        (timeline as any).onAnnotationClick(ann, new MouseEvent('click'));
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// onItemHover, onItemLeave, ngOnDestroy
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — onItemHover with no tooltips (early return)', () => {
+    let hostFixture: ComponentFixture<TestHostSingleItemComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostSingleItemComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostSingleItemComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not emit itemHover when item has no tooltips', () => {
+        const spy = vi.spyOn(timeline.itemHover, 'emit');
+        const item = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        item.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect(spy).not.toHaveBeenCalled();
+    });
+});
+
+describe('MagmaTimeline — onItemHover with linked item (no emit)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Linked" link="https://example.com">
+                    <mg-timeline-item-tooltip content="Tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostLinkedItemTooltipComponent {}
+
+    let hostFixture: ComponentFixture<TestHostLinkedItemTooltipComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostLinkedItemTooltipComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostLinkedItemTooltipComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should NOT emit itemHover when item has a link and tooltips (opens overlay, no event)', () => {
+        const spy = vi.spyOn(timeline.itemHover, 'emit');
+        const item = hostFixture.nativeElement.querySelector('.item') as HTMLElement;
+        item.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect(spy).not.toHaveBeenCalled();
+    });
+});
+
+describe('MagmaTimeline — onItemLeave closes overlays', () => {
+    let hostFixture: ComponentFixture<TestHostSingleItemComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostSingleItemComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostSingleItemComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should call _closeEntryOverlays on mouseleave', () => {
+        const spy = vi.spyOn(timeline as any, '_closeEntryOverlays');
+        const item = hostFixture.nativeElement.querySelector('.item') as HTMLElement;
+        item.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+        expect(spy).toHaveBeenCalled();
+    });
+});
+
+describe('MagmaTimeline — ngOnDestroy closes overlays', () => {
+    let hostFixture: ComponentFixture<TestHostSingleItemComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostSingleItemComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostSingleItemComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    // no afterEach destroy — we test it explicitly
+
+    it('should call _closeEntryOverlays on ngOnDestroy', () => {
+        const spy = vi.spyOn(timeline as any, '_closeEntryOverlays');
+        timeline.ngOnDestroy();
+        expect(spy).toHaveBeenCalled();
+        hostFixture.destroy();
+        TestBed.resetTestingModule();
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MagmaTimelineItemTooltip — class inputs + resolveItemTooltips
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — resolveItemTooltips with dated tooltip (content string)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Event A" color="#abc" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipStringComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipStringComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipStringComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipStringComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should resolve 1 tooltip', () => {
+        const items = timeline['resolvedItems']();
+        expect(items[0].tooltips.length).toBe(1);
+    });
+
+    it('tooltip contentHtml should be "Event A"', () => {
+        expect(timeline['resolvedItems']()[0].tooltips[0].contentHtml).toBe('Event A');
+    });
+
+    it('tooltip color should be "#abc"', () => {
+        expect(timeline['resolvedItems']()[0].tooltips[0].color).toBe('#abc');
+    });
+
+    it('tooltip dateLabel should be defined (year=2021 formatted)', () => {
+        const dateLabel = timeline['resolvedItems']()[0].tooltips[0].dateLabel;
+        expect(dateLabel).toBeDefined();
+        expect(dateLabel).toMatch(/2021/);
+    });
+
+    it('tooltip dateOffset should be between 0 and 1 for date=2021 within 2020-2023', () => {
+        const offset = timeline['resolvedItems']()[0].tooltips[0].dateOffset;
+        expect(offset).toBeDefined();
+        expect(offset!).toBeGreaterThan(0);
+        expect(offset!).toBeLessThan(1);
+    });
+
+    it('should render .item-mark in DOM when tooltip has a date', () => {
+        const mark = hostFixture.nativeElement.querySelector('.item-mark');
+        expect(mark).toBeTruthy();
+    });
+
+    it('.item-mark should have --tip-color CSS var set', () => {
+        const mark = hostFixture.nativeElement.querySelector('.item-mark') as HTMLElement;
+        expect(mark.style.getPropertyValue('--tip-color')).toBe('#abc');
+    });
+});
+
+describe('MagmaTimeline — resolveItemTooltips with tooltip without date', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip content="No date" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipNoDatComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipNoDatComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipNoDatComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipNoDatComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('tooltip dateOffset should be undefined when no date', () => {
+        expect(timeline['resolvedItems']()[0].tooltips[0].dateOffset).toBeUndefined();
+    });
+
+    it('tooltip dateLabel should be undefined when no date', () => {
+        expect(timeline['resolvedItems']()[0].tooltips[0].dateLabel).toBeUndefined();
+    });
+
+    it('should NOT render .item-mark when tooltip has no date', () => {
+        const mark = hostFixture.nativeElement.querySelector('.item-mark');
+        expect(mark).toBeNull();
+    });
+});
+
+describe('MagmaTimeline — formatTooltipDate with Date object', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip [date]="dateObj" content="DateObj tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipDateObjComponent {
+        dateObj = new Date(2021, 5, 15); // June 15 2021
+    }
+
+    let hostFixture: ComponentFixture<TestHostTooltipDateObjComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipDateObjComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipDateObjComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('tooltip dateLabel should contain "2021" for a Date object input', () => {
+        const dateLabel = timeline['resolvedItems']()[0].tooltips[0].dateLabel;
+        expect(dateLabel).toContain('2021');
+    });
+});
+
+describe('MagmaTimeline — formatTooltipDate with plain year number', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip [date]="2021" content="Year tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipYearNumberComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipYearNumberComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipYearNumberComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipYearNumberComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('tooltip dateLabel should contain "2021" for a plain year number', () => {
+        const dateLabel = timeline['resolvedItems']()[0].tooltips[0].dateLabel;
+        expect(dateLabel).toContain('2021');
+    });
+});
+
+describe('MagmaTimeline — formatTooltipDate unit=month', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="month" lang="en">
+                <mg-timeline-item start="2021-01-01" end="2021-12-01" label="Item">
+                    <mg-timeline-item-tooltip date="2021-06-01" content="June tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipMonthComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipMonthComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipMonthComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipMonthComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('tooltip dateLabel should contain "2021" for unit=month', () => {
+        const dateLabel = timeline['resolvedItems']()[0].tooltips[0].dateLabel;
+        expect(dateLabel).toBeDefined();
+        expect(dateLabel).toContain('2021');
+    });
+});
+
+describe('MagmaTimeline — formatTooltipDate unit=day', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="day" lang="en">
+                <mg-timeline-item start="2021-06-01" end="2021-06-30" label="Item">
+                    <mg-timeline-item-tooltip date="2021-06-15" content="Day tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipDayComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipDayComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipDayComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipDayComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('tooltip dateLabel should be defined for unit=day', () => {
+        const dateLabel = timeline['resolvedItems']()[0].tooltips[0].dateLabel;
+        expect(dateLabel).toBeDefined();
+        expect(dateLabel!.length).toBeGreaterThan(0);
+    });
+});
+
+describe('MagmaTimeline — formatTooltipDate with invalid Date (fallback to string)', () => {
+    let component: MagmaTimeline;
+    let fixture: ComponentFixture<MagmaTimeline>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [MagmaTimeline] }).compileComponents();
+        fixture = TestBed.createComponent(MagmaTimeline);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should return String(value) when Date is invalid', () => {
+        const invalidDate = new Date('invalid');
+        const result = (component as any).formatTooltipDate(invalidDate);
+        expect(result).toBe(String(invalidDate));
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// resolveItemTooltips — dateOffset clamping
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — resolveItemTooltips dateOffset clamping', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="startYear" [end]="endYear" label="Item">
+                    <mg-timeline-item-tooltip [date]="tipDate" content="Tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipClampComponent {
+        startYear: number | string = 2020;
+        endYear: number | string = 2023;
+        tipDate: number | string | Date = 2025; // beyond item end
+    }
+
+    let hostFixture: ComponentFixture<TestHostTooltipClampComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipClampComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipClampComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('dateOffset should be clamped to 1 when tooltip date is beyond item end', () => {
+        const offset = timeline['resolvedItems']()[0].tooltips[0].dateOffset;
+        expect(offset).toBe(1);
+    });
+
+    it('dateOffset should be clamped to 0 when tooltip date is before item start', () => {
+        hostFixture.componentInstance.tipDate = 2015;
+        hostFixture.changeDetectorRef.detectChanges();
+        const offset = timeline['resolvedItems']()[0].tooltips[0].dateOffset;
+        expect(offset).toBe(0);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// minExactValue / maxExactValue — annotation path
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — minExactValue/maxExactValue with annotations', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2021" [end]="2022" label="Item" />
+                <mg-timeline-annotation [start]="2018" label="Early Ann" />
+                <mg-timeline-annotation [start]="2025" label="Late Ann" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationMinMaxComponent {}
+
+    let hostFixture: ComponentFixture<TestHostAnnotationMinMaxComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationMinMaxComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationMinMaxComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('minExactValue should return 2018 (the earliest annotation)', () => {
+        expect((timeline as any).minExactValue()).toBe(2018);
+    });
+
+    it('maxExactValue should return 2025 (the latest annotation)', () => {
+        expect((timeline as any).maxExactValue()).toBe(2025);
+    });
+
+    it('axis should start at 2018 driven by annotation', () => {
+        expect(timeline['ticks']()[0].index).toBe(2018);
+    });
+
+    it('axis should end at 2025 driven by annotation', () => {
+        const ticks = timeline['ticks']();
+        expect(ticks[ticks.length - 1].index).toBe(2025);
+    });
+});
+
+describe('MagmaTimeline — minExactValue/maxExactValue annotation with invalid Date', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2021" [end]="2022" label="Item" />
+                <mg-timeline-annotation [start]="invalidDate" label="Invalid Ann" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineAnnotation],
+    })
+    class TestHostAnnotationInvalidDateComponent {
+        invalidDate = new Date('invalid');
+    }
+
+    let hostFixture: ComponentFixture<TestHostAnnotationInvalidDateComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostAnnotationInvalidDateComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostAnnotationInvalidDateComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('minExactValue should return the item start (2021) since annotation start is invalid (?? Infinity fallback)', () => {
+        // resolveExact(invalidDate) → undefined → ?? Infinity → annotation contributes Infinity
+        // item contributes 2021 → min(2021, Infinity) = 2021
+        expect((timeline as any).minExactValue()).toBe(2021);
+    });
+
+    it('maxExactValue should return the item end (2022) since annotation start is invalid (?? -Infinity fallback)', () => {
+        // resolveExact(invalidDate) → undefined → ?? -Infinity → annotation contributes -Infinity
+        // item contributes 2022 → max(2022, -Infinity) = 2022
+        expect((timeline as any).maxExactValue()).toBe(2022);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// onItemHover emits itemHover for unlocked item with tooltips
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — onItemHover emits for unlinked item with tooltips', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Hoverable">
+                    <mg-timeline-item-tooltip content="Tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostHoverableItemComponent {}
+
+    let hostFixture: ComponentFixture<TestHostHoverableItemComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostHoverableItemComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostHoverableItemComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should emit itemHover when hovering unlinked item that has tooltips', () => {
+        const spy = vi.spyOn(timeline.itemHover, 'emit');
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    it('itemHover payload should include label', () => {
+        const spy = vi.spyOn(timeline.itemHover, 'emit');
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect(spy.mock.calls[0][0].label).toBe('Hoverable');
+    });
+
+    it('itemHover payload should include start=2020', () => {
+        const spy = vi.spyOn(timeline.itemHover, 'emit');
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect(spy.mock.calls[0][0].start).toBe(2020);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// _closeEntryOverlays disposes all refs and removes scroll listener
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — _closeEntryOverlays', () => {
+    let component: MagmaTimeline;
+    let fixture: ComponentFixture<MagmaTimeline>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [MagmaTimeline] }).compileComponents();
+        fixture = TestBed.createComponent(MagmaTimeline);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should call dispose on each overlay ref and clear arrays', () => {
+        const fakeRef = { dispose: vi.fn() } as any;
+        (component as any)._entryOverlayRefs = [fakeRef];
+        (component as any)._entryAnchors = [{}];
+        const scrollUnlisten = vi.fn();
+        (component as any)._scrollUnlisten = scrollUnlisten;
+
+        (component as any)._closeEntryOverlays();
+
+        expect(fakeRef.dispose).toHaveBeenCalledTimes(1);
+        expect(scrollUnlisten).toHaveBeenCalledTimes(1);
+        expect((component as any)._entryOverlayRefs).toHaveLength(0);
+        expect((component as any)._entryAnchors).toHaveLength(0);
+        expect((component as any)._scrollUnlisten).toBeUndefined();
+    });
+
+    it('should not throw when _scrollUnlisten is undefined', () => {
+        expect(() => (component as any)._closeEntryOverlays()).not.toThrow();
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// MagmaTimelineItemTooltip inputs — elementRef and templateRef
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimelineItemTooltip — templateRef projection', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" color="#f00">
+                        <ng-template>Rich content</ng-template>
+                    </mg-timeline-item-tooltip>
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipTemplateRefComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipTemplateRefComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipTemplateRefComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipTemplateRefComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('tooltip templateRef should be defined when ng-template is projected', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.templateRef).toBeDefined();
+    });
+
+    it('tooltip color should be "#f00"', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.color).toBe('#f00');
+    });
+});
+
+describe('MagmaTimelineItemTooltip — no templateRef (content string fallback)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip content="Plain text" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipNoTemplateComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipNoTemplateComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipNoTemplateComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipNoTemplateComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('tooltip templateRef should be undefined when no ng-template', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.templateRef).toBeUndefined();
+    });
+
+    it('tooltip contentHtml should be "Plain text"', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.contentHtml).toBe('Plain text');
+    });
+});
+
+describe('MagmaTimeline — resolveItemTooltips with invalid tooltip date (exact === undefined)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip [date]="invalidDate" content="Invalid date tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipInvalidDateComponent {
+        invalidDate = new Date('invalid');
+    }
+
+    let hostFixture: ComponentFixture<TestHostTooltipInvalidDateComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipInvalidDateComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipInvalidDateComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('dateOffset should be undefined when tooltip date is invalid (exact === undefined branch)', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.dateOffset).toBeUndefined();
+    });
+
+    it('dateLabel should fall back to String(value) for invalid date', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.dateLabel).toBeDefined();
+    });
+});
+
+describe('MagmaTimeline — resolveItemTooltips content fallback (innerHTML) without content input', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021">Projected HTML content</mg-timeline-item-tooltip>
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipInnerHtmlFallbackComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipInnerHtmlFallbackComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostTooltipInnerHtmlFallbackComponent],
+        }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipInnerHtmlFallbackComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('contentHtml should fall back to projected innerHTML when no content input is set', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.contentHtml).toContain('Projected HTML content');
+    });
+});
+
+describe('MagmaTimeline — resolveItemTooltips content fallback (empty string) with no content at all', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostTooltipEmptyContentComponent {}
+
+    let hostFixture: ComponentFixture<TestHostTooltipEmptyContentComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostTooltipEmptyContentComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostTooltipEmptyContentComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('contentHtml should be empty string when no content input and no projected content', () => {
+        const tip = timeline['resolvedItems']()[0].tooltips[0];
+        expect(tip.contentHtml).toBe('');
+    });
+});
+
+describe('MagmaTimeline — extractItemContentHtml fallback to empty string (no label, no content)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en">
+                <mg-timeline-item [start]="2020" [end]="2023" />
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem],
+    })
+    class TestHostItemNoLabelNoContentComponent {}
+
+    let hostFixture: ComponentFixture<TestHostItemNoLabelNoContentComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostItemNoLabelNoContentComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostItemNoLabelNoContentComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('contentHtml should be empty string when item has no label and no projected content', () => {
+        const item = timeline['resolvedItems']()[0];
+        expect(item.contentHtml).toBe('');
+    });
+
+    it('label should be undefined when no label input is set', () => {
+        const item = timeline['resolvedItems']()[0];
+        expect(item.label).toBeUndefined();
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// onItemHover — _openEntryOverlays grouped mode (basic smoke)
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — _openEntryOverlays grouped mode (smoke)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" tooltipLayout="grouped">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostGroupedTooltipComponent {}
+
+    let hostFixture: ComponentFixture<TestHostGroupedTooltipComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostGroupedTooltipComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostGroupedTooltipComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        // Close overlays before destroying to avoid CDK errors
+        (timeline as any)._closeEntryOverlays();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should open 1 overlay on mouseover (grouped mode)', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect((timeline as any)._entryOverlayRefs.length).toBe(1);
+    });
+
+    it('_entryOverlayRefs should be empty after mouseleave', () => {
+        const item = hostFixture.nativeElement.querySelector('.item') as HTMLElement;
+        item.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        item.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+        expect((timeline as any)._entryOverlayRefs.length).toBe(0);
+    });
+});
+
+describe('MagmaTimeline — _openEntryOverlays spread mode (smoke)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" tooltipLayout="spread">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip A" />
+                    <mg-timeline-item-tooltip date="2022" content="Tip B" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostSpreadTooltipComponent {}
+
+    let hostFixture: ComponentFixture<TestHostSpreadTooltipComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostSpreadTooltipComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostSpreadTooltipComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should open 2 overlays on mouseover (spread mode, 2 tooltips)', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect((timeline as any)._entryOverlayRefs.length).toBe(2);
+    });
+
+    it('should clear overlays on mouseleave', () => {
+        const item = hostFixture.nativeElement.querySelector('.item') as HTMLElement;
+        item.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        item.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+        expect((timeline as any)._entryOverlayRefs.length).toBe(0);
+    });
+});
+
+describe('MagmaTimeline — _openEntryOverlays vertical mode (smoke)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" direction="vertical">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostVerticalTooltipComponent {}
+
+    let hostFixture: ComponentFixture<TestHostVerticalTooltipComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostVerticalTooltipComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostVerticalTooltipComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should open 1 overlay on mouseover (vertical mode)', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect((timeline as any)._entryOverlayRefs.length).toBe(1);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// _openEntryOverlays — defensive early returns
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — _openEntryOverlays grouped mode mark outside viewport', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" tooltipLayout="grouped">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostGroupedOutsideViewportComponent {}
+
+    let hostFixture: ComponentFixture<TestHostGroupedOutsideViewportComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [TestHostGroupedOutsideViewportComponent],
+        }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostGroupedOutsideViewportComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not open overlay when mark is outside grid viewport (grouped mode)', () => {
+        const itemEl = hostFixture.nativeElement.querySelector('.item') as HTMLElement;
+        const gridEl = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+
+        // Mock: item is far to the right, grid is small → mark outside viewport
+        vi.spyOn(itemEl, 'getBoundingClientRect').mockReturnValue({
+            left: 1000,
+            top: 0,
+            right: 1100,
+            bottom: 50,
+            width: 100,
+            height: 50,
+            x: 1000,
+            y: 0,
+        } as DOMRect);
+        vi.spyOn(gridEl, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+            top: 0,
+            right: 200,
+            bottom: 200,
+            width: 200,
+            height: 200,
+            x: 0,
+            y: 0,
+        } as DOMRect);
+
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        // Mark at ~1002px, grid ends at 200px → outside → no overlay created
+        expect((timeline as any)._entryOverlayRefs.length).toBe(0);
+    });
+});
+
+describe('MagmaTimeline — _openEntryOverlays spread mode all entries outside viewport', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" tooltipLayout="spread">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip A" />
+                    <mg-timeline-item-tooltip date="2022" content="Tip B" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostSpreadOutsideViewportComponent {}
+
+    let hostFixture: ComponentFixture<TestHostSpreadOutsideViewportComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [TestHostSpreadOutsideViewportComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostSpreadOutsideViewportComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not open overlay when all entries are outside grid viewport (spread mode)', () => {
+        const itemEl = hostFixture.nativeElement.querySelector('.item') as HTMLElement;
+        const gridEl = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+
+        // Mock: item far right, grid small → all anchor positions outside viewport
+        vi.spyOn(itemEl, 'getBoundingClientRect').mockReturnValue({
+            left: 1000,
+            top: 0,
+            right: 1100,
+            bottom: 50,
+            width: 100,
+            height: 50,
+            x: 1000,
+            y: 0,
+        } as DOMRect);
+        vi.spyOn(gridEl, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+            top: 0,
+            right: 200,
+            bottom: 200,
+            width: 200,
+            height: 200,
+            x: 0,
+            y: 0,
+        } as DOMRect);
+
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        // All entries at ~1000+px, grid ends at 200px → filtered out → no overlay
+        expect((timeline as any)._entryOverlayRefs.length).toBe(0);
+    });
+});
+
+describe('MagmaTimeline — onItemHover defensive guard (no .item ancestor)', () => {
+    let component: MagmaTimeline;
+    let fixture: ComponentFixture<MagmaTimeline>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({ imports: [MagmaTimeline] }).compileComponents();
+        fixture = TestBed.createComponent(MagmaTimeline);
+        component = fixture.componentInstance;
+        fixture.changeDetectorRef.detectChanges();
+    });
+
+    afterEach(() => {
+        fixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should not throw and not emit when event target has no .item ancestor', () => {
+        const spy = vi.spyOn(component.itemHover, 'emit');
+        const fakeItem = {
+            label: 'X',
+            contentHtml: 'X',
+            startOffset: 0,
+            spanLength: 1,
+            color: undefined,
+            link: undefined,
+            linkTarget: '_self',
+            disabled: false,
+            trackIndex: 0,
+            tooltips: [{ dateOffset: 0 }], // has tooltips so it passes first guard
+            sourceItem: { start: () => 2020, end: () => undefined } as any,
+        };
+        // Create an event where target.closest('.item') returns null
+        const evt = new MouseEvent('mouseover', { bubbles: true });
+        Object.defineProperty(evt, 'target', { value: document.body });
+
+        expect(() => (component as any).onItemHover(fakeItem, evt)).not.toThrow();
+        expect(spy).not.toHaveBeenCalled();
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// _pushOverlappingEntries — horizontal spread mode
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — _pushOverlappingEntries (horizontal spread)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" tooltipLayout="spread">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip A" />
+                    <mg-timeline-item-tooltip date="2022" content="Tip B" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostPushHorizontalComponent {}
+
+    let hostFixture: ComponentFixture<TestHostPushHorizontalComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        // Make requestAnimationFrame fire synchronously so _pushOverlappingEntries runs
+        vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+            cb(0);
+            return 0;
+        });
+        await TestBed.configureTestingModule({ imports: [TestHostPushHorizontalComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostPushHorizontalComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        vi.unstubAllGlobals();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should populate _entryAnchors with 2 entries after hover', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect((timeline as any)._entryAnchors.length).toBe(2);
+    });
+
+    it('should call _pushOverlappingEntries after hover (rAF flushed)', () => {
+        const spy = vi.spyOn(timeline as any, '_pushOverlappingEntries');
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+        expect(spy).toHaveBeenCalledWith(false);
+    });
+
+    it('should apply translateX when entries overlap (horizontal)', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const anchors = (timeline as any)._entryAnchors as any[];
+
+        // Mock anchor positions: both at same x → overlap → second gets pushed right
+        anchors.forEach(({ anchor }) => {
+            vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+                left: 100,
+                top: 0,
+                right: 100,
+                bottom: 0,
+                width: 0,
+                height: 0,
+                x: 100,
+                y: 0,
+            } as DOMRect);
+        });
+        // Mock offsetWidth so filter(e => e.size > 0) keeps entries
+        refs.forEach(ref => {
+            vi.spyOn(ref.overlayElement, 'offsetWidth', 'get').mockReturnValue(50);
+        });
+
+        (timeline as any)._pushOverlappingEntries(false);
+
+        // First: delta=0 → '', Second: delta=54 → 'translateX(54px)'
+        expect(refs[0].overlayElement.style.transform).toBe('');
+        expect(refs[1].overlayElement.style.transform).toBe('translateX(54px)');
+    });
+
+    it('should set empty transform when entries do not overlap', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const anchors = (timeline as any)._entryAnchors as any[];
+
+        // Anchors far apart → no overlap
+        vi.spyOn(anchors[0].anchor, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: 0,
+            height: 0,
+            x: 0,
+            y: 0,
+        } as DOMRect);
+        vi.spyOn(anchors[1].anchor, 'getBoundingClientRect').mockReturnValue({
+            left: 500,
+            top: 0,
+            right: 500,
+            bottom: 0,
+            width: 0,
+            height: 0,
+            x: 500,
+            y: 0,
+        } as DOMRect);
+        refs.forEach(ref => {
+            vi.spyOn(ref.overlayElement, 'offsetWidth', 'get').mockReturnValue(50);
+        });
+
+        (timeline as any)._pushOverlappingEntries(false);
+
+        // Both delta=0 → no transform
+        expect(refs[0].overlayElement.style.transform).toBe('');
+        expect(refs[1].overlayElement.style.transform).toBe('');
+    });
+
+    it('should early return when _entryAnchors has less than 2 entries', () => {
+        (timeline as any)._entryAnchors = [{ anchor: document.createElement('div'), overlayRef: {} as any }];
+        expect(() => (timeline as any)._pushOverlappingEntries(false)).not.toThrow();
+    });
+
+    it('should filter out entries with zero size', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const anchors = (timeline as any)._entryAnchors as any[];
+
+        anchors.forEach(({ anchor }) => {
+            vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+                left: 100,
+                top: 0,
+                right: 100,
+                bottom: 0,
+                width: 0,
+                height: 0,
+                x: 100,
+                y: 0,
+            } as DOMRect);
+        });
+        // offsetWidth = 0 → filtered out → loop body never runs
+        refs.forEach(ref => {
+            vi.spyOn(ref.overlayElement, 'offsetWidth', 'get').mockReturnValue(0);
+        });
+
+        // Capture transforms before (CDK may have set its own)
+        const before = refs.map((r: any) => r.overlayElement.style.transform);
+
+        (timeline as any)._pushOverlappingEntries(false);
+
+        // No transforms changed since all entries filtered out
+        const after = refs.map((r: any) => r.overlayElement.style.transform);
+        expect(after).toEqual(before);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// _pushOverlappingEntries — vertical mode
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — _pushOverlappingEntries (vertical)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" direction="vertical" tooltipLayout="spread">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip A" />
+                    <mg-timeline-item-tooltip date="2022" content="Tip B" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostPushVerticalComponent {}
+
+    let hostFixture: ComponentFixture<TestHostPushVerticalComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+            cb(0);
+            return 0;
+        });
+        await TestBed.configureTestingModule({ imports: [TestHostPushVerticalComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostPushVerticalComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        vi.unstubAllGlobals();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should apply translateY when entries overlap (vertical)', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const anchors = (timeline as any)._entryAnchors as any[];
+
+        // Both anchors at same top → overlap
+        anchors.forEach(({ anchor }) => {
+            vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+                left: 0,
+                top: 100,
+                right: 0,
+                bottom: 100,
+                width: 0,
+                height: 0,
+                x: 0,
+                y: 100,
+            } as DOMRect);
+        });
+        refs.forEach(ref => {
+            vi.spyOn(ref.overlayElement, 'offsetHeight', 'get').mockReturnValue(50);
+        });
+
+        (timeline as any)._pushOverlappingEntries(true);
+
+        // Second entry gets pushed down: delta=54 → translateY(54px)
+        expect(refs[0].overlayElement.style.transform).toBe('');
+        expect(refs[1].overlayElement.style.transform).toBe('translateY(54px)');
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Scroll handler — _openEntryOverlays scroll listener
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — scroll handler repositions overlays', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" tooltipLayout="spread">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip A" />
+                    <mg-timeline-item-tooltip date="2022" content="Tip B" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostScrollHandlerComponent {}
+
+    let hostFixture: ComponentFixture<TestHostScrollHandlerComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+            cb(0);
+            return 0;
+        });
+        await TestBed.configureTestingModule({ imports: [TestHostScrollHandlerComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostScrollHandlerComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        vi.unstubAllGlobals();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should register a scroll listener on the grid after opening overlays', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        // _scrollUnlisten should be defined after overlays open
+        expect((timeline as any)._scrollUnlisten).toBeDefined();
+    });
+
+    it('should update overlay visibility on scroll event', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const grid = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+        const anchors = (timeline as any)._entryAnchors as any[];
+
+        // Set anchor positions outside grid → visibility hidden
+        anchors.forEach(({ anchor }) => {
+            vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+                left: 9999,
+                top: 0,
+                right: 9999,
+                bottom: 0,
+                width: 0,
+                height: 0,
+                x: 9999,
+                y: 0,
+            } as DOMRect);
+        });
+        vi.spyOn(grid, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+            top: 0,
+            right: 200,
+            bottom: 200,
+            width: 200,
+            height: 200,
+            x: 0,
+            y: 0,
+        } as DOMRect);
+
+        grid.dispatchEvent(new Event('scroll'));
+
+        // Anchors outside grid → visibility hidden
+        refs.forEach(ref => {
+            expect((ref.overlayElement as HTMLElement).style.visibility).toBe('hidden');
+        });
+    });
+
+    it('should show overlays when anchor is inside grid on scroll', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const grid = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+        const anchors = (timeline as any)._entryAnchors as any[];
+
+        // Anchors inside grid → visibility visible
+        anchors.forEach(({ anchor }) => {
+            vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+                left: 100,
+                top: 0,
+                right: 100,
+                bottom: 0,
+                width: 0,
+                height: 0,
+                x: 100,
+                y: 0,
+            } as DOMRect);
+        });
+        vi.spyOn(grid, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+            top: 0,
+            right: 200,
+            bottom: 200,
+            width: 200,
+            height: 200,
+            x: 0,
+            y: 0,
+        } as DOMRect);
+
+        grid.dispatchEvent(new Event('scroll'));
+
+        refs.forEach(ref => {
+            expect((ref.overlayElement as HTMLElement).style.visibility).toBe('');
+        });
+    });
+
+    it('should reset transforms and call updatePosition on scroll', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const grid = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+
+        // Set a transform on overlay elements
+        refs.forEach(ref => {
+            (ref.overlayElement as HTMLElement).style.transform = 'translateX(50px)';
+            vi.spyOn(ref, 'updatePosition');
+        });
+
+        grid.dispatchEvent(new Event('scroll'));
+
+        // Transforms should be reset to '' by the scroll handler
+        refs.forEach(ref => {
+            expect((ref.overlayElement as HTMLElement).style.transform).toBe('');
+            expect(ref.updatePosition).toHaveBeenCalled();
+        });
+    });
+
+    it('should call _pushOverlappingEntries via rAF on scroll', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const spy = vi.spyOn(timeline as any, '_pushOverlappingEntries');
+        const grid = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+
+        spy.mockClear();
+        grid.dispatchEvent(new Event('scroll'));
+
+        expect(spy).toHaveBeenCalledWith(false);
+    });
+
+    it('should remove scroll listener on mouseleave (_closeEntryOverlays)', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        expect((timeline as any)._scrollUnlisten).toBeDefined();
+
+        // Trigger mouseleave → _closeEntryOverlays
+        const item = hostFixture.nativeElement.querySelector('.item') as HTMLElement;
+        item.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+
+        expect((timeline as any)._scrollUnlisten).toBeUndefined();
+        expect((timeline as any)._entryAnchors.length).toBe(0);
+    });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Scroll handler — vertical mode
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe('MagmaTimeline — scroll handler (vertical mode)', () => {
+    @Component({
+        template: `
+            <mg-timeline unit="year" lang="en" direction="vertical">
+                <mg-timeline-item [start]="2020" [end]="2023" label="Item">
+                    <mg-timeline-item-tooltip date="2021" content="Tip A" />
+                    <mg-timeline-item-tooltip date="2022" content="Tip B" />
+                </mg-timeline-item>
+            </mg-timeline>
+        `,
+        changeDetection: ChangeDetectionStrategy.Eager,
+        imports: [MagmaTimeline, MagmaTimelineItem, MagmaTimelineItemTooltip],
+    })
+    class TestHostScrollVerticalComponent {}
+
+    let hostFixture: ComponentFixture<TestHostScrollVerticalComponent>;
+    let timeline: MagmaTimeline;
+
+    beforeEach(async () => {
+        vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
+            cb(0);
+            return 0;
+        });
+        await TestBed.configureTestingModule({ imports: [TestHostScrollVerticalComponent] }).compileComponents();
+        hostFixture = TestBed.createComponent(TestHostScrollVerticalComponent);
+        hostFixture.changeDetectorRef.detectChanges();
+        timeline = getTimelineInstance(hostFixture);
+    });
+
+    afterEach(() => {
+        (timeline as any)._closeEntryOverlays();
+        vi.unstubAllGlobals();
+        hostFixture?.destroy();
+        TestBed.resetTestingModule();
+    });
+
+    it('should hide overlays when anchor top is outside grid on scroll (vertical)', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const refs = (timeline as any)._entryOverlayRefs as any[];
+        const grid = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+        const anchors = (timeline as any)._entryAnchors as any[];
+
+        // Anchor top outside grid bounds → hidden
+        anchors.forEach(({ anchor }) => {
+            vi.spyOn(anchor, 'getBoundingClientRect').mockReturnValue({
+                left: 0,
+                top: 9999,
+                right: 0,
+                bottom: 9999,
+                width: 0,
+                height: 0,
+                x: 0,
+                y: 9999,
+            } as DOMRect);
+        });
+        vi.spyOn(grid, 'getBoundingClientRect').mockReturnValue({
+            left: 0,
+            top: 0,
+            right: 200,
+            bottom: 200,
+            width: 200,
+            height: 200,
+            x: 0,
+            y: 0,
+        } as DOMRect);
+
+        grid.dispatchEvent(new Event('scroll'));
+
+        refs.forEach(ref => {
+            expect((ref.overlayElement as HTMLElement).style.visibility).toBe('hidden');
+        });
+    });
+
+    it('should call _pushOverlappingEntries with isVertical=true on scroll', () => {
+        const itemInner = hostFixture.nativeElement.querySelector('.item-inner') as HTMLElement;
+        itemInner.dispatchEvent(new MouseEvent('mouseover', { bubbles: true }));
+
+        const spy = vi.spyOn(timeline as any, '_pushOverlappingEntries');
+        const grid = hostFixture.nativeElement.querySelector('.timeline-grid') as HTMLElement;
+
+        spy.mockClear();
+        grid.dispatchEvent(new Event('scroll'));
+
+        // _entryIsVertical is set to true in vertical mode
+        expect(spy).toHaveBeenCalledWith(true);
     });
 });

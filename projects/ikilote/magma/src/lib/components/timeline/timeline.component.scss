@@ -128,8 +128,9 @@
         &:focus {
             position: relative;
             z-index: 1;
+            box-sizing: border-box;
             width: min-content;
-            min-width: var(--item-span-pct);
+            min-width: calc(var(--item-span-pct) - var(--mg-timeline-bar-gap) * 2);
             overflow: visible;
 
             .item-label {

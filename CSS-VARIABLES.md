@@ -3,7 +3,7 @@
 > Generated from `projects/ikilote/magma/src/assets/styles/css-var.css` by `npm run generate:css-doc`.
 > Do not edit by hand: your changes would be overwritten.
 
-**595 variables** across 49 sections.
+**608 variables** across 49 sections.
 
 ## How to override
 
@@ -41,7 +41,7 @@ respectively; the remaining variables are scope-independent.
 - [spacing scale](#spacing-scale) · 12
 - [generic](#generic) · 3
 - [context-menu](#context-menu) · 12
-- [menubar](#menubar) · 37
+- [menubar](#menubar) · 41
 - [ellipsis-button](#ellipsis-button) · 4
 - [vision-theme](#vision-theme) · 39
 - [primary button](#primary-button) · 12
@@ -79,7 +79,7 @@ respectively; the remaining variables are scope-independent.
 - [tag-list](#tag-list) · 12
 - [status](#status) · 19
 - [light-dark](#light-dark) · 9
-- [timeline](#timeline) · 7
+- [timeline](#timeline) · 16
 - [select2](#select2) · 22
 
 ## palettes light
@@ -295,45 +295,49 @@ Context menu container and items (`context-menu`).
 
 ## menubar
 
-| Variable                                  | Default                                                                               | Description                         |
-| ----------------------------------------- | ------------------------------------------------------------------------------------- | ----------------------------------- |
-| `--mg-menubar-background`                 | `var(--mg-block-background)`                                                          | Menubar background.                 |
-| `--mg-menubar-border`                     | `1px solid transparent`                                                               | Menubar border.                     |
-| `--mg-menubar-text-color`                 | `inherit`                                                                             | Menubar text color.                 |
-| `--mg-menubar-font-size`                  | `0.9rem`                                                                              | Menubar font size.                  |
-| `--mg-menubar-trigger-padding`            | `var(--mg-space-2xs) var(--mg-space-md)`                                              | Menubar trigger padding.            |
-| `--mg-menubar-trigger-gap`                | `var(--mg-space-xs)`                                                                  | Menubar trigger gap.                |
-| `--mg-menubar-trigger-radius`             | `var(--mg-block-radius, 4px)`                                                         | Menubar trigger radius.             |
-| `--mg-menubar-trigger-border`             | `1px solid transparent`                                                               | Menubar trigger border.             |
-| `--mg-menubar-trigger-border-color`       | `transparent`                                                                         | Menubar trigger border color.       |
-| `--mg-menubar-trigger-box-shadow`         | `none`                                                                                | Menubar trigger box shadow.         |
-| `--mg-menubar-trigger-background`         | `transparent`                                                                         | Menubar trigger background.         |
-| `--mg-menubar-hover-background`           | `var(--mg-primary200)`                                                                | Menubar hover background.           |
-| `--mg-menubar-trigger-hover-border`       | `var(--mg-menubar-trigger-border)`                                                    | Menubar trigger hover border.       |
-| `--mg-menubar-trigger-hover-border-color` | `var(--mg-menubar-trigger-border-color)`                                              | Menubar trigger hover border color. |
-| `--mg-menubar-trigger-hover-box-shadow`   | `var(--mg-menubar-trigger-box-shadow)`                                                | Menubar trigger hover box shadow.   |
-| `--mg-menubar-trigger-hover-background`   | `var(--mg-menubar-hover-background)`                                                  | Menubar trigger hover background.   |
-| `--mg-menubar-trigger-open-border`        | `var(--mg-menubar-trigger-hover-border)`                                              | Menubar trigger open border.        |
-| `--mg-menubar-trigger-open-border-color`  | `var(--mg-menubar-trigger-hover-border-color)`                                        | Menubar trigger open border color.  |
-| `--mg-menubar-trigger-open-box-shadow`    | `var(--mg-menubar-trigger-hover-box-shadow)`                                          | Menubar trigger open box shadow.    |
-| `--mg-menubar-trigger-open-background`    | `var(--mg-menubar-trigger-hover-background)`                                          | Menubar trigger open background.    |
-| `--mg-menubar-dropdown-background`        | `var(--mg-block-background)`                                                          | Menubar dropdown background.        |
-| `--mg-menubar-dropdown-border`            | `var(--mg-block-border)`                                                              | Menubar dropdown border.            |
-| `--mg-menubar-dropdown-border-color`      | `var(--mg-primary500)`                                                                | Menubar dropdown border color.      |
-| `--mg-menubar-dropdown-radius`            | `var(--mg-block-radius, 4px)`                                                         | Menubar dropdown radius.            |
-| `--mg-menubar-dropdown-shadow`            | `2px 2px 8px var(--block-shadow-color)`                                               | Menubar dropdown shadow.            |
-| `--mg-menubar-dropdown-padding`           | `var(--mg-space-2xs) 0`                                                               | Menubar dropdown padding.           |
-| `--mg-menubar-dropdown-min-width`         | `10rem; /* 160px */ --mg-menubar-item-padding: var(--mg-space-xs) var(--mg-space-lg)` | Menubar dropdown min width.         |
-| `--mg-menubar-item-gap`                   | `var(--mg-space-sm)`                                                                  | Menubar item gap.                   |
-| `--mg-menubar-item-hover-background`      | `var(--mg-primary300)`                                                                | Menubar item hover background.      |
-| `--mg-menubar-item-hover-color`           | `var(--mg-neutral950)`                                                                | Menubar item hover color.           |
-| `--mg-menubar-item-disabled-opacity`      | `0.45`                                                                                | Menubar item disabled opacity.      |
-| `--mg-menubar-item-arrow-opacity`         | `0.7`                                                                                 | Menubar item arrow opacity.         |
-| `--mg-menubar-item-arrow-size`            | `0.65em`                                                                              | Menubar item arrow size.            |
-| `--mg-menubar-separator`                  | `1px solid var(--mg-primary500)`                                                      | Menubar separator.                  |
-| `--mg-menubar-separator-margin`           | `var(--mg-space-2xs) var(--mg-space-sm)`                                              | Menubar separator margin.           |
-| `--mg-menubar-bar-separator`              | `1px solid var(--mg-primary500)`                                                      | Menubar bar separator.              |
-| `--mg-menubar-bar-separator-margin`       | `var(--mg-space-2xs) var(--mg-space-3xs)`                                             | Menubar bar separator margin.       |
+| Variable                                       | Default                                                                               | Description                              |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `--mg-menubar-background`                      | `var(--mg-block-background)`                                                          | Menubar background.                      |
+| `--mg-menubar-border`                          | `1px solid transparent`                                                               | Menubar border.                          |
+| `--mg-menubar-text-color`                      | `inherit`                                                                             | Menubar text color.                      |
+| `--mg-menubar-font-size`                       | `0.9rem`                                                                              | Menubar font size.                       |
+| `--mg-menubar-trigger-padding`                 | `var(--mg-space-2xs) var(--mg-space-md)`                                              | Menubar trigger padding.                 |
+| `--mg-menubar-trigger-gap`                     | `var(--mg-space-xs)`                                                                  | Menubar trigger gap.                     |
+| `--mg-menubar-trigger-radius`                  | `var(--mg-block-radius, 4px)`                                                         | Menubar trigger radius.                  |
+| `--mg-menubar-trigger-border`                  | `1px solid transparent`                                                               | Menubar trigger border.                  |
+| `--mg-menubar-trigger-border-color`            | `transparent`                                                                         | Menubar trigger border color.            |
+| `--mg-menubar-trigger-box-shadow`              | `none`                                                                                | Menubar trigger box shadow.              |
+| `--mg-menubar-trigger-background`              | `transparent`                                                                         | Menubar trigger background.              |
+| `--mg-menubar-hover-background`                | `var(--mg-primary200)`                                                                | Menubar hover background.                |
+| `--mg-menubar-trigger-hover-border`            | `var(--mg-menubar-trigger-border)`                                                    | Menubar trigger hover border.            |
+| `--mg-menubar-trigger-hover-border-color`      | `var(--mg-menubar-trigger-border-color)`                                              | Menubar trigger hover border color.      |
+| `--mg-menubar-trigger-hover-box-shadow`        | `var(--mg-menubar-trigger-box-shadow)`                                                | Menubar trigger hover box shadow.        |
+| `--mg-menubar-trigger-hover-background`        | `var(--mg-menubar-hover-background)`                                                  | Menubar trigger hover background.        |
+| `--mg-menubar-trigger-open-border`             | `var(--mg-menubar-trigger-hover-border)`                                              | Menubar trigger open border.             |
+| `--mg-menubar-trigger-open-border-color`       | `var(--mg-menubar-trigger-hover-border-color)`                                        | Menubar trigger open border color.       |
+| `--mg-menubar-trigger-open-box-shadow`         | `var(--mg-menubar-trigger-hover-box-shadow)`                                          | Menubar trigger open box shadow.         |
+| `--mg-menubar-trigger-open-background`         | `var(--mg-menubar-trigger-hover-background)`                                          | Menubar trigger open background.         |
+| `--mg-menubar-trigger-open-hover-border`       | `var(--mg-menubar-trigger-open-border)`                                               | Menubar trigger open hover border.       |
+| `--mg-menubar-trigger-open-hover-border-color` | `var(--mg-menubar-trigger-open-border-color)`                                         | Menubar trigger open hover border color. |
+| `--mg-menubar-trigger-open-hover-box-shadow`   | `var(--mg-menubar-trigger-open-box-shadow)`                                           | Menubar trigger open hover box shadow.   |
+| `--mg-menubar-trigger-open-hover-background`   | `var(--mg-menubar-trigger-open-background)`                                           | Menubar trigger open hover background.   |
+| `--mg-menubar-dropdown-background`             | `var(--mg-block-background)`                                                          | Menubar dropdown background.             |
+| `--mg-menubar-dropdown-border`                 | `var(--mg-block-border)`                                                              | Menubar dropdown border.                 |
+| `--mg-menubar-dropdown-border-color`           | `var(--mg-primary500)`                                                                | Menubar dropdown border color.           |
+| `--mg-menubar-dropdown-radius`                 | `var(--mg-block-radius, 4px)`                                                         | Menubar dropdown radius.                 |
+| `--mg-menubar-dropdown-shadow`                 | `2px 2px 8px var(--block-shadow-color)`                                               | Menubar dropdown shadow.                 |
+| `--mg-menubar-dropdown-padding`                | `var(--mg-space-2xs) 0`                                                               | Menubar dropdown padding.                |
+| `--mg-menubar-dropdown-min-width`              | `10rem; /* 160px */ --mg-menubar-item-padding: var(--mg-space-xs) var(--mg-space-lg)` | Menubar dropdown min width.              |
+| `--mg-menubar-item-gap`                        | `var(--mg-space-sm)`                                                                  | Menubar item gap.                        |
+| `--mg-menubar-item-hover-background`           | `var(--mg-primary300)`                                                                | Menubar item hover background.           |
+| `--mg-menubar-item-hover-color`                | `var(--mg-neutral950)`                                                                | Menubar item hover color.                |
+| `--mg-menubar-item-disabled-opacity`           | `0.45`                                                                                | Menubar item disabled opacity.           |
+| `--mg-menubar-item-arrow-opacity`              | `0.7`                                                                                 | Menubar item arrow opacity.              |
+| `--mg-menubar-item-arrow-size`                 | `0.65em`                                                                              | Menubar item arrow size.                 |
+| `--mg-menubar-separator`                       | `1px solid var(--mg-primary500)`                                                      | Menubar separator.                       |
+| `--mg-menubar-separator-margin`                | `var(--mg-space-2xs) var(--mg-space-sm)`                                              | Menubar separator margin.                |
+| `--mg-menubar-bar-separator`                   | `1px solid var(--mg-primary500)`                                                      | Menubar bar separator.                   |
+| `--mg-menubar-bar-separator-margin`            | `var(--mg-space-2xs) var(--mg-space-3xs)`                                             | Menubar bar separator margin.            |
 
 ## ellipsis-button
 
@@ -949,15 +953,24 @@ Contribution calendar (`mg-contrib-calendar`).
 
 ## timeline
 
-| Variable                       | Default                                                                                                                                    | Description              |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
-| `--mg-timeline-axis-size`      | `5rem; /* 80px */ --mg-timeline-tick-size: 3.75rem; /* 60px */ --mg-timeline-track-size: 2.5rem; /* 40px */ --mg-timeline-bar-radius: 4px` | Timeline axis size.      |
-| `--mg-timeline-bar-gap`        | `var(--mg-space-3xs)`                                                                                                                      | Timeline bar gap.        |
-| `--mg-timeline-axis-font-size` | `var(--mg-font-small)`                                                                                                                     | Timeline axis font size. |
-| `--mg-timeline-item-font-size` | `var(--mg-font-very-small)`                                                                                                                | Timeline item font size. |
-| `--mg-timeline-item-color`     | `var(--mg-primary200)`                                                                                                                     | Timeline item color.     |
-| `--mg-timeline-axis-color`     | `var(--mg-color-on-surface-muted)`                                                                                                         | Timeline axis color.     |
-| `--mg-timeline-grid-color`     | `var(--mg-color-border)`                                                                                                                   | Timeline grid color.     |
+| Variable                              | Default                                                                                                                                    | Description                     |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------- |
+| `--mg-timeline-axis-size`             | `5rem; /* 80px */ --mg-timeline-tick-size: 3.75rem; /* 60px */ --mg-timeline-track-size: 2.5rem; /* 40px */ --mg-timeline-bar-radius: 4px` | Timeline axis size.             |
+| `--mg-timeline-bar-gap`               | `var(--mg-space-3xs)`                                                                                                                      | Timeline bar gap.               |
+| `--mg-timeline-axis-font-size`        | `var(--mg-font-small)`                                                                                                                     | Timeline axis font size.        |
+| `--mg-timeline-item-font-size`        | `var(--mg-font-very-small)`                                                                                                                | Timeline item font size.        |
+| `--mg-timeline-item-color`            | `var(--mg-primary200)`                                                                                                                     | Timeline item color.            |
+| `--mg-timeline-item-shadow`           | `0 5px 5px #0008`                                                                                                                          | Timeline item shadow.           |
+| `--mg-timeline-axis-color`            | `var(--mg-color-on-surface-muted)`                                                                                                         | Timeline axis color.            |
+| `--mg-timeline-grid-color`            | `var(--mg-color-border)`                                                                                                                   | Timeline grid color.            |
+| `--mg-timeline-annotation-color`      | `var(--mg-alert500)`                                                                                                                       | Timeline annotation color.      |
+| `--mg-timeline-annotation-font-size`  | `var(--mg-font-very-small)`                                                                                                                | Timeline annotation font size.  |
+| `--mg-timeline-annotation-line-width` | `2px`                                                                                                                                      | Timeline annotation line width. |
+| `--mg-timeline-tooltip-background`    | `var(--mg-color-surface-raised)`                                                                                                           | Timeline tooltip background.    |
+| `--mg-timeline-tooltip-color`         | `var(--mg-color-on-surface)`                                                                                                               | Timeline tooltip color.         |
+| `--mg-timeline-tooltip-font-size`     | `var(--mg-font-small)`                                                                                                                     | Timeline tooltip font size.     |
+| `--mg-timeline-tooltip-max-width`     | `16rem`                                                                                                                                    | Timeline tooltip max width.     |
+| `--mg-timeline-tooltip-shadow`        | `0 4px 12px #0005`                                                                                                                         | Timeline tooltip shadow.        |
 
 ## select2
 

@@ -33,14 +33,62 @@ node scripts/migrate-consumer-to-mg-prefix.mjs --app /path/to/app --classes --wr
 
 ### ✅ New
 
-- **Shadow DOM**: full Shadow DOM support across components and directives — **input:date**, **menubar**, **walkthrough**, **mg-window**, **click-outside**, **limit-focus**, **scrollable**.
-- **Utils**
-    - **dom** : new Shadow-DOM-aware helpers: `deepActiveElement`, `deepClosest`, `deepContains`, `deepQuerySelector`, `collectFocusable`, `isFocusable`, and the `focusableSelector` constant.
+- **Timeline** (`mg-timeline`): new component to display items on a time axis. Supports horizontal (`direction="horizontal"`) and vertical (`direction="vertical"`) layouts, year/month/day granularity, and automatic stacking of overlapping items onto separate tracks.
+    - `direction`: layout axis, horizontal or vertical
+    - `unit`: tick granularity — `year`, `month`, or `day`
+    - `start` / `end`: explicit axis bounds, auto-computed from items if omitted
+    - `lang`: BCP-47 locale for tick labels (e.g. `fr`, `en`)
+    - `axisSize`: label column / row size
+    - `tickSize`: size of each tick cell in px (default `60`)
+    - `showGrid`: show axis tick grid lines
+    - `minGap`: minimum visual gap in px before items are stacked on a separate track
+    - `dragScroll`: enable pan-by-drag using `[mgDragScroll]` internally; axis derived automatically from `direction`
+    - `(itemClick)`: emitted when an item bar is clicked (not fired if the item has a link)
+    - **Annotations** (`mg-timeline-annotation`): mark a point in time with a vertical flag.
+        - `start`: position on the axis
+        - `label`: flag text fallback (projected content takes priority)
+        - `color`: accent color for the flag line
+        - `link` / `linkTarget`: wraps the flag in an `<a>` element
+        - `disabled`: prevents link navigation and suppresses it on `(annotationClick)`
+        - `nowrap`: keeps the flag label on a single line
+        - `(annotationClick)`: emitted when a flag is clicked (not fired if the annotation has a link)
+    - **Tooltips** (`mg-timeline-item-tooltip`): attach one or more tooltip entries to an item bar.
+        - `date`: optional position within the item's range — displayed as a header and rendered as a dot mark on the bar edge; accepts a year number, ISO date string, or `Date` object
+        - `content`: plain-text / HTML string for the tooltip body
+        - `color`: accent color for the tooltip entry
+        - Project an `<ng-template>` inside `mg-timeline-item-tooltip` for fully reactive Angular content (takes priority over `content`)
+        - `tooltipLayout` (on `mg-timeline`): `grouped` (default) — all entries in a single panel; `spread` — each entry floats above its own mark with overlap avoidance
+        - `(itemHover)`: emitted when hovering an item bar (not fired if the item has a link)
+- **Spinner**: new types — ring, arc, dots, chase, bounce, wave, bar, pulse, ripple, flip, orbit, grid, blink, morph, comet, infinity, heartbeat.
 - **input**:
     - **radio**: add badge & pill modes
+- **Directive**
+    - **card-3d** (`[mgCard3d]`): new directive applying a CSS 3D tilt effect driven by mouse position, with optional iridescent holographic glare+foil and directional sheen effects.
+        - `mgCard3dMax`: maximum tilt angle in degrees (default `15`)
+        - `mgCard3dPerspective`: CSS perspective distance in px on the parent (default `1000)
+        - `mgCard3dLerp`: lerp speed while hovering, lower = smoother (default `0.12`)
+        - `mgCard3dReturnLerp`: lerp speed when the pointer leaves, lower = softer return (default `0.05`)
+        - `mgCard3dScale`: scale factor on hover (default `1.05`)
+        - `mgCard3dGlare`: enable the holographic glare + foil effect (default `false`)
+        - `mgCard3dGlareMax`: maximum holographic intensity 0–1 (default 0.6)
+        - `mgCard3dSheen`: enable directional light band reflecting a fixed light source (default `false`)
+        - `mgCard3dLightAngle`: direction the sheen light comes from, in degrees (default `135` = top-left)
+        - `mgCard3dSheenMax`: maximum sheen intensity 0–1 (default `0.6`)
+    - **drag-scroll** (`[mgDragScroll]`): new directive that lets the user scroll an overflowing container by grabbing its background and dragging (panning).
+        - `mgDragScrollDisabled`: disable without removing the directive
+        - `mgDragScrollAxis`: scroll axis `both` | `x` | `y`
+        - `mgDragScrollThreshold`: movement threshold in px before a drag starts (default 5)
+        - `mgDragScrollCursor`: show grab/grabbing cursor (default false)
+        - `mgDragScrollIgnore`: CSS selector of zones to exclude from drag
+        - `(dragStart)`, `(dragEnd)`: emitted when a drag starts and ends
+        - Interactive children (`a`, `button`, inputs…) and elements carrying `data-no-drag-scroll` are automatically excluded.
+- **Utils**
+    - **dom**: new Shadow-DOM-aware helpers: `deepActiveElement`, `deepClosest`, `deepContains`, `deepQuerySelector`, `collectFocusable`, `isFocusable`, and the `focusableSelector` constant.
+- **Shadow DOM**: full Shadow DOM support across components and directives — **input:date**, **menubar**, **walkthrough**, **mg-window**, **click-outside**, **limit-focus**, **scrollable**.
 
 ### 🐞 Fix
 
+- **menubar**: fix `:hover` style on root trigger items.
 - **input**: `@defer` is required in some cases. Fix that.
 - **accordion**/**expansion-panel**: fix border-radius.
 
